@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cycvunof4x0wg"
+path="res://.godot/imported/card_free_move_action_indicator.aseprite-43ddf6deeddd4e4238989462662ee21c.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/cards/action_indicators/card_free_move_action_indicator.aseprite"
+dest_files=["res://.godot/imported/card_free_move_action_indicator.aseprite-43ddf6deeddd4e4238989462662ee21c.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://crprn4sxn0esf"
+path="res://.godot/imported/attack_cursor.aseprite-b26da8c2a95f47ad936c80a601758f89.res"
+
+[deps]
+
+source_file="res://resources/sprites/meta_tile/attack_cursor.aseprite"
+dest_files=["res://.godot/imported/attack_cursor.aseprite-b26da8c2a95f47ad936c80a601758f89.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

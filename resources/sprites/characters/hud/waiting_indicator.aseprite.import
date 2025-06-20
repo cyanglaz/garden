@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://coth0ihmdor7f"
+path="res://.godot/imported/waiting_indicator.aseprite-85989ca54f3fff13db7fba56643eae5b.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/hud/waiting_indicator.aseprite"
+dest_files=["res://.godot/imported/waiting_indicator.aseprite-85989ca54f3fff13db7fba56643eae5b.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

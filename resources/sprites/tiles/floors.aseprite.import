@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://d0go12dmb5bjw"
+path="res://.godot/imported/floors.aseprite-d7d3685e29fea08e4a7b106a8409677d.res"
+
+[deps]
+
+source_file="res://resources/sprites/tiles/floors.aseprite"
+dest_files=["res://.godot/imported/floors.aseprite-d7d3685e29fea08e4a7b106a8409677d.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

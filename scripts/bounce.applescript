@@ -1,0 +1,1 @@
+tell application "System Events" to tell process "Bingo" to set frontmost to true

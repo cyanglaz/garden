@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="BingoBallData" load_steps=2 format=3 uid="uid://15fsjxuyo31p"]
+
+[ext_resource type="Script" uid="uid://dlus7fsh3enbg" path="res://data/models/bingo/bingo_ball_data.gd" id="1_jq8oa"]
+
+[resource]
+script = ExtResource("1_jq8oa")
+damage = 3
+rarity = 0
+type = 1
+trigger_times = 1
+attack_ball_count = 1
+placement_rule = 0
+placement_rule_values = []
+special_rules = Array[int]([])
+id = "hammer"
+display_name = "Hammer"
+description = "On Attack, reduce enemy's energy by {energy}."
+data = {
+"energy": "1"
+}

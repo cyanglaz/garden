@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://byuc2astobtil"
+path="res://.godot/imported/mob_deploy.aseprite-44627902e445547703d4550b61baad9b.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/characters/mob_deploy.aseprite"
+dest_files=["res://.godot/imported/mob_deploy.aseprite-44627902e445547703d4550b61baad9b.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

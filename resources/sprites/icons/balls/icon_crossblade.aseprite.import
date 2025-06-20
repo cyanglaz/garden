@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://fthrxhohvctw"
+path="res://.godot/imported/icon_crossblade.aseprite-51c654ac3d38837ed5f8e8ba8a077796.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_crossblade.aseprite"
+dest_files=["res://.godot/imported/icon_crossblade.aseprite-51c654ac3d38837ed5f8e8ba8a077796.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

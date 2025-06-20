@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dcqulca7hnj8f"
+path="res://.godot/imported/building_deploy.aseprite-2843e67995b9a20cfafc6b816889b75a.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/characters/building_deploy.aseprite"
+dest_files=["res://.godot/imported/building_deploy.aseprite-2843e67995b9a20cfafc6b816889b75a.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

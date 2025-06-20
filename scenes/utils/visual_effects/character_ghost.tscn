@@ -1,0 +1,128 @@
+[gd_scene load_steps=14 format=3 uid="uid://bjnx8oghuh83o"]
+
+[ext_resource type="Shader" uid="uid://fbv3man8huny" path="res://scenes/utils/visual_effects/character_ghost.gdshader" id="1_nv2hy"]
+[ext_resource type="Texture2D" uid="uid://dknowe6131r8y" path="res://resources/sprites/effects/characters/mob_ghost.png" id="2_vturk"]
+[ext_resource type="Script" uid="uid://dmc22nb6s78jt" path="res://scenes/utils/visual_effects/character_ghost.gd" id="2_y4dvn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vn5ai"]
+resource_local_to_scene = true
+shader = ExtResource("1_nv2hy")
+shader_parameter/ghost_progress = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yqkfj"]
+atlas = ExtResource("2_vturk")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_07450"]
+atlas = ExtResource("2_vturk")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f22ot"]
+atlas = ExtResource("2_vturk")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b2x6p"]
+atlas = ExtResource("2_vturk")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dhxfs"]
+atlas = ExtResource("2_vturk")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_w0h7w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yqkfj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_07450")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f22ot")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b2x6p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dhxfs")
+}],
+"loop": true,
+"name": &"loop",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_2wisx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterGhost:material:shader_parameter/ghost_progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_n3otv"]
+resource_name = "ghost_fade_out"
+length = 0.8
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterGhost:material:shader_parameter/ghost_progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(2, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hq6wb"]
+_data = {
+&"RESET": SubResource("Animation_2wisx"),
+&"ghost_fade_out": SubResource("Animation_n3otv")
+}
+
+[node name="CharacterGhost" type="Node2D"]
+script = ExtResource("2_y4dvn")
+
+[node name="CharacterGhost" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+texture_filter = 3
+material = SubResource("ShaderMaterial_vn5ai")
+sprite_frames = SubResource("SpriteFrames_w0h7w")
+animation = &"loop"
+frame_progress = 0.625951
+metadata/_aseprite_wizard_interface_config_ = {
+"layer_section": false,
+"output_section": false,
+"pending_changes": {},
+"slice_section": true
+}
+metadata/_aseprite_wizard_config_ = {
+"layer": "",
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/effects/characters/",
+"o_name": "",
+"only_visible": true,
+"slice": "",
+"source": "res://resources/sprites/effects/characters/mob_ghost.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "535f5af5a2af567d48a9809d867ff9d6"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_hq6wb")
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+bus = &"SFX"

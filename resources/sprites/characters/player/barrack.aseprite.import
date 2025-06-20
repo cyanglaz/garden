@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cykghupgn5ho4"
+path="res://.godot/imported/barrack.aseprite-c01ffbc314d3d0084c8fd53d522a1578.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/player/barrack.aseprite"
+dest_files=["res://.godot/imported/barrack.aseprite-c01ffbc314d3d0084c8fd53d522a1578.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

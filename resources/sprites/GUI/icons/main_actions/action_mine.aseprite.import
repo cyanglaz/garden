@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://b5xgowmbepqs5"
+path="res://.godot/imported/action_mine.aseprite-5df757634a58b02d28bcefbdc522d18c.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/main_actions/action_mine.aseprite"
+dest_files=["res://.godot/imported/action_mine.aseprite-5df757634a58b02d28bcefbdc522d18c.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

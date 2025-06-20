@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c8uo8qktaqyyc"
+path="res://.godot/imported/action_attack.aseprite-f9cf026c7a0692fe9e47028db3767f8b.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/actions/action_attack.aseprite"
+dest_files=["res://.godot/imported/action_attack.aseprite-f9cf026c7a0692fe9e47028db3767f8b.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

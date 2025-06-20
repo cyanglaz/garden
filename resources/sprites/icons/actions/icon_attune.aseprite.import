@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cc80jce2esbsl"
+path="res://.godot/imported/icon_attune.aseprite-dcc74815018b8a77f6c6fbb6bc831808.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/actions/icon_attune.aseprite"
+dest_files=["res://.godot/imported/icon_attune.aseprite-dcc74815018b8a77f6c6fbb6bc831808.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

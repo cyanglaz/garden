@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgmalg0kb1kva"]
+
+[ext_resource type="PackedScene" uid="uid://durwieo6scb" path="res://scenes/GUI/controls/buttons/gui_icon_button.tscn" id="1_nvpe0"]
+[ext_resource type="Texture2D" uid="uid://jxlsrirkgjcb" path="res://resources/sprites/GUI/icons/controls/input_icons.png" id="2_oq8og"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_387pi"]
+resource_local_to_scene = true
+atlas = ExtResource("2_oq8og")
+region = Rect2(272, 16, 16, 16)
+
+[node name="GUISmallIIconButton" instance=ExtResource("1_nvpe0")]
+custom_minimum_size = Vector2(16, 16)
+offset_right = 16.0
+offset_bottom = 16.0
+
+[node name="MarginContainer" parent="." index="2"]
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="TextureRect" parent="MarginContainer" index="0"]
+expand_mode = 0
+stretch_mode = 3
+
+[node name="ShortcutIcon" parent="ShortCutContainer" index="0"]
+texture = SubResource("AtlasTexture_387pi")

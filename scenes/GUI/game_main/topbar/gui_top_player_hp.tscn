@@ -1,0 +1,50 @@
+[gd_scene load_steps=3 format=3 uid="uid://v43xkihfdekg"]
+
+[ext_resource type="Texture2D" uid="uid://dgbr5rmxdmpib" path="res://resources/sprites/GUI/icons/resources/heart.png" id="1_3avps"]
+[ext_resource type="Script" uid="uid://s7kfk6wx3b7l" path="res://scenes/GUI/game_main/topbar/gui_top_player_hp.gd" id="1_hnw1m"]
+
+[node name="GUITopPlayerHP" type="HBoxContainer"]
+offset_right = 28.0
+offset_bottom = 9.0
+theme_override_constants/separation = 1
+script = ExtResource("1_hnw1m")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_3avps")
+stretch_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="LabelValue" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"LabelTiny"
+theme_override_colors/font_color = Color(0.960784, 0.333333, 0.364706, 1)
+theme_override_colors/font_outline_color = Color(0.0745098, 0.0745098, 0.0745098, 1)
+theme_override_constants/outline_size = 1
+text = "50"
+
+[node name="LabelSlash" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"LabelTiny"
+theme_override_colors/font_color = Color(0.960784, 0.333333, 0.364706, 1)
+theme_override_colors/font_outline_color = Color(0.0745098, 0.0745098, 0.0745098, 1)
+theme_override_constants/outline_size = 1
+text = "/"
+
+[node name="LabelMaxValue" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"LabelTiny"
+theme_override_colors/font_color = Color(0.960784, 0.333333, 0.364706, 1)
+theme_override_colors/font_outline_color = Color(0.0745098, 0.0745098, 0.0745098, 1)
+theme_override_constants/outline_size = 1
+text = "100"
+vertical_alignment = 1

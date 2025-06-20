@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://bhv1al1bl8b4y"
+path="res://.godot/imported/mob_turkey.aseprite-cf6de4e8984b79dffd5baae0e9295bc2.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/misc/mob_turkey.aseprite"
+dest_files=["res://.godot/imported/mob_turkey.aseprite-cf6de4e8984b79dffd5baae0e9295bc2.res"]
+
+[params]
+

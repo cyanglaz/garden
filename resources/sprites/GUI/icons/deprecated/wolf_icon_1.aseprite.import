@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://blcnjunk36p5q"
+path="res://.godot/imported/wolf_icon_1.aseprite-992ac1c1cce7bfaffd51c99589d361cd.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/wolf_icon_1.aseprite"
+dest_files=["res://.godot/imported/wolf_icon_1.aseprite-992ac1c1cce7bfaffd51c99589d361cd.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

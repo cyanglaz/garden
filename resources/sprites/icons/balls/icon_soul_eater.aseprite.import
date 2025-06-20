@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://tow5vjpc2k7q"
+path="res://.godot/imported/icon_soul_eater.aseprite-f806e2621a82c3a67e5cf7fd9af626dd.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_soul_eater.aseprite"
+dest_files=["res://.godot/imported/icon_soul_eater.aseprite-f806e2621a82c3a67e5cf7fd9af626dd.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

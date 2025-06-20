@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="BingoBallData" load_steps=3 format=3 uid="uid://6tn00f27ofom"]
+
+[ext_resource type="Script" uid="uid://dlus7fsh3enbg" path="res://data/models/bingo/bingo_ball_data.gd" id="1_raldl"]
+[ext_resource type="Script" uid="uid://c0yamweoq8d5u" path="res://data/models/status_effect/status_effect_data.gd" id="2_kic47"]
+
+[resource]
+script = ExtResource("1_raldl")
+damage = 8
+rarity = 1
+type = 1
+trigger_times = 1
+attack_ball_count = 1
+placement_rule = 2
+placement_rule_values = [2, 3, 4]
+status_effect_datas = Array[ExtResource("2_kic47")]([])
+status_effect_stacks = Array[int]([])
+special_rules = Array[int]([])
+plus_damage = 4
+plus_trigger_times = 0
+plus_placement_rule = -1
+plus_placement_rule_values = []
+plus_status_effect_datas = Array[ExtResource("2_kic47")]([])
+plus_status_effect_stacks = Array[int]([])
+plus_special_rules = Array[int]([])
+plus_description = ""
+plus_data = {
+&"dmg": "4"
+}
+id = "v_blade"
+display_name = "V. Blade"
+description = "While on the board, increases its damage by {dmg} each time the player loses hp. {total}"
+data = {
+"dmg": "3"
+}

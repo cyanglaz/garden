@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfp8e20o8iuxm"]
+
+[ext_resource type="Script" uid="uid://be016x0rdpirw" path="res://scenes/GUI/controls/sliders/gui_labeled_slider.gd" id="1_tsc1p"]
+[ext_resource type="PackedScene" uid="uid://0gg5rhvm476i" path="res://scenes/GUI/controls/sliders/gui_basic_slider.tscn" id="2_6uops"]
+
+[node name="GUILabeldSlider" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tsc1p")
+
+[node name="Title" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"HUD"
+text = "dsdafsadf"
+
+[node name="GUIBasicSlider" parent="." instance=ExtResource("2_6uops")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+max_value = 0.0
+scrollable = false

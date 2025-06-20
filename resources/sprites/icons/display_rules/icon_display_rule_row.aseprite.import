@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://2aoa7y2jc7ne"
+path="res://.godot/imported/icon_display_rule_row.aseprite-2716d4ca0c74c3ca2d250dc8b4c66d1d.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/display_rules/icon_display_rule_row.aseprite"
+dest_files=["res://.godot/imported/icon_display_rule_row.aseprite-2716d4ca0c74c3ca2d250dc8b4c66d1d.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

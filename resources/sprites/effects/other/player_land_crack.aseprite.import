@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://b0ehghcwl5afb"
+path="res://.godot/imported/player_land_crack.aseprite-0a9e60f6501e7107bce409f472819c1a.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/other/player_land_crack.aseprite"
+dest_files=["res://.godot/imported/player_land_crack.aseprite-0a9e60f6501e7107bce409f472819c1a.res"]
+
+[params]
+

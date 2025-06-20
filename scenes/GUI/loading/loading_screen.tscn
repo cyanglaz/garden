@@ -1,0 +1,69 @@
+[gd_scene load_steps=3 format=3 uid="uid://cp8hrssqydkio"]
+
+[ext_resource type="Script" uid="uid://vmn803y3yppx" path="res://scenes/GUI/loading/loading_screen.gd" id="1_t077l"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m7xqw"]
+animations = []
+
+[node name="LoadingScreen" type="CanvasLayer"]
+script = ExtResource("1_t077l")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+alignment = 2
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_type_variation = &"NoneGui"
+text = "0%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="AnimationContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PanelContainer/MarginContainer/HBoxContainer/AnimationContainer"]
+unique_name_in_owner = true
+texture_filter = 1
+position = Vector2(-2, 0)
+sprite_frames = SubResource("SpriteFrames_m7xqw")
+animation = &""
+centered = false
+metadata/_aseprite_wizard_config_ = {
+"layer": "",
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/characters/player/",
+"o_name": "",
+"only_visible": true,
+"slice": "",
+"source": "res://resources/sprites/characters/player/player_adventure.aseprite"
+}
+metadata/_aseprite_wizard_interface_config_ = {
+"layer_section": false,
+"output_section": true,
+"pending_changes": {}
+}

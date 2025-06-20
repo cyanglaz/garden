@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://b7oa8gep3nf5k"
+path="res://.godot/imported/pistol.aseprite-7debac8581536c1f8a8e1f3495ea53cb.res"
+
+[deps]
+
+source_file="res://resources/sprites/weapons/pistol.aseprite"
+dest_files=["res://.godot/imported/pistol.aseprite-7debac8581536c1f8a8e1f3495ea53cb.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="SettingData" load_steps=2 format=3 uid="uid://c7f37pkhsqm82"]
+
+[ext_resource type="Script" uid="uid://f6qv37vfbk3h" path="res://data/settings/setting_data.gd" id="1_8smxi"]
+
+[resource]
+script = ExtResource("1_8smxi")
+master_volume = 0.0
+music_volume = 0.0
+sfx_volume = 0.0
+game_speed = 0

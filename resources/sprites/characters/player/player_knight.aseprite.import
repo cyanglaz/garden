@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bmjrk7vs64kg7"
+path="res://.godot/imported/player_knight.aseprite-909d59af1f589e8fa50f897f42c91273.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/player/player_knight.aseprite"
+dest_files=["res://.godot/imported/player_knight.aseprite-909d59af1f589e8fa50f897f42c91273.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

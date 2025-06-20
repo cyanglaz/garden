@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://ch8vxxwkr6ccy"
+path="res://.godot/imported/circle.aseprite-19cc768faf0675f25e441fb0bf01011c.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/other/circle.aseprite"
+dest_files=["res://.godot/imported/circle.aseprite-19cc768faf0675f25e441fb0bf01011c.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

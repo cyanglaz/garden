@@ -1,0 +1,103 @@
+[gd_scene load_steps=6 format=3 uid="uid://qy2x3blewn0"]
+
+[ext_resource type="Script" uid="uid://bl2vlh6r0it3d" path="res://scenes/GUI/menu/gui_main_menu.gd" id="1_jl0j8"]
+[ext_resource type="PackedScene" uid="uid://ddpwfwgic4w2y" path="res://scenes/GUI/controls/buttons/gui_menu_button.tscn" id="2_k1oyj"]
+[ext_resource type="PackedScene" uid="uid://dj2gfcavp3n61" path="res://scenes/utils/enter_tree/enter_tree_audio_player.tscn" id="3_uuxxv"]
+[ext_resource type="PackedScene" uid="uid://baexu10jax5e2" path="res://scenes/GUI/containers/gui_credits_panel.tscn" id="5_6thnj"]
+[ext_resource type="PackedScene" uid="uid://3068uq3kyx0r" path="res://scenes/GUI/overlay_main/settings/gui_settings_main.tscn" id="5_dbfmj"]
+
+[node name="MainMenu" type="CanvasLayer"]
+script = ExtResource("1_jl0j8")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="PanelContainer"]
+visible = false
+layout_mode = 2
+color = Color(0.396078, 0.45098, 0.572549, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 18
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"HeaderHuge"
+theme_override_colors/font_color = Color(0.976471, 0.901961, 0.811765, 1)
+text = "Rogue Bingo
+"
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="NewGameButton" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_k1oyj")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+size_flags_horizontal = 0
+localization_text_key = "NEW_GAME"
+
+[node name="OptionsButton" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_k1oyj")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+size_flags_horizontal = 0
+localization_text_key = "OPTIONS"
+
+[node name="CreditsButton" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_k1oyj")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+size_flags_horizontal = 0
+localization_text_key = "CREDITS"
+
+[node name="ExitButton" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_k1oyj")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+size_flags_horizontal = 0
+localization_text_key = "EXIT"
+
+[node name="EnterTreeAudioPlayer" parent="." instance=ExtResource("3_uuxxv")]
+process_mode = 3
+volume_db = 5.0
+bus = &"Music"
+loop = true
+
+[node name="GUICreditsPanel" parent="." instance=ExtResource("5_6thnj")]
+unique_name_in_owner = true
+visible = false
+
+[node name="GUISettingsMain" parent="." instance=ExtResource("5_dbfmj")]
+unique_name_in_owner = true
+visible = false
+
+[node name="VersionLabel" type="Label" parent="."]
+unique_name_in_owner = true
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -44.0
+offset_top = -16.0
+offset_right = -4.0
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 0
+horizontal_alignment = 2

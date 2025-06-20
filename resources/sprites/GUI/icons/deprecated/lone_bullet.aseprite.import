@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c6q3svw5tjl03"
+path="res://.godot/imported/lone_bullet.aseprite-72ee2672b4fba0644bea9cb5657d278c.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/lone_bullet.aseprite"
+dest_files=["res://.godot/imported/lone_bullet.aseprite-72ee2672b4fba0644bea9cb5657d278c.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

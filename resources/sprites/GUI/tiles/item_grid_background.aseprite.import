@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://b5xvlx8pkgg2l"
+path="res://.godot/imported/item_grid_background.aseprite-9ba29c61e8904b7e8b981851f1f56bd2.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/tiles/item_grid_background.aseprite"
+dest_files=["res://.godot/imported/item_grid_background.aseprite-9ba29c61e8904b7e8b981851f1f56bd2.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

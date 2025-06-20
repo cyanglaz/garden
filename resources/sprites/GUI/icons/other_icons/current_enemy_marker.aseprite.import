@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bicsdqybd45eu"
+path="res://.godot/imported/current_enemy_marker.aseprite-5477c1ed07daa1cc1b164747c957b7f4.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/current_enemy_marker.aseprite"
+dest_files=["res://.godot/imported/current_enemy_marker.aseprite-5477c1ed07daa1cc1b164747c957b7f4.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

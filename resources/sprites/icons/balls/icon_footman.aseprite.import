@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://d371qfpno46ox"
+path="res://.godot/imported/icon_footman.aseprite-9fe26cc9c488fe253ef5ecfd92824086.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_footman.aseprite"
+dest_files=["res://.godot/imported/icon_footman.aseprite-9fe26cc9c488fe253ef5ecfd92824086.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

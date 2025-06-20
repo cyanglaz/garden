@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://br7jsprl43y0y"
+path="res://.godot/imported/order_indicator_background.aseprite-bc0b526e377e7155d74a9491ce63843a.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/theme/order_indicator_background.aseprite"
+dest_files=["res://.godot/imported/order_indicator_background.aseprite-bc0b526e377e7155d74a9491ce63843a.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

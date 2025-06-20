@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://h3mxhmgsg0sc"]
+
+[ext_resource type="Script" uid="uid://dkbc8xovpnh4m" path="res://manual_tests/tests_scenes/character_explode_test.gd" id="1_75juf"]
+[ext_resource type="Texture2D" uid="uid://dgmi1nc1h7ppc" path="res://resources/sprites/characters/player/barrack.png" id="1_cfw54"]
+[ext_resource type="PackedScene" uid="uid://cmu7b011m3k4j" path="res://scenes/utils/visual_effects/character_explode.tscn" id="1_dg3s7"]
+
+[node name="CharacterExplodeTest" type="Node2D"]
+script = ExtResource("1_75juf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+texture = ExtResource("1_cfw54")
+
+[node name="CharacterExplode" parent="." instance=ExtResource("1_dg3s7")]
+position = Vector2(88, -1)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+visible = false

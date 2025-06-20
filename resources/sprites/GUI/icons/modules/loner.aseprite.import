@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://vm24basuo68h"
+path="res://.godot/imported/loner.aseprite-73b9909743a112dbaa28563a233ea1d0.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/modules/loner.aseprite"
+dest_files=["res://.godot/imported/loner.aseprite-73b9909743a112dbaa28563a233ea1d0.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

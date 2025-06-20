@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="BingoBallData" load_steps=2 format=3 uid="uid://bhea5e2iqm3ca"]
+
+[ext_resource type="Script" uid="uid://dlus7fsh3enbg" path="res://data/models/bingo/bingo_ball_data.gd" id="1_tg51q"]
+
+[resource]
+script = ExtResource("1_tg51q")
+damage = 12
+rarity = 2
+type = 1
+trigger_times = 1
+attack_ball_count = 1
+placement_rule = 0
+placement_rule_values = []
+special_rules = Array[int]([])
+plus_damage = 0
+plus_trigger_times = 0
+plus_placement_rule = -1
+plus_placement_rule_values = []
+plus_special_rules = Array[int]([])
+plus_description = ""
+plus_data = {
+&"dmg": "8"
+}
+id = "soul_eater+1"
+display_name = "Soul Eater"
+description = "When placed on board, immediately remove all enemy symbols in the same row.
+For each symbol removed, deal +{dmg}{total} dmg."
+data = {
+&"dmg": "8"
+}

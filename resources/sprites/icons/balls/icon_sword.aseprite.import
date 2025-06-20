@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c6f5aqj0b6ekk"
+path="res://.godot/imported/icon_sword.aseprite-5b89e48ca238015589ae089c9ec9beb8.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_sword.aseprite"
+dest_files=["res://.godot/imported/icon_sword.aseprite-5b89e48ca238015589ae089c9ec9beb8.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

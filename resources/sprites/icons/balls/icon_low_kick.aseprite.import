@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dx335lv18xsa1"
+path="res://.godot/imported/icon_low_kick.aseprite-5ec21a6f1bc1ce8d781c5c0c9f6007f5.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_low_kick.aseprite"
+dest_files=["res://.godot/imported/icon_low_kick.aseprite-5ec21a6f1bc1ce8d781c5c0c9f6007f5.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

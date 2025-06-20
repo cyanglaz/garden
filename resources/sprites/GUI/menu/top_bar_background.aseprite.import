@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://crqp4reehd114"
+path="res://.godot/imported/top_bar_background.aseprite-c33394cc371e80c7342e47e6a5eb6b29.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/menu/top_bar_background.aseprite"
+dest_files=["res://.godot/imported/top_bar_background.aseprite-c33394cc371e80c7342e47e6a5eb6b29.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true

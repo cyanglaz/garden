@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://pp51nn6tt5qi"
+path="res://.godot/imported/bomb_tower_bomb_attack.aseprite-7b1bbab6ecaeb82d03502cfa6a6dfa70.res"
+
+[deps]
+
+source_file="res://resources/sprites/attack_effects/bomb_tower_bomb_attack.aseprite"
+dest_files=["res://.godot/imported/bomb_tower_bomb_attack.aseprite-7b1bbab6ecaeb82d03502cfa6a6dfa70.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

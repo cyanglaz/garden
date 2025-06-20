@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cyta5ygngniiy"
+path="res://.godot/imported/mage_tower_fire_ball_effect.aseprite-669df79c8424b89a2194345ac406f3e1.res"
+
+[deps]
+
+source_file="res://resources/sprites/attack_effects/mage_tower_fire_ball_effect.aseprite"
+dest_files=["res://.godot/imported/mage_tower_fire_ball_effect.aseprite-669df79c8424b89a2194345ac406f3e1.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bikelvj8bwiav"
+path="res://.godot/imported/in_game_icon_background.aseprite-059a686dc9b8c3988608f6decf446a13.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/in_game_icon_background.aseprite"
+dest_files=["res://.godot/imported/in_game_icon_background.aseprite-059a686dc9b8c3988608f6decf446a13.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true

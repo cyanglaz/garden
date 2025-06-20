@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://tojje3pvybvr"
+path="res://.godot/imported/icon_bleed.aseprite-bae82e6e7c9a4cccc3549efc803baf4f.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_bleed.aseprite"
+dest_files=["res://.godot/imported/icon_bleed.aseprite-bae82e6e7c9a4cccc3549efc803baf4f.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,100 @@
+[gd_scene load_steps=14 format=3 uid="uid://bxjcrqqlqs3el"]
+
+[ext_resource type="PackedScene" uid="uid://bqbyd8n0fq3e2" path="res://scenes/utils/visual_effects/one_shot_animation.tscn" id="1_dcgp0"]
+[ext_resource type="Texture2D" uid="uid://cjckoborwowat" path="res://resources/sprites/effects/other/blood.png" id="2_ijux7"]
+[ext_resource type="AudioStream" uid="uid://cgell1cdyboun" path="res://resources/sounds/SFX/effects/water_splash.wav" id="3_8lbb5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u2ra4"]
+atlas = ExtResource("2_ijux7")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_57ysj"]
+atlas = ExtResource("2_ijux7")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ilek1"]
+atlas = ExtResource("2_ijux7")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3fdge"]
+atlas = ExtResource("2_ijux7")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xse1a"]
+atlas = ExtResource("2_ijux7")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bhjbr"]
+atlas = ExtResource("2_ijux7")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y2iv8"]
+atlas = ExtResource("2_ijux7")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_twpm2"]
+atlas = ExtResource("2_ijux7")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vdsm3"]
+atlas = ExtResource("2_ijux7")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5srdf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u2ra4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_57ysj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ilek1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3fdge")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xse1a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bhjbr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y2iv8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_twpm2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vdsm3")
+}],
+"loop": false,
+"name": &"deploy",
+"speed": 24.0
+}]
+
+[node name="BloodAnimation" instance=ExtResource("1_dcgp0")]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_5srdf")
+animation = &"deploy"
+signal_frame = 4
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layer": "",
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/effects/other/",
+"o_name": "",
+"only_visible": true,
+"slice": "",
+"source": "res://resources/sprites/effects/characters/blood.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "739d93981f2aed3e1f127a866abad064"
+
+[node name="AudioStreamPlayer2D" parent="." index="0"]
+stream = ExtResource("3_8lbb5")
+volume_db = 10.0

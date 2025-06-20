@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://76u0cridlfay"
+path="res://.godot/imported/icon_hide.aseprite-17e42cdc05ca7327a9d19c9e1a832472.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_hide.aseprite"
+dest_files=["res://.godot/imported/icon_hide.aseprite-17e42cdc05ca7327a9d19c9e1a832472.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

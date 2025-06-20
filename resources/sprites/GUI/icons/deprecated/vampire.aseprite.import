@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bwlcqtg5lnuwp"
+path="res://.godot/imported/vampire.aseprite-826a566cd1fc7c3a7eb2ccf8307bfaf2.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/vampire.aseprite"
+dest_files=["res://.godot/imported/vampire.aseprite-826a566cd1fc7c3a7eb2ccf8307bfaf2.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

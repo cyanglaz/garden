@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://huilk24yuys0"]
+
+[ext_resource type="Script" uid="uid://dmqhmah6f0qpn" path="res://scenes/GUI/bingo_main/power_button_box/gui_power_button_box.gd" id="1_saus0"]
+
+[node name="GUIPowerButtonBox" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 16)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_saus0")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cnqewg4g87oux"
+path="res://.godot/imported/hand_point.aseprite-3bce861ed5880035d979a15f253d754f.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/cursor/hand_point.aseprite"
+dest_files=["res://.godot/imported/hand_point.aseprite-3bce861ed5880035d979a15f253d754f.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://diklhd7gbfocs"
+path="res://.godot/imported/power_surge.aseprite-e83588a659469d050c7922de9c215da4.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/power_surge.aseprite"
+dest_files=["res://.godot/imported/power_surge.aseprite-e83588a659469d050c7922de9c215da4.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="PlayerData" load_steps=13 format=3 uid="uid://de5gncov3kpnh"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_2emnb"]
+[ext_resource type="Resource" uid="uid://cfnitmndp8nys" path="res://data/actions/action_heal.tres" id="2_5f6rr"]
+[ext_resource type="Resource" uid="uid://dxcbsrgjv6jc2" path="res://data/actions/action_forge.tres" id="3_641qv"]
+[ext_resource type="Resource" uid="uid://bxm21df6parmn" path="res://data/actions/action_attune.tres" id="4_hn0i2"]
+[ext_resource type="Script" uid="uid://ccpra3wlpuhlb" path="res://data/models/character/player_data.gd" id="4_ygiaf"]
+[ext_resource type="Script" uid="uid://dlus7fsh3enbg" path="res://data/models/bingo/bingo_ball_data.gd" id="5_jakv5"]
+[ext_resource type="Resource" uid="uid://b1u3jo4t7wlxp" path="res://data/balls/player/bingo_ball_cursed_blade.tres" id="6_np1ry"]
+[ext_resource type="Resource" uid="uid://6tn00f27ofom" path="res://data/balls/player/bingo_ball_v_blade.tres" id="7_w42qb"]
+[ext_resource type="Resource" uid="uid://d2qv4gi5d62fn" path="res://data/balls/starting/bingo_ball_light_shield.tres" id="8_3d0lp"]
+[ext_resource type="Script" uid="uid://chfp1x344tt3w" path="res://data/models/powers/power_data.gd" id="8_du04g"]
+[ext_resource type="Resource" uid="uid://514sundsh1f" path="res://data/balls/starting/bingo_ball_sword.tres" id="9_5rmin"]
+[ext_resource type="Resource" uid="uid://b5sx2jq1i6a0s" path="res://data/powers/power_finisher.tres" id="9_kgqka"]
+
+[resource]
+script = ExtResource("4_ygiaf")
+actions = Array[ExtResource("1_2emnb")]([ExtResource("2_5f6rr"), ExtResource("3_641qv"), ExtResource("4_hn0i2")])
+powers = Array[ExtResource("8_du04g")]([ExtResource("9_kgqka")])
+max_powers = 2
+draw_count = 4
+max_hp = 100
+initial_balls = Array[ExtResource("5_jakv5")]([ExtResource("6_np1ry"), ExtResource("6_np1ry"), ExtResource("7_w42qb"), ExtResource("8_3d0lp"), ExtResource("8_3d0lp"), ExtResource("9_5rmin"), ExtResource("9_5rmin"), ExtResource("9_5rmin"), ExtResource("9_5rmin")])
+id = "weapon_master"
+display_name = "Test"
+description = ""
+data = {}

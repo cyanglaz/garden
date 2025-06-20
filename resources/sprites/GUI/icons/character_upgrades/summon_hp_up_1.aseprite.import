@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://pbp6m4wq50pc"
+path="res://.godot/imported/summon_hp_up_1.aseprite-3a6ad8e1a502250ce592222b0a94dee2.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/character_upgrades/summon_hp_up_1.aseprite"
+dest_files=["res://.godot/imported/summon_hp_up_1.aseprite-3a6ad8e1a502250ce592222b0a94dee2.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

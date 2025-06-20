@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3 uid="uid://cf8xx5g586rtq"]
+
+[ext_resource type="PackedScene" uid="uid://cwmvoeapowykc" path="res://scenes/GUI/overlay_main/actions/normal_actions/gui_action_main.tscn" id="1_5cpre"]
+[ext_resource type="Script" uid="uid://b8j51128ubdtt" path="res://scenes/GUI/overlay_main/gui_overlay_main.gd" id="1_en8dm"]
+[ext_resource type="PackedScene" uid="uid://du6grehdsbu4x" path="res://scenes/GUI/overlay_main/upgrades/gui_card_reward_main.tscn" id="2_1hgh8"]
+[ext_resource type="PackedScene" uid="uid://dqieunsxfooyr" path="res://scenes/GUI/bingo_main/actions/gui_forge_main.tscn" id="6_vnfjh"]
+[ext_resource type="PackedScene" uid="uid://dkk1frspxjyfg" path="res://scenes/GUI/bingo_main/draw_box/gui_all_deck_display.tscn" id="7_bl5qg"]
+[ext_resource type="PackedScene" uid="uid://dj32l70op4dk4" path="res://scenes/GUI/bingo_main/actions/gui_attune_main.tscn" id="7_l48jp"]
+[ext_resource type="PackedScene" uid="uid://bpgtfyyugk6ui" path="res://scenes/GUI/bingo_main/bingo_board/gui_bingo_board_view.tscn" id="8_20k17"]
+
+[node name="GUIOverlayMain" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_en8dm")
+
+[node name="GUIActionMain" parent="." instance=ExtResource("1_5cpre")]
+visible = false
+layout_mode = 1
+
+[node name="GUICardRewardMain" parent="." instance=ExtResource("2_1hgh8")]
+visible = false
+layout_mode = 1
+
+[node name="GUIForgeMain" parent="." instance=ExtResource("6_vnfjh")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="GUIAttuneMain" parent="." instance=ExtResource("7_l48jp")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="GUIBingoBoardView" parent="." instance=ExtResource("8_20k17")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="GUIAllDeckDisplay" parent="." instance=ExtResource("7_bl5qg")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="TopViewContainer" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

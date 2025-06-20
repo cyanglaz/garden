@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3 uid="uid://cclsf750dcb41"]
+
+[ext_resource type="PackedScene" uid="uid://4tutreqq4nt3" path="res://scenes/GUI/game_main/topbar/gui_main_top_bar.tscn" id="1_0okve"]
+[ext_resource type="Script" uid="uid://brsrku0h1ov2a" path="res://scenes/GUI/game_main/gui_game_main.gd" id="1_flhxf"]
+[ext_resource type="PackedScene" uid="uid://cmopfcp3jma8w" path="res://scenes/GUI/bingo_main/gui_bingo_main.tscn" id="4_i2p85"]
+[ext_resource type="PackedScene" uid="uid://cf8xx5g586rtq" path="res://scenes/GUI/overlay_main/gui_overlay_main.tscn" id="5_5mwdp"]
+[ext_resource type="PackedScene" uid="uid://bt40p5tg5qsq8" path="res://scenes/GUI/top_level_overlays/gameover/gui_game_over_main.tscn" id="6_w8cwk"]
+[ext_resource type="PackedScene" uid="uid://cgvd1dcwahof5" path="res://scenes/GUI/top_level_overlays/demo_end/gui_demo_end_main.tscn" id="7_62kpo"]
+[ext_resource type="PackedScene" uid="uid://3068uq3kyx0r" path="res://scenes/GUI/overlay_main/settings/gui_settings_main.tscn" id="8_nysam"]
+
+[node name="GUIGameMain" type="CanvasLayer"]
+script = ExtResource("1_flhxf")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="GUIMainTopBar" parent="VBoxContainer" instance=ExtResource("1_0okve")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Container" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GUIBingoMain" parent="VBoxContainer/Container" instance=ExtResource("4_i2p85")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="GUIOverlayMain" parent="VBoxContainer/Container" instance=ExtResource("5_5mwdp")]
+unique_name_in_owner = true
+layout_mode = 1
+mouse_filter = 2
+
+[node name="TopLevelOverlays" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="GUIGameOverMain" parent="TopLevelOverlays" instance=ExtResource("6_w8cwk")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="GUIDemoEndMain" parent="TopLevelOverlays" instance=ExtResource("7_62kpo")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="GUISettingsMain" parent="TopLevelOverlays" instance=ExtResource("8_nysam")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[editable path="VBoxContainer/Container/GUIOverlayMain"]

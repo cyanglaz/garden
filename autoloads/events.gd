@@ -1,0 +1,22 @@
+extends Node
+
+@warning_ignore("unused_signal")
+signal test_signal()
+
+# Apply shake screen effects.
+# See https://www.youtube.com/watch?v=tu-Qe66AvtY for meaning of the parameters
+# decay is how fast the shake stops, the larger the decay, the faster the shake stops
+@warning_ignore("unused_signal")
+signal request_camera_shake_effects(trauma:float, amplitude:Vector2, rotaton:float, decay:float, priority:int)
+@warning_ignore("unused_signal")
+signal request_camera_default_shake_effects(trauma:float)
+@warning_ignore("unused_signal")
+signal request_slow_motion(scale:float, time:float)
+@warning_ignore("unused_signal")
+signal request_zoom_in(zoom_global_position:Vector2)
+@warning_ignore("unused_signal")
+signal request_zoom_out()
+@warning_ignore("unused_signal")
+signal camera_zoom_in_finished()
+@warning_ignore("unused_signal")
+signal camera_zoom_out_finished()

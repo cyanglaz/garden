@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bsqk8sl3hwabx"]
+
+[ext_resource type="Script" uid="uid://byrlxatuv2rqe" path="res://scenes/GUI/bingo_main/character_boxes/enemy/gui_enemy_container.gd" id="1_owgdh"]
+[ext_resource type="PackedScene" uid="uid://c6vjbb3oft8q1" path="res://scenes/GUI/bingo_main/character_boxes/enemy/gui_enemy_box.tscn" id="2_q70dv"]
+[ext_resource type="PackedScene" uid="uid://cu3arrhjlqi5b" path="res://scenes/GUI/bingo_main/character_boxes/enemy/gui_bench_enemy_container.tscn" id="3_lkid8"]
+
+[node name="GUIEnemyContainer" type="VBoxContainer"]
+offset_right = 56.0
+offset_bottom = 31.0
+script = ExtResource("1_owgdh")
+
+[node name="GUIEnemyBox" parent="." instance=ExtResource("2_q70dv")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="GUIBenchEnemyContainer" parent="." instance=ExtResource("3_lkid8")]
+unique_name_in_owner = true
+layout_mode = 2

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://d36cwuh1iqkfn"
+path="res://.godot/imported/player_cyanglaz_protrait.aseprite-a147dc18660d6cd2bda3a8e53928d4ea.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/player_protraits/player_cyanglaz_protrait.aseprite"
+dest_files=["res://.godot/imported/player_cyanglaz_protrait.aseprite-a147dc18660d6cd2bda3a8e53928d4ea.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

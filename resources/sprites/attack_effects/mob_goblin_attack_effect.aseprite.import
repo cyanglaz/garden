@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://b662ltun4egom"
+path="res://.godot/imported/mob_goblin_attack_effect.aseprite-21f4aa0b5004e65ba46024501a40ac12.res"
+
+[deps]
+
+source_file="res://resources/sprites/attack_effects/mob_goblin_attack_effect.aseprite"
+dest_files=["res://.godot/imported/mob_goblin_attack_effect.aseprite-21f4aa0b5004e65ba46024501a40ac12.res"]
+
+[params]
+

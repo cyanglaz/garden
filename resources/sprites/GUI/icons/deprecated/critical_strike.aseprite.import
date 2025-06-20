@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://b28u31bii1xcl"
+path="res://.godot/imported/critical_strike.aseprite-51bc3ea9c2bc77e0a9b38c9608768b30.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/critical_strike.aseprite"
+dest_files=["res://.godot/imported/critical_strike.aseprite-51bc3ea9c2bc77e0a9b38c9608768b30.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

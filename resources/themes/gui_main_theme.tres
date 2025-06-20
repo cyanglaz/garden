@@ -1,0 +1,248 @@
+[gd_resource type="Theme" load_steps=29 format=3 uid="uid://cot0ve5mv1sh0"]
+
+[ext_resource type="Texture2D" uid="uid://cri834mdsuxcn" path="res://resources/sprites/GUI/menu/seperator_line.png" id="1_x68bo"]
+[ext_resource type="Texture2D" uid="uid://coidqgp281swn" path="res://resources/sprites/GUI/menu/slider_knob.png" id="2_hva41"]
+[ext_resource type="Texture2D" uid="uid://b23b88jv1xcdv" path="res://resources/sprites/GUI/menu/slider_knob_disabled.png" id="3_x5uub"]
+[ext_resource type="Texture2D" uid="uid://px72mxvful0c" path="res://resources/sprites/GUI/menu/slider_knob_highlight.png" id="4_3o2s1"]
+[ext_resource type="Texture2D" uid="uid://e53gsuhp1xny" path="res://resources/sprites/GUI/menu/slider_grabber.png" id="5_7tjii"]
+[ext_resource type="Texture2D" uid="uid://hpxvi44ay4mx" path="res://resources/sprites/GUI/menu/slider_bar.png" id="6_p6dle"]
+[ext_resource type="FontFile" uid="uid://cs4at5ruly1er" path="res://resources/fonts/RubikBubbles-Regular.ttf" id="7_efn7a"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_73q4h"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dvveg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fyb5s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cegy0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mtgno"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sm7r0"]
+texture = ExtResource("1_x68bo")
+texture_margin_left = 1.0
+texture_margin_right = 1.0
+texture_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vrivm"]
+texture = ExtResource("5_7tjii")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tp6e0"]
+texture = ExtResource("5_7tjii")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_trv00"]
+texture = ExtResource("6_p6dle")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="SystemFont" id="SystemFont_2bpl8"]
+
+[sub_resource type="SystemFont" id="SystemFont_pj8lf"]
+font_weight = 999
+generate_mipmaps = true
+
+[sub_resource type="SystemFont" id="SystemFont_mwd3q"]
+
+[sub_resource type="FontVariation" id="FontVariation_i8us5"]
+base_font = SubResource("SystemFont_mwd3q")
+
+[sub_resource type="SystemFont" id="SystemFont_bai6p"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4d154"]
+
+[sub_resource type="SystemFont" id="SystemFont_cfmae"]
+
+[sub_resource type="FontVariation" id="FontVariation_mskv7"]
+base_font = SubResource("SystemFont_cfmae")
+variation_embolden = 1.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4henj"]
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_a8prg"]
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wj6pe"]
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qchjk"]
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+
+[resource]
+default_font = SubResource("SystemFont_pj8lf")
+default_font_size = 12
+DamageLabel/base_type = &"Label"
+DamageLabel/colors/font_color = Color(1, 1, 1, 1)
+DamageLabel/colors/font_outline_color = Color(0, 0, 0, 1)
+DamageLabel/constants/outline_size = 1
+DamageLabel/font_sizes/font_size = 8
+EmptyButton/styles/disabled = SubResource("StyleBoxEmpty_73q4h")
+EmptyButton/styles/focus = SubResource("StyleBoxEmpty_dvveg")
+EmptyButton/styles/hover = SubResource("StyleBoxEmpty_fyb5s")
+EmptyButton/styles/normal = SubResource("StyleBoxEmpty_cegy0")
+EmptyButton/styles/pressed = SubResource("StyleBoxEmpty_mtgno")
+HSeparator/constants/separation = 1
+HSeparator/styles/separator = SubResource("StyleBoxTexture_sm7r0")
+HSlider/icons/grabber = ExtResource("2_hva41")
+HSlider/icons/grabber_disabled = ExtResource("3_x5uub")
+HSlider/icons/grabber_highlight = ExtResource("4_3o2s1")
+HSlider/styles/grabber_area = SubResource("StyleBoxTexture_vrivm")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxTexture_tp6e0")
+HSlider/styles/slider = SubResource("StyleBoxTexture_trv00")
+HUD/base_type = &"Label"
+HUD/colors/font_color = Color(1, 1, 1, 1)
+HUD/colors/font_outline_color = Color(0.0745098, 0.0745098, 0.0745098, 1)
+HUD/constants/outline_size = 2
+HUD/font_sizes/font_size = 7
+HUD/fonts/font = SubResource("SystemFont_2bpl8")
+HUD_mid/base_type = &"Label"
+HUD_mid/colors/font_color = Color(1, 1, 1, 1)
+HUD_mid/colors/font_outline_color = Color(0, 0, 0, 1)
+HUD_mid/constants/outline_size = 1
+HUD_mid/font_sizes/font_size = 5
+HUD_mid/fonts/font = SubResource("SystemFont_pj8lf")
+HUD_small/base_type = &"Label"
+HUD_small/colors/font_color = Color(1, 1, 1, 1)
+HUD_small/colors/font_outline_color = Color(0, 0, 0, 1)
+HUD_small/constants/outline_size = 1
+HUD_small/font_sizes/font_size = 4
+HUD_small/fonts/font = SubResource("SystemFont_pj8lf")
+HUD_tiny/base_type = &"Label"
+HUD_tiny/colors/font_color = Color(1, 1, 1, 1)
+HUD_tiny/colors/font_outline_color = Color(0, 0, 0, 1)
+HUD_tiny/constants/outline_size = 1
+HUD_tiny/font_sizes/font_size = 3
+HUD_tiny/fonts/font = SubResource("FontVariation_i8us5")
+HeaderHuge/base_type = &"Label"
+HeaderHuge/colors/font_color = Color(1, 1, 1, 1)
+HeaderHuge/colors/font_outline_color = Color(0.0745098, 0.0745098, 0.0745098, 1)
+HeaderHuge/constants/outline_size = 2
+HeaderHuge/font_sizes/font_size = 18
+HeaderHuge/fonts/font = SubResource("SystemFont_bai6p")
+HeaderLarge/colors/font_color = Color(1, 1, 1, 1)
+HeaderLarge/colors/font_outline_color = Color(0, 0, 0, 1)
+HeaderLarge/constants/outline_size = 1
+HeaderLarge/font_sizes/font_size = 14
+HeaderLarge/fonts/font = SubResource("SystemFont_pj8lf")
+HeaderMedium/base_type = &"Label"
+HeaderMedium/colors/font_color = Color(1, 1, 1, 1)
+HeaderMedium/colors/font_outline_color = Color(0, 0, 0, 1)
+HeaderMedium/constants/outline_size = 1
+HeaderMedium/font_sizes/font_size = 10
+HeaderMedium/fonts/font = SubResource("SystemFont_pj8lf")
+HeaderSmall/base_type = &"Label"
+HeaderSmall/font_sizes/font_size = 6
+HeaderSmall/fonts/font = SubResource("SystemFont_pj8lf")
+HeaderSmall2/base_type = &"Label"
+HeaderSmall2/font_sizes/font_size = 7
+HeaderSmall2/fonts/font = SubResource("SystemFont_pj8lf")
+Label/colors/font_color = Color(0.0745098, 0.0745098, 0.0745098, 1)
+Label/colors/font_outline_color = Color(1, 1, 1, 1)
+Label/font_sizes/font_size = 6
+Label/fonts/font = SubResource("SystemFont_pj8lf")
+LabelBingo/base_type = &"Label"
+LabelBingo/colors/font_color = Color(0.976471, 0.901961, 0.811765, 1)
+LabelBingo/colors/font_outline_color = Color(0, 0, 0, 1)
+LabelBingo/constants/outline_size = 2
+LabelBingo/font_sizes/font_size = 8
+LabelEffectType/base_type = &"Label"
+LabelEffectType/colors/font_color = Color(1, 1, 1, 1)
+LabelEffectType/colors/font_outline_color = Color(0, 0, 0, 1)
+LabelEffectType/constants/outline_size = 1
+LabelEffectType/font_sizes/font_size = 3
+LabelOrderText/base_type = &"Label"
+LabelOrderText/colors/font_color = Color(1, 1, 1, 1)
+LabelOrderText/colors/font_outline_color = Color(0, 0, 0, 1)
+LabelOrderText/constants/outline_size = 4
+LabelOrderText/font_sizes/font_size = 10
+LabelOrderText/fonts/font = ExtResource("7_efn7a")
+LabelQuality/base_type = &"Label"
+LabelQuality/colors/font_color = Color(1, 1, 1, 1)
+LabelQuality/colors/font_outline_color = Color(0, 0, 0, 1)
+LabelQuality/constants/line_spacing = 0
+LabelQuality/constants/outline_size = 1
+LabelQuality/font_sizes/font_size = 4
+LabelQuality/fonts/font = SubResource("SystemFont_pj8lf")
+LabelSmall/base_type = &"Label"
+LabelSmall/font_sizes/font_size = 6
+LabelTiny/base_type = &"Label"
+LabelTiny/font_sizes/font_size = 5
+LabelTinyTiny/base_type = &"Label"
+LabelTinyTiny/font_sizes/font_size = 3
+MarginContainer/constants/margin_bottom = 4
+MarginContainer/constants/margin_left = 4
+MarginContainer/constants/margin_right = 4
+MarginContainer/constants/margin_top = 4
+PanelContainer/styles/panel = SubResource("StyleBoxEmpty_4d154")
+RichTextButton/base_type = &"RichTextLabel"
+RichTextButton/colors/default_color = Color(0, 0, 0, 1)
+RichTextButton/colors/font_outline_color = Color(0.976471, 0.901961, 0.811765, 1)
+RichTextButton/constants/outline_size = 1
+RichTextButton/font_sizes/bold_font_size = 6
+RichTextButton/font_sizes/bold_italics_font_size = 6
+RichTextButton/font_sizes/italics_font_size = 6
+RichTextButton/font_sizes/mono_font_size = 6
+RichTextButton/font_sizes/normal_font_size = 6
+RichTextControlTip/base_type = &"RichTextLabel"
+RichTextControlTip/colors/default_color = Color(1, 1, 1, 1)
+RichTextControlTip/font_sizes/bold_font_size = 4
+RichTextControlTip/font_sizes/bold_italics_font_size = 4
+RichTextControlTip/font_sizes/italics_font_size = 4
+RichTextControlTip/font_sizes/mono_font_size = 4
+RichTextControlTip/font_sizes/normal_font_size = 4
+RichTextControlTip/fonts/bold_font = SubResource("FontVariation_mskv7")
+RichTextControlTipSmall/base_type = &"RichTextLabel"
+RichTextControlTipSmall/colors/default_color = Color(1, 1, 1, 1)
+RichTextControlTipSmall/font_sizes/bold_font_size = 4
+RichTextControlTipSmall/font_sizes/bold_italics_font_size = 4
+RichTextControlTipSmall/font_sizes/italics_font_size = 4
+RichTextControlTipSmall/font_sizes/mono_font_size = 4
+RichTextControlTipSmall/font_sizes/normal_font_size = 4
+RichTextHeadSmall/base_type = &"RichTextLabel"
+RichTextHeadSmall/font_sizes/bold_font_size = 5
+RichTextHeadSmall/font_sizes/bold_italics_font_size = 5
+RichTextHeadSmall/font_sizes/italics_font_size = 5
+RichTextHeadSmall/font_sizes/mono_font_size = 5
+RichTextHeadSmall/font_sizes/normal_font_size = 5
+RichTextHeadSmall/fonts/normal_font = SubResource("SystemFont_pj8lf")
+RichTextTiny/base_type = &"RichTextLabel"
+RichTextTiny/font_sizes/bold_font_size = 3
+RichTextTiny/font_sizes/bold_italics_font_size = 3
+RichTextTiny/font_sizes/italics_font_size = 3
+RichTextTiny/font_sizes/mono_font_size = 3
+RichTextTiny/font_sizes/normal_font_size = 3
+RichTextTiny/fonts/bold_font = SubResource("SystemFont_pj8lf")
+RichTextTiny/fonts/bold_italics_font = SubResource("SystemFont_pj8lf")
+RichTextTiny/fonts/italics_font = SubResource("SystemFont_pj8lf")
+RichTextTiny/fonts/mono_font = SubResource("SystemFont_pj8lf")
+RichTextTiny/fonts/normal_font = SubResource("SystemFont_pj8lf")
+TooltipMainLabel/base_type = &"Label"
+TooltipMainLabel/colors/font_color = Color(1, 1, 1, 1)
+TooltipMainLabel/font_sizes/font_size = 5
+VScrollBar/styles/grabber = SubResource("StyleBoxTexture_4henj")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxTexture_a8prg")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxTexture_wj6pe")
+VScrollBar/styles/scroll = SubResource("StyleBoxTexture_qchjk")
+VScrollBar/styles/scroll_focus = null

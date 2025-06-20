@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://4rb2wvpuyilg"
+path="res://.godot/imported/gold_bag.aseprite-0be34d1884d693a2634fc458b96f3eb0.res"
+
+[deps]
+
+source_file="res://resources/sprites/tiles/props/gold_bag.aseprite"
+dest_files=["res://.godot/imported/gold_bag.aseprite-0be34d1884d693a2634fc458b96f3eb0.res"]
+
+[params]
+

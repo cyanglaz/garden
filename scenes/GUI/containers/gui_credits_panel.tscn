@@ -1,0 +1,91 @@
+[gd_scene load_steps=4 format=3 uid="uid://baexu10jax5e2"]
+
+[ext_resource type="PackedScene" uid="uid://c7axrk5wwb6ab" path="res://scenes/GUI/containers/gui_popup_container.tscn" id="1_3ifke"]
+[ext_resource type="Script" uid="uid://cw5hewf01d3ef" path="res://scenes/GUI/containers/gui_credits_panel.gd" id="2_knj31"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="5_2xk5b"]
+
+[node name="GUICreditsPanel" instance=ExtResource("1_3ifke")]
+offset_left = -91.0
+offset_top = -62.5
+offset_right = 91.0
+offset_bottom = 62.5
+script = ExtResource("2_knj31")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Background/NinePatchRect/MarginContainer" index="0"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Background/NinePatchRect/MarginContainer/VBoxContainer" index="0"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Background/NinePatchRect/MarginContainer/VBoxContainer/ScrollContainer" index="0"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer/Background/NinePatchRect/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="0"]
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "CREDITS
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/Background/NinePatchRect/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="1"]
+layout_mode = 2
+
+[node name="CreatedByTitle" type="Label" parent="VBoxContainer/Background/NinePatchRect/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="2"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall2"
+text = "Created By:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CreatedByValue" type="Label" parent="VBoxContainer/Background/NinePatchRect/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="3"]
+layout_mode = 2
+text = "cyanglaz"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MusicTitle" type="Label" parent="VBoxContainer/Background/NinePatchRect/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="4"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall2"
+text = "Music:
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MusicValue" type="Label" parent="VBoxContainer/Background/NinePatchRect/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="5"]
+layout_mode = 2
+text = "someone"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FloatingViewContainer" parent="." index="1"]
+visible = true
+
+[node name="Buttons" type="HBoxContainer" parent="FloatingViewContainer" index="1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = 66.0
+offset_right = 60.0
+offset_bottom = 82.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 8
+alignment = 1
+
+[node name="BackButton" parent="FloatingViewContainer/Buttons" index="0" instance=ExtResource("5_2xk5b")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+localization_text_key = "BACK"

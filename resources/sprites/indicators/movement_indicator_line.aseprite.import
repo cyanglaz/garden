@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dufbx6s7uwvdh"
+path="res://.godot/imported/movement_indicator_line.aseprite-8a986546ba0ef74232a45a41cebbbc9a.res"
+
+[deps]
+
+source_file="res://resources/sprites/indicators/movement_indicator_line.aseprite"
+dest_files=["res://.godot/imported/movement_indicator_line.aseprite-8a986546ba0ef74232a45a41cebbbc9a.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

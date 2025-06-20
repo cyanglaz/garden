@@ -1,0 +1,49 @@
+[gd_scene load_steps=4 format=3 uid="uid://ca0erks13b5j2"]
+
+[ext_resource type="PackedScene" uid="uid://c7axrk5wwb6ab" path="res://scenes/GUI/containers/gui_popup_container.tscn" id="1_0k78y"]
+[ext_resource type="Script" uid="uid://bu1qepftgybcd" path="res://scenes/GUI/containers/gui_popup_alert.gd" id="2_mrxx0"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="3_0b1rc"]
+
+[node name="GUIPopupAlert" instance=ExtResource("1_0k78y")]
+script = ExtResource("2_mrxx0")
+show_animation_type = 2
+
+[node name="PanelContainer" parent="." index="0"]
+offset_left = -69.5
+offset_top = -59.0
+offset_right = 90.5
+offset_bottom = 61.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" index="0"]
+layout_mode = 2
+
+[node name="Message" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" index="0"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"HeaderSmall2"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" index="1"]
+layout_mode = 2
+alignment = 1
+
+[node name="CloseButton" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" index="0" instance=ExtResource("3_0b1rc")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(36, 18)
+layout_mode = 2
+
+[node name="ByPassButton" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" index="1" instance=ExtResource("3_0b1rc")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(36, 18)
+layout_mode = 2
+
+[node name="TitleBanner" parent="PanelContainer/FloatingViewContainer" index="0"]
+offset_top = -9.0
+offset_bottom = 15.0
+
+[node name="Title" parent="PanelContainer/FloatingViewContainer/TitleBanner" index="0"]
+unique_name_in_owner = true
+text = ""

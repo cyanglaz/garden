@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="StatusEffectData" load_steps=2 format=3 uid="uid://t8cpmk573gsb"]
+
+[ext_resource type="Script" uid="uid://c0yamweoq8d5u" path="res://data/models/status_effect/status_effect_data.gd" id="1_q3s6y"]
+
+[resource]
+script = ExtResource("1_q3s6y")
+single_turn = true
+id = "insight"
+display_name = "Insight"
+description = "Next turn, update the cards being drawn by its stack."
+data = {}

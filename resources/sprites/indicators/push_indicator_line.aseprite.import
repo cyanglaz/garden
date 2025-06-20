@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bqwcx35xxgscy"
+path="res://.godot/imported/push_indicator_line.aseprite-970810a6ed1a7a3395f0f871dda5433e.res"
+
+[deps]
+
+source_file="res://resources/sprites/indicators/push_indicator_line.aseprite"
+dest_files=["res://.godot/imported/push_indicator_line.aseprite-970810a6ed1a7a3395f0f871dda5433e.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

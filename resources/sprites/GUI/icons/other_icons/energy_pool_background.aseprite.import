@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://b43yqahppgib0"
+path="res://.godot/imported/energy_pool_background.aseprite-fcc92a7d169c7ddfdf436dcb1b6ba168.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/energy_pool_background.aseprite"
+dest_files=["res://.godot/imported/energy_pool_background.aseprite-fcc92a7d169c7ddfdf436dcb1b6ba168.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

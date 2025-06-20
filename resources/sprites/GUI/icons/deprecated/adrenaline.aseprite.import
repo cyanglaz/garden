@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://betkq1ngdxgxd"
+path="res://.godot/imported/adrenaline.aseprite-a440ee66b56742fc3cf4c7d93456688a.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/adrenaline.aseprite"
+dest_files=["res://.godot/imported/adrenaline.aseprite-a440ee66b56742fc3cf4c7d93456688a.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

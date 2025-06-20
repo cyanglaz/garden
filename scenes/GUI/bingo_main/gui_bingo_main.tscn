@@ -1,0 +1,185 @@
+[gd_scene load_steps=17 format=3 uid="uid://cmopfcp3jma8w"]
+
+[ext_resource type="Script" uid="uid://be7khu7gy5ngc" path="res://scenes/GUI/bingo_main/gui_bingo_main.gd" id="1_x7y2p"]
+[ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="2_6ul7j"]
+[ext_resource type="PackedScene" uid="uid://vyd5g82f347q" path="res://scenes/GUI/utils/main_margin_container.tscn" id="2_wcplx"]
+[ext_resource type="PackedScene" uid="uid://5gen1v3qc1cn" path="res://scenes/GUI/bingo_main/character_boxes/player/gui_player_box.tscn" id="3_byjjb"]
+[ext_resource type="PackedScene" uid="uid://c0hutilbubq6" path="res://scenes/GUI/bingo_main/animation/gui_animation_container.tscn" id="3_nbrp2"]
+[ext_resource type="PackedScene" uid="uid://dpvi60lhihsw6" path="res://scenes/GUI/bingo_main/bingo_board/gui_bingo_board.tscn" id="3_om7hs"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="5_04lbu"]
+[ext_resource type="PackedScene" uid="uid://bsqk8sl3hwabx" path="res://scenes/GUI/bingo_main/character_boxes/enemy/gui_enemy_container.tscn" id="7_6ul7j"]
+[ext_resource type="PackedScene" uid="uid://btt58df7td723" path="res://scenes/GUI/bingo_main/draw_box/gui_bingo_ball_hand.tscn" id="7_ieny5"]
+[ext_resource type="PackedScene" uid="uid://bgx6gmhvwel8v" path="res://scenes/GUI/controls/buttons/gui_discard_box_button.tscn" id="10_pmggj"]
+[ext_resource type="PackedScene" uid="uid://jonriuwwtur5" path="res://scenes/GUI/controls/buttons/gui_basic_toggle_button.tscn" id="10_uvv20"]
+[ext_resource type="PackedScene" uid="uid://douspbaf6ah1q" path="res://scenes/GUI/bingo_main/draw_box/gui_pile_display.tscn" id="11_gnlnc"]
+[ext_resource type="PackedScene" uid="uid://b8ixx2yg4dgov" path="res://scenes/GUI/controls/buttons/gui_draw_box_button.tscn" id="11_ieny5"]
+[ext_resource type="PackedScene" uid="uid://beqj6gj2gt7x7" path="res://scenes/GUI/bingo_main/shared/gui_following_symbol.tscn" id="11_ok4i7"]
+[ext_resource type="PackedScene" uid="uid://huilk24yuys0" path="res://scenes/GUI/bingo_main/power_button_box/gui_power_button_box.tscn" id="12_gnlnc"]
+[ext_resource type="PackedScene" uid="uid://5m77v7qv4i5h" path="res://scenes/GUI/tooltips/gui_power_tooltip.tscn" id="15_gnlnc"]
+
+[node name="GUIBingoMain" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_x7y2p")
+
+[node name="GUIOverlayBackground" parent="." instance=ExtResource("2_6ul7j")]
+layout_mode = 1
+color = Color(0.396078, 0.45098, 0.572549, 1)
+
+[node name="MainMarginContainer" parent="." instance=ExtResource("2_wcplx")]
+layout_mode = 1
+
+[node name="LeftContainer" type="VBoxContainer" parent="MainMarginContainer/Container" index="0"]
+layout_mode = 1
+offset_right = 68.0
+offset_bottom = 36.0
+
+[node name="GUIPlayerBox" parent="MainMarginContainer/Container/LeftContainer" instance=ExtResource("3_byjjb")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CenterContainer" type="VBoxContainer" parent="MainMarginContainer/Container" index="1"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -69.0
+offset_right = 69.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GUIBingoBoard" parent="MainMarginContainer/Container/CenterContainer" instance=ExtResource("3_om7hs")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+
+[node name="GUIBingoBallHand" parent="MainMarginContainer/Container/CenterContainer" instance=ExtResource("7_ieny5")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="RightContainer" type="VBoxContainer" parent="MainMarginContainer/Container" index="2"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="GUIEnemyContainer" parent="MainMarginContainer/Container/RightContainer" instance=ExtResource("7_6ul7j")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="BottomRightContainer" type="PanelContainer" parent="MainMarginContainer/Container" index="3"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -24.0
+offset_top = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="VBoxContainer" type="HBoxContainer" parent="MainMarginContainer/Container/BottomRightContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMarginContainer/Container/BottomRightContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="GUIDiscardPileDisplay" parent="MainMarginContainer/Container/BottomRightContainer/VBoxContainer/VBoxContainer" instance=ExtResource("11_gnlnc")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="AutoDrawButton" parent="MainMarginContainer/Container/BottomRightContainer/VBoxContainer/VBoxContainer" instance=ExtResource("10_uvv20")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 8
+localization_text_key = "ACTION_AUTO_DRAW"
+
+[node name="GUIDiscardBoxButton" parent="MainMarginContainer/Container/BottomRightContainer/VBoxContainer/VBoxContainer" instance=ExtResource("10_pmggj")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMarginContainer/Container/BottomRightContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 10
+
+[node name="DrawButton" parent="MainMarginContainer/Container/BottomRightContainer/VBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_04lbu")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(22, 16)
+layout_mode = 2
+size_flags_vertical = 4
+localization_text_key = "ACTION_DRAW"
+
+[node name="BottomLeftContainer" type="PanelContainer" parent="MainMarginContainer/Container" index="4"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+offset_right = 64.0
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMarginContainer/Container/BottomLeftContainer"]
+layout_mode = 2
+
+[node name="GUIDrawPileDisplay" parent="MainMarginContainer/Container/BottomLeftContainer/VBoxContainer" instance=ExtResource("11_gnlnc")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="GUIDrawBoxButton" parent="MainMarginContainer/Container/BottomLeftContainer/VBoxContainer" instance=ExtResource("11_ieny5")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMarginContainer/Container/BottomLeftContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="GUIPowerButtonBox" parent="MainMarginContainer/Container/BottomLeftContainer/VBoxContainer/HBoxContainer" instance=ExtResource("12_gnlnc")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="GUIFollowingSymbol" parent="MainMarginContainer/Container" index="5" instance=ExtResource("11_ok4i7")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 14.0
+offset_bottom = 14.0
+
+[node name="GUIPowerTooltip" parent="MainMarginContainer/Container" index="6" instance=ExtResource("15_gnlnc")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -47.0
+offset_right = 64.0
+offset_bottom = -18.0
+grow_vertical = 0
+
+[node name="GUIAnimationContainer" parent="MainMarginContainer/Container" index="7" instance=ExtResource("3_nbrp2")]
+unique_name_in_owner = true
+layout_mode = 1
+mouse_filter = 2
+
+[editable path="MainMarginContainer"]

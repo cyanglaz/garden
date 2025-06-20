@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://c3w1sjmeubimo"
+path="res://.godot/imported/player_scientist.aseprite-51711d1cff44a15ba4411aebdd964a12.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/player/player_scientist.aseprite"
+dest_files=["res://.godot/imported/player_scientist.aseprite-51711d1cff44a15ba4411aebdd964a12.res"]
+
+[params]
+

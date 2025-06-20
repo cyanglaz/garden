@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://xduoctogdek2"
+path="res://.godot/imported/tooltip_question_mark.aseprite-746afc8eae19ad1426ea703c7c54a780.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/other/tooltip_question_mark.aseprite"
+dest_files=["res://.godot/imported/tooltip_question_mark.aseprite-746afc8eae19ad1426ea703c7c54a780.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

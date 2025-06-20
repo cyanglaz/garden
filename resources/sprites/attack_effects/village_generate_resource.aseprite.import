@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://ca2vhiaepey8p"
+path="res://.godot/imported/village_generate_resource.aseprite-ed0a7018ad05fbc5799ae812e3c8eee2.res"
+
+[deps]
+
+source_file="res://resources/sprites/attack_effects/village_generate_resource.aseprite"
+dest_files=["res://.godot/imported/village_generate_resource.aseprite-ed0a7018ad05fbc5799ae812e3c8eee2.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

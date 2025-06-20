@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://0gg5rhvm476i"]
+
+[ext_resource type="Script" uid="uid://bbahy5p7ub7mv" path="res://scenes/GUI/controls/sliders/gui_basic_slider.gd" id="1_5kh8j"]
+
+[node name="GUIBasicSlider" type="HSlider"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5kh8j")

@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://dekc88x4x655b"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_121el"]
+[ext_resource type="Script" uid="uid://b78140i77w728" path="res://scenes/GUI/controls/buttons/gui_texture_button.gd" id="2_121el"]
+
+[node name="GUITextureButton" instance=ExtResource("1_121el")]
+offset_right = 46.0
+offset_bottom = 24.0
+script = ExtResource("2_121el")
+texture = null
+texture_size = Vector2(0, 0)
+
+[node name="TextureRect" type="TextureRect" parent="." index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5

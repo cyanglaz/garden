@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bfwbxidjs7hq3"
+path="res://.godot/imported/tab_options_control_border.aseprite-f42cd1fdf4ed95ef1fa5e136085d3a01.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/theme/tab_options_control_border.aseprite"
+dest_files=["res://.godot/imported/tab_options_control_border.aseprite-f42cd1fdf4ed95ef1fa5e136085d3a01.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://d26a5dymxp23"
+path="res://.godot/imported/dark_mage_projectile.aseprite-c9cf7bcb7a49fb511be138746e4a4b9a.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/bosses/dark_mage/dark_mage_projectile.aseprite"
+dest_files=["res://.godot/imported/dark_mage_projectile.aseprite-c9cf7bcb7a49fb511be138746e4a4b9a.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

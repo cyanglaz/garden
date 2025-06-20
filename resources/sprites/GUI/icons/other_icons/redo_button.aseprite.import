@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://db8rd6f5dyw3p"
+path="res://.godot/imported/redo_button.aseprite-035e7cf3593f873974e3ecb781563a2d.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/redo_button.aseprite"
+dest_files=["res://.godot/imported/redo_button.aseprite-035e7cf3593f873974e3ecb781563a2d.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true

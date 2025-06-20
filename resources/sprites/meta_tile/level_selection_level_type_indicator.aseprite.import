@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bnh0tjghi01mr"
+path="res://.godot/imported/level_selection_level_type_indicator.aseprite-81c80426fbcdb4bfffac629ae75aedbf.res"
+
+[deps]
+
+source_file="res://resources/sprites/meta_tile/level_selection_level_type_indicator.aseprite"
+dest_files=["res://.godot/imported/level_selection_level_type_indicator.aseprite-81c80426fbcdb4bfffac629ae75aedbf.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

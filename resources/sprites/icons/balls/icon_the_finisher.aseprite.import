@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dvg4mn0vubhs7"
+path="res://.godot/imported/icon_the_finisher.aseprite-f7e63dc67474246ec2a034c7c347832f.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_the_finisher.aseprite"
+dest_files=["res://.godot/imported/icon_the_finisher.aseprite-f7e63dc67474246ec2a034c7c347832f.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

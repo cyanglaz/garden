@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bv46ethra1h14"
+path="res://.godot/imported/close_button.aseprite-e6b8589ffc67f693df2cf768be61412c.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/menu/close_button.aseprite"
+dest_files=["res://.godot/imported/close_button.aseprite-e6b8589ffc67f693df2cf768be61412c.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true

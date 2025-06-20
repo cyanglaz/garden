@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bdmsdruyhd0ek"
+path="res://.godot/imported/icon_rake.aseprite-32a31c19414888e153387eaf742e8239.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_rake.aseprite"
+dest_files=["res://.godot/imported/icon_rake.aseprite-32a31c19414888e153387eaf742e8239.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

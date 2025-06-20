@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bpqsxelkury0c"
+path="res://.godot/imported/builders_hammer.aseprite-5c102a6625954bbf8cd5d3b56a65c0c4.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/items/builders_hammer.aseprite"
+dest_files=["res://.godot/imported/builders_hammer.aseprite-5c102a6625954bbf8cd5d3b56a65c0c4.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

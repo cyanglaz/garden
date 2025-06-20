@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://mieuotbq08mu"
+path="res://.godot/imported/action_tile_indicator.aseprite-32e1c735f630eae193523dc29e3aac97.res"
+
+[deps]
+
+source_file="res://resources/sprites/meta_tile/action_tile_indicator.aseprite"
+dest_files=["res://.godot/imported/action_tile_indicator.aseprite-32e1c735f630eae193523dc29e3aac97.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

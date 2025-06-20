@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dnvmnawp5u5n6"
+path="res://.godot/imported/border1.aseprite-3748ec5f5790f74f6eefb59092812b2b.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/shared/border1.aseprite"
+dest_files=["res://.godot/imported/border1.aseprite-3748ec5f5790f74f6eefb59092812b2b.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

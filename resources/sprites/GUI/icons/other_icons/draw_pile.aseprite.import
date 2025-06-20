@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cckwokhb88cif"
+path="res://.godot/imported/draw_pile.aseprite-b6c0c48345a889bb3427ce1e093234de.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/draw_pile.aseprite"
+dest_files=["res://.godot/imported/draw_pile.aseprite-b6c0c48345a889bb3427ce1e093234de.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

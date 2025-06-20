@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://du3506caci02r"
+path="res://.godot/imported/refresh.aseprite-2b6b1915d3c613ce930bdbeec2b463cb.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/refresh.aseprite"
+dest_files=["res://.godot/imported/refresh.aseprite-2b6b1915d3c613ce930bdbeec2b463cb.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c7ep2dl12q6q8"
+path="res://.godot/imported/icon_hammer.aseprite-5908c088f266cf9e2d47a297f93131ef.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_hammer.aseprite"
+dest_files=["res://.godot/imported/icon_hammer.aseprite-5908c088f266cf9e2d47a297f93131ef.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

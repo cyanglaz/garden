@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://cgvd1dcwahof5"]
+
+[ext_resource type="Script" uid="uid://cscv1yna7knr5" path="res://scenes/GUI/top_level_overlays/demo_end/gui_demo_end_main.gd" id="1_e4cqx"]
+[ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="2_afocy"]
+[ext_resource type="PackedScene" uid="uid://dwbe22qnprdsj" path="res://scenes/GUI/containers/gui_demo_end_container.tscn" id="3_e4cqx"]
+
+[node name="GUIDemoEndMain" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_e4cqx")
+
+[node name="GUIOverlayBackground" parent="." instance=ExtResource("2_afocy")]
+layout_mode = 1
+
+[node name="GUIDemoEndContainer" parent="." instance=ExtResource("3_e4cqx")]
+unique_name_in_owner = true
+layout_mode = 1

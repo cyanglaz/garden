@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://b6fek48vqxqpo"
+path="res://.godot/imported/force_up_1.aseprite-6203a9c4e6ba0c110ab0edf7ae20ff74.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/character_upgrades/force_up_1.aseprite"
+dest_files=["res://.godot/imported/force_up_1.aseprite-6203a9c4e6ba0c110ab0edf7ae20ff74.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

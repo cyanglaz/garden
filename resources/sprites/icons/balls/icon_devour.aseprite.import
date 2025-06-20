@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cn4gvufb54orl"
+path="res://.godot/imported/icon_devour.aseprite-8d5ec505e9636fbd0375b6c2ce84a574.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_devour.aseprite"
+dest_files=["res://.godot/imported/icon_devour.aseprite-8d5ec505e9636fbd0375b6c2ce84a574.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

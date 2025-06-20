@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://yni5rmuw0hqx"
+path="res://.godot/imported/icon_throwing_axe.aseprite-21dfb80fc8ffbd00c85eedd13984468c.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_throwing_axe.aseprite"
+dest_files=["res://.godot/imported/icon_throwing_axe.aseprite-21dfb80fc8ffbd00c85eedd13984468c.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

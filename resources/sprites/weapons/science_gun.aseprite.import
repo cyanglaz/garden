@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bc28x8v2qnsbc"
+path="res://.godot/imported/science_gun.aseprite-4580a9e90d2db0ab25386277876b9009.res"
+
+[deps]
+
+source_file="res://resources/sprites/weapons/science_gun.aseprite"
+dest_files=["res://.godot/imported/science_gun.aseprite-4580a9e90d2db0ab25386277876b9009.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

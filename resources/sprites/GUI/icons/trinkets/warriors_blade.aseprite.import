@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c1v0skuyjnt8m"
+path="res://.godot/imported/warriors_blade.aseprite-d0a40fe3daff3b0f50d7ff65579b4c32.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/warriors_blade.aseprite"
+dest_files=["res://.godot/imported/warriors_blade.aseprite-d0a40fe3daff3b0f50d7ff65579b4c32.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

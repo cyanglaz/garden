@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3 uid="uid://ct6im3hkscsrn"]
+
+[ext_resource type="Script" uid="uid://dlus7fsh3enbg" path="res://data/models/bingo/bingo_ball_data.gd" id="1_hs2yw"]
+[ext_resource type="Script" uid="uid://bva5f4mdvs5ci" path="res://data/models/character/enemy_data.gd" id="2_4d4u2"]
+
+[resource]
+script = ExtResource("2_4d4u2")
+type = 0
+appearance_level = 0
+max_hp = 0
+initial_balls = Array[ExtResource("1_hs2yw")]([])
+id = ""
+display_name = ""
+description = ""
+data = {}
+metadata/_custom_type_script = "uid://bva5f4mdvs5ci"

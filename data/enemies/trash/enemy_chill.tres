@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=5 format=3 uid="uid://c7b2x1blak21b"]
+
+[ext_resource type="Script" uid="uid://dlus7fsh3enbg" path="res://data/models/bingo/bingo_ball_data.gd" id="1_8087a"]
+[ext_resource type="Resource" uid="uid://uxkjmabveju" path="res://data/balls/enemy/bingo_ball_frost_bolt.tres" id="2_76n48"]
+[ext_resource type="Script" uid="uid://bva5f4mdvs5ci" path="res://data/models/character/enemy_data.gd" id="3_0krfy"]
+[ext_resource type="Resource" uid="uid://dvgece8qnjrwk" path="res://data/balls/enemy/bingo_ball_chill_wave.tres" id="3_76n48"]
+
+[resource]
+script = ExtResource("3_0krfy")
+type = 0
+appearance_level = 0
+max_hp = 60
+initial_balls = Array[ExtResource("1_8087a")]([ExtResource("2_76n48"), ExtResource("3_76n48")])
+id = "chill"
+display_name = "Chill"
+description = ""
+data = {}

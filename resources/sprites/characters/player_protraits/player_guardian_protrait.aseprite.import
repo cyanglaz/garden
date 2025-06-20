@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cj05b66oe4p56"
+path="res://.godot/imported/player_guardian_protrait.aseprite-924e0cbeff798dd08be0d5723c5cfd5e.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/player_protraits/player_guardian_protrait.aseprite"
+dest_files=["res://.godot/imported/player_guardian_protrait.aseprite-924e0cbeff798dd08be0d5723c5cfd5e.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

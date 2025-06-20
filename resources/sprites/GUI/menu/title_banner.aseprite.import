@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://7yak11m6slly"
+path="res://.godot/imported/title_banner.aseprite-bb1aa2d2bc2e0caa3a0a66db737ec50d.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/menu/title_banner.aseprite"
+dest_files=["res://.godot/imported/title_banner.aseprite-bb1aa2d2bc2e0caa3a0a66db737ec50d.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true

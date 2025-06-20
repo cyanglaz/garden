@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://chg3lhp7cak1t"
+path="res://.godot/imported/green_suit.aseprite-266c2c0050e465385753cc5242840cc0.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/items/green_suit.aseprite"
+dest_files=["res://.godot/imported/green_suit.aseprite-266c2c0050e465385753cc5242840cc0.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

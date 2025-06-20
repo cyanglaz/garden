@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cg62w5wljcjsr"
+path="res://.godot/imported/forge_arrow.aseprite-00c26bea1cb14540dde9fb263b7d5a77.res"
+
+[deps]
+
+source_file="res://resources/sprites/other/forge_arrow.aseprite"
+dest_files=["res://.godot/imported/forge_arrow.aseprite-00c26bea1cb14540dde9fb263b7d5a77.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

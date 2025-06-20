@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://ddsq5igmmsjtn"
+path="res://.godot/imported/player_marine_protrait.aseprite-6f96c11ac77f00979b12064ee84ee1b8.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/player_protraits/player_marine_protrait.aseprite"
+dest_files=["res://.godot/imported/player_marine_protrait.aseprite-6f96c11ac77f00979b12064ee84ee1b8.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

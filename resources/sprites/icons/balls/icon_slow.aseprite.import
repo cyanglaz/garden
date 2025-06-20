@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dljjrdh7u1m3o"
+path="res://.godot/imported/icon_slow.aseprite-24bcd1b3c2d606b7d26045cef0e5413d.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_slow.aseprite"
+dest_files=["res://.godot/imported/icon_slow.aseprite-24bcd1b3c2d606b7d26045cef0e5413d.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

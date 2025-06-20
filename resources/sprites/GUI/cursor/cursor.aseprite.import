@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dcccn3dypeudp"
+path="res://.godot/imported/cursor.aseprite-ec82af7a21e9ec4b4db9c5f7f7ca00ec.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/cursor/cursor.aseprite"
+dest_files=["res://.godot/imported/cursor.aseprite-ec82af7a21e9ec4b4db9c5f7f7ca00ec.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

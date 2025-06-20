@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://chjfwaq7okg8l"
+path="res://.godot/imported/movement_destination_indicator.aseprite-d4f5594f1588892411052b11180cd036.res"
+
+[deps]
+
+source_file="res://resources/sprites/indicators/movement_destination_indicator.aseprite"
+dest_files=["res://.godot/imported/movement_destination_indicator.aseprite-d4f5594f1588892411052b11180cd036.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

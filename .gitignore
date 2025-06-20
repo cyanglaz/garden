@@ -1,0 +1,23 @@
+# Godot 4+ specific ignores
+!.godot/
+.godot/*
+!.godot/global_script_class_cache.cfg
+
+# Godot-specific ignores
+.import/
+export.cfg
+export_presets.cfg
+
+# Imported translations (automatically generated from CSV files)
+*.translation
+
+# Mono-specific ignores
+.mono/
+data_*/
+mono_crash.*.json
+
+# Mac
+.DS_Store
+
+# VSCode
+.vscode

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://x8f43uks0evr"
+path="res://.godot/imported/icon_war_hook.aseprite-c3d4ada7a140a699cf24d7d57c086961.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_war_hook.aseprite"
+dest_files=["res://.godot/imported/icon_war_hook.aseprite-c3d4ada7a140a699cf24d7d57c086961.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

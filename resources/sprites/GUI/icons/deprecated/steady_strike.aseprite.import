@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cuw4ktdai0hdw"
+path="res://.godot/imported/steady_strike.aseprite-f86ceaf3d6112f4dac0479ec239cbcd3.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/steady_strike.aseprite"
+dest_files=["res://.godot/imported/steady_strike.aseprite-f86ceaf3d6112f4dac0479ec239cbcd3.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

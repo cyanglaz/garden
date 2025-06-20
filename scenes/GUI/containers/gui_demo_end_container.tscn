@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://dwbe22qnprdsj"]
+
+[ext_resource type="PackedScene" uid="uid://c7axrk5wwb6ab" path="res://scenes/GUI/containers/gui_popup_container.tscn" id="1_txyte"]
+[ext_resource type="Script" uid="uid://c2isiwmn3oaod" path="res://scenes/GUI/containers/gui_demo_end_container.gd" id="2_crv6p"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="3_msx48"]
+
+[node name="GUIDemoEndContainer" instance=ExtResource("1_txyte")]
+process_mode = 3
+offset_left = -78.0
+offset_top = -71.0
+offset_right = 78.0
+offset_bottom = 71.0
+script = ExtResource("2_crv6p")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Background/NinePatchRect/MarginContainer" index="0"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Background/NinePatchRect/MarginContainer/VBoxContainer" index="0"]
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "You Beat The Demo!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="VBoxContainer/Background/NinePatchRect/MarginContainer/VBoxContainer" index="1"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Thank you for playing."
+horizontal_alignment = 1
+
+[node name="OKButton" parent="VBoxContainer/Background/NinePatchRect/MarginContainer/VBoxContainer" index="2" instance=ExtResource("3_msx48")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+localization_text_key = "ACTION_BACK_TO_MENU"

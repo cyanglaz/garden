@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://drka3kpflyqg6"
+path="res://.godot/imported/push_line.aseprite-3e82ec6cb96c598339d88628860b5ab0.res"
+
+[deps]
+
+source_file="res://resources/sprites/push_line.aseprite"
+dest_files=["res://.godot/imported/push_line.aseprite-3e82ec6cb96c598339d88628860b5ab0.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

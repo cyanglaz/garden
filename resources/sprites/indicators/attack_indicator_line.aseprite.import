@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dx1wmq6mh3mbw"
+path="res://.godot/imported/attack_indicator_line.aseprite-0d330f627608b64a23c702530e525875.res"
+
+[deps]
+
+source_file="res://resources/sprites/indicators/attack_indicator_line.aseprite"
+dest_files=["res://.godot/imported/attack_indicator_line.aseprite-0d330f627608b64a23c702530e525875.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

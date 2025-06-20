@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cisaji8qxvg4c"
+path="res://.godot/imported/level_up.aseprite-4394b9a52b2c930d9dc68cfa49262d7c.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/characters/level_up.aseprite"
+dest_files=["res://.godot/imported/level_up.aseprite-4394b9a52b2c930d9dc68cfa49262d7c.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

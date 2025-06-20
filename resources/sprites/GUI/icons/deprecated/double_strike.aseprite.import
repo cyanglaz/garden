@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bpm62rdux12e5"
+path="res://.godot/imported/double_strike.aseprite-167c5db0807d63996be84ff8d88b2dbc.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/double_strike.aseprite"
+dest_files=["res://.godot/imported/double_strike.aseprite-167c5db0807d63996be84ff8d88b2dbc.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

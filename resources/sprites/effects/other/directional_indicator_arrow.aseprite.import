@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cjjmn8xj1wbda"
+path="res://.godot/imported/directional_indicator_arrow.aseprite-4225b3c5b760e0101afcc93f6ca0cfef.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/other/directional_indicator_arrow.aseprite"
+dest_files=["res://.godot/imported/directional_indicator_arrow.aseprite-4225b3c5b760e0101afcc93f6ca0cfef.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://u1cw7683ovjm"]
+
+[ext_resource type="Script" uid="uid://bpsyp3xojr36t" path="res://scenes/GUI/utils/cost_rich_text.gd" id="1_hs4u6"]
+
+[node name="CostRichText" type="RichTextLabel"]
+custom_minimum_size = Vector2(80, 2.08165e-12)
+offset_right = 80.0
+offset_bottom = 7.0
+theme_type_variation = &"RichTextControlTip"
+bbcode_enabled = true
+text = "Press E to control"
+fit_content = true
+scroll_active = false
+script = ExtResource("1_hs4u6")

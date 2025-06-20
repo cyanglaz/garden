@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://cen5hrqdo76ph"]
+
+[ext_resource type="PackedScene" uid="uid://73vkj3ho7ou5" path="res://scenes/GUI/tooltips/gui_tooltip.tscn" id="1_3l4sg"]
+[ext_resource type="Script" uid="uid://byidb3neh5r2b" path="res://scenes/GUI/tooltips/gui_bingo_ball_tooltip.gd" id="2_wv43b"]
+[ext_resource type="PackedScene" uid="uid://bi37nxb5r17kt" path="res://scenes/GUI/shared/descriptions/gui_ball_description.tscn" id="3_b50fw"]
+[ext_resource type="PackedScene" uid="uid://bfgl40nfjgwpx" path="res://scenes/GUI/shared/descriptions/gui_bingo_ball_description_inner_border.tscn" id="4_n8lo2"]
+
+[node name="GUIBingoBallTooltip" instance=ExtResource("1_3l4sg")]
+script = ExtResource("2_wv43b")
+
+[node name="GUIPanelBackgroundColor" parent="." index="0"]
+unique_name_in_owner = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ContentContainer" index="0"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="GUIBallDescription" parent="ContentContainer/VBoxContainer" index="0" instance=ExtResource("3_b50fw")]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="GUIBingoBallDescriptionInnerBorder" parent="." index="3" instance=ExtResource("4_n8lo2")]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2

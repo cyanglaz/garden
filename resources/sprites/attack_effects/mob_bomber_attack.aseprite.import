@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cct4l5ujpnisc"
+path="res://.godot/imported/mob_bomber_attack.aseprite-bd18e31f525b3c7fc43bc5129389742c.res"
+
+[deps]
+
+source_file="res://resources/sprites/attack_effects/mob_bomber_attack.aseprite"
+dest_files=["res://.godot/imported/mob_bomber_attack.aseprite-bd18e31f525b3c7fc43bc5129389742c.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c47mv4jtrmyps"
+path="res://.godot/imported/icon_light_shield.aseprite-e47f3aefdeb6a7ff6f378efa694dc80f.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_light_shield.aseprite"
+dest_files=["res://.godot/imported/icon_light_shield.aseprite-e47f3aefdeb6a7ff6f378efa694dc80f.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

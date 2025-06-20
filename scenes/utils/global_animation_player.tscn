@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6h3a2qqt3icr"]
+
+[sub_resource type="GDScript" id="GDScript_t4ix3"]
+script/source = "class_name GlobalAnimationPlayer
+extends Node
+
+
+"
+
+[node name="GlobalAnimationPlayer" type="Node" groups=["global_animation_player"]]
+script = SubResource("GDScript_t4ix3")

@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://ca3rg6d6nk2f3"]
+
+[ext_resource type="PackedScene" uid="uid://73vkj3ho7ou5" path="res://scenes/GUI/tooltips/gui_tooltip.tscn" id="1_eq0yb"]
+[ext_resource type="Script" uid="uid://c2depsb25ltph" path="res://scenes/GUI/tooltips/gui_bingo_ball_symbol_tooltip.gd" id="2_kcpex"]
+[ext_resource type="PackedScene" uid="uid://dosx738vw5hqt" path="res://scenes/GUI/shared/descriptions/gui_ball_symbol_description.tscn" id="3_emtkp"]
+
+[node name="GUIBingoBallSymbolTooltip" instance=ExtResource("1_eq0yb")]
+script = ExtResource("2_kcpex")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ContentContainer" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="GUIBallSymbolDescription" parent="ContentContainer" index="1" instance=ExtResource("3_emtkp")]
+unique_name_in_owner = true
+layout_mode = 2

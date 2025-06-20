@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bh84ng3t1yg4l"
+path="res://.godot/imported/turtle.aseprite-15bc09c1b4c98c0ec0f88bc2253472ca.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/turtle.aseprite"
+dest_files=["res://.godot/imported/turtle.aseprite-15bc09c1b4c98c0ec0f88bc2253472ca.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

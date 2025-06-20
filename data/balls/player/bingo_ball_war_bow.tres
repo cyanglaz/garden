@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="BingoBallData" load_steps=2 format=3 uid="uid://bts2givpsc2uv"]
+
+[ext_resource type="Script" uid="uid://dlus7fsh3enbg" path="res://data/models/bingo/bingo_ball_data.gd" id="1_h6al2"]
+
+[resource]
+script = ExtResource("1_h6al2")
+damage = 6
+rarity = 0
+type = 1
+trigger_times = 1
+attack_ball_count = 1
+placement_rule = 6
+placement_rule_values = []
+special_rules = Array[int]([])
+id = "war_bow"
+display_name = "War Bow"
+description = "Deal +{dmg} damage for each empty space{spaces} directly above it."
+data = {
+"dmg": "5"
+}

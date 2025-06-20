@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cspbvx25sas5"
+path="res://.godot/imported/mage_tower_fireball_attack.aseprite-0c947e0d933e0c4b1dfd5716679884ce.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/actions/mage_tower_fireball_attack.aseprite"
+dest_files=["res://.godot/imported/mage_tower_fireball_attack.aseprite-0c947e0d933e0c4b1dfd5716679884ce.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

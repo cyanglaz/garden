@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://uqkferuitmro"
+path="res://.godot/imported/disable.aseprite-b28a8a2fbb9291abc35274f56a379b77.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/disable.aseprite"
+dest_files=["res://.godot/imported/disable.aseprite-b28a8a2fbb9291abc35274f56a379b77.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

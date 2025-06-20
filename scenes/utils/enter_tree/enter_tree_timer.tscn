@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://xaaydqqxbdjo"]
+
+[ext_resource type="Script" uid="uid://dwi5xt38dm7hg" path="res://scenes/utils/enter_tree/enter_tree_timer.gd" id="1_8lkb4"]
+
+[node name="EnterTreeTimer" type="Timer"]
+script = ExtResource("1_8lkb4")

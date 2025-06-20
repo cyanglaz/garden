@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://up26qcvdtnlu"
+path="res://.godot/imported/quick_draw.aseprite-9fef0087375bb2ae64a519ba04e7068e.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/quick_draw.aseprite"
+dest_files=["res://.godot/imported/quick_draw.aseprite-9fef0087375bb2ae64a519ba04e7068e.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

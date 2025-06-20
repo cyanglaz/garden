@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c7o3ts3a2cfac"
+path="res://.godot/imported/undo_button.aseprite-9e7c3abb21e6d519d59b59bfa34a252f.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/undo_button.aseprite"
+dest_files=["res://.godot/imported/undo_button.aseprite-9e7c3abb21e6d519d59b59bfa34a252f.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true

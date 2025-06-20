@@ -1,0 +1,74 @@
+[gd_scene load_steps=5 format=3 uid="uid://dnjx0caalngeh"]
+
+[ext_resource type="Script" uid="uid://porw0he4ots2" path="res://scenes/effects/animated_sprite_action_effect.gd" id="1_b4fu0"]
+
+[sub_resource type="Animation" id="Animation_2f3vf"]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [2, 3, 4, 5, 6]
+}
+
+[sub_resource type="Animation" id="Animation_hh76i"]
+length = 0.14
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.07),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qwsw4"]
+_data = {
+&"end": SubResource("Animation_2f3vf"),
+&"start": SubResource("Animation_hh76i")
+}
+
+[node name="AnimatedSpriteActionEffect" type="Node2D"]
+script = ExtResource("1_b4fu0")
+
+[node name="Audio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+volume_db = 5.0
+bus = &"SFX"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"i_mode": -1,
+"keep_anim_length": false,
+"layer": "",
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/attack_effects/",
+"o_name": "",
+"only_visible": true,
+"player": "AnimationPlayer",
+"slice": "",
+"source": "res://resources/sprites/attack_effects/bomb_tower_bomb_attack.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "a147107eef6b87d745c788db65446624"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_qwsw4")
+}

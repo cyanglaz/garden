@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://e644ehplff3s"
+path="res://.godot/imported/ricochet.aseprite-ba32082d56b7289105d298e3859d5e19.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/ricochet.aseprite"
+dest_files=["res://.godot/imported/ricochet.aseprite-ba32082d56b7289105d298e3859d5e19.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="PlayerData" load_steps=4 format=3 uid="uid://cs84xfj8b2y3x"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_c14em"]
+[ext_resource type="Script" uid="uid://dlus7fsh3enbg" path="res://data/models/bingo/bingo_ball_data.gd" id="2_m5p6q"]
+[ext_resource type="Script" uid="uid://ccpra3wlpuhlb" path="res://data/models/character/player_data.gd" id="3_s6aqb"]
+
+[resource]
+script = ExtResource("3_s6aqb")
+actions = Array[ExtResource("1_c14em")]([])
+max_powers = 5
+max_energy = 3
+draw_count = 4
+max_hp = 0
+initial_balls = Array[ExtResource("2_m5p6q")]([])
+id = ""
+display_name = ""
+description = ""
+data = {}
+metadata/_custom_type_script = "uid://ccpra3wlpuhlb"

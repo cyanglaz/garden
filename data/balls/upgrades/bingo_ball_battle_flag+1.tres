@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="BingoBallData" load_steps=2 format=3 uid="uid://bxysc8rxlt6td"]
+
+[ext_resource type="Script" uid="uid://dlus7fsh3enbg" path="res://data/models/bingo/bingo_ball_data.gd" id="1_otx8b"]
+
+[resource]
+script = ExtResource("1_otx8b")
+damage = 0
+rarity = 1
+type = 0
+trigger_times = 1
+attack_ball_count = 1
+placement_rule = 0
+placement_rule_values = []
+special_rules = Array[int]([])
+plus_damage = 0
+plus_trigger_times = 0
+plus_placement_rule = -1
+plus_placement_rule_values = []
+plus_special_rules = Array[int]([])
+plus_description = ""
+plus_data = {}
+id = "battle_flag+1"
+display_name = "Battle Flag"
+description = "As long as this symbol is on the board, apply {stack} {icon_space_effect_strength} to spaces in the same column."
+data = {
+&"stack": "2"
+}

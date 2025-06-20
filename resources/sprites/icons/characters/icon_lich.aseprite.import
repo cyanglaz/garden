@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dr2xjigpnl7lq"
+path="res://.godot/imported/icon_lich.aseprite-13b83eba4bedba7ea9c21f7e3ce91946.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/characters/icon_lich.aseprite"
+dest_files=["res://.godot/imported/icon_lich.aseprite-13b83eba4bedba7ea9c21f7e3ce91946.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

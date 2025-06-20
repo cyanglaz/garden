@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://382bindkg18e"]
+
+[ext_resource type="Texture2D" uid="uid://gmokt73gbwwc" path="res://resources/sprites/GUI/shared/progress_bar_fill.png" id="1_i4pto"]
+[ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="2_p7rp7"]
+[ext_resource type="Script" uid="uid://dyw1e72xuva63" path="res://scenes/GUI/utils/gui_progress_bar.gd" id="3_uepjw"]
+
+[node name="GUIRoundCornerProgressBar" type="TextureProgressBar"]
+offset_left = 1.0
+offset_right = 130.0
+offset_bottom = 6.0
+pivot_offset = Vector2(2.08165e-12, 2.08165e-12)
+step = 2.08165e-12
+nine_patch_stretch = true
+stretch_margin_left = 3
+stretch_margin_top = 3
+stretch_margin_right = 3
+stretch_margin_bottom = 3
+texture_under = ExtResource("1_i4pto")
+texture_over = ExtResource("2_p7rp7")
+texture_progress = ExtResource("1_i4pto")
+tint_over = Color(0.0745098, 0.0745098, 0.0745098, 1)
+tint_progress = Color(0.219608, 0.34902, 0.701961, 1)
+script = ExtResource("3_uepjw")

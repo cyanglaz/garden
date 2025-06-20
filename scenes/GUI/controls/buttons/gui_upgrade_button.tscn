@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=3 uid="uid://dkwbv5lr4pvv4"]
+
+[ext_resource type="PackedScene" uid="uid://durwieo6scb" path="res://scenes/GUI/controls/buttons/gui_icon_button.tscn" id="1_7nrw1"]
+[ext_resource type="Texture2D" uid="uid://jxlsrirkgjcb" path="res://resources/sprites/GUI/icons/controls/input_icons.png" id="3_4kvn0"]
+[ext_resource type="Texture2D" uid="uid://djhije0vwgctu" path="res://resources/sprites/GUI/theme/upgrade_button_border.png" id="3_d0vpr"]
+
+[sub_resource type="GDScript" id="GDScript_u608t"]
+script/source = "class_name GUIUpgradeButton
+extends GUIIconButton
+
+const ICON_TEXTURE_PREFIX := \"res://resources/sprites/GUI/icons/character_upgrades/\"
+
+var _weak_upgrade_data:WeakRef
+var _weak_upgrade_tooltip:WeakRef
+
+func _on_mouse_entered():
+	_weak_upgrade_tooltip = weakref(Util.display_character_upgrade_tooltip(_weak_upgrade_data.get_ref(), self, GUITooltip.TooltipPosition.TOP, true))
+	super._on_mouse_entered()
+	
+func _on_mouse_exited():
+	if _weak_upgrade_tooltip && _weak_upgrade_tooltip.get_ref():
+		_weak_upgrade_tooltip.get_ref().queue_free()
+	super._on_mouse_exited()
+
+func bind_upgrade_data(upgrade_data:CharacterUpgradeData) -> void:
+	_weak_upgrade_data = weakref(upgrade_data)
+	var path := str(ICON_TEXTURE_PREFIX, upgrade_data.id, \".png\")
+	if ResourceLoader.exists(path):
+		button_icon = load(path)
+	if Singletons.game_session.gold_deposit.get_count() < upgrade_data.cost:
+		button_state = ButtonState.DISABLED
+	else:
+		button_state = ButtonState.NORMAL
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8cyl6"]
+resource_local_to_scene = true
+atlas = ExtResource("3_4kvn0")
+region = Rect2(272, 16, 16, 16)
+
+[node name="GUIUpgradeButton" instance=ExtResource("1_7nrw1")]
+custom_minimum_size = Vector2(0, 0)
+size_flags_horizontal = 4
+size_flags_vertical = 8
+script = SubResource("GDScript_u608t")
+
+[node name="HighlightContainer" parent="." index="0"]
+visible = false
+
+[node name="Border" parent="." index="1"]
+texture = ExtResource("3_d0vpr")
+
+[node name="ShortCutContainer" parent="." index="3"]
+visible = false
+
+[node name="ShortcutIcon" parent="ShortCutContainer" index="0"]
+texture = SubResource("AtlasTexture_8cyl6")

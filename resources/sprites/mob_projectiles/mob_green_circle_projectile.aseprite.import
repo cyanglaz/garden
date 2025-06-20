@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dh5fofrkqsnuc"
+path="res://.godot/imported/mob_green_circle_projectile.aseprite-f9816385e55c3b5158b0e537ad9cc7e8.res"
+
+[deps]
+
+source_file="res://resources/sprites/mob_projectiles/mob_green_circle_projectile.aseprite"
+dest_files=["res://.godot/imported/mob_green_circle_projectile.aseprite-f9816385e55c3b5158b0e537ad9cc7e8.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

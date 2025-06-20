@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://h8870c8cu0vu"
+path="res://.godot/imported/reprisal.aseprite-41a68f256bf768cbff335af0b627f5e9.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/reprisal.aseprite"
+dest_files=["res://.godot/imported/reprisal.aseprite-41a68f256bf768cbff335af0b627f5e9.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

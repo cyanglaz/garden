@@ -1,0 +1,78 @@
+[gd_scene load_steps=8 format=3 uid="uid://cvmna3bw2ld73"]
+
+[ext_resource type="Script" uid="uid://b2qj2kex5auyt" path="res://scenes/utils/sprites/highlightable_sprite.gd" id="3_iqorc"]
+[ext_resource type="Script" uid="uid://cj4mdoj7erf8g" path="res://scenes/utils/animation_player/enter_tree_animation_player.gd" id="4_3y8da"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ff3id"]
+resource_local_to_scene = true
+
+[sub_resource type="Animation" id="Animation_41k7v"]
+length = 0.001
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_826k1"]
+resource_name = "scale"
+length = 0.2
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.8, 1), Vector2(1, 0.9)]
+}
+
+[sub_resource type="Animation" id="Animation_iln5e"]
+resource_name = "uniform_scale"
+length = 0.2
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_aivak"]
+_data = {
+&"RESET": SubResource("Animation_41k7v"),
+&"scale": SubResource("Animation_826k1"),
+&"uniform_scale": SubResource("Animation_iln5e")
+}
+
+[node name="HighlightableSprite" type="Sprite2D"]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_ff3id")
+position = Vector2(2.08165e-12, 2.08165e-12)
+region_rect = Rect2(2.08165e-12, 2.08165e-12, 6, 12)
+script = ExtResource("3_iqorc")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_aivak")
+}
+script = ExtResource("4_3y8da")
+animation = "scale"

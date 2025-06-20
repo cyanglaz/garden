@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=3 uid="uid://du6grehdsbu4x"]
+
+[ext_resource type="Script" uid="uid://bkgojae614645" path="res://scenes/GUI/overlay_main/upgrades/gui_card_reward_main.gd" id="1_1xv3p"]
+[ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="2_3qnxb"]
+[ext_resource type="PackedScene" uid="uid://vyd5g82f347q" path="res://scenes/GUI/utils/main_margin_container.tscn" id="3_pr860"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="4_fa0kh"]
+[ext_resource type="AudioStream" uid="uid://cskg7bk3x43q0" path="res://resources/sounds/SFX/bingo/energy_full.wav" id="5_asmhn"]
+
+[node name="GUICardRewardMain" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1xv3p")
+
+[node name="GUIOverlayBackground" parent="." instance=ExtResource("2_3qnxb")]
+layout_mode = 2
+color = Color(0.878431, 0.454902, 0.219608, 1)
+
+[node name="MainMarginContainer" parent="." instance=ExtResource("3_pr860")]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMarginContainer/Container" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopContainer" type="HBoxContainer" parent="MainMarginContainer/Container/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MainMarginContainer/Container/VBoxContainer/TopContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"HeaderMedium"
+text = "Choose A Card!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CardsContainer" type="HBoxContainer" parent="MainMarginContainer/Container/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="MainMarginContainer/Container/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="SkipButton" parent="MainMarginContainer/Container/VBoxContainer/ButtonsContainer" instance=ExtResource("4_fa0kh")]
+unique_name_in_owner = true
+layout_mode = 2
+localization_text_key = "ACTION_SKIP"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("5_asmhn")
+bus = &"SFX"
+
+[editable path="MainMarginContainer"]

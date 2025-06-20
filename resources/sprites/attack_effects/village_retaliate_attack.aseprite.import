@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dowl47pccehl1"
+path="res://.godot/imported/village_retaliate_attack.aseprite-4ba8d32350145c9eb2db387d8fdf8e95.res"
+
+[deps]
+
+source_file="res://resources/sprites/attack_effects/village_retaliate_attack.aseprite"
+dest_files=["res://.godot/imported/village_retaliate_attack.aseprite-4ba8d32350145c9eb2db387d8fdf8e95.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

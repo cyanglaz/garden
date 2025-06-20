@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://15xh5wgpes8l"
+path="res://.godot/imported/player_ghost.aseprite-5e565eeda7906358b2529e30666e31a9.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/characters/player_ghost.aseprite"
+dest_files=["res://.godot/imported/player_ghost.aseprite-5e565eeda7906358b2529e30666e31a9.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dq2ksex56t8k1"
+path="res://.godot/imported/heavy_suit.aseprite-f808c4fed43d3175ebd8350ce4180e58.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/items/heavy_suit.aseprite"
+dest_files=["res://.godot/imported/heavy_suit.aseprite-f808c4fed43d3175ebd8350ce4180e58.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

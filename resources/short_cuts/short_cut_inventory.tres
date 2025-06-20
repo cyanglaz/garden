@@ -1,0 +1,8 @@
+[gd_resource type="Shortcut" load_steps=2 format=3 uid="uid://dmb5m4mxioaqj"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_x02n4"]
+action = &"inventory"
+pressed = true
+
+[resource]
+events = [SubResource("InputEventAction_x02n4")]

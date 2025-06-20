@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://pf1jnwxpcjdu"
+path="res://.godot/imported/artillery_attack_indicator_to.aseprite-3c5136448e313396a07ac2e6129ce405.res"
+
+[deps]
+
+source_file="res://resources/sprites/indicators/artillery_attack_indicator_to.aseprite"
+dest_files=["res://.godot/imported/artillery_attack_indicator_to.aseprite-3c5136448e313396a07ac2e6129ce405.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

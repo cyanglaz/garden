@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://chtlf7k8125dy"
+path="res://.godot/imported/traveler.aseprite-c10cc81cdd89653af97e73caec558c63.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/player/traveler.aseprite"
+dest_files=["res://.godot/imported/traveler.aseprite-c10cc81cdd89653af97e73caec558c63.res"]
+
+[params]
+

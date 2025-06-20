@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://d2d5euw2yh1eh"
+path="res://.godot/imported/dire_wolf.aseprite-88ba9c88ffaf81723f11e4a47f1960aa.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/dire_wolf.aseprite"
+dest_files=["res://.godot/imported/dire_wolf.aseprite-88ba9c88ffaf81723f11e4a47f1960aa.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

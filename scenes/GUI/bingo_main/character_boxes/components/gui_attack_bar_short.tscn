@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://bnpfnfftgq81q"]
+
+[ext_resource type="PackedScene" uid="uid://c48w510korjwr" path="res://scenes/GUI/bingo_main/character_boxes/components/gui_rp_bar.tscn" id="1_gjhe1"]
+[ext_resource type="Script" uid="uid://cnnqrr6xuf28h" path="res://scenes/GUI/bingo_main/character_boxes/components/gui_attack_bar_short.gd" id="2_gjhe1"]
+[ext_resource type="PackedScene" uid="uid://lqyrsed1ptvb" path="res://scenes/GUI/bingo_main/character_boxes/components/gui_attack_icon.tscn" id="3_yob1p"]
+
+[node name="GUIAttackBarShort" instance=ExtResource("1_gjhe1")]
+offset_right = 67.0
+offset_bottom = 10.0
+size_flags_horizontal = 10
+script = ExtResource("2_gjhe1")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." index="0"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="GUIAttackIcon" parent="VBoxContainer" index="0" instance=ExtResource("3_yob1p")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="UnderLabel" type="Label" parent="VBoxContainer" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD_small"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Bar" parent="." index="1"]
+unique_name_in_owner = true
+visible = false
+
+[node name="RPBar" parent="Bar" index="0"]
+size_flags_horizontal = 1
+size_flags_vertical = 4
+
+[node name="Label" parent="Bar/MarginContainer" index="0"]
+text = "2/10"

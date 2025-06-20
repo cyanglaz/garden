@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bvu4j5dhlef1j"
+path="res://.godot/imported/last_blood.aseprite-022b89c9a641214f840af15c091f719d.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/last_blood.aseprite"
+dest_files=["res://.godot/imported/last_blood.aseprite-022b89c9a641214f840af15c091f719d.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

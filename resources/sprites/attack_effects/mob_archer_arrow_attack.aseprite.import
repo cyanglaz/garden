@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cqwjvop68kls1"
+path="res://.godot/imported/mob_archer_arrow_attack.aseprite-0df515bd2c3095920154d86ffa8d7c1a.res"
+
+[deps]
+
+source_file="res://resources/sprites/attack_effects/mob_archer_arrow_attack.aseprite"
+dest_files=["res://.godot/imported/mob_archer_arrow_attack.aseprite-0df515bd2c3095920154d86ffa8d7c1a.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

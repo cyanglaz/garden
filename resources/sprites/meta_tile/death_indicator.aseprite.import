@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dq1r5v8klemtk"
+path="res://.godot/imported/death_indicator.aseprite-0d318641543fa6297d199ac71cfb128d.res"
+
+[deps]
+
+source_file="res://resources/sprites/meta_tile/death_indicator.aseprite"
+dest_files=["res://.godot/imported/death_indicator.aseprite-0d318641543fa6297d199ac71cfb128d.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bh3ayoan0vbqs"
+path="res://.godot/imported/ring_of_prosperity.aseprite-9770e3bf20eef4ffca766bb7617be538.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/items/ring_of_prosperity.aseprite"
+dest_files=["res://.godot/imported/ring_of_prosperity.aseprite-9770e3bf20eef4ffca766bb7617be538.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

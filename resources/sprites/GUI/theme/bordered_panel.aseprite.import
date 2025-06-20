@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bf2gwju5qsmdc"
+path="res://.godot/imported/bordered_panel.aseprite-54337d8b974558d52b5d20f6e06a43e8.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/theme/bordered_panel.aseprite"
+dest_files=["res://.godot/imported/bordered_panel.aseprite-54337d8b974558d52b5d20f6e06a43e8.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

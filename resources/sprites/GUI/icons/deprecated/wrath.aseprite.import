@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bwjlfg1ydwcxo"
+path="res://.godot/imported/wrath.aseprite-1c26d686404b98d11dca3f859d1669db.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/wrath.aseprite"
+dest_files=["res://.godot/imported/wrath.aseprite-1c26d686404b98d11dca3f859d1669db.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

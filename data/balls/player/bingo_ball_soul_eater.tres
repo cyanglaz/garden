@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="BingoBallData" load_steps=3 format=3 uid="uid://x4utrbdbc71k"]
+
+[ext_resource type="Script" uid="uid://c0yamweoq8d5u" path="res://data/models/status_effect/status_effect_data.gd" id="1_suk8d"]
+[ext_resource type="Script" uid="uid://dlus7fsh3enbg" path="res://data/models/bingo/bingo_ball_data.gd" id="2_6hdf6"]
+
+[resource]
+script = ExtResource("2_6hdf6")
+damage = 12
+rarity = 2
+type = 1
+attack_ball_count = 1
+placement_rule = 0
+placement_rule_values = []
+status_effect_datas = Array[ExtResource("1_suk8d")]([])
+status_effect_stacks = Array[int]([])
+special_rules = Array[int]([])
+plus_damage = 0
+plus_placement_rule = -1
+plus_placement_rule_values = []
+plus_status_effect_datas = Array[ExtResource("1_suk8d")]([])
+plus_status_effect_stacks = Array[int]([])
+plus_special_rules = Array[int]([])
+plus_description = ""
+plus_data = {
+&"dmg": "8"
+}
+id = "soul_eater"
+display_name = "Soul Eater"
+description = "When placed on board, immediately remove all enemy symbols in the same row.
+For each symbol removed, deal +{dmg}{total} dmg."
+data = {
+&"dmg": "6"
+}

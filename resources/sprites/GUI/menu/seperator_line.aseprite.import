@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://pwcyy6x7ihw3"
+path="res://.godot/imported/seperator_line.aseprite-303fe61c91195ec9bae96d6726b81e92.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/menu/seperator_line.aseprite"
+dest_files=["res://.godot/imported/seperator_line.aseprite-303fe61c91195ec9bae96d6726b81e92.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true

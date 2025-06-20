@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://1xg38fdwlcpj"
+path="res://.godot/imported/gold_gen_up_1.aseprite-f43af4b60048b78e3103c20a68e20516.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/character_upgrades/gold_gen_up_1.aseprite"
+dest_files=["res://.godot/imported/gold_gen_up_1.aseprite-f43af4b60048b78e3103c20a68e20516.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

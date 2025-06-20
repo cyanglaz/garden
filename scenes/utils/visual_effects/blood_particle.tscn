@@ -1,0 +1,36 @@
+[gd_scene load_steps=8 format=3 uid="uid://d3fjmb0wtpgby"]
+
+[ext_resource type="Texture2D" uid="uid://dg8kxbdj5ptm1" path="res://resources/sprites/effects/particles/particle_3.png" id="1_vur6d"]
+[ext_resource type="Script" uid="uid://bbqu57pfod3o2" path="res://scenes/utils/visual_effects/one_shot_particle.gd" id="2_mc0sk"]
+[ext_resource type="PackedScene" uid="uid://dj2gfcavp3n61" path="res://scenes/utils/enter_tree/enter_tree_audio_player.tscn" id="3_e7yhy"]
+[ext_resource type="AudioStream" uid="uid://bjyi12p14uq8w" path="res://resources/sounds/SFX/mob/mob_hurt.wav" id="4_d60wn"]
+
+[sub_resource type="Gradient" id="Gradient_qpg2d"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.917647, 0.196078, 0.235294, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_y2gdj"]
+gradient = SubResource("Gradient_qpg2d")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hnmw0"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 78.177
+initial_velocity_max = 50.0
+gravity = Vector3(0, 98, 0)
+color_initial_ramp = SubResource("GradientTexture1D_y2gdj")
+
+[node name="BloodParticle" type="GPUParticles2D"]
+z_index = 20
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_hnmw0")
+texture = ExtResource("1_vur6d")
+lifetime = 0.4
+explosiveness = 1.0
+local_coords = true
+script = ExtResource("2_mc0sk")
+
+[node name="EnterTreeAudioPlayer" parent="." instance=ExtResource("3_e7yhy")]
+stream = ExtResource("4_d60wn")
+volume_db = 5.0

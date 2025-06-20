@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://nuvtgiaom6d7"
+path="res://.godot/imported/trash_wolf.aseprite-978cca50c08fc8602ad54d7e5dc5df33.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/mobs/trash_wolf.aseprite"
+dest_files=["res://.godot/imported/trash_wolf.aseprite-978cca50c08fc8602ad54d7e5dc5df33.res"]
+
+[params]
+

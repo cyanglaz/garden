@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dkn1164fmnsgo"
+path="res://.godot/imported/speed_surge.aseprite-7899f0bd262a34cacbe393e0129280b2.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/speed_surge.aseprite"
+dest_files=["res://.godot/imported/speed_surge.aseprite-7899f0bd262a34cacbe393e0129280b2.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

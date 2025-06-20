@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://diib30yeu4c4m"
+path="res://.godot/imported/player_scientist_protrait.aseprite-21286e1581557a97ad46100d7bbbdace.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/player_protraits/player_scientist_protrait.aseprite"
+dest_files=["res://.godot/imported/player_scientist_protrait.aseprite-21286e1581557a97ad46100d7bbbdace.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

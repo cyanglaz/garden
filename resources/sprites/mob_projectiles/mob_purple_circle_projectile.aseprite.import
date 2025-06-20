@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dllcf1yhdtnpk"
+path="res://.godot/imported/mob_purple_circle_projectile.aseprite-e34b7278a12a1e506cdaa710c59cf2e1.res"
+
+[deps]
+
+source_file="res://resources/sprites/mob_projectiles/mob_purple_circle_projectile.aseprite"
+dest_files=["res://.godot/imported/mob_purple_circle_projectile.aseprite-e34b7278a12a1e506cdaa710c59cf2e1.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dx6aapi1xl4ws"
+path="res://.godot/imported/feline.aseprite-9b2ccfe38eb135433fcda91ef7803184.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/module_types/feline.aseprite"
+dest_files=["res://.godot/imported/feline.aseprite-9b2ccfe38eb135433fcda91ef7803184.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

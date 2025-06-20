@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dn6iv2xqqclvl"
+path="res://.godot/imported/heavy_strike.aseprite-ae6a12d2e074fb9d4d3fc997021c69d9.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/heavy_strike.aseprite"
+dest_files=["res://.godot/imported/heavy_strike.aseprite-ae6a12d2e074fb9d4d3fc997021c69d9.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

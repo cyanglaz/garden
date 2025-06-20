@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://decpkqk5udtf8"
+path="res://.godot/imported/short_cut_1.aseprite-c4db6ef1291c890b89710168c015f97b.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/shortcuts/short_cut_1.aseprite"
+dest_files=["res://.godot/imported/short_cut_1.aseprite-c4db6ef1291c890b89710168c015f97b.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

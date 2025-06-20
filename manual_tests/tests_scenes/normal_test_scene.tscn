@@ -1,0 +1,125 @@
+[gd_scene load_steps=17 format=3 uid="uid://berohshjcxobv"]
+
+[ext_resource type="Shader" uid="uid://ceau44omv0g7g" path="res://manual_tests/tests_scenes/sprite_explosion.gdshader" id="4_4shjd"]
+[ext_resource type="Texture2D" uid="uid://tvbkpdpoekuv" path="res://resources/sprites/white_pixel.png" id="5_n7iei"]
+
+[sub_resource type="Curve" id="Curve_4r03k"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.501681, 0.737921), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6vecp"]
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uklot"]
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lk685"]
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jpvw6"]
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fgs3k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6vecp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uklot")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lk685")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jpvw6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_2xp1i"]
+metadata/__load_path__ = "res://scenes/character/player/upgrades/abilities/effects/distortion_rect.tscn"
+
+[sub_resource type="Resource" id="Resource_qmfdb"]
+metadata/__load_path__ = "res://scenes/attacks/projectiles/player_projectiles/boomerang_projectile.tscn"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jkum2"]
+shader = ExtResource("4_4shjd")
+shader_parameter/progress = 0.17
+shader_parameter/sprite_scale_begin = 1.0
+shader_parameter/sprite_scale_end = 1.0
+shader_parameter/particle_scale_begin = 1.0
+shader_parameter/particle_scale_end = 0.948
+
+[sub_resource type="Resource" id="Resource_gbuia"]
+metadata/__load_path__ = "res://scenes/utils/visual_effects/sprite_explosion_particle_emitter.tscn"
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_gry46"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_r8kic"]
+noise = SubResource("FastNoiseLite_gry46")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aot3w"]
+shader = ExtResource("4_4shjd")
+shader_parameter/progress = 0.552
+shader_parameter/sprite_scale_begin = 0.967
+shader_parameter/sprite_scale_end = 1.773
+shader_parameter/particle_scale_begin = 2.892
+shader_parameter/particle_scale_end = 5.0
+shader_parameter/dissolve_texture = SubResource("NoiseTexture2D_r8kic")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vlrhs"]
+particle_flag_disable_z = true
+direction = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
+spread = 180.0
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+gravity = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.0
+
+[node name="NormalTestScene" type="Node2D"]
+
+[node name="Line2D" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(18, 18, 52, 50, 84, 18)
+width = 3.0
+width_curve = SubResource("Curve_4r03k")
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(48, 19)
+sprite_frames = SubResource("SpriteFrames_fgs3k")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(37, 18)
+sprite_frames = SubResource("SpriteFrames_fgs3k")
+
+[node name="DistortionRect" parent="AnimatedSprite2D"]
+visible = false
+offset_left = -24.0
+offset_top = -24.0
+offset_right = -8.0
+offset_bottom = -8.0
+
+[node name="BoomerangProjectile" parent="."]
+visible = false
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_jkum2")
+
+[node name="SpriteExplosionParticleEmitter" parent="."]
+visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_aot3w")
+texture = ExtResource("5_n7iei")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+process_material = SubResource("ParticleProcessMaterial_vlrhs")

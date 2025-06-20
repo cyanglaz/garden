@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bgd8fp4na6i6m"
+path="res://.godot/imported/crystal.aseprite-ed6059f0809d321f6c77c5a699a1968a.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/items/crystal.aseprite"
+dest_files=["res://.godot/imported/crystal.aseprite-ed6059f0809d321f6c77c5a699a1968a.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

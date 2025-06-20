@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cnu03vx564go6"
+path="res://.godot/imported/level_selection_tiles.aseprite-91e014c4bb3a3014a7ad5103e5041cd8.res"
+
+[deps]
+
+source_file="res://resources/sprites/tiles/level_selection_tiles.aseprite"
+dest_files=["res://.godot/imported/level_selection_tiles.aseprite-91e014c4bb3a3014a7ad5103e5041cd8.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true

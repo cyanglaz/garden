@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://lqyrsed1ptvb"]
+
+[ext_resource type="Script" uid="uid://cociw6b67b35o" path="res://scenes/GUI/bingo_main/character_boxes/components/gui_attack_icon.gd" id="1_cti7s"]
+[ext_resource type="PackedScene" uid="uid://drf3tx11kw0i3" path="res://scenes/GUI/bingo_main/draw_box/gui_bingo_ball.tscn" id="2_1vkb0"]
+
+[node name="GUIAttackIcon" type="PanelContainer"]
+offset_right = 10.0
+offset_bottom = 10.0
+script = ExtResource("1_cti7s")
+
+[node name="GUIBingoBall" parent="." instance=ExtResource("2_1vkb0")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+tooltip_position = 4
+warning_tooltip_position = 4
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="AttackCount" type="Label" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -7.0
+offset_right = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_vertical = 8
+theme_type_variation = &"HUD_small"
+horizontal_alignment = 1
+vertical_alignment = 2

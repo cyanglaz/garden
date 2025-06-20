@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dgrh4187bbivq"
+path="res://.godot/imported/wall_tiles.aseprite-f56af6bbf3e73a8ec6d7790bda657582.res"
+
+[deps]
+
+source_file="res://resources/sprites/tiles/wall_tiles.aseprite"
+dest_files=["res://.godot/imported/wall_tiles.aseprite-f56af6bbf3e73a8ec6d7790bda657582.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

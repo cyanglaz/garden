@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c6bnwy7ick4sx"
+path="res://.godot/imported/chapter1_ground.aseprite-2759c3b9f23e166633f5013cab150e5d.res"
+
+[deps]
+
+source_file="res://resources/sprites/tiles/chapter1_ground.aseprite"
+dest_files=["res://.godot/imported/chapter1_ground.aseprite-2759c3b9f23e166633f5013cab150e5d.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

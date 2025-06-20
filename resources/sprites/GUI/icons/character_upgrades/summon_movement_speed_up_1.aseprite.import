@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bobrg720vbwr7"
+path="res://.godot/imported/summon_movement_speed_up_1.aseprite-982dc2d624d73efdc30891565d5e4b6f.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/character_upgrades/summon_movement_speed_up_1.aseprite"
+dest_files=["res://.godot/imported/summon_movement_speed_up_1.aseprite-982dc2d624d73efdc30891565d5e4b6f.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

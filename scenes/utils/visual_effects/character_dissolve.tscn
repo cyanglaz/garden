@@ -1,0 +1,82 @@
+[gd_scene load_steps=8 format=3 uid="uid://cm4hwttsf2mkx"]
+
+[ext_resource type="Script" uid="uid://bulpdwbdi23dp" path="res://scenes/utils/visual_effects/character_dissolve.gd" id="1_svfoa"]
+[ext_resource type="Shader" uid="uid://vsvr5dric8to" path="res://scenes/utils/visual_effects/character_dissolve.gdshader" id="2_l5ro2"]
+[ext_resource type="Texture2D" uid="uid://c0ftrp4uanr6l" path="res://resources/sprites/characters/shadow.png" id="3_6tc25"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_13bl6"]
+resource_local_to_scene = true
+shader = ExtResource("2_l5ro2")
+shader_parameter/progress = 0.0
+shader_parameter/color_change = false
+shader_parameter/color = Color(1, 0, 0.25098, 1)
+
+[sub_resource type="Animation" id="Animation_gx8lp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_yqtml"]
+resource_name = "dissolve"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 0.5),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dxceo"]
+_data = {
+&"RESET": SubResource("Animation_gx8lp"),
+&"dissolve": SubResource("Animation_yqtml")
+}
+
+[node name="CharacterDissolve" type="Node2D"]
+script = ExtResource("1_svfoa")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+material = SubResource("ShaderMaterial_13bl6")
+texture = ExtResource("3_6tc25")
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"i_mode": -1,
+"keep_anim_length": false,
+"layer": "",
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/characters/mobs/",
+"o_name": "",
+"only_visible": true,
+"player": "AnimationPlayer",
+"slice": "",
+"source": "res://resources/sprites/characters/mobs/mob_bomber.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "6d13dd70c13a791d872857b93be03c47"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+root_node = NodePath("../Sprite2D")
+libraries = {
+"": SubResource("AnimationLibrary_dxceo")
+}

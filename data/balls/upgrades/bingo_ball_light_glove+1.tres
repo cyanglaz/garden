@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="BingoBallData" load_steps=2 format=3 uid="uid://jo1ubtijdct"]
+
+[ext_resource type="Script" uid="uid://dlus7fsh3enbg" path="res://data/models/bingo/bingo_ball_data.gd" id="1_ng8v6"]
+
+[resource]
+script = ExtResource("1_ng8v6")
+damage = 0
+rarity = 1
+type = 0
+trigger_times = 1
+attack_ball_count = 1
+placement_rule = 2
+placement_rule_values = [2, 3, 4]
+special_rules = Array[int]([])
+plus_damage = 0
+plus_trigger_times = 0
+plus_placement_rule = -1
+plus_placement_rule_values = []
+plus_special_rules = Array[int]([])
+plus_description = ""
+plus_data = {
+&"dmg": "6"
+}
+id = "light_glove+1"
+display_name = "Light Glove"
+description = "When placed on board, move all other symbols on the same column {grid} space to the left if possible.
+If a Player's {bordered_text:Attack} symbol is successfully moved, that symbol deals + {dmg} damage."
+data = {
+&"dmg": "6",
+"grid": "1"
+}

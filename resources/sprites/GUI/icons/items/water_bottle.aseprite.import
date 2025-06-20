@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://8y08r1rqiew6"
+path="res://.godot/imported/water_bottle.aseprite-6038a4e127f120b09e6dd94e74cded05.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/items/water_bottle.aseprite"
+dest_files=["res://.godot/imported/water_bottle.aseprite-6038a4e127f120b09e6dd94e74cded05.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

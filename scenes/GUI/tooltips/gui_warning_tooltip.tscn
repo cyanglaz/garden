@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2m1cu4lnfurl"]
+
+[ext_resource type="PackedScene" uid="uid://73vkj3ho7ou5" path="res://scenes/GUI/tooltips/gui_tooltip.tscn" id="1_y4x75"]
+[ext_resource type="Script" uid="uid://mpkgqbdp030b" path="res://scenes/GUI/tooltips/gui_warning_tooltip.gd" id="2_2jpms"]
+
+[node name="GUIWarningTooltip" instance=ExtResource("1_y4x75")]
+script = ExtResource("2_2jpms")
+
+[node name="GUIPanelBackgroundColor" parent="." index="0"]
+self_modulate = Color(1, 0.784314, 0.145098, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ContentContainer" index="0"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+theme_type_variation = &"RichTextControlTipSmall"
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1

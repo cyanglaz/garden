@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://clhed4mfvb14"
+path="res://.godot/imported/collision_indicator.aseprite-653b665ba90964c3b85d73aefda7a5c7.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/effects/collision_indicator.aseprite"
+dest_files=["res://.godot/imported/collision_indicator.aseprite-653b665ba90964c3b85d73aefda7a5c7.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

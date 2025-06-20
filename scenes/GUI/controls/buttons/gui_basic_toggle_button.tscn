@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://jonriuwwtur5"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_puocu"]
+[ext_resource type="Script" uid="uid://cxi7xj6amu7t8" path="res://scenes/GUI/controls/buttons/gui_basic_toggle_button.gd" id="2_7wrk0"]
+[ext_resource type="Texture2D" uid="uid://b6x4gxqi581r2" path="res://resources/sprites/GUI/theme/toggle_button.png" id="3_ixia1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jw5r7"]
+atlas = ExtResource("3_ixia1")
+region = Rect2(0, 0, 16, 8)
+
+[node name="GUIBasicToggleButton" instance=ExtResource("1_puocu")]
+custom_minimum_size = Vector2(0, 0)
+offset_right = 19.0
+offset_bottom = 9.0
+script = ExtResource("2_7wrk0")
+localization_text_key = ""
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." index="0"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Label" type="Label" parent="HBoxContainer" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+mouse_filter = 0
+theme_type_variation = &"HUD_mid"
+theme_override_colors/font_color = Color(0.964706, 0.792157, 0.623529, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = SubResource("AtlasTexture_jw5r7")
+stretch_mode = 5

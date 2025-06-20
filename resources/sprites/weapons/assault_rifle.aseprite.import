@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dndfh4ib8vkqe"
+path="res://.godot/imported/assault_rifle.aseprite-76810c4612fc2322be642ed3529bd868.res"
+
+[deps]
+
+source_file="res://resources/sprites/weapons/assault_rifle.aseprite"
+dest_files=["res://.godot/imported/assault_rifle.aseprite-76810c4612fc2322be642ed3529bd868.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

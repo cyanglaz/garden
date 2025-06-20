@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://b6vls2hukeqla"
+path="res://.godot/imported/injured.aseprite-9bd6b03eac7d395fa54557f19894a8d4.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/injured.aseprite"
+dest_files=["res://.godot/imported/injured.aseprite-9bd6b03eac7d395fa54557f19894a8d4.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

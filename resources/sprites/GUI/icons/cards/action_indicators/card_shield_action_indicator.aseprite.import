@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bh8fuk4aty7ay"
+path="res://.godot/imported/card_shield_action_indicator.aseprite-a0ad9f581d76bc8a4a2ad29f242dd3e5.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/cards/action_indicators/card_shield_action_indicator.aseprite"
+dest_files=["res://.godot/imported/card_shield_action_indicator.aseprite-a0ad9f581d76bc8a4a2ad29f242dd3e5.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

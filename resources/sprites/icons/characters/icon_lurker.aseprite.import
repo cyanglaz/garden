@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://108n4ndvhfcb"
+path="res://.godot/imported/icon_lurker.aseprite-363f475f9b8bd3e72a0f8f0bc3b249d0.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/characters/icon_lurker.aseprite"
+dest_files=["res://.godot/imported/icon_lurker.aseprite-363f475f9b8bd3e72a0f8f0bc3b249d0.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

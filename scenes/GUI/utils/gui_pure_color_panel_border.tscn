@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://depjcaa4b3hi1"]
+
+[ext_resource type="Texture2D" uid="uid://dnvmnawp5u5n6" path="res://resources/sprites/GUI/shared/border1.aseprite" id="1_0tinj"]
+
+[node name="GUIPureColorPanelBorder" type="NinePatchRect"]
+texture = ExtResource("1_0tinj")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1

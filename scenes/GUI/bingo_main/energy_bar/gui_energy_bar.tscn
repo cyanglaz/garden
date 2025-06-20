@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://c0f2w7fkapel7"]
+
+[ext_resource type="Script" uid="uid://cymbr3s7qcnn" path="res://scenes/GUI/bingo_main/energy_bar/gui_energy_bar.gd" id="1_e3xo6"]
+[ext_resource type="AudioStream" uid="uid://cskg7bk3x43q0" path="res://resources/sounds/SFX/bingo/energy_full.wav" id="3_0gdjj"]
+[ext_resource type="PackedScene" uid="uid://c48w510korjwr" path="res://scenes/GUI/bingo_main/character_boxes/components/gui_rp_bar.tscn" id="3_a1f5f"]
+[ext_resource type="Texture2D" uid="uid://cxjp5x0atxinj" path="res://resources/sprites/icons/other/icon_energy.png" id="3_bprk0"]
+
+[node name="GUIEnergyBar" type="PanelContainer"]
+offset_right = 13.0
+offset_bottom = 11.0
+script = ExtResource("1_e3xo6")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("3_bprk0")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="GUIRPBar" parent="HBoxContainer" instance=ExtResource("3_a1f5f")]
+unique_name_in_owner = true
+layout_mode = 2
+progress_color = Color(1, 0.784314, 0.145098, 1)
+under_color = Color(1, 1, 1, 1)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_0gdjj")
+volume_db = 5.0
+bus = &"SFX"

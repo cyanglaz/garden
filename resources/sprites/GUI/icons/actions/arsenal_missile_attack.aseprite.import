@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://babu2c273aqmy"
+path="res://.godot/imported/arsenal_missile_attack.aseprite-a1bb51fad3aaadd50a7ed7da3f610fc8.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/actions/arsenal_missile_attack.aseprite"
+dest_files=["res://.godot/imported/arsenal_missile_attack.aseprite-a1bb51fad3aaadd50a7ed7da3f610fc8.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cf3rhanvcji83"
+path="res://.godot/imported/icon_tackle.aseprite-a817f6fd2c66f2aa49c0c3481d7b026f.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_tackle.aseprite"
+dest_files=["res://.godot/imported/icon_tackle.aseprite-a817f6fd2c66f2aa49c0c3481d7b026f.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bwp76viyouwgf"
+path="res://.godot/imported/border_simple_highlight.aseprite-1ceb6ba82993d2915a459b6211294e84.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/shared/border_simple_highlight.aseprite"
+dest_files=["res://.godot/imported/border_simple_highlight.aseprite-1ceb6ba82993d2915a459b6211294e84.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

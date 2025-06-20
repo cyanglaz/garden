@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cimef6hrr5lpq"
+path="res://.godot/imported/ring_of_shield.aseprite-8512e427baeec12e5e59d6c949e08633.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/ring_of_shield.aseprite"
+dest_files=["res://.godot/imported/ring_of_shield.aseprite-8512e427baeec12e5e59d6c949e08633.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

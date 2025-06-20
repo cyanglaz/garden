@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://d15kone4f7hgi"
+path="res://.godot/imported/arsenal_summon_chopper.aseprite-7ad599ca491506a222daeee6b82a543b.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/actions/arsenal_summon_chopper.aseprite"
+dest_files=["res://.godot/imported/arsenal_summon_chopper.aseprite-7ad599ca491506a222daeee6b82a543b.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

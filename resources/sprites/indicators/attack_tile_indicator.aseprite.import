@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://bupkclian0fti"
+path="res://.godot/imported/attack_tile_indicator.aseprite-aac5543922f451464f8491f8978a9c06.res"
+
+[deps]
+
+source_file="res://resources/sprites/indicators/attack_tile_indicator.aseprite"
+dest_files=["res://.godot/imported/attack_tile_indicator.aseprite-aac5543922f451464f8491f8978a9c06.res"]
+
+[params]
+

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://d0hemytb7wksq"
+path="res://.godot/imported/icon_chill.aseprite-f773e39158dac1e57a3950845c12bed1.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/characters/icon_chill.aseprite"
+dest_files=["res://.godot/imported/icon_chill.aseprite-f773e39158dac1e57a3950845c12bed1.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

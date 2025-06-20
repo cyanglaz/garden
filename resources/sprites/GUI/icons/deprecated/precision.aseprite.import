@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://biet2nvxe046d"
+path="res://.godot/imported/precision.aseprite-57962ee1f31f92eb5e88b25cde7c66b5.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/precision.aseprite"
+dest_files=["res://.godot/imported/precision.aseprite-57962ee1f31f92eb5e88b25cde7c66b5.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://douspbaf6ah1q"]
+
+[ext_resource type="Script" uid="uid://duvfvrg47vjva" path="res://scenes/GUI/bingo_main/draw_box/gui_pile_display.gd" id="1_407kl"]
+[ext_resource type="Texture2D" uid="uid://b0nsc2v1cdqqd" path="res://resources/sprites/GUI/shared/panel_background_simple.png" id="2_lbb0p"]
+[ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="3_lbb0p"]
+
+[node name="GUIDrawPileDisplay" type="PanelContainer"]
+offset_right = 2.0
+offset_bottom = 2.0
+script = ExtResource("1_407kl")
+
+[node name="Background" type="NinePatchRect" parent="."]
+self_modulate = Color(0.521569, 0.521569, 0.521569, 1)
+layout_mode = 2
+texture = ExtResource("2_lbb0p")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="Border" type="NinePatchRect" parent="."]
+self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
+layout_mode = 2
+texture = ExtResource("3_lbb0p")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/ScrollContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer2/ScrollContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 8

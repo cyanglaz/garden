@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dlxbmmnnudked"
+path="res://.godot/imported/player_deploy.aseprite-5a398f3881d5323c89553c65f4e22dfe.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/characters/player_deploy.aseprite"
+dest_files=["res://.godot/imported/player_deploy.aseprite-5a398f3881d5323c89553c65f4e22dfe.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

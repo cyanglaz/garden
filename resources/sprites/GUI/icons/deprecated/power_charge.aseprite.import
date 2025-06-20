@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bgcx6557uw5s7"
+path="res://.godot/imported/power_charge.aseprite-5f124ff1e1207266a3fc87bf1fb49d1a.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/power_charge.aseprite"
+dest_files=["res://.godot/imported/power_charge.aseprite-5f124ff1e1207266a3fc87bf1fb49d1a.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

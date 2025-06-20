@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cvc3u48ovl72m"
+path="res://.godot/imported/icon_chill_wave.aseprite-f8533f786e91c60b5de8e5747fbf8750.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_chill_wave.aseprite"
+dest_files=["res://.godot/imported/icon_chill_wave.aseprite-f8533f786e91c60b5de8e5747fbf8750.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

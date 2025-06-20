@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://ca7ar2ui56lrs"
+path="res://.godot/imported/trash_long_neck.aseprite-95e6f47b402bae0c1f79a4d6d2e3598e.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/mobs/trash_long_neck.aseprite"
+dest_files=["res://.godot/imported/trash_long_neck.aseprite-95e6f47b402bae0c1f79a4d6d2e3598e.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

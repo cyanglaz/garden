@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=3 uid="uid://cgry8yqwy8df2"]
+
+[ext_resource type="Script" uid="uid://bvgxu3j7ldlk8" path="res://scenes/GUI/game_main/power_overlays/gui_power_overlay.gd" id="1_cdphq"]
+[ext_resource type="PackedScene" uid="uid://vyd5g82f347q" path="res://scenes/GUI/utils/main_margin_container.tscn" id="2_cdphq"]
+[ext_resource type="PackedScene" uid="uid://dpvi60lhihsw6" path="res://scenes/GUI/bingo_main/bingo_board/gui_bingo_board.tscn" id="3_n041m"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="4_nj8it"]
+
+[node name="GUIPowerOverlay" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cdphq")
+
+[node name="MainMarginContainer" parent="." instance=ExtResource("2_cdphq")]
+layout_mode = 1
+
+[node name="ContentContainer" type="Control" parent="MainMarginContainer"]
+layout_mode = 2
+
+[node name="GUIBingoBoard" parent="MainMarginContainer/ContentContainer" instance=ExtResource("3_n041m")]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = -63.0
+offset_top = -59.0
+offset_right = 63.0
+offset_bottom = 59.0
+
+[node name="Overlay" type="Control" parent="MainMarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMarginContainer/Overlay"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 2
+
+[node name="CancelButton" parent="MainMarginContainer/Overlay/VBoxContainer" instance=ExtResource("4_nj8it")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+localization_text_key = "ACTION_CANCEL"

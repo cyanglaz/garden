@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dy6n56k3a06pa"
+path="res://.godot/imported/icon_lance.aseprite-4e8a81f805b7f0a6d7b542894ccddcb3.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_lance.aseprite"
+dest_files=["res://.godot/imported/icon_lance.aseprite-4e8a81f805b7f0a6d7b542894ccddcb3.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

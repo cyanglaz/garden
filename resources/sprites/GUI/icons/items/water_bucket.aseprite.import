@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://qpimbau0bvx4"
+path="res://.godot/imported/water_bucket.aseprite-be51869ad0e0c246bd9d92d1ec5ea9ec.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/items/water_bucket.aseprite"
+dest_files=["res://.godot/imported/water_bucket.aseprite-be51869ad0e0c246bd9d92d1ec5ea9ec.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

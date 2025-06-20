@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dfer24ww87g35"
+path="res://.godot/imported/player_dash_particle.aseprite-579798cc3b7c97d735b6d6537bfbcaeb.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/particles/player_dash_particle.aseprite"
+dest_files=["res://.godot/imported/player_dash_particle.aseprite-579798cc3b7c97d735b6d6537bfbcaeb.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

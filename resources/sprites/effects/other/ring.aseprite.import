@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://do1652uqq8efs"
+path="res://.godot/imported/ring.aseprite-3868f71f94673e6c1f2574a138e76a4c.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/other/ring.aseprite"
+dest_files=["res://.godot/imported/ring.aseprite-3868f71f94673e6c1f2574a138e76a4c.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

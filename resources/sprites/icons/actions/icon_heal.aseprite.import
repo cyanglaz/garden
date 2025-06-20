@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bgs1ibu0u747x"
+path="res://.godot/imported/icon_heal.aseprite-569c78b28da7991c765b4ace52e04632.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/actions/icon_heal.aseprite"
+dest_files=["res://.godot/imported/icon_heal.aseprite-569c78b28da7991c765b4ace52e04632.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://sjgi5k4l3tva"
+path="res://.godot/imported/blood.aseprite-4ff0f36463ed62a70d18e5f1b1bda818.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/characters/blood.aseprite"
+dest_files=["res://.godot/imported/blood.aseprite-4ff0f36463ed62a70d18e5f1b1bda818.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

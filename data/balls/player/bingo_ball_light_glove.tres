@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="BingoBallData" load_steps=3 format=3 uid="uid://cgs0u6yswv04h"]
+
+[ext_resource type="Script" uid="uid://dlus7fsh3enbg" path="res://data/models/bingo/bingo_ball_data.gd" id="1_4uxxw"]
+[ext_resource type="Script" uid="uid://c0yamweoq8d5u" path="res://data/models/status_effect/status_effect_data.gd" id="2_jmmi7"]
+
+[resource]
+script = ExtResource("1_4uxxw")
+damage = 0
+rarity = 1
+type = 0
+trigger_times = 1
+attack_ball_count = 1
+placement_rule = 2
+placement_rule_values = [2, 3, 4]
+status_effect_datas = Array[ExtResource("2_jmmi7")]([])
+status_effect_stacks = Array[int]([])
+special_rules = Array[int]([])
+plus_damage = 0
+plus_trigger_times = 0
+plus_placement_rule = -1
+plus_placement_rule_values = []
+plus_status_effect_datas = Array[ExtResource("2_jmmi7")]([])
+plus_status_effect_stacks = Array[int]([])
+plus_special_rules = Array[int]([])
+plus_description = ""
+plus_data = {
+&"dmg": "6"
+}
+id = "light_glove"
+display_name = "Light Glove"
+description = "When placed on board, move all other symbols on the same column {grid} space to the left if possible.
+If a Player's {bordered_text:Attack} symbol is successfully moved, that symbol deals + {dmg} damage."
+data = {
+&"dmg": "4",
+"grid": "1"
+}

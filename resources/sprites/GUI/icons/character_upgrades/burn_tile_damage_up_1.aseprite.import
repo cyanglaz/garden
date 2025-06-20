@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bcpv4lregl4lp"
+path="res://.godot/imported/burn_tile_damage_up_1.aseprite-a36e8b13d9b94de5159ed8394cfdf21e.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/character_upgrades/burn_tile_damage_up_1.aseprite"
+dest_files=["res://.godot/imported/burn_tile_damage_up_1.aseprite-a36e8b13d9b94de5159ed8394cfdf21e.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

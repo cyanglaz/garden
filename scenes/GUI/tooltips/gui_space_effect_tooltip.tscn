@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://cbhu8guns6bmw"]
+
+[ext_resource type="PackedScene" uid="uid://73vkj3ho7ou5" path="res://scenes/GUI/tooltips/gui_tooltip.tscn" id="1_t5b2p"]
+[ext_resource type="Script" uid="uid://c3qd74rv0u3lb" path="res://scenes/GUI/tooltips/gui_space_effect_tooltip.gd" id="2_2mq2i"]
+[ext_resource type="PackedScene" uid="uid://swv1jhpyoj75" path="res://scenes/GUI/shared/descriptions/gui_space_effect_description.tscn" id="3_ofjh0"]
+
+[node name="GUIStatusEffectTooltip" instance=ExtResource("1_t5b2p")]
+script = ExtResource("2_2mq2i")
+
+[node name="GUIPanelBackgroundColor" parent="." index="0"]
+unique_name_in_owner = true
+
+[node name="GUISpaceEffectDescription" parent="ContentContainer" index="0" instance=ExtResource("3_ofjh0")]
+unique_name_in_owner = true
+layout_mode = 2

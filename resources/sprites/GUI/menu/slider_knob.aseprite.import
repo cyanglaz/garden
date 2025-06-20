@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dsihde1twyswx"
+path="res://.godot/imported/slider_knob.aseprite-acd38da7ea5ba76abe1e74e7b7902e39.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/menu/slider_knob.aseprite"
+dest_files=["res://.godot/imported/slider_knob.aseprite-acd38da7ea5ba76abe1e74e7b7902e39.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cp1ehsd1t8lbx"
+path="res://.godot/imported/scroll_bar_scroll.aseprite-cd291e974814d6fad67313e790deabe0.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/menu/scroll_bar_scroll.aseprite"
+dest_files=["res://.godot/imported/scroll_bar_scroll.aseprite-cd291e974814d6fad67313e790deabe0.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true

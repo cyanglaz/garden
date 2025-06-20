@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="PlayerData" load_steps=11 format=3 uid="uid://dsyj0o8itgwx4"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_cmkh6"]
+[ext_resource type="Script" uid="uid://dlus7fsh3enbg" path="res://data/models/bingo/bingo_ball_data.gd" id="1_mx64g"]
+[ext_resource type="Resource" uid="uid://cfnitmndp8nys" path="res://data/actions/action_heal.tres" id="2_empwy"]
+[ext_resource type="Resource" uid="uid://dxcbsrgjv6jc2" path="res://data/actions/action_forge.tres" id="3_q3lsm"]
+[ext_resource type="Resource" uid="uid://bxm21df6parmn" path="res://data/actions/action_attune.tres" id="4_q02uc"]
+[ext_resource type="Resource" uid="uid://514sundsh1f" path="res://data/balls/starting/bingo_ball_sword.tres" id="6_4u7v5"]
+[ext_resource type="Script" uid="uid://ccpra3wlpuhlb" path="res://data/models/character/player_data.gd" id="6_wa6uo"]
+[ext_resource type="Resource" uid="uid://d2qv4gi5d62fn" path="res://data/balls/starting/bingo_ball_light_shield.tres" id="7_u6igg"]
+[ext_resource type="Script" uid="uid://chfp1x344tt3w" path="res://data/models/powers/power_data.gd" id="8_r3r4r"]
+[ext_resource type="Resource" uid="uid://b5sx2jq1i6a0s" path="res://data/powers/power_finisher.tres" id="9_pas7k"]
+
+[resource]
+script = ExtResource("6_wa6uo")
+actions = Array[ExtResource("1_cmkh6")]([ExtResource("2_empwy"), ExtResource("3_q3lsm"), ExtResource("4_q02uc")])
+powers = Array[ExtResource("8_r3r4r")]([ExtResource("9_pas7k")])
+max_powers = 5
+draw_count = 4
+max_hp = 70
+initial_balls = Array[ExtResource("1_mx64g")]([ExtResource("6_4u7v5"), ExtResource("6_4u7v5"), ExtResource("6_4u7v5"), ExtResource("6_4u7v5"), ExtResource("7_u6igg"), ExtResource("7_u6igg"), ExtResource("7_u6igg"), ExtResource("7_u6igg")])
+id = "weapon_master"
+display_name = "Weapon Master"
+description = ""
+data = {}

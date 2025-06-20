@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bqa8pix4th0t7"
+path="res://.godot/imported/arsenal_line_indicator_dot.aseprite-321b1eaa22c3f5271826ae50d3b24040.res"
+
+[deps]
+
+source_file="res://resources/sprites/indicators/arsenal_line_indicator_dot.aseprite"
+dest_files=["res://.godot/imported/arsenal_line_indicator_dot.aseprite-321b1eaa22c3f5271826ae50d3b24040.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

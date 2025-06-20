@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://ea2xii7pfbs6"]
+
+[ext_resource type="Texture2D" uid="uid://3kuojop2aon2" path="res://resources/sprites/tiles/floors.png" id="2_5ww4i"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s4a4i"]
+
+[node name="ShaderTests" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_s4a4i")
+texture = ExtResource("2_5ww4i")
+
+[node name="Camera2D" type="Camera2D" parent="."]

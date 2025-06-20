@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=3 uid="uid://cwmvoeapowykc"]
+
+[ext_resource type="Script" uid="uid://cbf011o7en5r1" path="res://scenes/GUI/overlay_main/actions/normal_actions/gui_action_main.gd" id="1_nh0t6"]
+[ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="2_40e6j"]
+[ext_resource type="PackedScene" uid="uid://vyd5g82f347q" path="res://scenes/GUI/utils/main_margin_container.tscn" id="2_p2qs7"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="3_38nnh"]
+[ext_resource type="AudioStream" uid="uid://cywgwutiwqtpb" path="res://resources/sounds/SFX/bingo/action_main.wav" id="5_jgy5a"]
+
+[node name="GUIActionMain" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nh0t6")
+
+[node name="GUIOverlayBackground" parent="." instance=ExtResource("2_40e6j")]
+layout_mode = 2
+color = Color(0.117647, 0.435294, 0.313726, 1)
+
+[node name="MainMarginContainer" parent="." instance=ExtResource("2_p2qs7")]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMarginContainer/Container" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopContainer" type="HBoxContainer" parent="MainMarginContainer/Container/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MainMarginContainer/Container/VBoxContainer/TopContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"HeaderMedium"
+text = "Choose an Action"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CardsContainer" type="HBoxContainer" parent="MainMarginContainer/Container/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="MainMarginContainer/Container/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="ContinueButton" parent="MainMarginContainer/Container/VBoxContainer/ButtonsContainer" instance=ExtResource("3_38nnh")]
+unique_name_in_owner = true
+layout_mode = 2
+localization_text_key = "CONTINUE"
+
+[node name="AppearAudio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("5_jgy5a")
+volume_db = 5.0
+bus = &"SFX"
+
+[editable path="MainMarginContainer"]

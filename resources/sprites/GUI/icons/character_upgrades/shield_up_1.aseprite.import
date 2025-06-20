@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bkv0uexgkqp7d"
+path="res://.godot/imported/shield_up_1.aseprite-d5c4cd2541afb4a2e6bee7d09e7addfc.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/character_upgrades/shield_up_1.aseprite"
+dest_files=["res://.godot/imported/shield_up_1.aseprite-d5c4cd2541afb4a2e6bee7d09e7addfc.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

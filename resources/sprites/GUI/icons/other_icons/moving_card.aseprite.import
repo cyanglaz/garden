@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cqgdlgo0o7518"
+path="res://.godot/imported/moving_card.aseprite-9aec2b2e2166b076cca899df6dc3ee28.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/moving_card.aseprite"
+dest_files=["res://.godot/imported/moving_card.aseprite-9aec2b2e2166b076cca899df6dc3ee28.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

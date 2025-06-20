@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cb6yjkqeon1ng"
+path="res://.godot/imported/icon_blood_seeker.aseprite-83f3c2344c6be500f2114e9888a82779.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_blood_seeker.aseprite"
+dest_files=["res://.godot/imported/icon_blood_seeker.aseprite-83f3c2344c6be500f2114e9888a82779.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

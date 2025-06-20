@@ -1,0 +1,65 @@
+class_name ResourcePoint
+extends RefCounted
+
+signal value_update()
+signal empty()
+signal full()
+signal max_value_update()
+signal resetted()
+signal estimate_value_updated(change:int)
+
+var is_empty:bool : get = _get_is_empty
+var is_full:bool : get = _get_is_full
+
+var value:int: set = _set_value
+var max_value:int: set = _set_max_value
+var estimate_value:int
+
+func setup(v:int, mv:int) -> void:
+	max_value = mv
+	value = v
+	estimate_value = value
+
+func reset():
+	value = max_value
+	resetted.emit()
+	
+func spend(amount:int) -> void:
+	if amount > value:
+		amount = value
+	value -= amount
+	if value <= 0:
+		_value_empty()
+
+func update_estimate(change:int) -> void:
+	estimate_value += change
+	estimate_value_updated.emit(change)
+
+func reset_estimate() -> void:
+	estimate_value = value
+	estimate_value_updated.emit(value - estimate_value)
+
+func restore(amount:int):
+	var target_value = value + amount
+	value = min(target_value, max_value)
+	if value == max_value:
+		full.emit()
+		
+func _get_is_empty() -> bool:
+	return value <= 0
+
+func _set_value(val:int):
+	value = min(val, max_value)
+	value_update.emit()
+
+func _set_max_value(val:int):
+	var diff := val - max_value
+	max_value = val
+	max_value_update.emit()
+	value += diff
+
+func _value_empty():
+	empty.emit()
+
+func _get_is_full() -> bool:
+	return value == max_value

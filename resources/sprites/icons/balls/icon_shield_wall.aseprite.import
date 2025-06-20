@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://b6mlmjvgiaykf"
+path="res://.godot/imported/icon_shield_wall.aseprite-34d2cbefe73a81dc2be8b27e9f247289.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_shield_wall.aseprite"
+dest_files=["res://.godot/imported/icon_shield_wall.aseprite-34d2cbefe73a81dc2be8b27e9f247289.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

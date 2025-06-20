@@ -1,0 +1,68 @@
+[gd_scene load_steps=6 format=3 uid="uid://cmu7b011m3k4j"]
+
+[ext_resource type="Script" uid="uid://db2a541t8hjmo" path="res://scenes/utils/visual_effects/character_explode.gd" id="1_51nr7"]
+[ext_resource type="Shader" uid="uid://34gf44sogvfs" path="res://scenes/utils/visual_effects/character_explode.gdshader" id="2_7b8v7"]
+[ext_resource type="Texture2D" uid="uid://yx0f1vx5k1my" path="res://resources/sprites/4px.png" id="3_yqg2y"]
+[ext_resource type="AudioStream" uid="uid://cq88midfwani4" path="res://resources/sounds/SFX/character/building_explode.wav" id="5_8yk0w"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5n3n8"]
+shader = ExtResource("2_7b8v7")
+shader_parameter/direction = Vector3(0, -1, 0)
+shader_parameter/spread = 60.0
+shader_parameter/flatness = 0.0
+shader_parameter/inherit_emitter_velocity_ratio = 0.0
+shader_parameter/initial_linear_velocity_min = 20.0
+shader_parameter/initial_linear_velocity_max = 30.0
+shader_parameter/directional_velocity_min = 0.0
+shader_parameter/directional_velocity_max = 0.0
+shader_parameter/angular_velocity_min = -50.0
+shader_parameter/angular_velocity_max = 50.0
+shader_parameter/orbit_velocity_min = 0.0
+shader_parameter/orbit_velocity_max = 0.0
+shader_parameter/radial_velocity_min = 0.0
+shader_parameter/radial_velocity_max = 0.0
+shader_parameter/linear_accel_min = 0.0
+shader_parameter/linear_accel_max = 0.0
+shader_parameter/radial_accel_min = 0.0
+shader_parameter/radial_accel_max = 0.0
+shader_parameter/tangent_accel_min = 0.0
+shader_parameter/tangent_accel_max = 0.0
+shader_parameter/damping_min = 0.0
+shader_parameter/damping_max = 0.0
+shader_parameter/initial_angle_min = 0.0
+shader_parameter/initial_angle_max = 0.0
+shader_parameter/scale_min = 1.0
+shader_parameter/scale_max = 2.0
+shader_parameter/hue_variation_min = 0.0
+shader_parameter/hue_variation_max = 0.0
+shader_parameter/anim_speed_min = 0.0
+shader_parameter/anim_speed_max = 0.0
+shader_parameter/anim_offset_min = 0.0
+shader_parameter/anim_offset_max = 0.0
+shader_parameter/lifetime_randomness = 0.0
+shader_parameter/emission_shape_offset = Vector3(0, 0, 0)
+shader_parameter/emission_shape_scale = Vector3(1, 1, 1)
+shader_parameter/velocity_pivot = Vector3(0, 0, 0)
+shader_parameter/emission_box_extents = Vector3(32, 32, 1)
+shader_parameter/color_value = Color(1, 1, 1, 1)
+shader_parameter/gravity = Vector3(0, 50, 0)
+
+[node name="CharacterExplode" type="Node2D"]
+script = ExtResource("1_51nr7")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+emitting = false
+amount = 2000
+process_material = SubResource("ShaderMaterial_5n3n8")
+texture = ExtResource("3_yqg2y")
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+local_coords = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("5_8yk0w")
+volume_db = 5.0
+bus = &"SFX"

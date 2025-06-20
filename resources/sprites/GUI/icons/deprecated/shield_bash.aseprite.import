@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bvcdjjf21g1da"
+path="res://.godot/imported/shield_bash.aseprite-ab8015f3f4c8ec59d26756f32f35bbc8.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/shield_bash.aseprite"
+dest_files=["res://.godot/imported/shield_bash.aseprite-ab8015f3f4c8ec59d26756f32f35bbc8.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

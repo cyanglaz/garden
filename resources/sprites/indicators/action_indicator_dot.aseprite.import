@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://3mk7ttt7cxi7"
+path="res://.godot/imported/action_indicator_dot.aseprite-8978bc49dfc3f258c9db51a90103bce3.res"
+
+[deps]
+
+source_file="res://resources/sprites/indicators/action_indicator_dot.aseprite"
+dest_files=["res://.godot/imported/action_indicator_dot.aseprite-8978bc49dfc3f258c9db51a90103bce3.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

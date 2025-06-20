@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://chk6mstefpnb2"
+path="res://.godot/imported/icon_gaze.aseprite-e2c153c47b527e0ecc35fe66005d8182.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_gaze.aseprite"
+dest_files=["res://.godot/imported/icon_gaze.aseprite-e2c153c47b527e0ecc35fe66005d8182.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

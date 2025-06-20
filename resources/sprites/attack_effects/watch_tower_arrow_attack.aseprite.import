@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://tvjris6wp42y"
+path="res://.godot/imported/watch_tower_arrow_attack.aseprite-f4eaf92df127869f10ebe4dc3d09edb5.res"
+
+[deps]
+
+source_file="res://resources/sprites/attack_effects/watch_tower_arrow_attack.aseprite"
+dest_files=["res://.godot/imported/watch_tower_arrow_attack.aseprite-f4eaf92df127869f10ebe4dc3d09edb5.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

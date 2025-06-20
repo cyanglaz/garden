@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://dajjmbyatnx42"]
+
+[ext_resource type="PackedScene" uid="uid://c7axrk5wwb6ab" path="res://scenes/GUI/containers/gui_popup_container.tscn" id="1_ecwtr"]
+[ext_resource type="Script" uid="uid://xonrl3818ygt" path="res://scenes/GUI/containers/gui_combat_conclusion_container.gd" id="2_15k3a"]
+[ext_resource type="PackedScene" uid="uid://dx30x8e4md2xj" path="res://scenes/GUI/containers/gui_combat_conclusion.tscn" id="2_26a05"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="3_ilqcy"]
+
+[node name="GUICombatConclusionContainer" instance=ExtResource("1_ecwtr")]
+script = ExtResource("2_15k3a")
+
+[node name="PanelContainer" parent="." index="0"]
+custom_minimum_size = Vector2(200, 160)
+offset_left = -100.0
+offset_top = -80.0
+offset_right = 100.0
+offset_bottom = 80.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/MarginContainer" index="0"]
+layout_mode = 2
+
+[node name="GUICombatConclusion" parent="PanelContainer/MarginContainer/VBoxContainer2" index="0" instance=ExtResource("2_26a05")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="OKButton" parent="PanelContainer/MarginContainer/VBoxContainer2" index="1" instance=ExtResource("3_ilqcy")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+localization_text_key = "ACTION_PLAY_AGAIN"
+
+[node name="TitleBanner" parent="PanelContainer/FloatingViewContainer" index="0"]
+offset_left = -68.0
+offset_top = -9.0
+offset_right = 68.0
+offset_bottom = 15.0
+
+[node name="Title" parent="PanelContainer/FloatingViewContainer/TitleBanner" index="0"]
+text = "You made to the exit
+"

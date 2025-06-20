@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bt40p5tg5qsq8"]
+
+[ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="1_5ccub"]
+[ext_resource type="Script" uid="uid://cm18qfafcfujx" path="res://scenes/GUI/top_level_overlays/gameover/gui_game_over_main.gd" id="1_xeic8"]
+[ext_resource type="PackedScene" uid="uid://p2xtbryyj0h" path="res://scenes/GUI/containers/gui_game_over_container.tscn" id="2_5y243"]
+
+[node name="GUIGameOverMain" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xeic8")
+
+[node name="GUIOverlayBackground" parent="." instance=ExtResource("1_5ccub")]
+layout_mode = 1
+
+[node name="GUIGameOverContainer" parent="." instance=ExtResource("2_5y243")]
+unique_name_in_owner = true
+layout_mode = 1

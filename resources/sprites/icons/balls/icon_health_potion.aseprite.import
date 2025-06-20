@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://ctr6t8okyyt7v"
+path="res://.godot/imported/icon_health_potion.aseprite-e8581f5ad09bb609d269ca8de450c6c3.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_health_potion.aseprite"
+dest_files=["res://.godot/imported/icon_health_potion.aseprite-e8581f5ad09bb609d269ca8de450c6c3.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

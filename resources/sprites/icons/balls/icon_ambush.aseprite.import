@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://ce6mgn6yiieo7"
+path="res://.godot/imported/icon_ambush.aseprite-b9df36e382afdefccce9202ab3627745.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_ambush.aseprite"
+dest_files=["res://.godot/imported/icon_ambush.aseprite-b9df36e382afdefccce9202ab3627745.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

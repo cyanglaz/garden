@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://drjaux1gtvc31"]
+
+[ext_resource type="Script" uid="uid://nqwjv3fbeegj" path="res://scenes/utils/camera/feedback_camera_2d.gd" id="1_qgfjh"]
+[ext_resource type="PackedScene" uid="uid://blvvfcabasgh1" path="res://scenes/utils/camera/slow_motion_handle.tscn" id="3_o8qeb"]
+[ext_resource type="PackedScene" uid="uid://bxgbjlkaad5jd" path="res://scenes/utils/camera/screen_shake.tscn" id="4_wc6w6"]
+
+[node name="FeedbackCamera2D" type="Camera2D" groups=["main_camera"]]
+ignore_rotation = false
+script = ExtResource("1_qgfjh")
+
+[node name="SlowMotionHandle" parent="." instance=ExtResource("3_o8qeb")]
+
+[node name="ScreenShake" parent="." instance=ExtResource("4_wc6w6")]
+unique_name_in_owner = true

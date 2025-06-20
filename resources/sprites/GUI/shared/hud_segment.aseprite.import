@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dcy6d4rvwjhe1"
+path="res://.godot/imported/hud_segment.aseprite-ce9fb65a49cc49927a164b9645c7fff1.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/shared/hud_segment.aseprite"
+dest_files=["res://.godot/imported/hud_segment.aseprite-ce9fb65a49cc49927a164b9645c7fff1.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

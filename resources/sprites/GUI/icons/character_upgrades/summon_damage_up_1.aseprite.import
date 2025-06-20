@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dm2pqgjv0ojf6"
+path="res://.godot/imported/summon_damage_up_1.aseprite-57b55c219e03485d2d904719d3b2fd61.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/character_upgrades/summon_damage_up_1.aseprite"
+dest_files=["res://.godot/imported/summon_damage_up_1.aseprite-57b55c219e03485d2d904719d3b2fd61.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

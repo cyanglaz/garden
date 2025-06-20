@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://dudjrt24gs81r"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_tihya"]
+[ext_resource type="Script" uid="uid://xgtaynxwjty5" path="res://scenes/GUI/controls/buttons/gui_tabbar_button.gd" id="2_3823c"]
+[ext_resource type="Texture2D" uid="uid://gkun0wuhrp5g" path="res://resources/sprites/GUI/theme/tabbar_button_border.png" id="3_f2xk4"]
+
+[node name="GUTabbarButton" instance=ExtResource("1_tihya")]
+custom_minimum_size = Vector2(24, 18)
+offset_right = 24.0
+offset_bottom = 18.0
+script = ExtResource("2_3823c")
+localization_text_key = ""
+
+[node name="Border" type="NinePatchRect" parent="." index="0"]
+unique_name_in_owner = true
+use_parent_material = true
+layout_mode = 2
+mouse_filter = 1
+texture = ExtResource("3_f2xk4")
+region_rect = Rect2(0, 0, 16, 16)
+patch_margin_left = 4
+patch_margin_top = 6
+patch_margin_right = 4
+patch_margin_bottom = 6
+
+[node name="MarginContainer" type="MarginContainer" parent="." index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="MarginContainer" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_type_variation = &"HUD_mid"
+theme_override_colors/font_color = Color(0.223529, 0.121569, 0.129412, 1)
+text = "gameplay"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="BingoBallData" load_steps=3 format=3 uid="uid://vpgcvtpv4g3"]
+
+[ext_resource type="Script" uid="uid://c0yamweoq8d5u" path="res://data/models/status_effect/status_effect_data.gd" id="1_25v12"]
+[ext_resource type="Script" uid="uid://dlus7fsh3enbg" path="res://data/models/bingo/bingo_ball_data.gd" id="2_hdyw0"]
+
+[resource]
+script = ExtResource("2_hdyw0")
+damage = 3
+rarity = 0
+type = 1
+trigger_times = 2
+attack_ball_count = 1
+placement_rule = 2
+placement_rule_values = [2, 3, 4]
+status_effect_datas = Array[ExtResource("1_25v12")]([])
+status_effect_stacks = Array[int]([])
+special_rules = Array[int]([])
+plus_damage = 0
+plus_trigger_times = 1
+plus_placement_rule = -1
+plus_placement_rule_values = []
+plus_status_effect_datas = Array[ExtResource("1_25v12")]([])
+plus_status_effect_stacks = Array[int]([])
+plus_special_rules = Array[int]([])
+plus_description = ""
+plus_data = {}
+id = "quick_blade"
+display_name = "Quick Blade"
+description = ""
+data = {}

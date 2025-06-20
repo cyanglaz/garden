@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://blvvfcabasgh1"]
+
+[ext_resource type="Script" uid="uid://bt5qo5ql4jpq8" path="res://scenes/utils/camera/slow_motion_handle.gd" id="1_oi1n3"]
+
+[node name="SlowMotionHandle" type="Node"]
+script = ExtResource("1_oi1n3")
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true

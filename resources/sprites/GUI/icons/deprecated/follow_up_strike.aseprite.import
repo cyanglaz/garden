@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cd6sl1qadqk16"
+path="res://.godot/imported/follow_up_strike.aseprite-b1264d92f515d3f73dfb5b20b62ebcfd.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/follow_up_strike.aseprite"
+dest_files=["res://.godot/imported/follow_up_strike.aseprite-b1264d92f515d3f73dfb5b20b62ebcfd.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

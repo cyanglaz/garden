@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c44hnhu6h2vnu"
+path="res://.godot/imported/icon_leech_bolt.aseprite-0e2baec6462fb1d925370f410c29cfa6.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_leech_bolt.aseprite"
+dest_files=["res://.godot/imported/icon_leech_bolt.aseprite-0e2baec6462fb1d925370f410c29cfa6.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

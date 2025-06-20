@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://b6onviefbsdha"
+path="res://.godot/imported/carryover.aseprite-0f6d9754f37ee5e73410e480772b3ae6.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/carryover.aseprite"
+dest_files=["res://.godot/imported/carryover.aseprite-0f6d9754f37ee5e73410e480772b3ae6.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

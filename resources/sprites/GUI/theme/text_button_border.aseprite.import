@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bid3tme8eeemd"
+path="res://.godot/imported/text_button_border.aseprite-e3995b06e901d720a7f2d0bc5d7283e4.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/theme/text_button_border.aseprite"
+dest_files=["res://.godot/imported/text_button_border.aseprite-e3995b06e901d720a7f2d0bc5d7283e4.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

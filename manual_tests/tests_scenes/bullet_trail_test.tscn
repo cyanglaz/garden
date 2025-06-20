@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3 uid="uid://bfl3phybkdlsr"]
+
+[ext_resource type="Script" uid="uid://c3t7dqijo5ml5" path="res://manual_tests/tests_scenes/bullet_trail_test.gd" id="1_o01hm"]
+
+[sub_resource type="Resource" id="Resource_gowei"]
+metadata/__load_path__ = "res://scenes/utils/visual_effects/smoke_trail.tscn"
+
+[sub_resource type="Curve" id="Curve_7k3a4"]
+resource_local_to_scene = true
+_data = [Vector2(0, 1), 0.0, -0.0222076, 0, 0, Vector2(0.991775, 0.38813), -0.855393, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_ik3tf"]
+resource_local_to_scene = true
+offsets = PackedFloat32Array(0.72443, 0.890554)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="Gradient" id="Gradient_eyprw"]
+resource_local_to_scene = true
+offsets = PackedFloat32Array(0.712636, 0.913406)
+colors = PackedColorArray(1, 1, 1, 0, 0.968627, 0.952941, 0.717647, 1)
+
+[sub_resource type="Resource" id="Resource_mk0hc"]
+metadata/__load_path__ = "res://scenes/utils/hit_box/hurt_box.tscn"
+
+[node name="BulletTrailTest" type="Node2D"]
+script = ExtResource("1_o01hm")
+
+[node name="SmokeTrail" parent="."]
+position = Vector2(492, 209)
+rotation = 3.14159
+points = PackedVector2Array(5.01499, 7.23092, 12.1293, -8.28056, -19, -40, 0, 0)
+width_curve = SubResource("Curve_7k3a4")
+default_color = Color(1, 1, 1, 1)
+gradient = SubResource("Gradient_ik3tf")
+min_spawn_distance = 3
+wind_sway = 0.1
+gradient_col = SubResource("Gradient_eyprw")
+
+[node name="can_shoot" type="Timer" parent="."]
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(68, 330)
+
+[node name="HurtBox" parent="Node2D"]
+collision_layer = 15
+collision_mask = 15
+
+[node name="CollisionShape2D" parent="Node2D/HurtBox" index="0"]
+position = Vector2(18.75, -14.25)
+
+[connection signal="timeout" from="can_shoot" to="." method="_on_can_shoot_timeout"]
+
+[editable path="Node2D/HurtBox"]

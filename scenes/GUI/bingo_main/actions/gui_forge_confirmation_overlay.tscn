@@ -1,0 +1,71 @@
+[gd_scene load_steps=6 format=3 uid="uid://cyrr0i7r4dnno"]
+
+[ext_resource type="Script" uid="uid://ddfdi2o7hrkav" path="res://scenes/GUI/bingo_main/actions/gui_forge_confirmation_overlay.gd" id="1_bcmoa"]
+[ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="2_kwvoe"]
+[ext_resource type="PackedScene" uid="uid://d1k86f5aexxl" path="res://scenes/GUI/controls/buttons/gui_card_reward_button.tscn" id="3_h0vxo"]
+[ext_resource type="Texture2D" uid="uid://bcxei5rq62dvq" path="res://resources/sprites/other/forge_arrow.png" id="3_ubwjf"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="4_psv35"]
+
+[node name="GUIForgeConfirmationOverlay" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bcmoa")
+
+[node name="GUIOverlayBackground" parent="." instance=ExtResource("2_kwvoe")]
+layout_mode = 1
+color = Color(0, 0, 0, 0.941176)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(1, 0.784314, 0.145098, 1)
+text = "Confirm Upgrade?"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="From" parent="VBoxContainer/HBoxContainer" instance=ExtResource("3_h0vxo")]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("3_ubwjf")
+stretch_mode = 3
+
+[node name="To" parent="VBoxContainer/HBoxContainer" instance=ExtResource("3_h0vxo")]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ButtonContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="BackButton" parent="VBoxContainer/ButtonContainer" instance=ExtResource("4_psv35")]
+unique_name_in_owner = true
+layout_mode = 2
+localization_text_key = "BACK"
+
+[node name="ConfirmButton" parent="VBoxContainer/ButtonContainer" instance=ExtResource("4_psv35")]
+unique_name_in_owner = true
+layout_mode = 2
+localization_text_key = "CONFIRM"

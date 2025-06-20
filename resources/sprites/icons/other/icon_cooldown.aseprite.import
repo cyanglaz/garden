@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://ccfagulppi5wd"
+path="res://.godot/imported/icon_cooldown.aseprite-2fc34ff1640af9d3f2ad7002b6196959.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/other/icon_cooldown.aseprite"
+dest_files=["res://.godot/imported/icon_cooldown.aseprite-2fc34ff1640af9d3f2ad7002b6196959.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cpcqppn15aqcf"
+path="res://.godot/imported/icon_light_glove.aseprite-5c95e5dfa6bf622ab54eccdaf48e9e6c.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_light_glove.aseprite"
+dest_files=["res://.godot/imported/icon_light_glove.aseprite-5c95e5dfa6bf622ab54eccdaf48e9e6c.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

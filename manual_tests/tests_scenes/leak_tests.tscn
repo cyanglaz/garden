@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cw2btx5jyj2ah"]
+
+[ext_resource type="Script" uid="uid://5a6cpel2ojk2" path="res://manual_tests/tests_scenes/leak_tests.gd" id="1_qcem8"]
+
+[node name="LeakTests" type="Node2D"]
+script = ExtResource("1_qcem8")

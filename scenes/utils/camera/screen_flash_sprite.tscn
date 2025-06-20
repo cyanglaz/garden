@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://ba0kho285aw3k"]
+
+[ext_resource type="Script" uid="uid://buwg3rwrqy7oh" path="res://scenes/utils/camera/screen_flash_sprite.gd" id="1_2yyp1"]
+[ext_resource type="Texture2D" uid="uid://tvbkpdpoekuv" path="res://resources/sprites/white_pixel.png" id="1_uq5yj"]
+
+[node name="ScreenFlashSprite" type="TextureRect"]
+modulate = Color(1, 1, 1, 0)
+light_mask = 0
+visibility_layer = 16
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -640.0
+offset_bottom = -360.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_uq5yj")
+expand_mode = 1
+script = ExtResource("1_2yyp1")

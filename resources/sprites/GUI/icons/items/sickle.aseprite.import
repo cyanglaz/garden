@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://ceoqf3g8q57d5"
+path="res://.godot/imported/sickle.aseprite-1622b33ae6f1045c7270b43a843a186c.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/items/sickle.aseprite"
+dest_files=["res://.godot/imported/sickle.aseprite-1622b33ae6f1045c7270b43a843a186c.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

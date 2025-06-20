@@ -1,0 +1,33 @@
+[gd_scene load_steps=11 format=3 uid="uid://0cm33k34ge3i"]
+
+[ext_resource type="Script" uid="uid://domyyt1ccuktt" path="res://manual_tests/test_levels/test_game_session.gd" id="2_o3ifg"]
+[ext_resource type="Script" uid="uid://cwte4x8n58xhm" path="res://data/models/upgrades/item_data.gd" id="7_4m5iw"]
+
+[sub_resource type="Resource" id="Resource_bn8x2"]
+metadata/__load_path__ = "res://scenes/game_session/game_session.tscn"
+
+[sub_resource type="Resource" id="Resource_k7elu"]
+metadata/__load_path__ = "res://data/cards/card_attack.tres"
+
+[sub_resource type="Resource" id="Resource_5i0ie"]
+metadata/__load_path__ = "res://data/cards/card_attack.tres"
+
+[sub_resource type="Resource" id="Resource_ij812"]
+metadata/__load_path__ = "res://data/cards/card_attack.tres"
+
+[sub_resource type="Resource" id="Resource_c6ikm"]
+metadata/__load_path__ = "res://data/cards/card_advance.tres"
+
+[sub_resource type="Resource" id="Resource_8nt50"]
+metadata/__load_path__ = "res://data/cards/card_shield.tres"
+
+[sub_resource type="Resource" id="Resource_oqrof"]
+
+[sub_resource type="Resource" id="Resource_igq6h"]
+
+[node name="Node2D"]
+script = ExtResource("2_o3ifg")
+test_items = Array[ExtResource("7_4m5iw")]([])
+init_cards = [SubResource("Resource_k7elu"), SubResource("Resource_5i0ie"), SubResource("Resource_ij812"), SubResource("Resource_c6ikm"), SubResource("Resource_8nt50")]
+game_session_params = SubResource("Resource_oqrof")
+room_params = SubResource("Resource_igq6h")

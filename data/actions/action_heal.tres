@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ActionData" load_steps=2 format=3 uid="uid://cfnitmndp8nys"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_6mjo1"]
+
+[resource]
+script = ExtResource("1_6mjo1")
+cost = 1
+id = "heal"
+display_name = "Heal"
+description = "Recover {hp} hp."
+data = {
+"hp": "7"
+}

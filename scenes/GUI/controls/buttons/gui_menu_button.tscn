@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddpwfwgic4w2y"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_pcxp6"]
+[ext_resource type="Script" uid="uid://bktnupov3jge2" path="res://scenes/GUI/controls/buttons/gui_menu_button.gd" id="2_cfcdb"]
+
+[node name="GUIMenuButton" instance=ExtResource("1_pcxp6")]
+custom_minimum_size = Vector2(42, 18)
+script = ExtResource("2_cfcdb")
+localization_text_key = "12"
+
+[node name="Label" type="Label" parent="." index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD"
+theme_override_colors/font_color = Color(1, 0.635294, 0.0784314, 1)
+text = "12"
+horizontal_alignment = 1
+vertical_alignment = 1

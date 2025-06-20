@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://6oew23eg86p7"
+path="res://.godot/imported/enemy_summoner.aseprite-48029f73c1bc95ee43f4f95d60d2c925.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/props/enemy_summoner.aseprite"
+dest_files=["res://.godot/imported/enemy_summoner.aseprite-48029f73c1bc95ee43f4f95d60d2c925.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

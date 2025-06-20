@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://ehcmd8wfp8ih"
+path="res://.godot/imported/muzzle.aseprite-eab19a95b82e13fc3332fe459216a353.res"
+
+[deps]
+
+source_file="res://resources/sprites/weapons/muzzle/muzzle.aseprite"
+dest_files=["res://.godot/imported/muzzle.aseprite-eab19a95b82e13fc3332fe459216a353.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

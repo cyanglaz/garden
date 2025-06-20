@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://btt58df7td723"]
+
+[ext_resource type="Script" uid="uid://112fyc0mg1pf" path="res://scenes/GUI/bingo_main/draw_box/gui_bingo_ball_hand.gd" id="1_4lwwr"]
+[ext_resource type="AudioStream" uid="uid://q4k3jnocowmn" path="res://resources/sounds/SFX/other/cards/card_hover.wav" id="2_vdcm2"]
+
+[node name="GUIBingoBallHand" type="PanelContainer"]
+offset_bottom = 20.0
+mouse_filter = 2
+script = ExtResource("1_4lwwr")
+
+[node name="DrawArea" type="Control" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="HoverSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("2_vdcm2")
+volume_db = 5.0
+bus = &"SFX"

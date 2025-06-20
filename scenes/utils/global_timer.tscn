@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://c245262rscl6b"]
+
+[ext_resource type="Script" uid="uid://dmabe33jhiayr" path="res://scenes/utils/global_timer.gd" id="1_ag5ml"]
+
+[node name="GlobalTimer" type="Timer" groups=["global_timer"]]
+autostart = true
+script = ExtResource("1_ag5ml")
+
+[connection signal="timeout" from="." to="." method="_on_timeout"]

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c3wqlc52tunpk"
+path="res://.godot/imported/card_border.aseprite-e6d59186e3ae687a6ee28d445f2f7aa6.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/menu/card_border.aseprite"
+dest_files=["res://.godot/imported/card_border.aseprite-e6d59186e3ae687a6ee28d445f2f7aa6.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true

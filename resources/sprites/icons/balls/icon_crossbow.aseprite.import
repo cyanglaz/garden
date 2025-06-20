@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://da1ohhtrec3lq"
+path="res://.godot/imported/icon_crossbow.aseprite-8340463c798041bc71bf785bcb1d6645.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_crossbow.aseprite"
+dest_files=["res://.godot/imported/icon_crossbow.aseprite-8340463c798041bc71bf785bcb1d6645.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

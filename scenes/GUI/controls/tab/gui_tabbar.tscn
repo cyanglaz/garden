@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0pj4bmuxbn87"]
+
+[ext_resource type="Script" uid="uid://bcon64pqb05ix" path="res://scenes/GUI/controls/tab/gui_tab_control.gd" id="1_qkhet"]
+[ext_resource type="PackedScene" uid="uid://dudjrt24gs81r" path="res://scenes/GUI/controls/buttons/gui_tabbar_button.tscn" id="2_8g2md"]
+
+[node name="GUITabbar" type="PanelContainer"]
+offset_right = 83.0
+offset_bottom = 24.0
+script = ExtResource("1_qkhet")
+tab_options_scene = ExtResource("2_8g2md")
+number_of_tabs = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = -3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 0
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+z_index = 1
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
+layout_mode = 2

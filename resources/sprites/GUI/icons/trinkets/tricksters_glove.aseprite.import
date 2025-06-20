@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://v1y2jomp2v6j"
+path="res://.godot/imported/tricksters_glove.aseprite-1a1eacae64b80745c34cc21541cd8634.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/tricksters_glove.aseprite"
+dest_files=["res://.godot/imported/tricksters_glove.aseprite-1a1eacae64b80745c34cc21541cd8634.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

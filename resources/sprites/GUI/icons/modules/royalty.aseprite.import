@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://e5f4xxgd3hct"
+path="res://.godot/imported/royalty.aseprite-88619de59294a11f9687227632ae3be2.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/modules/royalty.aseprite"
+dest_files=["res://.godot/imported/royalty.aseprite-88619de59294a11f9687227632ae3be2.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

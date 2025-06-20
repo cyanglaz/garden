@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="BingoBallData" load_steps=2 format=3 uid="uid://ofynglo4p5y2"]
+
+[ext_resource type="Script" uid="uid://dlus7fsh3enbg" path="res://data/models/bingo/bingo_ball_data.gd" id="1_khqj7"]
+
+[resource]
+script = ExtResource("1_khqj7")
+damage = 0
+rarity = 0
+type = 2
+trigger_times = 1
+attack_ball_count = 1
+placement_rule = 0
+placement_rule_values = []
+special_rules = Array[int]([])
+plus_damage = 0
+plus_trigger_times = 0
+plus_placement_rule = -1
+plus_placement_rule_values = []
+plus_special_rules = Array[int]([])
+plus_description = ""
+plus_data = {
+&"stack": "-2"
+}
+id = "slow+1"
+display_name = "Slow"
+description = "On bingo, apply {stack} {icon_status_effect_insight}."
+data = {
+&"stack": "-2"
+}

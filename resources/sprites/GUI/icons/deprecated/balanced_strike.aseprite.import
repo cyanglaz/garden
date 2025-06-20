@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dimr1sn00l5wl"
+path="res://.godot/imported/balanced_strike.aseprite-980a264ecd84c2c4a937f842a2972f7d.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/balanced_strike.aseprite"
+dest_files=["res://.godot/imported/balanced_strike.aseprite-980a264ecd84c2c4a937f842a2972f7d.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

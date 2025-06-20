@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dbb1lt8n32wk0"
+path="res://.godot/imported/arrow_trap.aseprite-eaaa4d8f1d93e93ee2da3655edaef15c.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/props/arrow_trap.aseprite"
+dest_files=["res://.godot/imported/arrow_trap.aseprite-eaaa4d8f1d93e93ee2da3655edaef15c.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

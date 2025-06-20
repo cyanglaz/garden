@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cp3d41ds4f2c0"
+path="res://.godot/imported/card_range_action_indicator.aseprite-0885d381259d5983c243ea45bafdbaee.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/cards/action_indicators/card_range_action_indicator.aseprite"
+dest_files=["res://.godot/imported/card_range_action_indicator.aseprite-0885d381259d5983c243ea45bafdbaee.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

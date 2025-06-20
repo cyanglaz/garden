@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://mf2pkqt0os4d"
+path="res://.godot/imported/mob_bomber.aseprite-434da887c6c10404eadabb80768e81f3.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/mobs/mob_bomber.aseprite"
+dest_files=["res://.godot/imported/mob_bomber.aseprite-434da887c6c10404eadabb80768e81f3.res"]
+
+[params]
+

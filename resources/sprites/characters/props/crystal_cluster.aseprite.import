@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://dw8sfaydxxca5"
+path="res://.godot/imported/crystal_cluster.aseprite-6c17143bde37dcf998e4cf6ad6808461.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/props/crystal_cluster.aseprite"
+dest_files=["res://.godot/imported/crystal_cluster.aseprite-6c17143bde37dcf998e4cf6ad6808461.res"]
+
+[params]
+

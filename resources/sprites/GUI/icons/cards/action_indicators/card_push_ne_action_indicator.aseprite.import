@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://djg6pdy1lliog"
+path="res://.godot/imported/card_push_ne_action_indicator.aseprite-dc83021302bb48df1619795c7ea53219.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/cards/action_indicators/card_push_ne_action_indicator.aseprite"
+dest_files=["res://.godot/imported/card_push_ne_action_indicator.aseprite-dc83021302bb48df1619795c7ea53219.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

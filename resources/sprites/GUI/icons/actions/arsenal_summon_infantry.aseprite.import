@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dx4i28j31uuh8"
+path="res://.godot/imported/arsenal_summon_infantry.aseprite-1a6e8403276c315e33e04dcf903c459c.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/actions/arsenal_summon_infantry.aseprite"
+dest_files=["res://.godot/imported/arsenal_summon_infantry.aseprite-1a6e8403276c315e33e04dcf903c459c.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

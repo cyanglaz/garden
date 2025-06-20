@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://d1k86f5aexxl"]
+
+[ext_resource type="Script" uid="uid://iyo7xhxxoifs" path="res://scenes/GUI/controls/buttons/gui_card_reward_button.gd" id="1_vdi0e"]
+[ext_resource type="PackedScene" uid="uid://dwh8vkx36namu" path="res://scenes/GUI/utils/gui_panel_background_color.tscn" id="2_7fiq4"]
+[ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="3_8j4t0"]
+[ext_resource type="PackedScene" uid="uid://bfgl40nfjgwpx" path="res://scenes/GUI/shared/descriptions/gui_bingo_ball_description_inner_border.tscn" id="4_yrbtt"]
+[ext_resource type="PackedScene" uid="uid://bi37nxb5r17kt" path="res://scenes/GUI/shared/descriptions/gui_ball_description.tscn" id="5_evtd6"]
+
+[node name="GUICardRewardButton" type="PanelContainer"]
+custom_minimum_size = Vector2(64, 96)
+size_flags_vertical = 4
+script = ExtResource("1_vdi0e")
+
+[node name="GUIPanelBackgroundColor" parent="." instance=ExtResource("2_7fiq4")]
+unique_name_in_owner = true
+self_modulate = Color(0.521569, 0.521569, 0.521569, 1)
+layout_mode = 2
+
+[node name="Border" type="NinePatchRect" parent="."]
+unique_name_in_owner = true
+self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
+layout_mode = 2
+texture = ExtResource("3_8j4t0")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="GUIBingoBallDescriptionInnerBorder" parent="." instance=ExtResource("4_yrbtt")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="GUIBallDescription" parent="MarginContainer" instance=ExtResource("5_evtd6")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+tooltip_position = 1

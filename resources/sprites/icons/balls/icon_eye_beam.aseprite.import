@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cbrf5i2ivkioj"
+path="res://.godot/imported/icon_eye_beam.aseprite-29d68416bd6d39b8b76c8fbe4e6384a6.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_eye_beam.aseprite"
+dest_files=["res://.godot/imported/icon_eye_beam.aseprite-29d68416bd6d39b8b76c8fbe4e6384a6.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

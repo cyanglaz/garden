@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://clx8lunt7w8vo"
+path="res://.godot/imported/crit_master.aseprite-e8803d612104da9e14636377493f0c31.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/crit_master.aseprite"
+dest_files=["res://.godot/imported/crit_master.aseprite-e8803d612104da9e14636377493f0c31.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

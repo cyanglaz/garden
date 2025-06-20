@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dj2gfcavp3n61"]
+
+[ext_resource type="Script" uid="uid://0fqqf0awm0du" path="res://scenes/utils/enter_tree/enter_tree_audio_player.gd" id="1_nofov"]
+
+[node name="EnterTreeAudioPlayer" type="AudioStreamPlayer"]
+volume_db = 1.0
+bus = &"SFX"
+script = ExtResource("1_nofov")

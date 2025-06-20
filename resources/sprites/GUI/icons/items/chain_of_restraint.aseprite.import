@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://g4ccxkgu884v"
+path="res://.godot/imported/chain_of_restraint.aseprite-479805184a263b8539c0355edecb74b3.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/items/chain_of_restraint.aseprite"
+dest_files=["res://.godot/imported/chain_of_restraint.aseprite-479805184a263b8539c0355edecb74b3.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

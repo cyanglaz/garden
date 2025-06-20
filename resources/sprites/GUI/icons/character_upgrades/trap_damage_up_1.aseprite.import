@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://4qdlek5dl5wk"
+path="res://.godot/imported/trap_damage_up_1.aseprite-051ceb616d9ab86343aa751108ed857d.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/character_upgrades/trap_damage_up_1.aseprite"
+dest_files=["res://.godot/imported/trap_damage_up_1.aseprite-051ceb616d9ab86343aa751108ed857d.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

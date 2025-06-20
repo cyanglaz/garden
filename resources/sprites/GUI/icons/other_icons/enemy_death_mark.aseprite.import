@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://blujox0b1rbck"
+path="res://.godot/imported/enemy_death_mark.aseprite-8f57de786058ea64d016b8d308a81ffd.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/enemy_death_mark.aseprite"
+dest_files=["res://.godot/imported/enemy_death_mark.aseprite-8f57de786058ea64d016b8d308a81ffd.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

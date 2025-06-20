@@ -1,0 +1,34 @@
+[gd_scene load_steps=9 format=3 uid="uid://0cm33k34ge3i"]
+
+[ext_resource type="PackedScene" uid="uid://cb6lt2pe1wde7" path="res://scenes/game_levels/game_level.tscn" id="1_5oo5p"]
+[ext_resource type="Script" path="res://manual_tests/test_levels/test_game_level.gd" id="2_7o71r"]
+[ext_resource type="PackedScene" uid="uid://0vp7488uacdf" path="res://scenes/game_levels/floor/floor/game_floor.tscn" id="3_wmxf3"]
+[ext_resource type="PackedScene" uid="uid://gvu6xvtwtga" path="res://manual_tests/test_levels/test_player.tscn" id="4_7kic8"]
+[ext_resource type="PackedScene" uid="uid://dia11114jwx37" path="res://scenes/game_levels/rooms/normal/chapter1/normal_room1.tscn" id="5_u8yqr"]
+[ext_resource type="PackedScene" uid="uid://y1js5oj8pp77" path="res://scenes/character/mob/boss/boss_dark_mage/boss_dark_mage.tscn" id="6_7f28u"]
+[ext_resource type="Script" path="res://scenes/game_levels/room_components/mob_spawners/spawn_wave.gd" id="7_kep7m"]
+
+[sub_resource type="Resource" id="Resource_pb4cc"]
+script = ExtResource("7_kep7m")
+total_difficulty = 1
+mob_types = Array[PackedScene]([ExtResource("6_7f28u")])
+
+[node name="TestGameLevel" instance=ExtResource("1_5oo5p")]
+script = ExtResource("2_7o71r")
+
+[node name="GameFloor" parent="." index="0" instance=ExtResource("3_wmxf3")]
+player_prefab = ExtResource("4_7kic8")
+
+[node name="Room" parent="GameFloor" index="2" instance=ExtResource("5_u8yqr")]
+
+[node name="MobHolder" parent="GameFloor/Room" index="1"]
+level = 1
+depth = 1
+spawn_waves = Array[ExtResource("7_kep7m")]([SubResource("Resource_pb4cc")])
+random_mobs = false
+mob_type = 1
+
+[node name="FeedbackCamera2D" parent="." index="1"]
+position_smoothing_speed = 5.0
+
+[editable path="GameFloor/Room"]

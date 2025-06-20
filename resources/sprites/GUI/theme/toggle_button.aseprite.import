@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://djlgxlwhn080x"
+path="res://.godot/imported/toggle_button.aseprite-64d6bad6008d51446a8b9ee9e89a2673.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/theme/toggle_button.aseprite"
+dest_files=["res://.godot/imported/toggle_button.aseprite-64d6bad6008d51446a8b9ee9e89a2673.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

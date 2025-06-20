@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dwe78se7jkxyw"
+path="res://.godot/imported/action_distance_up_1.aseprite-8ef3d30e6279c20e82d9df168f00ccb5.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/character_upgrades/action_distance_up_1.aseprite"
+dest_files=["res://.godot/imported/action_distance_up_1.aseprite-8ef3d30e6279c20e82d9df168f00ccb5.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

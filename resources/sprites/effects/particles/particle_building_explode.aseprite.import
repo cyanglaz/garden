@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://j8pbw84e2rtr"
+path="res://.godot/imported/particle_building_explode.aseprite-24ce67089ecc60aecbbb8369d51ab0a2.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/particles/particle_building_explode.aseprite"
+dest_files=["res://.godot/imported/particle_building_explode.aseprite-24ce67089ecc60aecbbb8369d51ab0a2.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

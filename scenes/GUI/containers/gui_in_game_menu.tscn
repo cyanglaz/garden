@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://jop7l8ipsj3f"]
+
+[ext_resource type="PackedScene" uid="uid://c7axrk5wwb6ab" path="res://scenes/GUI/containers/gui_popup_container.tscn" id="1_04j5r"]
+[ext_resource type="Script" uid="uid://bj2f5fafbny18" path="res://scenes/GUI/containers/gui_in_game_menu.gd" id="2_og3xs"]
+[ext_resource type="PackedScene" uid="uid://ddpwfwgic4w2y" path="res://scenes/GUI/controls/buttons/gui_menu_button.tscn" id="3_br5le"]
+
+[node name="GUIInGameMenuContainer" instance=ExtResource("1_04j5r")]
+script = ExtResource("2_og3xs")
+
+[node name="PanelContainer" parent="." index="1"]
+offset_top = -60.0
+offset_bottom = 60.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" index="0"]
+layout_mode = 2
+
+[node name="ContinueButton" parent="PanelContainer/MarginContainer/VBoxContainer" index="0" instance=ExtResource("3_br5le")]
+unique_name_in_owner = true
+layout_mode = 2
+localization_text_key = "CONTINUE"
+
+[node name="OptionsButton" parent="PanelContainer/MarginContainer/VBoxContainer" index="1" instance=ExtResource("3_br5le")]
+unique_name_in_owner = true
+layout_mode = 2
+localization_text_key = "OPTIONS"
+
+[node name="MainMenuButton" parent="PanelContainer/MarginContainer/VBoxContainer" index="2" instance=ExtResource("3_br5le")]
+unique_name_in_owner = true
+layout_mode = 2
+localization_text_key = "MAIN_MENU"
+
+[node name="TitleBanner" parent="PanelContainer/FloatingViewContainer" index="0"]
+offset_top = -10.0
+offset_bottom = 14.0
+
+[node name="Title" parent="PanelContainer/FloatingViewContainer/TitleBanner" index="0"]
+text = "MENU
+"

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwh8vkx36namu"]
+
+[ext_resource type="Texture2D" uid="uid://b0nsc2v1cdqqd" path="res://resources/sprites/GUI/shared/panel_background_simple.png" id="1_6dtue"]
+
+[node name="GUIPanelBackgroundColor" type="NinePatchRect"]
+self_modulate = Color(0.976471, 0.901961, 0.811765, 1)
+offset_right = 6.0
+offset_bottom = 6.0
+texture = ExtResource("1_6dtue")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3

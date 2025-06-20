@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://w25kqplg5ype"
+path="res://.godot/imported/action_move.aseprite-fcad4e53066ecd021ec7c4c98c3e79c1.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/main_actions/action_move.aseprite"
+dest_files=["res://.godot/imported/action_move.aseprite-fcad4e53066ecd021ec7c4c98c3e79c1.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

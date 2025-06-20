@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://kc0p7q2tw3v7"
+path="res://.godot/imported/icon_battle_flag.aseprite-1534baf22dce25cad5500514895d942a.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_battle_flag.aseprite"
+dest_files=["res://.godot/imported/icon_battle_flag.aseprite-1534baf22dce25cad5500514895d942a.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

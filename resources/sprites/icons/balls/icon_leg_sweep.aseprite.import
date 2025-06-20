@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cl4no02bvcnts"
+path="res://.godot/imported/icon_leg_sweep.aseprite-8b85f7875392f6ef3ff1d7bf3c842a26.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_leg_sweep.aseprite"
+dest_files=["res://.godot/imported/icon_leg_sweep.aseprite-8b85f7875392f6ef3ff1d7bf3c842a26.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

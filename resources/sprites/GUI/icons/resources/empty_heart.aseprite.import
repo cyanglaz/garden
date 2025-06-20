@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cfrcb44w884bf"
+path="res://.godot/imported/empty_heart.aseprite-1fec5689c04b2db5ceb16957aa209124.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/empty_heart.aseprite"
+dest_files=["res://.godot/imported/empty_heart.aseprite-1fec5689c04b2db5ceb16957aa209124.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

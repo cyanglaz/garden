@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://ditmjtvk5ofyc"
+path="res://.godot/imported/icon_skybreaker.aseprite-47cd07c0b94cf082fdfcb9d118c51a09.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_skybreaker.aseprite"
+dest_files=["res://.godot/imported/icon_skybreaker.aseprite-47cd07c0b94cf082fdfcb9d118c51a09.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

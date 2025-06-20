@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bkoy55ptnwly7"
+path="res://.godot/imported/retaliate.aseprite-70dd5023d3506514774b54a8eba7d015.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/character_upgrades/retaliate.aseprite"
+dest_files=["res://.godot/imported/retaliate.aseprite-70dd5023d3506514774b54a8eba7d015.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

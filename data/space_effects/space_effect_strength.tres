@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="SpaceEffectData" load_steps=2 format=3 uid="uid://b18d1sv5hgpd4"]
+
+[ext_resource type="Script" uid="uid://y4550nosdclb" path="res://data/models/bingo/space_effect_data.gd" id="1_on1xw"]
+
+[resource]
+script = ExtResource("1_on1xw")
+show_stack = true
+id = "strength"
+display_name = "Strength"
+description = "For every stack, player attacks on this space deal {dmg} more damage."
+data = {
+"dmg": "2"
+}

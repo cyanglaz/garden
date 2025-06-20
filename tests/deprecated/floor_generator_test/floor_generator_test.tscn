@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://4n0by4aplyf2"]
+
+[sub_resource type="Resource" id="Resource_vhb1p"]
+metadata/__load_path__ = "res://manual_tests/tests_scenes/floor_generator_test/floor_generator_test.gd"
+
+[node name="FloorGeneratorTest" type="Node2D"]
+script = SubResource("Resource_vhb1p")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Container" type="Control" parent="CanvasLayer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Generate
+"

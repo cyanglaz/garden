@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=5 format=3 uid="uid://rjau6lq6foq7"]
+
+[ext_resource type="Script" uid="uid://dlus7fsh3enbg" path="res://data/models/bingo/bingo_ball_data.gd" id="1_bxlot"]
+[ext_resource type="Resource" uid="uid://dnvrqy1gkaur6" path="res://data/balls/enemy/bingo_ball_claw.tres" id="2_u6y6g"]
+[ext_resource type="Resource" uid="uid://dhflmh8lkmyvg" path="res://data/balls/enemy/bingo_ball_rend.tres" id="3_gwo4w"]
+[ext_resource type="Script" uid="uid://bva5f4mdvs5ci" path="res://data/models/character/enemy_data.gd" id="3_ihp15"]
+
+[resource]
+script = ExtResource("3_ihp15")
+type = 0
+appearance_level = 0
+max_hp = 70
+initial_balls = Array[ExtResource("1_bxlot")]([ExtResource("2_u6y6g"), ExtResource("3_gwo4w")])
+id = "ghoul"
+display_name = "Ghoul"
+description = ""
+data = {}

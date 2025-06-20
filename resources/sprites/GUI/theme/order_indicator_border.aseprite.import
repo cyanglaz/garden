@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dih4rmh0t57fo"
+path="res://.godot/imported/order_indicator_border.aseprite-f8a36d2c2736e10d60dc45330fbcb10c.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/theme/order_indicator_border.aseprite"
+dest_files=["res://.godot/imported/order_indicator_border.aseprite-f8a36d2c2736e10d60dc45330fbcb10c.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

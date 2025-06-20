@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dahpeb6bjjn4h"
+path="res://.godot/imported/icon_long_bow.aseprite-1b66571e83f5c000892cd14bf3e7e7b6.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_long_bow.aseprite"
+dest_files=["res://.godot/imported/icon_long_bow.aseprite-1b66571e83f5c000892cd14bf3e7e7b6.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

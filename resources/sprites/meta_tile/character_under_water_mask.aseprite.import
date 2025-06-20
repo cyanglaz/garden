@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://j6n3dwl2viv5"
+path="res://.godot/imported/character_under_water_mask.aseprite-60c9480b2bb517cb573d5d7aca9d202e.res"
+
+[deps]
+
+source_file="res://resources/sprites/meta_tile/character_under_water_mask.aseprite"
+dest_files=["res://.godot/imported/character_under_water_mask.aseprite-60c9480b2bb517cb573d5d7aca9d202e.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

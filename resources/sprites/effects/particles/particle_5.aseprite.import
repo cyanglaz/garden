@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bfn5ao8e6kjxf"
+path="res://.godot/imported/particle_5.aseprite-080b0eefb1f141c36e2e413aaf182bad.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/particles/particle_5.aseprite"
+dest_files=["res://.godot/imported/particle_5.aseprite-080b0eefb1f141c36e2e413aaf182bad.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

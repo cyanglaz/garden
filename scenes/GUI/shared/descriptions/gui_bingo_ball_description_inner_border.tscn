@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bfgl40nfjgwpx"]
+
+[ext_resource type="Texture2D" uid="uid://dn0npwo3e475b" path="res://resources/sprites/GUI/shared/border2_inner.png" id="1_2ao2y"]
+[ext_resource type="Script" uid="uid://ue88ta5vsurh" path="res://scenes/GUI/shared/descriptions/gui_bingo_ball_description_inner_border.gd" id="1_ehes6"]
+
+[node name="GUIBingoBallDescriptionInnerBorder" type="MarginContainer"]
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+script = ExtResource("1_ehes6")
+
+[node name="InnerBorder" type="NinePatchRect" parent="."]
+unique_name_in_owner = true
+self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
+layout_mode = 2
+texture = ExtResource("1_2ao2y")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bgi0gowliit0s"
+path="res://.godot/imported/shield_enhancer.aseprite-0241061f1f2c2bb0a724b0c4d5f6b19e.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/shield_enhancer.aseprite"
+dest_files=["res://.godot/imported/shield_enhancer.aseprite-0241061f1f2c2bb0a724b0c4d5f6b19e.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

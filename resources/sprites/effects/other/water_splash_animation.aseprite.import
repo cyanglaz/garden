@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bfrhn6dkelkwi"
+path="res://.godot/imported/water_splash_animation.aseprite-c2f7296bac4be54dfd50686e9d4763e2.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/other/water_splash_animation.aseprite"
+dest_files=["res://.godot/imported/water_splash_animation.aseprite-c2f7296bac4be54dfd50686e9d4763e2.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

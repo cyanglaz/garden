@@ -1,0 +1,79 @@
+[gd_scene load_steps=11 format=3 uid="uid://cmqli0aslo7ym"]
+
+[ext_resource type="PackedScene" uid="uid://bjnx8oghuh83o" path="res://scenes/utils/visual_effects/character_ghost.tscn" id="1_j6448"]
+[ext_resource type="Texture2D" uid="uid://dknowe6131r8y" path="res://resources/sprites/effects/characters/mob_ghost.png" id="2_6eayi"]
+
+[sub_resource type="Shader" id="Shader_age8v"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+// 3. Create a uniform for animation
+uniform float ghost_progress: hint_range(0.0, 1.0);
+
+void fragment() {
+	// 2. Utlize UV mapping to mapthe texture upwards
+	vec4 base_color = textureLod(TEXTURE, UV, ghost_progress);
+
+	//// 5. add transparency
+	float ghost_opacity = 1.0;
+	float min_ghost_opacity = 0.9;
+	base_color.a *= (1.0 - ghost_progress * min_ghost_opacity) * ghost_opacity;
+
+	COLOR.rgba = base_color;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hmflc"]
+resource_local_to_scene = true
+shader = SubResource("Shader_age8v")
+shader_parameter/ghost_progress = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yuk2q"]
+atlas = ExtResource("2_6eayi")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qyu7v"]
+atlas = ExtResource("2_6eayi")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u1yw1"]
+atlas = ExtResource("2_6eayi")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q554e"]
+atlas = ExtResource("2_6eayi")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sjc87"]
+atlas = ExtResource("2_6eayi")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kovj7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yuk2q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qyu7v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u1yw1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q554e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sjc87")
+}],
+"loop": true,
+"name": &"loop",
+"speed": 10.0
+}]
+
+[node name="MobGhost" instance=ExtResource("1_j6448")]
+
+[node name="CharacterGhost" parent="." index="0"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_hmflc")
+sprite_frames = SubResource("SpriteFrames_kovj7")
+frame_progress = 0.0
+metadata/_aseprite_wizard_source_file_hash_ = "6abba426c51dfda829dfb0f487e2cde7"

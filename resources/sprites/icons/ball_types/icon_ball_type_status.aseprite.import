@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://drfyrf4n0yfx8"
+path="res://.godot/imported/icon_ball_type_status.aseprite-cda75fa6acc96cce8548bf88ddceb1a1.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/ball_types/icon_ball_type_status.aseprite"
+dest_files=["res://.godot/imported/icon_ball_type_status.aseprite-cda75fa6acc96cce8548bf88ddceb1a1.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

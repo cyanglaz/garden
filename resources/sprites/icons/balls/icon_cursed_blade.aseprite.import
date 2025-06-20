@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://fy00j5dai7yi"
+path="res://.godot/imported/icon_cursed_blade.aseprite-a3a70adaa9d94d2e79bcf505c3a15b06.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_cursed_blade.aseprite"
+dest_files=["res://.godot/imported/icon_cursed_blade.aseprite-a3a70adaa9d94d2e79bcf505c3a15b06.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

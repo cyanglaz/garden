@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://8w8dmg3ibxtj"
+path="res://.godot/imported/decoration_props.aseprite-e12d3a3e5b31b6d6f92487e012ea1ad9.res"
+
+[deps]
+
+source_file="res://resources/sprites/tiles/props/decoration_props.aseprite"
+dest_files=["res://.godot/imported/decoration_props.aseprite-e12d3a3e5b31b6d6f92487e012ea1ad9.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

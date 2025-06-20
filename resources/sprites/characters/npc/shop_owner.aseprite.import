@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://cg1y7xuqaye5r"
+path="res://.godot/imported/shop_owner.aseprite-92dd3c8e31ef2fef2601aac85e7b4551.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/npc/shop_owner.aseprite"
+dest_files=["res://.godot/imported/shop_owner.aseprite-92dd3c8e31ef2fef2601aac85e7b4551.res"]
+
+[params]
+

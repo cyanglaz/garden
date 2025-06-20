@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cuok2byqk42wl"
+path="res://.godot/imported/vitality_surge.aseprite-91a896bf5a2352dd04dc1161b50ba8b7.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/deprecated/vitality_surge.aseprite"
+dest_files=["res://.godot/imported/vitality_surge.aseprite-91a896bf5a2352dd04dc1161b50ba8b7.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

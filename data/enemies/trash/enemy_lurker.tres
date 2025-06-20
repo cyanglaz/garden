@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=5 format=3 uid="uid://bdi5u4orvuhkj"]
+
+[ext_resource type="Script" uid="uid://dlus7fsh3enbg" path="res://data/models/bingo/bingo_ball_data.gd" id="1_tlthw"]
+[ext_resource type="Resource" uid="uid://dpfhdaeqheo6q" path="res://data/balls/enemy/bingo_ball_ambush.tres" id="2_vi8c3"]
+[ext_resource type="Resource" uid="uid://qnxug60xyime" path="res://data/balls/enemy/bingo_ball_hide.tres" id="3_4brny"]
+[ext_resource type="Script" uid="uid://bva5f4mdvs5ci" path="res://data/models/character/enemy_data.gd" id="3_hi8m5"]
+
+[resource]
+script = ExtResource("3_hi8m5")
+type = 0
+appearance_level = 0
+max_hp = 65
+initial_balls = Array[ExtResource("1_tlthw")]([ExtResource("3_4brny"), ExtResource("2_vi8c3")])
+id = "lurker"
+display_name = "Lurker"
+description = ""
+data = {}

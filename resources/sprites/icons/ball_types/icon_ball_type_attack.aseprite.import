@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cpbo10cm7y6td"
+path="res://.godot/imported/icon_ball_type_attack.aseprite-0c89c8ba70f3c2d54e6f890a4ef25646.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/ball_types/icon_ball_type_attack.aseprite"
+dest_files=["res://.godot/imported/icon_ball_type_attack.aseprite-0c89c8ba70f3c2d54e6f890a4ef25646.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

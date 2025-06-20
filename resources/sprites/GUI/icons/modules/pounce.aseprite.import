@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bnqqmpxeom7mt"
+path="res://.godot/imported/pounce.aseprite-c6c7fe8f700bdc64a6cea9a7603a0485.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/modules/pounce.aseprite"
+dest_files=["res://.godot/imported/pounce.aseprite-c6c7fe8f700bdc64a6cea9a7603a0485.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

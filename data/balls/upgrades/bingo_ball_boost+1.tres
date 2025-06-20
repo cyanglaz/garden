@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="BingoBallData" load_steps=2 format=3 uid="uid://dhkakfv4fkmud"]
+
+[ext_resource type="Script" uid="uid://dlus7fsh3enbg" path="res://data/models/bingo/bingo_ball_data.gd" id="1_l5cxj"]
+
+[resource]
+script = ExtResource("1_l5cxj")
+damage = 0
+rarity = 2
+type = 0
+trigger_times = 1
+attack_ball_count = 1
+placement_rule = 0
+placement_rule_values = []
+special_rules = Array[int]([])
+plus_damage = 0
+plus_trigger_times = 0
+plus_placement_rule = -1
+plus_placement_rule_values = []
+plus_special_rules = Array[int]([])
+plus_description = "When a symbol is displayed on the same row, draw {card} cards."
+plus_data = {}
+id = "boost+1"
+display_name = "Boost"
+description = "When a symbol is displayed on the same row, draw {card} card."
+data = {
+"card": "2"
+}

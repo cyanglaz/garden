@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid="uid://bnw5wttpfc26q"]
+
+[ext_resource type="Script" uid="uid://b4xhj6c6kso4f" path="res://scenes/GUI/shared/descriptions/gui_status_effect_description.gd" id="1_8ltc2"]
+[ext_resource type="PackedScene" uid="uid://bfye3pwakcidx" path="res://scenes/GUI/shared/descriptions/gui_tooltip_description_separator.tscn" id="2_o3tte"]
+
+[node name="GUIStatusEffectDescription" type="VBoxContainer"]
+custom_minimum_size = Vector2(56, 0)
+theme_override_constants/separation = 2
+script = ExtResource("1_8ltc2")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 2
+size_flags_vertical = 0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="NameLabel" type="Label" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"HUD_mid"
+text = "Egg"
+
+[node name="TypeLabel" type="Label" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 10
+theme_type_variation = &"LabelEffectType"
+text = "123"
+vertical_alignment = 2
+
+[node name="GUITooltipDescriptionSaparator" parent="." instance=ExtResource("2_o3tte")]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+theme_type_variation = &"RichTextControlTip"
+bbcode_enabled = true
+fit_content = true
+scroll_active = false

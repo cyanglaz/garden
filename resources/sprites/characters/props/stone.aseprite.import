@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://dceub4twyvfi2"
+path="res://.godot/imported/stone.aseprite-41f43dffcf671964184debd9ddb7d168.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/props/stone.aseprite"
+dest_files=["res://.godot/imported/stone.aseprite-41f43dffcf671964184debd9ddb7d168.res"]
+
+[params]
+

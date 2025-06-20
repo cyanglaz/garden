@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cbnnxjcpt5wyd"
+path="res://.godot/imported/upgrade_button_border.aseprite-077c6982ff1c7477bdf4364dfda395b2.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/theme/upgrade_button_border.aseprite"
+dest_files=["res://.godot/imported/upgrade_button_border.aseprite-077c6982ff1c7477bdf4364dfda395b2.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

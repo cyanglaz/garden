@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cffhd2pl20asg"
+path="res://.godot/imported/particle_build.aseprite-c13c88a4314f2c96659c8909d1ed408b.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/particles/particle_build.aseprite"
+dest_files=["res://.godot/imported/particle_build.aseprite-c13c88a4314f2c96659c8909d1ed408b.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

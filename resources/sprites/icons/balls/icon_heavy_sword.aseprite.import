@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://croe5lt1lmuk6"
+path="res://.godot/imported/icon_heavy_sword.aseprite-754086f40e57d585cb8e18b45e92c414.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_heavy_sword.aseprite"
+dest_files=["res://.godot/imported/icon_heavy_sword.aseprite-754086f40e57d585cb8e18b45e92c414.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

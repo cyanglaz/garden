@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://t7coec4r5rps"
+path="res://.godot/imported/icon_v_blade.aseprite-4bb0cb44552ccfacfcb1152155b54380.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_v_blade.aseprite"
+dest_files=["res://.godot/imported/icon_v_blade.aseprite-4bb0cb44552ccfacfcb1152155b54380.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

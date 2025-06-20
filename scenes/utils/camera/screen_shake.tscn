@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxgbjlkaad5jd"]
+
+[ext_resource type="Script" uid="uid://bbwygyylpb7cs" path="res://scenes/utils/camera/screen_shake.gd" id="1_hqmf8"]
+
+[node name="ScreenShake" type="Node"]
+script = ExtResource("1_hqmf8")

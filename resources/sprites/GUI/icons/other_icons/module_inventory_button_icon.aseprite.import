@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://ce0wlixteg8w0"
+path="res://.godot/imported/module_inventory_button_icon.aseprite-122eef7bd6855357d3f23b91f91e2c12.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/module_inventory_button_icon.aseprite"
+dest_files=["res://.godot/imported/module_inventory_button_icon.aseprite-122eef7bd6855357d3f23b91f91e2c12.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

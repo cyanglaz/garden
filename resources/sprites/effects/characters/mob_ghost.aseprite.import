@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://8b0hl7mnf7e2"
+path="res://.godot/imported/mob_ghost.aseprite-5470136d3e0b48d928577325a448c547.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/characters/mob_ghost.aseprite"
+dest_files=["res://.godot/imported/mob_ghost.aseprite-5470136d3e0b48d928577325a448c547.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

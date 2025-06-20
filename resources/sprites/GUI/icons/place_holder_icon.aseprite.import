@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cysdilstmord3"
+path="res://.godot/imported/place_holder_icon.aseprite-6f2dfad27e3bddd573774608d8abbc8d.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/place_holder_icon.aseprite"
+dest_files=["res://.godot/imported/place_holder_icon.aseprite-6f2dfad27e3bddd573774608d8abbc8d.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://ctxa2x47hjqgw"
+path="res://.godot/imported/icon_cleaver.aseprite-8dbcdb29265a1e0a0e571367c85faaec.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_cleaver.aseprite"
+dest_files=["res://.godot/imported/icon_cleaver.aseprite-8dbcdb29265a1e0a0e571367c85faaec.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

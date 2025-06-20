@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bjjdtuqsexb0l"
+path="res://.godot/imported/icon_quick_blade.aseprite-a1889573960186faf136ca9c83be8ff9.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_quick_blade.aseprite"
+dest_files=["res://.godot/imported/icon_quick_blade.aseprite-a1889573960186faf136ca9c83be8ff9.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

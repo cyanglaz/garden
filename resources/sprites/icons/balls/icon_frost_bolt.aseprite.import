@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://becwm7v48drgx"
+path="res://.godot/imported/icon_frost_bolt.aseprite-62cc1645af8bfaed41444c2bf0bc62fc.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/balls/icon_frost_bolt.aseprite"
+dest_files=["res://.godot/imported/icon_frost_bolt.aseprite-62cc1645af8bfaed41444c2bf0bc62fc.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

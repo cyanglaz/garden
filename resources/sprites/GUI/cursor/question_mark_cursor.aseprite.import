@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cprwn5hmdn5mv"
+path="res://.godot/imported/question_mark_cursor.aseprite-5b2349c85c2cd03feecd56cc81c28f82.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/cursor/question_mark_cursor.aseprite"
+dest_files=["res://.godot/imported/question_mark_cursor.aseprite-5b2349c85c2cd03feecd56cc81c28f82.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

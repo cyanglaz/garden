@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://clqo4g83li11v"]
+
+[ext_resource type="Texture2D" uid="uid://b4vovajl7p45a" path="res://resources/sprites/icons/space_effects/icon_shield.png" id="1_dakxu"]
+[ext_resource type="Script" uid="uid://t3gxtq4eshmx" path="res://scenes/GUI/bingo_main/bingo_board/gui_space_effect.gd" id="2_awbaf"]
+[ext_resource type="AudioStream" uid="uid://cy1f3ck7uowuy" path="res://resources/sounds/SFX/bingo/space_effect_trigger.wav" id="3_joloo"]
+
+[node name="GUISpaceEffect" type="TextureRect"]
+custom_minimum_size = Vector2(5, 5)
+offset_right = 6.0
+offset_bottom = 7.0
+mouse_filter = 0
+texture = ExtResource("1_dakxu")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_awbaf")
+
+[node name="Stack" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = -5.0
+offset_right = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_vertical = 8
+theme_type_variation = &"HUD_small"
+text = "1"
+vertical_alignment = 2
+
+[node name="TriggerSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_joloo")

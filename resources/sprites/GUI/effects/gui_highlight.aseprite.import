@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dnxo7mj725rht"
+path="res://.godot/imported/gui_highlight.aseprite-d3f36b78527b997e506f203ba300bbcf.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/effects/gui_highlight.aseprite"
+dest_files=["res://.godot/imported/gui_highlight.aseprite-d3f36b78527b997e506f203ba300bbcf.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://b13hd48jrhgis"
+path="res://.godot/imported/clover.aseprite-fa8be9a2b35793c9a5aac250fd801ebf.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/clover.aseprite"
+dest_files=["res://.godot/imported/clover.aseprite-fa8be9a2b35793c9a5aac250fd801ebf.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

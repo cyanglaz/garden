@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="BingoBallData" load_steps=3 format=3 uid="uid://cmpi05xn1tr1j"]
+
+[ext_resource type="Script" uid="uid://dlus7fsh3enbg" path="res://data/models/bingo/bingo_ball_data.gd" id="1_go1l4"]
+[ext_resource type="Script" uid="uid://c0yamweoq8d5u" path="res://data/models/status_effect/status_effect_data.gd" id="2_wbbrr"]
+
+[resource]
+script = ExtResource("1_go1l4")
+damage = 8
+rarity = 1
+type = 1
+attack_ball_count = 1
+placement_rule = 2
+placement_rule_values = [1, 2, 3]
+status_effect_datas = Array[ExtResource("2_wbbrr")]([])
+status_effect_stacks = Array[int]([])
+special_rules = Array[int]([])
+plus_damage = 0
+plus_placement_rule = -1
+plus_placement_rule_values = []
+plus_status_effect_datas = Array[ExtResource("2_wbbrr")]([])
+plus_status_effect_stacks = Array[int]([])
+plus_special_rules = Array[int]([])
+plus_description = ""
+plus_data = {
+&"dmg": "12"
+}
+id = "crossbow"
+display_name = "Crossbow"
+description = "If part of a diagonal line bingo, deal + {dmg} damage."
+data = {
+"dmg": "8"
+}

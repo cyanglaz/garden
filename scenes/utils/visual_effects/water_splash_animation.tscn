@@ -1,0 +1,86 @@
+[gd_scene load_steps=12 format=3 uid="uid://bfiahtof7pq0x"]
+
+[ext_resource type="PackedScene" uid="uid://bqbyd8n0fq3e2" path="res://scenes/utils/visual_effects/one_shot_animation.tscn" id="1_i1uoo"]
+[ext_resource type="Texture2D" uid="uid://mnhb57ikvbmw" path="res://resources/sprites/effects/other/water_splash_animation.png" id="2_lkevn"]
+[ext_resource type="AudioStream" uid="uid://cgell1cdyboun" path="res://resources/sounds/SFX/effects/water_splash.wav" id="3_15rwr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o4o5a"]
+atlas = ExtResource("2_lkevn")
+region = Rect2(0, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7nfqp"]
+atlas = ExtResource("2_lkevn")
+region = Rect2(48, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sw2xa"]
+atlas = ExtResource("2_lkevn")
+region = Rect2(96, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ut5q"]
+atlas = ExtResource("2_lkevn")
+region = Rect2(0, 64, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p05a8"]
+atlas = ExtResource("2_lkevn")
+region = Rect2(48, 64, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6etyp"]
+atlas = ExtResource("2_lkevn")
+region = Rect2(96, 64, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dkkxe"]
+atlas = ExtResource("2_lkevn")
+region = Rect2(0, 128, 48, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ajcft"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o4o5a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7nfqp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sw2xa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ut5q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p05a8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6etyp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dkkxe")
+}],
+"loop": false,
+"name": &"deploy",
+"speed": 10.0
+}]
+
+[node name="WaterSplashAnimation" instance=ExtResource("1_i1uoo")]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_ajcft")
+animation = &"deploy"
+signal_frame = 4
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layer": "",
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/effects/other/",
+"o_name": "",
+"only_visible": true,
+"slice": "",
+"source": "res://resources/sprites/effects/other/water_splash_animation.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "94f22815b4ebd72dd01c7589a1eb743c"
+
+[node name="AudioStreamPlayer2D" parent="." index="0"]
+stream = ExtResource("3_15rwr")
+volume_db = 10.0

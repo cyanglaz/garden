@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bx2v4k8nqse2d"
+path="res://.godot/imported/attack_indicator.aseprite-e38abcb764b744b10e93a06744e4237d.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/hud/attack_indicator.aseprite"
+dest_files=["res://.godot/imported/attack_indicator.aseprite-e38abcb764b744b10e93a06744e4237d.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

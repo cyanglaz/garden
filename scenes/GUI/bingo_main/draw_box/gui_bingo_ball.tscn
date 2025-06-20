@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://drf3tx11kw0i3"]
+
+[ext_resource type="Script" uid="uid://ccj7rwv8kkybf" path="res://scenes/GUI/bingo_main/draw_box/gui_bingo_ball.gd" id="1_g5ms0"]
+[ext_resource type="Texture2D" uid="uid://cfmsjyfuan30j" path="res://resources/sprites/bingo/bingo_ball/bingo_ball_background.png" id="2_ygu7u"]
+[ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="3_3hwsj"]
+[ext_resource type="PackedScene" uid="uid://vr2bq41a210f" path="res://scenes/GUI/bingo_main/shared/gui_symbol.tscn" id="4_gu7jk"]
+[ext_resource type="AudioStream" uid="uid://ejige36q1ebl" path="res://resources/sounds/SFX/bingo/ball_error_shake.wav" id="6_lrncf"]
+
+[node name="GUIBingoBall" type="PanelContainer"]
+custom_minimum_size = Vector2(20, 20)
+offset_right = 12.0
+offset_bottom = 12.0
+mouse_filter = 2
+script = ExtResource("1_g5ms0")
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="Background" type="NinePatchRect" parent="MarginContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("2_ygu7u")
+region_rect = Rect2(22, 0, 22, 22)
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="Border" type="NinePatchRect" parent="."]
+unique_name_in_owner = true
+modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
+layout_mode = 2
+texture = ExtResource("3_3hwsj")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+
+[node name="ErrorAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("6_lrncf")
+bus = &"SFX"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="GUISymbol" parent="MarginContainer" instance=ExtResource("4_gu7jk")]
+unique_name_in_owner = true
+layout_mode = 2
+enable_tooltips = true

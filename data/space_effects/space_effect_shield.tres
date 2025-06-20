@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="SpaceEffectData" load_steps=2 format=3 uid="uid://cyl07nu662ack"]
+
+[ext_resource type="Script" uid="uid://y4550nosdclb" path="res://data/models/bingo/space_effect_data.gd" id="1_cgptg"]
+
+[resource]
+script = ExtResource("1_cgptg")
+show_stack = true
+id = "shield"
+display_name = "Shield"
+description = "For every stack, enemy attacks on this space deal {dmg} less damage."
+data = {
+&"dmg": "2"
+}

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bmi70vir7u8cm"
+path="res://.godot/imported/level_selection_mouse_tile_indicator.aseprite-903b0f93377feac7f7d385f4502904e3.res"
+
+[deps]
+
+source_file="res://resources/sprites/meta_tile/level_selection_mouse_tile_indicator.aseprite"
+dest_files=["res://.godot/imported/level_selection_mouse_tile_indicator.aseprite-903b0f93377feac7f7d385f4502904e3.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

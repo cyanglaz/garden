@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://crrm5cq6p8wi7"
+path="res://.godot/imported/placement_icon_row.aseprite-70fdbf34f7acfbe511bf016c8d21cca5.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/tooltip_symbols/placement_icon_row.aseprite"
+dest_files=["res://.godot/imported/placement_icon_row.aseprite-70fdbf34f7acfbe511bf016c8d21cca5.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

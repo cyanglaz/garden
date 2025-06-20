@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://xl58rbnty0lc"
+path="res://.godot/imported/mob_brute.aseprite-00671062948285adf5c3fb2df14887d8.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/mobs/mob_brute.aseprite"
+dest_files=["res://.godot/imported/mob_brute.aseprite-00671062948285adf5c3fb2df14887d8.res"]
+
+[params]
+

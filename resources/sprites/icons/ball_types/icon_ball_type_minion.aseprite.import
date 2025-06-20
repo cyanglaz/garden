@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bff4coha0g7w6"
+path="res://.godot/imported/icon_ball_type_minion.aseprite-c4170335f89e2c6553e6378030cd8716.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/ball_types/icon_ball_type_minion.aseprite"
+dest_files=["res://.godot/imported/icon_ball_type_minion.aseprite-c4170335f89e2c6553e6378030cd8716.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

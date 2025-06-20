@@ -1,0 +1,170 @@
+[gd_scene load_steps=9 format=3 uid="uid://3068uq3kyx0r"]
+
+[ext_resource type="Script" uid="uid://cnecpkxucfaim" path="res://scenes/GUI/overlay_main/settings/gui_settings_main.gd" id="1_kcyne"]
+[ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="1_v8pcb"]
+[ext_resource type="Texture2D" uid="uid://b0nsc2v1cdqqd" path="res://resources/sprites/GUI/shared/panel_background_simple.png" id="2_koojq"]
+[ext_resource type="PackedScene" uid="uid://c0pj4bmuxbn87" path="res://scenes/GUI/controls/tab/gui_tabbar.tscn" id="3_pkb13"]
+[ext_resource type="PackedScene" uid="uid://dmfmdx0qsjb88" path="res://scenes/GUI/controls/sliders/gui_audio_setting_slider.tscn" id="4_kcyne"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="5_prspt"]
+[ext_resource type="PackedScene" uid="uid://dfp8e20o8iuxm" path="res://scenes/GUI/controls/sliders/gui_labeled_slider.tscn" id="6_prspt"]
+[ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="8_sp2ju"]
+
+[node name="GUISettingsMain" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kcyne")
+
+[node name="GUIOverlayBackground" parent="." instance=ExtResource("8_sp2ju")]
+layout_mode = 1
+color = Color(0.0470588, 0.180392, 0.266667, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Container" type="Control" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="SeedLabel" type="Label" parent="MarginContainer/Container"]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 18.0
+offset_bottom = 9.0
+theme_type_variation = &"LabelTiny"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"HUD"
+text = "Options"
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+
+[node name="Background" type="NinePatchRect" parent="MarginContainer/VBoxContainer/PanelContainer"]
+self_modulate = Color(0.396078, 0.45098, 0.572549, 1)
+layout_mode = 2
+texture = ExtResource("2_koojq")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="Border" type="NinePatchRect" parent="MarginContainer/VBoxContainer/PanelContainer/Background"]
+self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_v8pcb")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="GUITabbar" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_pkb13")]
+unique_name_in_owner = true
+layout_mode = 2
+tab_localization_titles = Array[String](["GAMEPLAY", "AUDIO"])
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 6
+
+[node name="Audios" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="MasterAudio" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Audios" instance=ExtResource("4_kcyne")]
+unique_name_in_owner = true
+layout_mode = 2
+audio_bus = "Master"
+
+[node name="MusicAudio" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Audios" instance=ExtResource("4_kcyne")]
+unique_name_in_owner = true
+layout_mode = 2
+audio_bus = "Music"
+
+[node name="SFXAudio" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Audios" instance=ExtResource("4_kcyne")]
+unique_name_in_owner = true
+layout_mode = 2
+audio_bus = "SFX"
+
+[node name="GamePlay" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="GUILabeldSlider" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/GamePlay" instance=ExtResource("6_prspt")]
+unique_name_in_owner = true
+layout_mode = 2
+localized_title = "GAME_SPEED"
+value_range = Vector2i(0, 2)
+
+[node name="Buttons" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="BackButton" parent="MarginContainer/VBoxContainer/Buttons" instance=ExtResource("5_prspt")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(18, 8)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+focus_mode = 0
+localization_text_key = "BACK"
+
+[node name="DefaultButton" parent="MarginContainer/VBoxContainer/Buttons" instance=ExtResource("5_prspt")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(18, 8)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 8
+focus_mode = 0
+localization_text_key = "DEFAULT"
+
+[node name="ExitButton" parent="MarginContainer/VBoxContainer/Buttons" instance=ExtResource("5_prspt")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(18, 8)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 8
+focus_mode = 0
+localization_text_key = "EXIT"

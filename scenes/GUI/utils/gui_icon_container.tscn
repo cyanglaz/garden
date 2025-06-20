@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5iyab4ns22kj"]
+
+[ext_resource type="Script" uid="uid://b0ovgul07iqmc" path="res://scenes/GUI/utils/gui_icon_container.gd" id="1_t1det"]
+[ext_resource type="Texture2D" uid="uid://eqoesbsbya4u" path="res://resources/sprites/GUI/shared/border1.png" id="2_82xjg"]
+
+[node name="GUIIconContainer" type="PanelContainer"]
+custom_minimum_size = Vector2(16, 16)
+offset_right = 16.0
+offset_bottom = 16.0
+pivot_offset = Vector2(8, 8)
+mouse_filter = 2
+theme_type_variation = &"EmptyPanel"
+script = ExtResource("1_t1det")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+use_parent_material = true
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="ItemTexture" type="TextureRect" parent="MarginContainer"]
+unique_name_in_owner = true
+use_parent_material = true
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Border" type="NinePatchRect" parent="."]
+unique_name_in_owner = true
+use_parent_material = true
+layout_mode = 2
+texture = ExtResource("2_82xjg")
+region_rect = Rect2(2.08165e-12, 2.08165e-12, 3, 3)
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1

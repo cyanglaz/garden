@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dm7v53emjhjsd"
+path="res://.godot/imported/ring_of_greed.aseprite-6223495dcea4070e34d9b37e3cad0b35.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/items/ring_of_greed.aseprite"
+dest_files=["res://.godot/imported/ring_of_greed.aseprite-6223495dcea4070e34d9b37e3cad0b35.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

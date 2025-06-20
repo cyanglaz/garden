@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cmmemtchpex88"
+path="res://.godot/imported/slider_bar.aseprite-c354c722a6264e415fcbf8025220b2b8.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/menu/slider_bar.aseprite"
+dest_files=["res://.godot/imported/slider_bar.aseprite-c354c722a6264e415fcbf8025220b2b8.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true

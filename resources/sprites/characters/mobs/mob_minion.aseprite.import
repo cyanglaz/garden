@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://bbxiyya8iqvx2"
+path="res://.godot/imported/mob_minion.aseprite-78d341a00ba39a7235eefcb4244132ce.res"
+
+[deps]
+
+source_file="res://resources/sprites/characters/mobs/mob_minion.aseprite"
+dest_files=["res://.godot/imported/mob_minion.aseprite-78d341a00ba39a7235eefcb4244132ce.res"]
+
+[params]
+

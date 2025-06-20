@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://d1fj4vraj5mu5"
+path="res://.godot/imported/shotgun.aseprite-1f2af34504abe667a086bfcb1046a83a.res"
+
+[deps]
+
+source_file="res://resources/sprites/weapons/shotgun.aseprite"
+dest_files=["res://.godot/imported/shotgun.aseprite-1f2af34504abe667a086bfcb1046a83a.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

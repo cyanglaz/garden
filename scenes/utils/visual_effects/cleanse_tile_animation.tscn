@@ -1,0 +1,92 @@
+[gd_scene load_steps=13 format=3 uid="uid://cj7r8hfkkolgm"]
+
+[ext_resource type="PackedScene" uid="uid://bqbyd8n0fq3e2" path="res://scenes/utils/visual_effects/one_shot_animation.tscn" id="1_kodgx"]
+[ext_resource type="Texture2D" uid="uid://b3n8y1cvg4yjs" path="res://resources/sprites/effects/other/cleanse_tile_animation.png" id="2_g4rgl"]
+[ext_resource type="AudioStream" uid="uid://uuyq8fiskcwk" path="res://resources/sounds/SFX/other/tile/tile_cleanse.wav" id="3_y4bev"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sbnb0"]
+atlas = ExtResource("2_g4rgl")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1pfy"]
+atlas = ExtResource("2_g4rgl")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pgiyj"]
+atlas = ExtResource("2_g4rgl")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q00dv"]
+atlas = ExtResource("2_g4rgl")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5b40o"]
+atlas = ExtResource("2_g4rgl")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_we7cj"]
+atlas = ExtResource("2_g4rgl")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5acc1"]
+atlas = ExtResource("2_g4rgl")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v1epf"]
+atlas = ExtResource("2_g4rgl")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7hw2u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sbnb0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p1pfy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pgiyj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q00dv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5b40o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_we7cj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5acc1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v1epf")
+}],
+"loop": false,
+"name": &"deploy",
+"speed": 10.0
+}]
+
+[node name="CleanseTileAnimation" instance=ExtResource("1_kodgx")]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_7hw2u")
+animation = &"deploy"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layer": "",
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/effects/other/",
+"o_name": "",
+"only_visible": true,
+"slice": "",
+"source": "res://resources/sprites/effects/other/cleanse_tile_animation.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "2407d440fce3123290ac6f2a3b9eafb0"
+
+[node name="AudioStreamPlayer2D" parent="." index="0"]
+stream = ExtResource("3_y4bev")
+volume_db = 10.0
