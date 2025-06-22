@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cjl7ftajdriqs"
+path="res://.godot/imported/plant_daisy.aseprite-2dfda230fa3845ec047c4cf55fcd2f22.res"
+
+[deps]
+
+source_file="res://resources/sprites/plants/plant_daisy.aseprite"
+dest_files=["res://.godot/imported/plant_daisy.aseprite-2dfda230fa3845ec047c4cf55fcd2f22.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

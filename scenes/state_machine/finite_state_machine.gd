@@ -85,11 +85,13 @@ func _set_current_state(val:State) -> void:
 	if old_state:
 		#assert(_states.get_child_count() == 1)
 		old_state.params.clear()
+		old_state.set_process(false)
 		#_states.remove_child(old_state)
 	_current_state = val
 	if !_current_state:
 		return
 	_current_state.params = new_params
+	_current_state.set_process(true)
 	assert(_is_started)
 	#_states.add_child(_current_state)
 	if !_current_state.state_exited.is_connected(_on_state_exited):

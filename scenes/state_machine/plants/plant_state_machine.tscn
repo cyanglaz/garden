@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4uyy86onbdnu"]
+
+[ext_resource type="PackedScene" uid="uid://cn3w8y1wumrmq" path="res://scenes/state_machine/finite_state_machine.tscn" id="1_n4sve"]
+[ext_resource type="Script" uid="uid://qniw484lk4rt" path="res://scenes/state_machine/plants/plant_state_machine.gd" id="2_fxefu"]
+[ext_resource type="PackedScene" uid="uid://bsknni2ebxkkv" path="res://scenes/state_machine/plants/states/plant_state_idle.tscn" id="3_d4jv5"]
+
+[node name="PlantStateMachine" node_paths=PackedStringArray("default_state") instance=ExtResource("1_n4sve")]
+script = ExtResource("2_fxefu")
+default_state = NodePath("States/PlantStateIdle")
+
+[node name="PlantStateIdle" parent="States" index="0" instance=ExtResource("3_d4jv5")]
