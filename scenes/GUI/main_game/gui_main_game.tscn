@@ -1,9 +1,22 @@
-[gd_scene load_steps=2 format=3 uid="uid://cyd2pmyuelacd"]
+[gd_scene load_steps=4 format=3 uid="uid://cyd2pmyuelacd"]
 
+[ext_resource type="Script" uid="uid://b3s0cai251tmf" path="res://scenes/GUI/main_game/gui_main_game.gd" id="1_48pcf"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_pgwuj"]
+[ext_resource type="PackedScene" uid="uid://ds1ot8wjbmotw" path="res://scenes/GUI/main_game/weather/gui_weather.tscn" id="3_1w680"]
 
 [node name="GUIMainGame" type="CanvasLayer"]
+script = ExtResource("1_48pcf")
 
 [node name="MainMarginContainer" parent="." instance=ExtResource("1_pgwuj")]
+
+[node name="GUIWeather" parent="MainMarginContainer/Container" index="0" instance=ExtResource("3_1w680")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -16.0
+offset_right = 0.0
+offset_bottom = 16.0
+grow_horizontal = 0
 
 [editable path="MainMarginContainer"]

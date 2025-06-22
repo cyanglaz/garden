@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://dvl0fns06jix2"]
+
+[node name="GUIToolCard" type="PanelContainer"]
+custom_minimum_size = Vector2(24, 38)

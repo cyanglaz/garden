@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://ds1ot8wjbmotw"]
+
+[ext_resource type="Script" uid="uid://d4nfk0jo0qxxf" path="res://scenes/GUI/main_game/weather/gui_weather.gd" id="1_7qekt"]
+[ext_resource type="Texture2D" uid="uid://cot566voterom" path="res://resources/sprites/GUI/shared/border2.png" id="2_vhu37"]
+
+[node name="GUIWeather" type="PanelContainer"]
+custom_minimum_size = Vector2(16, 16)
+offset_right = 4.0
+offset_bottom = 4.0
+script = ExtResource("1_7qekt")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+self_modulate = Color(0.105882, 0.105882, 0.105882, 1)
+layout_mode = 2
+texture = ExtResource("2_vhu37")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2

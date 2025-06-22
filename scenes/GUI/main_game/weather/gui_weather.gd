@@ -1,0 +1,2 @@
+class_name GUIWeather
+extends PanelContainer

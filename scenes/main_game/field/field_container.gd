@@ -4,7 +4,7 @@ extends Node2D
 const MAX_DISTANCE_BETWEEN_FIELDS := 20
 const MARGIN := 36
 
-const FIELD_SCENE := preload("res://scenes/game_session/field/field.tscn")
+const FIELD_SCENE := preload("res://scenes/main_game/field/field.tscn")
 
 @onready var _container: Node2D = %Container
 
