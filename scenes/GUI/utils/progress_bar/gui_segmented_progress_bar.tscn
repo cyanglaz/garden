@@ -12,8 +12,6 @@ script = ExtResource("1_gi8eq")
 max_value = 3
 current_value = 2
 icon_texture = ExtResource("2_ol5lb")
-icon_size = null
-segment_separation = null
 
 [node name="Icon" type="TextureRect" parent="."]
 unique_name_in_owner = true

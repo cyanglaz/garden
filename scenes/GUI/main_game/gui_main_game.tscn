@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cyd2pmyuelacd"]
+
+[ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_pgwuj"]
+
+[node name="GUIMainGame" type="CanvasLayer"]
+
+[node name="MainMarginContainer" parent="." instance=ExtResource("1_pgwuj")]
+
+[editable path="MainMarginContainer"]

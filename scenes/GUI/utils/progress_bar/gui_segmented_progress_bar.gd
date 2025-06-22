@@ -37,15 +37,6 @@ func _adjust_segment_size() -> void:
 		segment.size.x = segment_width
 		segment.size.y = _segment_container.size.y
 		segment.position.x = i * (segment_width + segment_separation)
-	print(segment_width)
-	print(segment_separation)
-
-	# print(total_width)
-	# print(size.x)
-	# if total_width < size.x:
-	# 	_adjust_space.custom_minimum_size.x = size.x - total_width
-	# else:
-	# 	_adjust_space.custom_minimum_size.x = 0
 
 func _set_border_color(val: Color) -> void:
 	border_color = val

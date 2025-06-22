@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://dswoypivjtaql"]
 
-[ext_resource type="Script" uid="uid://ypmkl3x5hk7f" path="res://scenes/game_session/field/field.gd" id="1_4blml"]
+[ext_resource type="Script" uid="uid://ypmkl3x5hk7f" path="res://scenes/main_game/field/field.gd" id="1_4blml"]
 [ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/field.png" id="1_se4o6"]
 [ext_resource type="PackedScene" uid="uid://by4p2lbbaimh3" path="res://scenes/GUI/controls/buttons/gui_field_button.tscn" id="3_hjlch"]
 [ext_resource type="PackedScene" uid="uid://673wlt1ldg8q" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.tscn" id="4_bve5f"]
@@ -95,7 +95,6 @@ max_value = 2
 segment_color = Color(1, 0.784314, 0.145098, 1)
 icon_texture = ExtResource("5_7ysiu")
 icon_size = Vector2(6, 6)
-segment_separation = 1.0
 
 [node name="WaterBar" parent="ProgressBars" instance=ExtResource("4_bve5f")]
 unique_name_in_owner = true
@@ -104,7 +103,6 @@ layout_mode = 2
 max_value = 5
 icon_texture = ExtResource("6_bhkj4")
 icon_size = Vector2(6, 6)
-segment_separation = 1.0
 
 [node name="PlantContainer" type="Node2D" parent="."]
 unique_name_in_owner = true

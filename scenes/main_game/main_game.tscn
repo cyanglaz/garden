@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbcxpceayay3"]
+
+[ext_resource type="PackedScene" uid="uid://byg0qymapjkn6" path="res://scenes/main_game/field/field_container.tscn" id="1_075iw"]
+[ext_resource type="PackedScene" uid="uid://drjaux1gtvc31" path="res://scenes/utils/camera/feedback_camera_2d.tscn" id="2_yra6k"]
+[ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
+
+[node name="MainGame" type="Node2D"]
+
+[node name="FieldContainer" parent="." instance=ExtResource("1_075iw")]
+unique_name_in_owner = true
+position = Vector2(0, -11)
+
+[node name="FeedbackCamera2D" parent="." instance=ExtResource("2_yra6k")]
+
+[node name="GUIGameSession" parent="." instance=ExtResource("3_8ywsm")]
