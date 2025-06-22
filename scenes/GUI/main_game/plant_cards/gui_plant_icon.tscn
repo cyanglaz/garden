@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://caiue05en2fg7"]
+
+[ext_resource type="Script" uid="uid://dbkjn3k1kdgme" path="res://scenes/GUI/main_game/plant_cards/gui_plant_icon.gd" id="1_q7qh7"]
+[ext_resource type="Texture2D" uid="uid://ljoqftopipcr" path="res://resources/sprites/GUI/icon_backgrounds/plant_icon_background.png" id="2_7eodn"]
+[ext_resource type="Texture2D" uid="uid://cot566voterom" path="res://resources/sprites/GUI/shared/border2.png" id="3_5linv"]
+[ext_resource type="AudioStream" uid="uid://ejige36q1ebl" path="res://resources/sounds/SFX/bingo/ball_error_shake.wav" id="4_s8ba4"]
+
+[node name="GUIPlantIcon" type="PanelContainer"]
+custom_minimum_size = Vector2(16, 16)
+script = ExtResource("1_q7qh7")
+
+[node name="Background" type="NinePatchRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("2_7eodn")
+region_rect = Rect2(0, 0, 16, 16)
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="TextureRect" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Border" type="NinePatchRect" parent="."]
+unique_name_in_owner = true
+modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
+layout_mode = 2
+texture = ExtResource("3_5linv")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="ErrorAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_s8ba4")
+bus = &"SFX"

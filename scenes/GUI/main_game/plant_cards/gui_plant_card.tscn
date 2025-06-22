@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://cjvckrc4jtsxm"]
+
+[ext_resource type="PackedScene" uid="uid://c2aixcsqrr20v" path="res://scenes/GUI/main_game/plant_cards/gui_plant_button.tscn" id="1_nhk8m"]
+[ext_resource type="Script" uid="uid://fkf0o8o0ptco" path="res://scenes/GUI/main_game/plant_cards/gui_plant_card.gd" id="1_spiqi"]
+
+[node name="GUIPlantCard" type="HBoxContainer"]
+script = ExtResource("1_spiqi")
+
+[node name="GUIPlantButton" parent="." instance=ExtResource("1_nhk8m")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0

@@ -22,6 +22,7 @@ const SPACE_EFFECT_ICON_PREFIX := "res://resources/sprites/icons/space_effects/i
 const BINGO_BALL_SCRIPT_PREFIX := "res://scenes/bingo/ball_scripts/bingo_ball_script_"
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/icons/resources/"
 const POWER_SCRIPT_PREFIX := "res://scenes/bingo/power_scripts/power_script_"
+const PLANT_ICON_PREFIX := "res://resources/sprites/GUI/icons/plants/icon_"
 
 const GAME_ARENA_SIZE :float = 256
 const TOOLTIP_OFFSET:float = 2.0
@@ -357,6 +358,9 @@ static func get_script_path_for_power_id(id:String) -> String:
 static func get_image_path_for_ball_id(id:String) -> String:
 	return str(BINGO_BALL_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
 
+static func get_icon_image_path_for_plant_id(id:String) -> String:
+	return str(PLANT_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
+
 static func get_script_path_for_ball_id(id:String) -> String:
 	return str(BINGO_BALL_SCRIPT_PREFIX, _trim_upgrade_suffix_from_id(id), ".gd")
 
@@ -455,6 +459,25 @@ static func get_bingo_ball_background_region(bingo_ball:BingoBallData, highlight
 				x = 88
 			_:
 				assert(false, "Invalid rarity: " + str(bingo_ball.rarity))
+	return Vector2(x, y)
+
+static func get_plant_icon_background_region(plant_data:PlantData, highlighted:bool = false) -> Vector2:
+	var x := 0
+	var y := 0
+	if highlighted:
+		y = 16
+	if plant_data:
+		match plant_data.rarity:
+			0:
+				x = 0
+			1:
+				x = 16
+			2:
+				x = 32
+			3:
+				x = 48
+			_:
+				assert(false, "Invalid rarity: " + str(plant_data.rarity))
 	return Vector2(x, y)
 
 static func create_scaled_tween(binding_node:Node) -> Tween:

@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://c2aixcsqrr20v"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_5qhbh"]
+[ext_resource type="Script" uid="uid://b2qddrv3dlqd7" path="res://scenes/GUI/main_game/plant_cards/gui_plant_button.gd" id="2_ejajx"]
+[ext_resource type="PackedScene" uid="uid://caiue05en2fg7" path="res://scenes/GUI/main_game/plant_cards/gui_plant_icon.tscn" id="2_gxglk"]
+
+[node name="GUIPlantButton" instance=ExtResource("1_5qhbh")]
+custom_minimum_size = Vector2(16, 16)
+offset_right = 16.0
+offset_bottom = 16.0
+script = ExtResource("2_ejajx")
+
+[node name="GUIPlantIcon" parent="." index="0" instance=ExtResource("2_gxglk")]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
