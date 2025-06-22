@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=3 uid="uid://673wlt1ldg8q"]
+
+[ext_resource type="Script" uid="uid://b4d54jsv5yv75" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.gd" id="1_gi8eq"]
+[ext_resource type="Texture2D" uid="uid://eqoesbsbya4u" path="res://resources/sprites/GUI/shared/border1.png" id="2_75sf4"]
+[ext_resource type="Texture2D" uid="uid://dgbr5rmxdmpib" path="res://resources/sprites/GUI/icons/resources/heart.png" id="2_ol5lb"]
+
+[node name="GUISegmentedProgressBar" type="HBoxContainer"]
+offset_right = 41.0
+offset_bottom = 12.0
+theme_override_constants/separation = 1
+script = ExtResource("1_gi8eq")
+max_value = 3
+current_value = 2
+icon_texture = ExtResource("2_ol5lb")
+
+[node name="Icon" type="TextureRect" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+texture = ExtResource("2_ol5lb")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="GUISegmentedProgressBar" type="PanelContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Camera2D" type="Camera2D" parent="GUISegmentedProgressBar"]
+
+[node name="Background" type="ColorRect" parent="GUISegmentedProgressBar"]
+unique_name_in_owner = true
+self_modulate = Color(0.105882, 0.105882, 0.105882, 1)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="GUISegmentedProgressBar"]
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUISegmentedProgressBar/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="Border" type="NinePatchRect" parent="GUISegmentedProgressBar"]
+unique_name_in_owner = true
+self_modulate = Color(0.105882, 0.105882, 0.105882, 1)
+layout_mode = 2
+texture = ExtResource("2_75sf4")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c48w510korjwr"]
 
 [ext_resource type="Script" uid="uid://bqc8wtmmuq8x" path="res://scenes/GUI/bingo_main/character_boxes/components/gui_rp_bar.gd" id="1_r3kmn"]
-[ext_resource type="PackedScene" uid="uid://drfnshalrvcp5" path="res://scenes/GUI/utils/gui_bordered_progress_bar.tscn" id="2_sbbwu"]
+[ext_resource type="PackedScene" uid="uid://drfnshalrvcp5" path="res://scenes/GUI/utils/progress_bar/gui_bordered_progress_bar.tscn" id="2_sbbwu"]
 
 [node name="GUIRPBar" type="HBoxContainer"]
 offset_right = 56.0

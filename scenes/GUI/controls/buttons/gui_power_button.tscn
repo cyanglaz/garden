@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bhip7cb1r1e08" path="res://resources/sprites/icons/other/tooltip_question_mark.png" id="5_km5qa"]
 [ext_resource type="PackedScene" uid="uid://birms1nlswekw" path="res://scenes/GUI/bingo_main/power/gui_power.tscn" id="5_qypvj"]
 [ext_resource type="Texture2D" uid="uid://cot566voterom" path="res://resources/sprites/GUI/shared/border2.png" id="6_3g4ln"]
-[ext_resource type="PackedScene" uid="uid://drfnshalrvcp5" path="res://scenes/GUI/utils/gui_bordered_progress_bar.tscn" id="6_qypvj"]
+[ext_resource type="PackedScene" uid="uid://drfnshalrvcp5" path="res://scenes/GUI/utils/progress_bar/gui_bordered_progress_bar.tscn" id="6_qypvj"]
 [ext_resource type="AudioStream" uid="uid://drpg8w3lvy4fl" path="res://resources/sounds/SFX/bingo/power_ready_2.wav" id="7_3g4ln"]
 
 [node name="GUIPowerButtonSet" type="HBoxContainer"]
