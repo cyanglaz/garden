@@ -1,8 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://dswoypivjtaql"]
+[gd_scene load_steps=11 format=3 uid="uid://dswoypivjtaql"]
 
 [ext_resource type="Script" uid="uid://ypmkl3x5hk7f" path="res://scenes/game_session/field/field.gd" id="1_4blml"]
 [ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/field.png" id="1_se4o6"]
 [ext_resource type="PackedScene" uid="uid://by4p2lbbaimh3" path="res://scenes/GUI/controls/buttons/gui_field_button.tscn" id="3_hjlch"]
+[ext_resource type="PackedScene" uid="uid://673wlt1ldg8q" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.tscn" id="4_bve5f"]
+[ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/GUI/icons/resources/light.png" id="5_7ysiu"]
+[ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/water.png" id="6_bhkj4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hjlch"]
 atlas = ExtResource("1_se4o6")
@@ -78,9 +81,29 @@ offset_bottom = 11.0
 
 [node name="ProgressBars" type="VBoxContainer" parent="."]
 offset_left = -18.0
-offset_top = 12.0
+offset_top = 13.0
 offset_right = 18.0
-offset_bottom = 24.0
+offset_bottom = 27.0
+theme_override_constants/separation = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ProgressBars"]
+[node name="LightBar" parent="ProgressBars" instance=ExtResource("4_bve5f")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 6)
 layout_mode = 2
+max_value = 2
+segment_color = Color(1, 0.784314, 0.145098, 1)
+icon_texture = ExtResource("5_7ysiu")
+icon_size = Vector2(6, 6)
+segment_separation = 1.0
+
+[node name="WaterBar" parent="ProgressBars" instance=ExtResource("4_bve5f")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+max_value = 5
+icon_texture = ExtResource("6_bhkj4")
+icon_size = Vector2(6, 6)
+segment_separation = 1.0
+
+[node name="PlantContainer" type="Node2D" parent="."]
+unique_name_in_owner = true

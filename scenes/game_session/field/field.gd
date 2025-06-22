@@ -5,6 +5,9 @@ signal field_pressed()
 
 @onready var _animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 @onready var _gui_field_button: GUIBasicButton = %GUIFieldButton
+@onready var _light_bar: GUISegmentedProgressBar = %LightBar
+@onready var _water_bar: GUISegmentedProgressBar = %WaterBar
+@onready var _plant_container: Node2D = %PlantContainer
 
 func _ready() -> void:
 	_gui_field_button.state_updated.connect(_on_gui_field_button_state_updated)
