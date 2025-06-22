@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b4d54jsv5yv75" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.gd" id="1_gi8eq"]
 [ext_resource type="Texture2D" uid="uid://eqoesbsbya4u" path="res://resources/sprites/GUI/shared/border1.png" id="2_75sf4"]
-[ext_resource type="Texture2D" uid="uid://dgbr5rmxdmpib" path="res://resources/sprites/GUI/icons/resources/heart.png" id="2_ol5lb"]
+[ext_resource type="Texture2D" uid="uid://dgbr5rmxdmpib" path="res://resources/sprites/icons/resources/heart.png" id="2_ol5lb"]
 
 [node name="GUISegmentedProgressBar" type="HBoxContainer"]
 offset_right = 53.0

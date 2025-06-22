@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b18v77dcvnpys"]
 
 [ext_resource type="PackedScene" uid="uid://c48w510korjwr" path="res://scenes/GUI/bingo_main/character_boxes/components/gui_rp_bar.tscn" id="1_qdvf2"]
-[ext_resource type="Texture2D" uid="uid://dgbr5rmxdmpib" path="res://resources/sprites/GUI/icons/resources/heart.png" id="1_t6bol"]
+[ext_resource type="Texture2D" uid="uid://dgbr5rmxdmpib" path="res://resources/sprites/icons/resources/heart.png" id="1_t6bol"]
 [ext_resource type="Script" uid="uid://c5x01wqghlokj" path="res://scenes/GUI/bingo_main/character_boxes/components/gui_hp_bar.gd" id="2_8d4vt"]
 
 [node name="GUIHPBar" type="PanelContainer"]

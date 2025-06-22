@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://73vkj3ho7ou5" path="res://scenes/GUI/tooltips/gui_tooltip.tscn" id="1_b3hsu"]
 [ext_resource type="Script" uid="uid://3erm6d3b1a8r" path="res://scenes/GUI/tooltips/gui_enemy_preview_tooltip.gd" id="2_v8jas"]
 [ext_resource type="PackedScene" uid="uid://lqyrsed1ptvb" path="res://scenes/GUI/bingo_main/character_boxes/components/gui_attack_icon.tscn" id="3_2p60d"]
-[ext_resource type="Texture2D" uid="uid://dgbr5rmxdmpib" path="res://resources/sprites/GUI/icons/resources/heart.png" id="3_b3hsu"]
+[ext_resource type="Texture2D" uid="uid://dgbr5rmxdmpib" path="res://resources/sprites/icons/resources/heart.png" id="3_b3hsu"]
 [ext_resource type="PackedScene" uid="uid://bfye3pwakcidx" path="res://scenes/GUI/shared/descriptions/gui_tooltip_description_separator.tscn" id="4_v8jas"]
 
 [node name="GUIEnemyPreviewTooltip" instance=ExtResource("1_b3hsu")]

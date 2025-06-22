@@ -20,6 +20,7 @@ const STATUS_EFFECT_ICON_PREFIX := "res://resources/sprites/icons/status_effect/
 const BALL_TYPE_ICON_PREFIX := "res://resources/sprites/icons/ball_types/icon_"
 const SPACE_EFFECT_ICON_PREFIX := "res://resources/sprites/icons/space_effects/icon_"
 const BINGO_BALL_SCRIPT_PREFIX := "res://scenes/bingo/ball_scripts/bingo_ball_script_"
+const RESOURCE_ICON_PREFIX := "res://resources/sprites/icons/resources/"
 const POWER_SCRIPT_PREFIX := "res://scenes/bingo/power_scripts/power_script_"
 
 const GAME_ARENA_SIZE :float = 256
@@ -367,6 +368,9 @@ static func get_image_path_for_space_effect_id(id:String) -> String:
 
 static func get_image_path_for_ball_type_id(id:String) -> String:
 	return str(BALL_TYPE_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
+
+static func get_image_path_for_resource_id(id:String) -> String:
+	return str(RESOURCE_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
 
 static func _trim_upgrade_suffix_from_id(id:String) -> String:
 	var plus_sign_index := id.find("+")

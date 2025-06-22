@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dgx0l10a66mn4"
+path="res://.godot/imported/gold.aseprite-06b7b555b97b996729b81bde4b8e13ff.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/resources/gold.aseprite"
+dest_files=["res://.godot/imported/gold.aseprite-06b7b555b97b996729b81bde4b8e13ff.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
