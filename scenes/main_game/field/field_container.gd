@@ -39,6 +39,10 @@ func clear_previews() -> void:
 	for field:Field in _container.get_children():
 		field.remove_plant_preview()
 
+func get_preview_icon_global_position(reference_control:Control, index:int) -> Vector2:
+	var field:Field = _container.get_child(index)
+	return field.get_preview_icon_global_position(reference_control)
+
 func _layout_fields() -> void:
 	var fields = _container.get_children()
 	if fields.size() == 0:

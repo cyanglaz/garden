@@ -18,7 +18,11 @@ func _ready() -> void:
 func _on_field_hovered(hovered:bool, index:int) -> void:
 	var selected_plant_seed_data:PlantData = _gui_game_session.selected_plant_seed_data
 	if selected_plant_seed_data && !_field_container.is_field_occupied(index):
-		_gui_game_session.toggle_following_plant_icon_visibility(!hovered)
+		if hovered:
+			_gui_game_session.pin_following_plant_icon_global_position(_field_container.get_preview_icon_global_position(_gui_game_session.get_child(0), index), Vector2.ONE * 0.8)
+		else:
+			_gui_game_session.unpin_following_plant_icon()
+		
 		_field_container.toggle_plant_preview(hovered, selected_plant_seed_data, index)
 
 func _on_plant_seed_deselected() -> void:

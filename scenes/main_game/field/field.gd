@@ -43,6 +43,9 @@ func plant_seed(plant_data:PlantData) -> void:
 	_plant_container.add_child(plant)
 	_show_progress_bars(plant)
 
+func get_preview_icon_global_position(reference_control:Control) -> Vector2:
+	return Util.get_node_ui_position(reference_control, _gui_field_button) + Vector2.UP * 5 + Vector2.LEFT * 5
+
 func remove_plant_preview() -> void:
 	if _weak_plant_preview.get_ref():
 		_weak_plant_preview.get_ref().queue_free()
