@@ -22,6 +22,8 @@ func _set_data(value:PlantData) -> void:
 	water.setup(0, data.water)
 
 func _get_stage() -> int:
+	assert(water.max_value != 0, "Water max value is 0")
+	assert(light.max_value != 0, "Light max value is 0")
 	if light.is_full && water.is_full:
 		return 2
 	else:

@@ -2,6 +2,7 @@ class_name FieldContainer
 extends Node2D
 
 signal field_hovered(hovered:bool, index:int)
+signal field_pressed(index:int)
 
 const MAX_DISTANCE_BETWEEN_FIELDS := 10
 const MARGIN := 36
@@ -15,8 +16,13 @@ func update_with_number_of_fields(number_of_fields:int) -> void:
 	for i in range(number_of_fields):
 		var field:Field = FIELD_SCENE.instantiate()
 		field.field_hovered.connect(func(hovered:bool): field_hovered.emit(hovered, i))
+		field.field_pressed.connect(func(): field_pressed.emit(i))
 		_container.add_child(field)
 	_layout_fields()
+
+func is_field_occupied(index:int) -> bool:
+	var field:Field = _container.get_child(index)
+	return field.plant != null
 
 func toggle_plant_preview(on:bool, plant_data:PlantData, index:int) -> void:
 	var field:Field = _container.get_child(index)
@@ -24,6 +30,10 @@ func toggle_plant_preview(on:bool, plant_data:PlantData, index:int) -> void:
 		field.show_plant_preview(plant_data)
 	else:
 		field.remove_plant_preview()
+
+func plant_seed(plant_data:PlantData, index:int) -> void:
+	var field:Field = _container.get_child(index)
+	field.plant_seed(plant_data)
 
 func clear_previews() -> void:
 	for field:Field in _container.get_children():
@@ -56,11 +66,6 @@ func _layout_fields() -> void:
 	# Calculate starting x position to center align fields
 	var total_width = total_fields_width + (spacing * (fields.size() - 1))
 	var start_x = - total_width / 2 + field_width/2
-	print("start_x: ", start_x)
-	print("total_width: ", total_width)
-	print("available_width: ", available_width)
-	print("total_fields_width: ", total_fields_width)
-	print("spacing: ", spacing)
 	
 	var current_x = start_x
 	for field in fields:

@@ -17,6 +17,8 @@ extends HBoxContainer
 @onready var _icon: TextureRect = %Icon
 @onready var _margin_container: MarginContainer = %MarginContainer
 
+var _weak_resource_point:WeakRef = weakref(null)
+
 func _ready() -> void:
 	#assert(((size.x as int) - 1) % max_value == 0, "segemented bar has to be equally devided to have the segenemts to be the same size")
 	_set_border_color(border_color)
@@ -25,6 +27,12 @@ func _ready() -> void:
 	_set_current_value(current_value)
 	_set_icon_texture(icon_texture)
 	_adjust_segment_size.call_deferred()
+
+func bind_with_resource_point(resource_point:ResourcePoint) -> void:
+	max_value = resource_point.max_value
+	current_value = resource_point.value
+	_weak_resource_point = weakref(resource_point)
+	resource_point.value_update.connect(func(): _set_current_value(resource_point.value))
 
 func _adjust_segment_size() -> void:
 	# var segment_width: float = _h_box_container.get_child(0).size.x
@@ -51,6 +59,7 @@ func _set_max_value(val: int) -> void:
 		for i in range(max_value):
 			var segment:= ColorRect.new()
 			_segment_container.add_child(segment)
+	_adjust_segment_size.call_deferred()
 
 func _set_current_value(val: int) -> void:
 	current_value = val
