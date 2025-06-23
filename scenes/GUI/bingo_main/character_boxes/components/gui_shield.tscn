@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b651f2m5ongup"]
 
-[ext_resource type="Texture2D" uid="uid://bj0gc723x75ed" path="res://resources/sprites/icons/resources/shield.png" id="1_uspyn"]
+[ext_resource type="Texture2D" uid="uid://bj0gc723x75ed" path="res://resources/sprites/GUI/icons/resources/shield.png" id="1_uspyn"]
 [ext_resource type="Script" uid="uid://dhwsyijo8y8dh" path="res://scenes/GUI/bingo_main/character_boxes/components/gui_shield.gd" id="2_hwb0r"]
 
 [node name="GUIShield" type="TextureRect"]

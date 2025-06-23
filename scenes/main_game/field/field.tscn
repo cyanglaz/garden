@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/field.png" id="1_se4o6"]
 [ext_resource type="PackedScene" uid="uid://by4p2lbbaimh3" path="res://scenes/GUI/controls/buttons/gui_field_button.tscn" id="3_hjlch"]
 [ext_resource type="PackedScene" uid="uid://673wlt1ldg8q" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.tscn" id="4_bve5f"]
-[ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/icons/resources/light.png" id="5_7ysiu"]
-[ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/icons/resources/water.png" id="6_bhkj4"]
+[ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/GUI/icons/resources/icon_light.png" id="5_7ysiu"]
+[ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/icon_water.png" id="6_bhkj4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hjlch"]
 atlas = ExtResource("1_se4o6")

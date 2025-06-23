@@ -15,12 +15,12 @@ offset_bottom = 20.0
 script = ExtResource("1_qqvm4")
 
 [node name="GUIPanelBackgroundColor" parent="." instance=ExtResource("4_oaioe")]
-self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
+self_modulate = Color(0.74902, 0.435294, 0.290196, 1)
 layout_mode = 2
 
 [node name="StickyProgressBar" type="TextureProgressBar" parent="GUIPanelBackgroundColor"]
 unique_name_in_owner = true
-self_modulate = Color(0.521569, 0.521569, 0.521569, 1)
+self_modulate = Color(0.929412, 0.670588, 0.313726, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

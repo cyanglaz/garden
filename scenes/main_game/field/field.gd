@@ -23,6 +23,8 @@ func _ready() -> void:
 	_gui_field_button.mouse_exited.connect(func(): field_hovered.emit(false))
 	_animated_sprite_2d.play("idle")
 	_progress_bars.hide()
+	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
+	_water_bar.segment_color = Constants.WATER_THEME_COLOR
 
 func show_plant_preview(plant_data:PlantData) -> void:
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"

@@ -6,6 +6,7 @@ signal plant_seed_deselected()
 @onready var _gui_weather: GUIWeather = %GUIWeather
 @onready var _gui_plant_card_container: GUIPlantCardContainer = %GUIPlantCardContainer
 @onready var _gui_mouse_following_plant_icon: GUIMouseFollowingPlantIcon = %GUIMouseFollowingPlantIcon
+@onready var _overlay: Control = %Overlay
 
 var selected_plant_seed_data:PlantData
 
@@ -28,6 +29,9 @@ func pin_following_plant_icon_global_position(gp:Vector2, s:Vector2) -> void:
 func unpin_following_plant_icon() -> void:
 	_gui_mouse_following_plant_icon.scale = Vector2.ONE
 	_gui_mouse_following_plant_icon.follow_mouse = true
+
+func add_control_to_overlay(control:Control) -> void:
+	_overlay.add_child(control)
 
 func _toggle_following_plant_icon_visibility(on:bool) -> void:
 	if on:

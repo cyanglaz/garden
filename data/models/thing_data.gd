@@ -102,7 +102,8 @@ func _format_icon_reference(reference_id:String, highlight:bool) -> String:
 			image_path = Util.get_image_path_for_space_effect_id(reference_id)
 			url = reference_id
 		ReferenceType.RESOURCE:
-			image_path = Util.get_image_path_for_ball_type_id(reference_id)
+			reference_id = reference_id.trim_prefix("resource_")
+			image_path = Util.get_image_path_for_resource_id(reference_id)
 		ReferenceType.OTHER:
 			url_prefix = "ball_"
 			image_path = Util.get_image_path_for_ball_id(reference_id)

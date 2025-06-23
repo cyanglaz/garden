@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://v43xkihfdekg"]
 
-[ext_resource type="Texture2D" uid="uid://dgbr5rmxdmpib" path="res://resources/sprites/icons/resources/heart.png" id="1_3avps"]
+[ext_resource type="Texture2D" uid="uid://dgbr5rmxdmpib" path="res://resources/sprites/GUI/icons/resources/heart.png" id="1_3avps"]
 [ext_resource type="Script" uid="uid://s7kfk6wx3b7l" path="res://scenes/GUI/game_main/topbar/gui_top_player_hp.gd" id="1_hnw1m"]
 
 [node name="GUITopPlayerHP" type="HBoxContainer"]
