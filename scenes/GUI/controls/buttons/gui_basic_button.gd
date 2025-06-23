@@ -7,8 +7,6 @@ const SOUND_CLICK := preload("res://resources/sounds/GUI/button_click.wav")
 
 signal action_evoked()
 signal state_updated(state:ButtonState)
-signal mouse_entered_button()
-signal mouse_exited_button()
 
 enum ActionType {
 	PRESSED,
@@ -55,14 +53,12 @@ func _ready() -> void:
 	gui_input.connect(_on_gui_input)
 	_set_button_state(button_state)
 	mouse_default_cursor_shape = Control.CursorShape.CURSOR_POINTING_HAND
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
 
 func _physics_process(delta: float) -> void:	
 	if button_state == ButtonState.DISABLED:
 		return
-	if !mouse_in && get_global_rect().has_point(get_global_mouse_position()):
-		_on_mouse_entered()
-	elif mouse_in && !get_global_rect().has_point(get_global_mouse_position()):
-		_on_mouse_exited()
 	if _holding_start:
 		_hold_time_count += delta
 		if _hold_time_count > hold_time:
@@ -129,7 +125,6 @@ func _on_mouse_entered():
 		return
 	button_state = ButtonState.HOVERED
 	_sound_hover.play()
-	mouse_entered_button.emit()
 	
 func _on_mouse_exited():
 	mouse_in = false
@@ -139,7 +134,6 @@ func _on_mouse_exited():
 	if button_state == ButtonState.DISABLED || button_state == ButtonState.SELECTED:
 		return
 	button_state = ButtonState.NORMAL
-	mouse_exited_button.emit()
 	
 func _press():
 	if _pressing:

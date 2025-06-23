@@ -5,6 +5,3 @@
 
 [node name="GUIMouseFollowingPlantIcon" instance=ExtResource("1_22yrb")]
 script = ExtResource("2_imtmw")
-
-[node name="TextureRect" parent="." index="1"]
-mouse_filter = 2

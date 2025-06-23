@@ -19,8 +19,8 @@ var plant:Plant
 func _ready() -> void:
 	_gui_field_button.state_updated.connect(_on_gui_field_button_state_updated)
 	_gui_field_button.action_evoked.connect(func(): field_pressed.emit())
-	_gui_field_button.mouse_entered_button.connect(func(): field_hovered.emit(true))
-	_gui_field_button.mouse_exited_button.connect(func(): field_hovered.emit(false))
+	_gui_field_button.mouse_entered.connect(func(): field_hovered.emit(true))
+	_gui_field_button.mouse_exited.connect(func(): field_hovered.emit(false))
 	_animated_sprite_2d.play("idle")
 	_progress_bars.hide()
 
