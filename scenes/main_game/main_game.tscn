@@ -10,6 +10,7 @@
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 test_plant_datas = Array[ExtResource("2_6eclk")]([ExtResource("3_i3kwu")])
+number_of_fields = 5
 
 [node name="FieldContainer" parent="." instance=ExtResource("1_075iw")]
 unique_name_in_owner = true

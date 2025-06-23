@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dswoypivjtaql"]
+[gd_scene load_steps=11 format=3 uid="uid://dswoypivjtaql"]
 
 [ext_resource type="Script" uid="uid://ypmkl3x5hk7f" path="res://scenes/main_game/field/field.gd" id="1_4blml"]
 [ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/field.png" id="1_se4o6"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://673wlt1ldg8q" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.tscn" id="4_bve5f"]
 [ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/icons/resources/light.png" id="5_7ysiu"]
 [ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/icons/resources/water.png" id="6_bhkj4"]
-[ext_resource type="PackedScene" uid="uid://b657270a4ms0r" path="res://scenes/plants/plant_daisy.tscn" id="7_erhw1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hjlch"]
 atlas = ExtResource("1_se4o6")
@@ -107,5 +106,3 @@ icon_size = Vector2(6, 6)
 [node name="PlantContainer" type="Node2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(0, -14)
-
-[node name="PlantDaisy" parent="PlantContainer" instance=ExtResource("7_erhw1")]

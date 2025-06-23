@@ -7,6 +7,7 @@
 
 [node name="GUIPlantIcon" type="PanelContainer"]
 custom_minimum_size = Vector2(16, 16)
+mouse_filter = 2
 script = ExtResource("1_q7qh7")
 
 [node name="Background" type="NinePatchRect" parent="."]

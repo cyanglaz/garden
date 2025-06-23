@@ -13,6 +13,9 @@ var stage:int:get = _get_stage
 func _ready() -> void:
 	fsm.start()
 
+func show_as_preview() -> void:
+	fsm.push("PlantStatePreview")
+
 func _set_data(value:PlantData) -> void:
 	data = value
 	light.setup(0, data.light)

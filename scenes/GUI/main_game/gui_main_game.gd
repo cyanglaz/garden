@@ -1,8 +1,38 @@
 class_name GUIMainGame
 extends CanvasLayer
 
+signal plant_seed_deselected()
+
 @onready var _gui_weather: GUIWeather = %GUIWeather
 @onready var _gui_plant_card_container: GUIPlantCardContainer = %GUIPlantCardContainer
+@onready var _gui_mouse_following_plant_icon: GUIMouseFollowingPlantIcon = %GUIMouseFollowingPlantIcon
 
+var selected_plant_seed_data:PlantData
+
+func _ready() -> void:
+	_gui_mouse_following_plant_icon.hide()
+	_gui_plant_card_container.plant_selected.connect(_on_plant_seed_selected)
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("de-select"):
+		_on_plant_seed_selected(null)
+	
 func update_with_plant_datas(plant_datas:Array[PlantData]) -> void:
 	_gui_plant_card_container.update_with_plant_datas(plant_datas)
+
+func toggle_following_plant_icon_visibility(on:bool) -> void:
+	if on:
+		_gui_mouse_following_plant_icon.follow_mouse = true
+		_gui_mouse_following_plant_icon.show()
+	else:
+		_gui_mouse_following_plant_icon.follow_mouse = false
+		_gui_mouse_following_plant_icon.hide()
+
+func _on_plant_seed_selected(plant_data:PlantData) -> void:
+	selected_plant_seed_data = plant_data
+	toggle_following_plant_icon_visibility(selected_plant_seed_data != null)
+	if selected_plant_seed_data:
+		_gui_mouse_following_plant_icon.update_with_plant_data(selected_plant_seed_data)
+	else:
+		plant_seed_deselected.emit()
+		_gui_mouse_following_plant_icon.update_with_plant_data(null)

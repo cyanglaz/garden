@@ -1,7 +1,9 @@
 class_name FieldContainer
 extends Node2D
 
-const MAX_DISTANCE_BETWEEN_FIELDS := 20
+signal field_hovered(hovered:bool, index:int)
+
+const MAX_DISTANCE_BETWEEN_FIELDS := 10
 const MARGIN := 36
 
 const FIELD_SCENE := preload("res://scenes/main_game/field/field.tscn")
@@ -12,8 +14,20 @@ func update_with_number_of_fields(number_of_fields:int) -> void:
 	Util.remove_all_children(_container)
 	for i in range(number_of_fields):
 		var field:Field = FIELD_SCENE.instantiate()
+		field.field_hovered.connect(func(hovered:bool): field_hovered.emit(hovered, i))
 		_container.add_child(field)
 	_layout_fields()
+
+func toggle_plant_preview(on:bool, plant_data:PlantData, index:int) -> void:
+	var field:Field = _container.get_child(index)
+	if on:
+		field.show_plant_preview(plant_data)
+	else:
+		field.remove_plant_preview()
+
+func clear_previews() -> void:
+	for field:Field in _container.get_children():
+		field.remove_plant_preview()
 
 func _layout_fields() -> void:
 	var fields = _container.get_children()

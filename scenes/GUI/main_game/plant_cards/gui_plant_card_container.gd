@@ -1,6 +1,8 @@
 class_name GUIPlantCardContainer
 extends PanelContainer
 
+signal plant_selected(plant_data:PlantData)
+
 const PLANT_CARD_SCENE := preload("res://scenes/GUI/main_game/plant_cards/gui_plant_card.tscn")
 
 @onready var _card_container: VBoxContainer = %CardContainer
@@ -11,3 +13,4 @@ func update_with_plant_datas(plant_datas:Array[PlantData]) -> void:
 		var card:GUIPlantCard = PLANT_CARD_SCENE.instantiate()
 		_card_container.add_child(card)
 		card.update_with_plant_data(plant_data)
+		card.plant_button_action_evoked.connect(func(): plant_selected.emit(plant_data))
