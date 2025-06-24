@@ -1,5 +1,5 @@
-class_name GUIPlantIcon
-extends PanelContainer
+class_name GUIToolIcon
+extends Control
 
 const HIGHLIGHTED_OFFSET := 16
 
@@ -9,10 +9,10 @@ const HIGHLIGHTED_OFFSET := 16
 
 var highlighted:bool:set = _set_highlighted
 
-func update_with_plant_data(plant_data:PlantData) -> void:
-	if plant_data:
-		_background.region_rect.position = Util.get_tool_icon_background_region(plant_data, false)
-		_texture_rect.texture = load(Util.get_icon_image_path_for_plant_id(plant_data.id))
+func update_with_tool_dat(tool_data:ToolData) -> void:
+	if tool_data:
+		_background.region_rect.position = Util.get_plant_icon_background_region(tool_data, false)
+		_texture_rect.texture = load(Util.get_icon_image_path_for_tool_id(tool_data.id))
 	else:
 		_texture_rect.texture = null
 
