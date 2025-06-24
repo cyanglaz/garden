@@ -2,6 +2,7 @@ class_name MainGame
 extends Node2D
 
 @export var test_plant_datas:Array[PlantData]
+@export var test_tools:Array[ToolData]
 @export var number_of_fields := 0
 
 @onready var _field_container: FieldContainer = %FieldContainer
@@ -9,12 +10,15 @@ extends Node2D
 
 func _ready() -> void:
 	Singletons.main_game = self
-	if !test_plant_datas.is_empty():
-		_gui_main_game.update_with_plant_datas(test_plant_datas)
 	_gui_main_game.plant_seed_deselected.connect(_on_plant_seed_deselected)
 	_field_container.update_with_number_of_fields(number_of_fields)
 	_field_container.field_hovered.connect(_on_field_hovered)
 	_field_container.field_pressed.connect(_on_field_pressed)
+	
+	if !test_plant_datas.is_empty():
+		_gui_main_game.update_with_plant_datas(test_plant_datas)
+	if !test_tools.is_empty():
+		_gui_main_game.update_with_tool_datas(test_tools)
 
 func add_control_to_overlay(control:Control) -> void:
 	_gui_main_game.add_control_to_overlay(control)

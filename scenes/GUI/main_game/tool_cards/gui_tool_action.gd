@@ -10,9 +10,12 @@ const MAX_ACTION_TEXT := "MAX"
 
 func update_with_action(action_data:ActionData) -> void:
 	if action_data.type != ActionData.ActionType.NONE:
-		_gui_action_type_icon.update_with_action_type(action_data.ActionType)
+		_gui_action_type_icon.update_with_action_type(action_data.type)
 		if action_data.value > 10:
 			_value_label.text = MAX_ACTION_TEXT
 		else:
-			_value_label.text = str(action_data.value)
+			var text := str(action_data.value)
+			if action_data.value > 0:
+				text = str("+", text)
+			_value_label.text = text
 	

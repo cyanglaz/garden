@@ -1,0 +1,90 @@
+class_name GUIToolHandContainer
+extends PanelContainer
+
+const TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
+const DEFAULT_CARD_SPACE := 4.0
+const MAX_TOTAL_WIDTH := 150
+const REPOSITION_DURATION:float = 0.15
+
+@onready var _hover_sound: AudioStreamPlayer2D = %HoverSound
+@onready var _container: Control = %Container
+
+var _card_size:int
+
+func _ready() -> void:
+	var temp_tool_card := TOOL_CARD_SCENE.instantiate()
+	_card_size = temp_tool_card.size.x
+	temp_tool_card.queue_free()
+
+func clear() -> void:
+	if _container.get_children().size() == 0:
+		return
+	for child:GUIToolCardButton in _container.get_children():
+		child.queue_free()
+
+func update_with_tool_datas(tools:Array[ToolData]) -> void:
+	var current_size :=  _container.get_children().size()
+	var positions := calculate_positions(tools.size() + current_size)
+	for i in positions.size():
+		var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
+		gui_card.state_updated.connect(_on_card_state_updated.bind(i))
+		_container.add_child(gui_card)
+		gui_card.update_with_tool_data(tools[i])
+		gui_card.position = positions[i]
+
+func get_card(index:int) -> GUIToolCardButton:
+	return _container.get_child(index)
+
+func get_card_count() -> int:
+	return _container.get_children().size()
+
+func get_card_position(index:int) -> Vector2:
+	var gui_card:GUIToolCardButton = _container.get_child(index)
+	return gui_card.global_position
+
+func calculate_positions(number_of_cards:int) -> Array[Vector2]:
+	var card_space := DEFAULT_CARD_SPACE
+	var total_width := number_of_cards * _card_size + card_space * (number_of_cards - 1)
+	# Reduce spacing if total width exceeds max width
+	if total_width > MAX_TOTAL_WIDTH:
+		# Calculate required space reduction
+		var excess_width := total_width - MAX_TOTAL_WIDTH
+		var required_space_per_gap := excess_width / (number_of_cards - 1)
+		card_space = DEFAULT_CARD_SPACE - required_space_per_gap
+	var center := _container.size/2
+	var start_x := center.x - (number_of_cards * _card_size + card_space * (number_of_cards - 1)) / 2
+	var result:Array[Vector2] = []
+	for i in number_of_cards:
+		var target_position := Vector2(start_x + i*_card_size + i*card_space, 0)
+		result.append(target_position)
+	result.reverse() # First card is at the end of the array.
+	return result
+
+func _on_card_state_updated(button_state:GUIBasicButton.ButtonState, index:int) -> void:
+	var hovered := button_state == GUIBasicButton.ButtonState.HOVERED
+	var positions:Array[Vector2] = calculate_positions(_container.get_children().size())
+	if positions.size() < 2:
+		return
+	var card_padding := positions[0].x - positions[1].x - _card_size
+	var tween:Tween = Util.create_scaled_tween(self)
+	tween.set_parallel(true)
+	tween.set_ease(Tween.EASE_IN)
+	tween.set_trans(Tween.TRANS_SINE)
+	if hovered && card_padding < 0.0:
+		# Push back other cards when one is hovered
+		for i in _container.get_children().size():
+			var pos = positions[i]
+			if i < index:
+				# The positions are reversed
+				pos.x += 1 - card_padding # Push right cards 4 pixels left
+			elif i > index:
+				pos.x -= 1 - card_padding# Push left cards 4 pixels right
+			var gui_card = _container.get_child(i)
+			gui_card.position = pos
+			tween.tween_property(gui_card, "position", pos, REPOSITION_DURATION)
+		_hover_sound.play()
+	else:
+		# Reset to default positions
+		for i in _container.get_children().size():
+			var gui_card = _container.get_child(i)
+			tween.tween_property(gui_card, "position", positions[i], REPOSITION_DURATION)

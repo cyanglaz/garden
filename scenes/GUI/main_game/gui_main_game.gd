@@ -6,6 +6,7 @@ signal plant_seed_deselected()
 @onready var _gui_weather: GUIWeather = %GUIWeather
 @onready var _gui_plant_card_container: GUIPlantCardContainer = %GUIPlantCardContainer
 @onready var _gui_mouse_following_plant_icon: GUIMouseFollowingPlantIcon = %GUIMouseFollowingPlantIcon
+@onready var _gui_tool_card_container: GUIToolHandContainer = %GUIToolCardContainer
 @onready var _overlay: Control = %Overlay
 
 var selected_plant_seed_data:PlantData
@@ -18,6 +19,9 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("de-select"):
 		_on_plant_seed_selected(null)
+
+func update_with_tool_datas(tool_datas:Array[ToolData]) -> void:
+	_gui_tool_card_container.update_with_tool_datas(tool_datas)
 	
 func update_with_plant_datas(plant_datas:Array[PlantData]) -> void:
 	_gui_plant_card_container.update_with_plant_datas(plant_datas)

@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://cyd2pmyuelacd"]
+[gd_scene load_steps=7 format=3 uid="uid://cyd2pmyuelacd"]
 
 [ext_resource type="Script" uid="uid://b3s0cai251tmf" path="res://scenes/GUI/main_game/gui_main_game.gd" id="1_48pcf"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_pgwuj"]
 [ext_resource type="PackedScene" uid="uid://ds1ot8wjbmotw" path="res://scenes/GUI/main_game/weather/gui_weather.tscn" id="3_1w680"]
 [ext_resource type="PackedScene" uid="uid://cb7rus2xat3us" path="res://scenes/GUI/main_game/plant_cards/gui_plant_card_container.tscn" id="4_wheaj"]
 [ext_resource type="PackedScene" uid="uid://be8dbcgiyauak" path="res://scenes/GUI/main_game/plant_cards/gui_mouse_following_plant_icon.tscn" id="5_h0t12"]
+[ext_resource type="PackedScene" uid="uid://canp4x5u3afyb" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_container.tscn" id="5_hujfj"]
 
 [node name="GUIMainGame" type="CanvasLayer"]
 script = ExtResource("1_48pcf")
@@ -30,6 +31,19 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 1
+
+[node name="GUIToolCardContainer" parent="MainMarginContainer/Container" index="2" instance=ExtResource("5_hujfj")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -42.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 0
 
 [node name="Overlay" type="Control" parent="."]
 unique_name_in_owner = true
