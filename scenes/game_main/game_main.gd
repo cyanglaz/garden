@@ -25,7 +25,6 @@ var _bingo_board:BingoBoard = BingoBoard.new()
 var _player:Player
 var _bingo_controller:BingoController
 var _current_level:int = -1
-var _action_controller:ActionController
 var _new_card_controller:NewCardController
 var _draw_count:int = 0
 var _drawing := false
@@ -61,9 +60,6 @@ func _ready() -> void:
 	_bingo_controller.enemy_died.connect(_on_enemy_died)
 	add_child(_bingo_controller, false, Node.INTERNAL_MODE_BACK)
 	#_bingo_controller.signal_player_died.connect(_on_player_died)
-
-	#setup action controller
-	_action_controller = ActionController.new(self)
 
 	#setup new card controller
 	_new_card_controller = NewCardController.new(self)
@@ -241,10 +237,10 @@ func _on_power_cancelled(power_data:PowerData) -> void:
 	_gui_game_main.toggle_buttons(true)
 
 func _handle_action_selection() -> void:
-	_action_controller.show_actions()
+	pass
 
 func _on_action_selected(action_data:ActionData) -> void:
-	_action_controller.handle_action_selected(action_data)
+	pass
 
 func _on_action_selection_finished() -> void:
 	await _show_bingo_main()

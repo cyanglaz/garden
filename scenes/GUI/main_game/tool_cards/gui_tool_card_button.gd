@@ -7,6 +7,8 @@ const GUI_TOOL_ACTION_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gu
 @onready var _action_container: VBoxContainer = %ActionContainer
 @onready var _gui_description_rich_text_label: GUIDescriptionRichTextLabel = %GUIDescriptionRichTextLabel
 
+
+
 func update_with_tool_data(tool_data:ToolData) -> void:
 	_name_label.text = tool_data.display_name
 	Util.remove_all_children(_action_container)

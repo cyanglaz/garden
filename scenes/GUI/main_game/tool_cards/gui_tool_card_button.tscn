@@ -7,20 +7,20 @@
 [ext_resource type="Texture2D" uid="uid://cot566voterom" path="res://resources/sprites/GUI/shared/border2.png" id="5_mp7qu"]
 
 [node name="GUIToolCardButton" type="PanelContainer"]
-custom_minimum_size = Vector2(24, 32)
+custom_minimum_size = Vector2(32, 42)
 offset_right = 24.0
 offset_bottom = 32.0
 size_flags_vertical = 4
 script = ExtResource("1_a7c0j")
 
-[node name="MarginContainer2" type="MarginContainer" parent="."]
+[node name="BackgroundMargin" type="MarginContainer" parent="."]
 layout_mode = 2
 theme_override_constants/margin_left = 1
 theme_override_constants/margin_top = 1
 theme_override_constants/margin_right = 1
 theme_override_constants/margin_bottom = 1
 
-[node name="Background" type="NinePatchRect" parent="MarginContainer2"]
+[node name="Background" type="NinePatchRect" parent="BackgroundMargin"]
 layout_mode = 2
 texture = ExtResource("2_a7c0j")
 region_rect = Rect2(0, 0, 16, 16)
@@ -41,10 +41,14 @@ patch_margin_bottom = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 1
+theme_override_constants/separation = 2
 
 [node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
