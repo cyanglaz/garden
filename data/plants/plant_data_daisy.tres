@@ -10,6 +10,8 @@ gold = 3
 rarity = 0
 id = "daisy"
 display_name = "Daisy"
-description = "When harvested, +1 {icon_resource_energy}."
-data = {}
+description = "When harvested, + {energy} {icon_resource_energy}."
+data = {
+"energy": "1"
+}
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

@@ -9,6 +9,7 @@ custom_minimum_size = Vector2(16, 16)
 offset_right = 16.0
 offset_bottom = 16.0
 script = ExtResource("2_ejajx")
+tooltip_position = 1
 
 [node name="GUIPlantIcon" parent="." index="0" instance=ExtResource("2_gxglk")]
 unique_name_in_owner = true

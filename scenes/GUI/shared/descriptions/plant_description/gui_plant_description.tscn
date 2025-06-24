@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://h75kpqpphro7"]
+[gd_scene load_steps=7 format=3 uid="uid://h75kpqpphro7"]
 
 [ext_resource type="Script" uid="uid://bd28yuw5ttosm" path="res://scenes/GUI/shared/descriptions/plant_description/gui_plant_description.gd" id="1_lgl7a"]
+[ext_resource type="Texture2D" uid="uid://cnnxje814bs2" path="res://resources/sprites/GUI/icons/resources/gold.png" id="2_4rpey"]
 [ext_resource type="PackedScene" uid="uid://bfye3pwakcidx" path="res://scenes/GUI/shared/descriptions/gui_tooltip_description_separator.tscn" id="2_22r1h"]
 [ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/GUI/icons/resources/icon_light.png" id="3_22r1h"]
 [ext_resource type="PackedScene" uid="uid://defua0wjy7nqc" path="res://scenes/GUI/shared/descriptions/gui_description_rich_text_label.tscn" id="3_lgl7a"]
@@ -36,6 +37,23 @@ vertical_alignment = 1
 [node name="RequirementContainerHbox" type="HBoxContainer" parent="HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 10
+
+[node name="Gold" type="HBoxContainer" parent="HBoxContainer2/RequirementContainerHbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 1
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer2/RequirementContainerHbox/Gold"]
+custom_minimum_size = Vector2(6, 6)
+layout_mode = 2
+texture = ExtResource("2_4rpey")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="GoldLabel" type="Label" parent="HBoxContainer2/RequirementContainerHbox/Gold"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD_small"
 
 [node name="Light" type="HBoxContainer" parent="HBoxContainer2/RequirementContainerHbox"]
 layout_mode = 2

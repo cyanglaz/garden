@@ -13,6 +13,7 @@ var selected_plant_seed_data:PlantData
 func _ready() -> void:
 	_gui_mouse_following_plant_icon.hide()
 	_gui_plant_card_container.plant_selected.connect(_on_plant_seed_selected)
+	#_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("de-select"):

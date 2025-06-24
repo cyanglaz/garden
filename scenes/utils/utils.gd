@@ -141,6 +141,7 @@ static func display_enemy_preview_tooltip(enemy:Enemy, on_control_node:Control, 
 
 static func display_plant_tooltip(plant_data:PlantData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIPlantTooltip:
 	var plant_tooltip:GUIPlantTooltip = GUI_PLANT_TOOLTIP_SCENE.instantiate()
+	plant_tooltip.hide()
 	Singletons.main_game.add_control_to_overlay(plant_tooltip)
 	plant_tooltip.tooltip_position = tooltip_position
 	plant_tooltip.update_with_plant_data(plant_data)
@@ -148,6 +149,7 @@ static func display_plant_tooltip(plant_data:PlantData, on_control_node:Control,
 	return plant_tooltip
 
 static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP, world_space:bool = false) -> void:
+	tooltip.show()
 	if tooltip is GUITooltip:
 		tooltip.anchor_to_mouse = anchor_mouse
 		tooltip.sticky = anchor_mouse

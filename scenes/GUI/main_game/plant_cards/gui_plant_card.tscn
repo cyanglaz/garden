@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://fkf0o8o0ptco" path="res://scenes/GUI/main_game/plant_cards/gui_plant_card.gd" id="1_spiqi"]
 
 [node name="GUIPlantCard" type="HBoxContainer"]
+mouse_filter = 2
 script = ExtResource("1_spiqi")
 
 [node name="GUIPlantButton" parent="." instance=ExtResource("1_nhk8m")]
