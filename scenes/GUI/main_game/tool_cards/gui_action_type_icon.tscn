@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://37pgxcxnetyd"]
+
+[ext_resource type="Script" uid="uid://bxgqqa2k2o46s" path="res://scenes/GUI/main_game/tool_cards/gui_action_type_icon.gd" id="1_e72bs"]
+
+[node name="GUIActionTypeIcon" type="TextureRect"]
+custom_minimum_size = Vector2(6, 6)
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("1_e72bs")

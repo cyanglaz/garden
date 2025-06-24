@@ -26,6 +26,11 @@ const POWER_SCRIPT_PREFIX := "res://scenes/bingo/power_scripts/power_script_"
 const PLANT_ICON_PREFIX := "res://resources/sprites/GUI/icons/plants/icon_"
 const TOOL_ICON_PREFIX := "res://resources/sprites/GUI/icons/tool/icon_"
 
+const ACTION_ICON_WATER := preload("res://resources/sprites/GUI/icons/resources/icon_water.png")
+const ACTION_ICON_LIGHT := preload("res://resources/sprites/GUI/icons/resources/icon_light.png")
+const ACTION_ICON_PEST := preload("res://resources/sprites/GUI/icons/resources/icon_pest.png")
+const ACTION_ICON_FUNGUS := preload("res://resources/sprites/GUI/icons/resources/icon_fungus.png")
+
 const GAME_ARENA_SIZE :float = 256
 const TOOLTIP_OFFSET:float = 2.0
 const FLOAT_EQUAL_EPSILON:float = 0.001
@@ -390,6 +395,19 @@ static func get_image_path_for_ball_type_id(id:String) -> String:
 
 static func get_image_path_for_resource_id(id:String) -> String:
 	return str(RESOURCE_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
+
+static func get_action_icon_with_action_type(action_type:ActionData.ActionType) -> Texture2D:
+	var icon:Texture2D
+	match action_type:
+		ActionData.ActionType.WATER:
+			icon = ACTION_ICON_WATER
+		ActionData.ActionType.LIGHT:
+			icon = ACTION_ICON_LIGHT
+		ActionData.ActionType.PEST:
+			icon = ACTION_ICON_PEST
+		ActionData.ActionType.FUNGUS:
+			icon = ACTION_ICON_FUNGUS
+	return icon
 
 static func _trim_upgrade_suffix_from_id(id:String) -> String:
 	var plus_sign_index := id.find("+")

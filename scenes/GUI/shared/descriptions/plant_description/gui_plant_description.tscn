@@ -23,60 +23,57 @@ text = "Egg"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="."]
-layout_mode = 2
-
-[node name="RequirementContainerHbox" type="HBoxContainer" parent="HBoxContainer2"]
+[node name="RequirementContainerHbox" type="HBoxContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Gold" type="HBoxContainer" parent="HBoxContainer2/RequirementContainerHbox"]
+[node name="Gold" type="HBoxContainer" parent="RequirementContainerHbox"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 1
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer2/RequirementContainerHbox/Gold"]
+[node name="TextureRect" type="TextureRect" parent="RequirementContainerHbox/Gold"]
 custom_minimum_size = Vector2(6, 6)
 layout_mode = 2
 texture = ExtResource("2_4rpey")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="GoldLabel" type="Label" parent="HBoxContainer2/RequirementContainerHbox/Gold"]
+[node name="GoldLabel" type="Label" parent="RequirementContainerHbox/Gold"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HUD_small"
 
-[node name="Light" type="HBoxContainer" parent="HBoxContainer2/RequirementContainerHbox"]
+[node name="Light" type="HBoxContainer" parent="RequirementContainerHbox"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 1
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer2/RequirementContainerHbox/Light"]
+[node name="TextureRect" type="TextureRect" parent="RequirementContainerHbox/Light"]
 custom_minimum_size = Vector2(6, 6)
 layout_mode = 2
 texture = ExtResource("3_22r1h")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="LightRequirementLabel" type="Label" parent="HBoxContainer2/RequirementContainerHbox/Light"]
+[node name="LightRequirementLabel" type="Label" parent="RequirementContainerHbox/Light"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HUD_small"
 
-[node name="Water" type="HBoxContainer" parent="HBoxContainer2/RequirementContainerHbox"]
+[node name="Water" type="HBoxContainer" parent="RequirementContainerHbox"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 1
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer2/RequirementContainerHbox/Water"]
+[node name="TextureRect" type="TextureRect" parent="RequirementContainerHbox/Water"]
 custom_minimum_size = Vector2(6, 6)
 layout_mode = 2
 texture = ExtResource("4_lgl7a")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="WaterRequirementLabel" type="Label" parent="HBoxContainer2/RequirementContainerHbox/Water"]
+[node name="WaterRequirementLabel" type="Label" parent="RequirementContainerHbox/Water"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HUD_small"

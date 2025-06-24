@@ -1,0 +1,71 @@
+[gd_scene load_steps=6 format=3 uid="uid://bacvied61ghpe"]
+
+[ext_resource type="Script" uid="uid://t7x03xkbah7n" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.gd" id="1_a7c0j"]
+[ext_resource type="Texture2D" uid="uid://ugtybr3upkmn" path="res://resources/sprites/GUI/icon_backgrounds/tool_card_background.png" id="2_a7c0j"]
+[ext_resource type="PackedScene" uid="uid://bfye3pwakcidx" path="res://scenes/GUI/shared/descriptions/gui_tooltip_description_separator.tscn" id="4_a7c0j"]
+[ext_resource type="PackedScene" uid="uid://defua0wjy7nqc" path="res://scenes/GUI/shared/descriptions/gui_description_rich_text_label.tscn" id="5_ckxcp"]
+[ext_resource type="Texture2D" uid="uid://cot566voterom" path="res://resources/sprites/GUI/shared/border2.png" id="5_mp7qu"]
+
+[node name="GUIToolCardButton" type="PanelContainer"]
+custom_minimum_size = Vector2(24, 32)
+offset_right = 24.0
+offset_bottom = 32.0
+size_flags_vertical = 4
+script = ExtResource("1_a7c0j")
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="Background" type="NinePatchRect" parent="MarginContainer2"]
+layout_mode = 2
+texture = ExtResource("2_a7c0j")
+region_rect = Rect2(0, 0, 16, 16)
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="Border" type="NinePatchRect" parent="."]
+unique_name_in_owner = true
+self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
+layout_mode = 2
+texture = ExtResource("5_mp7qu")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_type_variation = &"HUD_small"
+text = "Egg"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GUITooltipDescriptionSaparator" parent="MarginContainer/VBoxContainer" instance=ExtResource("4_a7c0j")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ActionContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="GUIDescriptionRichTextLabel" parent="MarginContainer/VBoxContainer" instance=ExtResource("5_ckxcp")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+theme_override_colors/default_color = Color(0.223529, 0.121569, 0.129412, 1)

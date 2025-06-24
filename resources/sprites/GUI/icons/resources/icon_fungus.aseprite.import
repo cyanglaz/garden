@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cjituvx2iidvp"
+path="res://.godot/imported/icon_fungus.aseprite-aae23ba6aa65876dcc4ec2c4d5179c34.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_fungus.aseprite"
+dest_files=["res://.godot/imported/icon_fungus.aseprite-aae23ba6aa65876dcc4ec2c4d5179c34.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
