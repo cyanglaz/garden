@@ -1,0 +1,69 @@
+[gd_scene load_steps=9 format=3 uid="uid://b657270a4ms0r"]
+
+[ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/plants/plant.tscn" id="1_wktxa"]
+[ext_resource type="Script" uid="uid://tuu0gwwwv0ys" path="res://scenes/plants/plants/plant_daisy.gd" id="2_uas1e"]
+[ext_resource type="Texture2D" uid="uid://nm4wlycbeyfh" path="res://resources/sprites/plants/plant_daisy.png" id="3_mn8ri"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mn8ri"]
+atlas = ExtResource("3_mn8ri")
+region = Rect2(0, 0, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_btw8d"]
+atlas = ExtResource("3_mn8ri")
+region = Rect2(36, 0, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fp5lj"]
+atlas = ExtResource("3_mn8ri")
+region = Rect2(0, 36, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sw1rf"]
+atlas = ExtResource("3_mn8ri")
+region = Rect2(36, 36, 36, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ybslm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mn8ri")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_btw8d")
+}],
+"loop": true,
+"name": &"idle_1",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fp5lj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sw1rf")
+}],
+"loop": true,
+"name": &"idle_2",
+"speed": 3.0
+}]
+
+[node name="PlantDaisy" instance=ExtResource("1_wktxa")]
+script = ExtResource("2_uas1e")
+
+[node name="PlantSprite" parent="." index="0"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_ybslm")
+animation = &"idle_1"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/plants/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/plants/plant_daisy.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "e610ace6f55319463ceee5844fcca04b"

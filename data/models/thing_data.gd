@@ -2,13 +2,10 @@
 class_name ThingData
 extends Resource
 
-const DAMAGE_ICON_PATH := "res://resources/sprites/GUI/general/damage_icon.png"
-
 enum ReferenceType {
 	STATUS_EFFECT,
 	SPACE_EFFECT,
-	BALL_TYPE,
-	DMG,
+	RESOURCE,
 	OTHER,
 }
 
@@ -87,10 +84,8 @@ func _format_icon_reference(reference_id:String, highlight:bool) -> String:
 		reference_type = ReferenceType.STATUS_EFFECT
 	elif reference_id.begins_with("space_effect_"):
 		reference_type = ReferenceType.SPACE_EFFECT
-	elif reference_id.begins_with("ball_type_"):
-		reference_type = ReferenceType.BALL_TYPE
-	elif reference_id == "dmg":
-		reference_type = ReferenceType.DMG
+	elif reference_id.begins_with("resource_"):
+		reference_type = ReferenceType.RESOURCE
 	
 	var url_prefix := ""
 	var url := ""
@@ -106,11 +101,9 @@ func _format_icon_reference(reference_id:String, highlight:bool) -> String:
 			reference_id = reference_id.trim_prefix("space_effect_")
 			image_path = Util.get_image_path_for_space_effect_id(reference_id)
 			url = reference_id
-		ReferenceType.BALL_TYPE:
-			image_path = Util.get_image_path_for_ball_type_id(reference_id)
-		ReferenceType.DMG:
-			# Special icon for damage
-			image_path = DAMAGE_ICON_PATH
+		ReferenceType.RESOURCE:
+			reference_id = reference_id.trim_prefix("resource_")
+			image_path = Util.get_image_path_for_resource_id(reference_id)
 		ReferenceType.OTHER:
 			url_prefix = "ball_"
 			image_path = Util.get_image_path_for_ball_id(reference_id)

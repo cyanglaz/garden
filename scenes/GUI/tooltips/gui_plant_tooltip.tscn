@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbwbuyve75w7l"]
+
+[ext_resource type="PackedScene" uid="uid://73vkj3ho7ou5" path="res://scenes/GUI/tooltips/gui_tooltip.tscn" id="1_cy85m"]
+[ext_resource type="Script" uid="uid://400a6hiprjgw" path="res://scenes/GUI/tooltips/gui_plant_tooltip.gd" id="2_ycoeg"]
+[ext_resource type="PackedScene" uid="uid://h75kpqpphro7" path="res://scenes/GUI/shared/descriptions/plant_description/gui_plant_description.tscn" id="3_ycoeg"]
+
+[node name="GUIPlantTooltip" instance=ExtResource("1_cy85m")]
+script = ExtResource("2_ycoeg")
+
+[node name="GUIPanelBackgroundColor" parent="." index="0"]
+unique_name_in_owner = true
+
+[node name="GUIPlantDescription" parent="ContentContainer" index="0" instance=ExtResource("3_ycoeg")]
+unique_name_in_owner = true
+layout_mode = 2

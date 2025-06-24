@@ -10,6 +10,7 @@ const GUI_ALERT_POPUP_SCENE := preload("res://scenes/GUI/containers/gui_popup_al
 const GUI_SETTINGS_SCENE := preload("res://scenes/GUI/containers/gui_settings_menu.tscn")
 const GUI_IN_GAME_MENU_SCENE := preload("res://scenes/GUI/containers/gui_in_game_menu.tscn")
 const GUI_BALL_SYMBOL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_bingo_ball_symbol_tooltip.tscn")
+const GUI_PLANT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn")
 const GUI_WARNING_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_warning_tooltip.tscn")
 const GUI_RICH_TEXT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_rich_text_tooltip.tscn")
 const GUI_POWER_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_power_tooltip.tscn")
@@ -20,7 +21,9 @@ const STATUS_EFFECT_ICON_PREFIX := "res://resources/sprites/icons/status_effect/
 const BALL_TYPE_ICON_PREFIX := "res://resources/sprites/icons/ball_types/icon_"
 const SPACE_EFFECT_ICON_PREFIX := "res://resources/sprites/icons/space_effects/icon_"
 const BINGO_BALL_SCRIPT_PREFIX := "res://scenes/bingo/ball_scripts/bingo_ball_script_"
+const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
 const POWER_SCRIPT_PREFIX := "res://scenes/bingo/power_scripts/power_script_"
+const PLANT_ICON_PREFIX := "res://resources/sprites/GUI/icons/plants/icon_"
 
 const GAME_ARENA_SIZE :float = 256
 const TOOLTIP_OFFSET:float = 2.0
@@ -136,7 +139,17 @@ static func display_enemy_preview_tooltip(enemy:Enemy, on_control_node:Control, 
 	_display_tool_tip.call_deferred(enemy_preview_tooltip, on_control_node, anchor_mouse, tooltip_position)
 	return enemy_preview_tooltip
 
+static func display_plant_tooltip(plant_data:PlantData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIPlantTooltip:
+	var plant_tooltip:GUIPlantTooltip = GUI_PLANT_TOOLTIP_SCENE.instantiate()
+	plant_tooltip.hide()
+	Singletons.main_game.add_control_to_overlay(plant_tooltip)
+	plant_tooltip.tooltip_position = tooltip_position
+	plant_tooltip.update_with_plant_data(plant_data)
+	_display_tool_tip.call_deferred(plant_tooltip, on_control_node, anchor_mouse, tooltip_position)
+	return plant_tooltip
+
 static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP, world_space:bool = false) -> void:
+	tooltip.show()
 	if tooltip is GUITooltip:
 		tooltip.anchor_to_mouse = anchor_mouse
 		tooltip.sticky = anchor_mouse
@@ -356,6 +369,9 @@ static func get_script_path_for_power_id(id:String) -> String:
 static func get_image_path_for_ball_id(id:String) -> String:
 	return str(BINGO_BALL_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
 
+static func get_icon_image_path_for_plant_id(id:String) -> String:
+	return str(PLANT_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
+
 static func get_script_path_for_ball_id(id:String) -> String:
 	return str(BINGO_BALL_SCRIPT_PREFIX, _trim_upgrade_suffix_from_id(id), ".gd")
 
@@ -367,6 +383,9 @@ static func get_image_path_for_space_effect_id(id:String) -> String:
 
 static func get_image_path_for_ball_type_id(id:String) -> String:
 	return str(BALL_TYPE_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
+
+static func get_image_path_for_resource_id(id:String) -> String:
+	return str(RESOURCE_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
 
 static func _trim_upgrade_suffix_from_id(id:String) -> String:
 	var plus_sign_index := id.find("+")
@@ -451,6 +470,25 @@ static func get_bingo_ball_background_region(bingo_ball:BingoBallData, highlight
 				x = 88
 			_:
 				assert(false, "Invalid rarity: " + str(bingo_ball.rarity))
+	return Vector2(x, y)
+
+static func get_plant_icon_background_region(plant_data:PlantData, highlighted:bool = false) -> Vector2:
+	var x := 0
+	var y := 0
+	if highlighted:
+		y = 16
+	if plant_data:
+		match plant_data.rarity:
+			0:
+				x = 0
+			1:
+				x = 16
+			2:
+				x = 32
+			3:
+				x = 48
+			_:
+				assert(false, "Invalid rarity: " + str(plant_data.rarity))
 	return Vector2(x, y)
 
 static func create_scaled_tween(binding_node:Node) -> Tween:

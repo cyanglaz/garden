@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://jgqf5p7yqlsm"
+path="res://.godot/imported/icon_light.aseprite-6004bf3604dbdc9664cf366073b64528.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_light.aseprite"
+dest_files=["res://.godot/imported/icon_light.aseprite-6004bf3604dbdc9664cf366073b64528.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

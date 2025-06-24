@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cdbf34ba7k03x"
+path="res://.godot/imported/icon_daisy.aseprite-f1dc835a3eeb82697427549cb4237bae.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/plants/icon_daisy.aseprite"
+dest_files=["res://.godot/imported/icon_daisy.aseprite-f1dc835a3eeb82697427549cb4237bae.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

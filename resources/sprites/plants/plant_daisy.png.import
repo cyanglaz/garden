@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cnnxje814bs2"
-path="res://.godot/imported/gold.png-d21cf00aca66c926ba5848b126a06760.ctex"
+uid="uid://nm4wlycbeyfh"
+path="res://.godot/imported/plant_daisy.png-0dfa26fd0ec0cc2d07bb1f9890197741.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/GUI/icons/resources/gold.png"
-dest_files=["res://.godot/imported/gold.png-d21cf00aca66c926ba5848b126a06760.ctex"]
+source_file="res://resources/sprites/plants/plant_daisy.png"
+dest_files=["res://.godot/imported/plant_daisy.png-0dfa26fd0ec0cc2d07bb1f9890197741.ctex"]
 
 [params]
 

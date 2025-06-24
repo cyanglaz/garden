@@ -1,0 +1,79 @@
+class_name FieldContainer
+extends Node2D
+
+signal field_hovered(hovered:bool, index:int)
+signal field_pressed(index:int)
+
+const MAX_DISTANCE_BETWEEN_FIELDS := 10
+const MARGIN := 36
+
+const FIELD_SCENE := preload("res://scenes/main_game/field/field.tscn")
+
+@onready var _container: Node2D = %Container
+
+func update_with_number_of_fields(number_of_fields:int) -> void:
+	Util.remove_all_children(_container)
+	for i in range(number_of_fields):
+		var field:Field = FIELD_SCENE.instantiate()
+		field.field_hovered.connect(func(hovered:bool): field_hovered.emit(hovered, i))
+		field.field_pressed.connect(func(): field_pressed.emit(i))
+		_container.add_child(field)
+	_layout_fields()
+
+func is_field_occupied(index:int) -> bool:
+	var field:Field = _container.get_child(index)
+	return field.plant != null
+
+func toggle_plant_preview(on:bool, plant_data:PlantData, index:int) -> void:
+	var field:Field = _container.get_child(index)
+	if on:
+		field.show_plant_preview(plant_data)
+	else:
+		field.remove_plant_preview()
+
+func plant_seed(plant_data:PlantData, index:int) -> void:
+	var field:Field = _container.get_child(index)
+	field.plant_seed(plant_data)
+
+func clear_previews() -> void:
+	for field:Field in _container.get_children():
+		field.remove_plant_preview()
+
+func get_preview_icon_global_position(reference_control:Control, index:int) -> Vector2:
+	var field:Field = _container.get_child(index)
+	return field.get_preview_icon_global_position(reference_control)
+
+func _layout_fields() -> void:
+	var fields = _container.get_children()
+	if fields.size() == 0:
+		return
+	
+	# Get screen size
+	var screen_size = get_viewport().get_visible_rect().size
+	
+	# Calculate total width needed for all fields
+	var total_fields_width = 0.0
+	var field_width:float = fields[0]._gui_field_button.size.x
+	for field:Field in fields:
+		total_fields_width += field_width
+	
+	# Calculate spacing between fields
+	var available_width = screen_size.x - MARGIN * 2  # Leave 20px margin on each side
+	var spacing = 0.0
+	
+	if fields.size() > 1:
+		var total_spacing_needed = available_width - total_fields_width
+		spacing = min(total_spacing_needed / (fields.size() - 1), MAX_DISTANCE_BETWEEN_FIELDS)
+	
+	# Position fields horizontally
+#	
+	# Calculate starting x position to center align fields
+	var total_width = total_fields_width + (spacing * (fields.size() - 1))
+	var start_x = - total_width / 2 + field_width/2
+	
+	var current_x = start_x
+	for field in fields:
+		field.position.x = current_x
+		field.position.y = 0
+		current_x += field_width + spacing
+	return

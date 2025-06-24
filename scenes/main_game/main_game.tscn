@@ -1,0 +1,22 @@
+[gd_scene load_steps=7 format=3 uid="uid://bbcxpceayay3"]
+
+[ext_resource type="PackedScene" uid="uid://byg0qymapjkn6" path="res://scenes/main_game/field/field_container.tscn" id="1_075iw"]
+[ext_resource type="Script" uid="uid://sc1eubamsw6x" path="res://scenes/main_game/main_game.gd" id="1_yra6k"]
+[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="2_6eclk"]
+[ext_resource type="PackedScene" uid="uid://drjaux1gtvc31" path="res://scenes/utils/camera/feedback_camera_2d.tscn" id="2_yra6k"]
+[ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
+[ext_resource type="Resource" uid="uid://cf678cnphhouf" path="res://data/plants/plant_data_daisy.tres" id="3_i3kwu"]
+
+[node name="MainGame" type="Node2D"]
+script = ExtResource("1_yra6k")
+test_plant_datas = Array[ExtResource("2_6eclk")]([ExtResource("3_i3kwu")])
+number_of_fields = 5
+
+[node name="FieldContainer" parent="." instance=ExtResource("1_075iw")]
+unique_name_in_owner = true
+position = Vector2(0, -11)
+
+[node name="FeedbackCamera2D" parent="." instance=ExtResource("2_yra6k")]
+
+[node name="GUIGameSession" parent="." instance=ExtResource("3_8ywsm")]
+unique_name_in_owner = true

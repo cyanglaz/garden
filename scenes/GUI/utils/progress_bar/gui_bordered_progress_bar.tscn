@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://gmokt73gbwwc" path="res://resources/sprites/GUI/shared/progress_bar_fill.png" id="1_f2kbq"]
 [ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="2_jc8vj"]
-[ext_resource type="Script" uid="uid://dyw1e72xuva63" path="res://scenes/GUI/utils/gui_progress_bar.gd" id="3_sexke"]
+[ext_resource type="Script" uid="uid://dyw1e72xuva63" path="res://scenes/GUI/utils/progress_bar/gui_progress_bar.gd" id="3_sexke"]
 
 [node name="GUIBorderedProgressBar" type="TextureProgressBar"]
 offset_left = 1.0

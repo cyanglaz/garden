@@ -1,0 +1,109 @@
+[gd_scene load_steps=11 format=3 uid="uid://dswoypivjtaql"]
+
+[ext_resource type="Script" uid="uid://ypmkl3x5hk7f" path="res://scenes/main_game/field/field.gd" id="1_4blml"]
+[ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/field.png" id="1_se4o6"]
+[ext_resource type="PackedScene" uid="uid://by4p2lbbaimh3" path="res://scenes/GUI/controls/buttons/gui_field_button.tscn" id="3_hjlch"]
+[ext_resource type="PackedScene" uid="uid://673wlt1ldg8q" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.tscn" id="4_bve5f"]
+[ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/GUI/icons/resources/icon_light.png" id="5_7ysiu"]
+[ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/icon_water.png" id="6_bhkj4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hjlch"]
+atlas = ExtResource("1_se4o6")
+region = Rect2(36, 0, 36, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bve5f"]
+atlas = ExtResource("1_se4o6")
+region = Rect2(0, 0, 36, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ysiu"]
+atlas = ExtResource("1_se4o6")
+region = Rect2(0, 22, 36, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bhkj4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hjlch")
+}],
+"loop": false,
+"name": &"hover",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bve5f")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ysiu")
+}],
+"loop": false,
+"name": &"pressed",
+"speed": 10.0
+}]
+
+[node name="Field" type="Node2D"]
+script = ExtResource("1_4blml")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_bhkj4")
+animation = &"hover"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/objects/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/objects/field.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "cd40017d5c99a4591dd1961a3e521a29"
+
+[node name="GUIFieldButton" parent="." instance=ExtResource("3_hjlch")]
+unique_name_in_owner = true
+offset_left = -18.0
+offset_top = -11.0
+offset_right = 18.0
+offset_bottom = 11.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="ProgressBars" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+offset_left = -18.0
+offset_top = 13.0
+offset_right = 18.0
+offset_bottom = 27.0
+theme_override_constants/separation = 2
+
+[node name="LightBar" parent="ProgressBars" instance=ExtResource("4_bve5f")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+max_value = 2
+segment_color = Color(1, 0.784314, 0.145098, 1)
+icon_texture = ExtResource("5_7ysiu")
+icon_size = Vector2(6, 6)
+
+[node name="WaterBar" parent="ProgressBars" instance=ExtResource("4_bve5f")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+max_value = 5
+icon_texture = ExtResource("6_bhkj4")
+icon_size = Vector2(6, 6)
+
+[node name="PlantContainer" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -14)

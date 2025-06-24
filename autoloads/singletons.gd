@@ -1,11 +1,11 @@
 extends Node
 
-var game_main:GameMain: set = _set_game_main, get = _get_game_main
+var main_game:MainGame:get = _get_main_game, set = _set_main_game
 
-var _weak_game_main:WeakRef = weakref(null)
+var _weak_main_game:WeakRef = weakref(null)
 
-func _set_game_main(val:GameMain) -> void:
-	_weak_game_main = weakref(val)
+func _set_main_game(val:MainGame) -> void:
+	_weak_main_game = weakref(val)
 
-func _get_game_main() -> GameMain:
-	return _weak_game_main.get_ref()
+func _get_main_game() -> MainGame:
+	return _weak_main_game.get_ref()

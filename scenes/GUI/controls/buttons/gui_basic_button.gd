@@ -49,12 +49,12 @@ func _ready() -> void:
 	_sound_click.stream = _get_click_sound()
 	_sound_hover.volume_db = -5
 	_sound_click.volume_db = -5
-	mouse_entered.connect(_on_mouse_entered)
-	mouse_exited.connect(_on_mouse_exited)
 	_set_short_cut(short_cut)
 	gui_input.connect(_on_gui_input)
 	_set_button_state(button_state)
 	mouse_default_cursor_shape = Control.CursorShape.CURSOR_POINTING_HAND
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
 
 func _physics_process(delta: float) -> void:	
 	if button_state == ButtonState.DISABLED:
