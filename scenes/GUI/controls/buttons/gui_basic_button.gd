@@ -118,7 +118,6 @@ func _is_short_cut_released(input_event:InputEvent) -> bool:
 	return false
 
 func _on_mouse_entered():
-	print("mouse_entered ", self)
 	mouse_in = true
 	if !tooltip_description.is_empty():
 		_weak_tooltip = weakref(Util.display_button_tooltip(tooltip_description, short_cut, self, false, tooltip_position))
