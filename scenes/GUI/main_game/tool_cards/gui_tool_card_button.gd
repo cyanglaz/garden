@@ -7,6 +7,7 @@ const GUI_TOOL_ACTION_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gu
 @onready var _action_container: VBoxContainer = %ActionContainer
 @onready var _gui_description_rich_text_label: GUIDescriptionRichTextLabel = %GUIDescriptionRichTextLabel
 @onready var _container: PanelContainer = %Container
+@onready var _background: NinePatchRect = %Background
 
 func update_with_tool_data(tool_data:ToolData) -> void:
 	_name_label.text = tool_data.display_name
@@ -22,5 +23,7 @@ func _set_button_state(bs:GUIBasicButton.ButtonState) -> void:
 	super._set_button_state(bs)
 	if bs == GUIBasicButton.ButtonState.HOVERED:
 		_container.position.y = -1
+		_background.region_rect.position.y = 16
 	else:
 		_container.position.y = 0
+		_background.region_rect.position.y = 0

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://t7x03xkbah7n" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.gd" id="1_a7c0j"]
 [ext_resource type="Texture2D" uid="uid://ugtybr3upkmn" path="res://resources/sprites/GUI/icon_backgrounds/tool_card_background.png" id="2_a7c0j"]
-[ext_resource type="Texture2D" uid="uid://dnvmnawp5u5n6" path="res://resources/sprites/GUI/shared/border1.aseprite" id="3_a7c0j"]
+[ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="3_wvnx0"]
 [ext_resource type="PackedScene" uid="uid://bfye3pwakcidx" path="res://scenes/GUI/shared/descriptions/gui_tooltip_description_separator.tscn" id="4_a7c0j"]
 [ext_resource type="PackedScene" uid="uid://defua0wjy7nqc" path="res://scenes/GUI/shared/descriptions/gui_description_rich_text_label.tscn" id="5_ckxcp"]
 
@@ -26,6 +26,7 @@ theme_override_constants/margin_right = 1
 theme_override_constants/margin_bottom = 1
 
 [node name="Background" type="NinePatchRect" parent="Container/BackgroundMargin"]
+unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("2_a7c0j")
 region_rect = Rect2(0, 0, 16, 16)
@@ -38,11 +39,11 @@ patch_margin_bottom = 1
 unique_name_in_owner = true
 self_modulate = Color(0.223529, 0.121569, 0.129412, 1)
 layout_mode = 2
-texture = ExtResource("3_a7c0j")
-patch_margin_left = 1
-patch_margin_top = 1
-patch_margin_right = 1
-patch_margin_bottom = 1
+texture = ExtResource("3_wvnx0")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="Container"]
 layout_mode = 2
