@@ -4,7 +4,6 @@ extends PanelContainer
 const TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const DEFAULT_CARD_SPACE := 4.0
 const MAX_TOTAL_WIDTH := 150
-const REPOSITION_DURATION:float = 0.15
 
 @onready var _hover_sound: AudioStreamPlayer2D = %HoverSound
 @onready var _container: Control = %Container
@@ -24,7 +23,7 @@ func clear() -> void:
 
 func update_with_tool_datas(tools:Array[ToolData]) -> void:
 	var current_size :=  _container.get_children().size()
-	var positions := calculate_positions(tools.size() + current_size)
+	var positions := calculate_default_positions(tools.size() + current_size)
 	for i in positions.size():
 		var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
 		gui_card.state_updated.connect(_on_card_state_updated.bind(i))
@@ -42,7 +41,7 @@ func get_card_position(index:int) -> Vector2:
 	var gui_card:GUIToolCardButton = _container.get_child(index)
 	return gui_card.global_position
 
-func calculate_positions(number_of_cards:int) -> Array[Vector2]:
+func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 	var card_space := DEFAULT_CARD_SPACE
 	var total_width := number_of_cards * _card_size + card_space * (number_of_cards - 1)
 	# Reduce spacing if total width exceeds max width
@@ -62,29 +61,23 @@ func calculate_positions(number_of_cards:int) -> Array[Vector2]:
 
 func _on_card_state_updated(button_state:GUIBasicButton.ButtonState, index:int) -> void:
 	var hovered := button_state == GUIBasicButton.ButtonState.HOVERED
-	var positions:Array[Vector2] = calculate_positions(_container.get_children().size())
+	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	if positions.size() < 2:
 		return
 	var card_padding := positions[0].x - positions[1].x - _card_size
-	var tween:Tween = Util.create_scaled_tween(self)
-	tween.set_parallel(true)
-	tween.set_ease(Tween.EASE_IN)
-	tween.set_trans(Tween.TRANS_SINE)
-	if hovered && card_padding < 0.0:
-		# Push back other cards when one is hovered
-		for i in _container.get_children().size():
-			var pos = positions[i]
-			if i < index:
-				# The positions are reversed
-				pos.x += 1 - card_padding # Push right cards 4 pixels left
-			elif i > index:
-				pos.x -= 1 - card_padding# Push left cards 4 pixels right
-			var gui_card = _container.get_child(i)
-			gui_card.position = pos
-			tween.tween_property(gui_card, "position", pos, REPOSITION_DURATION)
-		_hover_sound.play()
+	if hovered:
+		if card_padding < 0.0:
+			for i in _container.get_children().size():
+				var pos = positions[i]
+				if i < index:
+					# The positions are reversed
+					pos.x += 1 - card_padding # Push right cards 4 pixels left
+				elif i > index:
+					pos.x -= 1 - card_padding # Push left cards 4 pixels right
+				var gui_card = _container.get_child(i)
+				gui_card.position = pos
 	else:
 		# Reset to default positions
 		for i in _container.get_children().size():
 			var gui_card = _container.get_child(i)
-			tween.tween_property(gui_card, "position", positions[i], REPOSITION_DURATION)
+			gui_card.position = positions[i]
