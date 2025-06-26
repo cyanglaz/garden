@@ -21,8 +21,7 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("de-select"):
 		_on_plant_seed_selected(null)
-		_gui_tool_card_container.clear_selection()
-		selected_tool_card_index = -1
+		_clear_tool_selection()
 
 func _physics_process(_delta:float) -> void:
 	if selected_tool_card_index != -1:
@@ -49,6 +48,10 @@ func add_control_to_overlay(control:Control) -> void:
 func handle_tool_application_completed() -> void:
 	pass
 
+func _clear_tool_selection() -> void:
+	_gui_tool_card_container.clear_selection()
+	selected_tool_card_index = -1
+
 func _toggle_following_plant_icon_visibility(on:bool) -> void:
 	if on:
 		_gui_mouse_following_plant_icon.follow_mouse = true
@@ -61,6 +64,7 @@ func _on_plant_seed_selected(plant_data:PlantData) -> void:
 	selected_plant_seed_data = plant_data
 	_toggle_following_plant_icon_visibility(selected_plant_seed_data != null)
 	if selected_plant_seed_data:
+		_clear_tool_selection()
 		_gui_mouse_following_plant_icon.update_with_plant_data(selected_plant_seed_data)
 	else:
 		plant_seed_deselected.emit()
@@ -68,3 +72,5 @@ func _on_plant_seed_selected(plant_data:PlantData) -> void:
 
 func _on_tool_selected(index:int, _tool_data:ToolData) -> void:
 	selected_tool_card_index = index
+	if selected_tool_card_index > -1:
+		_on_plant_seed_selected(null)

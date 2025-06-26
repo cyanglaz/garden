@@ -55,6 +55,7 @@ func remove_plant_preview() -> void:
 		_progress_bars.hide()
 
 func apply_tool(tool_data:ToolData) -> void:
+	print("apply tool ", tool_data)
 	pass
 
 func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> void:
