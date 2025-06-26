@@ -9,6 +9,8 @@ const GUI_TOOL_ACTION_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gu
 @onready var _container: PanelContainer = %Container
 @onready var _background: NinePatchRect = %Background
 
+var container_offset:float = 0.0: set = _set_container_offset
+
 func update_with_tool_data(tool_data:ToolData) -> void:
 	_name_label.text = tool_data.display_name
 	Util.remove_all_children(_action_container)
@@ -21,9 +23,16 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 
 func _set_button_state(bs:GUIBasicButton.ButtonState) -> void:
 	super._set_button_state(bs)
-	if bs == GUIBasicButton.ButtonState.HOVERED:
-		_container.position.y = -1
-		_background.region_rect.position.y = 16
-	else:
-		_container.position.y = 0
-		_background.region_rect.position.y = 0
+	match bs:
+		GUIBasicButton.ButtonState.HOVERED:
+			_background.region_rect.position.y = 16
+		GUIBasicButton.ButtonState.NORMAL:
+			_background.region_rect.position.y = 0
+		GUIBasicButton.ButtonState.DISABLED:
+			_background.region_rect.position.y = 32
+		GUIBasicButton.ButtonState.PRESSED, GUIBasicButton.ButtonState.SELECTED:
+			_background.region_rect.position.y = 16
+
+func _set_container_offset(offset:float) -> void:
+	container_offset = offset
+	_container.position.y = offset

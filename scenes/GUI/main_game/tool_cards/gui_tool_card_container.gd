@@ -1,6 +1,8 @@
 class_name GUIToolHandContainer
 extends PanelContainer
 
+signal tool_selected(index:int)
+
 const TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const DEFAULT_CARD_SPACE := 4.0
 const MAX_TOTAL_WIDTH := 150
@@ -21,12 +23,19 @@ func clear() -> void:
 	for child:GUIToolCardButton in _container.get_children():
 		child.queue_free()
 
+func clear_selection() -> void:
+	for i in _container.get_children().size():
+		var gui_card = _container.get_child(i)
+		gui_card.button_state = GUIBasicButton.ButtonState.NORMAL
+		gui_card.container_offset = 0.0
+
 func update_with_tool_datas(tools:Array[ToolData]) -> void:
 	var current_size :=  _container.get_children().size()
 	var positions := calculate_default_positions(tools.size() + current_size)
 	for i in positions.size():
 		var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
 		gui_card.state_updated.connect(_on_card_state_updated.bind(i))
+		gui_card.action_evoked.connect(_on_card_action_evoked.bind(i))
 		_container.add_child(gui_card)
 		gui_card.update_with_tool_data(tools[i])
 		gui_card.position = positions[i]
@@ -60,24 +69,39 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 	return result
 
 func _on_card_state_updated(button_state:GUIBasicButton.ButtonState, index:int) -> void:
-	var hovered := button_state == GUIBasicButton.ButtonState.HOVERED
+	var card_highlighted := button_state == GUIBasicButton.ButtonState.HOVERED
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	if positions.size() < 2:
 		return
 	var card_padding := positions[0].x - positions[1].x - _card_size
-	if hovered:
-		if card_padding < 0.0:
+	if card_highlighted:
 			for i in _container.get_children().size():
-				var pos = positions[i]
-				if i < index:
-					# The positions are reversed
-					pos.x += 1 - card_padding # Push right cards 4 pixels left
-				elif i > index:
-					pos.x -= 1 - card_padding # Push left cards 4 pixels right
 				var gui_card = _container.get_child(i)
-				gui_card.position = pos
+				if card_padding < 0.0:
+					var pos = positions[i]
+					if i < index:
+						# The positions are reversed
+						pos.x += 1 - card_padding # Push right cards 4 pixels left
+					elif i > index:
+						pos.x -= 1 - card_padding # Push left cards 4 pixels right
+					gui_card.position = pos
+				if i == index:
+					gui_card.container_offset = -1.0
+				else:
+					gui_card.container_offset = 0.0
 	else:
 		# Reset to default positions
 		for i in _container.get_children().size():
 			var gui_card = _container.get_child(i)
 			gui_card.position = positions[i]
+
+func _on_card_action_evoked(index:int) -> void:
+	for i in _container.get_children().size():
+		var gui_card = _container.get_child(i)
+		if i == index:
+			gui_card.button_state = GUIBasicButton.ButtonState.SELECTED
+			gui_card.container_offset = -4.0
+		else:
+			gui_card.button_state = GUIBasicButton.ButtonState.DISABLED
+			gui_card.container_offset = 0.0
+	tool_selected.emit(index)

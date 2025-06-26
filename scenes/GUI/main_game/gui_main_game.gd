@@ -14,11 +14,13 @@ var selected_plant_seed_data:PlantData
 func _ready() -> void:
 	_gui_mouse_following_plant_icon.hide()
 	_gui_plant_card_container.plant_selected.connect(_on_plant_seed_selected)
+	_gui_tool_card_container.tool_selected.connect(_on_tool_selected)
 	#_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("de-select"):
 		_on_plant_seed_selected(null)
+		_gui_tool_card_container.clear_selection()
 
 func update_with_tool_datas(tool_datas:Array[ToolData]) -> void:
 	_gui_tool_card_container.update_with_tool_datas(tool_datas)
@@ -54,3 +56,6 @@ func _on_plant_seed_selected(plant_data:PlantData) -> void:
 	else:
 		plant_seed_deselected.emit()
 		_gui_mouse_following_plant_icon.update_with_plant_data(null)
+
+func _on_tool_selected(_index:int) -> void:
+	pass
