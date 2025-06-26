@@ -5,6 +5,7 @@ const PLANT_SCENE_PATH_PREFIX := "res://scenes/plants/plants/plant_"
 
 signal field_pressed()
 signal field_hovered(hovered:bool)
+signal tool_application_completed(tool_data:ToolData)
 
 @onready var _animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 @onready var _gui_field_button: GUIBasicButton = %GUIFieldButton
@@ -52,6 +53,9 @@ func remove_plant_preview() -> void:
 	if _weak_plant_preview.get_ref():
 		_weak_plant_preview.get_ref().queue_free()
 		_progress_bars.hide()
+
+func apply_tool(tool_data:ToolData) -> void:
+	pass
 
 func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> void:
 	match state:
