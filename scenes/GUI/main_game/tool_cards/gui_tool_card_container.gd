@@ -1,14 +1,14 @@
 class_name GUIToolHandContainer
 extends PanelContainer
 
-signal tool_selected(index:int)
+signal tool_selected(index:int, tool_data:ToolData)
 
 const TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const DEFAULT_CARD_SPACE := 4.0
 const MAX_TOTAL_WIDTH := 150
 
-@onready var _hover_sound: AudioStreamPlayer2D = %HoverSound
 @onready var _container: Control = %Container
+@onready var _gui_tool_evoke_indicator: GUIToolEvokeIndicator = %GUIToolEvokeIndicator
 
 var _card_size:int
 
@@ -16,6 +16,12 @@ func _ready() -> void:
 	var temp_tool_card := TOOL_CARD_SCENE.instantiate()
 	_card_size = temp_tool_card.size.x
 	temp_tool_card.queue_free()
+
+func show_tool_indicator(from_index:int) -> void:
+	_gui_tool_evoke_indicator.show()
+	var from_card :GUIToolCardButton = _container.get_child(from_index)
+	var from_position := from_card.global_position + Vector2.RIGHT * from_card.size.x/2 + Vector2.UP * 4
+	_gui_tool_evoke_indicator.from_position = from_position
 
 func clear() -> void:
 	if _container.get_children().size() == 0:
@@ -28,14 +34,15 @@ func clear_selection() -> void:
 		var gui_card = _container.get_child(i)
 		gui_card.button_state = GUIBasicButton.ButtonState.NORMAL
 		gui_card.container_offset = 0.0
+	_hide_tool_indicator()
 
 func update_with_tool_datas(tools:Array[ToolData]) -> void:
 	var current_size :=  _container.get_children().size()
-	var positions := calculate_default_positions(tools.size() + current_size)
+	var positions := _calculate_default_positions(tools.size() + current_size)
 	for i in positions.size():
 		var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
-		gui_card.state_updated.connect(_on_card_state_updated.bind(i))
-		gui_card.action_evoked.connect(_on_card_action_evoked.bind(i))
+		gui_card.state_updated.connect(_on_tool_card_state_updated.bind(i))
+		gui_card.action_evoked.connect(_on_tool_card_action_evoked.bind(i, tools[i]))
 		_container.add_child(gui_card)
 		gui_card.update_with_tool_data(tools[i])
 		gui_card.position = positions[i]
@@ -50,7 +57,7 @@ func get_card_position(index:int) -> Vector2:
 	var gui_card:GUIToolCardButton = _container.get_child(index)
 	return gui_card.global_position
 
-func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
+func _calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 	var card_space := DEFAULT_CARD_SPACE
 	var total_width := number_of_cards * _card_size + card_space * (number_of_cards - 1)
 	# Reduce spacing if total width exceeds max width
@@ -68,9 +75,12 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 	result.reverse() # First card is at the end of the array.
 	return result
 
-func _on_card_state_updated(button_state:GUIBasicButton.ButtonState, index:int) -> void:
+func _hide_tool_indicator() -> void:
+	_gui_tool_evoke_indicator.hide()
+
+func _on_tool_card_state_updated(button_state:GUIBasicButton.ButtonState, index:int) -> void:
 	var card_highlighted := button_state == GUIBasicButton.ButtonState.HOVERED
-	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
+	var positions:Array[Vector2] = _calculate_default_positions(_container.get_children().size())
 	if positions.size() < 2:
 		return
 	var card_padding := positions[0].x - positions[1].x - _card_size
@@ -95,7 +105,7 @@ func _on_card_state_updated(button_state:GUIBasicButton.ButtonState, index:int) 
 			var gui_card = _container.get_child(i)
 			gui_card.position = positions[i]
 
-func _on_card_action_evoked(index:int) -> void:
+func _on_tool_card_action_evoked(index:int, tool_data:ToolData) -> void:
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
 		if i == index:
@@ -104,4 +114,4 @@ func _on_card_action_evoked(index:int) -> void:
 		else:
 			gui_card.button_state = GUIBasicButton.ButtonState.DISABLED
 			gui_card.container_offset = 0.0
-	tool_selected.emit(index)
+	tool_selected.emit(index, tool_data)

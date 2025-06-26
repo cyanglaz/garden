@@ -1,20 +1,22 @@
 [gd_scene load_steps=3 format=3 uid="uid://canp4x5u3afyb"]
 
 [ext_resource type="Script" uid="uid://be0wbaoj8j50h" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_container.gd" id="1_32kbc"]
-[ext_resource type="AudioStream" uid="uid://q4k3jnocowmn" path="res://resources/sounds/SFX/other/cards/card_hover.wav" id="2_6r0sg"]
+[ext_resource type="PackedScene" uid="uid://b0mxsb1ypllyg" path="res://scenes/GUI/main_game/tool_cards/GUI_TOOL_EVOKE_INDICATOR.tscn" id="2_32kbc"]
 
 [node name="GUIToolCardContainer" type="PanelContainer"]
 offset_bottom = 42.0
 mouse_filter = 2
 script = ExtResource("1_32kbc")
 
+[node name="IndicatorContainer" type="Control" parent="."]
+layout_mode = 2
+
+[node name="GUIToolEvokeIndicator" parent="IndicatorContainer" instance=ExtResource("2_32kbc")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+
 [node name="Container" type="Control" parent="."]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-
-[node name="HoverSound" type="AudioStreamPlayer2D" parent="."]
-unique_name_in_owner = true
-stream = ExtResource("2_6r0sg")
-volume_db = 5.0
-bus = &"SFX"
