@@ -7,6 +7,8 @@ enum ActionType {
 	WATER,
 	PEST,
 	FUNGUS,
+	GLOW,
+	RAIN,
 }
 
 @export var type:ActionType
