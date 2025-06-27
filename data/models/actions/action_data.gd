@@ -13,14 +13,12 @@ enum ActionType {
 
 @export var type:ActionType
 @export var value:int
-@export var time_length:int
 @export var target_count:int = 1
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
 	type = other.type
 	value = other.value
-	time_length = other.time_length
 	target_count = other.target_count
 
 func get_duplicate() -> ThingData:
