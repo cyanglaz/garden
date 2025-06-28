@@ -1,13 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://bacvied61ghpe"]
+[gd_scene load_steps=7 format=3 uid="uid://bacvied61ghpe"]
 
 [ext_resource type="Script" uid="uid://t7x03xkbah7n" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.gd" id="1_a7c0j"]
 [ext_resource type="Texture2D" uid="uid://ugtybr3upkmn" path="res://resources/sprites/GUI/icon_backgrounds/tool_card_background.png" id="2_a7c0j"]
 [ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="3_wvnx0"]
 [ext_resource type="PackedScene" uid="uid://bfye3pwakcidx" path="res://scenes/GUI/shared/descriptions/gui_tooltip_description_separator.tscn" id="4_a7c0j"]
 [ext_resource type="PackedScene" uid="uid://defua0wjy7nqc" path="res://scenes/GUI/shared/descriptions/gui_description_rich_text_label.tscn" id="5_ckxcp"]
+[ext_resource type="PackedScene" uid="uid://dds47g0uvxrrs" path="res://scenes/GUI/main_game/tool_cards/gui_tool_cd_icon.tscn" id="6_ckxcp"]
 
 [node name="GUIToolCardButton" type="PanelContainer"]
-custom_minimum_size = Vector2(32, 42)
+custom_minimum_size = Vector2(36, 48)
 offset_right = 24.0
 offset_bottom = 32.0
 size_flags_vertical = 4
@@ -83,3 +84,11 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 theme_override_colors/default_color = Color(0.223529, 0.121569, 0.129412, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 1
+alignment = 2
+
+[node name="GUIToolCDIcon" parent="Container/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("6_ckxcp")]
+layout_mode = 2

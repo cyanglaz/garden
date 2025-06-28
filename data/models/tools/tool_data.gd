@@ -1,10 +1,12 @@
 class_name ToolData
 extends ThingData
 
+@export var cd:int = 1
 @export var actions:Array[ActionData]
 
 func copy(other:ThingData) -> void:
 	var other_tool: ToolData = other as ToolData
+	cd = other_tool.cd
 	actions = other_tool.actions.duplicate()
 
 func get_duplicate() -> ToolData:
