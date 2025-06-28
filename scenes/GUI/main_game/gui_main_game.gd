@@ -46,7 +46,7 @@ func add_control_to_overlay(control:Control) -> void:
 	_overlay.add_child(control)
 
 func handle_tool_application_completed() -> void:
-	pass
+	_clear_tool_selection()
 
 func _clear_tool_selection() -> void:
 	_gui_tool_card_container.clear_selection()

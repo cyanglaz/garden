@@ -76,6 +76,7 @@ func apply_tool(tool_data:ToolData) -> void:
 				_apply_rain_action(action)
 			_:
 				pass
+	tool_application_completed.emit(tool_data)
 
 func _show_progress_bars(p:Plant) -> void:
 	assert(p.data)
