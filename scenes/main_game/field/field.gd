@@ -16,8 +16,6 @@ signal tool_application_completed(tool_data:ToolData)
 
 var _weak_plant_preview:WeakRef = weakref(null)
 var plant:Plant
-var light_count:int = 0
-var water_count:int = 0
 var pest_count:int = 0
 var fungus_count:int = 0
 var glow_count:int = 0
@@ -86,11 +84,9 @@ func _show_progress_bars(p:Plant) -> void:
 	_water_bar.bind_with_resource_point(p.water)
 
 func _apply_light_action(action:ActionData) -> void:
-	light_count += action.value
 	plant.light.value += action.value
 
 func _apply_water_action(action:ActionData) -> void:
-	water_count += action.value
 	plant.water.value += action.value
 
 func _apply_pest_action(action:ActionData) -> void:
