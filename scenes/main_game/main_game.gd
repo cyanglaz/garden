@@ -23,11 +23,10 @@ func _ready() -> void:
 		_plant_seeds = test_plant_datas
 	if !test_tools.is_empty():
 		_tools = test_tools
-	
 	for tool_data in _tools:
-		tool_data.cd_counter = tool_data.cd
+		tool_data.initial_setup()
 	_gui_main_game.update_with_plant_datas(_plant_seeds)
-	_gui_main_game.update_with_tool_datas(_tools)
+	_gui_main_game.setup_tools(_tools)
 
 func add_control_to_overlay(control:Control) -> void:
 	_gui_main_game.add_control_to_overlay(control)
@@ -55,7 +54,6 @@ func _on_field_pressed(index:int) -> void:
 		_field_container.apply_tool(tool_data, index)
 
 func _on_field_tool_application_completed(_field_index:int, tool_data:ToolData) -> void:
-	tool_data.cd_counter = 0
-	# Order matters, clear selection first then update tool datas
+	# Order matters, clear selection first then update tool data cd
 	_gui_main_game.clear_tool_selection()
-	_gui_main_game.update_with_tool_datas(_tools)
+	tool_data.cd_counter.value = 0

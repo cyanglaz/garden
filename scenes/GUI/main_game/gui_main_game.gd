@@ -26,9 +26,12 @@ func _physics_process(_delta:float) -> void:
 	if selected_tool_card_index != -1:
 		_gui_tool_card_container.show_tool_indicator(selected_tool_card_index)		
 
-func update_with_tool_datas(tool_datas:Array[ToolData]) -> void:
-	_gui_tool_card_container.update_with_tool_datas(tool_datas)
-	
+func setup_tools(tool_datas:Array[ToolData]) -> void:
+	_gui_tool_card_container.setup_with_tool_datas(tool_datas)
+
+func update_tools(tool_datas:Array[ToolData]) -> void:
+	_gui_tool_card_container.update_tools(tool_datas)
+
 func update_with_plant_datas(plant_datas:Array[PlantData]) -> void:
 	_gui_plant_card_container.update_with_plant_datas(plant_datas)
 
