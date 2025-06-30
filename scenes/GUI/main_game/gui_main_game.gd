@@ -2,12 +2,14 @@ class_name GUIMainGame
 extends CanvasLayer
 
 signal plant_seed_deselected()
+signal end_turn_button_pressed()
 
 @onready var _gui_plant_card_container: GUIPlantCardContainer = %GUIPlantCardContainer
 @onready var _gui_mouse_following_plant_icon: GUIMouseFollowingPlantIcon = %GUIMouseFollowingPlantIcon
 @onready var _gui_tool_card_container: GUIToolHandContainer = %GUIToolCardContainer
 @onready var _overlay: Control = %Overlay
 @onready var _day_label: Label = %DayLabel
+@onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
 
 var selected_plant_seed_data:PlantData
 var selected_tool_card_index:int = -1
@@ -16,6 +18,7 @@ func _ready() -> void:
 	_gui_mouse_following_plant_icon.hide()
 	_gui_plant_card_container.plant_selected.connect(_on_plant_seed_selected)
 	_gui_tool_card_container.tool_selected.connect(_on_tool_selected)
+	_end_turn_button.action_evoked.connect(func() -> void: end_turn_button_pressed.emit())
 	#_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 func _input(event: InputEvent) -> void:

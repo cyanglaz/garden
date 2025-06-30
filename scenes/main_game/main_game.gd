@@ -16,6 +16,7 @@ var _plant_seeds:Array[PlantData]
 func _ready() -> void:
 	Singletons.main_game = self
 	_gui_main_game.plant_seed_deselected.connect(_on_plant_seed_deselected)
+	_gui_main_game.end_turn_button_pressed.connect(next_turn)
 	_field_container.update_with_number_of_fields(number_of_fields)
 	_field_container.field_hovered.connect(_on_field_hovered)
 	_field_container.field_pressed.connect(_on_field_pressed)
@@ -33,9 +34,9 @@ func _ready() -> void:
 
 func start_new_week() -> void:
 	_turn_manager.start_new(_tools)
-	start_turn()
+	next_turn()
 
-func start_turn() -> void:
+func next_turn() -> void:
 	_turn_manager.next_turn()
 	_gui_main_game.set_day(_turn_manager.turn)
 
