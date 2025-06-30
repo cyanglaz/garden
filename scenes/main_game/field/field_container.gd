@@ -3,6 +3,7 @@ extends Node2D
 
 signal field_hovered(hovered:bool, index:int)
 signal field_pressed(index:int)
+signal field_tool_application_completed(index:int, tool_data:ToolData)
 
 const MAX_DISTANCE_BETWEEN_FIELDS := 10
 const MARGIN := 36
@@ -17,6 +18,7 @@ func update_with_number_of_fields(number_of_fields:int) -> void:
 		var field:Field = FIELD_SCENE.instantiate()
 		field.field_hovered.connect(func(hovered:bool): field_hovered.emit(hovered, i))
 		field.field_pressed.connect(func(): field_pressed.emit(i))
+		field.tool_application_completed.connect(func(tool_data:ToolData): field_tool_application_completed.emit(i, tool_data))
 		_container.add_child(field)
 	_layout_fields()
 
@@ -42,6 +44,10 @@ func clear_previews() -> void:
 func get_preview_icon_global_position(reference_control:Control, index:int) -> Vector2:
 	var field:Field = _container.get_child(index)
 	return field.get_preview_icon_global_position(reference_control)
+
+func apply_tool(tool_data:ToolData, index:int) -> void:
+	var field:Field = _container.get_child(index)
+	field.apply_tool(tool_data)
 
 func _layout_fields() -> void:
 	var fields = _container.get_children()

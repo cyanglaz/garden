@@ -5,6 +5,7 @@ const PLANT_SCENE_PATH_PREFIX := "res://scenes/plants/plants/plant_"
 
 signal field_pressed()
 signal field_hovered(hovered:bool)
+signal tool_application_completed(tool_data:ToolData)
 
 @onready var _animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 @onready var _gui_field_button: GUIBasicButton = %GUIFieldButton
@@ -15,6 +16,10 @@ signal field_hovered(hovered:bool)
 
 var _weak_plant_preview:WeakRef = weakref(null)
 var plant:Plant
+var pest_count:int = 0
+var fungus_count:int = 0
+var glow_count:int = 0
+var rain_count:int = 0
 
 func _ready() -> void:
 	_gui_field_button.state_updated.connect(_on_gui_field_button_state_updated)
@@ -53,6 +58,50 @@ func remove_plant_preview() -> void:
 		_weak_plant_preview.get_ref().queue_free()
 		_progress_bars.hide()
 
+func apply_tool(tool_data:ToolData) -> void:
+	assert(plant, "No plant planted")
+	for action:ActionData in tool_data.actions:
+		match action.type:
+			ActionData.ActionType.LIGHT:
+				_apply_light_action(action)
+			ActionData.ActionType.WATER:
+				_apply_water_action(action)
+			ActionData.ActionType.PEST:
+				_apply_pest_action(action)
+			ActionData.ActionType.FUNGUS:
+				_apply_fungus_action(action)
+			ActionData.ActionType.GLOW:
+				_apply_glow_action(action)
+			ActionData.ActionType.RAIN:
+				_apply_rain_action(action)
+			_:
+				pass
+	tool_application_completed.emit(tool_data)
+
+func _show_progress_bars(p:Plant) -> void:
+	assert(p.data)
+	_progress_bars.show()
+	_light_bar.bind_with_resource_point(p.light)
+	_water_bar.bind_with_resource_point(p.water)
+
+func _apply_light_action(action:ActionData) -> void:
+	plant.light.value += action.value
+
+func _apply_water_action(action:ActionData) -> void:
+	plant.water.value += action.value
+
+func _apply_pest_action(action:ActionData) -> void:
+	pest_count += action.value
+
+func _apply_fungus_action(action:ActionData) -> void:
+	fungus_count += action.value
+
+func _apply_glow_action(action:ActionData) -> void:
+	glow_count += action.value
+
+func _apply_rain_action(action:ActionData) -> void:
+	rain_count += action.value
+
 func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> void:
 	match state:
 		GUIBasicButton.ButtonState.NORMAL, GUIBasicButton.ButtonState.DISABLED, GUIBasicButton.ButtonState.SELECTED:
@@ -61,9 +110,3 @@ func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> vo
 			_animated_sprite_2d.play("hover")
 		GUIBasicButton.ButtonState.PRESSED:
 			_animated_sprite_2d.play("pressed")
-
-func _show_progress_bars(p:Plant) -> void:
-	assert(p.data)
-	_progress_bars.show()
-	_light_bar.bind_with_resource_point(p.light)
-	_water_bar.bind_with_resource_point(p.water)

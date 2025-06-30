@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8tlya2sut3dl"]
+
+[ext_resource type="Script" uid="uid://biu4u4lrnfe4" path="res://scenes/GUI/main_game/tool_cards/gui_tool_action.gd" id="1_aalok"]
+[ext_resource type="PackedScene" uid="uid://37pgxcxnetyd" path="res://scenes/GUI/main_game/tool_cards/gui_action_type_icon.tscn" id="2_fubfm"]
+
+[node name="GUIToolAction" type="PanelContainer"]
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("1_aalok")
+
+[node name="SymbolContainer" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="GUIActionTypeIcon" parent="SymbolContainer" instance=ExtResource("2_fubfm")]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ValueLabel" type="Label" parent="SymbolContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_type_variation = &"HUD_small"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TargetCountIcon" type="TextureRect" parent="SymbolContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2

@@ -2,7 +2,6 @@ class_name GUIBingoMain
 extends Control
 
 signal draw_button_evoked()
-signal power_symbol_placed(power_data:BingoBallData, space_index:int)
 signal power_button_evoked(power_data:PowerData)
 
 @onready var gui_animation_container: GUIAnimationContainer = %GUIAnimationContainer

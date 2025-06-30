@@ -2,19 +2,32 @@ class_name MainGame
 extends Node2D
 
 @export var test_plant_datas:Array[PlantData]
+@export var test_tools:Array[ToolData]
 @export var number_of_fields := 0
 
 @onready var _field_container: FieldContainer = %FieldContainer
 @onready var _gui_main_game: GUIMainGame = %GUIGameSession
 
+var _tools:Array[ToolData]
+var _plant_seeds:Array[PlantData]
+
 func _ready() -> void:
 	Singletons.main_game = self
-	if !test_plant_datas.is_empty():
-		_gui_main_game.update_with_plant_datas(test_plant_datas)
 	_gui_main_game.plant_seed_deselected.connect(_on_plant_seed_deselected)
 	_field_container.update_with_number_of_fields(number_of_fields)
 	_field_container.field_hovered.connect(_on_field_hovered)
 	_field_container.field_pressed.connect(_on_field_pressed)
+	_field_container.field_tool_application_completed.connect(_on_field_tool_application_completed)
+	
+	if !test_plant_datas.is_empty():
+		_plant_seeds = test_plant_datas
+	if !test_tools.is_empty():
+		_tools = test_tools
+	
+	for tool_data in _tools:
+		tool_data.cd_counter = tool_data.cd
+	_gui_main_game.update_with_plant_datas(_plant_seeds)
+	_gui_main_game.update_with_tool_datas(_tools)
 
 func add_control_to_overlay(control:Control) -> void:
 	_gui_main_game.add_control_to_overlay(control)
@@ -33,6 +46,16 @@ func _on_plant_seed_deselected() -> void:
 
 func _on_field_pressed(index:int) -> void:
 	var selected_plant_seed_data:PlantData = _gui_main_game.selected_plant_seed_data
+	var selected_tool_index:int = _gui_main_game.selected_tool_card_index
 	if selected_plant_seed_data && !_field_container.is_field_occupied(index):
 		_gui_main_game._on_plant_seed_selected(null)
 		_field_container.plant_seed(selected_plant_seed_data, index)
+	elif selected_tool_index > -1 && _field_container.is_field_occupied(index):
+		var tool_data := _tools[selected_tool_index]
+		_field_container.apply_tool(tool_data, index)
+
+func _on_field_tool_application_completed(_field_index:int, tool_data:ToolData) -> void:
+	tool_data.cd_counter = 0
+	# Order matters, clear selection first then update tool datas
+	_gui_main_game.clear_tool_selection()
+	_gui_main_game.update_with_tool_datas(_tools)
