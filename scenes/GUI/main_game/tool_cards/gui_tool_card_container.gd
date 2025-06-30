@@ -32,8 +32,7 @@ func clear() -> void:
 func clear_selection() -> void:
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
-		if gui_card.button_state == GUIBasicButton.ButtonState.SELECTED:
-			gui_card.button_state = GUIBasicButton.ButtonState.NORMAL
+		gui_card.button_state = GUIBasicButton.ButtonState.NORMAL
 		gui_card.container_offset = 0.0
 	_hide_tool_indicator()
 
@@ -88,7 +87,7 @@ func _on_tool_card_action_evoked(index:int, tool_data:ToolData) -> void:
 			gui_card.button_state = GUIBasicButton.ButtonState.SELECTED
 			gui_card.container_offset = -4.0
 		else:
-			gui_card.button_state = GUIBasicButton.ButtonState.DISABLED
+			gui_card.button_state = GUIBasicButton.ButtonState.NORMAL
 			gui_card.container_offset = 0.0
 	tool_selected.emit(index, tool_data)
 

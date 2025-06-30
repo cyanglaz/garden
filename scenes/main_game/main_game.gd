@@ -56,5 +56,6 @@ func _on_field_pressed(index:int) -> void:
 
 func _on_field_tool_application_completed(_field_index:int, tool_data:ToolData) -> void:
 	tool_data.cd_counter = 0
-	_gui_main_game.update_with_tool_datas(_tools)
+	# Order matters, clear selection first then update tool datas
 	_gui_main_game.clear_tool_selection()
+	_gui_main_game.update_with_tool_datas(_tools)
