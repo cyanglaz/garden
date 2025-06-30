@@ -6,8 +6,9 @@ const GUI_TOOL_ACTION_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gu
 @onready var _name_label: Label = %NameLabel
 @onready var _action_container: VBoxContainer = %ActionContainer
 @onready var _gui_description_rich_text_label: GUIDescriptionRichTextLabel = %GUIDescriptionRichTextLabel
-@onready var _container: PanelContainer = %Container
+@onready var _card_container: PanelContainer = %CardContainer
 @onready var _background: NinePatchRect = %Background
+@onready var _gui_segmented_progress_bar: GUISegmentedProgressBar = %GUISegmentedProgressBar
 
 var container_offset:float = 0.0: set = _set_container_offset
 
@@ -20,6 +21,13 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 		action_scene.update_with_action(action_data)
 	if !tool_data.get_display_description().is_empty():
 		_gui_description_rich_text_label.text = tool_data.get_display_description()
+	_gui_segmented_progress_bar.max_value = tool_data.cd
+	_gui_segmented_progress_bar.current_value = tool_data.cd_counter
+	print(tool_data.cd_counter, " ", tool_data.cd)
+	if tool_data.cd_counter != tool_data.cd:
+		button_state = GUIBasicButton.ButtonState.DISABLED
+	else:
+		button_state = GUIBasicButton.ButtonState.NORMAL
 
 func _set_button_state(bs:GUIBasicButton.ButtonState) -> void:
 	super._set_button_state(bs)
@@ -35,4 +43,4 @@ func _set_button_state(bs:GUIBasicButton.ButtonState) -> void:
 
 func _set_container_offset(offset:float) -> void:
 	container_offset = offset
-	_container.position.y = offset
+	_card_container.position.y = offset

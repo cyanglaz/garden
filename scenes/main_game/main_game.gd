@@ -24,6 +24,8 @@ func _ready() -> void:
 	if !test_tools.is_empty():
 		_tools = test_tools
 	
+	for tool_data in _tools:
+		tool_data.cd_counter = tool_data.cd
 	_gui_main_game.update_with_plant_datas(_plant_seeds)
 	_gui_main_game.update_with_tool_datas(_tools)
 
@@ -52,5 +54,7 @@ func _on_field_pressed(index:int) -> void:
 		var tool_data := _tools[selected_tool_index]
 		_field_container.apply_tool(tool_data, index)
 
-func _on_field_tool_application_completed(_field_index:int, _tool_data:ToolData) -> void:
-	_gui_main_game.handle_tool_application_completed()
+func _on_field_tool_application_completed(_field_index:int, tool_data:ToolData) -> void:
+	tool_data.cd_counter = 0
+	_gui_main_game.update_with_tool_datas(_tools)
+	_gui_main_game.clear_tool_selection()

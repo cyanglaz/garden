@@ -239,7 +239,7 @@ func _on_power_cancelled(power_data:PowerData) -> void:
 func _handle_action_selection() -> void:
 	pass
 
-func _on_action_selected(action_data:ActionData) -> void:
+func _on_action_selected(_action_data:ActionData) -> void:
 	pass
 
 func _on_action_selection_finished() -> void:

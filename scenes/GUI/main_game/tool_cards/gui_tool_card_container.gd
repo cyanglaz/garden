@@ -32,17 +32,20 @@ func clear() -> void:
 func clear_selection() -> void:
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
-		gui_card.button_state = GUIBasicButton.ButtonState.NORMAL
+		if gui_card.button_state == GUIBasicButton.ButtonState.SELECTED:
+			gui_card.button_state = GUIBasicButton.ButtonState.NORMAL
 		gui_card.container_offset = 0.0
 	_hide_tool_indicator()
 
 func update_with_tool_datas(tools:Array[ToolData]) -> void:
+	Util.remove_all_children(_container)
 	var current_size :=  _container.get_children().size()
 	var positions := _calculate_default_positions(tools.size() + current_size)
 	for i in positions.size():
 		var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
-		gui_card.state_updated.connect(_on_tool_card_state_updated.bind(i))
 		gui_card.action_evoked.connect(_on_tool_card_action_evoked.bind(i, tools[i]))
+		gui_card.mouse_entered.connect(_on_tool_card_mouse_entered.bind(i))
+		gui_card.mouse_exited.connect(_on_tool_card_mouse_exited.bind(i))
 		_container.add_child(gui_card)
 		gui_card.update_with_tool_data(tools[i])
 		gui_card.position = positions[i]
@@ -78,35 +81,6 @@ func _calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 func _hide_tool_indicator() -> void:
 	_gui_tool_evoke_indicator.hide()
 
-func _on_tool_card_state_updated(button_state:GUIBasicButton.ButtonState, index:int) -> void:
-	print(button_state)
-	var card_highlighted := button_state == GUIBasicButton.ButtonState.HOVERED
-	var positions:Array[Vector2] = _calculate_default_positions(_container.get_children().size())
-	if positions.size() < 2:
-		return
-	var card_padding := positions[0].x - positions[1].x - _card_size
-	if card_highlighted:
-			for i in _container.get_children().size():
-				var gui_card = _container.get_child(i)
-				if card_padding < 0.0:
-					var pos = positions[i]
-					if i < index:
-						# The positions are reversed
-						pos.x += 1 - card_padding # Push right cards 4 pixels left
-					elif i > index:
-						pos.x -= 1 - card_padding # Push left cards 4 pixels right
-					gui_card.position = pos
-				if i == index:
-					gui_card.container_offset = -1.0
-				else:
-					gui_card.container_offset = 0.0
-	else:
-		# Reset to default positions
-		for i in _container.get_children().size():
-			var gui_card = _container.get_child(i)
-			gui_card.position = positions[i]
-			gui_card.container_offset = 0.0
-
 func _on_tool_card_action_evoked(index:int, tool_data:ToolData) -> void:
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
@@ -117,3 +91,33 @@ func _on_tool_card_action_evoked(index:int, tool_data:ToolData) -> void:
 			gui_card.button_state = GUIBasicButton.ButtonState.DISABLED
 			gui_card.container_offset = 0.0
 	tool_selected.emit(index, tool_data)
+
+func _on_tool_card_mouse_entered(index:int) -> void:
+	var mouse_over_card = _container.get_child(index)
+	if mouse_over_card.button_state == GUIBasicButton.ButtonState.SELECTED || mouse_over_card.button_state == GUIBasicButton.ButtonState.DISABLED:
+		return
+	mouse_over_card.container_offset = -1.0
+	var positions:Array[Vector2] = _calculate_default_positions(_container.get_children().size())
+	if positions.size() < 2:
+		return
+	var card_padding := positions[0].x - positions[1].x - _card_size
+	for i in _container.get_children().size():
+		var gui_card = _container.get_child(i)
+		if card_padding < 0.0:
+			var pos = positions[i]
+			if i < index:
+				# The positions are reversed
+				pos.x += 1 - card_padding # Push right cards 4 pixels left
+			elif i > index:
+				pos.x -= 1 - card_padding # Push left cards 4 pixels right
+			gui_card.position = pos
+
+func _on_tool_card_mouse_exited(index:int) -> void:
+	var mouse_exit_card = _container.get_child(index)
+	if mouse_exit_card.button_state == GUIBasicButton.ButtonState.SELECTED || mouse_exit_card.button_state == GUIBasicButton.ButtonState.DISABLED:
+		return
+	var positions:Array[Vector2] = _calculate_default_positions(_container.get_children().size())
+	mouse_exit_card.container_offset = 0.0
+	for i in _container.get_children().size():
+		var gui_card = _container.get_child(i)
+		gui_card.position = positions[i]

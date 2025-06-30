@@ -4,10 +4,13 @@ extends ThingData
 @export var cd:int = 1
 @export var actions:Array[ActionData]
 
+var cd_counter:int = 0
+
 func copy(other:ThingData) -> void:
 	var other_tool: ToolData = other as ToolData
 	cd = other_tool.cd
 	actions = other_tool.actions.duplicate()
+	cd_counter = other_tool.cd_counter
 
 func get_duplicate() -> ToolData:
 	var dup:ToolData = ToolData.new()
