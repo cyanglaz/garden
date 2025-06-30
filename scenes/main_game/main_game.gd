@@ -8,6 +8,8 @@ extends Node2D
 @onready var _field_container: FieldContainer = %FieldContainer
 @onready var _gui_main_game: GUIMainGame = %GUIGameSession
 
+var _turn_manager:TurnManager = TurnManager.new()
+
 var _tools:Array[ToolData]
 var _plant_seeds:Array[PlantData]
 
@@ -27,6 +29,15 @@ func _ready() -> void:
 		tool_data.initial_setup()
 	_gui_main_game.update_with_plant_datas(_plant_seeds)
 	_gui_main_game.setup_tools(_tools)
+	start_new_week()
+
+func start_new_week() -> void:
+	_turn_manager.start_new(_tools)
+	start_turn()
+
+func start_turn() -> void:
+	_turn_manager.next_turn()
+	_gui_main_game.set_day(_turn_manager.turn)
 
 func add_control_to_overlay(control:Control) -> void:
 	_gui_main_game.add_control_to_overlay(control)

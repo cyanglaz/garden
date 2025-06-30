@@ -49,12 +49,6 @@ func setup_with_tool_datas(tools:Array[ToolData]) -> void:
 		gui_card.update_with_tool_data(tools[i])
 		gui_card.position = positions[i]
 
-func update_tools(tools:Array[ToolData]) -> void:
-	assert(_container.get_children().size() == tools.size(), "Tool card container and tool data size mismatch")
-	for i in _container.get_children().size():
-		var gui_card:GUIToolCardButton = _container.get_child(i)
-		# gui_card.update_with_tool_data(tools[i])
-
 func get_card(index:int) -> GUIToolCardButton:
 	return _container.get_child(index)
 
