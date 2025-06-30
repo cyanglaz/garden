@@ -79,6 +79,7 @@ func _hide_tool_indicator() -> void:
 	_gui_tool_evoke_indicator.hide()
 
 func _on_tool_card_state_updated(button_state:GUIBasicButton.ButtonState, index:int) -> void:
+	print(button_state)
 	var card_highlighted := button_state == GUIBasicButton.ButtonState.HOVERED
 	var positions:Array[Vector2] = _calculate_default_positions(_container.get_children().size())
 	if positions.size() < 2:
@@ -104,6 +105,7 @@ func _on_tool_card_state_updated(button_state:GUIBasicButton.ButtonState, index:
 		for i in _container.get_children().size():
 			var gui_card = _container.get_child(i)
 			gui_card.position = positions[i]
+			gui_card.container_offset = 0.0
 
 func _on_tool_card_action_evoked(index:int, tool_data:ToolData) -> void:
 	for i in _container.get_children().size():
