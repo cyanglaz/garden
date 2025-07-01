@@ -9,6 +9,7 @@ anchors_preset = 0
 script = ExtResource("2_to51y")
 
 [node name="Line" type="NinePatchRect" parent="."]
+layout_mode = 0
 offset_top = -6.0
 offset_right = 17.0
 offset_bottom = 6.0

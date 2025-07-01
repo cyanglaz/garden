@@ -2,11 +2,15 @@ class_name GUIMainGame
 extends CanvasLayer
 
 signal plant_seed_deselected()
+signal end_turn_button_pressed()
 
 @onready var _gui_plant_card_container: GUIPlantCardContainer = %GUIPlantCardContainer
 @onready var _gui_mouse_following_plant_icon: GUIMouseFollowingPlantIcon = %GUIMouseFollowingPlantIcon
 @onready var _gui_tool_card_container: GUIToolHandContainer = %GUIToolCardContainer
 @onready var _overlay: Control = %Overlay
+@onready var _day_label: Label = %DayLabel
+@onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
+@onready var _time_bar: GUISegmentedProgressBar = %TimeBar
 
 var selected_plant_seed_data:PlantData
 var selected_tool_card_index:int = -1
@@ -15,10 +19,11 @@ func _ready() -> void:
 	_gui_mouse_following_plant_icon.hide()
 	_gui_plant_card_container.plant_selected.connect(_on_plant_seed_selected)
 	_gui_tool_card_container.tool_selected.connect(_on_tool_selected)
+	_end_turn_button.action_evoked.connect(func() -> void: end_turn_button_pressed.emit())
 	#_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("de-select"):
+	if event.is_action_pressed("de-select") && selected_tool_card_index > -1:
 		_on_plant_seed_selected(null)
 		clear_tool_selection()
 
@@ -26,9 +31,23 @@ func _physics_process(_delta:float) -> void:
 	if selected_tool_card_index != -1:
 		_gui_tool_card_container.show_tool_indicator(selected_tool_card_index)		
 
-func update_with_tool_datas(tool_datas:Array[ToolData]) -> void:
-	_gui_tool_card_container.update_with_tool_datas(tool_datas)
-	
+#region tools
+func setup_tools(tool_datas:Array[ToolData]) -> void:
+	_gui_tool_card_container.setup_with_tool_datas(tool_datas)
+
+func update_tools(tool_datas:Array[ToolData]) -> void:
+	_gui_tool_card_container.update_tools(tool_datas)
+
+func clear_tool_selection() -> void:
+	_gui_tool_card_container.clear_selection()
+	selected_tool_card_index = -1
+
+func update_tool_for_time(time_tracker:ResourcePoint) -> void:
+	_gui_tool_card_container.update_tool_for_time_left(time_tracker.max_value - time_tracker.value)
+
+#endregion
+
+#region plants
 func update_with_plant_datas(plant_datas:Array[PlantData]) -> void:
 	_gui_plant_card_container.update_with_plant_datas(plant_datas)
 
@@ -40,13 +59,19 @@ func pin_following_plant_icon_global_position(gp:Vector2, s:Vector2) -> void:
 func unpin_following_plant_icon() -> void:
 	_gui_mouse_following_plant_icon.scale = Vector2.ONE
 	_gui_mouse_following_plant_icon.follow_mouse = true
+#endregion
 
+#region days
+func set_day(turn:int) -> void:
+	_day_label.text = tr("DAY_LABEL_TEXT")% turn
+
+func bind_time(resource_point:ResourcePoint) -> void:
+	_time_bar.bind_with_resource_point(resource_point)
+
+#region utils
 func add_control_to_overlay(control:Control) -> void:
 	_overlay.add_child(control)
-
-func clear_tool_selection() -> void:
-	_gui_tool_card_container.clear_selection()
-	selected_tool_card_index = -1
+#endregion
 
 func _toggle_following_plant_icon_visibility(on:bool) -> void:
 	if on:

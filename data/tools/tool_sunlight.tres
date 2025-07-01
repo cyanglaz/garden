@@ -7,7 +7,6 @@
 script = ExtResource("1_6pbky")
 type = 1
 value = 1
-time_length = 0
 target_count = 1
 id = ""
 display_name = ""
@@ -17,6 +16,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
 script = ExtResource("2_1qw2k")
+time = 2
 actions = Array[ExtResource("1_6pbky")]([SubResource("Resource_oexgw")])
 id = "sunlight"
 display_name = "Sunlight"

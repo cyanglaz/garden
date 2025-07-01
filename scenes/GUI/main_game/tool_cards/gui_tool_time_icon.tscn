@@ -1,22 +1,23 @@
 [gd_scene load_steps=3 format=3 uid="uid://dds47g0uvxrrs"]
 
-[ext_resource type="Script" uid="uid://t6haogir88tu" path="res://scenes/GUI/main_game/tool_cards/gui_tool_cd_icon.gd" id="1_j2pwh"]
-[ext_resource type="Texture2D" uid="uid://cvqkjyne5mxwy" path="res://resources/sprites/icons/other/icon_cooldown.png" id="1_pye5d"]
+[ext_resource type="Script" uid="uid://t6haogir88tu" path="res://scenes/GUI/main_game/tool_cards/gui_tool_time_icon.gd" id="1_40b21"]
+[ext_resource type="Texture2D" uid="uid://cvqkjyne5mxwy" path="res://resources/sprites/icons/other/icon_time.png" id="2_w6db1"]
 
-[node name="GUIToolCDIcon" type="HBoxContainer"]
+[node name="GUIToolTimeIcon" type="HBoxContainer"]
 offset_right = 11.0
 offset_bottom = 7.0
 theme_override_constants/separation = 1
-script = ExtResource("1_j2pwh")
+script = ExtResource("1_40b21")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(6, 6)
 layout_mode = 2
-texture = ExtResource("1_pye5d")
+texture = ExtResource("2_w6db1")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HUD_small"
 text = "1"

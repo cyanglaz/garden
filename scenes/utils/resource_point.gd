@@ -15,6 +15,12 @@ var value:int: set = _set_value
 var max_value:int: set = _set_max_value
 var estimate_value:int
 
+func get_duplicate() -> ResourcePoint:
+	var dup:ResourcePoint = ResourcePoint.new()
+	dup.setup(value, max_value)
+	dup.estimate_value = estimate_value
+	return dup
+
 func setup(v:int, mv:int) -> void:
 	max_value = mv
 	value = v

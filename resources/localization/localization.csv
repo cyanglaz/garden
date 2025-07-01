@@ -1,6 +1,7 @@
 keys,en
 ACTION_UNDO_MOVE,"Undo Move"
 ACTION_END_TURN,"End Turn"
+ACTION_END_DAY,"End Day"
 ACTION_RESET_TURN,"Reset Turn"
 ACTION_READY_FOR_COMBAT, "Ready"
 ACTION_UNDO, "Undo"
@@ -53,4 +54,5 @@ GLYPH, "Glyph"
 GLYPH_DESCRIPTION, "A modifier applied to spaces."
 POWER_CD_TOOLTIP, "Cooldown: %s"
 PC_SHORT_CUT_TOOLTIP, "Keyboard shortcut: %s"
+DAY_LABEL_TEXT, "DAY %s"
 

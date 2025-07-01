@@ -131,6 +131,17 @@
       "resource_name": {
         "visibility": 0.0
       }
+    },
+    "res://data/tools/": {
+      "metadata/_custom_type_script": {
+        "visibility": 0
+      },
+      "resource_local_to_scene": {
+        "visibility": 0
+      },
+      "resource_name": {
+        "visibility": 0
+      }
     }
   },
   "recent_paths": [
@@ -144,7 +155,8 @@
     "res://data/balls/status/",
     "res://data/players/",
     "res://data/balls/players/",
-    "res://data/balls/player/"
+    "res://data/balls/player/",
+    "res://data/tools/"
   ],
   "table_functions": {
     "filter": [
