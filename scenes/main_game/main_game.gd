@@ -8,7 +8,7 @@ extends Node2D
 @onready var _field_container: FieldContainer = %FieldContainer
 @onready var _gui_main_game: GUIMainGame = %GUIGameSession
 
-var max_time := 3
+var max_time := 4
 var _time_tracker:ResourcePoint = ResourcePoint.new()
 var _turn_manager:TurnManager = TurnManager.new(_time_tracker)
 
