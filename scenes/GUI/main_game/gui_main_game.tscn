@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cyd2pmyuelacd"]
+[gd_scene load_steps=10 format=3 uid="uid://cyd2pmyuelacd"]
 
 [ext_resource type="Script" uid="uid://b3s0cai251tmf" path="res://scenes/GUI/main_game/gui_main_game.gd" id="1_48pcf"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_pgwuj"]
 [ext_resource type="PackedScene" uid="uid://ds1ot8wjbmotw" path="res://scenes/GUI/main_game/weather/gui_weather.tscn" id="3_1w680"]
+[ext_resource type="PackedScene" uid="uid://673wlt1ldg8q" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.tscn" id="3_oisso"]
+[ext_resource type="Texture2D" uid="uid://cvqkjyne5mxwy" path="res://resources/sprites/icons/other/icon_time.png" id="4_ho5j6"]
 [ext_resource type="PackedScene" uid="uid://cb7rus2xat3us" path="res://scenes/GUI/main_game/plant_cards/gui_plant_card_container.tscn" id="4_wheaj"]
 [ext_resource type="PackedScene" uid="uid://be8dbcgiyauak" path="res://scenes/GUI/main_game/plant_cards/gui_mouse_following_plant_icon.tscn" id="5_h0t12"]
 [ext_resource type="PackedScene" uid="uid://canp4x5u3afyb" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_container.tscn" id="5_hujfj"]
@@ -18,7 +20,7 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -21.0
+offset_left = -69.0
 offset_bottom = 16.0
 grow_horizontal = 0
 alignment = 2
@@ -26,12 +28,25 @@ alignment = 2
 [node name="DayLabel" type="Label" parent="MainMarginContainer/Container/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"HUD"
+size_flags_vertical = 1
+theme_type_variation = &"HUD_mid"
+horizontal_alignment = 2
 vertical_alignment = 1
+
+[node name="TimeBar" parent="MainMarginContainer/Container/HBoxContainer" instance=ExtResource("3_oisso")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(44, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+segment_color = Color(0.964706, 0.505882, 0.529412, 1)
+icon_texture = ExtResource("4_ho5j6")
+icon_size = Vector2(8, 8)
 
 [node name="GUIWeather" parent="MainMarginContainer/Container/HBoxContainer" instance=ExtResource("3_1w680")]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 8
 
 [node name="GUIPlantCardContainer" parent="MainMarginContainer/Container" index="1" instance=ExtResource("4_wheaj")]
 unique_name_in_owner = true

@@ -33,6 +33,7 @@ func bind_with_resource_point(resource_point:ResourcePoint) -> void:
 	current_value = resource_point.value
 	_weak_resource_point = weakref(resource_point)
 	resource_point.value_update.connect(func(): _set_current_value(resource_point.value))
+	resource_point.max_value_update.connect(func(): _set_max_value(resource_point.max_value))
 
 func _adjust_segment_size() -> void:
 	if !_margin_container:

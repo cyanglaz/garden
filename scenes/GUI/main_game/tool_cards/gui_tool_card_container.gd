@@ -11,6 +11,7 @@ const MAX_TOTAL_WIDTH := 150
 @onready var _gui_tool_evoke_indicator: GUIToolEvokeIndicator = %GUIToolEvokeIndicator
 
 var _card_size:int
+var _tools:Array[ToolData]
 
 func _ready() -> void:
 	var temp_tool_card := TOOL_CARD_SCENE.instantiate()
@@ -36,8 +37,18 @@ func clear_selection() -> void:
 		gui_card.container_offset = 0.0
 	_hide_tool_indicator()
 
+func update_tool_for_time_left(time_left:int) -> void:
+	for i in _container.get_children().size():
+		var gui_card = _container.get_child(i)
+		var tool_data:ToolData = _tools[i]
+		if tool_data.time <= time_left:
+			gui_card.button_state = GUIBasicButton.ButtonState.NORMAL
+		else:
+			gui_card.button_state = GUIBasicButton.ButtonState.DISABLED
+
 func setup_with_tool_datas(tools:Array[ToolData]) -> void:
 	Util.remove_all_children(_container)
+	_tools = tools.duplicate()
 	var current_size :=  _container.get_children().size()
 	var positions := _calculate_default_positions(tools.size() + current_size)
 	for i in positions.size():

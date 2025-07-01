@@ -7,23 +7,23 @@
 [ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/GUI/icons/resources/icon_light.png" id="5_7ysiu"]
 [ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/icon_water.png" id="6_bhkj4"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hjlch"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_8wd00"]
 atlas = ExtResource("1_se4o6")
 region = Rect2(36, 0, 36, 22)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bve5f"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_wjfsy"]
 atlas = ExtResource("1_se4o6")
 region = Rect2(0, 0, 36, 22)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7ysiu"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_50o30"]
 atlas = ExtResource("1_se4o6")
 region = Rect2(0, 22, 36, 22)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_bhkj4"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_3ecbu"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_hjlch")
+"texture": SubResource("AtlasTexture_8wd00")
 }],
 "loop": false,
 "name": &"hover",
@@ -31,7 +31,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_bve5f")
+"texture": SubResource("AtlasTexture_wjfsy")
 }],
 "loop": false,
 "name": &"idle",
@@ -39,7 +39,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_7ysiu")
+"texture": SubResource("AtlasTexture_50o30")
 }],
 "loop": false,
 "name": &"pressed",
@@ -52,7 +52,7 @@ script = ExtResource("1_4blml")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_bhkj4")
+sprite_frames = SubResource("SpriteFrames_3ecbu")
 animation = &"hover"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
@@ -68,7 +68,7 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/objects/field.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "cd40017d5c99a4591dd1961a3e521a29"
+metadata/_aseprite_wizard_source_file_hash_ = "b7e21ffcfbf0e6c24f621230d6cc6bd0"
 
 [node name="GUIFieldButton" parent="." instance=ExtResource("3_hjlch")]
 unique_name_in_owner = true

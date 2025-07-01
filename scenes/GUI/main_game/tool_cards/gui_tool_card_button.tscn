@@ -1,12 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://bacvied61ghpe"]
+[gd_scene load_steps=7 format=3 uid="uid://bacvied61ghpe"]
 
 [ext_resource type="Script" uid="uid://t7x03xkbah7n" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.gd" id="1_a7c0j"]
 [ext_resource type="Texture2D" uid="uid://ugtybr3upkmn" path="res://resources/sprites/GUI/icon_backgrounds/tool_card_background.png" id="2_a7c0j"]
 [ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="3_wvnx0"]
 [ext_resource type="PackedScene" uid="uid://bfye3pwakcidx" path="res://scenes/GUI/shared/descriptions/gui_tooltip_description_separator.tscn" id="4_a7c0j"]
 [ext_resource type="PackedScene" uid="uid://defua0wjy7nqc" path="res://scenes/GUI/shared/descriptions/gui_description_rich_text_label.tscn" id="5_ckxcp"]
-[ext_resource type="PackedScene" uid="uid://673wlt1ldg8q" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.tscn" id="7_882ho"]
-[ext_resource type="Texture2D" uid="uid://cvqkjyne5mxwy" path="res://resources/sprites/icons/other/icon_cooldown.png" id="8_dn2eb"]
+[ext_resource type="PackedScene" uid="uid://dds47g0uvxrrs" path="res://scenes/GUI/main_game/tool_cards/gui_tool_time_icon.tscn" id="6_ckxcp"]
 
 [node name="GUIToolCardButton" type="PanelContainer"]
 offset_right = 36.0
@@ -94,10 +93,6 @@ theme_override_colors/default_color = Color(0.223529, 0.121569, 0.129412, 1)
 layout_mode = 2
 theme_override_constants/separation = 1
 
-[node name="GUISegmentedProgressBar" parent="VBoxContainer/CardContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("7_882ho")]
+[node name="GUIToolTimeIcon" parent="VBoxContainer/CardContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("6_ckxcp")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-segment_color = Color(0.992157, 0.823529, 0.929412, 1)
-icon_texture = ExtResource("8_dn2eb")
-icon_size = Vector2(6, 6)

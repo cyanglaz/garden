@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://ccfagulppi5wd"
+path="res://.godot/imported/icon_time.aseprite-5f2a5771da1cd91276e6401417fba1a8.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/other/icon_time.aseprite"
+dest_files=["res://.godot/imported/icon_time.aseprite-5f2a5771da1cd91276e6401417fba1a8.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dlyb6tguwdg1f"]
 
-[ext_resource type="Script" uid="uid://clfvdc8ryp6dx" path="res://scenes/GUI/shared/descriptions/gui_power_cd_icon.gd" id="1_nmosy"]
-[ext_resource type="Texture2D" uid="uid://cvqkjyne5mxwy" path="res://resources/sprites/icons/other/icon_cooldown.png" id="2_nmosy"]
+[ext_resource type="Script" path="res://scenes/GUI/shared/descriptions/gui_power_cd_icon.gd" id="1_nmosy"]
+[ext_resource type="Texture2D" uid="uid://cvqkjyne5mxwy" path="res://resources/sprites/icons/other/icon_time.png" id="2_nmosy"]
 
 [node name="GUIPowerCDIcon" type="HBoxContainer"]
 offset_right = 9.0

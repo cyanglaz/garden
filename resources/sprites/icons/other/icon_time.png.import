@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cvqkjyne5mxwy"
-path="res://.godot/imported/icon_cooldown.png-8d6ebf535043fe4c7b41fcca4f60fe1e.ctex"
+path="res://.godot/imported/icon_time.png-1ba1cdb14c058bcfcb0d148ae6024a19.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/icons/other/icon_cooldown.png"
-dest_files=["res://.godot/imported/icon_cooldown.png-8d6ebf535043fe4c7b41fcca4f60fe1e.ctex"]
+source_file="res://resources/sprites/icons/other/icon_time.png"
+dest_files=["res://.godot/imported/icon_time.png-1ba1cdb14c058bcfcb0d148ae6024a19.ctex"]
 
 [params]
 

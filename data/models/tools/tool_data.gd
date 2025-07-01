@@ -1,16 +1,13 @@
 class_name ToolData
 extends ThingData
 
-@export var cd:int = 1
+@export var time:int = 1
 @export var actions:Array[ActionData]
-
-var cd_counter:ResourcePoint = ResourcePoint.new()
 
 func copy(other:ThingData) -> void:
 	var other_tool: ToolData = other as ToolData
-	cd = other_tool.cd
+	time = other_tool.time
 	actions = other_tool.actions.duplicate()
-	cd_counter = other_tool.cd_counter.get_duplicate()
 
 func get_duplicate() -> ToolData:
 	var dup:ToolData = ToolData.new()
@@ -23,6 +20,3 @@ func get_display_description() -> String:
 		return false
 	)
 	return formatted_description
-
-func initial_setup() -> void:
-	cd_counter.setup(cd, cd)

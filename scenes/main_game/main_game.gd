@@ -8,7 +8,9 @@ extends Node2D
 @onready var _field_container: FieldContainer = %FieldContainer
 @onready var _gui_main_game: GUIMainGame = %GUIGameSession
 
-var _turn_manager:TurnManager = TurnManager.new()
+var max_time := 3
+var _time_tracker:ResourcePoint = ResourcePoint.new()
+var _turn_manager:TurnManager = TurnManager.new(_time_tracker)
 
 var _tools:Array[ToolData]
 var _plant_seeds:Array[PlantData]
@@ -16,7 +18,7 @@ var _plant_seeds:Array[PlantData]
 func _ready() -> void:
 	Singletons.main_game = self
 	_gui_main_game.plant_seed_deselected.connect(_on_plant_seed_deselected)
-	_gui_main_game.end_turn_button_pressed.connect(next_turn)
+	_gui_main_game.end_turn_button_pressed.connect(start_turn)
 	_field_container.update_with_number_of_fields(number_of_fields)
 	_field_container.field_hovered.connect(_on_field_hovered)
 	_field_container.field_pressed.connect(_on_field_pressed)
@@ -26,19 +28,20 @@ func _ready() -> void:
 		_plant_seeds = test_plant_datas
 	if !test_tools.is_empty():
 		_tools = test_tools
-	for tool_data in _tools:
-		tool_data.initial_setup()
 	_gui_main_game.update_with_plant_datas(_plant_seeds)
 	_gui_main_game.setup_tools(_tools)
+	_gui_main_game.bind_time(_time_tracker)
 	start_new_week()
 
 func start_new_week() -> void:
-	_turn_manager.start_new(_tools)
-	next_turn()
+	_turn_manager.start_new(max_time)
+	start_turn()
 
-func next_turn() -> void:
+func start_turn() -> void:
 	_turn_manager.next_turn()
 	_gui_main_game.set_day(_turn_manager.turn)
+	_gui_main_game.clear_tool_selection()
+	_gui_main_game.update_tool_for_time(_time_tracker)
 
 func add_control_to_overlay(control:Control) -> void:
 	_gui_main_game.add_control_to_overlay(control)
@@ -67,5 +70,6 @@ func _on_field_pressed(index:int) -> void:
 
 func _on_field_tool_application_completed(_field_index:int, tool_data:ToolData) -> void:
 	# Order matters, clear selection first then update tool data cd
+	_time_tracker.restore(tool_data.time)
 	_gui_main_game.clear_tool_selection()
-	tool_data.cd_counter.value = 0
+	_gui_main_game.update_tool_for_time(_time_tracker)
