@@ -12,6 +12,8 @@ script = ExtResource("1_7qekt")
 [node name="TextureRect" type="TextureRect" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
 
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
 self_modulate = Color(0.105882, 0.105882, 0.105882, 1)

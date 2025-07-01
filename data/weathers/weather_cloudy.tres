@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="WeatherData" load_steps=3 format=3 uid="uid://dtrokmm2grp4i"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_o58v4"]
+[ext_resource type="Script" uid="uid://g4t52w546b5k" path="res://data/models/weather/weather_data.gd" id="2_uen8h"]
+
+[resource]
+script = ExtResource("2_uen8h")
+actions = Array[ExtResource("1_o58v4")]([])
+id = "cloudy"
+display_name = "Cloudy"
+description = ""
+data = {}
+metadata/_custom_type_script = "uid://g4t52w546b5k"

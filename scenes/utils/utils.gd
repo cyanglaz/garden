@@ -25,6 +25,7 @@ const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_
 const POWER_SCRIPT_PREFIX := "res://scenes/bingo/power_scripts/power_script_"
 const PLANT_ICON_PREFIX := "res://resources/sprites/GUI/icons/plants/icon_"
 const TOOL_ICON_PREFIX := "res://resources/sprites/GUI/icons/tool/icon_"
+const WEATHER_ICON_PREFIX := "res://resources/sprites/GUI/icons/weather/icon_"
 
 const ACTION_ICON_WATER := preload("res://resources/sprites/GUI/icons/resources/icon_water.png")
 const ACTION_ICON_LIGHT := preload("res://resources/sprites/GUI/icons/resources/icon_light.png")
@@ -380,6 +381,9 @@ static func get_icon_image_path_for_plant_id(id:String) -> String:
 
 static func get_icon_image_path_for_tool_id(id:String) -> String:
 	return str(TOOL_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
+
+static func get_icon_image_path_for_weather_id(id:String) -> String:
+	return str(WEATHER_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
 
 static func get_script_path_for_ball_id(id:String) -> String:
 	return str(BINGO_BALL_SCRIPT_PREFIX, _trim_upgrade_suffix_from_id(id), ".gd")
