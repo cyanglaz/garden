@@ -18,7 +18,16 @@ func enter() -> void:
 	var color:Color = Constants.COLOR_YELLOW2
 	await gold_label.animate_show_and_destroy(str("+", plant.data.gold), 8, 6, POPUP_LABEL_TIME, POPUP_LABEL_TIME, color)
 	plant.harvest_gold_gained.emit(plant.data.gold)
-	plant.harvest_completed.emit()
+	plant.harvest_ability_triggered.connect(_on_harvest_ability_triggered)
+	plant.trigger_harvest_ability()
+
+func exit(next_state:String, next_params:Dictionary = {}) -> void:
+	plant.harvest_ability_triggered.disconnect(_on_harvest_ability_triggered)
+	super.exit(next_state, next_params)
 
 func _get_animation_name() -> String:
 	return "idle" + str("_", plant.stage)
+
+func _on_harvest_ability_triggered() -> void:
+	plant.harvest_completed.emit()
+	exit("")

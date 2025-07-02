@@ -7,6 +7,7 @@ signal harvest_started()
 signal harvest_gold_gained(gold:int)
 @warning_ignore("unused_signal")
 signal harvest_completed()
+signal harvest_ability_triggered()
 
 @onready var plant_sprite: AnimatedSprite2D = %PlantSprite
 @onready var fsm: PlantStateMachine = %PlantStateMachine
@@ -30,6 +31,13 @@ func can_harvest() -> bool:
 
 func harvest() -> void:
 	fsm.push("PlantStateHarvest")
+
+func trigger_harvest_ability() -> void:
+	await _trigger_harvest_ability()
+
+func _trigger_harvest_ability() -> void:
+	await Util.await_for_tiny_time()
+	harvest_ability_triggered.emit()
 
 func _set_data(value:PlantData) -> void:
 	data = value
