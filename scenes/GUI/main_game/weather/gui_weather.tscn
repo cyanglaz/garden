@@ -9,10 +9,6 @@ offset_right = 4.0
 offset_bottom = 4.0
 script = ExtResource("1_7qekt")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-unique_name_in_owner = true
-layout_mode = 2
-
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
 self_modulate = Color(0.105882, 0.105882, 0.105882, 1)
 layout_mode = 2
@@ -21,3 +17,16 @@ patch_margin_left = 2
 patch_margin_top = 2
 patch_margin_right = 2
 patch_margin_bottom = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5

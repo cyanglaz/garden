@@ -11,6 +11,7 @@ signal end_turn_button_pressed()
 @onready var _day_label: Label = %DayLabel
 @onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
 @onready var _time_bar: GUISegmentedProgressBar = %TimeBar
+@onready var _gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
 
 var selected_plant_seed_data:PlantData
 var selected_tool_card_index:int = -1
@@ -44,6 +45,7 @@ func clear_tool_selection() -> void:
 
 func update_tool_for_time(time_tracker:ResourcePoint) -> void:
 	_gui_tool_card_container.update_tool_for_time_left(time_tracker.max_value - time_tracker.value)
+	
 
 #endregion
 
@@ -67,6 +69,11 @@ func set_day(turn:int) -> void:
 
 func bind_time(resource_point:ResourcePoint) -> void:
 	_time_bar.bind_with_resource_point(resource_point)
+
+#region weathers
+func update_weathers(weather_manager:WeatherManager, day:int) -> void:
+	_gui_weather_container.update_with_weather_manager(weather_manager, day)
+#endregion
 
 #region utils
 func add_control_to_overlay(control:Control) -> void:

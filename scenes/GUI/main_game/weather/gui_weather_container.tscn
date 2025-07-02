@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://b224jou4wqp13"]
+
+[ext_resource type="PackedScene" uid="uid://ds1ot8wjbmotw" path="res://scenes/GUI/main_game/weather/gui_weather.tscn" id="1_sy5x8"]
+[ext_resource type="Script" uid="uid://muil45dtdj1g" path="res://scenes/GUI/main_game/weather/gui_weather_container.gd" id="1_xcomh"]
+
+[node name="GUIWeatherContainer" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xcomh")
+
+[node name="TodayWeatherIcon" parent="." instance=ExtResource("1_sy5x8")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ForcastContainer" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8

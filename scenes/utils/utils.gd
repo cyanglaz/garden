@@ -11,6 +11,7 @@ const GUI_SETTINGS_SCENE := preload("res://scenes/GUI/containers/gui_settings_me
 const GUI_IN_GAME_MENU_SCENE := preload("res://scenes/GUI/containers/gui_in_game_menu.tscn")
 const GUI_BALL_SYMBOL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_bingo_ball_symbol_tooltip.tscn")
 const GUI_PLANT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn")
+const GUI_WEATHER_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_weather_tooltip.tscn")
 const GUI_WARNING_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_warning_tooltip.tscn")
 const GUI_RICH_TEXT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_rich_text_tooltip.tscn")
 const GUI_POWER_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_power_tooltip.tscn")
@@ -25,6 +26,7 @@ const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_
 const POWER_SCRIPT_PREFIX := "res://scenes/bingo/power_scripts/power_script_"
 const PLANT_ICON_PREFIX := "res://resources/sprites/GUI/icons/plants/icon_"
 const TOOL_ICON_PREFIX := "res://resources/sprites/GUI/icons/tool/icon_"
+const WEATHER_ICON_PREFIX := "res://resources/sprites/GUI/icons/weathers/icon_"
 
 const ACTION_ICON_WATER := preload("res://resources/sprites/GUI/icons/resources/icon_water.png")
 const ACTION_ICON_LIGHT := preload("res://resources/sprites/GUI/icons/resources/icon_light.png")
@@ -153,6 +155,14 @@ static func display_plant_tooltip(plant_data:PlantData, on_control_node:Control,
 	plant_tooltip.update_with_plant_data(plant_data)
 	_display_tool_tip.call_deferred(plant_tooltip, on_control_node, anchor_mouse, tooltip_position)
 	return plant_tooltip
+
+static func display_weather_tooltip(weather_data:WeatherData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIWeatherTooltip:
+	var weather_tooltip:GUIWeatherTooltip = GUI_WEATHER_TOOLTIP_SCENE.instantiate()
+	Singletons.main_game.add_control_to_overlay(weather_tooltip)
+	weather_tooltip.tooltip_position = tooltip_position
+	weather_tooltip.update_with_weather_data(weather_data)
+	_display_tool_tip.call_deferred(weather_tooltip, on_control_node, anchor_mouse, tooltip_position)
+	return weather_tooltip
 
 static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP, world_space:bool = false) -> void:
 	tooltip.show()
@@ -380,6 +390,9 @@ static func get_icon_image_path_for_plant_id(id:String) -> String:
 
 static func get_icon_image_path_for_tool_id(id:String) -> String:
 	return str(TOOL_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
+
+static func get_icon_image_path_for_weather_id(id:String) -> String:
+	return str(WEATHER_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
 
 static func get_script_path_for_ball_id(id:String) -> String:
 	return str(BINGO_BALL_SCRIPT_PREFIX, _trim_upgrade_suffix_from_id(id), ".gd")

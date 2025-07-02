@@ -9,8 +9,10 @@ extends Node2D
 @onready var _gui_main_game: GUIMainGame = %GUIGameSession
 
 var max_time := 4
+var _week := 0
 var _time_tracker:ResourcePoint = ResourcePoint.new()
 var _turn_manager:TurnManager = TurnManager.new(_time_tracker)
+var _weather_manager:WeatherManager = WeatherManager.new()
 
 var _tools:Array[ToolData]
 var _plant_seeds:Array[PlantData]
@@ -18,7 +20,7 @@ var _plant_seeds:Array[PlantData]
 func _ready() -> void:
 	Singletons.main_game = self
 	_gui_main_game.plant_seed_deselected.connect(_on_plant_seed_deselected)
-	_gui_main_game.end_turn_button_pressed.connect(start_turn)
+	_gui_main_game.end_turn_button_pressed.connect(_on_end_turn_button_pressed)
 	_field_container.update_with_number_of_fields(number_of_fields)
 	_field_container.field_hovered.connect(_on_field_hovered)
 	_field_container.field_pressed.connect(_on_field_pressed)
@@ -34,11 +36,14 @@ func _ready() -> void:
 	start_new_week()
 
 func start_new_week() -> void:
+	_week += 1
+	_weather_manager.generate_weathers(7, _week)
 	_turn_manager.start_new(max_time)
 	start_turn()
 
 func start_turn() -> void:
 	_turn_manager.next_turn()
+	_gui_main_game.update_weathers(_weather_manager, _turn_manager.turn)
 	_gui_main_game.set_day(_turn_manager.turn)
 	_gui_main_game.clear_tool_selection()
 	_gui_main_game.update_tool_for_time(_time_tracker)
@@ -73,3 +78,8 @@ func _on_field_tool_application_completed(_field_index:int, tool_data:ToolData) 
 	_time_tracker.restore(tool_data.time)
 	_gui_main_game.clear_tool_selection()
 	_gui_main_game.update_tool_for_time(_time_tracker)
+
+func _on_end_turn_button_pressed() -> void:
+	_weather_manager.apply_weather_actions(_turn_manager.turn, _field_container.fields)
+	start_turn()
+	

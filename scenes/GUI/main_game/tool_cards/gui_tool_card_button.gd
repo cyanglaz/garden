@@ -3,9 +3,7 @@ extends GUIBasicButton
 
 const GUI_TOOL_ACTION_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_action.tscn")
 
-@onready var _name_label: Label = %NameLabel
-@onready var _action_container: VBoxContainer = %ActionContainer
-@onready var _gui_description_rich_text_label: GUIDescriptionRichTextLabel = %GUIDescriptionRichTextLabel
+@onready var _gui_generic_description: GUIGenericDescription = %GUIGenericDescription
 @onready var _card_container: PanelContainer = %CardContainer
 @onready var _background: NinePatchRect = %Background
 @onready var _gui_tool_time_icon: GUIToolTimeIcon = %GUIToolTimeIcon
@@ -13,14 +11,7 @@ const GUI_TOOL_ACTION_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gu
 var container_offset:float = 0.0: set = _set_container_offset
 
 func update_with_tool_data(tool_data:ToolData) -> void:
-	_name_label.text = tool_data.display_name
-	Util.remove_all_children(_action_container)
-	for action_data:ActionData in tool_data.actions:
-		var action_scene :GUIToolAction = GUI_TOOL_ACTION_SCENE.instantiate()
-		_action_container.add_child(action_scene)
-		action_scene.update_with_action(action_data)
-	if !tool_data.get_display_description().is_empty():
-		_gui_description_rich_text_label.text = tool_data.get_display_description()
+	_gui_generic_description.update(tool_data.display_name, tool_data.actions, tool_data.get_display_description())
 	_gui_tool_time_icon.time = tool_data.time
 
 func _set_button_state(bs:GUIBasicButton.ButtonState) -> void:

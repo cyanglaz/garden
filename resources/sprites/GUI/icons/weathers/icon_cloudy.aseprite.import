@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c024ugw2mpnea"
+path="res://.godot/imported/icon_cloudy.aseprite-8e768e2a23d2e36eb670e91efadc47df.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/weathers/icon_cloudy.aseprite"
+dest_files=["res://.godot/imported/icon_cloudy.aseprite-8e768e2a23d2e36eb670e91efadc47df.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
