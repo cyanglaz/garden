@@ -39,6 +39,10 @@ func toggle_all_ui(on:bool) -> void:
 	_gui_top_bar.toggle_all_ui(on)
 	_gui_plant_card_container.toggle_all_plant_cards(on)
 	_gui_tool_card_container.toggle_all_tool_cards(on)
+	if on:
+		_end_turn_button.button_state = GUIBasicButton.ButtonState.NORMAL
+	else:
+		_end_turn_button.button_state = GUIBasicButton.ButtonState.DISABLED
 
 #region topbar
 func update_week(week:int) -> void:
