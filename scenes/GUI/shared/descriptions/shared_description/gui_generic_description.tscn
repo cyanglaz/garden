@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://defua0wjy7nqc" path="res://scenes/GUI/shared/descriptions/gui_description_rich_text_label.tscn" id="3_uwe2q"]
 
 [node name="GUIGenericDescription" type="VBoxContainer"]
+custom_minimum_size = Vector2(32, 0)
 offset_right = 32.0
 offset_bottom = 45.0
 theme_override_constants/separation = 2

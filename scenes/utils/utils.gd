@@ -540,7 +540,7 @@ static func create_scaled_tween(binding_node:Node) -> Tween:
 
 static func create_scaled_timer(duration:float) -> SceneTreeTimer:
 	var scale := _get_game_speed_scale()
-	var timer:SceneTreeTimer = Singletons.game_main.get_tree().create_timer(duration * (1/scale))
+	var timer:SceneTreeTimer = Singletons.main_game.get_tree().create_timer(duration * (1/scale))
 	return timer
 
 # Unnoticiable timer, usually used to make async methods always async.

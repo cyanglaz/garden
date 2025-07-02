@@ -16,7 +16,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
 script = ExtResource("2_kxdff")
-time = 2
+time = 3
 actions = Array[ExtResource("1_ecsgx")]([SubResource("Resource_oexgw")])
 id = "bug_spray"
 display_name = "Bug Spray"

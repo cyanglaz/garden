@@ -34,6 +34,12 @@ func _physics_process(_delta:float) -> void:
 	if selected_tool_card_index != -1:
 		_gui_tool_card_container.show_tool_indicator(selected_tool_card_index)		
 
+#region all ui
+func toggle_all_ui(on:bool) -> void:
+	_gui_top_bar.toggle_all_ui(on)
+	_gui_plant_card_container.toggle_all_plant_cards(on)
+	_gui_tool_card_container.toggle_all_tool_cards(on)
+
 #region topbar
 func update_week(week:int) -> void:
 	_gui_top_bar.update_week(week)
@@ -55,7 +61,6 @@ func clear_tool_selection() -> void:
 func update_tool_for_time(time_tracker:ResourcePoint) -> void:
 	_gui_tool_card_container.update_tool_for_time_left(time_tracker.max_value - time_tracker.value)
 	
-
 #endregion
 
 #region plants
