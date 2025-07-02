@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://cjwhkrmueycbi"]
+
+[ext_resource type="Script" uid="uid://dm6lkv7rfer26" path="res://scenes/GUI/shared/descriptions/shared_description/gui_generic_description.gd" id="1_23qeg"]
+[ext_resource type="PackedScene" uid="uid://bfye3pwakcidx" path="res://scenes/GUI/shared/descriptions/gui_tooltip_description_separator.tscn" id="2_q4qwy"]
+[ext_resource type="PackedScene" uid="uid://defua0wjy7nqc" path="res://scenes/GUI/shared/descriptions/gui_description_rich_text_label.tscn" id="3_uwe2q"]
+
+[node name="GUIGenericDescription" type="VBoxContainer"]
+offset_right = 32.0
+offset_bottom = 45.0
+theme_override_constants/separation = 2
+script = ExtResource("1_23qeg")
+
+[node name="NameLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_type_variation = &"HUD_small"
+text = "Egg"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GUITooltipDescriptionSaparator" parent="." instance=ExtResource("2_q4qwy")]
+unique_name_in_owner = true
+self_modulate = Color(0.223529, 0.121569, 0.129412, 1)
+layout_mode = 2
+
+[node name="ActionContainer" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="GUIDescriptionRichTextLabel" parent="." instance=ExtResource("3_uwe2q")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+theme_override_colors/default_color = Color(0.223529, 0.121569, 0.129412, 1)

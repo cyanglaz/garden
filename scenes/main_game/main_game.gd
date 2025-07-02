@@ -9,8 +9,10 @@ extends Node2D
 @onready var _gui_main_game: GUIMainGame = %GUIGameSession
 
 var max_time := 4
+var _week := 0
 var _time_tracker:ResourcePoint = ResourcePoint.new()
 var _turn_manager:TurnManager = TurnManager.new(_time_tracker)
+var _weather_manager:WeatherManager = WeatherManager.new()
 
 var _tools:Array[ToolData]
 var _plant_seeds:Array[PlantData]
@@ -34,11 +36,14 @@ func _ready() -> void:
 	start_new_week()
 
 func start_new_week() -> void:
+	_week += 1
+	_weather_manager.generate_weathers(7, _week)
 	_turn_manager.start_new(max_time)
 	start_turn()
 
 func start_turn() -> void:
 	_turn_manager.next_turn()
+	_gui_main_game.update_weathers(_weather_manager, _turn_manager.turn)
 	_gui_main_game.set_day(_turn_manager.turn)
 	_gui_main_game.clear_tool_selection()
 	_gui_main_game.update_tool_for_time(_time_tracker)

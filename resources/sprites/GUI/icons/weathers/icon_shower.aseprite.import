@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c68ayfsdyoxw7"
+path="res://.godot/imported/icon_shower.aseprite-b09ec3126b04fe904e88ed5aed1a1d9a.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/weathers/icon_shower.aseprite"
+dest_files=["res://.godot/imported/icon_shower.aseprite-b09ec3126b04fe904e88ed5aed1a1d9a.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

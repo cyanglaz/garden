@@ -14,11 +14,7 @@ func _ready() -> void:
 
 func _on_meta_hover_started(meta:Variant) -> void:
 	mouse_default_cursor_shape = Control.CursorShape.CURSOR_HELP
-	if meta.begins_with("ball_"):
-		var ball_id:String = meta.replace("ball_", "")
-		var reference_ball_data := MainDatabase.ball_database.get_data_by_id(ball_id)
-		_weak_mouse_over_tooltip = weakref(Util.display_ball_tooltip(reference_ball_data, null, true, tooltip_position))
-	elif meta.begins_with("status_effect_"):
+	if meta.begins_with("status_effect_"):
 		var status_effect_id:String = meta.replace("status_effect_", "")
 		var reference_status_effect_data:StatusEffectData = MainDatabase.status_effect_database.get_data_by_id(status_effect_id)
 		_weak_mouse_over_tooltip = weakref(Util.display_status_effect_tooltip(reference_status_effect_data, null, true, tooltip_position))

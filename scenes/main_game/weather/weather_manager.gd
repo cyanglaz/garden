@@ -4,7 +4,7 @@ extends RefCounted
 #var week:int
 var weathers:Array[WeatherData]
 
-func update_weathers(number_of_weathers:int, week:int) -> void:
+func generate_weathers(number_of_weathers:int, week:int) -> void:
 	weathers = MainDatabase.weather_database.roll_weathers(number_of_weathers, week)
 
 func get_current_weather(day:int) -> WeatherData:
