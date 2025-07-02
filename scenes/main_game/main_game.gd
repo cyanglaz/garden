@@ -13,6 +13,7 @@ var _week := 0
 var _time_tracker:ResourcePoint = ResourcePoint.new()
 var _turn_manager:TurnManager = TurnManager.new(_time_tracker)
 var _weather_manager:WeatherManager = WeatherManager.new()
+var _gold := 0
 
 var _tools:Array[ToolData]
 var _plant_seeds:Array[PlantData]
@@ -37,6 +38,8 @@ func _ready() -> void:
 
 func start_new_week() -> void:
 	_week += 1
+	_gui_main_game.update_week(_week)
+	_gui_main_game.update_gold(_gold, false)
 	_weather_manager.generate_weathers(7, _week)
 	_turn_manager.start_new(max_time)
 	start_turn()

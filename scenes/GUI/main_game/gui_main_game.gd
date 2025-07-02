@@ -12,6 +12,7 @@ signal end_turn_button_pressed()
 @onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
 @onready var _time_bar: GUISegmentedProgressBar = %TimeBar
 @onready var _gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
+@onready var _gui_top_bar: GUITopBar = %GUITopBar
 
 var selected_plant_seed_data:PlantData
 var selected_tool_card_index:int = -1
@@ -24,13 +25,21 @@ func _ready() -> void:
 	#_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("de-select") && selected_tool_card_index > -1:
+	if event.is_action_pressed("de-select"):
 		_on_plant_seed_selected(null)
-		clear_tool_selection()
+		if selected_tool_card_index > -1:
+			clear_tool_selection()
 
 func _physics_process(_delta:float) -> void:
 	if selected_tool_card_index != -1:
 		_gui_tool_card_container.show_tool_indicator(selected_tool_card_index)		
+
+#region topbar
+func update_week(week:int) -> void:
+	_gui_top_bar.update_week(week)
+
+func update_gold(gold:int, animated:bool) -> void:
+	_gui_top_bar.update_gold(gold, animated)
 
 #region tools
 func setup_tools(tool_datas:Array[ToolData]) -> void:
