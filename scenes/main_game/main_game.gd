@@ -20,7 +20,7 @@ var _plant_seeds:Array[PlantData]
 func _ready() -> void:
 	Singletons.main_game = self
 	_gui_main_game.plant_seed_deselected.connect(_on_plant_seed_deselected)
-	_gui_main_game.end_turn_button_pressed.connect(start_turn)
+	_gui_main_game.end_turn_button_pressed.connect(_on_end_turn_button_pressed)
 	_field_container.update_with_number_of_fields(number_of_fields)
 	_field_container.field_hovered.connect(_on_field_hovered)
 	_field_container.field_pressed.connect(_on_field_pressed)
@@ -78,3 +78,8 @@ func _on_field_tool_application_completed(_field_index:int, tool_data:ToolData) 
 	_time_tracker.restore(tool_data.time)
 	_gui_main_game.clear_tool_selection()
 	_gui_main_game.update_tool_for_time(_time_tracker)
+
+func _on_end_turn_button_pressed() -> void:
+	_weather_manager.apply_weather_actions(_turn_manager.turn, _field_container.fields)
+	start_turn()
+	

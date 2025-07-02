@@ -10,7 +10,12 @@ func generate_weathers(number_of_weathers:int, week:int) -> void:
 func get_current_weather(day:int) -> WeatherData:
 	return weathers[day - 1]
 
-func get_forcasts(day:int) -> Array[WeatherData]:
+func get_forecasts(day:int) -> Array[WeatherData]:
 	if day == weathers.size():
 		return []
 	return weathers.slice(day + 1)
+
+func apply_weather_actions(day:int, fields:Array[Field]) -> void:
+	var weather_data:WeatherData = get_current_weather(day)
+	for field:Field in fields:
+		field.apply_weather_actions(weather_data)

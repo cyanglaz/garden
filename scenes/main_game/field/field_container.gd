@@ -12,6 +12,8 @@ const FIELD_SCENE := preload("res://scenes/main_game/field/field.tscn")
 
 @onready var _container: Node2D = %Container
 
+var fields:Array[Field]: get = _get_fields
+
 func update_with_number_of_fields(number_of_fields:int) -> void:
 	Util.remove_all_children(_container)
 	for i in range(number_of_fields):
@@ -83,3 +85,9 @@ func _layout_fields() -> void:
 		field.position.y = 0
 		current_x += field_width + spacing
 	return
+
+func _get_fields() -> Array[Field]:
+	var result:Array[Field] = []
+	for field:Field in _container.get_children():
+		result.append(field)
+	return result
