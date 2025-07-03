@@ -6,13 +6,13 @@ const GUI_TOOL_ACTION_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gu
 @onready var _gui_generic_description: GUIGenericDescription = %GUIGenericDescription
 @onready var _card_container: PanelContainer = %CardContainer
 @onready var _background: NinePatchRect = %Background
-@onready var _gui_tool_time_icon: GUIToolTimeIcon = %GUIToolTimeIcon
+@onready var _cost_label: Label = %CostLabel
 
 var container_offset:float = 0.0: set = _set_container_offset
 
 func update_with_tool_data(tool_data:ToolData) -> void:
 	_gui_generic_description.update(tool_data.display_name, tool_data.actions, tool_data.get_display_description())
-	_gui_tool_time_icon.time = tool_data.time
+	_cost_label.text = str(tool_data.time)
 
 func _set_button_state(bs:GUIBasicButton.ButtonState) -> void:
 	super._set_button_state(bs)
