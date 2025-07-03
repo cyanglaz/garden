@@ -10,7 +10,6 @@ signal end_turn_button_pressed()
 @onready var _overlay: Control = %Overlay
 @onready var _day_label: Label = %DayLabel
 @onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
-@onready var _time_bar: GUISegmentedProgressBar = %TimeBar
 @onready var _gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
 @onready var _gui_top_bar: GUITopBar = %GUITopBar
 @onready var _gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
