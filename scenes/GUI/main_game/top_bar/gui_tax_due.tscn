@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://ljv00hq5722d"]
+
+[ext_resource type="Script" uid="uid://ds5lqlrftbinf" path="res://scenes/GUI/main_game/top_bar/gui_tax_due.gd" id="1_4wb4j"]
+[ext_resource type="PackedScene" uid="uid://dm1jpn72n0ue7" path="res://scenes/GUI/main_game/top_bar/gui_gold.tscn" id="1_oj7ji"]
+
+[node name="GUITaxDue" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -295.0
+offset_bottom = -169.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 1
+script = ExtResource("1_4wb4j")
+
+[node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD"
+theme_override_colors/font_color = Color(1, 0.921569, 0.341176, 1)
+
+[node name="GUIGold" parent="." instance=ExtResource("1_oj7ji")]
+unique_name_in_owner = true
+layout_mode = 2

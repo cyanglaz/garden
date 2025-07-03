@@ -51,6 +51,9 @@ func update_week(week:int) -> void:
 func update_gold(gold:int, animated:bool) -> void:
 	_gui_top_bar.update_gold(gold, animated)
 
+func update_tax_due(gold:int) -> void:
+	_gui_top_bar.update_tax_due(gold)
+
 #region tools
 func setup_tools(tool_datas:Array[ToolData]) -> void:
 	_gui_tool_card_container.setup_with_tool_datas(tool_datas)
