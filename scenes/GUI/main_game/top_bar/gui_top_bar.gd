@@ -15,7 +15,7 @@ func update_gold(gold:int, animated:bool) -> void:
 	_gui_gold.update_gold(gold, GUIGold.AnimationType.SINGLE if animated else GUIGold.AnimationType.NONE)
 
 func update_week(week:int) -> void:
-	_week_label.text = tr("WEEK_LABEL_TEXT") % week
+	_week_label.text = tr("WEEK_LABEL_TEXT") % (week + 1)
 
 func update_tax_due(gold:int) -> void:
 	_gui_tax_due.update_tax_due(gold)

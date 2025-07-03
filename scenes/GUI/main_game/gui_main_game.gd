@@ -85,8 +85,8 @@ func unpin_following_plant_icon() -> void:
 #endregion
 
 #region days
-func set_day(turn:int) -> void:
-	_day_label.text = tr("DAY_LABEL_TEXT")% turn
+func set_day(day:int) -> void:
+	_day_label.text = tr("DAY_LABEL_TEXT")% (day + 1)
 
 func bind_energy(resource_point:ResourcePoint) -> void:
 	_gui_energy_tracker.bind_with_resource_point(resource_point)
