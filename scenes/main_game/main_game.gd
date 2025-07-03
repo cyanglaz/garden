@@ -35,6 +35,7 @@ func _ready() -> void:
 	if !test_tools.is_empty():
 		_tools = test_tools
 	energy_tracker.can_be_capped = false
+	energy_tracker.value_update.connect(_on_energy_tracker_value_updated)
 	_gui_main_game.update_with_plant_datas(_plant_seeds)
 	_gui_main_game.setup_tools(_tools)
 	_gui_main_game.bind_energy(energy_tracker)
@@ -54,7 +55,6 @@ func start_turn() -> void:
 	_gui_main_game.update_weathers(_weather_manager, _turn_manager.turn)
 	_gui_main_game.set_day(_turn_manager.turn)
 	_gui_main_game.clear_tool_selection()
-	_gui_main_game.update_tool_for_energy(energy_tracker.value)
 
 func add_control_to_overlay(control:Control) -> void:
 	_gui_main_game.add_control_to_overlay(control)
@@ -85,7 +85,6 @@ func _on_field_tool_application_completed(_field_index:int, tool_data:ToolData) 
 	# Order matters, clear selection first then update tool data cd
 	energy_tracker.spend(tool_data.energy_cost)
 	_gui_main_game.clear_tool_selection()
-	_gui_main_game.update_tool_for_energy(energy_tracker.value)
 
 func _on_end_turn_button_pressed() -> void:
 	_weather_manager.apply_weather_actions(_turn_manager.turn, _field_container.fields)
@@ -100,3 +99,6 @@ func _on_field_harvest_completed() -> void:
 func _on_field_harvest_gold_gained(gold:int) -> void:
 	_gold += gold
 	_gui_main_game.update_gold(_gold, true)
+
+func _on_energy_tracker_value_updated() -> void:
+	_gui_main_game.update_tool_for_energy(energy_tracker.value)
