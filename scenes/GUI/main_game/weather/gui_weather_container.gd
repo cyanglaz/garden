@@ -15,6 +15,8 @@ func update_with_weather_manager(weather_manager:WeatherManager, day:int) -> voi
 	var forecasts := weather_manager.get_forecasts(day)
 	for weather_data:WeatherData in forecasts:
 		var gui_weather := GUI_WEATHER_SCENE.instantiate()
-		gui_weather.custom_minimum_size *= FORECAST_SIZE_SCALE
+		var gui_weather_size:float = gui_weather.custom_minimum_size.x
+		var scaled_size := floori(gui_weather_size * FORECAST_SIZE_SCALE)
+		gui_weather.custom_minimum_size = Vector2(scaled_size, scaled_size)
 		_forecast_container.add_child(gui_weather)
 		gui_weather.setup_with_weather_data(weather_data)

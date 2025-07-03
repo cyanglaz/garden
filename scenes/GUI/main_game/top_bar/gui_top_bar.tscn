@@ -1,0 +1,94 @@
+[gd_scene load_steps=5 format=3 uid="uid://bp2sap1brkhfa"]
+
+[ext_resource type="Texture2D" uid="uid://0weng6gyg3pu" path="res://resources/sprites/GUI/menu/top_bar_background.png" id="1_8mpe6"]
+[ext_resource type="Script" uid="uid://bm2lnsffltmvn" path="res://scenes/GUI/main_game/top_bar/gui_top_bar.gd" id="1_om12v"]
+[ext_resource type="PackedScene" uid="uid://dm1jpn72n0ue7" path="res://scenes/GUI/main_game/top_bar/gui_gold.tscn" id="2_mmkmm"]
+[ext_resource type="PackedScene" uid="uid://bv0vcudygflck" path="res://scenes/GUI/controls/buttons/gui_settings_button.tscn" id="9_j76ip"]
+
+[node name="GUITopBar" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 16)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 16.0
+grow_horizontal = 2
+script = ExtResource("1_om12v")
+
+[node name="Background" type="NinePatchRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_8mpe6")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 0
+
+[node name="Container" type="Control" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="LeftContainer" type="HBoxContainer" parent="MarginContainer/Container"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -6.0
+offset_right = 74.0
+offset_bottom = 6.0
+grow_vertical = 2
+theme_override_constants/separation = 6
+
+[node name="GUIGold" parent="MarginContainer/Container/LeftContainer" instance=ExtResource("2_mmkmm")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CenterContainer" type="HBoxContainer" parent="MarginContainer/Container"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -6.0
+offset_right = 23.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="WeekLabel" type="Label" parent="MarginContainer/Container/CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HUD"
+theme_override_colors/font_color = Color(0.580392, 0.992157, 1, 1)
+text = "level 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightContainer" type="HBoxContainer" parent="MarginContainer/Container"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = -6.0
+offset_bottom = 6.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/separation = 6
+alignment = 2
+
+[node name="GUISettingsButton" parent="MarginContainer/Container/RightContainer" instance=ExtResource("9_j76ip")]
+unique_name_in_owner = true
+process_mode = 3
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4

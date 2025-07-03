@@ -2,30 +2,47 @@
 
 [ext_resource type="Script" uid="uid://b3s0cai251tmf" path="res://scenes/GUI/main_game/gui_main_game.gd" id="1_48pcf"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_pgwuj"]
-[ext_resource type="PackedScene" uid="uid://673wlt1ldg8q" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.tscn" id="3_oisso"]
-[ext_resource type="Texture2D" uid="uid://cvqkjyne5mxwy" path="res://resources/sprites/icons/other/icon_time.png" id="4_ho5j6"]
+[ext_resource type="PackedScene" uid="uid://bp2sap1brkhfa" path="res://scenes/GUI/main_game/top_bar/gui_top_bar.tscn" id="2_fu4tq"]
 [ext_resource type="PackedScene" uid="uid://cb7rus2xat3us" path="res://scenes/GUI/main_game/plant_cards/gui_plant_card_container.tscn" id="4_wheaj"]
 [ext_resource type="PackedScene" uid="uid://be8dbcgiyauak" path="res://scenes/GUI/main_game/plant_cards/gui_mouse_following_plant_icon.tscn" id="5_h0t12"]
 [ext_resource type="PackedScene" uid="uid://b224jou4wqp13" path="res://scenes/GUI/main_game/weather/gui_weather_container.tscn" id="5_ho5j6"]
 [ext_resource type="PackedScene" uid="uid://canp4x5u3afyb" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_container.tscn" id="5_hujfj"]
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="6_jqqhe"]
+[ext_resource type="PackedScene" uid="uid://bpirre4ebu4op" path="res://scenes/GUI/main_game/energy/gui_energy_tracker.tscn" id="8_ho5j6"]
 
 [node name="GUIMainGame" type="CanvasLayer"]
 script = ExtResource("1_48pcf")
 
-[node name="MainMarginContainer" parent="." instance=ExtResource("1_pgwuj")]
+[node name="MainContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainMarginContainer/Container" index="0"]
+[node name="GUITopBar" parent="MainContainer" instance=ExtResource("2_fu4tq")]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MainMarginContainer" parent="MainContainer" instance=ExtResource("1_pgwuj")]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_top = 6
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/MainMarginContainer/Container" index="0"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -69.0
-offset_bottom = 16.0
+offset_bottom = 20.0
 grow_horizontal = 0
+mouse_filter = 2
 alignment = 2
 
-[node name="DayLabel" type="Label" parent="MainMarginContainer/Container/HBoxContainer"]
+[node name="DayLabel" type="Label" parent="MainContainer/MainMarginContainer/Container/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
@@ -33,21 +50,11 @@ theme_type_variation = &"HUD_mid"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="TimeBar" parent="MainMarginContainer/Container/HBoxContainer" instance=ExtResource("3_oisso")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(44, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-segment_color = Color(0.964706, 0.505882, 0.529412, 1)
-icon_texture = ExtResource("4_ho5j6")
-icon_size = Vector2(8, 8)
-
-[node name="GUIWeatherContainer" parent="MainMarginContainer/Container/HBoxContainer" instance=ExtResource("5_ho5j6")]
+[node name="GUIWeatherContainer" parent="MainContainer/MainMarginContainer/Container/HBoxContainer" instance=ExtResource("5_ho5j6")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="GUIPlantCardContainer" parent="MainMarginContainer/Container" index="1" instance=ExtResource("4_wheaj")]
+[node name="GUIPlantCardContainer" parent="MainContainer/MainMarginContainer/Container" index="1" instance=ExtResource("4_wheaj")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 0
@@ -56,7 +63,7 @@ anchor_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="GUIToolCardContainer" parent="MainMarginContainer/Container" index="2" instance=ExtResource("5_hujfj")]
+[node name="GUIToolCardContainer" parent="MainContainer/MainMarginContainer/Container" index="2" instance=ExtResource("5_hujfj")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
@@ -69,7 +76,7 @@ offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="EndTurnButton" parent="MainMarginContainer/Container" index="3" instance=ExtResource("6_jqqhe")]
+[node name="EndTurnButton" parent="MainContainer/MainMarginContainer/Container" index="3" instance=ExtResource("6_jqqhe")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 3
@@ -84,6 +91,16 @@ offset_bottom = 0.0
 grow_horizontal = 0
 grow_vertical = 0
 localization_text_key = "ACTION_END_DAY"
+
+[node name="GUIEnergyTracker" parent="MainContainer/MainMarginContainer/Container" index="4" instance=ExtResource("8_ho5j6")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -16.0
+offset_right = 16.0
+grow_vertical = 0
 
 [node name="Overlay" type="Control" parent="."]
 unique_name_in_owner = true
@@ -101,4 +118,4 @@ mouse_filter = 2
 unique_name_in_owner = true
 layout_mode = 0
 
-[editable path="MainMarginContainer"]
+[editable path="MainContainer/MainMarginContainer"]

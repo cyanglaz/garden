@@ -8,6 +8,12 @@ signal plant_button_action_evoked()
 var _weak_plant_tooltip:WeakRef = weakref(null)
 var _weak_plant_data:WeakRef
 
+func toggle_button(on:bool) -> void:
+	if on:
+		_gui_plant_button.button_state = GUIBasicButton.ButtonState.NORMAL
+	else:
+		_gui_plant_button.button_state = GUIBasicButton.ButtonState.DISABLED
+
 func _ready() -> void:
 	_gui_plant_button.action_evoked.connect(func(): plant_button_action_evoked.emit())
 	_gui_plant_button.mouse_entered.connect(_on_mouse_entered)

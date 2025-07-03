@@ -1,6 +1,9 @@
 class_name FieldContainer
 extends Node2D
 
+signal field_harvest_started()
+signal field_harvest_gold_gained(gold:int)
+signal field_harvest_completed()
 signal field_hovered(hovered:bool, index:int)
 signal field_pressed(index:int)
 signal field_tool_application_completed(index:int, tool_data:ToolData)
@@ -21,6 +24,9 @@ func update_with_number_of_fields(number_of_fields:int) -> void:
 		field.field_hovered.connect(func(hovered:bool): field_hovered.emit(hovered, i))
 		field.field_pressed.connect(func(): field_pressed.emit(i))
 		field.tool_application_completed.connect(func(tool_data:ToolData): field_tool_application_completed.emit(i, tool_data))
+		field.plant_harvest_gold_gained.connect(func(gold:int): field_harvest_gold_gained.emit(gold))
+		field.plant_harvest_started.connect(func(): field_harvest_started.emit())
+		field.plant_harvest_completed.connect(func(): field_harvest_completed.emit())
 		_container.add_child(field)
 	_layout_fields()
 
@@ -52,7 +58,6 @@ func apply_tool(tool_data:ToolData, index:int) -> void:
 	field.apply_tool(tool_data)
 
 func _layout_fields() -> void:
-	var fields = _container.get_children()
 	if fields.size() == 0:
 		return
 	

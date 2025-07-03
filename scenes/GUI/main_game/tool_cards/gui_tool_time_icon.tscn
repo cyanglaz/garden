@@ -10,6 +10,7 @@ theme_override_constants/separation = 1
 script = ExtResource("1_40b21")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+visible = false
 custom_minimum_size = Vector2(6, 6)
 layout_mode = 2
 texture = ExtResource("2_w6db1")

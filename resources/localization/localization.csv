@@ -55,4 +55,5 @@ GLYPH_DESCRIPTION, "A modifier applied to spaces."
 POWER_CD_TOOLTIP, "Cooldown: %s"
 PC_SHORT_CUT_TOOLTIP, "Keyboard shortcut: %s"
 DAY_LABEL_TEXT, "DAY %s"
+WEEK_LABEL_TEXT, "WEEK %s"
 

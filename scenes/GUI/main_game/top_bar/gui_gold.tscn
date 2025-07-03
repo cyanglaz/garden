@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://dm1jpn72n0ue7"]
+
+[ext_resource type="Script" uid="uid://bs0ss0m4xt5ut" path="res://scenes/GUI/main_game/top_bar/gui_gold.gd" id="1_tw8gy"]
+[ext_resource type="Texture2D" uid="uid://cnnxje814bs2" path="res://resources/sprites/GUI/icons/resources/icon_gold.png" id="2_tw8gy"]
+[ext_resource type="AudioStream" uid="uid://cnjsxqrjyqthb" path="res://resources/sounds/SFX/bingo/ap_increased.wav" id="3_d0qkp"]
+[ext_resource type="AudioStream" uid="uid://4gq5f4adh0ix" path="res://resources/sounds/SFX/bingo/ap_reduced.wav" id="4_v3f7g"]
+
+[node name="GUIGold" type="HBoxContainer"]
+offset_right = 19.0
+offset_bottom = 12.0
+theme_override_constants/separation = 1
+script = ExtResource("1_tw8gy")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("2_tw8gy")
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"HUD"
+theme_override_colors/font_color = Color(1, 0.921569, 0.341176, 1)
+text = "xx"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GoldIncreasedSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_d0qkp")
+volume_db = 5.0
+bus = &"SFX"
+
+[node name="GoldDecreasedSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_v3f7g")
+volume_db = 5.0
+bus = &"SFX"

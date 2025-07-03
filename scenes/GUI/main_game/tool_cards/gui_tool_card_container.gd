@@ -12,11 +12,21 @@ const MAX_TOTAL_WIDTH := 150
 
 var _card_size:int
 var _tools:Array[ToolData]
+var _energy:int
 
 func _ready() -> void:
 	var temp_tool_card := TOOL_CARD_SCENE.instantiate()
 	_card_size = temp_tool_card.size.x
 	temp_tool_card.queue_free()
+
+func toggle_all_tool_cards(on:bool) -> void:
+	for i in _tools.size():
+		var tool_data:ToolData = _tools[i]
+		var card:GUIToolCardButton = _container.get_child(i)
+		if on:
+			card.button_state = _get_default_button_state(tool_data)
+		else:
+			card.button_state = GUIBasicButton.ButtonState.DISABLED
 
 func show_tool_indicator(from_index:int) -> void:
 	_gui_tool_evoke_indicator.show()
@@ -33,18 +43,17 @@ func clear() -> void:
 func clear_selection() -> void:
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
-		gui_card.button_state = GUIBasicButton.ButtonState.NORMAL
+		var tool_data:ToolData = _tools[i]
+		gui_card.button_state = _get_default_button_state(tool_data)
 		gui_card.container_offset = 0.0
 	_hide_tool_indicator()
 
-func update_tool_for_time_left(time_left:int) -> void:
+func update_tool_for_energy(energy:int) -> void:
+	_energy = energy
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
 		var tool_data:ToolData = _tools[i]
-		if tool_data.time <= time_left:
-			gui_card.button_state = GUIBasicButton.ButtonState.NORMAL
-		else:
-			gui_card.button_state = GUIBasicButton.ButtonState.DISABLED
+		gui_card.button_state = _get_default_button_state(tool_data)
 
 func setup_with_tool_datas(tools:Array[ToolData]) -> void:
 	Util.remove_all_children(_container)
@@ -91,16 +100,23 @@ func _calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 func _hide_tool_indicator() -> void:
 	_gui_tool_evoke_indicator.hide()
 
-func _on_tool_card_action_evoked(index:int, tool_data:ToolData) -> void:
+func _get_default_button_state(tool_data:ToolData) -> GUIBasicButton.ButtonState:
+	if tool_data.energy_cost <= _energy:
+		return GUIBasicButton.ButtonState.NORMAL
+	else:
+		return GUIBasicButton.ButtonState.DISABLED
+
+func _on_tool_card_action_evoked(index:int, evoked_tool_data:ToolData) -> void:
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
+		var tool_data:ToolData = _tools[i]
 		if i == index:
 			gui_card.button_state = GUIBasicButton.ButtonState.SELECTED
 			gui_card.container_offset = -4.0
 		else:
-			gui_card.button_state = GUIBasicButton.ButtonState.NORMAL
+			gui_card.button_state = _get_default_button_state(tool_data)
 			gui_card.container_offset = 0.0
-	tool_selected.emit(index, tool_data)
+	tool_selected.emit(index, evoked_tool_data)
 
 func _on_tool_card_mouse_entered(index:int) -> void:
 	var mouse_over_card = _container.get_child(index)

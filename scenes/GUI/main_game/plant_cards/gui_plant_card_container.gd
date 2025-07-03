@@ -7,6 +7,10 @@ const PLANT_CARD_SCENE := preload("res://scenes/GUI/main_game/plant_cards/gui_pl
 
 @onready var _card_container: VBoxContainer = %CardContainer
 
+func toggle_all_plant_cards(on:bool) -> void:
+	for card:GUIPlantCard in _card_container.get_children():
+		card.toggle_button(on)
+
 func update_with_plant_datas(plant_datas:Array[PlantData]) -> void:
 	Util.remove_all_children(_card_container)
 	for plant_data:PlantData in plant_datas:
