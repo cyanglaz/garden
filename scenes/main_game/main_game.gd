@@ -9,8 +9,8 @@ extends Node2D
 @onready var _gui_main_game: GUIMainGame = %GUIGameSession
 
 var max_energy := 3
+var energy_tracker:ResourcePoint = ResourcePoint.new()
 var _week := 0
-var _energy_tracker:ResourcePoint = ResourcePoint.new()
 var _turn_manager:TurnManager = TurnManager.new()
 var _weather_manager:WeatherManager = WeatherManager.new()
 var _gold := 0
@@ -34,9 +34,10 @@ func _ready() -> void:
 		_plant_seeds = test_plant_datas
 	if !test_tools.is_empty():
 		_tools = test_tools
+	energy_tracker.can_be_capped = false
 	_gui_main_game.update_with_plant_datas(_plant_seeds)
 	_gui_main_game.setup_tools(_tools)
-	_gui_main_game.bind_energy(_energy_tracker)
+	_gui_main_game.bind_energy(energy_tracker)
 	start_new_week()
 
 func start_new_week() -> void:
@@ -48,12 +49,12 @@ func start_new_week() -> void:
 	start_turn()
 
 func start_turn() -> void:
-	_energy_tracker.setup(max_energy, max_energy)
+	energy_tracker.setup(max_energy, max_energy)
 	_turn_manager.next_turn()
 	_gui_main_game.update_weathers(_weather_manager, _turn_manager.turn)
 	_gui_main_game.set_day(_turn_manager.turn)
 	_gui_main_game.clear_tool_selection()
-	_gui_main_game.update_tool_for_energy(_energy_tracker.value)
+	_gui_main_game.update_tool_for_energy(energy_tracker.value)
 
 func add_control_to_overlay(control:Control) -> void:
 	_gui_main_game.add_control_to_overlay(control)
@@ -82,9 +83,9 @@ func _on_field_pressed(index:int) -> void:
 
 func _on_field_tool_application_completed(_field_index:int, tool_data:ToolData) -> void:
 	# Order matters, clear selection first then update tool data cd
-	_energy_tracker.spend(tool_data.energy_cost)
+	energy_tracker.spend(tool_data.energy_cost)
 	_gui_main_game.clear_tool_selection()
-	_gui_main_game.update_tool_for_energy(_energy_tracker.value)
+	_gui_main_game.update_tool_for_energy(energy_tracker.value)
 
 func _on_end_turn_button_pressed() -> void:
 	_weather_manager.apply_weather_actions(_turn_manager.turn, _field_container.fields)

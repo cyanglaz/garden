@@ -14,6 +14,7 @@ var is_full:bool : get = _get_is_full
 var value:int: set = _set_value
 var max_value:int: set = _set_max_value
 var estimate_value:int
+var can_be_capped:bool = true
 
 func get_duplicate() -> ResourcePoint:
 	var dup:ResourcePoint = ResourcePoint.new()
@@ -55,7 +56,10 @@ func _get_is_empty() -> bool:
 	return value <= 0
 
 func _set_value(val:int):
-	value = min(val, max_value)
+	if can_be_capped:
+		value = min(val, max_value)
+	else:
+		value = val
 	value_update.emit()
 
 func _set_max_value(val:int):
@@ -68,4 +72,4 @@ func _value_empty():
 	empty.emit()
 
 func _get_is_full() -> bool:
-	return value == max_value
+	return value >= max_value
