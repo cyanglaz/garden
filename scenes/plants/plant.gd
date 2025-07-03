@@ -8,6 +8,7 @@ signal harvest_gold_gained(gold:int)
 @warning_ignore("unused_signal")
 signal harvest_completed()
 signal harvest_ability_triggered()
+signal stage_updated()
 
 @onready var plant_sprite: AnimatedSprite2D = %PlantSprite
 @onready var fsm: PlantStateMachine = %PlantStateMachine
@@ -16,7 +17,7 @@ var light:ResourcePoint = ResourcePoint.new()
 var water:ResourcePoint = ResourcePoint.new()
 
 var data:PlantData:set = _set_data
-var stage:int:get = _get_stage
+var stage:int = 1
 
 func _ready() -> void:
 	fsm.start()
@@ -44,18 +45,17 @@ func _set_data(value:PlantData) -> void:
 	light.setup(0, data.light)
 	water.setup(0, data.water)
 
-func _get_stage() -> int:
-	assert(water.max_value != 0, "Water max value is 0")
-	assert(light.max_value != 0, "Light max value is 0")
-	if (light.value + water.value) * 2 >= light.max_value + water.max_value:
-		return 2
-	else:
-		return 1
+func _update_stage_if_possible() -> void:
+	if (light.value + water.value) * 2 >= light.max_value + water.max_value && stage == 1:
+		stage = 2
+		stage_updated.emit()
 
 func _on_light_value_update() -> void:
+	_update_stage_if_possible()
 	if can_harvest():
 		harvest()
 
 func _on_water_value_update() -> void:
+	_update_stage_if_possible()
 	if can_harvest():
 		harvest()
