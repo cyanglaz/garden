@@ -51,6 +51,9 @@ func update_week(week:int) -> void:
 func update_gold(gold:int, animated:bool) -> void:
 	_gui_top_bar.update_gold(gold, animated)
 
+func update_tax_due(gold:int) -> void:
+	_gui_top_bar.update_tax_due(gold)
+
 #region tools
 func setup_tools(tool_datas:Array[ToolData]) -> void:
 	_gui_tool_card_container.setup_with_tool_datas(tool_datas)
@@ -82,8 +85,8 @@ func unpin_following_plant_icon() -> void:
 #endregion
 
 #region days
-func set_day(turn:int) -> void:
-	_day_label.text = tr("DAY_LABEL_TEXT")% turn
+func set_day(day:int) -> void:
+	_day_label.text = tr("DAY_LABEL_TEXT")% (day + 1)
 
 func bind_energy(resource_point:ResourcePoint) -> void:
 	_gui_energy_tracker.bind_with_resource_point(resource_point)

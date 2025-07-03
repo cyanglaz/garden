@@ -8,11 +8,10 @@ extends Node2D
 @onready var _field_container: FieldContainer = %FieldContainer
 @onready var _gui_main_game: GUIMainGame = %GUIGameSession
 
-var max_energy := 3
 var energy_tracker:ResourcePoint = ResourcePoint.new()
-var _week := 0
-var _turn_manager:TurnManager = TurnManager.new()
-var _weather_manager:WeatherManager = WeatherManager.new()
+var week_manager:WeekManager = WeekManager.new()
+var weather_manager:WeatherManager = WeatherManager.new()
+var max_energy := 3
 var _gold := 0
 
 var _tools:Array[ToolData]
@@ -42,22 +41,31 @@ func _ready() -> void:
 	start_new_week()
 
 func start_new_week() -> void:
-	_week += 1
-	_gui_main_game.update_week(_week)
+	week_manager.next_week()
+	weather_manager.generate_weathers(7, week_manager.week)
+	_gui_main_game.update_week(week_manager.week)
 	_gui_main_game.update_gold(_gold, false)
-	_weather_manager.generate_weathers(7, _week)
-	_turn_manager.start_new()
-	start_turn()
+	_gui_main_game.update_tax_due(week_manager.get_tax_due())
+	start_day()
 
-func start_turn() -> void:
+func start_day() -> void:
 	energy_tracker.setup(max_energy, max_energy)
-	_turn_manager.next_turn()
-	_gui_main_game.update_weathers(_weather_manager, _turn_manager.turn)
-	_gui_main_game.set_day(_turn_manager.turn)
+	week_manager.next_day()
+	_gui_main_game.update_weathers(weather_manager, week_manager.get_day())
+	_gui_main_game.set_day(week_manager.get_day())
 	_gui_main_game.clear_tool_selection()
 
 func add_control_to_overlay(control:Control) -> void:
 	_gui_main_game.add_control_to_overlay(control)
+
+func _end_turn() -> void:
+	if week_manager.get_day() == 6:
+		if _gold >= week_manager.get_tax_due():
+			print("win")
+		else:
+			print("lose")
+	else:
+		start_day()
 
 func _on_field_hovered(hovered:bool, index:int) -> void:
 	var selected_plant_seed_data:PlantData = _gui_main_game.selected_plant_seed_data
@@ -87,8 +95,8 @@ func _on_field_tool_application_completed(_field_index:int, tool_data:ToolData) 
 	_gui_main_game.clear_tool_selection()
 
 func _on_end_turn_button_pressed() -> void:
-	_weather_manager.apply_weather_actions(_turn_manager.turn, _field_container.fields)
-	start_turn()
+	weather_manager.apply_weather_actions(week_manager.get_day(), _field_container.fields)
+	_end_turn()
 	
 func _on_field_harvest_started() -> void:
 	_gui_main_game.toggle_all_ui(false)

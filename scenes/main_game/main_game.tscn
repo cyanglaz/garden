@@ -15,7 +15,7 @@
 script = ExtResource("1_yra6k")
 test_plant_datas = Array[ExtResource("2_6eclk")]([ExtResource("3_i3kwu")])
 test_tools = Array[ExtResource("4_ldk84")]([ExtResource("5_r81kp"), ExtResource("6_fetp2"), ExtResource("7_r81kp")])
-number_of_fields = 5
+number_of_fields = 2
 
 [node name="FieldContainer" parent="." instance=ExtResource("1_075iw")]
 unique_name_in_owner = true

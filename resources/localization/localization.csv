@@ -56,4 +56,5 @@ POWER_CD_TOOLTIP, "Cooldown: %s"
 PC_SHORT_CUT_TOOLTIP, "Keyboard shortcut: %s"
 DAY_LABEL_TEXT, "DAY %s"
 WEEK_LABEL_TEXT, "WEEK %s"
+TAX_DUE_TITLE, "Tax Due"
 
