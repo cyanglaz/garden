@@ -4,30 +4,30 @@
 [ext_resource type="Script" uid="uid://tuu0gwwwv0ys" path="res://scenes/plants/plants/plant_daisy.gd" id="2_uas1e"]
 [ext_resource type="Texture2D" uid="uid://nm4wlycbeyfh" path="res://resources/sprites/plants/plant_daisy.png" id="3_mn8ri"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_mn8ri"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ip5as"]
 atlas = ExtResource("3_mn8ri")
 region = Rect2(0, 0, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_btw8d"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ky5dn"]
 atlas = ExtResource("3_mn8ri")
 region = Rect2(36, 0, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fp5lj"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ey3vu"]
 atlas = ExtResource("3_mn8ri")
 region = Rect2(0, 36, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sw1rf"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_swvck"]
 atlas = ExtResource("3_mn8ri")
 region = Rect2(36, 36, 36, 36)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_ybslm"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_bsvjl"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_mn8ri")
+"texture": SubResource("AtlasTexture_ip5as")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_btw8d")
+"texture": SubResource("AtlasTexture_ky5dn")
 }],
 "loop": true,
 "name": &"idle_1",
@@ -35,10 +35,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fp5lj")
+"texture": SubResource("AtlasTexture_ey3vu")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_sw1rf")
+"texture": SubResource("AtlasTexture_swvck")
 }],
 "loop": true,
 "name": &"idle_2",
@@ -50,7 +50,7 @@ script = ExtResource("2_uas1e")
 
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_ybslm")
+sprite_frames = SubResource("SpriteFrames_bsvjl")
 animation = &"idle_1"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
@@ -66,4 +66,4 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/plants/plant_daisy.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "e610ace6f55319463ceee5844fcca04b"
+metadata/_aseprite_wizard_source_file_hash_ = "c30aa475cc1fcfc69a7b1a73a368c39c"

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c6kfos68ecvku"
+path="res://.godot/imported/icon_peace_lily.aseprite-49d262d7a1dd5c959313da3dae7d45ee.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/plants/icon_peace_lily.aseprite"
+dest_files=["res://.godot/imported/icon_peace_lily.aseprite-49d262d7a1dd5c959313da3dae7d45ee.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

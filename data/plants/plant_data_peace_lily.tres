@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="PlantData" load_steps=2 format=3 uid="uid://dmmqf31ijms54"]
+
+[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_x380q"]
+
+[resource]
+script = ExtResource("1_x380q")
+light = 2
+water = 3
+gold = 5
+rarity = 0
+id = "peace_lily"
+display_name = "Peace Lily"
+description = ""
+data = {}
+metadata/_custom_type_script = "uid://c6qubfqdqqjrs"
