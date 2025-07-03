@@ -1,12 +1,12 @@
 class_name ToolData
 extends ThingData
 
-@export var time:int = 1
+@export var energy_cost:int = 1
 @export var actions:Array[ActionData]
 
 func copy(other:ThingData) -> void:
 	var other_tool: ToolData = other as ToolData
-	time = other_tool.time
+	energy_cost = other_tool.energy_cost
 	actions = other_tool.actions.duplicate()
 
 func get_duplicate() -> ToolData:

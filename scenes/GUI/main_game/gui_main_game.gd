@@ -13,6 +13,7 @@ signal end_turn_button_pressed()
 @onready var _time_bar: GUISegmentedProgressBar = %TimeBar
 @onready var _gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
 @onready var _gui_top_bar: GUITopBar = %GUITopBar
+@onready var _gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
 
 var selected_plant_seed_data:PlantData
 var selected_tool_card_index:int = -1
@@ -62,8 +63,8 @@ func clear_tool_selection() -> void:
 	_gui_tool_card_container.clear_selection()
 	selected_tool_card_index = -1
 
-func update_tool_for_time(time_tracker:ResourcePoint) -> void:
-	_gui_tool_card_container.update_tool_for_time_left(time_tracker.max_value - time_tracker.value)
+func update_tool_for_energy(energy:int) -> void:
+	_gui_tool_card_container.update_tool_for_energy(energy)
 	
 #endregion
 
@@ -85,8 +86,8 @@ func unpin_following_plant_icon() -> void:
 func set_day(turn:int) -> void:
 	_day_label.text = tr("DAY_LABEL_TEXT")% turn
 
-func bind_time(resource_point:ResourcePoint) -> void:
-	_time_bar.bind_with_resource_point(resource_point)
+func bind_energy(resource_point:ResourcePoint) -> void:
+	_gui_energy_tracker.bind_with_resource_point(resource_point)
 
 #region weathers
 func update_weathers(weather_manager:WeatherManager, day:int) -> void:

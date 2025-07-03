@@ -12,7 +12,7 @@ const MAX_TOTAL_WIDTH := 150
 
 var _card_size:int
 var _tools:Array[ToolData]
-var _time_left:int
+var _energy:int
 
 func _ready() -> void:
 	var temp_tool_card := TOOL_CARD_SCENE.instantiate()
@@ -48,8 +48,8 @@ func clear_selection() -> void:
 		gui_card.container_offset = 0.0
 	_hide_tool_indicator()
 
-func update_tool_for_time_left(time_left:int) -> void:
-	_time_left = time_left
+func update_tool_for_energy(energy:int) -> void:
+	_energy = energy
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
 		var tool_data:ToolData = _tools[i]
@@ -101,7 +101,7 @@ func _hide_tool_indicator() -> void:
 	_gui_tool_evoke_indicator.hide()
 
 func _get_default_button_state(tool_data:ToolData) -> GUIBasicButton.ButtonState:
-	if tool_data.time <= _time_left:
+	if tool_data.energy_cost <= _energy:
 		return GUIBasicButton.ButtonState.NORMAL
 	else:
 		return GUIBasicButton.ButtonState.DISABLED
