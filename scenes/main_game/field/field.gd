@@ -81,6 +81,10 @@ func harvest() -> void:
 	assert(can_harvest(), "Cannot harvest")
 	plant.harvest()
 
+func handle_end_day(weather_data:WeatherData, day:int) -> void:
+	if plant:
+		plant.trigger_end_day_ability(weather_data, day)
+
 func _apply_actions(actions:Array[ActionData]) -> void:
 	for action:ActionData in actions:
 		match action.type:
