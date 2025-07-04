@@ -3,7 +3,8 @@ extends PlantState
 
 func enter() -> void:
 	super.enter()
-	plant.stage_updated.connect(_on_stage_updated)
+	if !plant.stage_updated.is_connected(_on_stage_updated):
+		plant.stage_updated.connect(_on_stage_updated)
 
 func exit(next_state:String, next_params:Dictionary = {}) -> void:
 	plant.stage_updated.disconnect(_on_stage_updated)

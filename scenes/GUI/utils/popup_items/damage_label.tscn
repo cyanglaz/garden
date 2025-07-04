@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://g5rb8ht5muav"]
 
-[ext_resource type="Script" uid="uid://d0mba0ak0yf3q" path="res://scenes/GUI/utils/popup_labels/damage_label.gd" id="1_jlup3"]
+[ext_resource type="Script" uid="uid://d0mba0ak0yf3q" path="res://scenes/GUI/utils/popup_items/damage_label.gd" id="1_jlup3"]
 [ext_resource type="Theme" uid="uid://cot0ve5mv1sh0" path="res://resources/themes/gui_main_theme.tres" id="2_f0k1f"]
 
 [node name="DamageLabel" type="Label"]

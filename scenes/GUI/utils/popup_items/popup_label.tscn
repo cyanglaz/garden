@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dm73w0xedr2nx"]
+
+[ext_resource type="PackedScene" uid="uid://douspqyxmfq3n" path="res://scenes/GUI/utils/popup_items/popup_thing.tscn" id="1_0kerd"]
+[ext_resource type="Script" uid="uid://dhcoofgcl8gu" path="res://scenes/GUI/utils/popup_items/popup_label.gd" id="2_1ibpx"]
+
+[node name="PopupLabel" instance=ExtResource("1_0kerd")]
+script = ExtResource("2_1ibpx")
+
+[node name="Label" type="Label" parent="." index="0"]
+unique_name_in_owner = true
+layout_mode = 2

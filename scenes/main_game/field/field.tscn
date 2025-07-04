@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dswoypivjtaql"]
+[gd_scene load_steps=12 format=3 uid="uid://dswoypivjtaql"]
 
 [ext_resource type="Script" uid="uid://ypmkl3x5hk7f" path="res://scenes/main_game/field/field.gd" id="1_4blml"]
 [ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/field.png" id="1_se4o6"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://673wlt1ldg8q" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.tscn" id="4_bve5f"]
 [ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/GUI/icons/resources/icon_light.png" id="5_7ysiu"]
 [ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/icon_water.png" id="6_bhkj4"]
+[ext_resource type="AudioStream" uid="uid://bs0jg061p4c2d" path="res://resources/sounds/SFX/field/field_buff.wav" id="7_wjfsy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8wd00"]
 atlas = ExtResource("1_se4o6")
@@ -107,3 +108,8 @@ icon_size = Vector2(6, 6)
 [node name="PlantContainer" type="Node2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(0, -14)
+
+[node name="BuffSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("7_wjfsy")
+bus = &"SFX"
