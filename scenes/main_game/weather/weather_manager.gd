@@ -44,6 +44,8 @@ func apply_weather_actions(day:int, fields:Array[Field], today_weather_icon:GUIW
 		var target_position:Vector2 = Util.get_node_ui_position(gui_weather_copy, field) \
 				- gui_weather_copy.size/2 \
 				+ Vector2.UP * 24
+		var sound_timer:= Util.create_scaled_timer(delay)
+		sound_timer.timeout.connect(func() -> void: gui_weather_copy.play_flying_sound())
 		tween.tween_property(
 			gui_weather_copy,
 			"global_position", 
