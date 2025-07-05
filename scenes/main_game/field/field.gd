@@ -3,8 +3,8 @@ extends Node2D
 
 const PLANT_SCENE_PATH_PREFIX := "res://scenes/plants/plants/plant_"
 const POPUP_LABEL_ICON_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label_icon.tscn")
-const ACTION_INDICATOR_SHOW_TIME := 0.3
-const ACTION_INDICATOR_DESTROY_TIME:= 0.4
+const ACTION_INDICATOR_SHOW_TIME := 0.2
+const ACTION_INDICATOR_DESTROY_TIME:= 0.6
 
 signal field_pressed()
 signal field_hovered(hovered:bool)
