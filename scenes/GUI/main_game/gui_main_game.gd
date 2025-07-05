@@ -4,13 +4,13 @@ extends CanvasLayer
 signal plant_seed_deselected()
 signal end_turn_button_pressed()
 
+@onready var gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
 @onready var _gui_plant_card_container: GUIPlantCardContainer = %GUIPlantCardContainer
 @onready var _gui_mouse_following_plant_icon: GUIMouseFollowingPlantIcon = %GUIMouseFollowingPlantIcon
 @onready var _gui_tool_card_container: GUIToolHandContainer = %GUIToolCardContainer
 @onready var _overlay: Control = %Overlay
 @onready var _day_label: Label = %DayLabel
 @onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
-@onready var _gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
 @onready var _gui_top_bar: GUITopBar = %GUITopBar
 @onready var _gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
 
@@ -93,7 +93,8 @@ func bind_energy(resource_point:ResourcePoint) -> void:
 
 #region weathers
 func update_weathers(weather_manager:WeatherManager, day:int) -> void:
-	_gui_weather_container.update_with_weather_manager(weather_manager, day)
+	gui_weather_container.update_with_weather_manager(weather_manager, day)
+
 #endregion
 
 #region utils

@@ -3,6 +3,8 @@ extends Node2D
 
 const PLANT_SCENE_PATH_PREFIX := "res://scenes/plants/plants/plant_"
 const POPUP_LABEL_ICON_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label_icon.tscn")
+const ACTION_INDICATOR_SHOW_TIME := 0.3
+const ACTION_INDICATOR_DESTROY_TIME:= 0.4
 
 signal field_pressed()
 signal field_hovered(hovered:bool)
@@ -73,14 +75,6 @@ func apply_weather_actions(weather_data:WeatherData) -> void:
 	await _apply_actions(weather_data.actions)
 	weather_application_completed.emit(weather_data)
 
-func can_harvest() -> bool:
-	return plant && plant.can_harvest()
-
-func harvest() -> void:
-	assert(plant, "No plant planted")
-	assert(can_harvest(), "Cannot harvest")
-	plant.harvest()
-
 func handle_end_day(weather_data:WeatherData, day:int) -> void:
 	if plant:
 		plant.trigger_end_day_ability(weather_data, day)
@@ -98,6 +92,16 @@ func _apply_actions(actions:Array[ActionData]) -> void:
 				await _apply_fungus_action(action)
 			_:
 				pass
+	if _can_harvest():
+		_harvest()
+
+func _can_harvest() -> bool:
+	return plant && plant.can_harvest()
+
+func _harvest() -> void:
+	assert(plant, "No plant planted")
+	assert(_can_harvest(), "Cannot harvest")
+	plant.harvest()
 
 func _show_progress_bars(p:Plant) -> void:
 	assert(p.data)
@@ -132,7 +136,7 @@ func _show_popup_action_indicator(action_data:ActionData) -> void:
 	add_child(popup)
 	popup.global_position = _gui_field_button.global_position + _gui_field_button.size/2 + Vector2.RIGHT * 8
 	popup.setup(str("+", action_data.value), Constants.COLOR_WHITE, Util.get_action_icon_with_action_type(action_data.type))
-	await popup.animate_show_and_destroy(6, 1, 0.3, 0.3)
+	await popup.animate_show_and_destroy(6, 1, ACTION_INDICATOR_SHOW_TIME, ACTION_INDICATOR_DESTROY_TIME)
 
 func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> void:
 	match state:

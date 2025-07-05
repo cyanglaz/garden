@@ -54,6 +54,7 @@ func start_day() -> void:
 	_gui_main_game.update_weathers(weather_manager, week_manager.get_day())
 	_gui_main_game.set_day(week_manager.get_day())
 	_gui_main_game.clear_tool_selection()
+	_gui_main_game.toggle_all_ui(true)
 
 func add_control_to_overlay(control:Control) -> void:
 	_gui_main_game.add_control_to_overlay(control)
@@ -95,7 +96,8 @@ func _on_field_tool_application_completed(_field_index:int, tool_data:ToolData) 
 	_gui_main_game.clear_tool_selection()
 
 func _on_end_turn_button_pressed() -> void:
-	weather_manager.apply_weather_actions(week_manager.get_day(), _field_container.fields)
+	_gui_main_game.toggle_all_ui(false)
+	await weather_manager.apply_weather_actions(week_manager.get_day(), _field_container.fields, _gui_main_game.gui_weather_container.get_today_weather_icon())
 	_end_turn()
 	
 func _on_field_harvest_started() -> void:

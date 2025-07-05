@@ -60,10 +60,6 @@ func _update_stage_if_possible() -> void:
 
 func _on_light_value_update() -> void:
 	_update_stage_if_possible()
-	if can_harvest():
-		harvest()
 
 func _on_water_value_update() -> void:
 	_update_stage_if_possible()
-	if can_harvest():
-		harvest()
