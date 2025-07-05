@@ -3,11 +3,13 @@ extends CanvasLayer
 
 signal plant_seed_deselected()
 signal end_turn_button_pressed()
+signal tool_selected(index:int)
+signal tool_selection_cleared()
 
 @onready var gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
 @onready var _gui_plant_card_container: GUIPlantCardContainer = %GUIPlantCardContainer
 @onready var _gui_mouse_following_plant_icon: GUIMouseFollowingPlantIcon = %GUIMouseFollowingPlantIcon
-@onready var _gui_tool_card_container: GUIToolHandContainer = %GUIToolCardContainer
+@onready var _gui_tool_card_container: GUIToolCandContainer = %GUIToolCardContainer
 @onready var _overlay: Control = %Overlay
 @onready var _day_label: Label = %DayLabel
 @onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
@@ -29,10 +31,6 @@ func _input(event: InputEvent) -> void:
 		_on_plant_seed_selected(null)
 		if selected_tool_card_index > -1:
 			clear_tool_selection()
-
-func _physics_process(_delta:float) -> void:
-	if selected_tool_card_index != -1:
-		_gui_tool_card_container.show_tool_indicator(selected_tool_card_index)		
 
 #region all ui
 func toggle_all_ui(on:bool) -> void:
@@ -64,6 +62,7 @@ func update_tools(tool_datas:Array[ToolData]) -> void:
 func clear_tool_selection() -> void:
 	_gui_tool_card_container.clear_selection()
 	selected_tool_card_index = -1
+	tool_selection_cleared.emit()
 
 func update_tool_for_energy(energy:int) -> void:
 	_gui_tool_card_container.update_tool_for_energy(energy)
@@ -122,5 +121,6 @@ func _on_plant_seed_selected(plant_data:PlantData) -> void:
 
 func _on_tool_selected(index:int, _tool_data:ToolData) -> void:
 	selected_tool_card_index = index
+	tool_selected.emit(index)
 	if selected_tool_card_index > -1:
 		_on_plant_seed_selected(null)

@@ -16,13 +16,15 @@ const FIELD_SCENE := preload("res://scenes/main_game/field/field.tscn")
 @onready var _container: Node2D = %Container
 
 var fields:Array[Field]: get = _get_fields
+var mouse_field:Field: get = _get_mouse_field
+var _weak_mouse_field:WeakRef = weakref(null)
 
 func update_with_number_of_fields(number_of_fields:int) -> void:
 	Util.remove_all_children(_container)
 	var last_field:Field = null
 	for i in range(number_of_fields):
 		var field:Field = FIELD_SCENE.instantiate()
-		field.field_hovered.connect(func(hovered:bool): field_hovered.emit(hovered, i))
+		field.field_hovered.connect(_on_field_hovered.bind(i))
 		field.field_pressed.connect(func(): field_pressed.emit(i))
 		field.tool_application_completed.connect(func(tool_data:ToolData): field_tool_application_completed.emit(i, tool_data))
 		field.plant_harvest_gold_gained.connect(func(gold:int): field_harvest_gold_gained.emit(gold))
@@ -65,7 +67,11 @@ func apply_tool(tool_data:ToolData, index:int) -> void:
 func trigger_end_day_ability(weather_data:WeatherData, day:int) -> void:
 	for field:Field in _container.get_children():
 		await field.handle_end_day(weather_data, day)
-
+	
+func clear_tool_indicators() -> void:
+	for field:Field in fields:
+		field.toggle_selection_indicator(false)
+		
 func _layout_fields() -> void:
 	if fields.size() == 0:
 		return
@@ -105,3 +111,13 @@ func _get_fields() -> Array[Field]:
 	for field:Field in _container.get_children():
 		result.append(field)
 	return result
+
+func _get_mouse_field() -> Field:
+	return _weak_mouse_field.get_ref()
+
+func _on_field_hovered(hovered:bool, index:int) -> void:
+	if hovered:
+		_weak_mouse_field = weakref(fields[index])
+	else:
+		_weak_mouse_field = weakref(null)
+	field_hovered.emit(hovered, index)

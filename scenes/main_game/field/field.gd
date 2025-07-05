@@ -21,6 +21,7 @@ signal end_day_handled()
 @onready var _plant_container: Node2D = %PlantContainer
 @onready var _progress_bars: VBoxContainer = %ProgressBars
 @onready var _buff_sound: AudioStreamPlayer2D = %BuffSound
+@onready var _gui_field_selection_indicator: GUIFieldSelectionIndicator = %GUIFieldSelectionIndicator
 
 var _weak_plant_preview:WeakRef = weakref(null)
 var plant:Plant
@@ -38,7 +39,11 @@ func _ready() -> void:
 	_progress_bars.hide()
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
+	_gui_field_selection_indicator.hide()
 
+func toggle_selection_indicator(on:bool) -> void:
+	_gui_field_selection_indicator.visible = on
+ 
 func show_plant_preview(plant_data:PlantData) -> void:
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
 	var scene := load(plant_scene_path)
