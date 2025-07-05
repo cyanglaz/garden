@@ -19,6 +19,8 @@ var water:ResourcePoint = ResourcePoint.new()
 
 var data:PlantData:set = _set_data
 var stage:int = 1
+var field:Field: set = _set_field, get = _get_field
+var _weak_field:WeakRef = weakref(null)
 
 func _ready() -> void:
 	fsm.start()
@@ -52,6 +54,12 @@ func _set_data(value:PlantData) -> void:
 	data = value
 	light.setup(0, data.light)
 	water.setup(0, data.water)
+
+func _set_field(value:Field) -> void:
+	_weak_field = weakref(value)
+
+func _get_field() -> Field:
+	return _weak_field.get_ref()
 
 func _update_stage_if_possible() -> void:
 	if (light.value + water.value) * 2 >= light.max_value + water.max_value && stage == 1:

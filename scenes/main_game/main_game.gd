@@ -100,6 +100,7 @@ func _on_field_tool_application_completed(_field_index:int, tool_data:ToolData) 
 func _on_end_turn_button_pressed() -> void:
 	_gui_main_game.toggle_all_ui(false)
 	await weather_manager.apply_weather_actions(week_manager.get_day(), _field_container.fields, _gui_main_game.gui_weather_container.get_today_weather_icon())
+	await _field_container.trigger_end_day_ability(weather_manager.get_current_weather(week_manager.get_day()), week_manager.get_day())
 	_end_turn()
 	
 func _on_field_harvest_started() -> void:

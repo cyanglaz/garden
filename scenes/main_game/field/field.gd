@@ -9,10 +9,10 @@ const ACTION_INDICATOR_DESTROY_TIME:= 0.4
 signal field_pressed()
 signal field_hovered(hovered:bool)
 signal tool_application_completed(tool_data:ToolData)
-signal weather_application_completed(weather_data:WeatherData)
 signal plant_harvest_gold_gained(gold:int)
 signal plant_harvest_started()
 signal plant_harvest_completed()
+signal end_day_handled()
 
 @onready var _animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 @onready var _gui_field_button: GUIBasicButton = %GUIFieldButton
@@ -26,6 +26,8 @@ var _weak_plant_preview:WeakRef = weakref(null)
 var plant:Plant
 var pest_count:int = 0
 var fungus_count:int = 0
+var weak_left_field:WeakRef = weakref(null)
+var weak_right_field:WeakRef = weakref(null)
 
 func _ready() -> void:
 	_gui_field_button.state_updated.connect(_on_gui_field_button_state_updated)
@@ -58,6 +60,7 @@ func plant_seed(plant_data:PlantData) -> void:
 	plant.harvest_started.connect(_on_plant_harvest_started)
 	plant.harvest_gold_gained.connect(_on_plant_harvest_gold_gained)
 	plant.harvest_completed.connect(_on_plant_harvest_completed)
+	plant.field = self
 
 func get_preview_icon_global_position(reference_control:Control) -> Vector2:
 	return Util.get_node_ui_position(reference_control, _gui_field_button) + Vector2.UP * 5 + Vector2.LEFT * 5
@@ -68,18 +71,20 @@ func remove_plant_preview() -> void:
 		_progress_bars.hide()
 
 func apply_tool(tool_data:ToolData) -> void:
-	await _apply_actions(tool_data.actions)
+	await apply_actions(tool_data.actions)
 	tool_application_completed.emit(tool_data)
 
 func apply_weather_actions(weather_data:WeatherData) -> void:
-	await _apply_actions(weather_data.actions)
-	weather_application_completed.emit(weather_data)
+	await apply_actions(weather_data.actions)
 
 func handle_end_day(weather_data:WeatherData, day:int) -> void:
 	if plant:
 		plant.trigger_end_day_ability(weather_data, day)
+		await plant.end_day_ability_triggered
+	else:
+		await Util.await_for_tiny_time()
 
-func _apply_actions(actions:Array[ActionData]) -> void:
+func apply_actions(actions:Array[ActionData]) -> void:
 	for action:ActionData in actions:
 		match action.type:
 			ActionData.ActionType.LIGHT:

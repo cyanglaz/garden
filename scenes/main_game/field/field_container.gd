@@ -19,6 +19,7 @@ var fields:Array[Field]: get = _get_fields
 
 func update_with_number_of_fields(number_of_fields:int) -> void:
 	Util.remove_all_children(_container)
+	var last_field:Field = null
 	for i in range(number_of_fields):
 		var field:Field = FIELD_SCENE.instantiate()
 		field.field_hovered.connect(func(hovered:bool): field_hovered.emit(hovered, i))
@@ -27,6 +28,10 @@ func update_with_number_of_fields(number_of_fields:int) -> void:
 		field.plant_harvest_gold_gained.connect(func(gold:int): field_harvest_gold_gained.emit(gold))
 		field.plant_harvest_started.connect(func(): field_harvest_started.emit())
 		field.plant_harvest_completed.connect(func(): field_harvest_completed.emit())
+		if last_field:
+			field.weak_left_field = weakref(last_field)
+			last_field.weak_right_field = weakref(field)
+		last_field = field
 		_container.add_child(field)
 	_layout_fields()
 
@@ -56,6 +61,10 @@ func get_preview_icon_global_position(reference_control:Control, index:int) -> V
 func apply_tool(tool_data:ToolData, index:int) -> void:
 	var field:Field = _container.get_child(index)
 	field.apply_tool(tool_data)
+
+func trigger_end_day_ability(weather_data:WeatherData, day:int) -> void:
+	for field:Field in _container.get_children():
+		await field.handle_end_day(weather_data, day)
 
 func _layout_fields() -> void:
 	if fields.size() == 0:
