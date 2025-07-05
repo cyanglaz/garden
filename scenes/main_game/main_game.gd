@@ -88,12 +88,14 @@ func _on_field_pressed(index:int) -> void:
 		_field_container.plant_seed(selected_plant_seed_data, index)
 	elif selected_tool_index > -1 && _field_container.is_field_occupied(index):
 		var tool_data := _tools[selected_tool_index]
+		_gui_main_game.toggle_all_ui(false)
 		_field_container.apply_tool(tool_data, index)
 
 func _on_field_tool_application_completed(_field_index:int, tool_data:ToolData) -> void:
 	# Order matters, clear selection first then update tool data cd
 	energy_tracker.spend(tool_data.energy_cost)
 	_gui_main_game.clear_tool_selection()
+	_gui_main_game.toggle_all_ui(true)
 
 func _on_end_turn_button_pressed() -> void:
 	_gui_main_game.toggle_all_ui(false)
