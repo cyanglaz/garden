@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ypmkl3x5hk7f" path="res://scenes/main_game/field/field.gd" id="1_4blml"]
 [ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/field.png" id="1_se4o6"]
 [ext_resource type="PackedScene" uid="uid://by4p2lbbaimh3" path="res://scenes/GUI/controls/buttons/gui_field_button.tscn" id="3_hjlch"]
-[ext_resource type="PackedScene" uid="uid://b0mxsb1ypllyg" path="res://scenes/main_game/field/gui_field_selection_indicator.tscn" id="4_50o30"]
+[ext_resource type="PackedScene" uid="uid://b0mxsb1ypllyg" path="res://scenes/main_game/field/gui_field_selection_arrow.tscn" id="4_50o30"]
 [ext_resource type="PackedScene" uid="uid://673wlt1ldg8q" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.tscn" id="4_bve5f"]
 [ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/GUI/icons/resources/icon_light.png" id="5_7ysiu"]
 [ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/icon_water.png" id="6_bhkj4"]
@@ -72,7 +72,7 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "b7e21ffcfbf0e6c24f621230d6cc6bd0"
 
-[node name="GUIFieldSelectionIndicator" parent="." instance=ExtResource("4_50o30")]
+[node name="GUIFieldSelectionArrow" parent="." instance=ExtResource("4_50o30")]
 unique_name_in_owner = true
 offset_top = -37.0
 offset_bottom = -37.0
