@@ -44,7 +44,7 @@ func toggle_selection_indicator(on:bool, tool_data:ToolData) -> void:
 	_gui_field_selection_arrow.is_active = on
 	if tool_data:
 		assert(on)
-		_gui_field_selection_arrow.is_enabled = _is_tool_applicable(tool_data)
+		_gui_field_selection_arrow.is_enabled = is_tool_applicable(tool_data)
  
 func show_plant_preview(plant_data:PlantData) -> void:
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
@@ -98,6 +98,12 @@ func is_action_applicable(action:ActionData) -> bool:
 		return true
 	return false
 
+func is_tool_applicable(tool_data:ToolData) -> bool:
+	for action_data:ActionData in tool_data.actions:
+		if is_action_applicable(action_data):
+			return true
+	return false
+
 func apply_actions(actions:Array[ActionData]) -> void:
 	for action:ActionData in actions:
 		match action.type:
@@ -130,12 +136,6 @@ func _show_progress_bars(p:Plant) -> void:
 
 func _hide_progress_bars() -> void:
 	_progress_bars.hide()
-
-func _is_tool_applicable(tool_data:ToolData) -> bool:
-	for action_data:ActionData in tool_data.actions:
-		if is_action_applicable(action_data):
-			return true
-	return false
 
 func _apply_light_action(action:ActionData) -> void:
 	if plant:

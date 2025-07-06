@@ -4,6 +4,8 @@ extends ThingData
 @export var energy_cost:int = 1
 @export var actions:Array[ActionData]
 
+var need_select_field:bool : get = _get_need_select_field
+
 func copy(other:ThingData) -> void:
 	var other_tool: ToolData = other as ToolData
 	energy_cost = other_tool.energy_cost
@@ -20,3 +22,9 @@ func get_display_description() -> String:
 		return false
 	)
 	return formatted_description
+
+func _get_need_select_field() -> bool:
+	for action_data:ActionData in actions:
+		if action_data.action_category == ActionData.ActionCategory.FIELD:
+			return true
+	return false
