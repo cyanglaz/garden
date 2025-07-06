@@ -6,7 +6,6 @@ signal field_harvest_gold_gained(gold:int)
 signal field_harvest_completed()
 signal field_hovered(hovered:bool, index:int)
 signal field_pressed(index:int)
-signal field_tool_application_completed(index:int, tool_data:ToolData)
 
 const MAX_DISTANCE_BETWEEN_FIELDS := 10
 const MARGIN := 36
@@ -26,7 +25,6 @@ func update_with_number_of_fields(number_of_fields:int) -> void:
 		var field:Field = FIELD_SCENE.instantiate()
 		field.field_hovered.connect(_on_field_hovered.bind(i))
 		field.field_pressed.connect(func(): field_pressed.emit(i))
-		field.tool_application_completed.connect(func(tool_data:ToolData): field_tool_application_completed.emit(i, tool_data))
 		field.plant_harvest_gold_gained.connect(func(gold:int): field_harvest_gold_gained.emit(gold))
 		field.plant_harvest_started.connect(func(): field_harvest_started.emit())
 		field.plant_harvest_completed.connect(func(): field_harvest_completed.emit())
@@ -60,9 +58,6 @@ func get_preview_icon_global_position(reference_control:Control, index:int) -> V
 	var field:Field = _container.get_child(index)
 	return field.get_preview_icon_global_position(reference_control)
 
-func apply_tool(tool_data:ToolData, index:int) -> void:
-	var field:Field = _container.get_child(index)
-	field.apply_tool(tool_data)
 
 func trigger_end_day_ability(weather_data:WeatherData, day:int) -> void:
 	for field:Field in _container.get_children():

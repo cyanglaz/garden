@@ -70,6 +70,7 @@ func apply_weather_actions(fields:Array[Field], today_weather_icon:GUIWeather) -
 		gui_weather_copy.queue_free()
 
 func apply_weather_tool_action(action:ActionData) -> void:
+	await Util.await_for_tiny_time()
 	assert(action.action_category == ActionData.ActionCategory.WEATHER)
 	match action.type:
 		ActionData.ActionType.WEATHER_SUNNY:
