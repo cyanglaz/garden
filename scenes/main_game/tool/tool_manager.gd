@@ -19,7 +19,7 @@ func select_tool(index:int) -> void:
 func apply_tool(main_game:MainGame, field:Field) -> void:
 	assert(selected_tool)
 	_action_index = 0
-	_pending_actions = selected_tool.actions
+	_pending_actions = selected_tool.actions.duplicate()
 	tool_application_started.emit()
 	_apply_next_action(main_game, field)
 
