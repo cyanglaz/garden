@@ -1,11 +1,14 @@
 class_name GUIWeather
 extends PanelContainer
 
+@export var has_tooltip:bool = false
+
 @onready var _texture_rect: TextureRect = %TextureRect
 @onready var _audio_stream_player_2d: AudioStreamPlayer2D = %AudioStreamPlayer2D
 
 var _weak_weather_tooltip:WeakRef = weakref(null)
 var _weak_weather_data:WeakRef
+
 
 func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
@@ -19,6 +22,8 @@ func play_flying_sound() -> void:
 	_audio_stream_player_2d.play()
 
 func _on_mouse_entered() -> void:
+	if !has_tooltip:
+		return
 	_weak_weather_tooltip = weakref(Util.display_weather_tooltip(_weak_weather_data.get_ref(), self, false, GUITooltip.TooltipPosition.LEFT))
 
 func _on_mouse_exited() -> void:

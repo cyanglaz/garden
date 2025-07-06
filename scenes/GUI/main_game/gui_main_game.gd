@@ -6,9 +6,9 @@ signal tool_selected(index:int)
 signal plant_seed_selected(index:int)
 
 @onready var gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
+@onready var gui_tool_card_container: GUIToolCandContainer = %GUIToolCardContainer
 @onready var _gui_plant_card_container: GUIPlantCardContainer = %GUIPlantCardContainer
 @onready var _gui_mouse_following_plant_icon: GUIMouseFollowingPlantIcon = %GUIMouseFollowingPlantIcon
-@onready var _gui_tool_card_container: GUIToolCandContainer = %GUIToolCardContainer
 @onready var _overlay: Control = %Overlay
 @onready var _day_label: Label = %DayLabel
 @onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
@@ -18,7 +18,7 @@ signal plant_seed_selected(index:int)
 func _ready() -> void:
 	_gui_mouse_following_plant_icon.hide()
 	_gui_plant_card_container.plant_selected.connect(func(index:int) -> void: plant_seed_selected.emit(index))
-	_gui_tool_card_container.tool_selected.connect(func(index:int) -> void: tool_selected.emit(index))
+	gui_tool_card_container.tool_selected.connect(func(index:int) -> void: tool_selected.emit(index))
 	_end_turn_button.action_evoked.connect(func() -> void: end_turn_button_pressed.emit())
 	#_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
@@ -26,7 +26,7 @@ func _ready() -> void:
 func toggle_all_ui(on:bool) -> void:
 	_gui_top_bar.toggle_all_ui(on)
 	_gui_plant_card_container.toggle_all_plant_cards(on)
-	_gui_tool_card_container.toggle_all_tool_cards(on)
+	gui_tool_card_container.toggle_all_tool_cards(on)
 	if on:
 		_end_turn_button.button_state = GUIBasicButton.ButtonState.NORMAL
 	else:
@@ -44,16 +44,16 @@ func update_tax_due(gold:int) -> void:
 
 #region tools
 func setup_tools(tool_datas:Array[ToolData]) -> void:
-	_gui_tool_card_container.setup_with_tool_datas(tool_datas)
+	gui_tool_card_container.setup_with_tool_datas(tool_datas)
 
 func update_tools(tool_datas:Array[ToolData]) -> void:
-	_gui_tool_card_container.update_tools(tool_datas)
+	gui_tool_card_container.update_tools(tool_datas)
 
 func clear_tool_selection() -> void:
-	_gui_tool_card_container.clear_selection()
+	gui_tool_card_container.clear_selection()
 
 func update_tool_for_energy(energy:int) -> void:
-	_gui_tool_card_container.update_tool_for_energy(energy)
+	gui_tool_card_container.update_tool_for_energy(energy)
 	
 #endregion
 

@@ -8,6 +8,7 @@ const WEATHER_RAINY := preload("res://data/weathers/weather_rainy.tres")
 
 const WEATHER_APPLICATION_ICON_START_DELAY := 0.05
 const WEATHER_APPLICATION_ICON_MOVE_TIME := 0.3
+const WEATHER_TOOL_ACTION_ICON_MOVE_TIME := 0.5
 
 const GUI_WEATHER_SCENE := preload("res://scenes/GUI/main_game/weather/gui_weather.tscn")
 
@@ -69,7 +70,7 @@ func apply_weather_actions(fields:Array[Field], today_weather_icon:GUIWeather) -
 	for gui_weather_copy:GUIWeather in gui_weather_copies:
 		gui_weather_copy.queue_free()
 
-func apply_weather_tool_action(action:ActionData) -> void:
+func apply_weather_tool_action(action:ActionData, icon_move_start_position:Vector2, icon_move_target_position:Vector2) -> void:
 	await Util.await_for_tiny_time()
 	assert(action.action_category == ActionData.ActionCategory.WEATHER)
 	match action.type:
@@ -79,7 +80,25 @@ func apply_weather_tool_action(action:ActionData) -> void:
 			weathers[day] = WEATHER_RAINY.get_duplicate()
 		_:
 			assert(false, "Invalid action type for weather tool: " + str(action.action_type))
+	await _animate_weather_icon_move(weathers[day], icon_move_start_position, icon_move_target_position)
 	weathers_updated.emit()
+
+func _animate_weather_icon_move(weather_data:WeatherData, start_position:Vector2, target_position:Vector2) -> void:
+	var gui_weather_copy := GUI_WEATHER_SCENE.instantiate()
+	Singletons.main_game.add_control_to_overlay(gui_weather_copy)
+	gui_weather_copy.global_position = start_position
+	gui_weather_copy.setup_with_weather_data(weather_data)
+	gui_weather_copy.play_flying_sound()
+	var tween:Tween = Util.create_scaled_tween(gui_weather_copy)
+	tween.tween_property(
+		gui_weather_copy,
+		"global_position",
+		target_position,
+		WEATHER_TOOL_ACTION_ICON_MOVE_TIME
+	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	await tween.finished
+	await Util.await_for_small_time()
+	gui_weather_copy.queue_free()
 
 func _should_weather_be_applied(weather_data:WeatherData, field:Field) -> bool:
 	if weather_data.actions.is_empty():

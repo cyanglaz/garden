@@ -16,14 +16,14 @@ var _action_index:int = 0
 func select_tool(index:int) -> void:
 	selected_tool_index = index
 
-func apply_tool(main_game:MainGame, field:Field) -> void:
+func apply_tool(main_game:MainGame, field:Field, tool_index:int) -> void:
 	assert(selected_tool)
 	_action_index = 0
 	_pending_actions = selected_tool.actions.duplicate()
 	tool_application_started.emit()
-	_apply_next_action(main_game, field)
+	_apply_next_action(main_game, field, tool_index)
 
-func _apply_next_action(main_game:MainGame, field:Field) -> void:
+func _apply_next_action(main_game:MainGame, field:Field, tool_index:int) -> void:
 	if _action_index >= _pending_actions.size():
 		_pending_actions.clear()
 		_action_index = 0
@@ -34,22 +34,24 @@ func _apply_next_action(main_game:MainGame, field:Field) -> void:
 	match action.action_category:
 		ActionData.ActionCategory.FIELD:
 			if field.is_tool_applicable(selected_tool):
-				_apply_field_tool_action(action, main_game, field)
+				_apply_field_tool_action(action, main_game, field, tool_index)
 		ActionData.ActionCategory.WEATHER:
-			_apply_weather_tool_action(action, main_game, field)
+			_apply_weather_tool_action(action, main_game, field, tool_index)
 		_:
 			assert(false, "Invalid action category for instant use: " + str(action.action_category))
 
-func _apply_field_tool_action(action:ActionData, main_game:MainGame, field:Field) -> void:
+func _apply_field_tool_action(action:ActionData, main_game:MainGame, field:Field, tool_index:int) -> void:
 	if field.is_tool_applicable(selected_tool):
 		await field.apply_actions([action])
-		_apply_next_action(main_game, field)
+		_apply_next_action(main_game, field, tool_index)
 	else:
 		tool_application_field.emit()
 
-func _apply_weather_tool_action(action:ActionData, main_game:MainGame, field:Field) -> void:
-	await main_game.weather_manager.apply_weather_tool_action(action)
-	_apply_next_action(main_game, field)
+func _apply_weather_tool_action(action:ActionData, main_game:MainGame, field:Field, tool_index:int) -> void:
+	var tool_card_position := main_game.gui_main_game.gui_tool_card_container.get_card_position(tool_index)
+	var weather_icon_position := main_game.gui_main_game.gui_weather_container.get_today_weather_icon().global_position
+	await main_game.weather_manager.apply_weather_tool_action(action, tool_card_position, weather_icon_position)
+	_apply_next_action(main_game, field, tool_index)
 
 func _get_selected_tool() -> ToolData:
 	if selected_tool_index < 0:
