@@ -110,7 +110,7 @@ func apply_actions(actions:Array[ActionData]) -> void:
 			ActionData.ActionType.FUNGUS:
 				await _apply_fungus_action(action)
 			_:
-				pass
+				assert(false, "Invalid action type to apply to field: " + str(action.type))
 	if _can_harvest():
 		_harvest()
 

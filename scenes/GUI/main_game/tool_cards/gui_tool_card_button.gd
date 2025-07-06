@@ -1,8 +1,6 @@
 class_name GUIToolCardButton
 extends GUIBasicButton
 
-const GUI_TOOL_ACTION_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_action.tscn")
-
 @onready var _gui_generic_description: GUIGenericDescription = %GUIGenericDescription
 @onready var _card_container: PanelContainer = %CardContainer
 @onready var _background: NinePatchRect = %Background
