@@ -66,8 +66,6 @@ func _should_weather_be_applied(weather_data:WeatherData, field:Field) -> bool:
 	if weather_data.actions.is_empty():
 		return false
 	for action:ActionData in weather_data.actions:
-		if action.type == ActionData.ActionType.PEST || action.type == ActionData.ActionType.FUNGUS:
-			return true
-		elif field.plant:
+		if field.is_action_applicable(action):
 			return true
 	return false

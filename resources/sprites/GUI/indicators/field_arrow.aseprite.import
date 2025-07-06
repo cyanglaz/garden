@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dbwkthpkutu74"
+path="res://.godot/imported/field_arrow.aseprite-1c6af36b3d97d25513002d6915474509.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/indicators/field_arrow.aseprite"
+dest_files=["res://.godot/imported/field_arrow.aseprite-1c6af36b3d97d25513002d6915474509.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

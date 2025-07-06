@@ -70,7 +70,7 @@ func trigger_end_day_ability(weather_data:WeatherData, day:int) -> void:
 	
 func clear_tool_indicators() -> void:
 	for field:Field in fields:
-		field.toggle_selection_indicator(false)
+		field.toggle_selection_indicator(false, null)
 		
 func _layout_fields() -> void:
 	if fields.size() == 0:

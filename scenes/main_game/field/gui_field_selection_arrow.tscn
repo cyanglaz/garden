@@ -1,7 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://b0mxsb1ypllyg"]
+[gd_scene load_steps=7 format=3 uid="uid://b0mxsb1ypllyg"]
 
 [ext_resource type="Script" uid="uid://bquy7s4cwcsnn" path="res://scenes/main_game/field/gui_field_selection_arrow.gd" id="1_2hvy4"]
-[ext_resource type="Texture2D" uid="uid://1b050dmuhniv" path="res://resources/sprites/GUI/indicators/tool_card_indicator.png" id="2_x8up4"]
+[ext_resource type="Texture2D" uid="uid://1b050dmuhniv" path="res://resources/sprites/GUI/indicators/field_arrow.png" id="2_184wd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0h3lb"]
+atlas = ExtResource("2_184wd")
+region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="Animation" id="Animation_184wd"]
 resource_name = "active"
@@ -27,7 +31,7 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(1.51572, 1),
+"transitions": PackedFloat32Array(2.14355, 1),
 "update": 0,
 "values": [Vector2(-8, -8), Vector2(-8, -5)]
 }
@@ -72,13 +76,14 @@ anchors_preset = 0
 script = ExtResource("1_2hvy4")
 
 [node name="Line" type="TextureRect" parent="."]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 0
 offset_left = -8.0
 offset_top = -8.0
 offset_right = 8.0
 offset_bottom = 8.0
-texture = ExtResource("2_x8up4")
+texture = SubResource("AtlasTexture_0h3lb")
 expand_mode = 1
 stretch_mode = 5
 

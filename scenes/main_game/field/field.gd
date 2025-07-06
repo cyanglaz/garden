@@ -12,7 +12,6 @@ signal tool_application_completed(tool_data:ToolData)
 signal plant_harvest_gold_gained(gold:int)
 signal plant_harvest_started()
 signal plant_harvest_completed()
-signal end_day_handled()
 
 @onready var _animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 @onready var _gui_field_button: GUIBasicButton = %GUIFieldButton
@@ -39,13 +38,13 @@ func _ready() -> void:
 	_progress_bars.hide()
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
-	_gui_field_selection_arrow.deactivate()
+	_gui_field_selection_arrow.is_active = false
 
-func toggle_selection_indicator(on:bool) -> void:
-	if on :
-		_gui_field_selection_arrow.activate()
-	else:
-		_gui_field_selection_arrow.deactivate()
+func toggle_selection_indicator(on:bool, tool_data:ToolData) -> void:
+	_gui_field_selection_arrow.is_active = on
+	if tool_data:
+		assert(on)
+		_gui_field_selection_arrow.is_enabled = _is_tool_applicable(tool_data)
  
 func show_plant_preview(plant_data:PlantData) -> void:
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
@@ -92,6 +91,13 @@ func handle_end_day(weather_data:WeatherData, day:int) -> void:
 	else:
 		await Util.await_for_tiny_time()
 
+func is_action_applicable(action:ActionData) -> bool:
+	if action.type == ActionData.ActionType.PEST || action.type == ActionData.ActionType.FUNGUS:
+		return true
+	elif plant:
+		return true
+	return false
+
 func apply_actions(actions:Array[ActionData]) -> void:
 	for action:ActionData in actions:
 		match action.type:
@@ -124,6 +130,12 @@ func _show_progress_bars(p:Plant) -> void:
 
 func _hide_progress_bars() -> void:
 	_progress_bars.hide()
+
+func _is_tool_applicable(tool_data:ToolData) -> bool:
+	for action_data:ActionData in tool_data.actions:
+		if is_action_applicable(action_data):
+			return true
+	return false
 
 func _apply_light_action(action:ActionData) -> void:
 	if plant:

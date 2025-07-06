@@ -80,11 +80,12 @@ func _on_field_hovered(hovered:bool, index:int) -> void:
 			_gui_main_game.unpin_following_plant_icon()
 		_field_container.toggle_plant_preview(hovered, selected_plant_seed_data, index)
 	if _tool_selected > -1:
+		var tool_data:ToolData = _tools[_tool_selected]
 		var field := _field_container.fields[index]
 		if hovered:
-			field.toggle_selection_indicator(true)
+			field.toggle_selection_indicator(true, tool_data)
 		else:
-			field.toggle_selection_indicator(false)
+			field.toggle_selection_indicator(false, null)
 
 func _on_plant_seed_deselected() -> void:
 	_field_container.clear_previews()
@@ -103,7 +104,7 @@ func _on_field_pressed(index:int) -> void:
 func _on_tool_selected(index:int) -> void:
 	_tool_selected = index
 	if _field_container.mouse_field:
-		_field_container.mouse_field.toggle_selection_indicator(true)
+		_field_container.mouse_field.toggle_selection_indicator(true, _tools[_tool_selected])
 
 func _on_tool_selection_cleared() -> void:
 	_tool_selected = -1
