@@ -90,8 +90,8 @@ func bind_energy(resource_point:ResourcePoint) -> void:
 	_gui_energy_tracker.bind_with_resource_point(resource_point)
 
 #region weathers
-func update_weathers(weather_manager:WeatherManager, day:int) -> void:
-	gui_weather_container.update_with_weather_manager(weather_manager, day)
+func update_weathers(weather_manager:WeatherManager) -> void:
+	gui_weather_container.update_with_weather_manager(weather_manager)
 
 #endregion
 

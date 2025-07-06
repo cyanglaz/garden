@@ -1,6 +1,11 @@
 class_name WeatherManager
 extends RefCounted
 
+signal weathers_updated()
+
+const WEATHER_SUNNY := preload("res://data/weathers/weather_sunny.tres")
+const WEATHER_RAINY := preload("res://data/weathers/weather_rainy.tres")
+
 const WEATHER_APPLICATION_ICON_START_DELAY := 0.05
 const WEATHER_APPLICATION_ICON_MOVE_TIME := 0.3
 
@@ -9,26 +14,28 @@ const GUI_WEATHER_SCENE := preload("res://scenes/GUI/main_game/weather/gui_weath
 #var week:int
 var weathers:Array[WeatherData]
 var forecast_days := 1
+var day:int = 0: set = _set_day
 
 func generate_weathers(number_of_weathers:int, week:int) -> void:
 	weathers = MainDatabase.weather_database.roll_weathers(number_of_weathers, week)
+	weathers_updated.emit()
 
-func get_current_weather(day:int) -> WeatherData:
+func get_current_weather() -> WeatherData:
 	return weathers[day]
 
-func get_forecasts(day:int) -> Array[WeatherData]:
+func get_forecasts() -> Array[WeatherData]:
 	if day == weathers.size():
 		return []
 	var forecast := weathers.slice(day + 1, day + 1 + forecast_days)
 	return forecast
 
-func apply_weather_actions(day:int, fields:Array[Field], today_weather_icon:GUIWeather) -> void:
+func apply_weather_actions(fields:Array[Field], today_weather_icon:GUIWeather) -> void:
 	var gui_weather_copies:Array[GUIWeather] = []
 	var tween:Tween = Util.create_scaled_tween(today_weather_icon)
 	tween.set_parallel(true)
 	tween.tween_interval(0.01) #When weather is cloudy, nothing happens, give it a tiny delay tween to suppress no tweener warning.
 	var delay := 0.0
-	var today_weather:WeatherData = get_current_weather(day)
+	var today_weather:WeatherData = get_current_weather()
 	var fields_to_apply_weather_actions:Array[Field] = []
 	for field:Field in fields:
 		if _should_weather_be_applied(today_weather, field):
@@ -62,6 +69,17 @@ func apply_weather_actions(day:int, fields:Array[Field], today_weather_icon:GUIW
 	for gui_weather_copy:GUIWeather in gui_weather_copies:
 		gui_weather_copy.queue_free()
 
+func apply_weather_tool_action(action:ActionData) -> void:
+	assert(action.action_category == ActionData.ActionCategory.WEATHER)
+	match action.type:
+		ActionData.ActionType.WEATHER_SUNNY:
+			weathers[day] = WEATHER_SUNNY.get_duplicate()
+		ActionData.ActionType.WEATHER_RAINY:
+			weathers[day] = WEATHER_RAINY.get_duplicate()
+		_:
+			assert(false, "Invalid action type for weather tool: " + str(action.action_type))
+	weathers_updated.emit()
+
 func _should_weather_be_applied(weather_data:WeatherData, field:Field) -> bool:
 	if weather_data.actions.is_empty():
 		return false
@@ -69,3 +87,7 @@ func _should_weather_be_applied(weather_data:WeatherData, field:Field) -> bool:
 		if field.is_action_applicable(action):
 			return true
 	return false
+
+func _set_day(value:int) -> void:
+	day = value
+	weathers_updated.emit()

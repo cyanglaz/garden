@@ -21,8 +21,18 @@ func apply_field_tool(field:Field) -> void:
 			field.tool_application_completed.connect(_on_tool_application_completed)
 			field.apply_tool(selected_tool_data)
 
+func apply_non_field_tool(main_game:MainGame) -> void:
+	assert(selected_tool)
+	for action:ActionData in selected_tool.actions:
+		match action.action_category:
+			ActionData.ActionCategory.WEATHER:
+				main_game.weather_manager.apply_weather_tool_action(action)
+			_:
+				assert(false, "Invalid action category for instant use: " + str(action.action_category))
+	tool_application_completed.emit(selected_tool)
+
 func _on_tool_application_completed() -> void:
-	tool_application_completed.emit()
+	tool_application_completed.emit(selected_tool)
 
 func _get_selected_tool() -> ToolData:
 	if selected_tool_index < 0:

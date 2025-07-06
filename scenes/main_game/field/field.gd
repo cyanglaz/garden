@@ -8,7 +8,7 @@ const ACTION_INDICATOR_DESTROY_TIME:= 0.6
 
 signal field_pressed()
 signal field_hovered(hovered:bool)
-signal tool_application_completed(tool_data:ToolData)
+signal tool_application_completed()
 signal plant_harvest_gold_gained(gold:int)
 signal plant_harvest_started()
 signal plant_harvest_completed()
@@ -79,7 +79,7 @@ func remove_plant_preview() -> void:
 
 func apply_tool(tool_data:ToolData) -> void:
 	await apply_actions(tool_data.actions)
-	tool_application_completed.emit(tool_data)
+	tool_application_completed.emit()
 
 func apply_weather_actions(weather_data:WeatherData) -> void:
 	await apply_actions(weather_data.actions)

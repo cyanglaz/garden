@@ -24,10 +24,11 @@ func _ready() -> void:
 	_field_container.update_with_number_of_fields(number_of_fields)
 	_field_container.field_hovered.connect(_on_field_hovered)
 	_field_container.field_pressed.connect(_on_field_pressed)
-	_field_container.field_tool_application_completed.connect(_on_field_tool_application_completed)
 	_field_container.field_harvest_started.connect(_on_field_harvest_started)
 	_field_container.field_harvest_completed.connect(_on_field_harvest_completed)
 	_field_container.field_harvest_gold_gained.connect(_on_field_harvest_gold_gained)
+	weather_manager.weathers_updated.connect(_on_weathers_updated)
+	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
 	
 	if !test_plant_datas.is_empty():
 		plant_seed_manager.plant_seeds = test_plant_datas
@@ -57,7 +58,7 @@ func start_new_week() -> void:
 func start_day() -> void:
 	energy_tracker.setup(max_energy, max_energy)
 	week_manager.next_day()
-	_gui_main_game.update_weathers(weather_manager, week_manager.get_day())
+	weather_manager.day = week_manager.get_day()
 	_gui_main_game.set_day(week_manager.get_day())
 	_gui_main_game.clear_tool_selection()
 	_gui_main_game.toggle_all_ui(true)
@@ -142,21 +143,16 @@ func _on_tool_selected(index:int) -> void:
 		if _field_container.mouse_field:
 			_field_container.mouse_field.toggle_selection_indicator(true, tool_data)
 	else:
-		pass
-		# match tool_data.category:
-		# 	ToolData.ToolCategory.WEATHER:
-		# 		weather_manager.apply_tool(tool_data)
-		# 	_:
-		# 		assert(false, "Invalid tool category for instant use: " + str(tool_data.category))
+		tool_manager.apply_non_field_tool(self)
 	
-func _on_field_tool_application_completed(_field_index:int, tool_data:ToolData) -> void:
+func _on_tool_application_completed(tool_data:ToolData) -> void:
 	# Order matters, clear selection first then update tool data cd
 	_complete_tool_application(tool_data)
 
 func _on_end_turn_button_pressed() -> void:
 	_gui_main_game.toggle_all_ui(false)
-	await weather_manager.apply_weather_actions(week_manager.get_day(), _field_container.fields, _gui_main_game.gui_weather_container.get_today_weather_icon())
-	await _field_container.trigger_end_day_ability(weather_manager.get_current_weather(week_manager.get_day()), week_manager.get_day())
+	await weather_manager.apply_weather_actions(_field_container.fields, _gui_main_game.gui_weather_container.get_today_weather_icon())
+	await _field_container.trigger_end_day_ability(weather_manager.get_current_weather(), week_manager.get_day())
 	_end_turn()
 	
 func _on_field_harvest_started() -> void:
@@ -172,4 +168,6 @@ func _on_field_harvest_gold_gained(gold:int) -> void:
 func _on_energy_tracker_value_updated() -> void:
 	_gui_main_game.update_tool_for_energy(energy_tracker.value)
 
+func _on_weathers_updated() -> void:
+	_gui_main_game.update_weathers(weather_manager)
 #endregion
