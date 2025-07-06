@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cu8n2pl022wvx"
+path="res://.godot/imported/plant_sunflower.aseprite-e43d376ec32aa4c20ec0776ece93a38b.res"
+
+[deps]
+
+source_file="res://resources/sprites/plants/plant_sunflower.aseprite"
+dest_files=["res://.godot/imported/plant_sunflower.aseprite-e43d376ec32aa4c20ec0776ece93a38b.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

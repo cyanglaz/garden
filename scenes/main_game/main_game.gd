@@ -16,11 +16,14 @@ var _gold := 0
 
 var _tools:Array[ToolData]
 var _plant_seeds:Array[PlantData]
+var _tool_selected := -1
 
 func _ready() -> void:
 	Singletons.main_game = self
 	_gui_main_game.plant_seed_deselected.connect(_on_plant_seed_deselected)
 	_gui_main_game.end_turn_button_pressed.connect(_on_end_turn_button_pressed)
+	_gui_main_game.tool_selected.connect(_on_tool_selected)
+	_gui_main_game.tool_selection_cleared.connect(_on_tool_selection_cleared)
 	_field_container.update_with_number_of_fields(number_of_fields)
 	_field_container.field_hovered.connect(_on_field_hovered)
 	_field_container.field_pressed.connect(_on_field_pressed)
@@ -54,6 +57,7 @@ func start_day() -> void:
 	_gui_main_game.update_weathers(weather_manager, week_manager.get_day())
 	_gui_main_game.set_day(week_manager.get_day())
 	_gui_main_game.clear_tool_selection()
+	_gui_main_game.toggle_all_ui(true)
 
 func add_control_to_overlay(control:Control) -> void:
 	_gui_main_game.add_control_to_overlay(control)
@@ -75,6 +79,13 @@ func _on_field_hovered(hovered:bool, index:int) -> void:
 		else:
 			_gui_main_game.unpin_following_plant_icon()
 		_field_container.toggle_plant_preview(hovered, selected_plant_seed_data, index)
+	if _tool_selected > -1:
+		var tool_data:ToolData = _tools[_tool_selected]
+		var field := _field_container.fields[index]
+		if hovered:
+			field.toggle_selection_indicator(true, tool_data)
+		else:
+			field.toggle_selection_indicator(false, null)
 
 func _on_plant_seed_deselected() -> void:
 	_field_container.clear_previews()
@@ -87,15 +98,28 @@ func _on_field_pressed(index:int) -> void:
 		_field_container.plant_seed(selected_plant_seed_data, index)
 	elif selected_tool_index > -1 && _field_container.is_field_occupied(index):
 		var tool_data := _tools[selected_tool_index]
+		_gui_main_game.toggle_all_ui(false)
 		_field_container.apply_tool(tool_data, index)
 
+func _on_tool_selected(index:int) -> void:
+	_tool_selected = index
+	if _field_container.mouse_field:
+		_field_container.mouse_field.toggle_selection_indicator(true, _tools[_tool_selected])
+
+func _on_tool_selection_cleared() -> void:
+	_tool_selected = -1
+	_field_container.clear_tool_indicators()
+	
 func _on_field_tool_application_completed(_field_index:int, tool_data:ToolData) -> void:
 	# Order matters, clear selection first then update tool data cd
 	energy_tracker.spend(tool_data.energy_cost)
 	_gui_main_game.clear_tool_selection()
+	_gui_main_game.toggle_all_ui(true)
 
 func _on_end_turn_button_pressed() -> void:
-	weather_manager.apply_weather_actions(week_manager.get_day(), _field_container.fields)
+	_gui_main_game.toggle_all_ui(false)
+	await weather_manager.apply_weather_actions(week_manager.get_day(), _field_container.fields, _gui_main_game.gui_weather_container.get_today_weather_icon())
+	await _field_container.trigger_end_day_ability(weather_manager.get_current_weather(week_manager.get_day()), week_manager.get_day())
 	_end_turn()
 	
 func _on_field_harvest_started() -> void:

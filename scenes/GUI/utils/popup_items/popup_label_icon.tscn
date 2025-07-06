@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://dds7uou56o60c"]
+
+[ext_resource type="PackedScene" uid="uid://douspqyxmfq3n" path="res://scenes/GUI/utils/popup_items/popup_thing.tscn" id="1_j2qwf"]
+[ext_resource type="Script" uid="uid://cqrg6bxmol75p" path="res://scenes/GUI/utils/popup_items/popup_label_icon.gd" id="2_u3vbs"]
+
+[node name="PopupLabelIcon" instance=ExtResource("1_j2qwf")]
+script = ExtResource("2_u3vbs")
+
+[node name="Container" type="HBoxContainer" parent="." index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+
+[node name="Label" type="Label" parent="Container" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Container" index="1"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cq7n2mkhgmndn"]
 
-[ext_resource type="Script" uid="uid://cw005sc4ec4ad" path="res://scenes/GUI/utils/popup_labels/effects_label.gd" id="1_mn585"]
+[ext_resource type="Script" uid="uid://cw005sc4ec4ad" path="res://scenes/GUI/utils/popup_items/effects_label.gd" id="1_mn585"]
 [ext_resource type="Theme" uid="uid://cot0ve5mv1sh0" path="res://resources/themes/gui_main_theme.tres" id="2_dghan"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ty518"]

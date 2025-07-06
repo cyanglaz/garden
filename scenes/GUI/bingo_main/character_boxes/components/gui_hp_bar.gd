@@ -10,7 +10,7 @@ enum TotalDamageLabelPosition {
 @export var total_damage_label_position:TotalDamageLabelPosition = TotalDamageLabelPosition.LEFT
 @export var animating_label := true
 
-const GUI_DAMAGE_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_labels/damage_label.tscn")
+const GUI_DAMAGE_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_items/damage_label.tscn")
 
 @onready var _guirp_bar: GUIRPBar = %GUIRPBar
 

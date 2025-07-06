@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c4rmixnjjlcip"
+path="res://.godot/imported/plant_peace_lily.aseprite-7641e6fcff72a6f71a272decdb5e1d60.res"
+
+[deps]
+
+source_file="res://resources/sprites/plants/plant_peace_lily.aseprite"
+dest_files=["res://.godot/imported/plant_peace_lily.aseprite-7641e6fcff72a6f71a272decdb5e1d60.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

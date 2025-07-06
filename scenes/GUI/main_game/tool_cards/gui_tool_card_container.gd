@@ -1,4 +1,4 @@
-class_name GUIToolHandContainer
+class_name GUIToolCandContainer
 extends PanelContainer
 
 signal tool_selected(index:int, tool_data:ToolData)
@@ -8,7 +8,6 @@ const DEFAULT_CARD_SPACE := 4.0
 const MAX_TOTAL_WIDTH := 150
 
 @onready var _container: Control = %Container
-@onready var _gui_tool_evoke_indicator: GUIToolEvokeIndicator = %GUIToolEvokeIndicator
 
 var _card_size:int
 var _tools:Array[ToolData]
@@ -28,12 +27,6 @@ func toggle_all_tool_cards(on:bool) -> void:
 		else:
 			card.button_state = GUIBasicButton.ButtonState.DISABLED
 
-func show_tool_indicator(from_index:int) -> void:
-	_gui_tool_evoke_indicator.show()
-	var from_card :GUIToolCardButton = _container.get_child(from_index)
-	var from_position := from_card.global_position + Vector2.RIGHT * from_card.size.x/2 + Vector2.UP * 4
-	_gui_tool_evoke_indicator.from_position = from_position
-
 func clear() -> void:
 	if _container.get_children().size() == 0:
 		return
@@ -46,7 +39,6 @@ func clear_selection() -> void:
 		var tool_data:ToolData = _tools[i]
 		gui_card.button_state = _get_default_button_state(tool_data)
 		gui_card.container_offset = 0.0
-	_hide_tool_indicator()
 
 func update_tool_for_energy(energy:int) -> void:
 	_energy = energy
@@ -96,9 +88,6 @@ func _calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 		result.append(target_position)
 	result.reverse() # First card is at the end of the array.
 	return result
-
-func _hide_tool_indicator() -> void:
-	_gui_tool_evoke_indicator.hide()
 
 func _get_default_button_state(tool_data:ToolData) -> GUIBasicButton.ButtonState:
 	if tool_data.energy_cost <= _energy:

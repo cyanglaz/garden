@@ -20,3 +20,6 @@ func update_with_weather_manager(weather_manager:WeatherManager, day:int) -> voi
 		gui_weather.custom_minimum_size = Vector2(scaled_size, scaled_size)
 		_forecast_container.add_child(gui_weather)
 		gui_weather.setup_with_weather_data(weather_data)
+
+func get_today_weather_icon() -> GUIWeather:
+	return _today_weather_icon

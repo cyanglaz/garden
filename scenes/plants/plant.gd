@@ -8,6 +8,8 @@ signal harvest_gold_gained(gold:int)
 @warning_ignore("unused_signal")
 signal harvest_completed()
 signal harvest_ability_triggered()
+signal end_day_ability_triggered()
+signal stage_updated()
 
 @onready var plant_sprite: AnimatedSprite2D = %PlantSprite
 @onready var fsm: PlantStateMachine = %PlantStateMachine
@@ -16,7 +18,9 @@ var light:ResourcePoint = ResourcePoint.new()
 var water:ResourcePoint = ResourcePoint.new()
 
 var data:PlantData:set = _set_data
-var stage:int:get = _get_stage
+var stage:int = 1
+var field:Field: set = _set_field, get = _get_field
+var _weak_field:WeakRef = weakref(null)
 
 func _ready() -> void:
 	fsm.start()
@@ -35,27 +39,35 @@ func harvest() -> void:
 func trigger_harvest_ability() -> void:
 	await _trigger_harvest_ability()
 
+func trigger_end_day_ability(weather_data:WeatherData, day:int) -> void:
+	await _trigger_end_day_ability(weather_data, day)
+
 func _trigger_harvest_ability() -> void:
 	await Util.await_for_tiny_time()
 	harvest_ability_triggered.emit()
+
+func _trigger_end_day_ability(_weather_data:WeatherData, _day:int) -> void:
+	await Util.await_for_tiny_time()
+	end_day_ability_triggered.emit()
 
 func _set_data(value:PlantData) -> void:
 	data = value
 	light.setup(0, data.light)
 	water.setup(0, data.water)
 
-func _get_stage() -> int:
-	assert(water.max_value != 0, "Water max value is 0")
-	assert(light.max_value != 0, "Light max value is 0")
-	if (light.value + water.value) * 2 >= light.max_value + water.max_value:
-		return 2
-	else:
-		return 1
+func _set_field(value:Field) -> void:
+	_weak_field = weakref(value)
+
+func _get_field() -> Field:
+	return _weak_field.get_ref()
+
+func _update_stage_if_possible() -> void:
+	if (light.value + water.value) * 2 >= light.max_value + water.max_value && stage == 1:
+		stage = 2
+		stage_updated.emit()
 
 func _on_light_value_update() -> void:
-	if can_harvest():
-		harvest()
+	_update_stage_if_possible()
 
 func _on_water_value_update() -> void:
-	if can_harvest():
-		harvest()
+	_update_stage_if_possible()

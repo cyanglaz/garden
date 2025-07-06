@@ -1,12 +1,10 @@
-class_name PopupLabel
-extends Label
+class_name PopupThing
+extends PanelContainer
 
 func _ready() -> void:
 	top_level = true
 
-func animate_show(value:String, height:float, spread:float, time:float, color:Color):
-	text = value
-	self_modulate = color
+func animate_show(height:float, spread:float, time:float):
 	pivot_offset = size/2
 	var from_global_position = global_position - size/2
 	global_position = from_global_position
@@ -27,6 +25,6 @@ func animate_destroy(time:float) -> void:
 	await tween.finished
 	queue_free()
 
-func animate_show_and_destroy(value:String, height:float, spread:float, show_time:float, destroy_time:float, color:Color) -> void:
-	await animate_show(value, height, spread, show_time, color)
+func animate_show_and_destroy(height:float, spread:float, show_time:float, destroy_time:float) -> void:
+	await animate_show(height, spread, show_time)
 	animate_destroy(destroy_time)

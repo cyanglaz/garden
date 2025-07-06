@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://u7mpeciejd5"
+path="res://.godot/imported/icon_primrose.aseprite-cb80ce75dc735e43d9d5c5676f8492ab.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/plants/icon_primrose.aseprite"
+dest_files=["res://.godot/imported/icon_primrose.aseprite-cb80ce75dc735e43d9d5c5676f8492ab.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -2,11 +2,13 @@ class_name Field
 extends Node2D
 
 const PLANT_SCENE_PATH_PREFIX := "res://scenes/plants/plants/plant_"
+const POPUP_LABEL_ICON_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label_icon.tscn")
+const ACTION_INDICATOR_SHOW_TIME := 0.2
+const ACTION_INDICATOR_DESTROY_TIME:= 0.6
 
 signal field_pressed()
 signal field_hovered(hovered:bool)
 signal tool_application_completed(tool_data:ToolData)
-signal weather_application_completed(weather_data:WeatherData)
 signal plant_harvest_gold_gained(gold:int)
 signal plant_harvest_started()
 signal plant_harvest_completed()
@@ -17,11 +19,15 @@ signal plant_harvest_completed()
 @onready var _water_bar: GUISegmentedProgressBar = %WaterBar
 @onready var _plant_container: Node2D = %PlantContainer
 @onready var _progress_bars: VBoxContainer = %ProgressBars
+@onready var _buff_sound: AudioStreamPlayer2D = %BuffSound
+@onready var _gui_field_selection_arrow: GUIFieldSelectionArrow = %GUIFieldSelectionArrow
 
 var _weak_plant_preview:WeakRef = weakref(null)
 var plant:Plant
 var pest_count:int = 0
 var fungus_count:int = 0
+var weak_left_field:WeakRef = weakref(null)
+var weak_right_field:WeakRef = weakref(null)
 
 func _ready() -> void:
 	_gui_field_button.state_updated.connect(_on_gui_field_button_state_updated)
@@ -32,7 +38,14 @@ func _ready() -> void:
 	_progress_bars.hide()
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
+	_gui_field_selection_arrow.is_active = false
 
+func toggle_selection_indicator(on:bool, tool_data:ToolData) -> void:
+	_gui_field_selection_arrow.is_active = on
+	if tool_data:
+		assert(on)
+		_gui_field_selection_arrow.is_enabled = _is_tool_applicable(tool_data)
+ 
 func show_plant_preview(plant_data:PlantData) -> void:
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
 	var scene := load(plant_scene_path)
@@ -54,6 +67,7 @@ func plant_seed(plant_data:PlantData) -> void:
 	plant.harvest_started.connect(_on_plant_harvest_started)
 	plant.harvest_gold_gained.connect(_on_plant_harvest_gold_gained)
 	plant.harvest_completed.connect(_on_plant_harvest_completed)
+	plant.field = self
 
 func get_preview_icon_global_position(reference_control:Control) -> Vector2:
 	return Util.get_node_ui_position(reference_control, _gui_field_button) + Vector2.UP * 5 + Vector2.LEFT * 5
@@ -64,46 +78,49 @@ func remove_plant_preview() -> void:
 		_progress_bars.hide()
 
 func apply_tool(tool_data:ToolData) -> void:
-	assert(plant, "No plant planted")
-	for action:ActionData in tool_data.actions:
-		match action.type:
-			ActionData.ActionType.LIGHT:
-				_apply_light_action(action)
-			ActionData.ActionType.WATER:
-				_apply_water_action(action)
-			ActionData.ActionType.PEST:
-				_apply_pest_action(action)
-			ActionData.ActionType.FUNGUS:
-				_apply_fungus_action(action)
-			_:
-				pass
+	await apply_actions(tool_data.actions)
 	tool_application_completed.emit(tool_data)
 
 func apply_weather_actions(weather_data:WeatherData) -> void:
-	_apply_actions(weather_data.actions)
-	weather_application_completed.emit(weather_data)
+	await apply_actions(weather_data.actions)
 
-func can_harvest() -> bool:
-	return plant && plant.can_harvest()
+func handle_end_day(weather_data:WeatherData, day:int) -> void:
+	if plant:
+		plant.trigger_end_day_ability(weather_data, day)
+		await plant.end_day_ability_triggered
+	else:
+		await Util.await_for_tiny_time()
 
-func harvest() -> void:
-	assert(plant, "No plant planted")
-	assert(can_harvest(), "Cannot harvest")
-	plant.harvest()
+func is_action_applicable(action:ActionData) -> bool:
+	if action.type == ActionData.ActionType.PEST || action.type == ActionData.ActionType.FUNGUS:
+		return true
+	elif plant:
+		return true
+	return false
 
-func _apply_actions(actions:Array[ActionData]) -> void:
+func apply_actions(actions:Array[ActionData]) -> void:
 	for action:ActionData in actions:
 		match action.type:
 			ActionData.ActionType.LIGHT:
-				_apply_light_action(action)
+				await _apply_light_action(action)
 			ActionData.ActionType.WATER:
-				_apply_water_action(action)
+				await _apply_water_action(action)
 			ActionData.ActionType.PEST:
-				_apply_pest_action(action)
+				await _apply_pest_action(action)
 			ActionData.ActionType.FUNGUS:
-				_apply_fungus_action(action)
+				await _apply_fungus_action(action)
 			_:
 				pass
+	if _can_harvest():
+		_harvest()
+
+func _can_harvest() -> bool:
+	return plant && plant.can_harvest()
+
+func _harvest() -> void:
+	assert(plant, "No plant planted")
+	assert(_can_harvest(), "Cannot harvest")
+	plant.harvest()
 
 func _show_progress_bars(p:Plant) -> void:
 	assert(p.data)
@@ -114,19 +131,37 @@ func _show_progress_bars(p:Plant) -> void:
 func _hide_progress_bars() -> void:
 	_progress_bars.hide()
 
+func _is_tool_applicable(tool_data:ToolData) -> bool:
+	for action_data:ActionData in tool_data.actions:
+		if is_action_applicable(action_data):
+			return true
+	return false
+
 func _apply_light_action(action:ActionData) -> void:
 	if plant:
+		await _show_popup_action_indicator(action)
 		plant.light.value += action.value
 
 func _apply_water_action(action:ActionData) -> void:
 	if plant:
+		await _show_popup_action_indicator(action)
 		plant.water.value += action.value
 
 func _apply_pest_action(action:ActionData) -> void:
+	await _show_popup_action_indicator(action)
 	pest_count += action.value
 
 func _apply_fungus_action(action:ActionData) -> void:
+	await _show_popup_action_indicator(action)
 	fungus_count += action.value
+
+func _show_popup_action_indicator(action_data:ActionData) -> void:
+	_buff_sound.play()
+	var popup:PopupLabelIcon = POPUP_LABEL_ICON_SCENE.instantiate()
+	add_child(popup)
+	popup.global_position = _gui_field_button.global_position + _gui_field_button.size/2 + Vector2.RIGHT * 8
+	popup.setup(str("+", action_data.value), Constants.COLOR_WHITE, Util.get_action_icon_with_action_type(action_data.type))
+	await popup.animate_show_and_destroy(6, 1, ACTION_INDICATOR_SHOW_TIME, ACTION_INDICATOR_DESTROY_TIME)
 
 func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> void:
 	match state:
