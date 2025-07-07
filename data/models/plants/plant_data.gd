@@ -16,6 +16,7 @@ enum Rarity {
 @export var rarity:Rarity
 
 func copy(other:ThingData) -> void:
+	super.copy(other)
 	var other_plant: PlantData = other as PlantData
 	light = other_plant.light
 	water = other_plant.water
