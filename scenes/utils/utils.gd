@@ -22,6 +22,7 @@ const STATUS_EFFECT_ICON_PREFIX := "res://resources/sprites/icons/status_effect/
 const BALL_TYPE_ICON_PREFIX := "res://resources/sprites/icons/ball_types/icon_"
 const SPACE_EFFECT_ICON_PREFIX := "res://resources/sprites/icons/space_effects/icon_"
 const BINGO_BALL_SCRIPT_PREFIX := "res://scenes/bingo/ball_scripts/bingo_ball_script_"
+const FIELD_STATUS_SCRIPT_PREFIX := "res://scenes/main_game/field/status/field_status_script_"
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
 const POWER_SCRIPT_PREFIX := "res://scenes/bingo/power_scripts/power_script_"
 const PLANT_ICON_PREFIX := "res://resources/sprites/GUI/icons/plants/icon_"
@@ -30,7 +31,7 @@ const WEATHER_ICON_PREFIX := "res://resources/sprites/GUI/icons/weathers/icon_"
 
 const ACTION_ICON_WATER := preload("res://resources/sprites/GUI/icons/resources/icon_water.png")
 const ACTION_ICON_LIGHT := preload("res://resources/sprites/GUI/icons/resources/icon_light.png")
-const ACTION_ICON_PEST := preload("res://resources/sprites/GUI/icons/resources/icon_pest.png")
+const ACTION_ICON_PEST := preload("res://resources/sprites/GUI/icons/resources/icon_pests.png")
 const ACTION_ICON_FUNGUS := preload("res://resources/sprites/GUI/icons/resources/icon_fungus.png")
 const ACTION_ICON_WEATHER_SUNNY := preload("res://resources/sprites/GUI/icons/weathers/icon_sunny.png")
 const ACTION_ICON_WEATHER_RAINY := preload("res://resources/sprites/GUI/icons/weathers/icon_rainy.png")
@@ -398,6 +399,9 @@ static func get_icon_image_path_for_weather_id(id:String) -> String:
 
 static func get_script_path_for_ball_id(id:String) -> String:
 	return str(BINGO_BALL_SCRIPT_PREFIX, _trim_upgrade_suffix_from_id(id), ".gd")
+
+static func get_script_path_for_field_status_id(id:String) -> String:
+	return str(FIELD_STATUS_SCRIPT_PREFIX, _trim_upgrade_suffix_from_id(id), ".gd")
 
 static func get_image_path_for_status_effect_id(id:String) -> String:
 	return str(STATUS_EFFECT_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")

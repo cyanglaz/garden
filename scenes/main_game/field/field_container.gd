@@ -54,9 +54,9 @@ func clear_previews() -> void:
 	for field:Field in _container.get_children():
 		field.remove_plant_preview()
 
-func get_preview_icon_global_position(reference_control:Control, index:int) -> Vector2:
+func get_preview_icon_global_position(preview_icon:Control, index:int) -> Vector2:
 	var field:Field = _container.get_child(index)
-	return field.get_preview_icon_global_position(reference_control)
+	return field.get_preview_icon_global_position(preview_icon)
 
 
 func trigger_end_day_ability(weather_data:WeatherData, day:int) -> void:

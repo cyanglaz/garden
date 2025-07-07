@@ -27,13 +27,6 @@ func get_duplicate() -> PlantData:
 	dup.copy(self)
 	return dup
 
-func get_plant() -> Plant:
-	var path:String = PLANT_SCENE_PATH_PREFIX + id + ".tscn"
-	var scene:PackedScene = load(path)
-	var plant:Plant = scene.instantiate()
-	plant.data = self
-	return plant
-
 func get_display_description() -> String:
 	var formatted_description := description
 	formatted_description = _formate_references(formatted_description, data, func(_reference_id:String) -> bool:

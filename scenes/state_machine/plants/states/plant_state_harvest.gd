@@ -20,16 +20,20 @@ func enter() -> void:
 	gold_label.setup(str("+", plant.data.gold), color, GOLD_ICON)
 	await gold_label.animate_show_and_destroy(8, 6, POPUP_LABEL_TIME, POPUP_LABEL_TIME)
 	plant.harvest_gold_gained.emit(plant.data.gold)
+	var hook_result := await plant.field.status_manager.handle_harvest_ability_hooks(plant)
+	if hook_result == FieldStatusScript.HookResultType.ABORT:
+		_complete()
+		return
 	plant.harvest_ability_triggered.connect(_on_harvest_ability_triggered)
 	plant.trigger_harvest_ability()
-
-func exit(next_state:String, next_params:Dictionary = {}) -> void:
-	plant.harvest_ability_triggered.disconnect(_on_harvest_ability_triggered)
-	super.exit(next_state, next_params)
+func _complete() -> void:
+	plant.harvest_completed.emit()
+	exit("")
 
 func _get_animation_name() -> String:
 	return "idle" + str("_", plant.stage)
 
 func _on_harvest_ability_triggered() -> void:
+	plant.harvest_ability_triggered.disconnect(_on_harvest_ability_triggered)
 	plant.harvest_completed.emit()
 	exit("")
