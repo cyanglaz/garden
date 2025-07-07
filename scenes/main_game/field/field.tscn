@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dswoypivjtaql"]
+[gd_scene load_steps=14 format=3 uid="uid://dswoypivjtaql"]
 
 [ext_resource type="Script" uid="uid://ypmkl3x5hk7f" path="res://scenes/main_game/field/field.gd" id="1_4blml"]
 [ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/field.png" id="1_se4o6"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/GUI/icons/resources/icon_light.png" id="5_7ysiu"]
 [ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/icon_water.png" id="6_bhkj4"]
 [ext_resource type="AudioStream" uid="uid://bs0jg061p4c2d" path="res://resources/sounds/SFX/field/field_buff.wav" id="7_wjfsy"]
+[ext_resource type="PackedScene" uid="uid://e0jhp4mhrm81" path="res://scenes/main_game/field/gui_field_status_container.tscn" id="9_3ecbu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8wd00"]
 atlas = ExtResource("1_se4o6")
@@ -77,24 +78,12 @@ unique_name_in_owner = true
 offset_top = -37.0
 offset_bottom = -37.0
 
-[node name="StatusContiner" type="VBoxContainer" parent="."]
-unique_name_in_owner = true
-offset_left = 14.0
-offset_top = 3.0
-offset_right = 20.0
-offset_bottom = 9.0
-mouse_filter = 2
-theme_override_constants/separation = 1
-alignment = 2
-
 [node name="GUIFieldButton" parent="." instance=ExtResource("3_hjlch")]
 unique_name_in_owner = true
 offset_left = -18.0
 offset_top = -11.0
 offset_right = 18.0
 offset_bottom = 11.0
-
-[node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="ProgressBars" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
@@ -129,3 +118,14 @@ position = Vector2(0, -14)
 unique_name_in_owner = true
 stream = ExtResource("7_wjfsy")
 bus = &"SFX"
+
+[node name="GUIFieldStatusContainer" parent="." instance=ExtResource("9_3ecbu")]
+unique_name_in_owner = true
+anchors_preset = 2
+anchor_left = 0.0
+anchor_right = 0.0
+offset_left = 15.0
+offset_top = 11.0
+offset_right = 15.0
+offset_bottom = 11.0
+grow_horizontal = 1

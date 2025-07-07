@@ -20,7 +20,7 @@ signal plant_harvest_completed()
 @onready var _plant_container: Node2D = %PlantContainer
 @onready var _buff_sound: AudioStreamPlayer2D = %BuffSound
 @onready var _gui_field_selection_arrow: GUIFieldSelectionArrow = %GUIFieldSelectionArrow
-@onready var _status_continer: VBoxContainer = %StatusContiner
+@onready var _gui_field_status_container: GUIFieldStatusContainer = %GUIFieldStatusContainer
 
 var _weak_plant_preview:WeakRef = weakref(null)
 var plant:Plant
@@ -33,6 +33,8 @@ func _ready() -> void:
 	_gui_field_button.action_evoked.connect(func(): field_pressed.emit())
 	_gui_field_button.mouse_entered.connect(func(): field_hovered.emit(true))
 	_gui_field_button.mouse_exited.connect(func(): field_hovered.emit(false))
+	_gui_field_status_container.bind_with_field_status_manager(status_manager)
+	status_manager.add_status("fungus", 2)
 	_animated_sprite_2d.play("idle")
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR

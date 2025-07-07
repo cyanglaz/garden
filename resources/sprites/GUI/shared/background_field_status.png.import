@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d47xiygaiiyh"
-path="res://.godot/imported/icon_pests.png-676e5cbcbc7ea8c74b24503ff93ec5db.ctex"
+uid="uid://bsmxtwsc6immo"
+path="res://.godot/imported/background_field_status.png-87fb19a52b3d1b7a73fd3e027aa9a30b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/GUI/icons/resources/icon_pests.png"
-dest_files=["res://.godot/imported/icon_pests.png-676e5cbcbc7ea8c74b24503ff93ec5db.ctex"]
+source_file="res://resources/sprites/GUI/shared/background_field_status.png"
+dest_files=["res://.godot/imported/background_field_status.png-87fb19a52b3d1b7a73fd3e027aa9a30b.ctex"]
 
 [params]
 

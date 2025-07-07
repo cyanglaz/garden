@@ -15,6 +15,7 @@ func add_status(status_id:String, stack:int) -> void:
 		field_status_map[status_id].stack += stack
 	else:
 		field_status_map[status_id] = status_data
+		field_status_map[status_id].stack = 1
 	status_updated.emit()
 
 func remove_status(status_id:String, stack:int) -> void:
@@ -40,7 +41,7 @@ func get_all_statuses() -> Array[FieldStatusData]:
 func handle_harvest_ability_hooks(plant:Plant) -> FieldStatusScript.HookResultType:
 	var all_status_ids := field_status_map.keys()
 	_harvest_ability_hook_queue = all_status_ids.filter(func(status_id:String) -> bool:
-		return field_status_map[status_id].status_script.has_harvest_hook()
+		return field_status_map[status_id].status_script.has_harvest_ability_hook()
 	)
 	_current_harvest_ability_hook_index = 0
 	return await _handle_next_harvest_ability_hook(plant, FieldStatusScript.HookResultType.PASS)

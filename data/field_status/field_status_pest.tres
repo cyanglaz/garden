@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1_tj1cn")
-id = "pests"
-display_name = "Pests"
+id = "pest"
+display_name = "Pest"
 description = "Disable plant's ability."
 data = {}
 metadata/_custom_type_script = "uid://ep5ey6gqhty1"

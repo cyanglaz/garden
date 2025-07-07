@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cpy1lfl2fla64"
+path="res://.godot/imported/background_field_status.aseprite-6a20be1287c084023d71397f6b6299d4.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/shared/background_field_status.aseprite"
+dest_files=["res://.godot/imported/background_field_status.aseprite-6a20be1287c084023d71397f6b6299d4.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

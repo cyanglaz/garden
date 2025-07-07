@@ -12,6 +12,14 @@ const POPUP_LABEL_TIME := 0.5
 func enter() -> void:
 	super.enter()
 	plant.harvest_started.emit()
+	await _gain_gold()
+	var hook_result := await plant.field.status_manager.handle_harvest_ability_hooks(plant)
+	if hook_result == FieldStatusScript.HookResultType.ABORT:
+		_complete()
+		return
+	_handle_ability()
+
+func _gain_gold() -> void:
 	_gold_audio.play()
 	var gold_label:PopupLabelIcon = POPUP_LABEL_SCENE.instantiate()
 	Singletons.main_game.add_control_to_overlay(gold_label)
@@ -20,12 +28,11 @@ func enter() -> void:
 	gold_label.setup(str("+", plant.data.gold), color, GOLD_ICON)
 	await gold_label.animate_show_and_destroy(8, 6, POPUP_LABEL_TIME, POPUP_LABEL_TIME)
 	plant.harvest_gold_gained.emit(plant.data.gold)
-	var hook_result := await plant.field.status_manager.handle_harvest_ability_hooks(plant)
-	if hook_result == FieldStatusScript.HookResultType.ABORT:
-		_complete()
-		return
+
+func _handle_ability() -> void:
 	plant.harvest_ability_triggered.connect(_on_harvest_ability_triggered)
 	plant.trigger_harvest_ability()
+
 func _complete() -> void:
 	plant.harvest_completed.emit()
 	exit("")
