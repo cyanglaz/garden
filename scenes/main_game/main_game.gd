@@ -30,6 +30,7 @@ func _ready() -> void:
 	weather_manager.weathers_updated.connect(_on_weathers_updated)
 	tool_manager.tool_application_started.connect(_on_tool_application_started)
 	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
+	tool_manager.tool_application_failed.connect(_on_tool_application_failed)
 	
 	if !test_plant_datas.is_empty():
 		plant_seed_manager.plant_seeds = test_plant_datas
@@ -80,7 +81,7 @@ func _end_turn() -> void:
 
 func _complete_tool_application(tool_data:ToolData) -> void:
 	energy_tracker.spend(tool_data.energy_cost)
-	gui_main_game.clear_tool_selection()
+	_clear_tool_selection()
 	gui_main_game.toggle_all_ui(true)
 
 func _clear_tool_selection() -> void:
@@ -150,8 +151,11 @@ func _on_tool_application_started() -> void:
 	gui_main_game.toggle_all_ui(false)
 
 func _on_tool_application_completed(tool_data:ToolData) -> void:
-	# Order matters, clear selection first then update tool data cd
 	_complete_tool_application(tool_data)
+
+func _on_tool_application_failed() -> void:
+	_clear_tool_selection()
+	gui_main_game.toggle_all_ui(true)
 
 func _on_end_turn_button_pressed() -> void:
 	gui_main_game.toggle_all_ui(false)
