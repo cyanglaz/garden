@@ -8,7 +8,6 @@ const ACTION_INDICATOR_DESTROY_TIME:= 0.6
 
 signal field_pressed()
 signal field_hovered(hovered:bool)
-signal tool_application_completed(tool_data:ToolData)
 signal plant_harvest_gold_gained(gold:int)
 signal plant_harvest_started()
 signal plant_harvest_completed()
@@ -44,7 +43,7 @@ func toggle_selection_indicator(on:bool, tool_data:ToolData) -> void:
 	_gui_field_selection_arrow.is_active = on
 	if tool_data:
 		assert(on)
-		_gui_field_selection_arrow.is_enabled = _is_tool_applicable(tool_data)
+		_gui_field_selection_arrow.is_enabled = is_tool_applicable(tool_data)
  
 func show_plant_preview(plant_data:PlantData) -> void:
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
@@ -77,10 +76,6 @@ func remove_plant_preview() -> void:
 		_weak_plant_preview.get_ref().queue_free()
 		_progress_bars.hide()
 
-func apply_tool(tool_data:ToolData) -> void:
-	await apply_actions(tool_data.actions)
-	tool_application_completed.emit(tool_data)
-
 func apply_weather_actions(weather_data:WeatherData) -> void:
 	await apply_actions(weather_data.actions)
 
@@ -98,6 +93,12 @@ func is_action_applicable(action:ActionData) -> bool:
 		return true
 	return false
 
+func is_tool_applicable(tool_data:ToolData) -> bool:
+	for action_data:ActionData in tool_data.actions:
+		if is_action_applicable(action_data):
+			return true
+	return false
+
 func apply_actions(actions:Array[ActionData]) -> void:
 	for action:ActionData in actions:
 		match action.type:
@@ -110,7 +111,7 @@ func apply_actions(actions:Array[ActionData]) -> void:
 			ActionData.ActionType.FUNGUS:
 				await _apply_fungus_action(action)
 			_:
-				pass
+				assert(false, "Invalid action type to apply to field: " + str(action.type))
 	if _can_harvest():
 		_harvest()
 
@@ -130,12 +131,6 @@ func _show_progress_bars(p:Plant) -> void:
 
 func _hide_progress_bars() -> void:
 	_progress_bars.hide()
-
-func _is_tool_applicable(tool_data:ToolData) -> bool:
-	for action_data:ActionData in tool_data.actions:
-		if is_action_applicable(action_data):
-			return true
-	return false
 
 func _apply_light_action(action:ActionData) -> void:
 	if plant:
@@ -160,7 +155,10 @@ func _show_popup_action_indicator(action_data:ActionData) -> void:
 	var popup:PopupLabelIcon = POPUP_LABEL_ICON_SCENE.instantiate()
 	add_child(popup)
 	popup.global_position = _gui_field_button.global_position + _gui_field_button.size/2 + Vector2.RIGHT * 8
-	popup.setup(str("+", action_data.value), Constants.COLOR_WHITE, Util.get_action_icon_with_action_type(action_data.type))
+	var text := str(action_data.value)
+	if action_data.value > 0:
+		text = "+" + text
+	popup.setup(text, Constants.COLOR_WHITE, Util.get_action_icon_with_action_type(action_data.type))
 	await popup.animate_show_and_destroy(6, 1, ACTION_INDICATOR_SHOW_TIME, ACTION_INDICATOR_DESTROY_TIME)
 
 func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> void:

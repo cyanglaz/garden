@@ -2,7 +2,6 @@ class_name PlantSunflower
 extends Plant
 
 func _trigger_end_day_ability(weather_data:WeatherData, _day:int) -> void:
-
 	if weather_data.id == "sunny" && stage == 2:
 		var action_data:ActionData = ActionData.new()
 		action_data.type = ActionData.ActionType.LIGHT

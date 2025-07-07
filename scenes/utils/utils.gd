@@ -32,6 +32,8 @@ const ACTION_ICON_WATER := preload("res://resources/sprites/GUI/icons/resources/
 const ACTION_ICON_LIGHT := preload("res://resources/sprites/GUI/icons/resources/icon_light.png")
 const ACTION_ICON_PEST := preload("res://resources/sprites/GUI/icons/resources/icon_pest.png")
 const ACTION_ICON_FUNGUS := preload("res://resources/sprites/GUI/icons/resources/icon_fungus.png")
+const ACTION_ICON_WEATHER_SUNNY := preload("res://resources/sprites/GUI/icons/weathers/icon_sunny.png")
+const ACTION_ICON_WEATHER_RAINY := preload("res://resources/sprites/GUI/icons/weathers/icon_rainy.png")
 
 const GAME_ARENA_SIZE :float = 256
 const TOOLTIP_OFFSET:float = 2.0
@@ -420,6 +422,12 @@ static func get_action_icon_with_action_type(action_type:ActionData.ActionType) 
 			icon = ACTION_ICON_PEST
 		ActionData.ActionType.FUNGUS:
 			icon = ACTION_ICON_FUNGUS
+		ActionData.ActionType.WEATHER_SUNNY:
+			icon = ACTION_ICON_WEATHER_SUNNY
+		ActionData.ActionType.WEATHER_RAINY:
+			icon = ACTION_ICON_WEATHER_RAINY
+		_:
+			assert(false, "Invalid action type to get icon for: " + str(action_type))
 	return icon
 
 static func _trim_upgrade_suffix_from_id(id:String) -> String:

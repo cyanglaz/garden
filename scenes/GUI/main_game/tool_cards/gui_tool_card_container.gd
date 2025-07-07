@@ -1,7 +1,7 @@
 class_name GUIToolCandContainer
 extends PanelContainer
 
-signal tool_selected(index:int, tool_data:ToolData)
+signal tool_selected(index:int)
 
 const TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const DEFAULT_CARD_SPACE := 4.0
@@ -54,7 +54,7 @@ func setup_with_tool_datas(tools:Array[ToolData]) -> void:
 	var positions := _calculate_default_positions(tools.size() + current_size)
 	for i in positions.size():
 		var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
-		gui_card.action_evoked.connect(_on_tool_card_action_evoked.bind(i, tools[i]))
+		gui_card.action_evoked.connect(_on_tool_card_action_evoked.bind(i))
 		gui_card.mouse_entered.connect(_on_tool_card_mouse_entered.bind(i))
 		gui_card.mouse_exited.connect(_on_tool_card_mouse_exited.bind(i))
 		_container.add_child(gui_card)
@@ -95,7 +95,7 @@ func _get_default_button_state(tool_data:ToolData) -> GUIBasicButton.ButtonState
 	else:
 		return GUIBasicButton.ButtonState.DISABLED
 
-func _on_tool_card_action_evoked(index:int, evoked_tool_data:ToolData) -> void:
+func _on_tool_card_action_evoked(index:int) -> void:
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
 		var tool_data:ToolData = _tools[i]
@@ -105,7 +105,7 @@ func _on_tool_card_action_evoked(index:int, evoked_tool_data:ToolData) -> void:
 		else:
 			gui_card.button_state = _get_default_button_state(tool_data)
 			gui_card.container_offset = 0.0
-	tool_selected.emit(index, evoked_tool_data)
+	tool_selected.emit(index)
 
 func _on_tool_card_mouse_entered(index:int) -> void:
 	var mouse_over_card = _container.get_child(index)
