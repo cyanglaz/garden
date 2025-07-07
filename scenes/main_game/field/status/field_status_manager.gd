@@ -6,8 +6,10 @@ signal request_status_hook_animation(status_id:String)
 
 var field_status_map:Dictionary[String, FieldStatusData]
 
-var _harvest_ability_hook_queue:Array[String] = []
-var _current_harvest_ability_hook_index:int = 0
+var _harvest_gold_hook_queue:Array[String] = []
+var _current_harvest_gold_hook_index:int = 0
+var _ability_hook_queue:Array[String] = []
+var _current_ability_hook_index:int = 0
 
 func add_status(status_id:String, stack:int) -> void:
 	var status_data := MainDatabase.field_status_database.get_data_by_id(status_id)
@@ -38,24 +40,42 @@ func get_status(status_id:String) -> FieldStatusData:
 func get_all_statuses() -> Array[FieldStatusData]:
 	return field_status_map.values()
 
-func handle_harvest_ability_hooks(plant:Plant) -> FieldStatusScript.HookResultType:
+func handle_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> FieldStatusScript.HookResultType:
 	var all_status_ids := field_status_map.keys()
-	_harvest_ability_hook_queue = all_status_ids.filter(func(status_id:String) -> bool:
-		return field_status_map[status_id].status_script.has_harvest_ability_hook()
+	_ability_hook_queue = all_status_ids.filter(func(status_id:String) -> bool:
+		return field_status_map[status_id].status_script.has_ability_hook(ability_type, plant)
 	)
-	_current_harvest_ability_hook_index = 0
-	return await _handle_next_harvest_ability_hook(plant, FieldStatusScript.HookResultType.PASS)
+	_current_ability_hook_index = 0
+	return await _handle_next_ability_hook(ability_type, plant, FieldStatusScript.HookResultType.PASS)
 
-func _handle_next_harvest_ability_hook(plant:Plant, result_type:FieldStatusScript.HookResultType) -> FieldStatusScript.HookResultType:
-	if _current_harvest_ability_hook_index >= _harvest_ability_hook_queue.size():
-		return result_type
-	var status_id:String = _harvest_ability_hook_queue[_current_harvest_ability_hook_index]
+func _handle_next_ability_hook(ability_type:Plant.AbilityType, plant:Plant, final_result_type:FieldStatusScript.HookResultType) -> FieldStatusScript.HookResultType:
+	if _current_ability_hook_index >= _ability_hook_queue.size():
+		return final_result_type
+	var status_id:String = _ability_hook_queue[_current_ability_hook_index]
 	request_status_hook_animation.emit(status_id)
 	await Util.create_scaled_timer(Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION).timeout
 	var status_data := field_status_map[status_id]
-	var hook_result := status_data.status_script.handle_harvest_ability_hook(plant)
-	var final_hook_result := result_type
+	var hook_result := status_data.status_script.handle_ability_hook(ability_type, plant)
 	if hook_result == FieldStatusScript.HookResultType.ABORT:
-		final_hook_result = FieldStatusScript.HookResultType.ABORT
-	_current_harvest_ability_hook_index += 1
-	return await _handle_next_harvest_ability_hook(plant, final_hook_result)
+		final_result_type = hook_result
+	_current_ability_hook_index += 1
+	return await _handle_next_ability_hook(ability_type, plant, final_result_type)
+
+func handle_harvest_gold_hooks(plant:Plant) -> void:
+	var all_status_ids := field_status_map.keys()
+	_harvest_gold_hook_queue = all_status_ids.filter(func(status_id:String) -> bool:
+		return field_status_map[status_id].status_script.has_harvest_gold_hook()
+	)
+	_current_harvest_gold_hook_index = 0
+	await _handle_next_harvest_gold_hook(plant)
+
+func _handle_next_harvest_gold_hook(plant:Plant) -> void:
+	if _current_harvest_gold_hook_index >= _harvest_gold_hook_queue.size():
+		return
+	var status_id:String = _harvest_gold_hook_queue[_current_harvest_gold_hook_index]
+	request_status_hook_animation.emit(status_id)
+	await Util.create_scaled_timer(Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION).timeout
+	var status_data := field_status_map[status_id]
+	status_data.status_script.handle_harvest_gold_hook(plant)
+	_current_harvest_gold_hook_index += 1
+	await _handle_next_harvest_gold_hook(plant)

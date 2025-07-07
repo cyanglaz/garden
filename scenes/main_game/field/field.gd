@@ -85,13 +85,6 @@ func apply_tool(tool_data:ToolData) -> void:
 func apply_weather_actions(weather_data:WeatherData) -> void:
 	await apply_actions(weather_data.actions)
 
-func handle_end_day(weather_data:WeatherData, day:int) -> void:
-	if plant:
-		plant.trigger_end_day_ability(weather_data, day)
-		await plant.end_day_ability_triggered
-	else:
-		await Util.await_for_tiny_time()
-
 func is_action_applicable(action:ActionData) -> bool:
 	if action.type == ActionData.ActionType.PEST || action.type == ActionData.ActionType.FUNGUS:
 		return true

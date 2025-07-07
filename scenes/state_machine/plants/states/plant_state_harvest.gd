@@ -12,12 +12,9 @@ const POPUP_LABEL_TIME := 0.5
 func enter() -> void:
 	super.enter()
 	plant.harvest_started.emit()
+	await plant.field.status_manager.handle_harvest_gold_hooks(plant)
 	await _gain_gold()
-	var hook_result := await plant.field.status_manager.handle_harvest_ability_hooks(plant)
-	if hook_result == FieldStatusScript.HookResultType.ABORT:
-		_complete()
-		return
-	_handle_ability()
+	await _handle_ability()
 
 func _gain_gold() -> void:
 	_gold_audio.play()
@@ -30,8 +27,8 @@ func _gain_gold() -> void:
 	plant.harvest_gold_gained.emit(plant.data.gold)
 
 func _handle_ability() -> void:
-	plant.harvest_ability_triggered.connect(_on_harvest_ability_triggered)
-	plant.trigger_harvest_ability()
+	await plant.trigger_ability(Plant.AbilityType.HARVEST, Singletons.main_game)
+	_complete()
 
 func _complete() -> void:
 	plant.harvest_completed.emit()
@@ -39,8 +36,3 @@ func _complete() -> void:
 
 func _get_animation_name() -> String:
 	return "idle" + str("_", plant.stage)
-
-func _on_harvest_ability_triggered() -> void:
-	plant.harvest_ability_triggered.disconnect(_on_harvest_ability_triggered)
-	plant.harvest_completed.emit()
-	exit("")

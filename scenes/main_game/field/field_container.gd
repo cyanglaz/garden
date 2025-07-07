@@ -58,10 +58,10 @@ func get_preview_icon_global_position(preview_icon:Control, index:int) -> Vector
 	var field:Field = _container.get_child(index)
 	return field.get_preview_icon_global_position(preview_icon)
 
-
-func trigger_end_day_ability(weather_data:WeatherData, day:int) -> void:
+func trigger_end_day_ability(main_game:MainGame) -> void:
 	for field:Field in _container.get_children():
-		await field.handle_end_day(weather_data, day)
+		if field.plant:
+			await field.plant.trigger_ability(Plant.AbilityType.END_DAY, main_game)
 	
 func clear_tool_indicators() -> void:
 	for field:Field in fields:
