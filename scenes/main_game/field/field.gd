@@ -205,4 +205,4 @@ func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
 			color = Constants.COLOR_RED2
 		FieldStatusData.Type.GOOD:
 			color = Constants.COLOR_GREEN2
-	popup.animate_show_label_and_destroy(status_data.popup_message, 24, 1, POPUP_SHOW_TIME, POPUP_STATUS_DESTROY_TIME, color)
+	popup.animate_show_label_and_destroy(status_data.popup_message, 18, 1, POPUP_SHOW_TIME, POPUP_STATUS_DESTROY_TIME, color)

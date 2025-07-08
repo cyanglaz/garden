@@ -7,6 +7,7 @@ const ANIMATION_OFFSET := 3
 @onready var _stack: Label = %Stack
 @onready var _good_animation_audio: AudioStreamPlayer2D = %GoodAnimationAudio
 @onready var _bad_animation_audio: AudioStreamPlayer2D = %BadAnimationAudio
+@onready var _background: ColorRect = %Background
 
 var status_id:String = ""
 var status_type:FieldStatusData.Type
@@ -16,6 +17,12 @@ func setup_with_field_status_data(field_status_data:FieldStatusData) -> void:
 	_stack.text = str(field_status_data.stack)
 	status_id = field_status_data.id
 	status_type = field_status_data.type
+	match status_type:
+		FieldStatusData.Type.BAD:
+			_background.color = Constants.COLOR_PURPLE1
+		FieldStatusData.Type.GOOD:
+			_background.color = Constants.COLOR_ORANGE2
+
 
 func play_trigger_animation() -> void:
 	match status_type:
