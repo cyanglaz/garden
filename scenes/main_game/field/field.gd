@@ -34,7 +34,7 @@ func _ready() -> void:
 	_gui_field_button.mouse_entered.connect(func(): field_hovered.emit(true))
 	_gui_field_button.mouse_exited.connect(func(): field_hovered.emit(false))
 	_gui_field_status_container.bind_with_field_status_manager(status_manager)
-	status_manager.add_status("fungus", 2)
+	status_manager.update_status("fungus", 2)
 	_animated_sprite_2d.play("idle")
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
@@ -145,18 +145,21 @@ func _apply_water_action(action:ActionData) -> void:
 
 func _apply_pest_action(action:ActionData) -> void:
 	await _show_popup_action_indicator(action)
-	status_manager.add_status("pests", action.value)
+	status_manager.update_status("pests", action.value)
 
 func _apply_fungus_action(action:ActionData) -> void:
 	await _show_popup_action_indicator(action)
-	status_manager.add_status("fungus", action.value)
+	status_manager.update_status("fungus", action.value)
 
 func _show_popup_action_indicator(action_data:ActionData) -> void:
 	_buff_sound.play()
 	var popup:PopupLabelIcon = POPUP_LABEL_ICON_SCENE.instantiate()
 	add_child(popup)
 	popup.global_position = _gui_field_button.global_position + _gui_field_button.size/2 + Vector2.RIGHT * 8
-	popup.setup(str("+", action_data.value), Constants.COLOR_WHITE, Util.get_action_icon_with_action_type(action_data.type))
+	var text := str(action_data.value)
+	if action_data.value > 0:
+		text = "+" + text
+	popup.setup(text, Constants.COLOR_WHITE, Util.get_action_icon_with_action_type(action_data.type))
 	await popup.animate_show_and_destroy(6, 1, ACTION_INDICATOR_SHOW_TIME, ACTION_INDICATOR_DESTROY_TIME)
 
 func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> void:

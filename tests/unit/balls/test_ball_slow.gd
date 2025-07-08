@@ -31,5 +31,5 @@ func test_handle_self_bingo_events() -> void:
 	var ball_data := BALL_DATA.get_duplicate()
 	watch_signals(ball_data.ball_script)
 	ball_data.ball_script._handle_self_bingo_events(null)
-	assert_called(double_status_effect_manager, "add_status_effect", [BingoBallScriptSlow.INSIGHT_DATA, ball_data.data["stack"] as int])
+	assert_called(double_status_effect_manager, "update_status_effect", [BingoBallScriptSlow.INSIGHT_DATA, ball_data.data["stack"] as int])
 	assert_signal_emitted(ball_data.ball_script, "_self_bingo_event_finished")

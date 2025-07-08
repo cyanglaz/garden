@@ -11,17 +11,13 @@ var _current_harvest_gold_hook_index:int = 0
 var _ability_hook_queue:Array[String] = []
 var _current_ability_hook_index:int = 0
 
-func add_status(status_id:String, stack:int) -> void:
+func update_status(status_id:String, stack:int) -> void:
 	var status_data := MainDatabase.field_status_database.get_data_by_id(status_id)
 	if field_status_map.has(status_id):
 		field_status_map[status_id].stack += stack
 	else:
 		field_status_map[status_id] = status_data
-		field_status_map[status_id].stack = 1
-	status_updated.emit()
-
-func remove_status(status_id:String, stack:int) -> void:
-	field_status_map[status_id].stack -= stack
+		field_status_map[status_id].stack = stack
 	if field_status_map[status_id].stack <= 0:
 		field_status_map.erase(status_id)
 	status_updated.emit()
