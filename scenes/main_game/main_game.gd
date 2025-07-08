@@ -120,7 +120,7 @@ func _on_field_pressed(index:int) -> void:
 		_clear_plant_seed_selection()
 		_field_container.plant_seed(selected_plant_seed_data, index)
 	elif tool_manager.selected_tool:
-		tool_manager.apply_tool(self, field, tool_manager.selected_tool_index)
+		tool_manager.apply_tool(self, field)
 
 func _on_plant_seed_selected(index:int) -> void:
 	plant_seed_manager.select_seed(index)
@@ -144,7 +144,7 @@ func _on_tool_selected(index:int) -> void:
 		if _field_container.mouse_field:
 			_field_container.mouse_field.toggle_selection_indicator(true, tool_data)
 	else:
-		tool_manager.apply_tool(self, null, tool_manager.selected_tool_index)
+		tool_manager.apply_tool(self, null)
 	
 func _on_tool_application_started() -> void:
 	gui_main_game.toggle_all_ui(false)
