@@ -3,8 +3,14 @@ extends Node2D
 
 const PLANT_SCENE_PATH_PREFIX := "res://scenes/plants/plants/plant_"
 const POPUP_LABEL_ICON_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label_icon.tscn")
-const ACTION_INDICATOR_SHOW_TIME := 0.2
-const ACTION_INDICATOR_DESTROY_TIME:= 0.6
+const POPUP_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label.tscn")
+const GOLD_ICON := preload("res://resources/sprites/GUI/icons/resources/icon_gold.png")
+const GOLD_LABEL_OFFSET := Vector2.RIGHT * 12
+const POPUP_GOLD_SHOW_TIME := 0.5
+const POPUP_GOLD_DESTROY_TIME := 1.0
+const POPUP_SHOW_TIME := 0.2
+const POPUP_DESTROY_TIME:= 0.8
+const POPUP_STATUS_DESTROY_TIME := 1.2
 
 signal field_pressed()
 signal field_hovered(hovered:bool)
@@ -18,6 +24,7 @@ signal plant_harvest_completed(gold:int)
 @onready var _water_bar: GUISegmentedProgressBar = %WaterBar
 @onready var _plant_container: Node2D = %PlantContainer
 @onready var _buff_sound: AudioStreamPlayer2D = %BuffSound
+@onready var _gold_audio: AudioStreamPlayer2D = %GoldAudio
 @onready var _gui_field_selection_arrow: GUIFieldSelectionArrow = %GUIFieldSelectionArrow
 @onready var _gui_field_status_container: GUIFieldStatusContainer = %GUIFieldStatusContainer
 
@@ -33,6 +40,7 @@ func _ready() -> void:
 	_gui_field_button.mouse_entered.connect(func(): field_hovered.emit(true))
 	_gui_field_button.mouse_exited.connect(func(): field_hovered.emit(false))
 	_gui_field_status_container.bind_with_field_status_manager(status_manager)
+	status_manager.request_hook_message_popup.connect(_on_request_hook_message_popup)
 	status_manager.update_status("pest", 2)
 	_animated_sprite_2d.play("idle")
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
@@ -106,6 +114,15 @@ func apply_actions(actions:Array[ActionData]) -> void:
 	if _can_harvest():
 		_harvest()
 
+func show_gold_popup() -> void:
+	_gold_audio.play()
+	var gold_label:PopupLabelIcon = POPUP_LABEL_ICON_SCENE.instantiate()
+	add_child(gold_label)
+	gold_label.global_position = _gui_field_button.global_position + _gui_field_button.size/2 + Vector2.LEFT * 16
+	var color:Color = Constants.COLOR_YELLOW2
+	gold_label.setup(str("+", plant.data.gold), color, GOLD_ICON)
+	await gold_label.animate_show_and_destroy(8, 6, POPUP_GOLD_SHOW_TIME, POPUP_GOLD_DESTROY_TIME)
+
 func _can_harvest() -> bool:
 	return plant && plant.can_harvest()
 
@@ -143,7 +160,7 @@ func _apply_water_action(action:ActionData) -> void:
 
 func _apply_pest_action(action:ActionData) -> void:
 	await _show_popup_action_indicator(action)
-	status_manager.update_status("pests", action.value)
+	status_manager.update_status("pest", action.value)
 
 func _apply_fungus_action(action:ActionData) -> void:
 	await _show_popup_action_indicator(action)
@@ -158,7 +175,7 @@ func _show_popup_action_indicator(action_data:ActionData) -> void:
 	if action_data.value > 0:
 		text = "+" + text
 	popup.setup(text, Constants.COLOR_WHITE, Util.get_action_icon_with_action_type(action_data.type))
-	await popup.animate_show_and_destroy(6, 1, ACTION_INDICATOR_SHOW_TIME, ACTION_INDICATOR_DESTROY_TIME)
+	await popup.animate_show_and_destroy(6, 3, POPUP_SHOW_TIME, POPUP_DESTROY_TIME)
 
 func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> void:
 	match state:
@@ -177,3 +194,15 @@ func _on_plant_harvest_completed(p:Plant) -> void:
 	plant.queue_free()
 	plant = null
 	_reset_progress_bars()
+
+func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
+	var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()
+	add_child(popup)
+	popup.global_position = _gui_field_button.global_position
+	var color:Color = Constants.COLOR_RED2
+	match status_data.type:
+		FieldStatusData.Type.BAD:
+			color = Constants.COLOR_RED2
+		FieldStatusData.Type.GOOD:
+			color = Constants.COLOR_GREEN2
+	popup.animate_show_label_and_destroy(status_data.popup_message, 24, 1, POPUP_SHOW_TIME, POPUP_STATUS_DESTROY_TIME, color)

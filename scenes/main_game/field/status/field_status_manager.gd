@@ -3,6 +3,7 @@ extends RefCounted
 
 signal status_updated()
 signal request_status_hook_animation(status_id:String)
+signal request_hook_message_popup(status_data:FieldStatusData)
 
 var field_status_map:Dictionary[String, FieldStatusData]
 
@@ -48,9 +49,10 @@ func _handle_next_ability_hook(ability_type:Plant.AbilityType, plant:Plant, fina
 	if _current_ability_hook_index >= _ability_hook_queue.size():
 		return final_result_type
 	var status_id:String = _ability_hook_queue[_current_ability_hook_index]
-	request_status_hook_animation.emit(status_id)
-	await Util.create_scaled_timer(Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION).timeout
 	var status_data := field_status_map[status_id]
+	request_status_hook_animation.emit(status_id)
+	request_hook_message_popup.emit(status_data)
+	await Util.create_scaled_timer(Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION).timeout
 	var hook_result := status_data.status_script.handle_ability_hook(ability_type, plant)
 	if hook_result == FieldStatusScript.HookResultType.ABORT:
 		final_result_type = hook_result

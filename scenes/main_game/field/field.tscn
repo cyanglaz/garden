@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dswoypivjtaql"]
+[gd_scene load_steps=15 format=3 uid="uid://dswoypivjtaql"]
 
 [ext_resource type="Script" uid="uid://ypmkl3x5hk7f" path="res://scenes/main_game/field/field.gd" id="1_4blml"]
 [ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/field.png" id="1_se4o6"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/icon_water.png" id="6_bhkj4"]
 [ext_resource type="AudioStream" uid="uid://bs0jg061p4c2d" path="res://resources/sounds/SFX/field/field_buff.wav" id="7_wjfsy"]
 [ext_resource type="PackedScene" uid="uid://e0jhp4mhrm81" path="res://scenes/main_game/field/gui_field_status_container.tscn" id="9_3ecbu"]
+[ext_resource type="AudioStream" uid="uid://dltl3v7ibygxt" path="res://resources/sounds/SFX/field/collect_coin.wav" id="9_w7jx8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8wd00"]
 atlas = ExtResource("1_se4o6")
@@ -117,6 +118,11 @@ position = Vector2(0, -14)
 [node name="BuffSound" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("7_wjfsy")
+bus = &"SFX"
+
+[node name="GoldAudio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("9_w7jx8")
 bus = &"SFX"
 
 [node name="GUIFieldStatusContainer" parent="." instance=ExtResource("9_3ecbu")]

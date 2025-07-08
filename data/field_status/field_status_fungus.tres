@@ -4,6 +4,8 @@
 
 [resource]
 script = ExtResource("1_7d8cy")
+type = 0
+popup_message = "Gold Halved"
 id = "fungus"
 display_name = "Fungus"
 description = "Reduce the plant's harvest value by half."
