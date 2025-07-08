@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://c5kwroj7rmrwx"]
+[gd_scene load_steps=5 format=3 uid="uid://c5kwroj7rmrwx"]
 
 [ext_resource type="Script" uid="uid://b4g124av5vv3e" path="res://scenes/main_game/field/gui_field_status_icon.gd" id="1_pbsdm"]
 [ext_resource type="Texture2D" uid="uid://cot566voterom" path="res://resources/sprites/GUI/shared/border2.png" id="2_1wiik"]
+[ext_resource type="AudioStream" uid="uid://doilouvmfbgsc" path="res://resources/sounds/SFX/field/field_status_good.wav" id="3_6eivf"]
+[ext_resource type="AudioStream" uid="uid://dgbyahxwlc0ak" path="res://resources/sounds/SFX/field/field_status_bad.wav" id="3_j4505"]
 
 [node name="GUIFieldStatusIcon" type="PanelContainer"]
 custom_minimum_size = Vector2(10, 10)
@@ -62,3 +64,14 @@ theme_type_variation = &"HUD_mid"
 text = " "
 horizontal_alignment = 2
 vertical_alignment = 2
+
+[node name="GoodAnimationAudio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_6eivf")
+bus = &"SFX"
+
+[node name="BadAnimationAudio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_j4505")
+volume_db = 5.0
+bus = &"SFX"

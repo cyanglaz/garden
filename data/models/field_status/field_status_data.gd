@@ -1,6 +1,13 @@
 class_name FieldStatusData
 extends ThingData
 
+enum Type {
+	BAD,
+	GOOD,
+}
+
+@export var type:Type
+
 var status_script:FieldStatusScript: get = _get_status_script
 
 var stack := 0
@@ -11,6 +18,7 @@ func copy(other:ThingData) -> void:
 	super.copy(other)
 	var other_field_status_data := other as FieldStatusData
 	stack = other_field_status_data.stack
+	type = other_field_status_data.type
 	_status_script = _create_status_script()
 
 func get_duplicate() -> FieldStatusData:
