@@ -13,8 +13,9 @@ func enter() -> void:
 	super.enter()
 	plant.harvest_started.emit()
 	await plant.field.status_manager.handle_harvest_gold_hooks(plant)
-	await _gain_gold()
 	await _handle_ability()
+	await _gain_gold()
+	_complete()
 
 func _gain_gold() -> void:
 	_gold_audio.play()
@@ -24,11 +25,9 @@ func _gain_gold() -> void:
 	var color:Color = Constants.COLOR_YELLOW2
 	gold_label.setup(str("+", plant.data.gold), color, GOLD_ICON)
 	await gold_label.animate_show_and_destroy(8, 6, POPUP_LABEL_TIME, POPUP_LABEL_TIME)
-	plant.harvest_gold_gained.emit(plant.data.gold)
 
 func _handle_ability() -> void:
 	await plant.trigger_ability(Plant.AbilityType.HARVEST, Singletons.main_game)
-	_complete()
 
 func _complete() -> void:
 	plant.harvest_completed.emit()

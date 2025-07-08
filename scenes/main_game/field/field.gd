@@ -9,9 +9,8 @@ const ACTION_INDICATOR_DESTROY_TIME:= 0.6
 signal field_pressed()
 signal field_hovered(hovered:bool)
 signal tool_application_completed(tool_data:ToolData)
-signal plant_harvest_gold_gained(gold:int)
 signal plant_harvest_started()
-signal plant_harvest_completed()
+signal plant_harvest_completed(gold:int)
 
 @onready var _animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 @onready var _gui_field_button: GUIBasicButton = %GUIFieldButton
@@ -66,8 +65,7 @@ func plant_seed(plant_data:PlantData) -> void:
 	_plant_container.add_child(plant)
 	_show_progress_bars(plant)
 	plant.harvest_started.connect(_on_plant_harvest_started)
-	plant.harvest_gold_gained.connect(_on_plant_harvest_gold_gained)
-	plant.harvest_completed.connect(_on_plant_harvest_completed)
+	plant.harvest_completed.connect(_on_plant_harvest_completed.bind(plant))
 	plant.field = self
 
 func get_preview_icon_global_position(preview_icon:Control) -> Vector2:
@@ -174,11 +172,8 @@ func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> vo
 func _on_plant_harvest_started() -> void:
 	plant_harvest_started.emit()
 
-func _on_plant_harvest_gold_gained(gold:int) -> void:
-	plant_harvest_gold_gained.emit(gold)
-
-func _on_plant_harvest_completed() -> void:
+func _on_plant_harvest_completed(p:Plant) -> void:
+	plant_harvest_completed.emit(p.data.gold)
 	plant.queue_free()
 	plant = null
-	plant_harvest_completed.emit()
 	_reset_progress_bars()

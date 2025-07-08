@@ -26,7 +26,6 @@ func _ready() -> void:
 	_field_container.field_pressed.connect(_on_field_pressed)
 	_field_container.field_harvest_started.connect(_on_field_harvest_started)
 	_field_container.field_harvest_completed.connect(_on_field_harvest_completed)
-	_field_container.field_harvest_gold_gained.connect(_on_field_harvest_gold_gained)
 	weather_manager.weathers_updated.connect(_on_weathers_updated)
 	tool_manager.tool_application_started.connect(_on_tool_application_started)
 	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
@@ -166,12 +165,10 @@ func _on_end_turn_button_pressed() -> void:
 func _on_field_harvest_started() -> void:
 	gui_main_game.toggle_all_ui(false)
 
-func _on_field_harvest_completed() -> void:
-	gui_main_game.toggle_all_ui(true)
-
-func _on_field_harvest_gold_gained(gold:int) -> void:
+func _on_field_harvest_completed(gold:int) -> void:
 	_gold += gold
 	gui_main_game.update_gold(_gold, true)
+	gui_main_game.toggle_all_ui(true)
 
 func _on_energy_tracker_value_updated() -> void:
 	gui_main_game.update_tool_for_energy(energy_tracker.value)
