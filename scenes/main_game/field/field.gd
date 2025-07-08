@@ -34,7 +34,7 @@ func _ready() -> void:
 	_gui_field_button.mouse_entered.connect(func(): field_hovered.emit(true))
 	_gui_field_button.mouse_exited.connect(func(): field_hovered.emit(false))
 	_gui_field_status_container.bind_with_field_status_manager(status_manager)
-	status_manager.update_status("fungus", 2)
+	status_manager.update_status("pest", 2)
 	_animated_sprite_2d.play("idle")
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR

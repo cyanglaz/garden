@@ -21,12 +21,6 @@ func has_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> bool:
 func handle_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> HookResultType:
 	return _handle_ability_hook(ability_type, plant)
 
-func has_end_day_hook() -> bool:
-	return _has_end_day_hook()
-
-func handle_end_day_hook(field:Field) -> HookResultType:
-	return _handle_end_day_hook(field)
-
 #region for override
 
 func _has_harvest_gold_hook() -> bool:
@@ -39,13 +33,6 @@ func _has_ability_hook(_ability_type:Plant.AbilityType, _plant:Plant) -> bool:
 	return false
 
 func _handle_ability_hook(_ability_type:Plant.AbilityType, _plant:Plant) -> HookResultType:
-	pass
-	return HookResultType.PASS
-
-func _has_end_day_hook() -> bool:
-	return false
-
-func _handle_end_day_hook(_field:Field) -> HookResultType:
 	return HookResultType.PASS
 
 #endregion
