@@ -5,6 +5,7 @@
 
 [node name="PlantStateHarvest" type="Node2D"]
 script = ExtResource("1_l6d2v")
+log_state = null
 
 [node name="GoldAudio" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true

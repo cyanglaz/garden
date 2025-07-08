@@ -2,7 +2,7 @@ class_name ToolManager
 extends RefCounted
 
 signal tool_application_started()
-signal tool_application_field()
+signal tool_application_failed()
 signal tool_application_completed()
 
 var tools:Array[ToolData]
@@ -18,6 +18,9 @@ func select_tool(index:int) -> void:
 
 func apply_tool(main_game:MainGame, field:Field, tool_index:int) -> void:
 	assert(selected_tool)
+	if !field.is_tool_applicable(selected_tool):
+		tool_application_failed.emit()
+		return
 	_action_index = 0
 	_pending_actions = selected_tool.actions.duplicate()
 	tool_application_started.emit()
@@ -33,25 +36,21 @@ func _apply_next_action(main_game:MainGame, field:Field, tool_index:int) -> void
 	_action_index += 1
 	match action.action_category:
 		ActionData.ActionCategory.FIELD:
-			if field.is_tool_applicable(selected_tool):
-				_apply_field_tool_action(action, main_game, field, tool_index)
+			if field.is_action_applicable(action):
+				await _apply_field_tool_action(action, field)
 		ActionData.ActionCategory.WEATHER:
-			_apply_weather_tool_action(action, main_game, field, tool_index)
+			await _apply_weather_tool_action(action, main_game, tool_index)
 		_:
 			assert(false, "Invalid action category for instant use: " + str(action.action_category))
+	_apply_next_action(main_game, field, tool_index)
 
-func _apply_field_tool_action(action:ActionData, main_game:MainGame, field:Field, tool_index:int) -> void:
-	if field.is_tool_applicable(selected_tool):
-		await field.apply_actions([action])
-		_apply_next_action(main_game, field, tool_index)
-	else:
-		tool_application_field.emit()
+func _apply_field_tool_action(action:ActionData, field:Field) -> void:
+	await field.apply_actions([action])
 
-func _apply_weather_tool_action(action:ActionData, main_game:MainGame, field:Field, tool_index:int) -> void:
+func _apply_weather_tool_action(action:ActionData, main_game:MainGame, tool_index:int) -> void:
 	var tool_card_position := main_game.gui_main_game.gui_tool_card_container.get_card_position(tool_index)
 	var weather_icon_position := main_game.gui_main_game.gui_weather_container.get_today_weather_icon().global_position
 	await main_game.weather_manager.apply_weather_tool_action(action, tool_card_position, weather_icon_position)
-	_apply_next_action(main_game, field, tool_index)
 
 func _get_selected_tool() -> ToolData:
 	if selected_tool_index < 0:

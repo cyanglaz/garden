@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FieldStatusData" load_steps=2 format=3 uid="uid://d0mobswrpmjs7"]
+
+[ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/field_status_data.gd" id="1_hiam4"]
+
+[resource]
+script = ExtResource("1_hiam4")
+type = 0
+popup_message = "Ability Disabled"
+id = "pest"
+display_name = "Pest"
+description = "Disable plant's ability."
+data = {}
+metadata/_custom_type_script = "uid://ep5ey6gqhty1"

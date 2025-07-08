@@ -16,6 +16,7 @@ enum Rarity {
 @export var rarity:Rarity
 
 func copy(other:ThingData) -> void:
+	super.copy(other)
 	var other_plant: PlantData = other as PlantData
 	light = other_plant.light
 	water = other_plant.water
@@ -26,13 +27,6 @@ func get_duplicate() -> PlantData:
 	var dup:PlantData = PlantData.new()
 	dup.copy(self)
 	return dup
-
-func get_plant() -> Plant:
-	var path:String = PLANT_SCENE_PATH_PREFIX + id + ".tscn"
-	var scene:PackedScene = load(path)
-	var plant:Plant = scene.instantiate()
-	plant.data = self
-	return plant
 
 func get_display_description() -> String:
 	var formatted_description := description

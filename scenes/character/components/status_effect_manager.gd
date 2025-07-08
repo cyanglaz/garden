@@ -14,7 +14,7 @@ var _weak_character_owner:WeakRef = weakref(null)
 func _init(character:Character) -> void:
 	_weak_character_owner = weakref(character)
 
-func add_status_effect(status_effect_data:StatusEffectData, stack:int) -> void:
+func update_status_effect(status_effect_data:StatusEffectData, stack:int) -> void:
 	var existing_same_effect_id := Util.array_find(status_effects, func(effect:StatusEffect) -> bool: return effect.data.id == status_effect_data.id)
 	var existing_same_effect:StatusEffect = status_effects[existing_same_effect_id] if existing_same_effect_id >= 0 else null
 	if existing_same_effect:

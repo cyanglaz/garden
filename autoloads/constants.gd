@@ -107,8 +107,8 @@ const ICON_CONTAINER_SCENE = preload("res://scenes/GUI/utils/gui_icon_container.
 
 const projectile_outline := false
 
-# Traits
-const TRAIT_COOLDOWN_TIME_MEDIUM := 3
+# Field Status
+const FIELD_STATUS_HOOK_ANIMATION_DURATION := 0.4
 
 var ON_PUSH_PARTICLE = load("res://scenes/utils/visual_effects/impact_particle.tscn")
 var MOB_DEATH_PARTICLE = load("res://scenes/utils/visual_effects/mob_on_death_particle.tscn")

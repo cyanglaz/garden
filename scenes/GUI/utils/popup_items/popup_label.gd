@@ -8,15 +8,8 @@ func _ready() -> void:
 
 func animate_show_label(value:String, height:float, spread:float, time:float, color:Color):
 	_label.text = value
-	_label.self_modulate = color
-	animate_show(height, spread, time)
-
-func animate_destroy(time:float) -> void:
-	var tween = Util.create_scaled_tween(self)
-	tween.tween_property(self, "modulate:a", 0.0, time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
-	tween.play()
-	await tween.finished
-	queue_free()
+	_label.add_theme_color_override("font_color", color)
+	await animate_show(height, spread, time)
 
 func animate_show_label_and_destroy(value:String, height:float, spread:float, show_time:float, destroy_time:float, color:Color) -> void:
 	await animate_show_label(value, height, spread, show_time, color)

@@ -26,10 +26,10 @@ func _ready() -> void:
 	_field_container.field_pressed.connect(_on_field_pressed)
 	_field_container.field_harvest_started.connect(_on_field_harvest_started)
 	_field_container.field_harvest_completed.connect(_on_field_harvest_completed)
-	_field_container.field_harvest_gold_gained.connect(_on_field_harvest_gold_gained)
 	weather_manager.weathers_updated.connect(_on_weathers_updated)
 	tool_manager.tool_application_started.connect(_on_tool_application_started)
 	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
+	tool_manager.tool_application_failed.connect(_on_tool_application_failed)
 	
 	if !test_plant_datas.is_empty():
 		plant_seed_manager.plant_seeds = test_plant_datas
@@ -80,7 +80,7 @@ func _end_turn() -> void:
 
 func _complete_tool_application(tool_data:ToolData) -> void:
 	energy_tracker.spend(tool_data.energy_cost)
-	gui_main_game.clear_tool_selection()
+	_clear_tool_selection()
 	gui_main_game.toggle_all_ui(true)
 
 func _clear_tool_selection() -> void:
@@ -101,7 +101,7 @@ func _on_field_hovered(hovered:bool, index:int) -> void:
 	var selected_plant_seed_data:PlantData = plant_seed_manager.selected_seed
 	if selected_plant_seed_data && !_field_container.is_field_occupied(index):
 		if hovered:
-			gui_main_game.pin_following_plant_icon_global_position(_field_container.get_preview_icon_global_position(gui_main_game.get_child(0), index), Vector2.ONE * 0.8)
+			gui_main_game.pin_following_plant_icon_global_position(_field_container.get_preview_icon_global_position(gui_main_game.gui_mouse_following_plant_icon, index), Vector2.ONE * 0.8)
 		else:
 			gui_main_game.unpin_following_plant_icon()
 		_field_container.toggle_plant_preview(hovered, selected_plant_seed_data, index)
@@ -150,24 +150,25 @@ func _on_tool_application_started() -> void:
 	gui_main_game.toggle_all_ui(false)
 
 func _on_tool_application_completed(tool_data:ToolData) -> void:
-	# Order matters, clear selection first then update tool data cd
 	_complete_tool_application(tool_data)
+
+func _on_tool_application_failed() -> void:
+	_clear_tool_selection()
+	gui_main_game.toggle_all_ui(true)
 
 func _on_end_turn_button_pressed() -> void:
 	gui_main_game.toggle_all_ui(false)
 	await weather_manager.apply_weather_actions(_field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
-	await _field_container.trigger_end_day_ability(weather_manager.get_current_weather(), week_manager.get_day())
+	await _field_container.trigger_end_day_ability(self)
 	_end_turn()
 	
 func _on_field_harvest_started() -> void:
 	gui_main_game.toggle_all_ui(false)
 
-func _on_field_harvest_completed() -> void:
-	gui_main_game.toggle_all_ui(true)
-
-func _on_field_harvest_gold_gained(gold:int) -> void:
+func _on_field_harvest_completed(gold:int) -> void:
 	_gold += gold
 	gui_main_game.update_gold(_gold, true)
+	gui_main_game.toggle_all_ui(true)
 
 func _on_energy_tracker_value_updated() -> void:
 	gui_main_game.update_tool_for_energy(energy_tracker.value)

@@ -1,14 +1,16 @@
 class_name Plant
 extends Node2D
 
+enum AbilityType {
+	HARVEST,
+	END_DAY,
+}
+
 @warning_ignore("unused_signal")
 signal harvest_started()
 @warning_ignore("unused_signal")
-signal harvest_gold_gained(gold:int)
-@warning_ignore("unused_signal")
 signal harvest_completed()
-signal harvest_ability_triggered()
-signal end_day_ability_triggered()
+signal ability_triggered(ability_type:AbilityType)
 signal stage_updated()
 
 @onready var plant_sprite: AnimatedSprite2D = %PlantSprite
@@ -36,19 +38,30 @@ func can_harvest() -> bool:
 func harvest() -> void:
 	fsm.push("PlantStateHarvest")
 
-func trigger_harvest_ability() -> void:
-	await _trigger_harvest_ability()
+func trigger_ability(ability_type:AbilityType, main_game:MainGame) -> void:
+	if _has_ability(ability_type):
+		var hook_result := await field.status_manager.handle_ability_hook(ability_type, self)
+		if hook_result == FieldStatusScript.HookResultType.ABORT:
+			await Util.await_for_tiny_time()
+			ability_triggered.emit(ability_type)
+			return
+		await _trigger_ability(ability_type, main_game)
+	else:
+		await Util.await_for_tiny_time()
+		ability_triggered.emit(ability_type)
 
-func trigger_end_day_ability(weather_data:WeatherData, day:int) -> void:
-	await _trigger_end_day_ability(weather_data, day)
 
-func _trigger_harvest_ability() -> void:
+#region ability overrides
+
+func _trigger_ability(ability_type:AbilityType, _main_game:MainGame) -> void:
+	assert(false, "Ability not implemented")
 	await Util.await_for_tiny_time()
-	harvest_ability_triggered.emit()
+	ability_triggered.emit(ability_type)
 
-func _trigger_end_day_ability(_weather_data:WeatherData, _day:int) -> void:
-	await Util.await_for_tiny_time()
-	end_day_ability_triggered.emit()
+func _has_ability(_ability_type:AbilityType) -> bool:
+	return false
+
+#endregion
 
 func _set_data(value:PlantData) -> void:
 	data = value

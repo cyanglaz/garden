@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FieldStatusData" load_steps=2 format=3 uid="uid://dlk0f3wiovanl"]
+
+[ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/field_status_data.gd" id="1_7d8cy"]
+
+[resource]
+script = ExtResource("1_7d8cy")
+type = 0
+popup_message = "Gold Halved"
+id = "fungus"
+display_name = "Fungus"
+description = "Reduce the plant's harvest value by half."
+data = {}
+metadata/_custom_type_script = "uid://ep5ey6gqhty1"

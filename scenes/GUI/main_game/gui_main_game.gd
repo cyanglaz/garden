@@ -7,8 +7,8 @@ signal plant_seed_selected(index:int)
 
 @onready var gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
 @onready var gui_tool_card_container: GUIToolCandContainer = %GUIToolCardContainer
+@onready var gui_mouse_following_plant_icon: GUIMouseFollowingPlantIcon = %GUIMouseFollowingPlantIcon
 @onready var _gui_plant_card_container: GUIPlantCardContainer = %GUIPlantCardContainer
-@onready var _gui_mouse_following_plant_icon: GUIMouseFollowingPlantIcon = %GUIMouseFollowingPlantIcon
 @onready var _overlay: Control = %Overlay
 @onready var _day_label: Label = %DayLabel
 @onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
@@ -16,9 +16,9 @@ signal plant_seed_selected(index:int)
 @onready var _gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
 
 func _ready() -> void:
-	_gui_mouse_following_plant_icon.hide()
-	_gui_plant_card_container.plant_selected.connect(func(index:int) -> void: plant_seed_selected.emit(index))
+	gui_mouse_following_plant_icon.hide()
 	gui_tool_card_container.tool_selected.connect(func(index:int) -> void: tool_selected.emit(index))
+	_gui_plant_card_container.plant_selected.connect(func(index:int) -> void: plant_seed_selected.emit(index))
 	_end_turn_button.action_evoked.connect(func() -> void: end_turn_button_pressed.emit())
 	#_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
@@ -63,23 +63,23 @@ func update_with_plant_datas(plant_datas:Array[PlantData]) -> void:
 	_gui_plant_card_container.update_with_plant_datas(plant_datas)
 
 func pin_following_plant_icon_global_position(gp:Vector2, s:Vector2) -> void:
-	_gui_mouse_following_plant_icon.global_position = gp
-	_gui_mouse_following_plant_icon.scale = s
-	_gui_mouse_following_plant_icon.follow_mouse = false
+	gui_mouse_following_plant_icon.global_position = gp
+	gui_mouse_following_plant_icon.scale = s
+	gui_mouse_following_plant_icon.follow_mouse = false
 
 func unpin_following_plant_icon() -> void:
-	_gui_mouse_following_plant_icon.scale = Vector2.ONE
-	_gui_mouse_following_plant_icon.follow_mouse = true
+	gui_mouse_following_plant_icon.scale = Vector2.ONE
+	gui_mouse_following_plant_icon.follow_mouse = true
 
 func toggle_following_plant_icon_visibility(on:bool, plant_data:PlantData) -> void:
 	if on:
-		_gui_mouse_following_plant_icon.follow_mouse = true
-		_gui_mouse_following_plant_icon.show()
-		_gui_mouse_following_plant_icon.update_with_plant_data(plant_data)
+		gui_mouse_following_plant_icon.follow_mouse = true
+		gui_mouse_following_plant_icon.show()
+		gui_mouse_following_plant_icon.update_with_plant_data(plant_data)
 	else:
-		_gui_mouse_following_plant_icon.follow_mouse = false
-		_gui_mouse_following_plant_icon.hide()
-		_gui_mouse_following_plant_icon.update_with_plant_data(null)
+		gui_mouse_following_plant_icon.follow_mouse = false
+		gui_mouse_following_plant_icon.hide()
+		gui_mouse_following_plant_icon.update_with_plant_data(null)
 #endregion
 
 #region days

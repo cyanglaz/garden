@@ -2,8 +2,7 @@ class_name FieldContainer
 extends Node2D
 
 signal field_harvest_started()
-signal field_harvest_gold_gained(gold:int)
-signal field_harvest_completed()
+signal field_harvest_completed(gold:int)
 signal field_hovered(hovered:bool, index:int)
 signal field_pressed(index:int)
 
@@ -25,9 +24,8 @@ func update_with_number_of_fields(number_of_fields:int) -> void:
 		var field:Field = FIELD_SCENE.instantiate()
 		field.field_hovered.connect(_on_field_hovered.bind(i))
 		field.field_pressed.connect(func(): field_pressed.emit(i))
-		field.plant_harvest_gold_gained.connect(func(gold:int): field_harvest_gold_gained.emit(gold))
 		field.plant_harvest_started.connect(func(): field_harvest_started.emit())
-		field.plant_harvest_completed.connect(func(): field_harvest_completed.emit())
+		field.plant_harvest_completed.connect(func(gold:int): field_harvest_completed.emit(gold))
 		if last_field:
 			field.weak_left_field = weakref(last_field)
 			last_field.weak_right_field = weakref(field)
@@ -54,14 +52,14 @@ func clear_previews() -> void:
 	for field:Field in _container.get_children():
 		field.remove_plant_preview()
 
-func get_preview_icon_global_position(reference_control:Control, index:int) -> Vector2:
+func get_preview_icon_global_position(preview_icon:Control, index:int) -> Vector2:
 	var field:Field = _container.get_child(index)
-	return field.get_preview_icon_global_position(reference_control)
+	return field.get_preview_icon_global_position(preview_icon)
 
-
-func trigger_end_day_ability(weather_data:WeatherData, day:int) -> void:
+func trigger_end_day_ability(main_game:MainGame) -> void:
 	for field:Field in _container.get_children():
-		await field.handle_end_day(weather_data, day)
+		if field.plant:
+			await field.plant.trigger_ability(Plant.AbilityType.END_DAY, main_game)
 	
 func clear_tool_indicators() -> void:
 	for field:Field in fields:
