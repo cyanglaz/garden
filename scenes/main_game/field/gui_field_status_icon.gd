@@ -23,7 +23,6 @@ func setup_with_field_status_data(field_status_data:FieldStatusData) -> void:
 		FieldStatusData.Type.GOOD:
 			_background.color = Constants.COLOR_ORANGE2
 
-
 func play_trigger_animation() -> void:
 	match status_type:
 		FieldStatusData.Type.BAD:
