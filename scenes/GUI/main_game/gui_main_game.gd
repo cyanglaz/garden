@@ -6,8 +6,9 @@ signal tool_selected(index:int)
 signal plant_seed_selected(index:int)
 
 @onready var gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
-@onready var gui_tool_card_container: GUIToolCandContainer = %GUIToolCardContainer
+@onready var gui_tool_card_container: GUIToolCardContainer = %GUIToolCardContainer
 @onready var gui_mouse_following_plant_icon: GUIMouseFollowingPlantIcon = %GUIMouseFollowingPlantIcon
+@onready var gui_draw_box_button: GUIDeckButton = %GUIDrawBoxButton
 @onready var _gui_plant_card_container: GUIPlantCardContainer = %GUIPlantCardContainer
 @onready var _overlay: Control = %Overlay
 @onready var _day_label: Label = %DayLabel

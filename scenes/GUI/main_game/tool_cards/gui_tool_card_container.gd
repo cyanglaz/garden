@@ -1,4 +1,4 @@
-class_name GUIToolCandContainer
+class_name GUIToolCardContainer
 extends PanelContainer
 
 signal tool_selected(index:int)
@@ -10,6 +10,7 @@ const REPOSITION_DURATION:float = 0.08
 
 @onready var _container: Control = %Container
 
+var animation_controller:GUIToolCardAnimationController
 var _card_size:int
 var _tools:Array[ToolData]
 var _energy:int

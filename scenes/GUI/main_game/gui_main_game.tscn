@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cyd2pmyuelacd"]
+[gd_scene load_steps=11 format=3 uid="uid://cyd2pmyuelacd"]
 
 [ext_resource type="Script" uid="uid://b3s0cai251tmf" path="res://scenes/GUI/main_game/gui_main_game.gd" id="1_48pcf"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_pgwuj"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://canp4x5u3afyb" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_container.tscn" id="5_hujfj"]
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="6_jqqhe"]
 [ext_resource type="PackedScene" uid="uid://bpirre4ebu4op" path="res://scenes/GUI/main_game/energy/gui_energy_tracker.tscn" id="8_ho5j6"]
+[ext_resource type="PackedScene" uid="uid://b8ixx2yg4dgov" path="res://scenes/GUI/controls/buttons/gui_draw_box_button.tscn" id="9_fu4tq"]
 
 [node name="GUIMainGame" type="CanvasLayer"]
 script = ExtResource("1_48pcf")
@@ -92,15 +93,24 @@ grow_horizontal = 0
 grow_vertical = 0
 localization_text_key = "ACTION_END_DAY"
 
-[node name="GUIEnergyTracker" parent="MainContainer/MainMarginContainer/Container" index="4" instance=ExtResource("8_ho5j6")]
-unique_name_in_owner = true
+[node name="BottomLeftContainer" type="HBoxContainer" parent="MainContainer/MainMarginContainer/Container" index="4"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_top = -16.0
-offset_right = 16.0
+offset_right = 36.0
 grow_vertical = 0
+
+[node name="GUIEnergyTracker" parent="MainContainer/MainMarginContainer/Container/BottomLeftContainer" instance=ExtResource("8_ho5j6")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="GUIDrawBoxButton" parent="MainContainer/MainMarginContainer/Container/BottomLeftContainer" instance=ExtResource("9_fu4tq")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
 
 [node name="Overlay" type="Control" parent="."]
 unique_name_in_owner = true
