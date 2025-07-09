@@ -9,6 +9,7 @@ signal plant_seed_selected(index:int)
 @onready var gui_tool_card_container: GUIToolCardContainer = %GUIToolCardContainer
 @onready var gui_mouse_following_plant_icon: GUIMouseFollowingPlantIcon = %GUIMouseFollowingPlantIcon
 @onready var gui_draw_box_button: GUIDeckButton = %GUIDrawBoxButton
+@onready var gui_discard_box_button: GUIDeckButton = %GUIDiscardBoxButton
 @onready var _gui_plant_card_container: GUIPlantCardContainer = %GUIPlantCardContainer
 @onready var _overlay: Control = %Overlay
 @onready var _day_label: Label = %DayLabel
@@ -21,6 +22,7 @@ func _ready() -> void:
 	gui_tool_card_container.tool_selected.connect(func(index:int) -> void: tool_selected.emit(index))
 	_gui_plant_card_container.plant_selected.connect(func(index:int) -> void: plant_seed_selected.emit(index))
 	_end_turn_button.action_evoked.connect(func() -> void: end_turn_button_pressed.emit())
+	gui_tool_card_container.setup(gui_draw_box_button, gui_discard_box_button)
 	#_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 #region all ui
@@ -44,8 +46,6 @@ func update_tax_due(gold:int) -> void:
 	_gui_top_bar.update_tax_due(gold)
 
 #region tools
-func setup_tools(tool_datas:Array[ToolData]) -> void:
-	gui_tool_card_container.setup_with_tool_datas(tool_datas)
 
 func update_tools(tool_datas:Array[ToolData]) -> void:
 	gui_tool_card_container.update_tools(tool_datas)

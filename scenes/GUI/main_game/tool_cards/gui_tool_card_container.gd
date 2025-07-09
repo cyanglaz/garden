@@ -9,8 +9,8 @@ const MAX_TOTAL_WIDTH := 150
 const REPOSITION_DURATION:float = 0.08
 
 @onready var _container: Control = %Container
+@onready var _gui_tool_card_animation_containter: GUIToolCardAnimationContainer = %GUIToolCardAnimationContainter
 
-var animation_controller:GUIToolCardAnimationController
 var _card_size:int
 var _tools:Array[ToolData]
 var _energy:int
@@ -19,6 +19,9 @@ func _ready() -> void:
 	var temp_tool_card := TOOL_CARD_SCENE.instantiate()
 	_card_size = temp_tool_card.size.x
 	temp_tool_card.queue_free()
+
+func setup(draw_box_button:GUIDeckButton, discard_box_button:GUIDeckButton) -> void:
+	_gui_tool_card_animation_containter.setup(self, draw_box_button, discard_box_button)
 
 func toggle_all_tool_cards(on:bool) -> void:
 	for i in _tools.size():
@@ -53,7 +56,7 @@ func setup_with_tool_datas(tools:Array[ToolData]) -> void:
 	Util.remove_all_children(_container)
 	_tools = tools.duplicate()
 	var current_size :=  _container.get_children().size()
-	var positions := _calculate_default_positions(tools.size() + current_size)
+	var positions := calculate_default_positions(tools.size() + current_size)
 	for i in positions.size():
 		var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
 		gui_card.action_evoked.connect(_on_tool_card_action_evoked.bind(i))
@@ -62,6 +65,14 @@ func setup_with_tool_datas(tools:Array[ToolData]) -> void:
 		_container.add_child(gui_card)
 		gui_card.update_with_tool_data(tools[i])
 		gui_card.position = positions[i]
+
+#region animation
+
+func animate_draw(draw_results:Array[ToolData]) -> void:
+	await _gui_tool_card_animation_containter.animate_draw(draw_results)
+	
+
+#endregion
 
 func get_card(index:int) -> GUIToolCardButton:
 	return _container.get_child(index)
@@ -73,7 +84,7 @@ func get_card_position(index:int) -> Vector2:
 	var gui_card:GUIToolCardButton = _container.get_child(index)
 	return gui_card.global_position
 
-func _calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
+func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 	var card_space := DEFAULT_CARD_SPACE
 	var total_width := number_of_cards * _card_size + card_space * (number_of_cards - 1)
 	# Reduce spacing if total width exceeds max width
@@ -114,7 +125,7 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 	if mouse_over_card.button_state == GUIBasicButton.ButtonState.SELECTED || mouse_over_card.button_state == GUIBasicButton.ButtonState.DISABLED:
 		return
 	mouse_over_card.container_offset = -1.0
-	var positions:Array[Vector2] = _calculate_default_positions(_container.get_children().size())
+	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	if positions.size() < 2:
 		return
 	var card_padding := positions[0].x - positions[1].x - _card_size
@@ -137,7 +148,7 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 	var mouse_exit_card = _container.get_child(index)
 	if mouse_exit_card.button_state == GUIBasicButton.ButtonState.SELECTED || mouse_exit_card.button_state == GUIBasicButton.ButtonState.DISABLED:
 		return
-	var positions:Array[Vector2] = _calculate_default_positions(_container.get_children().size())
+	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	mouse_exit_card.container_offset = 0.0
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)

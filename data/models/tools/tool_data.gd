@@ -7,6 +7,7 @@ extends ThingData
 var need_select_field:bool : get = _get_need_select_field
 
 func copy(other:ThingData) -> void:
+	super.copy(other)
 	var other_tool: ToolData = other as ToolData
 	energy_cost = other_tool.energy_cost
 	actions = other_tool.actions.duplicate()

@@ -1,0 +1,86 @@
+class_name GUIToolCardAnimationContainer
+extends Control
+
+const ANIMATING_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
+const DRAW_ANIMATION_TIME := 0.2
+const DRAW_ANIMATION_DELAY := 0.1
+const DISCARD_ANIMATION_TIME := 0.1
+const DISCARD_ANIMATION_DELAY := 0.05
+
+var _tool_card_container:GUIToolCardContainer: get = _get_tool_card_container
+var _draw_deck_button:GUIDeckButton: get = _get_draw_deck_button
+var _discard_deck_button:GUIDeckButton: get = _get_discard_deck_button
+var _weak_tool_card_container:WeakRef = weakref(null)
+var _weak_draw_deck_button:WeakRef = weakref(null)
+var _weak_discard_deck_button:WeakRef = weakref(null)
+
+func setup(tool_card_container:GUIToolCardContainer, draw_box_button:GUIDeckButton, discard_box_button:GUIDeckButton) -> void:
+	_weak_tool_card_container = weakref(tool_card_container)
+	_weak_draw_deck_button = weakref(draw_box_button)
+	_weak_discard_deck_button = weakref(discard_box_button)
+
+func animate_draw(draw_results:Array[ToolData]) -> void:
+	if draw_results.is_empty():
+		return
+	var total_card_count:int = _tool_card_container.get_card_count() + draw_results.size()
+	var card_positions:Array[Vector2] = _tool_card_container.calculate_default_positions(total_card_count)
+	var starting_index:int = _tool_card_container.get_card_count()
+	var tween:Tween = Util.create_scaled_tween(self)
+	tween.set_parallel(true)
+	var animating_cards:Array[GUIToolCardButton] = []
+	for i in total_card_count:
+		var animating_card:GUIToolCardButton
+		if i < starting_index:
+			animating_card = _tool_card_container.get_card(i)
+		else:
+			animating_card = ANIMATING_TOOL_CARD_SCENE.instantiate()
+			add_child(animating_card)
+			#animating_card.hide()
+			var initial_scale := 0.4
+			var tool_data:ToolData = draw_results[i - starting_index]
+			animating_card.global_position = _draw_deck_button.global_position + _draw_deck_button.size/2 - animating_card.size/2*initial_scale
+			animating_card.scale = Vector2.ONE * initial_scale
+			animating_card.update_with_tool_data(tool_data)
+			animating_cards.append(animating_card)
+		var delay_index := i - starting_index + 1
+		if delay_index >= 0:
+			Util.create_scaled_timer(DRAW_ANIMATION_DELAY * delay_index).timeout.connect(func(): animating_card.play_move_sound())
+		var card_local_position:Vector2 = card_positions[i]
+		var target_global_position:Vector2 = _tool_card_container.global_position + card_local_position
+		tween.tween_property(animating_card, "visible", true, 0.01).set_delay(DRAW_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		tween.tween_property(animating_card, "global_position", target_global_position, DRAW_ANIMATION_TIME).set_delay(DRAW_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		tween.tween_property(animating_card, "scale", Vector2.ONE, DRAW_ANIMATION_TIME).set_delay(DRAW_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	await tween.finished
+	for animating_card in animating_cards:
+		animating_card.queue_free()
+
+func animate_shuffle(discard_pile_cards:Array[ToolData]) -> void:
+	if discard_pile_cards.size() == 0:
+		return
+	var index := 0
+	var tween:Tween = Util.create_scaled_tween(self)
+	tween.set_parallel(true)
+	for tool_data:ToolData in discard_pile_cards:
+		var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
+		add_child(animating_card)
+		animating_card.global_position = _discard_deck_button.global_position
+		var target_position := _discard_deck_button.global_position
+		var original_size:Vector2 = animating_card.size
+		animating_card.scale = _discard_deck_button.size/original_size
+		animating_card.update_with_tool_data(tool_data)
+		Util.create_scaled_timer(DISCARD_ANIMATION_DELAY * index - 0.01).timeout.connect(func(): animating_card.play_move_sound())
+		var tweener := tween.tween_property(animating_card, "global_position", target_position, DISCARD_ANIMATION_TIME).set_delay(DISCARD_ANIMATION_DELAY * index)
+		tweener.finished.connect(func():
+			animating_card.queue_free()
+		)
+		index += 1
+	await tween.finished
+	
+func _get_tool_card_container() -> GUIToolCardContainer:
+	return _weak_tool_card_container.get_ref()
+
+func _get_draw_deck_button() -> GUIDeckButton:
+	return _weak_draw_deck_button.get_ref()
+
+func _get_discard_deck_button() -> GUIDeckButton:
+	return _weak_discard_deck_button.get_ref()

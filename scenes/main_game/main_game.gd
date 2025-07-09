@@ -1,6 +1,8 @@
 class_name MainGame
 extends Node2D
 
+var hand_size := 5
+
 @export var test_plant_datas:Array[PlantData]
 @export var test_tools:Array[ToolData]
 @export var number_of_fields := 0
@@ -38,7 +40,6 @@ func _ready() -> void:
 	energy_tracker.can_be_capped = false
 	energy_tracker.value_update.connect(_on_energy_tracker_value_updated)
 	gui_main_game.update_with_plant_datas(plant_seed_manager.plant_seeds)
-	gui_main_game.setup_tools(tool_manager.tools)
 	gui_main_game.bind_energy(energy_tracker)
 	start_new_week()
 
@@ -62,6 +63,8 @@ func start_day() -> void:
 	weather_manager.day = week_manager.get_day()
 	gui_main_game.set_day(week_manager.get_day())
 	gui_main_game.clear_tool_selection()
+	await Util.await_for_tiny_time()
+	await tool_manager.draw_cards(hand_size, gui_main_game.gui_tool_card_container)
 	gui_main_game.toggle_all_ui(true)
 
 func add_control_to_overlay(control:Control) -> void:

@@ -24,7 +24,7 @@ func refresh() -> void:
 	discard_pool_updated.emit(discard_pool)
 	hand.clear()
 
-func shuffle_box() -> void:
+func shuffle_draw_pool() -> void:
 	assert(draw_pool.size() + discard_pool.size() + hand.size()== pool.size())
 	draw_pool.append_array(discard_pool.duplicate())
 	draw_pool.shuffle()

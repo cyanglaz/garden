@@ -20,19 +20,22 @@ func _init(initial_tools:Array[ToolData]) -> void:
 	_tool_applier.tool_application_failed.connect(func(): tool_application_failed.emit())
 	_tool_applier.tool_application_completed.connect(func(): tool_application_completed.emit(selected_tool))
 
-func draw_cards(count:int, gui_main_game:GUIMainGame) -> void:
+func draw_cards(count:int, gui_tool_card_container:GUIToolCardContainer) -> void:
 	var _display_index = tool_deck.hand.size() - 1
-	# _gui_bingo_main._gui_bingo_ball_hand.show()
-	# var player_draw_results:Array[BingoBallData] = _player.draw_balls(number_to_draw)
-	# await _gui_bingo_main.gui_animation_container.animate_draw(player_draw_results)
-	# _gui_bingo_main._gui_bingo_ball_hand.add_balls(player_draw_results)
-	# if player_draw_results.size() < number_to_draw:
-	# 	# If no sufficient balls in draw pool, shuffle discard pile and draw again.
-	# 	await shuffle()
-	# 	var second_draw_result := _player.draw_balls(number_to_draw - player_draw_results.size())
-	# 	await _gui_bingo_main.gui_animation_container.animate_draw(second_draw_result)
-	# 	_gui_bingo_main._gui_bingo_ball_hand.add_balls(second_draw_result)
-	# _draw_player_card_finished.emit()
+	var draw_results:Array[ToolData] = tool_deck.draw(count)
+	await gui_tool_card_container.animate_draw(draw_results)
+	gui_tool_card_container.setup_with_tool_datas(tool_deck.hand)
+	if draw_results.size() < count:
+		# If no sufficient cards in draw pool, shuffle discard pile and draw again.
+		await shuffle(gui_tool_card_container)
+		var second_draw_result:Array[ToolData] = tool_deck.draw_cards(count - draw_results.size())
+		await gui_tool_card_container.animate_draw(second_draw_result)
+		gui_tool_card_container.setup_with_tool_datas(tool_deck.hand)
+
+func shuffle(gui_tool_card_container:GUIToolCardContainer) -> void:
+	var discard_pile_balls := tool_deck.discard_pool.duplicate()
+	await gui_tool_card_container.animate_shuffle(discard_pile_balls)
+	tool_deck.shuffle_draw_pool()
 
 func select_tool(index:int) -> void:
 	selected_tool_index = index
