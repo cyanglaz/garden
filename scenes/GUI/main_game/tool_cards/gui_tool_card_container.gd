@@ -6,6 +6,7 @@ signal tool_selected(index:int)
 const TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const DEFAULT_CARD_SPACE := 4.0
 const MAX_TOTAL_WIDTH := 150
+const REPOSITION_DURATION:float = 0.08
 
 @onready var _container: Control = %Container
 
@@ -116,6 +117,10 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 	if positions.size() < 2:
 		return
 	var card_padding := positions[0].x - positions[1].x - _card_size
+	var tween:Tween = Util.create_scaled_tween(self)
+	tween.set_parallel(true)
+	tween.set_ease(Tween.EASE_IN)
+	tween.set_trans(Tween.TRANS_SINE)
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
 		if card_padding < 0.0:
@@ -125,7 +130,7 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 				pos.x += 1 - card_padding # Push right cards 4 pixels left
 			elif i > index:
 				pos.x -= 1 - card_padding # Push left cards 4 pixels right
-			gui_card.position = pos
+			tween.tween_property(gui_card, "position", pos, REPOSITION_DURATION)
 
 func _on_tool_card_mouse_exited(index:int) -> void:
 	var mouse_exit_card = _container.get_child(index)
@@ -133,6 +138,10 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 		return
 	var positions:Array[Vector2] = _calculate_default_positions(_container.get_children().size())
 	mouse_exit_card.container_offset = 0.0
+	var tween:Tween = Util.create_scaled_tween(self)
+	tween.set_parallel(true)
+	tween.set_ease(Tween.EASE_IN)
+	tween.set_trans(Tween.TRANS_SINE)
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
-		gui_card.position = positions[i]
+		tween.tween_property(gui_card, "position", positions[i], REPOSITION_DURATION)

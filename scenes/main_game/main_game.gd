@@ -11,7 +11,7 @@ extends Node2D
 var energy_tracker:ResourcePoint = ResourcePoint.new()
 var week_manager:WeekManager = WeekManager.new()
 var weather_manager:WeatherManager = WeatherManager.new()
-var tool_manager:ToolManager = ToolManager.new()
+var tool_manager:ToolManager
 var plant_seed_manager:PlantSeedManager = PlantSeedManager.new()
 var max_energy := 3
 var _gold := 0
@@ -27,14 +27,14 @@ func _ready() -> void:
 	_field_container.field_harvest_started.connect(_on_field_harvest_started)
 	_field_container.field_harvest_completed.connect(_on_field_harvest_completed)
 	weather_manager.weathers_updated.connect(_on_weathers_updated)
-	tool_manager.tool_application_started.connect(_on_tool_application_started)
-	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
-	tool_manager.tool_application_failed.connect(_on_tool_application_failed)
 	
 	if !test_plant_datas.is_empty():
 		plant_seed_manager.plant_seeds = test_plant_datas
 	if !test_tools.is_empty():
-		tool_manager.tools = test_tools
+		tool_manager = ToolManager.new(test_tools)
+		tool_manager.tool_application_started.connect(_on_tool_application_started)
+		tool_manager.tool_application_completed.connect(_on_tool_application_completed)
+		tool_manager.tool_application_failed.connect(_on_tool_application_failed)
 	energy_tracker.can_be_capped = false
 	energy_tracker.value_update.connect(_on_energy_tracker_value_updated)
 	gui_main_game.update_with_plant_datas(plant_seed_manager.plant_seeds)
