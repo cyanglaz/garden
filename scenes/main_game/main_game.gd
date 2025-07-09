@@ -73,6 +73,7 @@ func add_control_to_overlay(control:Control) -> void:
 #region private
 
 func _end_turn() -> void:
+	await tool_manager.discard_cards(gui_main_game.gui_tool_card_container)
 	if week_manager.get_day() == 6:
 		if _gold >= week_manager.get_tax_due():
 			print("win")

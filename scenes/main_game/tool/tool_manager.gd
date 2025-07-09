@@ -28,7 +28,7 @@ func draw_cards(count:int, gui_tool_card_container:GUIToolCardContainer) -> void
 	if draw_results.size() < count:
 		# If no sufficient cards in draw pool, shuffle discard pile and draw again.
 		await shuffle(gui_tool_card_container)
-		var second_draw_result:Array[ToolData] = tool_deck.draw_cards(count - draw_results.size())
+		var second_draw_result:Array[ToolData] = tool_deck.draw(count - draw_results.size())
 		await gui_tool_card_container.animate_draw(second_draw_result)
 		gui_tool_card_container.setup_with_tool_datas(tool_deck.hand)
 
@@ -36,6 +36,11 @@ func shuffle(gui_tool_card_container:GUIToolCardContainer) -> void:
 	var discard_pile_balls := tool_deck.discard_pool.duplicate()
 	await gui_tool_card_container.animate_shuffle(discard_pile_balls)
 	tool_deck.shuffle_draw_pool()
+
+func discard_cards(gui_tool_card_container:GUIToolCardContainer) -> void:
+	var discarding_cards:Array[ToolData] = tool_deck.hand
+	await gui_tool_card_container.animate_discard(discarding_cards)
+	tool_deck.discard()
 
 func select_tool(index:int) -> void:
 	selected_tool_index = index

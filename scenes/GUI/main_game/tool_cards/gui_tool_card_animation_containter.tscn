@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dy6ehpdrlw24h"]
-
-[ext_resource type="Script" uid="uid://c6k1kcqatk5cy" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_animation_containter.gd" id="1_2bqtr"]
-
-[node name="GUIToolCardAnimationContainter" type="Control"]
-layout_mode = 3
-anchors_preset = 0
-script = ExtResource("1_2bqtr")

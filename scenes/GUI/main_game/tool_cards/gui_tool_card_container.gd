@@ -9,7 +9,7 @@ const MAX_TOTAL_WIDTH := 150
 const REPOSITION_DURATION:float = 0.08
 
 @onready var _container: Control = %Container
-@onready var _gui_tool_card_animation_containter: GUIToolCardAnimationContainer = %GUIToolCardAnimationContainter
+@onready var _gui_tool_card_animation_container: GUIToolCardAnimationContainer = %GUIToolCardAnimationContainer
 
 var _card_size:int
 var _tools:Array[ToolData]
@@ -21,7 +21,7 @@ func _ready() -> void:
 	temp_tool_card.queue_free()
 
 func setup(draw_box_button:GUIDeckButton, discard_box_button:GUIDeckButton) -> void:
-	_gui_tool_card_animation_containter.setup(self, draw_box_button, discard_box_button)
+	_gui_tool_card_animation_container.setup(self, draw_box_button, discard_box_button)
 
 func toggle_all_tool_cards(on:bool) -> void:
 	for i in _tools.size():
@@ -69,8 +69,13 @@ func setup_with_tool_datas(tools:Array[ToolData]) -> void:
 #region animation
 
 func animate_draw(draw_results:Array[ToolData]) -> void:
-	await _gui_tool_card_animation_containter.animate_draw(draw_results)
+	await _gui_tool_card_animation_container.animate_draw(draw_results)
 	
+func animate_discard(discarding_cards:Array[ToolData]) -> void:
+	await _gui_tool_card_animation_container.animate_discard(discarding_cards)
+
+func animate_shuffle(discard_pile_cards:Array[ToolData]) -> void:
+	await _gui_tool_card_animation_container.animate_shuffle(discard_pile_cards)
 
 #endregion
 

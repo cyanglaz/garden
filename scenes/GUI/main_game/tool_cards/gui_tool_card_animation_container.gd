@@ -75,7 +75,32 @@ func animate_shuffle(discard_pile_cards:Array[ToolData]) -> void:
 		)
 		index += 1
 	await tween.finished
-	
+
+func animate_discard(player_hand:Array[ToolData]) -> void:
+	var index := 0
+	var animating_cards:Array[GUIToolCardButton] = []
+	for ball_data in player_hand:
+		var animating_ball:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
+		add_child(animating_ball)
+		animating_ball.update_with_tool_data(ball_data)
+		animating_ball.global_position = _tool_card_container.get_card(index).global_position
+		animating_cards.append(animating_ball)
+		index += 1
+	_tool_card_container.clear()
+	index = 0
+	var tween:Tween = Util.create_scaled_tween(self)
+	tween.set_parallel(true)
+	for animating_ball in animating_cards:
+		var target_scale := 0.4
+		var target_position := _discard_deck_button.global_position + _discard_deck_button.size/2 - animating_ball.size/2*target_scale
+		Util.create_scaled_timer(DISCARD_ANIMATION_DELAY * index).timeout.connect(func(): animating_ball.play_move_sound())
+		tween.tween_property(animating_ball, "global_position", target_position, DISCARD_ANIMATION_TIME).set_delay(DISCARD_ANIMATION_DELAY * index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(animating_ball, "scale", Vector2.ONE * target_scale, DISCARD_ANIMATION_TIME).set_delay(DISCARD_ANIMATION_DELAY * index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		index += 1
+	await tween.finished
+	for animating_ball in animating_cards:
+		animating_ball.queue_free()
+
 func _get_tool_card_container() -> GUIToolCardContainer:
 	return _weak_tool_card_container.get_ref()
 
