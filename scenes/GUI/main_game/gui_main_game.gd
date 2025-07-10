@@ -27,6 +27,7 @@ func _ready() -> void:
 
 #region all ui
 func toggle_all_ui(on:bool) -> void:
+	print("toggle_all_ui ", on)
 	_gui_top_bar.toggle_all_ui(on)
 	_gui_plant_card_container.toggle_all_plant_cards(on)
 	gui_tool_card_container.toggle_all_tool_cards(on)
@@ -52,9 +53,6 @@ func update_tools(tool_datas:Array[ToolData]) -> void:
 
 func clear_tool_selection() -> void:
 	gui_tool_card_container.clear_selection()
-
-func update_tool_for_energy(energy:int) -> void:
-	gui_tool_card_container.update_tool_for_energy(energy)
 	
 #endregion
 

@@ -64,7 +64,7 @@ func animate_shuffle(discard_pile_cards:Array[ToolData]) -> void:
 		var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
 		add_child(animating_card)
 		animating_card.global_position = _discard_deck_button.global_position
-		var target_position := _discard_deck_button.global_position
+		var target_position := _draw_deck_button.global_position
 		var original_size:Vector2 = animating_card.size
 		animating_card.scale = _discard_deck_button.size/original_size
 		animating_card.update_with_tool_data(tool_data)
@@ -76,30 +76,34 @@ func animate_shuffle(discard_pile_cards:Array[ToolData]) -> void:
 		index += 1
 	await tween.finished
 
-func animate_discard(player_hand:Array[ToolData]) -> void:
-	var index := 0
-	var animating_cards:Array[GUIToolCardButton] = []
-	for ball_data in player_hand:
-		var animating_ball:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
-		add_child(animating_ball)
-		animating_ball.update_with_tool_data(ball_data)
-		animating_ball.global_position = _tool_card_container.get_card(index).global_position
-		animating_cards.append(animating_ball)
-		index += 1
-	_tool_card_container.clear()
-	index = 0
-	var tween:Tween = Util.create_scaled_tween(self)
-	tween.set_parallel(true)
-	for animating_ball in animating_cards:
-		var target_scale := 0.4
-		var target_position := _discard_deck_button.global_position + _discard_deck_button.size/2 - animating_ball.size/2*target_scale
-		Util.create_scaled_timer(DISCARD_ANIMATION_DELAY * index).timeout.connect(func(): animating_ball.play_move_sound())
-		tween.tween_property(animating_ball, "global_position", target_position, DISCARD_ANIMATION_TIME).set_delay(DISCARD_ANIMATION_DELAY * index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		tween.tween_property(animating_ball, "scale", Vector2.ONE * target_scale, DISCARD_ANIMATION_TIME).set_delay(DISCARD_ANIMATION_DELAY * index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		index += 1
-	await tween.finished
-	for animating_ball in animating_cards:
-		animating_ball.queue_free()
+func animate_discard(indices:Array) -> void:
+	var discarding_cards:Array[GUIToolCardButton] = []
+	var discard_tween:Tween = Util.create_scaled_tween(self)
+	discard_tween.set_parallel(true)
+	for i:int in indices:
+		var card:GUIToolCardButton = _tool_card_container.get_card(i)
+		card.mouse_disabled = true
+		discarding_cards.append(card)
+		var target_scale:float = 0.4
+		var target_position:Vector2 = _discard_deck_button.global_position + _discard_deck_button.size/2 - card.size/2*target_scale
+		Util.create_scaled_timer(DISCARD_ANIMATION_DELAY * i - 0.01).timeout.connect(func(): card.play_move_sound())
+		discard_tween.tween_property(card, "global_position", target_position, DISCARD_ANIMATION_TIME).set_delay(DISCARD_ANIMATION_DELAY * i).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		discard_tween.tween_property(card, "scale", Vector2.ONE * target_scale, DISCARD_ANIMATION_TIME).set_delay(DISCARD_ANIMATION_DELAY * i).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	await discard_tween.finished
+	for discarding_card in discarding_cards:
+		_tool_card_container.remove_card(discarding_card)
+		discarding_card.hide()
+		discarding_card.queue_free()
+	if _tool_card_container.get_card_count() > 0:
+		var default_positions:Array[Vector2] = _tool_card_container.calculate_default_positions(_tool_card_container.get_card_count())
+		var reposition_tween:Tween = Util.create_scaled_tween(self)
+		reposition_tween.set_parallel(true)
+		for i:int in _tool_card_container.get_card_count():
+			var card:GUIToolCardButton = _tool_card_container.get_card(i)
+			var target_position:Vector2 = _tool_card_container.global_position + default_positions[i]
+			Util.create_scaled_timer(DISCARD_ANIMATION_DELAY * i - 0.01).timeout.connect(func(): card.play_move_sound())
+			reposition_tween.tween_property(card, "global_position", target_position, DISCARD_ANIMATION_TIME).set_delay(DISCARD_ANIMATION_DELAY * i).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		await reposition_tween.finished
 
 func _get_tool_card_container() -> GUIToolCardContainer:
 	return _weak_tool_card_container.get_ref()

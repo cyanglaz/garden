@@ -5,15 +5,13 @@ signal tool_selected(index:int)
 
 const TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const DEFAULT_CARD_SPACE := 4.0
-const MAX_TOTAL_WIDTH := 150
+const MAX_TOTAL_WIDTH := 200
 const REPOSITION_DURATION:float = 0.08
 
 @onready var _container: Control = %Container
 @onready var _gui_tool_card_animation_container: GUIToolCardAnimationContainer = %GUIToolCardAnimationContainer
 
 var _card_size:int
-var _tools:Array[ToolData]
-var _energy:int
 
 func _ready() -> void:
 	var temp_tool_card := TOOL_CARD_SCENE.instantiate()
@@ -24,13 +22,9 @@ func setup(draw_box_button:GUIDeckButton, discard_box_button:GUIDeckButton) -> v
 	_gui_tool_card_animation_container.setup(self, draw_box_button, discard_box_button)
 
 func toggle_all_tool_cards(on:bool) -> void:
-	for i in _tools.size():
-		var tool_data:ToolData = _tools[i]
+	for i in get_card_count():
 		var card:GUIToolCardButton = _container.get_child(i)
-		if on:
-			card.button_state = _get_default_button_state(tool_data)
-		else:
-			card.button_state = GUIBasicButton.ButtonState.DISABLED
+		card.mouse_disabled = !on
 
 func clear() -> void:
 	if _container.get_children().size() == 0:
@@ -41,20 +35,12 @@ func clear() -> void:
 func clear_selection() -> void:
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
-		var tool_data:ToolData = _tools[i]
-		gui_card.button_state = _get_default_button_state(tool_data)
+		gui_card.mouse_disabled = false
+		gui_card.button_state = GUIBasicButton.ButtonState.NORMAL
 		gui_card.container_offset = 0.0
-
-func update_tool_for_energy(energy:int) -> void:
-	_energy = energy
-	for i in _container.get_children().size():
-		var gui_card = _container.get_child(i)
-		var tool_data:ToolData = _tools[i]
-		gui_card.button_state = _get_default_button_state(tool_data)
 
 func setup_with_tool_datas(tools:Array[ToolData]) -> void:
 	Util.remove_all_children(_container)
-	_tools = tools.duplicate()
 	var current_size :=  _container.get_children().size()
 	var positions := calculate_default_positions(tools.size() + current_size)
 	for i in positions.size():
@@ -65,14 +51,17 @@ func setup_with_tool_datas(tools:Array[ToolData]) -> void:
 		_container.add_child(gui_card)
 		gui_card.update_with_tool_data(tools[i])
 		gui_card.position = positions[i]
+	for i in _container.get_children().size():
+		var gui_card:GUIToolCardButton = _container.get_child(i)
+		gui_card.activated = true
 
 #region animation
 
 func animate_draw(draw_results:Array[ToolData]) -> void:
 	await _gui_tool_card_animation_container.animate_draw(draw_results)
 	
-func animate_discard(discarding_cards:Array[ToolData]) -> void:
-	await _gui_tool_card_animation_container.animate_discard(discarding_cards)
+func animate_discard(discarding_indices:Array) -> void:
+	await _gui_tool_card_animation_container.animate_discard(discarding_indices)
 
 func animate_shuffle(discard_pile_cards:Array[ToolData]) -> void:
 	await _gui_tool_card_animation_container.animate_shuffle(discard_pile_cards)
@@ -88,6 +77,9 @@ func get_card_count() -> int:
 func get_card_position(index:int) -> Vector2:
 	var gui_card:GUIToolCardButton = _container.get_child(index)
 	return gui_card.global_position
+
+func remove_card(card:GUIToolCardButton) -> void:
+	_container.remove_child(card)
 
 func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 	var card_space := DEFAULT_CARD_SPACE
@@ -107,25 +99,20 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 	result.reverse() # First card is at the end of the array.
 	return result
 
-func _get_default_button_state(tool_data:ToolData) -> GUIBasicButton.ButtonState:
-	if tool_data.energy_cost <= _energy:
-		return GUIBasicButton.ButtonState.NORMAL
-	else:
-		return GUIBasicButton.ButtonState.DISABLED
-
 func _on_tool_card_action_evoked(index:int) -> void:
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
-		var tool_data:ToolData = _tools[i]
 		if i == index:
 			gui_card.button_state = GUIBasicButton.ButtonState.SELECTED
+			gui_card.mouse_disabled = false
 			gui_card.container_offset = -4.0
 		else:
-			gui_card.button_state = _get_default_button_state(tool_data)
+			gui_card.mouse_disabled = true
 			gui_card.container_offset = 0.0
 	tool_selected.emit(index)
 
 func _on_tool_card_mouse_entered(index:int) -> void:
+	print("_on_tool_card_mouse_entered ", index)
 	var mouse_over_card = _container.get_child(index)
 	if mouse_over_card.button_state == GUIBasicButton.ButtonState.SELECTED || mouse_over_card.button_state == GUIBasicButton.ButtonState.DISABLED:
 		return
@@ -138,6 +125,7 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 	tween.set_parallel(true)
 	tween.set_ease(Tween.EASE_IN)
 	tween.set_trans(Tween.TRANS_SINE)
+	var animated := false
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
 		if card_padding < 0.0:
@@ -148,8 +136,12 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 			elif i > index:
 				pos.x -= 1 - card_padding # Push left cards 4 pixels right
 			tween.tween_property(gui_card, "position", pos, REPOSITION_DURATION)
+			animated = true
+	if !animated:
+		tween.kill()
 
 func _on_tool_card_mouse_exited(index:int) -> void:
+	print("_on_tool_card_mouse_exited ", index)
 	var mouse_exit_card = _container.get_child(index)
 	if mouse_exit_card.button_state == GUIBasicButton.ButtonState.SELECTED || mouse_exit_card.button_state == GUIBasicButton.ButtonState.DISABLED:
 		return
@@ -159,6 +151,10 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 	tween.set_parallel(true)
 	tween.set_ease(Tween.EASE_IN)
 	tween.set_trans(Tween.TRANS_SINE)
+	var animated := false
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
 		tween.tween_property(gui_card, "position", positions[i], REPOSITION_DURATION)
+		animated = true
+	if !animated:
+		tween.kill()

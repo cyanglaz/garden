@@ -3,9 +3,7 @@ extends RefCounted
 
 signal tool_application_started()
 signal tool_application_failed()
-signal tool_application_completed()
-
-var tools:Array[ToolData]
+signal tool_application_completed(index:int)
 
 var tool_deck:ToolDeck
 var selected_tool_index:int = -1
@@ -14,11 +12,10 @@ var selected_tool:ToolData: get = _get_selected_tool
 var _tool_applier:ToolApplier = ToolApplier.new()
 
 func _init(initial_tools:Array[ToolData]) -> void:
-	tools = initial_tools.duplicate()
 	tool_deck = ToolDeck.new(initial_tools)
 	_tool_applier.tool_application_started.connect(func(): tool_application_started.emit())
 	_tool_applier.tool_application_failed.connect(func(): tool_application_failed.emit())
-	_tool_applier.tool_application_completed.connect(func(): tool_application_completed.emit(selected_tool))
+	_tool_applier.tool_application_completed.connect(func(): tool_application_completed.emit(selected_tool_index))
 
 func draw_cards(count:int, gui_tool_card_container:GUIToolCardContainer) -> void:
 	var _display_index = tool_deck.hand.size() - 1
@@ -37,10 +34,10 @@ func shuffle(gui_tool_card_container:GUIToolCardContainer) -> void:
 	await gui_tool_card_container.animate_shuffle(discard_pile_balls)
 	tool_deck.shuffle_draw_pool()
 
-func discard_cards(gui_tool_card_container:GUIToolCardContainer) -> void:
-	var discarding_cards:Array[ToolData] = tool_deck.hand
-	await gui_tool_card_container.animate_discard(discarding_cards)
-	tool_deck.discard()
+func discard_cards(indices:Array, gui_tool_card_container:GUIToolCardContainer) -> void:
+	await gui_tool_card_container.animate_discard(indices)
+	tool_deck.discard(indices)
+	gui_tool_card_container.setup_with_tool_datas(tool_deck.hand)
 
 func select_tool(index:int) -> void:
 	selected_tool_index = index
@@ -48,7 +45,10 @@ func select_tool(index:int) -> void:
 func apply_tool(main_game:MainGame, field:Field) -> void:
 	_tool_applier.apply_tool(main_game, field, selected_tool, selected_tool_index)
 
+func get_tool(index:int) -> ToolData:
+	return tool_deck.get_tool(index)
+
 func _get_selected_tool() -> ToolData:
 	if selected_tool_index < 0:
 		return null
-	return tools[selected_tool_index]
+	return tool_deck.get_tool(selected_tool_index)

@@ -16,6 +16,9 @@ func _init(initial_tools:Array[ToolData]) -> void:
 	draw_pool = pool.duplicate()
 	draw_pool.shuffle()
 
+func get_tool(index:int) -> ToolData:
+	return hand[index]
+
 func refresh() -> void:
 	draw_pool = pool.duplicate()
 	draw_pool.shuffle()
@@ -43,9 +46,10 @@ func draw(count:int) -> Array[ToolData]:
 	draw_pool_updated.emit(draw_pool)
 	return drawn_tools
 
-func discard() -> void:
+func discard(indices:Array) -> void:
 	# Removing from largest index to smallest index to avoid index change during removal.
-	for index:int in range(hand.size() - 1, -1, -1):
+	indices.reverse()
+	for index:int in indices:
 		var bingo_tool_data:ToolData = hand[index]
 		discard_pool.append(bingo_tool_data)
 		assert(index >= 0)

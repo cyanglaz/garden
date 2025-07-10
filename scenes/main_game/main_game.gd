@@ -38,7 +38,6 @@ func _ready() -> void:
 		tool_manager.tool_application_completed.connect(_on_tool_application_completed)
 		tool_manager.tool_application_failed.connect(_on_tool_application_failed)
 	energy_tracker.can_be_capped = false
-	energy_tracker.value_update.connect(_on_energy_tracker_value_updated)
 	gui_main_game.update_with_plant_datas(plant_seed_manager.plant_seeds)
 	gui_main_game.bind_energy(energy_tracker)
 	start_new_week()
@@ -73,7 +72,6 @@ func add_control_to_overlay(control:Control) -> void:
 #region private
 
 func _end_turn() -> void:
-	await tool_manager.discard_cards(gui_main_game.gui_tool_card_container)
 	if week_manager.get_day() == 6:
 		if _gold >= week_manager.get_tax_due():
 			print("win")
@@ -81,11 +79,21 @@ func _end_turn() -> void:
 			print("lose")
 	else:
 		start_day()
+	
+func _discard_all_tools() -> void:
+	var discarding_indices:Array[int] = []
+	for i in tool_manager.tool_deck.hand.size():
+		discarding_indices.append(i)
+	await tool_manager.discard_cards(discarding_indices, gui_main_game.gui_tool_card_container)
 
-func _complete_tool_application(tool_data:ToolData) -> void:
-	energy_tracker.spend(tool_data.energy_cost)
+func _complete_tool_application(index:int) -> void:
+	var tool_data:ToolData = tool_manager.get_tool(index)
 	_clear_tool_selection()
+	print("discarding")
+	await tool_manager.discard_cards([index], gui_main_game.gui_tool_card_container)
+	print("discarded")
 	gui_main_game.toggle_all_ui(true)
+	energy_tracker.spend(tool_data.energy_cost)
 
 func _clear_tool_selection() -> void:
 	tool_manager.select_tool(-1)
@@ -153,8 +161,8 @@ func _on_tool_selected(index:int) -> void:
 func _on_tool_application_started() -> void:
 	gui_main_game.toggle_all_ui(false)
 
-func _on_tool_application_completed(tool_data:ToolData) -> void:
-	_complete_tool_application(tool_data)
+func _on_tool_application_completed(index:int) -> void:
+	_complete_tool_application(index)
 
 func _on_tool_application_failed() -> void:
 	_clear_tool_selection()
@@ -162,6 +170,7 @@ func _on_tool_application_failed() -> void:
 
 func _on_end_turn_button_pressed() -> void:
 	gui_main_game.toggle_all_ui(false)
+	await _discard_all_tools()
 	await weather_manager.apply_weather_actions(_field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
 	await _field_container.trigger_end_day_ability(self)
 	_end_turn()
@@ -173,9 +182,6 @@ func _on_field_harvest_completed(gold:int) -> void:
 	_gold += gold
 	gui_main_game.update_gold(_gold, true)
 	gui_main_game.toggle_all_ui(true)
-
-func _on_energy_tracker_value_updated() -> void:
-	gui_main_game.update_tool_for_energy(energy_tracker.value)
 
 func _on_weathers_updated() -> void:
 	gui_main_game.update_weathers(weather_manager)
