@@ -27,7 +27,6 @@ func _ready() -> void:
 
 #region all ui
 func toggle_all_ui(on:bool) -> void:
-	print("toggle_all_ui ", on)
 	_gui_top_bar.toggle_all_ui(on)
 	_gui_plant_card_container.toggle_all_plant_cards(on)
 	gui_tool_card_container.toggle_all_tool_cards(on)

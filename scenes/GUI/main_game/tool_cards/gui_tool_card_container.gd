@@ -51,8 +51,6 @@ func setup_with_tool_datas(tools:Array[ToolData]) -> void:
 		_container.add_child(gui_card)
 		gui_card.update_with_tool_data(tools[i])
 		gui_card.position = positions[i]
-	for i in _container.get_children().size():
-		var gui_card:GUIToolCardButton = _container.get_child(i)
 		gui_card.activated = true
 
 #region animation
@@ -112,7 +110,6 @@ func _on_tool_card_action_evoked(index:int) -> void:
 	tool_selected.emit(index)
 
 func _on_tool_card_mouse_entered(index:int) -> void:
-	print("_on_tool_card_mouse_entered ", index)
 	var mouse_over_card = _container.get_child(index)
 	if mouse_over_card.button_state == GUIBasicButton.ButtonState.SELECTED || mouse_over_card.button_state == GUIBasicButton.ButtonState.DISABLED:
 		return
@@ -141,7 +138,6 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 		tween.kill()
 
 func _on_tool_card_mouse_exited(index:int) -> void:
-	print("_on_tool_card_mouse_exited ", index)
 	var mouse_exit_card = _container.get_child(index)
 	if mouse_exit_card.button_state == GUIBasicButton.ButtonState.SELECTED || mouse_exit_card.button_state == GUIBasicButton.ButtonState.DISABLED:
 		return

@@ -88,10 +88,8 @@ func _discard_all_tools() -> void:
 
 func _complete_tool_application(index:int) -> void:
 	var tool_data:ToolData = tool_manager.get_tool(index)
-	_clear_tool_selection()
-	print("discarding")
 	await tool_manager.discard_cards([index], gui_main_game.gui_tool_card_container)
-	print("discarded")
+	_clear_tool_selection()
 	gui_main_game.toggle_all_ui(true)
 	energy_tracker.spend(tool_data.energy_cost)
 
