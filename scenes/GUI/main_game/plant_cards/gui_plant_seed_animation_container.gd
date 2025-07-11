@@ -2,6 +2,7 @@ class_name GUIPlantSeedAnimationContainer
 extends Control
 
 const ANIMATING_PLANT_SEED_SCENE := preload("res://scenes/GUI/main_game/plant_cards/gui_plant_card.tscn")
+const SEED_ICON_DISAPPEAR_TIME := 0.4
 
 var _field_container:FieldContainer: get = _get_field_container
 var _draw_deck_button:GUIDeckButton: get = _get_draw_deck_button
@@ -23,6 +24,7 @@ func animate_draw(draw_results:Array, target_field_indices:Array) -> void:
 	for i:int in draw_results.size():
 		var animating_card:GUIPlantCard = ANIMATING_PLANT_SEED_SCENE.instantiate()
 		add_child(animating_card)
+		animating_card.update_with_plant_data(draw_results[i])
 		animating_card.hide()
 		animating_card.global_position = _draw_deck_button.global_position
 		animating_cards.append(animating_card)
@@ -32,12 +34,12 @@ func animate_draw(draw_results:Array, target_field_indices:Array) -> void:
 			# Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index).timeout.connect(func(): animating_card.play_move_sound())
 		var field := _field_container.fields[target_field_indices[i]]
 		var target_position := field.get_preview_icon_global_position(animating_card)
-		tween.tween_property(animating_card, "visible", true, Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-		tween.tween_property(animating_card, "global_position", target_position, Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-		tween.finished.connect(func():
-			animating_card.queue_free()
-		)
+		tween.tween_property(animating_card, "visible", true, 0.01).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(animating_card, "global_position", target_position, Constants.PLANT_SEED_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		tween.tween_property(animating_card, "modulate:a", 0, SEED_ICON_DISAPPEAR_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index + Constants.PLANT_SEED_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	await tween.finished
+	for card in animating_cards:
+		card.queue_free()
 
 func animate_shuffle(discard_pile_cards:Array) -> void:
 	if discard_pile_cards.size() == 0:
@@ -52,26 +54,27 @@ func animate_shuffle(discard_pile_cards:Array) -> void:
 		animating_card.global_position = _discard_deck_button.global_position
 		var target_position := _draw_deck_button.global_position
 		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * index - 0.01).timeout.connect(func(): animating_card.play_move_sound())
-		var tweener := tween.tween_property(animating_card, "global_position", target_position, Constants.CARD_ANIMATION_DELAY).set_delay(Constants.CARD_ANIMATION_DELAY * index)
+		var tweener := tween.tween_property(animating_card, "global_position", target_position, Constants.PLANT_SEED_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * index)
 		tweener.finished.connect(func():
 			animating_card.queue_free()
 		)
 		index += 1
 	await tween.finished
 
-func animate_discard(field_indices:Array) -> void:
+func animate_discard(field_indices:Array, discarding_data:Array) -> void:
 	var discarding_cards:Array[GUIPlantCard] = []
 	var discard_tween:Tween = Util.create_scaled_tween(self)
 	discard_tween.set_parallel(true)
-	for i:int in field_indices:
-		var field := _field_container.fields[i]
+	for i:int in field_indices.size():
+		var field_index:int = field_indices[i]
+		var field := _field_container.fields[field_index]
 		var card:GUIPlantCard = ANIMATING_PLANT_SEED_SCENE.instantiate()
 		add_child(card)
-		card.update_with_plant_data(field.plant.data)
+		card.update_with_plant_data(discarding_data[i])
 		discarding_cards.append(card)
 		card.global_position = field.get_preview_icon_global_position(card)
 		var target_position := _discard_deck_button.global_position
-		discard_tween.tween_property(card, "global_position", target_position, Constants.CARD_ANIMATION_DELAY).set_delay(Constants.CARD_ANIMATION_DELAY * i).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		discard_tween.tween_property(card, "global_position", target_position, Constants.PLANT_SEED_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY).set_delay(Constants.CARD_ANIMATION_DELAY * i).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await discard_tween.finished
 	for discarding_card in discarding_cards:
 		discarding_card.queue_free()

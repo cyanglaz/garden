@@ -3,6 +3,7 @@ extends RefCounted
 
 signal tool_application_started()
 signal tool_application_failed()
+signal tool_used()
 signal tool_application_completed()
 
 var _pending_actions:Array[ActionData] = []

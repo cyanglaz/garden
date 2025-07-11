@@ -12,7 +12,7 @@ func _ready() -> void:
 	_gui_settings_button.action_evoked.connect(func() -> void: setting_button_evoked.emit())
 
 func update_gold(gold:int, animated:bool) -> void:
-	_gui_gold.update_gold(gold, GUIGold.AnimationType.SINGLE if animated else GUIGold.AnimationType.NONE)
+	await _gui_gold.update_gold(gold, GUIGold.AnimationType.SINGLE if animated else GUIGold.AnimationType.NONE)
 
 func update_week(week:int) -> void:
 	_week_label.text = tr("WEEK_LABEL_TEXT") % (week + 1)

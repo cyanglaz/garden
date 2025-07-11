@@ -13,7 +13,7 @@ var _tool_applier:ToolApplier = ToolApplier.new()
 
 func _init(initial_tools:Array) -> void:
 	tool_deck = Deck.new(initial_tools)
-	_tool_applier.tool_application_started.connect(func(): tool_application_started.emit())
+	_tool_applier.tool_application_started.connect(func(): tool_application_started.emit(selected_tool_index))
 	_tool_applier.tool_application_failed.connect(func(): tool_application_failed.emit())
 	_tool_applier.tool_application_completed.connect(func(): tool_application_completed.emit(selected_tool_index))
 

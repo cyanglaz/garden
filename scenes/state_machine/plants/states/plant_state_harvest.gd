@@ -1,8 +1,6 @@
 class_name PlantStateHarvest
 extends PlantState
 
-@onready var _gold_audio: AudioStreamPlayer2D = %GoldAudio
-
 func enter() -> void:
 	super.enter()
 	plant.harvest_started.emit()

@@ -77,7 +77,7 @@ func plant_seed(plant_data:PlantData) -> void:
 	plant.field = self
 
 func get_preview_icon_global_position(preview_icon:Control) -> Vector2:
-	return Util.get_node_ui_position(preview_icon, _gui_field_button) + Vector2.UP * 8
+	return Util.get_node_ui_position(preview_icon, _gui_field_button) + Vector2.RIGHT * (_gui_field_button.size.x/2 - preview_icon.size.x/2 ) + Vector2.UP * preview_icon.size.y/2
 
 func remove_plant_preview() -> void:
 	if _weak_plant_preview.get_ref():

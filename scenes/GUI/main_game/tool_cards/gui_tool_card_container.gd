@@ -111,6 +111,8 @@ func _on_tool_card_action_evoked(index:int) -> void:
 
 func _on_tool_card_mouse_entered(index:int) -> void:
 	var mouse_over_card = _container.get_child(index)
+	if !is_instance_valid(mouse_over_card):
+		return
 	if mouse_over_card.button_state == GUIBasicButton.ButtonState.SELECTED || mouse_over_card.button_state == GUIBasicButton.ButtonState.DISABLED:
 		return
 	mouse_over_card.container_offset = -1.0
@@ -139,6 +141,8 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 
 func _on_tool_card_mouse_exited(index:int) -> void:
 	var mouse_exit_card = _container.get_child(index)
+	if !is_instance_valid(mouse_exit_card):
+		return
 	if mouse_exit_card.button_state == GUIBasicButton.ButtonState.SELECTED || mouse_exit_card.button_state == GUIBasicButton.ButtonState.DISABLED:
 		return
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
