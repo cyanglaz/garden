@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://canp4x5u3afyb" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_container.tscn" id="5_hujfj"]
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="6_jqqhe"]
 [ext_resource type="PackedScene" uid="uid://bpirre4ebu4op" path="res://scenes/GUI/main_game/energy/gui_energy_tracker.tscn" id="8_ho5j6"]
-[ext_resource type="PackedScene" uid="uid://b8ixx2yg4dgov" path="res://scenes/GUI/controls/buttons/gui_draw_box_button.tscn" id="9_fu4tq"]
+[ext_resource type="PackedScene" uid="uid://b8ixx2yg4dgov" path="res://scenes/GUI/controls/buttons/gui_deck_button.tscn" id="9_fu4tq"]
 
 [node name="GUIMainGame" type="CanvasLayer"]
 script = ExtResource("1_48pcf")
@@ -83,33 +83,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="BottomRightContainer" type="HBoxContainer" parent="MainContainer/MainMarginContainer/Container" index="3"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -35.0
-offset_top = -16.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_constants/separation = 1
-alignment = 2
-
-[node name="GUIDiscardBoxButton" parent="MainContainer/MainMarginContainer/Container/BottomRightContainer" instance=ExtResource("9_fu4tq")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 8
-
-[node name="EndTurnButton" parent="MainContainer/MainMarginContainer/Container/BottomRightContainer" instance=ExtResource("6_jqqhe")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 8
-localization_text_key = "ACTION_END_DAY"
-
-[node name="GUIToolCardContainer" parent="MainContainer/MainMarginContainer/Container" index="4" instance=ExtResource("5_hujfj")]
+[node name="GUIToolCardContainer" parent="MainContainer/MainMarginContainer/Container" index="3" instance=ExtResource("5_hujfj")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
@@ -121,6 +95,34 @@ offset_top = -48.0
 offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 0
+
+[node name="BottomRightContainer" type="VBoxContainer" parent="MainContainer/MainMarginContainer/Container" index="4"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -30.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/separation = 2
+alignment = 2
+
+[node name="GUIDiscardBoxButton" parent="MainContainer/MainMarginContainer/Container/BottomRightContainer" instance=ExtResource("9_fu4tq")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+type = 2
+
+[node name="EndTurnButton" parent="MainContainer/MainMarginContainer/Container/BottomRightContainer" instance=ExtResource("6_jqqhe")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+localization_text_key = "ACTION_END_DAY"
 
 [node name="Overlay" type="Control" parent="."]
 unique_name_in_owner = true

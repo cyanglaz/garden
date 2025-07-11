@@ -6,6 +6,7 @@ const DRAW_ANIMATION_TIME := 0.2
 const DRAW_ANIMATION_DELAY := 0.1
 const DISCARD_ANIMATION_TIME := 0.1
 const DISCARD_ANIMATION_DELAY := 0.05
+const CARD_MIN_SCALE := 0.8
 
 var _tool_card_container:GUIToolCardContainer: get = _get_tool_card_container
 var _draw_deck_button:GUIDeckButton: get = _get_draw_deck_button
@@ -35,11 +36,12 @@ func animate_draw(draw_results:Array[ToolData]) -> void:
 		else:
 			animating_card = ANIMATING_TOOL_CARD_SCENE.instantiate()
 			add_child(animating_card)
-			#animating_card.hide()
-			var initial_scale := 0.4
+			animating_card.hide()
+			animating_card.animation_mode = true
 			var tool_data:ToolData = draw_results[i - starting_index]
-			animating_card.global_position = _draw_deck_button.global_position + _draw_deck_button.size/2 - animating_card.size/2*initial_scale
-			animating_card.scale = Vector2.ONE * initial_scale
+			var original_size:Vector2 = animating_card.size
+			animating_card.scale = _draw_deck_button.size/original_size * CARD_MIN_SCALE
+			animating_card.global_position = _draw_deck_button.global_position + _draw_deck_button.size/2 - animating_card.size/2*animating_card.scale
 			animating_card.update_with_tool_data(tool_data)
 			animating_cards.append(animating_card)
 		var delay_index := i - starting_index + 1
@@ -49,7 +51,10 @@ func animate_draw(draw_results:Array[ToolData]) -> void:
 		var target_global_position:Vector2 = _tool_card_container.global_position + card_local_position
 		tween.tween_property(animating_card, "visible", true, 0.01).set_delay(DRAW_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 		tween.tween_property(animating_card, "global_position", target_global_position, DRAW_ANIMATION_TIME).set_delay(DRAW_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-		tween.tween_property(animating_card, "scale", Vector2.ONE, DRAW_ANIMATION_TIME).set_delay(DRAW_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		var scale_tweener := tween.tween_property(animating_card, "scale", Vector2.ONE, DRAW_ANIMATION_TIME).set_delay(DRAW_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		scale_tweener.finished.connect(func():
+			animating_card.animation_mode = false
+		)
 	await tween.finished
 	for animating_card in animating_cards:
 		animating_card.queue_free()
@@ -63,11 +68,12 @@ func animate_shuffle(discard_pile_cards:Array[ToolData]) -> void:
 	for tool_data:ToolData in discard_pile_cards:
 		var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
 		add_child(animating_card)
-		animating_card.global_position = _discard_deck_button.global_position
-		var target_position := _draw_deck_button.global_position
+		animating_card.animation_mode = true
 		var original_size:Vector2 = animating_card.size
-		animating_card.scale = _discard_deck_button.size/original_size
+		animating_card.scale = _discard_deck_button.size/original_size * CARD_MIN_SCALE
 		animating_card.update_with_tool_data(tool_data)
+		animating_card.global_position = _discard_deck_button.global_position + _discard_deck_button.size/2 - animating_card.size/2*animating_card.scale
+		var target_position := _draw_deck_button.global_position + _draw_deck_button.size/2 - animating_card.size/2*animating_card.scale
 		Util.create_scaled_timer(DISCARD_ANIMATION_DELAY * index - 0.01).timeout.connect(func(): animating_card.play_move_sound())
 		var tweener := tween.tween_property(animating_card, "global_position", target_position, DISCARD_ANIMATION_TIME).set_delay(DISCARD_ANIMATION_DELAY * index)
 		tweener.finished.connect(func():
@@ -84,9 +90,11 @@ func animate_discard(indices:Array) -> void:
 		var card:GUIToolCardButton = _tool_card_container.get_card(i)
 		card.mouse_disabled = true
 		discarding_cards.append(card)
-		var target_scale:float = 0.4
+		var original_size:Vector2 = card.size
+		var target_scale := _discard_deck_button.size/original_size * CARD_MIN_SCALE
 		var target_position:Vector2 = _discard_deck_button.global_position + _discard_deck_button.size/2 - card.size/2*target_scale
 		Util.create_scaled_timer(DISCARD_ANIMATION_DELAY * i - 0.01).timeout.connect(func(): card.play_move_sound())
+		Util.create_scaled_timer(DISCARD_ANIMATION_DELAY + 0.01).timeout.connect(func(): card.animation_mode = true)
 		discard_tween.tween_property(card, "global_position", target_position, DISCARD_ANIMATION_TIME).set_delay(DISCARD_ANIMATION_DELAY * i).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		discard_tween.tween_property(card, "scale", Vector2.ONE * target_scale, DISCARD_ANIMATION_TIME).set_delay(DISCARD_ANIMATION_DELAY * i).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await discard_tween.finished

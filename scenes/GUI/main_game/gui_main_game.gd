@@ -52,7 +52,10 @@ func update_tools(tool_datas:Array[ToolData]) -> void:
 
 func clear_tool_selection() -> void:
 	gui_tool_card_container.clear_selection()
-	
+
+func bind_tool_deck(tool_deck:ToolDeck) -> void:
+	gui_draw_box_button.bind_tool_deck(tool_deck)
+	gui_discard_box_button.bind_tool_deck(tool_deck)
 #endregion
 
 

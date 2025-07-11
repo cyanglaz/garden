@@ -15,6 +15,7 @@ var activated := false: set = _set_activated
 var _tool_data:ToolData: get = _get_tool_data
 var _weak_tool_data:WeakRef = weakref(null)
 var _default_button_state:GUIBasicButton.ButtonState = GUIBasicButton.ButtonState.NORMAL
+var animation_mode := false : set = _set_animation_mode
 
 func _ready() -> void:
 	super._ready()
@@ -78,6 +79,11 @@ func _set_activated(value:bool) -> void:
 	var energy_tracker := Singletons.main_game.energy_tracker
 	_update_for_energy(energy_tracker.value)
 	energy_tracker.value_update.connect(_on_energy_tracker_value_updated.bind(energy_tracker))
+
+func _set_animation_mode(value:bool) -> void:
+	animation_mode = value
+	_cost_label.visible = !value
+	_gui_generic_description.visible = !value
 
 func _on_energy_tracker_value_updated(energy_tracker:ResourcePoint) -> void:
 	_update_for_energy(energy_tracker.value)

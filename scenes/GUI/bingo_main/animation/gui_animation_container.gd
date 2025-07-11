@@ -9,9 +9,7 @@ const CONSECUTIVE_BINGO_ANIMATION_SCALE := 0.03
 const MINIMUM_ANIMATION_SCALE := 0.6
 const ATTACK_BAR_SYMBOL_INITIAL_SCALE := 0.5
 const DRAW_ANIMATION_TIME := 0.2
-const DRAW_ANIMATION_DELAY := 0.1
 const DISCARD_ANIMATION_TIME := 0.1
-const DISCARD_ANIMATION_DELAY := 0.05
 
 signal removal_animation_finished()
 signal move_animation_finished()
@@ -52,12 +50,12 @@ func animate_draw(player_draw_results:Array[BingoBallData]) -> void:
 		animating_ball.bind_bingo_ball(ball_data)
 		var delay_index := i - starting_index + 1
 		if delay_index >= 0:
-			Util.create_scaled_timer(DRAW_ANIMATION_DELAY * delay_index).timeout.connect(func(): animating_ball.play_move_sound())
+			Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index).timeout.connect(func(): animating_ball.play_move_sound())
 		var ball_local_position:Vector2 = ball_positions[i]
 		var target_global_position:Vector2 = _gui_bingo_main._gui_bingo_ball_hand.global_position + ball_local_position
-		tween.tween_property(animating_ball, "visible", true, 0.01).set_delay(DRAW_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-		tween.tween_property(animating_ball, "global_position", target_global_position, DRAW_ANIMATION_TIME).set_delay(DRAW_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-		tween.tween_property(animating_ball, "scale", Vector2.ONE, DRAW_ANIMATION_TIME).set_delay(DRAW_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		tween.tween_property(animating_ball, "visible", true, 0.01).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		tween.tween_property(animating_ball, "global_position", target_global_position, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		tween.tween_property(animating_ball, "scale", Vector2.ONE, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 		animating_balls.append(animating_ball)
 	await tween.finished
 	for animating_ball in animating_balls:
@@ -80,9 +78,9 @@ func animate_discard(player_hand:Array[BingoBallData]) -> void:
 	for animating_ball in animating_balls:
 		var target_scale := 0.4
 		var target_position := _gui_bingo_main._gui_discard_box_button.global_position + _gui_bingo_main._gui_discard_box_button.size/2 - animating_ball.size/2*target_scale
-		Util.create_scaled_timer(DISCARD_ANIMATION_DELAY * index).timeout.connect(func(): animating_ball.play_move_sound())
-		tween.tween_property(animating_ball, "global_position", target_position, DISCARD_ANIMATION_TIME).set_delay(DISCARD_ANIMATION_DELAY * index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		tween.tween_property(animating_ball, "scale", Vector2.ONE * target_scale, DISCARD_ANIMATION_TIME).set_delay(DISCARD_ANIMATION_DELAY * index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * index).timeout.connect(func(): animating_ball.play_move_sound())
+		tween.tween_property(animating_ball, "global_position", target_position, DISCARD_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(animating_ball, "scale", Vector2.ONE * target_scale, DISCARD_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		index += 1
 	await tween.finished
 	for animating_ball in animating_balls:
@@ -102,8 +100,8 @@ func animate_shuffle(shuffled_balls:Array[BingoBallData]) -> void:
 		var original_size:Vector2 = animating_ball.size
 		animating_ball.scale = _gui_bingo_main._gui_discard_box_button.size/original_size
 		animating_ball.bind_bingo_ball(ball_data)
-		Util.create_scaled_timer(DISCARD_ANIMATION_DELAY * index - 0.01).timeout.connect(func(): animating_ball.play_move_sound())
-		var tweener := tween.tween_property(animating_ball, "global_position", target_position, DISCARD_ANIMATION_TIME).set_delay(DISCARD_ANIMATION_DELAY * index)
+		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * index - 0.01).timeout.connect(func(): animating_ball.play_move_sound())
+		var tweener := tween.tween_property(animating_ball, "global_position", target_position, DISCARD_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * index)
 		tweener.finished.connect(func():
 			animating_ball.queue_free()
 		)
