@@ -21,6 +21,7 @@ func _ready():
 	_new_game_button.grab_focus()
 	_version_label.text = str("v.",ProjectSettings.get_setting("application/config/version"))
 	
+	
 func _on_new_game_button_action_evoked() -> void:
 	get_tree().change_scene_to_file(SCENE_PATH)
 	#Main.weak_main().get_ref().show_game_session()

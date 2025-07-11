@@ -12,16 +12,12 @@ const REPOSITION_DURATION:float = 0.15
 @onready var _hover_sound: AudioStreamPlayer2D = %HoverSound
 @onready var _draw_area: Control = %DrawArea
 
-var _weak_draw_box:WeakRef = weakref(null)
 var _ball_size:int
 
 func _ready() -> void:
 	var temp_bingo_ball := BALL_SCENE.instantiate()
 	_ball_size = temp_bingo_ball.size.x
 	temp_bingo_ball.queue_free()
-
-func setup_draw_box(gui_draw_box:GUIDeckButton) -> void:
-	_weak_draw_box = weakref(gui_draw_box)
 
 func get_ball(index:int) -> GUIBingoBall:
 	return _draw_area.get_child(index)

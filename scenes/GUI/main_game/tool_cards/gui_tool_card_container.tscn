@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://canp4x5u3afyb"]
+[gd_scene load_steps=3 format=3 uid="uid://canp4x5u3afyb"]
 
 [ext_resource type="Script" uid="uid://be0wbaoj8j50h" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_container.gd" id="1_32kbc"]
+[ext_resource type="PackedScene" uid="uid://dy6ehpdrlw24h" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_animation_container.tscn" id="2_32kbc"]
 
 [node name="GUIToolCardContainer" type="PanelContainer"]
 offset_bottom = 42.0
@@ -11,3 +12,8 @@ script = ExtResource("1_32kbc")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+
+[node name="GUIToolCardAnimationContainer" parent="." instance=ExtResource("2_32kbc")]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2

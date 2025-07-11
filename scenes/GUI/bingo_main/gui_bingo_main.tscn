@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://bgx6gmhvwel8v" path="res://scenes/GUI/controls/buttons/gui_discard_box_button.tscn" id="10_pmggj"]
 [ext_resource type="PackedScene" uid="uid://jonriuwwtur5" path="res://scenes/GUI/controls/buttons/gui_basic_toggle_button.tscn" id="10_uvv20"]
 [ext_resource type="PackedScene" uid="uid://douspbaf6ah1q" path="res://scenes/GUI/bingo_main/draw_box/gui_pile_display.tscn" id="11_gnlnc"]
-[ext_resource type="PackedScene" uid="uid://b8ixx2yg4dgov" path="res://scenes/GUI/controls/buttons/gui_draw_box_button.tscn" id="11_ieny5"]
+[ext_resource type="PackedScene" uid="uid://b8ixx2yg4dgov" path="res://scenes/GUI/controls/buttons/gui_deck_button.tscn" id="11_ieny5"]
 [ext_resource type="PackedScene" uid="uid://beqj6gj2gt7x7" path="res://scenes/GUI/bingo_main/shared/gui_following_symbol.tscn" id="11_ok4i7"]
 [ext_resource type="PackedScene" uid="uid://huilk24yuys0" path="res://scenes/GUI/bingo_main/power_button_box/gui_power_button_box.tscn" id="12_gnlnc"]
 [ext_resource type="PackedScene" uid="uid://5m77v7qv4i5h" path="res://scenes/GUI/tooltips/gui_power_tooltip.tscn" id="15_gnlnc"]
