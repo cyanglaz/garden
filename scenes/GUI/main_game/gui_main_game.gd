@@ -10,6 +10,7 @@ signal plant_seed_selected(index:int)
 @onready var gui_mouse_following_plant_icon: GUIMouseFollowingPlantIcon = %GUIMouseFollowingPlantIcon
 @onready var gui_draw_box_button: GUIDeckButton = %GUIDrawBoxButton
 @onready var gui_discard_box_button: GUIDeckButton = %GUIDiscardBoxButton
+@onready var gui_plant_seed_animation_container: GUIPlantSeedAnimationContainer = %GUIPlantSeedAnimationContainer
 @onready var _gui_plant_card_container: GUIPlantCardContainer = %GUIPlantCardContainer
 @onready var _overlay: Control = %Overlay
 @onready var _day_label: Label = %DayLabel

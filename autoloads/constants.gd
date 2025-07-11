@@ -109,7 +109,7 @@ const projectile_outline := false
 
 # Animation
 const FIELD_STATUS_HOOK_ANIMATION_DURATION := 0.4
-const CARD_ANIMATION_DELAY := 0.01
+const CARD_ANIMATION_DELAY := 0.1
 
 var ON_PUSH_PARTICLE = load("res://scenes/utils/visual_effects/impact_particle.tscn")
 var MOB_DEATH_PARTICLE = load("res://scenes/utils/visual_effects/mob_on_death_particle.tscn")
