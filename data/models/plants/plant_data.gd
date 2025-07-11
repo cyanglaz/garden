@@ -1,7 +1,7 @@
 class_name PlantData
 extends ThingData
 
-const PLANT_SCENE_PATH_PREFIX:String = "res://scenes/plants/plant_"
+const PLANT_SCENE_PATH_PREFIX:String = "res://scenes/main_game/plants/plant_"
 
 enum Rarity {
 	COMMON,

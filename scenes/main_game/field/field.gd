@@ -1,7 +1,7 @@
 class_name Field
 extends Node2D
 
-const PLANT_SCENE_PATH_PREFIX := "res://scenes/plants/plants/plant_"
+const PLANT_SCENE_PATH_PREFIX := "res://scenes/main_game/plants/plants/plant_"
 const POPUP_LABEL_ICON_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label_icon.tscn")
 const POPUP_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label.tscn")
 const GOLD_ICON := preload("res://resources/sprites/GUI/icons/resources/icon_gold.png")

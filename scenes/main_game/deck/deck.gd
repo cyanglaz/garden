@@ -1,22 +1,22 @@
-class_name ToolDeck
+class_name Deck
 extends RefCounted
 
-signal draw_pool_updated(draw_pool:Array[ToolData])
-signal discard_pool_updated(discard_pool:Array[ToolData])
-signal pool_updated(pool:Array[ToolData])
+signal draw_pool_updated(draw_pool:Array)
+signal discard_pool_updated(discard_pool:Array)
+signal pool_updated(pool:Array)
 
-var pool:Array[ToolData]
-var draw_pool:Array[ToolData]
-var hand:Array[ToolData]
-var discard_pool:Array[ToolData]
+var pool:Array
+var draw_pool:Array
+var hand:Array
+var discard_pool:Array
 
-func _init(initial_tools:Array[ToolData]) -> void:
-	for tool_data:ToolData in initial_tools:
-		pool.append(tool_data.get_duplicate())
+func _init(initial_items:Array) -> void:
+	for item_data:Variant in initial_items:
+		pool.append(item_data.get_duplicate())
 	draw_pool = pool.duplicate()
 	draw_pool.shuffle()
 
-func get_tool(index:int) -> ToolData:
+func get_item(index:int) -> Variant:
 	return hand[index]
 
 func refresh() -> void:
@@ -35,38 +35,38 @@ func shuffle_draw_pool() -> void:
 	discard_pool.clear()
 	discard_pool_updated.emit(discard_pool)
 
-func draw(count:int) -> Array[ToolData]:
-	var drawn_tools:Array[ToolData] = []
+func draw(count:int) -> Array:
+	var drawn_items:Array = []
 	for i in count:
 		if draw_pool.is_empty():
 			break
-		var tool_data:ToolData = draw_pool.pop_back()
-		hand.append(tool_data)
-		drawn_tools.append(tool_data)
+		var item:Variant = draw_pool.pop_back()
+		hand.append(item)
+		drawn_items.append(item)
 	draw_pool_updated.emit(draw_pool)
-	return drawn_tools
+	return drawn_items
 
 func discard(indices:Array) -> void:
 	# Removing from largest index to smallest index to avoid index change during removal.
 	indices.reverse()
 	for index:int in indices:
-		var bingo_tool_data:ToolData = hand[index]
-		discard_pool.append(bingo_tool_data)
+		var item:Variant = hand[index]
+		discard_pool.append(item)
 		assert(index >= 0)
 		hand.remove_at(index)
 	discard_pool_updated.emit(discard_pool)
 
-func insert_tool(tool_data:ToolData) -> void:
-	pool.append(tool_data)
-	draw_pool.append(tool_data)
+func insert_item(item:Variant) -> void:
+	pool.append(item)
+	draw_pool.append(item)
 	draw_pool_updated.emit(draw_pool)
 	pool_updated.emit(pool)
 
-func remove_tool(tool_data:ToolData) -> void:
-	pool.erase(tool_data)
-	draw_pool.erase(tool_data)
-	hand.erase(tool_data)
-	discard_pool.erase(tool_data)
+func remove_item(item:Variant) -> void:
+	pool.erase(item)
+	draw_pool.erase(item)
+	hand.erase(item)
+	discard_pool.erase(item)
 	draw_pool_updated.emit(draw_pool)
 	discard_pool_updated.emit(discard_pool)
 	pool_updated.emit(pool)

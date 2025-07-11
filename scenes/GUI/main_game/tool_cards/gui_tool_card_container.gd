@@ -39,7 +39,7 @@ func clear_selection() -> void:
 		gui_card.button_state = GUIBasicButton.ButtonState.NORMAL
 		gui_card.container_offset = 0.0
 
-func setup_with_tool_datas(tools:Array[ToolData]) -> void:
+func setup_with_tool_datas(tools:Array) -> void:
 	Util.remove_all_children(_container)
 	var current_size :=  _container.get_children().size()
 	var positions := calculate_default_positions(tools.size() + current_size)
@@ -55,13 +55,13 @@ func setup_with_tool_datas(tools:Array[ToolData]) -> void:
 
 #region animation
 
-func animate_draw(draw_results:Array[ToolData]) -> void:
+func animate_draw(draw_results:Array) -> void:
 	await _gui_tool_card_animation_container.animate_draw(draw_results)
 	
 func animate_discard(discarding_indices:Array) -> void:
 	await _gui_tool_card_animation_container.animate_discard(discarding_indices)
 
-func animate_shuffle(discard_pile_cards:Array[ToolData]) -> void:
+func animate_shuffle(discard_pile_cards:Array) -> void:
 	await _gui_tool_card_animation_container.animate_shuffle(discard_pile_cards)
 
 #endregion

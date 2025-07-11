@@ -14,6 +14,7 @@ var energy_tracker:ResourcePoint = ResourcePoint.new()
 var week_manager:WeekManager = WeekManager.new()
 var weather_manager:WeatherManager = WeatherManager.new()
 var tool_manager:ToolManager
+var plant_manager:PlantManager
 var plant_seed_manager:PlantSeedManager = PlantSeedManager.new()
 var max_energy := 3
 var _gold := 0
@@ -32,6 +33,7 @@ func _ready() -> void:
 	
 	if !test_plant_datas.is_empty():
 		plant_seed_manager.plant_seeds = test_plant_datas
+		plant_manager = PlantManager.new(test_plant_datas)
 	if !test_tools.is_empty():
 		tool_manager = ToolManager.new(test_tools)
 		tool_manager.tool_application_started.connect(_on_tool_application_started)

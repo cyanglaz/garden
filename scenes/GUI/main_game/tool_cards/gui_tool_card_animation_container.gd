@@ -20,7 +20,7 @@ func setup(tool_card_container:GUIToolCardContainer, draw_box_button:GUIDeckButt
 	_weak_draw_deck_button = weakref(draw_box_button)
 	_weak_discard_deck_button = weakref(discard_box_button)
 
-func animate_draw(draw_results:Array[ToolData]) -> void:
+func animate_draw(draw_results:Array) -> void:
 	if draw_results.is_empty():
 		return
 	var total_card_count:int = _tool_card_container.get_card_count() + draw_results.size()
@@ -59,7 +59,7 @@ func animate_draw(draw_results:Array[ToolData]) -> void:
 	for animating_card in animating_cards:
 		animating_card.queue_free()
 
-func animate_shuffle(discard_pile_cards:Array[ToolData]) -> void:
+func animate_shuffle(discard_pile_cards:Array) -> void:
 	if discard_pile_cards.size() == 0:
 		return
 	var index := 0

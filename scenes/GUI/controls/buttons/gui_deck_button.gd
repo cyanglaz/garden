@@ -18,7 +18,7 @@ func _ready() -> void:
 	_normal_background_color = _background.self_modulate
 	super._ready()
 
-func bind_tool_deck(tool_deck:ToolDeck) -> void:
+func bind_tool_deck(tool_deck:Deck) -> void:
 	var pool := []
 	match type:
 		Type.ALL:
@@ -45,7 +45,7 @@ func _set_button_state(val:ButtonState) -> void:
 		ButtonState.HOVERED:
 			_background.self_modulate = Constants.COLOR_BEIGE_1
 
-func _on_pool_updated(pool:Array[ToolData]) -> void:
+func _on_pool_updated(pool:Array) -> void:
 	var old_size := _size
 	_size = pool.size()
 	var increment := 1 if _size > old_size else -1

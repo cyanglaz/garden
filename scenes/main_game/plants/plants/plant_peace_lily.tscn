@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://cnj2y433duoni"]
 
-[ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/plants/plant.tscn" id="1_36t4u"]
-[ext_resource type="Script" uid="uid://tuu0gwwwv0ys" path="res://scenes/plants/plants/plant_daisy.gd" id="2_5q0d0"]
+[ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plant.tscn" id="1_36t4u"]
+[ext_resource type="Script" uid="uid://tuu0gwwwv0ys" path="res://scenes/main_game/plants/plants/plant_daisy.gd" id="2_5q0d0"]
 [ext_resource type="Texture2D" uid="uid://bn7irm5luatjg" path="res://resources/sprites/plants/plant_peace_lily.png" id="3_fusfv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fusfv"]
