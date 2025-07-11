@@ -54,8 +54,8 @@ func clear_tool_selection() -> void:
 	gui_tool_card_container.clear_selection()
 
 func bind_tool_deck(tool_deck:Deck) -> void:
-	gui_draw_box_button.bind_tool_deck(tool_deck)
-	gui_discard_box_button.bind_tool_deck(tool_deck)
+	gui_draw_box_button.bind_deck(tool_deck)
+	gui_discard_box_button.bind_deck(tool_deck)
 #endregion
 
 
