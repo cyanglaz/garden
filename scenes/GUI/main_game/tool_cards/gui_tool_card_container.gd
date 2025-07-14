@@ -44,24 +44,16 @@ func add_card(tool_data:ToolData) -> GUIToolCardButton:
 	_container.add_child(gui_card)
 	gui_card.update_with_tool_data(tool_data)
 	gui_card.activated = true
-	rebind_signals()
+	_rebind_signals()
 	return gui_card
 
-func setup_with_tool_datas(tools:Array) -> void:
-	Util.remove_all_children(_container)
-	var current_size :=  _container.get_children().size()
-	var positions := calculate_default_positions(tools.size() + current_size)
-	for i in positions.size():
-		var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
-		gui_card.action_evoked.connect(_on_tool_card_action_evoked.bind(i))
-		gui_card.mouse_entered.connect(_on_tool_card_mouse_entered.bind(i))
-		gui_card.mouse_exited.connect(_on_tool_card_mouse_exited.bind(i))
-		_container.add_child(gui_card)
-		gui_card.update_with_tool_data(tools[i])
-		gui_card.position = positions[i]
-		gui_card.activated = true
+func remove_cards(gui_cards:Array[GUIToolCardButton]) -> void:
+	for gui_card in gui_cards:
+		_container.remove_child(gui_card)
+		gui_card.queue_free()
+	_rebind_signals()
 
-func rebind_signals() -> void:
+func _rebind_signals() -> void:
 	for i in _container.get_children().size():
 		var gui_card:GUIToolCardButton = _container.get_child(i)
 		if gui_card.action_evoked.is_connected(_on_tool_card_action_evoked):

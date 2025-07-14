@@ -93,21 +93,8 @@ func animate_discard(indices:Array) -> void:
 		discard_tween.tween_property(card, "global_position", target_position, DISCARD_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * i).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		discard_tween.tween_property(card, "scale", Vector2.ONE * target_scale, DISCARD_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * i).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await discard_tween.finished
-	for discarding_card in discarding_cards:
-		_tool_card_container.remove_card(discarding_card)
-		discarding_card.hide()
-		discarding_card.queue_free()
-	_tool_card_container.rebind_signals()
-	if _tool_card_container.get_card_count() > 0:
-		var default_positions:Array[Vector2] = _tool_card_container.calculate_default_positions(_tool_card_container.get_card_count())
-		var reposition_tween:Tween = Util.create_scaled_tween(self)
-		reposition_tween.set_parallel(true)
-		for i:int in _tool_card_container.get_card_count():
-			var card:GUIToolCardButton = _tool_card_container.get_card(i)
-			var target_position:Vector2 = _tool_card_container.global_position + default_positions[i]
-			card.play_move_sound()
-			reposition_tween.tween_property(card, "global_position", target_position, DISCARD_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		await reposition_tween.finished
+	_tool_card_container.remove_cards(discarding_cards)
+	animate_reposition()
 
 func animate_reposition() -> void:
 	if _tool_card_container.get_card_count() == 0:
