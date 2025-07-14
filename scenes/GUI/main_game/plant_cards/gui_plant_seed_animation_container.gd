@@ -20,6 +20,8 @@ func setup(field_container:FieldContainer, draw_box_button:GUIDeckButton, discar
 
 func animate_draw(draw_results:Array, target_field_indices:Array) -> void:
 	assert(draw_results.size() == target_field_indices.size())
+	if draw_results.size() == 0:
+		return
 	var animating_cards:Array[GUIPlantIcon] = []
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
@@ -51,10 +53,10 @@ func animate_shuffle(discard_pile_cards:Array) -> void:
 	var index := 0
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
-	for tool_data:ToolData in discard_pile_cards:
+	for plant_data:PlantData in discard_pile_cards:
 		var animating_card:GUIPlantIcon = ANIMATING_PLANT_SEED_SCENE.instantiate()
 		add_child(animating_card)
-		animating_card.update_with_tool_data(tool_data)
+		animating_card.update_with_plant_data(plant_data)
 		animating_card.global_position = _discard_deck_button.global_position
 		var target_position := _draw_deck_button.global_position
 		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * index - 0.01).timeout.connect(func(): animating_card.play_move_sound())

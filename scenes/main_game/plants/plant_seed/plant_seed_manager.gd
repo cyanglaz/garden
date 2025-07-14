@@ -21,8 +21,8 @@ func draw_cards(count:int, gui_plant_seed_animation_container:GUIPlantSeedAnimat
 	gui_plant_seed_animation_container.draw_plant_card_completed.disconnect(_on_draw_plant_card_completed.bind(field_container))
 
 func shuffle(gui_plant_seed_animation_container:GUIPlantSeedAnimationContainer) -> void:
-	var discard_pile_balls := plant_deck.discard_pool.duplicate()
-	await gui_plant_seed_animation_container.animate_shuffle(discard_pile_balls)
+	var discard_pile_seeds := plant_deck.discard_pool.duplicate()
+	await gui_plant_seed_animation_container.animate_shuffle(discard_pile_seeds)
 	plant_deck.shuffle_draw_pool()
 
 func discard_cards(field_indices:Array, gui_plant_seed_animation_container:GUIPlantSeedAnimationContainer) -> void:
