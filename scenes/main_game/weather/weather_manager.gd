@@ -65,7 +65,7 @@ func apply_weather_actions(fields:Array[Field], today_weather_icon:GUIWeather) -
 	await tween.finished
 	await Util.await_for_small_time()
 	for field:Field in fields_to_apply_weather_actions:
-		field.apply_weather_actions(today_weather)
+		await field.apply_weather_actions(today_weather)
 	await Util.create_scaled_timer(0.5).timeout
 	for gui_weather_copy:GUIWeather in gui_weather_copies:
 		gui_weather_copy.queue_free()

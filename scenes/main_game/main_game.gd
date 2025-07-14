@@ -17,7 +17,6 @@ var tool_manager:ToolManager
 var plant_seed_manager:PlantSeedManager
 var max_energy := 3
 var _gold := 0
-var _ending_turn := false
 
 func _ready() -> void:
 	Singletons.main_game = self
@@ -58,7 +57,6 @@ func start_new_week() -> void:
 	start_day()
 
 func start_day() -> void:
-	_ending_turn = false
 	energy_tracker.setup(max_energy, max_energy)
 	week_manager.next_day()
 	weather_manager.day = week_manager.get_day()
@@ -144,7 +142,6 @@ func _on_tool_application_failed(_index:int) -> void:
 	gui_main_game.toggle_all_ui(true)
 
 func _on_end_turn_button_pressed() -> void:
-	_ending_turn = true
 	gui_main_game.toggle_all_ui(false)
 	await _discard_all_tools()
 	await weather_manager.apply_weather_actions(_field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
@@ -158,8 +155,7 @@ func _on_field_harvest_completed(gold:int, index:int) -> void:
 	_gold += gold
 	await plant_seed_manager.discard_cards([index], gui_main_game.gui_plant_seed_animation_container)
 	await gui_main_game.update_gold(_gold, true)
-	if !_ending_turn:
-		await plant_seed_manager.draw_cards(1, gui_main_game.gui_plant_seed_animation_container, [index], _field_container)
+	await plant_seed_manager.draw_cards(1, gui_main_game.gui_plant_seed_animation_container, [index], _field_container)
 	gui_main_game.toggle_all_ui(true)
 
 func _on_weathers_updated() -> void:

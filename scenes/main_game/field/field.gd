@@ -117,6 +117,7 @@ func apply_actions(actions:Array[ActionData]) -> void:
 				pass
 	if _can_harvest():
 		_harvest()
+		await plant.harvest_completed
 
 func show_gold_popup() -> void:
 	_gold_audio.play()
