@@ -40,6 +40,7 @@ func _ready() -> void:
 	energy_tracker.can_be_capped = false
 	gui_main_game.bind_energy(energy_tracker)
 	gui_main_game.bind_tool_deck(tool_manager.tool_deck)
+	gui_main_game.bind_plant_seed_deck(plant_seed_manager.plant_deck)
 	gui_main_game.setup_plant_seed_animation_container(_field_container)
 	start_new_week()
 
