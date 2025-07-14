@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://cnjsxqrjyqthb"
-path="res://.godot/imported/ap_increased.wav-02bc6a86b407024c871880b7e11bd528.sample"
+path="res://.godot/imported/gold_increased.wav-dee6283c3550ad6284380ac48020db54.sample"
 
 [deps]
 
-source_file="res://resources/sounds/SFX/bingo/ap_increased.wav"
-dest_files=["res://.godot/imported/ap_increased.wav-02bc6a86b407024c871880b7e11bd528.sample"]
+source_file="res://resources/sounds/SFX/other/gold/gold_increased.wav"
+dest_files=["res://.godot/imported/gold_increased.wav-dee6283c3550ad6284380ac48020db54.sample"]
 
 [params]
 

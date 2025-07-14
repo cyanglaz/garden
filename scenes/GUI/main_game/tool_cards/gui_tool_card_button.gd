@@ -1,8 +1,8 @@
 class_name GUIToolCardButton
 extends GUIBasicButton
 
-const CARD_HOVER_SOUND := preload("res://resources/sounds/SFX/other/cards/card_hover.wav")
-const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/cards/card_select.wav")
+const CARD_HOVER_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_hover.wav")
+const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_select.wav")
 
 @onready var _gui_generic_description: GUIGenericDescription = %GUIGenericDescription
 @onready var _card_container: PanelContainer = %CardContainer

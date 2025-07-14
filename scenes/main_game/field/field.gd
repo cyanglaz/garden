@@ -27,6 +27,8 @@ signal plant_harvest_completed(gold:int)
 @onready var _gold_audio: AudioStreamPlayer2D = %GoldAudio
 @onready var _gui_field_selection_arrow: GUIFieldSelectionArrow = %GUIFieldSelectionArrow
 @onready var _gui_field_status_container: GUIFieldStatusContainer = %GUIFieldStatusContainer
+@onready var _gui_plant_tooltip: GUIPlantTooltip = %GUIPlantTooltip
+@onready var _plant_down_sound: AudioStreamPlayer2D = %PlantDownSound
 
 var _weak_plant_preview:WeakRef = weakref(null)
 var plant:Plant
@@ -37,8 +39,8 @@ var weak_right_field:WeakRef = weakref(null)
 func _ready() -> void:
 	_gui_field_button.state_updated.connect(_on_gui_field_button_state_updated)
 	_gui_field_button.action_evoked.connect(func(): field_pressed.emit())
-	_gui_field_button.mouse_entered.connect(func(): field_hovered.emit(true))
-	_gui_field_button.mouse_exited.connect(func(): field_hovered.emit(false))
+	_gui_field_button.mouse_entered.connect(_on_field_mouse_entered)
+	_gui_field_button.mouse_exited.connect(_on_field_mouse_exited)
 	_gui_field_status_container.bind_with_field_status_manager(status_manager)
 	status_manager.request_hook_message_popup.connect(_on_request_hook_message_popup)
 	status_manager.update_status("pest", 2)
@@ -46,6 +48,7 @@ func _ready() -> void:
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
 	_gui_field_selection_arrow.is_active = false
+	_gui_plant_tooltip.hide()
 	_reset_progress_bars()
 
 func toggle_selection_indicator(on:bool, tool_data:ToolData) -> void:
@@ -66,6 +69,7 @@ func show_plant_preview(plant_data:PlantData) -> void:
 
 func plant_seed(plant_data:PlantData) -> void:
 	assert(plant == null, "Plant already planted")
+	_plant_down_sound.play()
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
 	var scene := load(plant_scene_path)
 	plant = scene.instantiate()
@@ -206,3 +210,13 @@ func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
 		FieldStatusData.Type.GOOD:
 			color = Constants.COLOR_GREEN2
 	popup.animate_show_label_and_destroy(status_data.popup_message, 18, 1, POPUP_SHOW_TIME, POPUP_STATUS_DESTROY_TIME, color)
+
+func _on_field_mouse_entered() -> void:
+	field_hovered.emit(true)
+	if plant:
+		_gui_plant_tooltip.update_with_plant_data(plant.data)
+		_gui_plant_tooltip.show()
+
+func _on_field_mouse_exited() -> void:
+	field_hovered.emit(false)
+	_gui_plant_tooltip.hide()
