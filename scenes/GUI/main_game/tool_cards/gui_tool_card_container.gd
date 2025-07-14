@@ -39,6 +39,14 @@ func clear_selection() -> void:
 		gui_card.button_state = GUIBasicButton.ButtonState.NORMAL
 		gui_card.container_offset = 0.0
 
+func add_card(tool_data:ToolData) -> GUIToolCardButton:
+	var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
+	_container.add_child(gui_card)
+	gui_card.update_with_tool_data(tool_data)
+	gui_card.activated = true
+	rebind_signals()
+	return gui_card
+
 func setup_with_tool_datas(tools:Array) -> void:
 	Util.remove_all_children(_container)
 	var current_size :=  _container.get_children().size()
@@ -52,6 +60,19 @@ func setup_with_tool_datas(tools:Array) -> void:
 		gui_card.update_with_tool_data(tools[i])
 		gui_card.position = positions[i]
 		gui_card.activated = true
+
+func rebind_signals() -> void:
+	for i in _container.get_children().size():
+		var gui_card:GUIToolCardButton = _container.get_child(i)
+		if gui_card.action_evoked.is_connected(_on_tool_card_action_evoked):
+			gui_card.action_evoked.disconnect(_on_tool_card_action_evoked)
+		if gui_card.mouse_entered.is_connected(_on_tool_card_mouse_entered):
+			gui_card.mouse_entered.disconnect(_on_tool_card_mouse_entered)
+		if gui_card.mouse_exited.is_connected(_on_tool_card_mouse_exited):
+			gui_card.mouse_exited.disconnect(_on_tool_card_mouse_exited)
+		gui_card.action_evoked.connect(_on_tool_card_action_evoked.bind(i))
+		gui_card.mouse_entered.connect(_on_tool_card_mouse_entered.bind(i))
+		gui_card.mouse_exited.connect(_on_tool_card_mouse_exited.bind(i))
 
 #region animation
 
@@ -124,6 +145,7 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 	tween.set_parallel(true)
 	tween.set_ease(Tween.EASE_IN)
 	tween.set_trans(Tween.TRANS_SINE)
+	tween.tween_interval(0.01)
 	var animated := false
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
@@ -151,6 +173,7 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 	tween.set_parallel(true)
 	tween.set_ease(Tween.EASE_IN)
 	tween.set_trans(Tween.TRANS_SINE)
+	tween.tween_interval(0.01)
 	var animated := false
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)

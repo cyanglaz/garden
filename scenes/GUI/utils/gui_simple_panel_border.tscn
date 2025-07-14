@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://dj2yqwe0n3eg5"]
+[gd_scene load_steps=2 format=3 uid="uid://c2i63xwcihfnp"]
 
-[ext_resource type="Texture2D" uid="uid://npuwu7d1i0ar" path="res://resources/sprites/GUI/shared/border_simple.png" id="1_8tkrx"]
+[ext_resource type="Texture2D" uid="uid://b6bu6a3fjylm" path="res://resources/sprites/GUI/shared/border_simple.png" id="1_8tkrx"]
 
 [node name="GUISimplePanelBorder" type="NinePatchRect"]
 texture = ExtResource("1_8tkrx")

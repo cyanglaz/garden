@@ -32,15 +32,12 @@ func animate_draw(draw_results:Array) -> void:
 		if i < starting_index:
 			animating_card = _tool_card_container.get_card(i)
 		else:
-			animating_card = ANIMATING_TOOL_CARD_SCENE.instantiate()
-			add_child(animating_card)
+			animating_card = _tool_card_container.add_card(draw_results[i - starting_index])
 			animating_card.hide()
 			animating_card.animation_mode = true
-			var tool_data:ToolData = draw_results[i - starting_index]
 			var original_size:Vector2 = animating_card.size
 			animating_card.scale = _draw_deck_button.size/original_size * CARD_MIN_SCALE
 			animating_card.global_position = _draw_deck_button.global_position + _draw_deck_button.size/2 - animating_card.size/2*animating_card.scale
-			animating_card.update_with_tool_data(tool_data)
 			animating_cards.append(animating_card)
 		var delay_index := i - starting_index + 1
 		if delay_index >= 0:
@@ -54,8 +51,6 @@ func animate_draw(draw_results:Array) -> void:
 			animating_card.animation_mode = false
 		)
 	await tween.finished
-	for animating_card in animating_cards:
-		animating_card.queue_free()
 
 func animate_shuffle(discard_pile_cards:Array) -> void:
 	if discard_pile_cards.size() == 0:
@@ -102,6 +97,7 @@ func animate_discard(indices:Array) -> void:
 		_tool_card_container.remove_card(discarding_card)
 		discarding_card.hide()
 		discarding_card.queue_free()
+	_tool_card_container.rebind_signals()
 	if _tool_card_container.get_card_count() > 0:
 		var default_positions:Array[Vector2] = _tool_card_container.calculate_default_positions(_tool_card_container.get_card_count())
 		var reposition_tween:Tween = Util.create_scaled_tween(self)
@@ -112,6 +108,19 @@ func animate_discard(indices:Array) -> void:
 			card.play_move_sound()
 			reposition_tween.tween_property(card, "global_position", target_position, DISCARD_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		await reposition_tween.finished
+
+func animate_reposition() -> void:
+	if _tool_card_container.get_card_count() == 0:
+		return
+	var default_positions:Array[Vector2] = _tool_card_container.calculate_default_positions(_tool_card_container.get_card_count())
+	var reposition_tween:Tween = Util.create_scaled_tween(self)
+	reposition_tween.set_parallel(true)
+	for i:int in _tool_card_container.get_card_count():
+		var card:GUIToolCardButton = _tool_card_container.get_card(i)
+		var target_position:Vector2 = _tool_card_container.global_position + default_positions[i]
+		card.play_move_sound()
+		reposition_tween.tween_property(card, "global_position", target_position, DISCARD_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	await reposition_tween.finished
 
 func _get_tool_card_container() -> GUIToolCardContainer:
 	return _weak_tool_card_container.get_ref()

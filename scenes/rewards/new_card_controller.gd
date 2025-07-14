@@ -11,7 +11,7 @@ var _weak_game_main:WeakRef
 func _init(game_main:GameMain) -> void:
 	_weak_game_main = weakref(game_main)
 
-func show_new_cards(level:int) -> void:
+func show_new_cards(_level:int) -> void:
 	pass
 	#var new_cards := MainDatabase.player_ball_database.roll_balls(NEW_CARD_COUNT, level)
 	#var final_new_cards:Array[BingoBallData] = []

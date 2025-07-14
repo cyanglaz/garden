@@ -29,39 +29,42 @@ mouse_filter = 2
 [node name="MainMarginContainer" parent="MainContainer" instance=ExtResource("1_pgwuj")]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/margin_top = 6
+theme_override_constants/margin_top = 2
 
-[node name="PlantSeedButtonsContainer" type="VBoxContainer" parent="MainContainer/MainMarginContainer/Container" index="0"]
-layout_mode = 0
-offset_right = 16.0
-offset_bottom = 123.0
-
-[node name="GUIPlantDrawDeckButton" parent="MainContainer/MainMarginContainer/Container/PlantSeedButtonsContainer" instance=ExtResource("9_fu4tq")]
+[node name="GUIPlantDiscardDeckButton" parent="MainContainer/MainMarginContainer/Container" index="0" instance=ExtResource("9_fu4tq")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="GUIPlantDiscardDeckButton" parent="MainContainer/MainMarginContainer/Container/PlantSeedButtonsContainer" instance=ExtResource("9_fu4tq")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 10
-type = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/MainMarginContainer/Container" index="1"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -21.0
-offset_bottom = 20.0
+offset_left = -16.0
+offset_right = 0.0
 grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 10
+type = 2
+
+[node name="GUIPlantDrawDeckButton" parent="MainContainer/MainMarginContainer/Container" index="1" instance=ExtResource("9_fu4tq")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 1
+offset_right = 16.0
+size_flags_horizontal = 0
+
+[node name="DayContainer" type="HBoxContainer" parent="MainContainer/MainMarginContainer/Container" index="2"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -12.0
+offset_right = 13.0
+offset_bottom = 16.0
+grow_horizontal = 2
 mouse_filter = 2
 alignment = 2
 
-[node name="DayLabel" type="Label" parent="MainContainer/MainMarginContainer/Container/HBoxContainer"]
+[node name="DayLabel" type="Label" parent="MainContainer/MainMarginContainer/Container/DayContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
@@ -69,11 +72,11 @@ theme_type_variation = &"HUD_mid"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="GUIWeatherContainer" parent="MainContainer/MainMarginContainer/Container/HBoxContainer" instance=ExtResource("5_ho5j6")]
+[node name="GUIWeatherContainer" parent="MainContainer/MainMarginContainer/Container/DayContainer" instance=ExtResource("5_ho5j6")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="BottomLeftContainer" type="HBoxContainer" parent="MainContainer/MainMarginContainer/Container" index="2"]
+[node name="BottomLeftContainer" type="VBoxContainer" parent="MainContainer/MainMarginContainer/Container" index="3"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -82,28 +85,19 @@ offset_top = -16.0
 offset_right = 36.0
 grow_vertical = 0
 
-[node name="GUIEnergyTracker" parent="MainContainer/MainMarginContainer/Container/BottomLeftContainer" instance=ExtResource("8_ho5j6")]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/MainMarginContainer/Container/BottomLeftContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="GUIEnergyTracker" parent="MainContainer/MainMarginContainer/Container/BottomLeftContainer/HBoxContainer" instance=ExtResource("8_ho5j6")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="GUIDrawBoxButton" parent="MainContainer/MainMarginContainer/Container/BottomLeftContainer" instance=ExtResource("9_fu4tq")]
+[node name="GUIDrawBoxButton" parent="MainContainer/MainMarginContainer/Container/BottomLeftContainer/HBoxContainer" instance=ExtResource("9_fu4tq")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 8
-
-[node name="GUIToolCardContainer" parent="MainContainer/MainMarginContainer/Container" index="3" instance=ExtResource("5_hujfj")]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_top = -48.0
-offset_bottom = 0.0
-grow_horizontal = 2
-grow_vertical = 0
 
 [node name="BottomRightContainer" type="VBoxContainer" parent="MainContainer/MainMarginContainer/Container" index="4"]
 layout_mode = 1
@@ -126,14 +120,31 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 type = 2
 
-[node name="EndTurnButton" parent="MainContainer/MainMarginContainer/Container/BottomRightContainer" instance=ExtResource("6_jqqhe")]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/MainMarginContainer/Container/BottomRightContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="EndTurnButton" parent="MainContainer/MainMarginContainer/Container/BottomRightContainer/HBoxContainer" instance=ExtResource("6_jqqhe")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 localization_text_key = "ACTION_END_DAY"
 
-[node name="GUIPlantSeedAnimationContainer" parent="MainContainer/MainMarginContainer/Container" index="5" instance=ExtResource("10_648op")]
+[node name="GUIToolCardContainer" parent="MainContainer/MainMarginContainer/Container" index="5" instance=ExtResource("5_hujfj")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -48.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="GUIPlantSeedAnimationContainer" parent="MainContainer/MainMarginContainer/Container" index="6" instance=ExtResource("10_648op")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15

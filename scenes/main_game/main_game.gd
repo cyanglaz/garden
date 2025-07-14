@@ -91,7 +91,7 @@ func _discard_all_tools() -> void:
 		discarding_indices.append(i)
 	await tool_manager.discard_cards(discarding_indices, gui_main_game.gui_tool_card_container)
 
-func _complete_tool_application(index:int) -> void:
+func _complete_tool_application(_index:int) -> void:
 	gui_main_game.toggle_all_ui(true)
 
 func _clear_tool_selection() -> void:
@@ -138,7 +138,7 @@ func _on_tool_application_started(index:int) -> void:
 func _on_tool_application_completed(index:int) -> void:
 	_complete_tool_application(index)
 
-func _on_tool_application_failed() -> void:
+func _on_tool_application_failed(_index:int) -> void:
 	_clear_tool_selection()
 	gui_main_game.toggle_all_ui(true)
 

@@ -1,9 +1,6 @@
 class_name PlantSeedManager
 extends RefCounted
 
-signal plant_application_started()
-signal plant_application_completed(index:int)
-
 var plant_deck:Deck
 
 func _init(initial_plants:Array) -> void:
