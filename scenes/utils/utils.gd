@@ -419,6 +419,8 @@ static func get_action_icon_with_action_type(action_type:ActionData.ActionType) 
 			id = "pest"
 		ActionData.ActionType.FUNGUS:
 			id = "fungus"
+		ActionData.ActionType.DRAW_CARD:
+			id = "card"
 	return load(Util.get_image_path_for_resource_id(id))
 
 static func _trim_upgrade_suffix_from_id(id:String) -> String:
