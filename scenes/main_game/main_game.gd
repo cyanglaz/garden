@@ -116,7 +116,7 @@ func _on_field_pressed(index:int) -> void:
 		tool_manager.apply_tool(self, field)
 
 func _on_tool_selected(index:int) -> void:
-	_clear_tool_selection()
+	_field_container.clear_tool_indicators()
 	tool_manager.select_tool(index)
 	var tool_data:ToolData = tool_manager.selected_tool
 	if !tool_data:
