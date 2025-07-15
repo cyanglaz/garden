@@ -32,6 +32,8 @@ func _ready() -> void:
 	if !test_plant_datas.is_empty():
 		plant_seed_manager = PlantSeedManager.new(test_plant_datas)
 	if !test_tools.is_empty():
+		test_tools.append_array(test_tools)
+		#test_tools.append_array(test_tools)
 		tool_manager = ToolManager.new(test_tools)
 		tool_manager.tool_application_started.connect(_on_tool_application_started)
 		tool_manager.tool_application_completed.connect(_on_tool_application_completed)

@@ -6,8 +6,13 @@ const TOOL_CARD_BUTTON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/g
 
 @onready var _grid_container: GridContainer = %GridContainer
 @onready var _scroll_container: ScrollContainer = %ScrollContainer
+@onready var _back_button: GUIRichTextButton = %BackButton
+
+func _ready() -> void:
+	_back_button.action_evoked.connect(_on_back_button_evoked)
 
 func animated_show_with_pool(pool:Array) -> void:
+	get_tree().paused = true
 	show()
 	Util.remove_all_children(_grid_container)
 	var card_size := Vector2.ONE
@@ -27,3 +32,10 @@ func animated_show_with_pool(pool:Array) -> void:
 	else:
 		_scroll_container.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 		_scroll_container.custom_minimum_size.y = 0
+
+func animate_hide() -> void:
+	hide()
+
+func _on_back_button_evoked() -> void:
+	animate_hide()
+	get_tree().paused = false

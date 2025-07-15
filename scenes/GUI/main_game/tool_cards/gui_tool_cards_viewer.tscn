@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="5_6nd7b"]
 
 [node name="GUIToolCardsViewer" type="Control"]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -50,6 +51,10 @@ patch_margin_bottom = 3
 
 [node name="MarginContainer2" type="MarginContainer" parent="PanelContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer2"]
 unique_name_in_owner = true
@@ -58,13 +63,16 @@ horizontal_scroll_mode = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer2/ScrollContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
 
 [node name="GridContainer" type="GridContainer" parent="PanelContainer/MarginContainer2/ScrollContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-columns = 6
+columns = 5
 
-[node name="GUIRichTextButton" parent="." instance=ExtResource("5_6nd7b")]
+[node name="BackButton" parent="." instance=ExtResource("5_6nd7b")]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
