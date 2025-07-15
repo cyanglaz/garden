@@ -1,0 +1,69 @@
+[gd_scene load_steps=9 format=3 uid="uid://b657270a4ms0r"]
+
+[ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plant.tscn" id="1_wktxa"]
+[ext_resource type="Script" uid="uid://tuu0gwwwv0ys" path="res://scenes/main_game/plants/plants/plant_daisy.gd" id="2_uas1e"]
+[ext_resource type="Texture2D" uid="uid://nm4wlycbeyfh" path="res://resources/sprites/plants/plant_daisy.png" id="3_mn8ri"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ip5as"]
+atlas = ExtResource("3_mn8ri")
+region = Rect2(0, 0, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ky5dn"]
+atlas = ExtResource("3_mn8ri")
+region = Rect2(36, 0, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ey3vu"]
+atlas = ExtResource("3_mn8ri")
+region = Rect2(0, 36, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_swvck"]
+atlas = ExtResource("3_mn8ri")
+region = Rect2(36, 36, 36, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bsvjl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ip5as")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ky5dn")
+}],
+"loop": true,
+"name": &"idle_1",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ey3vu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_swvck")
+}],
+"loop": true,
+"name": &"idle_2",
+"speed": 3.0
+}]
+
+[node name="PlantDaisy" instance=ExtResource("1_wktxa")]
+script = ExtResource("2_uas1e")
+
+[node name="PlantSprite" parent="." index="0"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_bsvjl")
+animation = &"idle_1"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/plants/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/plants/plant_daisy.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "c30aa475cc1fcfc69a7b1a73a368c39c"

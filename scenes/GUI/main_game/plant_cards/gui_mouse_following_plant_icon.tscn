@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://be8dbcgiyauak"]
-
-[ext_resource type="PackedScene" uid="uid://caiue05en2fg7" path="res://scenes/GUI/main_game/plant_cards/gui_plant_icon.tscn" id="1_22yrb"]
-[ext_resource type="Script" uid="uid://db8loy1yjrm2j" path="res://scenes/GUI/main_game/plant_cards/gui_mouse_following_plant_icon.gd" id="2_imtmw"]
-
-[node name="GUIMouseFollowingPlantIcon" instance=ExtResource("1_22yrb")]
-script = ExtResource("2_imtmw")

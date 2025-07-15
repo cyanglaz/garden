@@ -1,7 +1,7 @@
 class_name Field
 extends Node2D
 
-const PLANT_SCENE_PATH_PREFIX := "res://scenes/plants/plants/plant_"
+const PLANT_SCENE_PATH_PREFIX := "res://scenes/main_game/plants/plants/plant_"
 const POPUP_LABEL_ICON_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label_icon.tscn")
 const POPUP_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label.tscn")
 const GOLD_ICON := preload("res://resources/sprites/GUI/icons/resources/icon_gold.png")
@@ -16,7 +16,8 @@ signal field_pressed()
 signal field_hovered(hovered:bool)
 signal tool_application_completed(tool_data:ToolData)
 signal plant_harvest_started()
-signal plant_harvest_completed(gold:int)
+signal plant_harvest_gold_update_requested(gold:int)
+signal new_plant_planted()
 
 @onready var _animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 @onready var _gui_field_button: GUIBasicButton = %GUIFieldButton
@@ -27,6 +28,8 @@ signal plant_harvest_completed(gold:int)
 @onready var _gold_audio: AudioStreamPlayer2D = %GoldAudio
 @onready var _gui_field_selection_arrow: GUIFieldSelectionArrow = %GUIFieldSelectionArrow
 @onready var _gui_field_status_container: GUIFieldStatusContainer = %GUIFieldStatusContainer
+@onready var _gui_plant_tooltip: GUIPlantTooltip = %GUIPlantTooltip
+@onready var _plant_down_sound: AudioStreamPlayer2D = %PlantDownSound
 
 var _weak_plant_preview:WeakRef = weakref(null)
 var plant:Plant
@@ -37,8 +40,8 @@ var weak_right_field:WeakRef = weakref(null)
 func _ready() -> void:
 	_gui_field_button.state_updated.connect(_on_gui_field_button_state_updated)
 	_gui_field_button.action_evoked.connect(func(): field_pressed.emit())
-	_gui_field_button.mouse_entered.connect(func(): field_hovered.emit(true))
-	_gui_field_button.mouse_exited.connect(func(): field_hovered.emit(false))
+	_gui_field_button.mouse_entered.connect(_on_field_mouse_entered)
+	_gui_field_button.mouse_exited.connect(_on_field_mouse_exited)
 	_gui_field_status_container.bind_with_field_status_manager(status_manager)
 	status_manager.request_hook_message_popup.connect(_on_request_hook_message_popup)
 	status_manager.update_status("pest", 2)
@@ -46,6 +49,7 @@ func _ready() -> void:
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
 	_gui_field_selection_arrow.is_active = false
+	_gui_plant_tooltip.hide()
 	_reset_progress_bars()
 
 func toggle_selection_indicator(on:bool, tool_data:ToolData) -> void:
@@ -66,6 +70,7 @@ func show_plant_preview(plant_data:PlantData) -> void:
 
 func plant_seed(plant_data:PlantData) -> void:
 	assert(plant == null, "Plant already planted")
+	_plant_down_sound.play()
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
 	var scene := load(plant_scene_path)
 	plant = scene.instantiate()
@@ -73,11 +78,18 @@ func plant_seed(plant_data:PlantData) -> void:
 	_plant_container.add_child(plant)
 	_show_progress_bars(plant)
 	plant.harvest_started.connect(_on_plant_harvest_started)
-	plant.harvest_completed.connect(_on_plant_harvest_completed.bind(plant))
+	plant.harvest_gold_update_requested.connect(_on_plant_harvest_gold_update_requested)
 	plant.field = self
+	new_plant_planted.emit()
+
+func remove_plant() -> void:
+	if plant:
+		plant.removed_from_field.emit()
+		plant.queue_free()
+		plant = null
 
 func get_preview_icon_global_position(preview_icon:Control) -> Vector2:
-	return Util.get_node_ui_position(preview_icon, _gui_field_button) + Vector2.UP * 8
+	return Util.get_node_ui_position(preview_icon, _gui_field_button) + Vector2.RIGHT * (_gui_field_button.size.x/2 - preview_icon.size.x/2 ) + Vector2.UP * preview_icon.size.y/2
 
 func remove_plant_preview() -> void:
 	if _weak_plant_preview.get_ref():
@@ -113,6 +125,7 @@ func apply_actions(actions:Array[ActionData]) -> void:
 				pass
 	if _can_harvest():
 		_harvest()
+		await new_plant_planted
 
 func show_gold_popup() -> void:
 	_gold_audio.play()
@@ -189,10 +202,8 @@ func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> vo
 func _on_plant_harvest_started() -> void:
 	plant_harvest_started.emit()
 
-func _on_plant_harvest_completed(p:Plant) -> void:
-	plant_harvest_completed.emit(p.data.gold)
-	plant.queue_free()
-	plant = null
+func _on_plant_harvest_gold_update_requested(gold:int) -> void:
+	plant_harvest_gold_update_requested.emit(gold)
 	_reset_progress_bars()
 
 func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
@@ -206,3 +217,13 @@ func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
 		FieldStatusData.Type.GOOD:
 			color = Constants.COLOR_GREEN2
 	popup.animate_show_label_and_destroy(status_data.popup_message, 18, 1, POPUP_SHOW_TIME, POPUP_STATUS_DESTROY_TIME, color)
+
+func _on_field_mouse_entered() -> void:
+	field_hovered.emit(true)
+	if plant:
+		_gui_plant_tooltip.update_with_plant_data(plant.data)
+		_gui_plant_tooltip.show()
+
+func _on_field_mouse_exited() -> void:
+	field_hovered.emit(false)
+	_gui_plant_tooltip.hide()

@@ -18,21 +18,21 @@ func _ready() -> void:
 	_normal_background_color = _background.self_modulate
 	super._ready()
 
-func bind_tool_deck(tool_deck:ToolDeck) -> void:
+func bind_deck(tool:Deck) -> void:
 	var pool := []
 	match type:
 		Type.ALL:
 			_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-			pool = tool_deck.pool
-			tool_deck.pool_updated.connect(_on_pool_updated)
+			pool = tool.pool
+			tool.pool_updated.connect(_on_pool_updated)
 		Type.DRAW:
 			_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-			pool = tool_deck.draw_pool
-			tool_deck.draw_pool_updated.connect(_on_pool_updated)
+			pool = tool.draw_pool
+			tool.draw_pool_updated.connect(_on_pool_updated)
 		Type.DISCARD:
 			_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-			pool = tool_deck.discard_pool
-			tool_deck.discard_pool_updated.connect(_on_pool_updated)
+			pool = tool.discard_pool
+			tool.discard_pool_updated.connect(_on_pool_updated)
 	_on_pool_updated(pool)
 
 func _set_button_state(val:ButtonState) -> void:
@@ -45,7 +45,7 @@ func _set_button_state(val:ButtonState) -> void:
 		ButtonState.HOVERED:
 			_background.self_modulate = Constants.COLOR_BEIGE_1
 
-func _on_pool_updated(pool:Array[ToolData]) -> void:
+func _on_pool_updated(pool:Array) -> void:
 	var old_size := _size
 	_size = pool.size()
 	var increment := 1 if _size > old_size else -1

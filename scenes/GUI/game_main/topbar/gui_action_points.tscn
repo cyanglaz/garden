@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://cj6xhr0vn8ras" path="res://scenes/GUI/game_main/topbar/gui_action_points.gd" id="1_7e147"]
 [ext_resource type="Texture2D" uid="uid://bhqydxgtda0mu" path="res://resources/sprites/icons/other/icon_action_points.png" id="1_6255u"]
-[ext_resource type="AudioStream" uid="uid://cnjsxqrjyqthb" path="res://resources/sounds/SFX/bingo/ap_increased.wav" id="3_calfy"]
-[ext_resource type="AudioStream" uid="uid://4gq5f4adh0ix" path="res://resources/sounds/SFX/bingo/ap_reduced.wav" id="4_al7mn"]
+[ext_resource type="AudioStream" uid="uid://cnjsxqrjyqthb" path="res://resources/sounds/SFX/other/gold/gold_increased.wav" id="3_calfy"]
+[ext_resource type="AudioStream" uid="uid://4gq5f4adh0ix" path="res://resources/sounds/SFX/other/gold/gold_decreased.wav" id="4_al7mn"]
 
 [node name="GUIActionPoints" type="HBoxContainer"]
 offset_right = 19.0

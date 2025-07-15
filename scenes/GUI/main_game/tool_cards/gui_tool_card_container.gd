@@ -7,6 +7,7 @@ const TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool
 const DEFAULT_CARD_SPACE := 4.0
 const MAX_TOTAL_WIDTH := 200
 const REPOSITION_DURATION:float = 0.08
+const TOOL_SELECTED_OFFSET := -6.0
 
 @onready var _container: Control = %Container
 @onready var _gui_tool_card_animation_container: GUIToolCardAnimationContainer = %GUIToolCardAnimationContainer
@@ -39,29 +40,42 @@ func clear_selection() -> void:
 		gui_card.button_state = GUIBasicButton.ButtonState.NORMAL
 		gui_card.container_offset = 0.0
 
-func setup_with_tool_datas(tools:Array[ToolData]) -> void:
-	Util.remove_all_children(_container)
-	var current_size :=  _container.get_children().size()
-	var positions := calculate_default_positions(tools.size() + current_size)
-	for i in positions.size():
-		var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
+func add_card(tool_data:ToolData) -> GUIToolCardButton:
+	var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
+	_container.add_child(gui_card)
+	gui_card.update_with_tool_data(tool_data)
+	gui_card.activated = true
+	_rebind_signals()
+	return gui_card
+
+func remove_cards(gui_cards:Array[GUIToolCardButton]) -> void:
+	for gui_card in gui_cards:
+		_container.remove_child(gui_card)
+		gui_card.queue_free()
+	_rebind_signals()
+
+func _rebind_signals() -> void:
+	for i in _container.get_children().size():
+		var gui_card:GUIToolCardButton = _container.get_child(i)
+		if gui_card.action_evoked.is_connected(_on_tool_card_action_evoked):
+			gui_card.action_evoked.disconnect(_on_tool_card_action_evoked)
+		if gui_card.mouse_entered.is_connected(_on_tool_card_mouse_entered):
+			gui_card.mouse_entered.disconnect(_on_tool_card_mouse_entered)
+		if gui_card.mouse_exited.is_connected(_on_tool_card_mouse_exited):
+			gui_card.mouse_exited.disconnect(_on_tool_card_mouse_exited)
 		gui_card.action_evoked.connect(_on_tool_card_action_evoked.bind(i))
 		gui_card.mouse_entered.connect(_on_tool_card_mouse_entered.bind(i))
 		gui_card.mouse_exited.connect(_on_tool_card_mouse_exited.bind(i))
-		_container.add_child(gui_card)
-		gui_card.update_with_tool_data(tools[i])
-		gui_card.position = positions[i]
-		gui_card.activated = true
 
 #region animation
 
-func animate_draw(draw_results:Array[ToolData]) -> void:
+func animate_draw(draw_results:Array) -> void:
 	await _gui_tool_card_animation_container.animate_draw(draw_results)
 	
 func animate_discard(discarding_indices:Array) -> void:
 	await _gui_tool_card_animation_container.animate_discard(discarding_indices)
 
-func animate_shuffle(discard_pile_cards:Array[ToolData]) -> void:
+func animate_shuffle(discard_pile_cards:Array) -> void:
 	await _gui_tool_card_animation_container.animate_shuffle(discard_pile_cards)
 
 #endregion
@@ -103,7 +117,7 @@ func _on_tool_card_action_evoked(index:int) -> void:
 		if i == index:
 			gui_card.button_state = GUIBasicButton.ButtonState.SELECTED
 			gui_card.mouse_disabled = false
-			gui_card.container_offset = -4.0
+			gui_card.container_offset = TOOL_SELECTED_OFFSET
 		else:
 			gui_card.mouse_disabled = true
 			gui_card.container_offset = 0.0
@@ -111,6 +125,8 @@ func _on_tool_card_action_evoked(index:int) -> void:
 
 func _on_tool_card_mouse_entered(index:int) -> void:
 	var mouse_over_card = _container.get_child(index)
+	if !is_instance_valid(mouse_over_card):
+		return
 	if mouse_over_card.button_state == GUIBasicButton.ButtonState.SELECTED || mouse_over_card.button_state == GUIBasicButton.ButtonState.DISABLED:
 		return
 	mouse_over_card.container_offset = -1.0
@@ -122,6 +138,7 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 	tween.set_parallel(true)
 	tween.set_ease(Tween.EASE_IN)
 	tween.set_trans(Tween.TRANS_SINE)
+	tween.tween_interval(0.01)
 	var animated := false
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
@@ -139,6 +156,8 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 
 func _on_tool_card_mouse_exited(index:int) -> void:
 	var mouse_exit_card = _container.get_child(index)
+	if !is_instance_valid(mouse_exit_card):
+		return
 	if mouse_exit_card.button_state == GUIBasicButton.ButtonState.SELECTED || mouse_exit_card.button_state == GUIBasicButton.ButtonState.DISABLED:
 		return
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
@@ -147,6 +166,7 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 	tween.set_parallel(true)
 	tween.set_ease(Tween.EASE_IN)
 	tween.set_trans(Tween.TRANS_SINE)
+	tween.tween_interval(0.01)
 	var animated := false
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
