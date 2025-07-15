@@ -22,7 +22,7 @@ func bind_deck(tool:Deck) -> void:
 	var pool := []
 	match type:
 		Type.ALL:
-			_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+			_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			pool = tool.pool
 			tool.pool_updated.connect(_on_pool_updated)
 		Type.DRAW:

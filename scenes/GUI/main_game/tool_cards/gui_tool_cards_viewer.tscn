@@ -20,19 +20,34 @@ script = ExtResource("1_fr6vb")
 layout_mode = 1
 color = Color(0.0470588, 0.180392, 0.266667, 0.901961)
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="MainContainer" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 118)
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -100.0
-offset_top = 15.0
-offset_right = 100.0
-offset_bottom = 155.0
+offset_left = -70.0
+offset_top = 14.0
+offset_right = 70.0
+offset_bottom = 132.0
 grow_horizontal = 2
 
-[node name="Background" type="NinePatchRect" parent="PanelContainer"]
+[node name="TitleContainer" type="HBoxContainer" parent="MainContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MainContainer/TitleContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD"
+
+[node name="PanelContainer" type="PanelContainer" parent="MainContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Background" type="NinePatchRect" parent="MainContainer/PanelContainer"]
 self_modulate = Color(0.74902, 0.435294, 0.290196, 1)
 layout_mode = 2
 texture = ExtResource("3_2hebc")
@@ -41,7 +56,7 @@ patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 3
 
-[node name="Border" type="NinePatchRect" parent="PanelContainer"]
+[node name="Border" type="NinePatchRect" parent="MainContainer/PanelContainer"]
 self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
 layout_mode = 2
 texture = ExtResource("4_6nd7b")
@@ -50,24 +65,24 @@ patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 3
 
-[node name="MarginContainer2" type="MarginContainer" parent="PanelContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="MainContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 1
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer2"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MainContainer/PanelContainer/MarginContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 horizontal_scroll_mode = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer2/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MainContainer/PanelContainer/MarginContainer2/ScrollContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_right = 4
 
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/MarginContainer2/ScrollContainer/MarginContainer"]
+[node name="GridContainer" type="GridContainer" parent="MainContainer/PanelContainer/MarginContainer2/ScrollContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 columns = 5

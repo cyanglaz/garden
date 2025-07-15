@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://ct8p64yajr0fh"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_g4dd5"]
+[ext_resource type="Script" uid="uid://cfxb4l5fytuhx" path="res://scenes/GUI/controls/buttons/gui_deck_button.gd" id="2_ml7rj"]
+[ext_resource type="Texture2D" uid="uid://b0nsc2v1cdqqd" path="res://resources/sprites/GUI/shared/panel_background_simple.png" id="3_hupuq"]
+[ext_resource type="Texture2D" uid="uid://cot566voterom" path="res://resources/sprites/GUI/shared/border2.png" id="4_lrd4x"]
+
+[node name="GUIFullDeckButton" instance=ExtResource("1_g4dd5")]
+custom_minimum_size = Vector2(8, 12)
+offset_right = 10.0
+offset_bottom = 14.0
+script = ExtResource("2_ml7rj")
+type = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="." index="0"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="Background" type="NinePatchRect" parent="MarginContainer2" index="0"]
+unique_name_in_owner = true
+self_modulate = Color(0.964706, 0.792157, 0.623529, 1)
+layout_mode = 2
+texture = ExtResource("3_hupuq")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="Border" type="NinePatchRect" parent="MarginContainer2" index="1"]
+unique_name_in_owner = true
+self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
+layout_mode = 2
+texture = ExtResource("4_lrd4x")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="." index="1"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="MarginContainer" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_type_variation = &"HUD_mid"
+vertical_alignment = 2

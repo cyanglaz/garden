@@ -57,4 +57,7 @@ PC_SHORT_CUT_TOOLTIP, "Keyboard shortcut: %s"
 DAY_LABEL_TEXT, "DAY %s"
 WEEK_LABEL_TEXT, "WEEK %s"
 TAX_DUE_TITLE, "Tax Due"
+DECK_DRAW_POOL_TITLE, "Draw Pile"
+DECK_DISCARD_POOL_TITLE, "Discard Pile"
+FULL_DECK_TITLE, "Full Deck"
 

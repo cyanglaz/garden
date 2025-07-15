@@ -1,7 +1,7 @@
 class_name GUIToolCardsViewer
 extends Control
 
-const MAX_SCROLL_SIZE_Y := 128
+const MAX_SCROLL_SIZE_Y := 118
 const TOOL_CARD_BUTTON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const HIDE_Y := 200
 const SHOW_ANIMATION_DURATION := 0.15
@@ -10,17 +10,20 @@ const HIDE_ANIMATION_DURATION := 0.15
 @onready var _grid_container: GridContainer = %GridContainer
 @onready var _scroll_container: ScrollContainer = %ScrollContainer
 @onready var _back_button: GUIRichTextButton = %BackButton
-@onready var _panel_container: PanelContainer = %PanelContainer
+@onready var _main_container: VBoxContainer = %MainContainer
+@onready var _title: Label = %Title
 
 var _display_y := 0
 
 func _ready() -> void:
 	_back_button.action_evoked.connect(_on_back_button_evoked)
-	_display_y = _panel_container.position.y
+	_display_y = _main_container.position.y
+	print(_display_y)
 	_back_button.hide()
 
-func animated_show_with_pool(pool:Array) -> void:
+func animated_show_with_pool(pool:Array, title:String) -> void:
 	get_tree().paused = true
+	_title.text = title
 	show()
 	Util.remove_all_children(_grid_container)
 	var card_size := Vector2.ONE
@@ -43,16 +46,16 @@ func animated_show_with_pool(pool:Array) -> void:
 	_play_show_animation()
 
 func _play_show_animation() -> void:
-	_panel_container.position.y = HIDE_Y
+	_main_container.position.y = HIDE_Y
 	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(_panel_container, "position:y", _display_y, SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	tween.tween_property(_main_container, "position:y", _display_y, SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	await tween.finished
 	_back_button.show()
 
 func animate_hide() -> void:
 	_back_button.hide()
 	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(_panel_container, "position:y", HIDE_Y, HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
+	tween.tween_property(_main_container, "position:y", HIDE_Y, HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	await tween.finished
 	hide()
 
