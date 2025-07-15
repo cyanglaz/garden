@@ -7,6 +7,7 @@ const TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool
 const DEFAULT_CARD_SPACE := 4.0
 const MAX_TOTAL_WIDTH := 200
 const REPOSITION_DURATION:float = 0.08
+const TOOL_SELECTED_OFFSET := -6.0
 
 @onready var _container: Control = %Container
 @onready var _gui_tool_card_animation_container: GUIToolCardAnimationContainer = %GUIToolCardAnimationContainer
@@ -116,7 +117,7 @@ func _on_tool_card_action_evoked(index:int) -> void:
 		if i == index:
 			gui_card.button_state = GUIBasicButton.ButtonState.SELECTED
 			gui_card.mouse_disabled = false
-			gui_card.container_offset = -4.0
+			gui_card.container_offset = TOOL_SELECTED_OFFSET
 		else:
 			gui_card.mouse_disabled = true
 			gui_card.container_offset = 0.0

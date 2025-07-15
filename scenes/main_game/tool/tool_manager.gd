@@ -46,7 +46,7 @@ func apply_tool(main_game:MainGame, field:Field) -> void:
 	var tool := selected_tool.get_duplicate()
 	var index := selected_tool_index
 	select_tool(-1)
-	_tool_applier.apply_tool(main_game, field, tool, index)
+	await _tool_applier.apply_tool(main_game, field, tool, index)
 
 func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)

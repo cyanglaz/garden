@@ -17,6 +17,7 @@ signal field_hovered(hovered:bool)
 signal tool_application_completed(tool_data:ToolData)
 signal plant_harvest_started()
 signal plant_harvest_gold_update_requested(gold:int)
+signal new_plant_planted()
 
 @onready var _animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 @onready var _gui_field_button: GUIBasicButton = %GUIFieldButton
@@ -79,6 +80,7 @@ func plant_seed(plant_data:PlantData) -> void:
 	plant.harvest_started.connect(_on_plant_harvest_started)
 	plant.harvest_gold_update_requested.connect(_on_plant_harvest_gold_update_requested)
 	plant.field = self
+	new_plant_planted.emit()
 
 func remove_plant() -> void:
 	if plant:
@@ -123,7 +125,7 @@ func apply_actions(actions:Array[ActionData]) -> void:
 				pass
 	if _can_harvest():
 		_harvest()
-		await plant.harvest_completed
+		await new_plant_planted
 
 func show_gold_popup() -> void:
 	_gold_audio.play()

@@ -15,7 +15,7 @@ func apply_tool(main_game:MainGame, field:Field, tool_data:ToolData, tool_index:
 	_action_index = 0
 	_pending_actions = tool_data.actions.duplicate()
 	tool_application_started.emit(tool_index)
-	_apply_next_action(main_game, field, tool_index)
+	await _apply_next_action(main_game, field, tool_index)
 
 func _apply_next_action(main_game:MainGame, field:Field, tool_index:int) -> void:
 	if _action_index >= _pending_actions.size():
@@ -33,7 +33,7 @@ func _apply_next_action(main_game:MainGame, field:Field, tool_index:int) -> void
 			await _apply_weather_tool_action(action, main_game, tool_index)
 		_:
 			assert(false, "Invalid action category for instant use: " + str(action.action_category))
-	_apply_next_action(main_game, field, tool_index)
+	await _apply_next_action(main_game, field, tool_index)
 
 func _apply_field_tool_action(action:ActionData, field:Field) -> void:
 	await field.apply_actions([action])
