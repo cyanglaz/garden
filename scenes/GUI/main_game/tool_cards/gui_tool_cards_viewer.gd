@@ -18,7 +18,6 @@ var _display_y := 0
 func _ready() -> void:
 	_back_button.action_evoked.connect(_on_back_button_evoked)
 	_display_y = _main_container.position.y
-	print(_display_y)
 	_back_button.hide()
 
 func animated_show_with_pool(pool:Array, title:String) -> void:

@@ -10,14 +10,17 @@ enum ActionType {
 	GLOW,
 	WEATHER_SUNNY,
 	WEATHER_RAINY,
+	DRAW_CARD,
 }
 
 enum ActionCategory {
 	NONE,
 	FIELD,
 	WEATHER,
+	CARD,
 }
 
+const CARD_ACTION_TYPES := [ActionType.DRAW_CARD]
 const FIELD_ACTION_TYPES := [ActionType.LIGHT, ActionType.WATER, ActionType.PEST, ActionType.FUNGUS, ActionType.GLOW]
 const WEATHER_ACTION_TYPES := [ActionType.WEATHER_SUNNY, ActionType.WEATHER_RAINY]
 
@@ -47,4 +50,6 @@ func _get_action_category() -> ActionCategory:
 		return ActionCategory.FIELD
 	elif WEATHER_ACTION_TYPES.has(type):
 		return ActionCategory.WEATHER
+	elif CARD_ACTION_TYPES.has(type):
+		return ActionCategory.CARD
 	return ActionCategory.NONE

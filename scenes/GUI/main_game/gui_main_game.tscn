@@ -32,6 +32,7 @@ mouse_filter = 2
 [node name="GameContainer" type="PanelContainer" parent="MainContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="MainMarginContainer" parent="MainContainer/GameContainer" instance=ExtResource("1_pgwuj")]
 layout_mode = 2
