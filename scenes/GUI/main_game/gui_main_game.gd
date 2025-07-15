@@ -12,6 +12,7 @@ signal tool_selected(index:int)
 @onready var gui_plant_draw_deck_box: GUIPlantDeckBox = %GUIPlantDrawDeckBox
 @onready var gui_plant_discard_deck_box: GUIPlantDeckBox = %GUIPlantDiscardDeckBox
 
+@onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
 @onready var _overlay: Control = %Overlay
 @onready var _day_label: Label = %DayLabel
 @onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
@@ -19,6 +20,7 @@ signal tool_selected(index:int)
 @onready var _gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
 
 func _ready() -> void:
+	_gui_tool_cards_viewer.hide()
 	gui_tool_card_container.tool_selected.connect(func(index:int) -> void: tool_selected.emit(index))
 	_end_turn_button.action_evoked.connect(func() -> void: end_turn_button_pressed.emit())
 	gui_tool_card_container.setup(gui_draw_box_button, gui_discard_box_button)
@@ -54,6 +56,8 @@ func clear_tool_selection() -> void:
 func bind_tool_deck(tool_deck:Deck) -> void:
 	gui_draw_box_button.bind_deck(tool_deck)
 	gui_discard_box_button.bind_deck(tool_deck)
+	gui_draw_box_button.action_evoked.connect(_on_draw_box_button_pressed.bind(tool_deck.draw_pool))
+	gui_discard_box_button.action_evoked.connect(_on_discard_box_button_pressed.bind(tool_deck.discard_pool))
 #endregion
 
 
@@ -84,4 +88,14 @@ func update_weathers(weather_manager:WeatherManager) -> void:
 #region utils
 func add_control_to_overlay(control:Control) -> void:
 	_overlay.add_child(control)
+#endregion
+
+#region events
+
+func _on_draw_box_button_pressed(pool:Array) -> void:
+	_gui_tool_cards_viewer.animated_show_with_pool(pool)
+
+func _on_discard_box_button_pressed(pool:Array) -> void:
+	_gui_tool_cards_viewer.animated_show_with_pool(pool)
+
 #endregion
