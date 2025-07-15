@@ -7,7 +7,8 @@
 
 [node name="GUIPlantIcon" type="PanelContainer"]
 custom_minimum_size = Vector2(16, 16)
-mouse_filter = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 script = ExtResource("1_q7qh7")
 
 [node name="Background" type="NinePatchRect" parent="."]
@@ -24,6 +25,8 @@ patch_margin_bottom = 1
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Border" type="NinePatchRect" parent="."]
 unique_name_in_owner = true

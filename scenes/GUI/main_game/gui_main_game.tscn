@@ -45,6 +45,7 @@ anchor_right = 1.0
 offset_left = -16.0
 offset_right = 0.0
 grow_horizontal = 0
+type = 1
 
 [node name="DayContainer" type="HBoxContainer" parent="MainContainer/MainMarginContainer/Container" index="2"]
 layout_mode = 1

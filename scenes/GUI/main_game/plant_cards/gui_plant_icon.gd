@@ -9,8 +9,11 @@ const HIGHLIGHTED_OFFSET := 16
 @onready var _move_audio: AudioStreamPlayer2D = %MoveAudio
 
 var highlighted:bool:set = _set_highlighted
+var plant_data:PlantData:get = _get_plant_data
+var _weak_plant_data:WeakRef = weakref(null)
 
-func update_with_plant_data(plant_data:PlantData) -> void:
+func update_with_plant_data(pd:PlantData) -> void:
+	_weak_plant_data = weakref(pd)
 	if plant_data:
 		_background.region_rect.position = Util.get_plant_icon_background_region(plant_data, false)
 		_texture_rect.texture = load(Util.get_icon_image_path_for_plant_id(plant_data.id))
@@ -26,3 +29,6 @@ func _set_highlighted(val:bool) -> void:
 		_background.region_rect.position.y = HIGHLIGHTED_OFFSET
 	else:
 		_background.region_rect.position.y = 0
+
+func _get_plant_data() -> PlantData:
+	return _weak_plant_data.get_ref()
