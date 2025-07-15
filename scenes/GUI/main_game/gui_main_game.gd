@@ -9,8 +9,8 @@ signal tool_selected(index:int)
 @onready var gui_draw_box_button: GUIDeckButton = %GUIDrawBoxButton
 @onready var gui_discard_box_button: GUIDeckButton = %GUIDiscardBoxButton
 @onready var gui_plant_seed_animation_container: GUIPlantSeedAnimationContainer = %GUIPlantSeedAnimationContainer
-@onready var gui_plant_draw_deck_button: GUIDeckButton = %GUIPlantDrawDeckButton
-@onready var gui_plant_discard_deck_button: GUIDeckButton = %GUIPlantDiscardDeckButton
+@onready var gui_plant_draw_deck_box: GUIPlantDeckBox = %GUIPlantDrawDeckBox
+@onready var gui_plant_discard_deck_box: GUIPlantDeckBox = %GUIPlantDiscardDeckBox
 
 @onready var _overlay: Control = %Overlay
 @onready var _day_label: Label = %DayLabel
@@ -60,11 +60,11 @@ func bind_tool_deck(tool_deck:Deck) -> void:
 #region plants
 
 func setup_plant_seed_animation_container(field_container:FieldContainer) -> void:
-	gui_plant_seed_animation_container.setup(field_container, gui_plant_draw_deck_button, gui_plant_discard_deck_button)
+	gui_plant_seed_animation_container.setup(field_container, gui_plant_draw_deck_box, gui_plant_discard_deck_box)
 
 func bind_plant_seed_deck(plant_seed_deck:Deck) -> void:
-	gui_plant_draw_deck_button.bind_deck(plant_seed_deck)
-	gui_plant_discard_deck_button.bind_deck(plant_seed_deck)
+	gui_plant_draw_deck_box.bind_deck(plant_seed_deck)
+	gui_plant_discard_deck_box.bind_deck(plant_seed_deck)
 
 #endregion
 

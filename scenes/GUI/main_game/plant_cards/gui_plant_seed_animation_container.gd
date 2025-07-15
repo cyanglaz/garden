@@ -7,13 +7,13 @@ const ANIMATING_PLANT_SEED_SCENE := preload("res://scenes/GUI/main_game/plant_ca
 const SEED_ICON_DISAPPEAR_TIME := 0.4
 
 var _field_container:FieldContainer: get = _get_field_container
-var _draw_deck_button:GUIDeckButton: get = _get_draw_deck_button
-var _discard_deck_button:GUIDeckButton: get = _get_discard_deck_button
+var _draw_deck_button:GUIPlantDeckBox: get = _get_draw_deck_button
+var _discard_deck_button:GUIPlantDeckBox: get = _get_discard_deck_button
 var _weak_draw_deck_button:WeakRef = weakref(null)
 var _weak_discard_deck_button:WeakRef = weakref(null)
 var _weak_field_container:WeakRef = weakref(null)
 
-func setup(field_container:FieldContainer, draw_box_button:GUIDeckButton, discard_box_button:GUIDeckButton) -> void:
+func setup(field_container:FieldContainer, draw_box_button:GUIPlantDeckBox, discard_box_button:GUIPlantDeckBox) -> void:
 	_weak_field_container = weakref(field_container)
 	_weak_draw_deck_button = weakref(draw_box_button)
 	_weak_discard_deck_button = weakref(discard_box_button)
@@ -88,8 +88,8 @@ func animate_discard(field_indices:Array, discarding_data:Array) -> void:
 func _get_field_container() -> FieldContainer:
 	return _weak_field_container.get_ref()
 
-func _get_draw_deck_button() -> GUIDeckButton:
+func _get_draw_deck_button() -> GUIPlantDeckBox:
 	return _weak_draw_deck_button.get_ref()
 
-func _get_discard_deck_button() -> GUIDeckButton:
+func _get_discard_deck_button() -> GUIPlantDeckBox:
 	return _weak_discard_deck_button.get_ref()
