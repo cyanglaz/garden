@@ -9,14 +9,16 @@ func _init(initial_plants:Array) -> void:
 func draw_cards(count:int, gui_plant_seed_animation_container:GUIPlantSeedAnimationContainer, field_indices:Array, field_container:FieldContainer) -> void:
 	gui_plant_seed_animation_container.draw_plant_card_completed.connect(_on_draw_plant_card_completed.bind(field_container))
 	var _display_index = plant_deck.hand.size() - 1
-	var draw_results:Array = plant_deck.draw(count)
+	var draw_results:Array = plant_deck.draw(count, field_indices)
 	var planting_fields := field_indices.slice(0, draw_results.size())
+	remove_plants(field_indices, field_container)
 	await gui_plant_seed_animation_container.animate_draw(draw_results, planting_fields)
 	if draw_results.size() < count:
 		planting_fields = field_indices.slice(draw_results.size(), count - draw_results.size())
 		# If no sufficient cards in draw pool, shuffle discard pile and draw again.
 		await shuffle(gui_plant_seed_animation_container)
-		var second_draw_result:Array = plant_deck.draw(count - draw_results.size())
+		var second_draw_result:Array = plant_deck.draw(count - draw_results.size(), planting_fields)
+		remove_plants(planting_fields, field_container)
 		await gui_plant_seed_animation_container.animate_draw(second_draw_result, planting_fields)
 	gui_plant_seed_animation_container.draw_plant_card_completed.disconnect(_on_draw_plant_card_completed.bind(field_container))
 
@@ -30,11 +32,10 @@ func discard_cards(field_indices:Array, gui_plant_seed_animation_container:GUIPl
 	await gui_plant_seed_animation_container.animate_discard(field_indices,discarding_data)
 	plant_deck.discard(field_indices)
 
-func plant_seeds(plant_datas:Array, field_indices:Array, field_container:FieldContainer) -> void:
-	for i in plant_datas.size():
-		var field_index:int = field_indices[i]
+func remove_plants(field_indices:Array, field_container:FieldContainer) -> void:
+	for field_index:int in field_indices:
 		var field:Field = field_container.fields[field_index]
-		field.plant_seed(plant_datas[i])
+		field.remove_plant()
 
 func get_plant(index:int) -> ToolData:
 	return plant_deck.get_item(index)

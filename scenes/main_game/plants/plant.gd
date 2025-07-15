@@ -9,6 +9,10 @@ enum AbilityType {
 @warning_ignore("unused_signal")
 signal harvest_started()
 @warning_ignore("unused_signal")
+signal harvest_gold_update_requested(gold:int)
+@warning_ignore("unused_signal")
+signal removed_from_field()
+@warning_ignore("unused_signal")
 signal harvest_completed()
 signal ability_triggered(ability_type:AbilityType)
 signal stage_updated()
@@ -49,7 +53,6 @@ func trigger_ability(ability_type:AbilityType, main_game:MainGame) -> void:
 	else:
 		await Util.await_for_tiny_time()
 		ability_triggered.emit(ability_type)
-
 
 #region ability overrides
 

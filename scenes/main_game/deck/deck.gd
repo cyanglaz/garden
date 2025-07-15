@@ -34,14 +34,29 @@ func shuffle_draw_pool() -> void:
 	draw_pool_updated.emit(draw_pool)
 	discard_pool.clear()
 	discard_pool_updated.emit(discard_pool)
+	#if pool[0] is PlantData:
+		#print("draw pool: ", draw_pool.size())
+		#for item in draw_pool:
+			#print(item.id)
+		#print("discard pool: ", discard_pool.size())
+		#for item in discard_pool:
+			#print(item.id)
+		#print("hand: ", hand.size())
+		#for item in hand:
+			#print(item.id)
 
-func draw(count:int) -> Array:
+func draw(count:int, indices:Array = []) -> Array:
+	indices = indices.duplicate()
+	indices.sort()
 	var drawn_items:Array = []
 	for i in count:
 		if draw_pool.is_empty():
 			break
 		var item:Variant = draw_pool.pop_back()
-		hand.append(item)
+		if indices.is_empty():
+			hand.append(item)
+		else:
+			hand.insert(indices.pop_front(), item)
 		drawn_items.append(item)
 	draw_pool_updated.emit(draw_pool)
 	return drawn_items

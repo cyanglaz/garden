@@ -26,7 +26,7 @@ func _ready() -> void:
 	_field_container.field_hovered.connect(_on_field_hovered)
 	_field_container.field_pressed.connect(_on_field_pressed)
 	_field_container.field_harvest_started.connect(_on_field_harvest_started)
-	_field_container.field_harvest_completed.connect(_on_field_harvest_completed)
+	_field_container.field_harvest_gold_update_requested.connect(_on_field_harvest_gold_update_requested)
 	weather_manager.weathers_updated.connect(_on_weathers_updated)
 	
 	if !test_plant_datas.is_empty():
@@ -151,7 +151,7 @@ func _on_end_turn_button_pressed() -> void:
 func _on_field_harvest_started() -> void:
 	gui_main_game.toggle_all_ui(false)
 
-func _on_field_harvest_completed(gold:int, index:int) -> void:
+func _on_field_harvest_gold_update_requested(gold:int, index:int) -> void:
 	_gold += gold
 	await plant_seed_manager.discard_cards([index], gui_main_game.gui_plant_seed_animation_container)
 	await gui_main_game.update_gold(_gold, true)

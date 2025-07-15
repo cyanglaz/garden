@@ -2,7 +2,7 @@ class_name FieldContainer
 extends Node2D
 
 signal field_harvest_started()
-signal field_harvest_completed(gold:int, index:int)
+signal field_harvest_gold_update_requested(gold:int, index:int)
 signal field_hovered(hovered:bool, index:int)
 signal field_pressed(index:int)
 
@@ -25,7 +25,7 @@ func update_with_number_of_fields(number_of_fields:int) -> void:
 		field.field_hovered.connect(_on_field_hovered.bind(i))
 		field.field_pressed.connect(func(): field_pressed.emit(i))
 		field.plant_harvest_started.connect(func(): field_harvest_started.emit())
-		field.plant_harvest_completed.connect(func(gold:int): field_harvest_completed.emit(gold, i))
+		field.plant_harvest_gold_update_requested.connect(func(gold:int): field_harvest_gold_update_requested.emit(gold, i))
 		if last_field:
 			field.weak_left_field = weakref(last_field)
 			last_field.weak_right_field = weakref(field)
