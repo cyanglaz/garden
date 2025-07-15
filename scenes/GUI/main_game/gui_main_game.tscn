@@ -155,10 +155,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="GUIToolCardsViewer" parent="MainContainer/GameContainer" instance=ExtResource("11_648op")]
-unique_name_in_owner = true
-layout_mode = 2
-
 [node name="Overlay" type="Control" parent="."]
 unique_name_in_owner = true
 layout_mode = 3
@@ -170,5 +166,9 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
+
+[node name="GUIToolCardsViewer" parent="Overlay" instance=ExtResource("11_648op")]
+unique_name_in_owner = true
+layout_mode = 1
 
 [editable path="MainContainer/GameContainer/MainMarginContainer"]
