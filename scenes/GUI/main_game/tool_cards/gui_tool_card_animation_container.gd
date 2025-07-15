@@ -6,12 +6,19 @@ const DRAW_ANIMATION_TIME := 0.2
 const DISCARD_ANIMATION_TIME := 0.1
 const CARD_MIN_SCALE := 0.8
 
+signal _animation_queue_item_finished(id:int)
+
 var _tool_card_container:GUIToolCardContainer: get = _get_tool_card_container
 var _draw_deck_button:GUIDeckButton: get = _get_draw_deck_button
 var _discard_deck_button:GUIDeckButton: get = _get_discard_deck_button
 var _weak_tool_card_container:WeakRef = weakref(null)
 var _weak_draw_deck_button:WeakRef = weakref(null)
 var _weak_discard_deck_button:WeakRef = weakref(null)
+
+var _animation_queue:Array = []
+
+func _ready() -> void:
+	_animation_queue_item_finished.connect(_on_animation_queue_item_finished)
 
 func setup(tool_card_container:GUIToolCardContainer, draw_box_button:GUIDeckButton, discard_box_button:GUIDeckButton) -> void:
 	_weak_tool_card_container = weakref(tool_card_container)
@@ -21,6 +28,68 @@ func setup(tool_card_container:GUIToolCardContainer, draw_box_button:GUIDeckButt
 func animate_draw(draw_results:Array) -> void:
 	if draw_results.is_empty():
 		return
+	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_DRAW, [draw_results])
+	await item.finished
+
+func animate_shuffle(discard_pile_cards:Array) -> void:
+	if discard_pile_cards.size() == 0:
+		return
+	var index := 0
+	var tween:Tween = Util.create_scaled_tween(self)
+	tween.set_parallel(true)
+	for tool_data:ToolData in discard_pile_cards:
+		var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
+		add_child(animating_card)
+		animating_card.animation_mode = true
+		var original_size:Vector2 = animating_card.size
+		animating_card.scale = _discard_deck_button.size/original_size * CARD_MIN_SCALE
+		animating_card.update_with_tool_data(tool_data)
+		animating_card.global_position = _discard_deck_button.global_position + _discard_deck_button.size/2 - animating_card.size/2*animating_card.scale
+		var target_position := _draw_deck_button.global_position + _draw_deck_button.size/2 - animating_card.size/2*animating_card.scale
+		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * index - 0.01).timeout.connect(func(): animating_card.play_move_sound())
+		var tweener := tween.tween_property(animating_card, "global_position", target_position, DISCARD_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * index)
+		tweener.finished.connect(func():
+			animating_card.queue_free()
+		)
+		index += 1
+	await tween.finished
+
+func animate_discard(indices:Array) -> void:
+	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_DISCARD, [indices])
+	await item.finished
+
+func animate_reposition() -> void:
+	if _tool_card_container.get_card_count() == 0:
+		return
+	var default_positions:Array[Vector2] = _tool_card_container.calculate_default_positions(_tool_card_container.get_card_count())
+	var reposition_tween:Tween = Util.create_scaled_tween(self)
+	reposition_tween.set_parallel(true)
+	for i:int in _tool_card_container.get_card_count():
+		var card:GUIToolCardButton = _tool_card_container.get_card(i)
+		var target_position:Vector2 = _tool_card_container.global_position + default_positions[i]
+		card.play_move_sound()
+		reposition_tween.tween_property(card, "global_position", target_position, DISCARD_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	await reposition_tween.finished
+
+func _enqueue_animation(type:AnimationQueueItem.AnimationType, args:Array) -> AnimationQueueItem:
+	var id := _animation_queue.size()
+	var item := AnimationQueueItem.new(id, type, args)
+	_animation_queue.append(item)
+	if _animation_queue.size() == 1:
+		_play_next_animation()
+	return item
+
+func _play_next_animation() -> void:
+	if _animation_queue.is_empty():
+		return
+	var next_item:AnimationQueueItem = _animation_queue.front()
+	match next_item.animation_type:
+		AnimationQueueItem.AnimationType.ANIMATE_DRAW:
+			_animate_draw(next_item.animation_args[0], next_item.id)
+		AnimationQueueItem.AnimationType.ANIMATE_DISCARD:
+			_animate_discard(next_item.animation_args[0], next_item.id)
+
+func _animate_draw(draw_results:Array, id:int) -> void:
 	var total_card_count:int = _tool_card_container.get_card_count() + draw_results.size()
 	var card_positions:Array[Vector2] = _tool_card_container.calculate_default_positions(total_card_count)
 	var starting_index:int = _tool_card_container.get_card_count()
@@ -52,31 +121,9 @@ func animate_draw(draw_results:Array) -> void:
 			animating_card.animation_mode = false
 		)
 	await tween.finished
+	_animation_queue_item_finished.emit(id)
 
-func animate_shuffle(discard_pile_cards:Array) -> void:
-	if discard_pile_cards.size() == 0:
-		return
-	var index := 0
-	var tween:Tween = Util.create_scaled_tween(self)
-	tween.set_parallel(true)
-	for tool_data:ToolData in discard_pile_cards:
-		var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
-		add_child(animating_card)
-		animating_card.animation_mode = true
-		var original_size:Vector2 = animating_card.size
-		animating_card.scale = _discard_deck_button.size/original_size * CARD_MIN_SCALE
-		animating_card.update_with_tool_data(tool_data)
-		animating_card.global_position = _discard_deck_button.global_position + _discard_deck_button.size/2 - animating_card.size/2*animating_card.scale
-		var target_position := _draw_deck_button.global_position + _draw_deck_button.size/2 - animating_card.size/2*animating_card.scale
-		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * index - 0.01).timeout.connect(func(): animating_card.play_move_sound())
-		var tweener := tween.tween_property(animating_card, "global_position", target_position, DISCARD_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * index)
-		tweener.finished.connect(func():
-			animating_card.queue_free()
-		)
-		index += 1
-	await tween.finished
-
-func animate_discard(indices:Array) -> void:
+func _animate_discard(indices:Array,id:int) -> void:
 	var discarding_cards:Array[GUIToolCardButton] = []
 	for i:int in _tool_card_container.get_card_count():
 		var card :GUIToolCardButton = _tool_card_container.get_card(i)
@@ -95,20 +142,8 @@ func animate_discard(indices:Array) -> void:
 		discard_tween.tween_property(card, "scale", Vector2.ONE * target_scale, DISCARD_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * i).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await discard_tween.finished
 	_tool_card_container.remove_cards(discarding_cards)
-	animate_reposition()
-
-func animate_reposition() -> void:
-	if _tool_card_container.get_card_count() == 0:
-		return
-	var default_positions:Array[Vector2] = _tool_card_container.calculate_default_positions(_tool_card_container.get_card_count())
-	var reposition_tween:Tween = Util.create_scaled_tween(self)
-	reposition_tween.set_parallel(true)
-	for i:int in _tool_card_container.get_card_count():
-		var card:GUIToolCardButton = _tool_card_container.get_card(i)
-		var target_position:Vector2 = _tool_card_container.global_position + default_positions[i]
-		card.play_move_sound()
-		reposition_tween.tween_property(card, "global_position", target_position, DISCARD_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	await reposition_tween.finished
+	await animate_reposition()
+	_animation_queue_item_finished.emit(id)
 
 func _get_tool_card_container() -> GUIToolCardContainer:
 	return _weak_tool_card_container.get_ref()
@@ -118,3 +153,29 @@ func _get_draw_deck_button() -> GUIDeckButton:
 
 func _get_discard_deck_button() -> GUIDeckButton:
 	return _weak_discard_deck_button.get_ref()
+
+func _on_animation_queue_item_finished(id:int) -> void:
+	var finished_item:AnimationQueueItem = _animation_queue.pop_front()
+	assert(finished_item.id == id, "Animation queue item id mismatch")
+	finished_item.finished.emit()
+	_play_next_animation()
+
+class AnimationQueueItem:
+
+	@warning_ignore("unused_signal")
+	signal finished()
+
+	enum AnimationType {
+		ANIMATE_DRAW,
+		ANIMATE_DISCARD,
+	}
+
+	var animation_type:AnimationType
+	var animation_args:Array
+	var id:int
+
+	func _init(identifier:int, type:AnimationType, args:Array) -> void:
+		id = identifier
+		animation_type = type
+		animation_args = args
+	

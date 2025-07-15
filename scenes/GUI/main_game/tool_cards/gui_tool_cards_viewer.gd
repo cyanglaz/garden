@@ -13,7 +13,7 @@ const HIDE_ANIMATION_DURATION := 0.15
 @onready var _main_container: VBoxContainer = %MainContainer
 @onready var _title: Label = %Title
 
-var _display_y := 0
+var _display_y := 0.0
 
 func _ready() -> void:
 	_back_button.action_evoked.connect(_on_back_button_evoked)

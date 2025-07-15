@@ -32,7 +32,7 @@ func _ready() -> void:
 	if !test_plant_datas.is_empty():
 		plant_seed_manager = PlantSeedManager.new(test_plant_datas)
 	if !test_tools.is_empty():
-		test_tools.append_array(test_tools)
+		#test_tools.append_array(test_tools)
 		#test_tools.append_array(test_tools)
 		tool_manager = ToolManager.new(test_tools)
 		tool_manager.tool_application_started.connect(_on_tool_application_started)
@@ -145,9 +145,9 @@ func _on_tool_application_failed(_index:int) -> void:
 
 func _on_end_turn_button_pressed() -> void:
 	gui_main_game.toggle_all_ui(false)
-	await _discard_all_tools()
 	await weather_manager.apply_weather_actions(_field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
 	await _field_container.trigger_end_day_ability(self)
+	await _discard_all_tools()
 	_end_turn()
 	
 func _on_field_harvest_started() -> void:
