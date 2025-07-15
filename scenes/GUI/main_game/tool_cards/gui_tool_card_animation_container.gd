@@ -27,6 +27,7 @@ func animate_draw(draw_results:Array) -> void:
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
 	var animating_cards:Array[GUIToolCardButton] = []
+	var delay_index = 0
 	for i in total_card_count:
 		var animating_card:GUIToolCardButton
 		if i < starting_index:
@@ -39,7 +40,7 @@ func animate_draw(draw_results:Array) -> void:
 			animating_card.scale = _draw_deck_button.size/original_size * CARD_MIN_SCALE
 			animating_card.global_position = _draw_deck_button.global_position + _draw_deck_button.size/2 - animating_card.size/2*animating_card.scale
 			animating_cards.append(animating_card)
-		var delay_index := i - starting_index + 1
+			delay_index += 1
 		if delay_index >= 0:
 			Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index).timeout.connect(func(): animating_card.play_move_sound())
 		var card_local_position:Vector2 = card_positions[i]
