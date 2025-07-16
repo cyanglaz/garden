@@ -27,7 +27,7 @@ func play_flying_sound() -> void:
 func _on_mouse_entered() -> void:
 	if !has_tooltip:
 		return
-	_weak_weather_tooltip = weakref(Util.display_weather_tooltip(_weak_weather_data.get_ref(), self, false, GUITooltip.TooltipPosition.LEFT))
+	_weak_weather_tooltip = weakref(Util.display_weather_tooltip(_weak_weather_data.get_ref(), self, false, GUITooltip.TooltipPosition.RIGHT))
 
 func _on_mouse_exited() -> void:
 	if _weak_weather_tooltip.get_ref():
