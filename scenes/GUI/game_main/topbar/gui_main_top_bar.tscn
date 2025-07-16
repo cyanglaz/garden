@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://c77qp4eia3sk6" path="res://scenes/GUI/game_main/topbar/gui_enemy_forecast_bar.tscn" id="5_g8b7e"]
 [ext_resource type="PackedScene" uid="uid://dh8ucebm7pwrs" path="res://scenes/GUI/game_main/topbar/gui_enemy_process.tscn" id="5_jsal5"]
 [ext_resource type="PackedScene" uid="uid://dekc88x4x655b" path="res://scenes/GUI/controls/buttons/gui_texture_button.tscn" id="5_q8xad"]
-[ext_resource type="PackedScene" uid="uid://bng4n1p05v7f3" path="res://scenes/GUI/controls/buttons/gui_all_deck_button.tscn" id="6_14q81"]
+[ext_resource type="PackedScene" uid="uid://bng4n1p05v7f3" path="res://scenes/GUI/controls/buttons/gui_all_deck_button_old.tscn" id="6_14q81"]
 [ext_resource type="Texture2D" uid="uid://78cwxae6uh0l" path="res://resources/sprites/icons/other/icon_board_view.png" id="6_ygd0y"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wcwo2"]

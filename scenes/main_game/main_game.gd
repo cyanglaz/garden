@@ -32,6 +32,8 @@ func _ready() -> void:
 	if !test_plant_datas.is_empty():
 		plant_seed_manager = PlantSeedManager.new(test_plant_datas)
 	if !test_tools.is_empty():
+		#test_tools.append_array(test_tools)
+		#test_tools.append_array(test_tools)
 		tool_manager = ToolManager.new(test_tools)
 		tool_manager.tool_application_started.connect(_on_tool_application_started)
 		tool_manager.tool_application_completed.connect(_on_tool_application_completed)
@@ -63,7 +65,7 @@ func start_day() -> void:
 	gui_main_game.set_day(week_manager.get_day())
 	gui_main_game.clear_tool_selection()
 	await Util.await_for_tiny_time()
-	await tool_manager.draw_cards(hand_size, gui_main_game.gui_tool_card_container)
+	await draw_cards(hand_size)
 	var unoccupied_fields:Array[int] = _field_container.get_unoccupied_fields()
 	if unoccupied_fields.size() > 0:
 		await Util.create_scaled_timer(0.2).timeout # If planting is needed, there would be a gold update animation, wait for that animationg to end before drawing new plants
@@ -72,6 +74,9 @@ func start_day() -> void:
 
 func add_control_to_overlay(control:Control) -> void:
 	gui_main_game.add_control_to_overlay(control)
+
+func draw_cards(count:int) -> void:
+	await tool_manager.draw_cards(count, gui_main_game.gui_tool_card_container)
 
 #region private
 
@@ -140,9 +145,9 @@ func _on_tool_application_failed(_index:int) -> void:
 
 func _on_end_turn_button_pressed() -> void:
 	gui_main_game.toggle_all_ui(false)
-	await _discard_all_tools()
 	await weather_manager.apply_weather_actions(_field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
 	await _field_container.trigger_end_day_ability(self)
+	await _discard_all_tools()
 	_end_turn()
 	
 func _on_field_harvest_started() -> void:

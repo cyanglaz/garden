@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=29 format=3 uid="uid://cot0ve5mv1sh0"]
+[gd_resource type="Theme" load_steps=33 format=3 uid="uid://cot0ve5mv1sh0"]
 
 [ext_resource type="Texture2D" uid="uid://cri834mdsuxcn" path="res://resources/sprites/GUI/menu/seperator_line.png" id="1_x68bo"]
 [ext_resource type="Texture2D" uid="uid://coidqgp281swn" path="res://resources/sprites/GUI/menu/slider_knob.png" id="2_hva41"]
@@ -7,6 +7,10 @@
 [ext_resource type="Texture2D" uid="uid://e53gsuhp1xny" path="res://resources/sprites/GUI/menu/slider_grabber.png" id="5_7tjii"]
 [ext_resource type="Texture2D" uid="uid://hpxvi44ay4mx" path="res://resources/sprites/GUI/menu/slider_bar.png" id="6_p6dle"]
 [ext_resource type="FontFile" uid="uid://cs4at5ruly1er" path="res://resources/fonts/RubikBubbles-Regular.ttf" id="7_efn7a"]
+[ext_resource type="Texture2D" uid="uid://dunbwybfk0jd3" path="res://resources/sprites/GUI/menu/scroll_bar_grabber.png" id="8_bx5bv"]
+[ext_resource type="Texture2D" uid="uid://emo2uof1tygl" path="res://resources/sprites/GUI/menu/scroll_bar_grabber_highlight.png" id="9_0tb7k"]
+[ext_resource type="Texture2D" uid="uid://btnrmmrw80rr8" path="res://resources/sprites/GUI/menu/scroll_bar_grabber_pressed.png" id="10_q5al4"]
+[ext_resource type="Texture2D" uid="uid://iilllm6bti5b" path="res://resources/sprites/GUI/menu/scroll_bar_scroll.png" id="11_kavec"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_73q4h"]
 
@@ -67,28 +71,37 @@ base_font = SubResource("SystemFont_cfmae")
 variation_embolden = 1.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4henj"]
-texture_margin_left = 5.0
-texture_margin_top = 5.0
-texture_margin_right = 5.0
-texture_margin_bottom = 5.0
+texture = ExtResource("8_bx5bv")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_top = 3.0
+expand_margin_bottom = 3.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_a8prg"]
-texture_margin_left = 4.0
-texture_margin_top = 4.0
-texture_margin_right = 4.0
-texture_margin_bottom = 4.0
+texture = ExtResource("9_0tb7k")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_top = 3.0
+expand_margin_bottom = 3.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wj6pe"]
-texture_margin_left = 4.0
-texture_margin_top = 4.0
-texture_margin_right = 4.0
-texture_margin_bottom = 4.0
+texture = ExtResource("10_q5al4")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_top = 3.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qchjk"]
+texture = ExtResource("11_kavec")
 texture_margin_left = 4.0
-texture_margin_top = 4.0
+texture_margin_top = 6.0
 texture_margin_right = 4.0
-texture_margin_bottom = 4.0
+texture_margin_bottom = 6.0
 
 [resource]
 default_font = SubResource("SystemFont_pj8lf")

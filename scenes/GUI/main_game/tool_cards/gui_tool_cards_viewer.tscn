@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://cq1vyx3yrtj8p"]
+[gd_scene load_steps=6 format=3 uid="uid://cq1vyx3yrtj8p"]
 
 [ext_resource type="Script" uid="uid://be6geqqepvpqt" path="res://scenes/GUI/main_game/tool_cards/gui_tool_cards_viewer.gd" id="1_fr6vb"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="2_kgyom"]
 [ext_resource type="Texture2D" uid="uid://b0nsc2v1cdqqd" path="res://resources/sprites/GUI/shared/panel_background_simple.png" id="3_2hebc"]
 [ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="4_6nd7b"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="5_6nd7b"]
 
 [node name="GUIToolCardsViewer" type="Control"]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,24 +18,38 @@ script = ExtResource("1_fr6vb")
 
 [node name="GUIOverlayBackground" parent="." instance=ExtResource("2_kgyom")]
 layout_mode = 1
-color = Color(0.0745098, 0.0745098, 0.0745098, 0.784314)
+color = Color(0.0470588, 0.180392, 0.266667, 0.901961)
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="MainContainer" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 118)
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
 offset_left = -80.0
-offset_top = -70.0
+offset_top = 14.0
 offset_right = 80.0
-offset_bottom = 70.0
+offset_bottom = 149.0
 grow_horizontal = 2
-grow_vertical = 2
 
-[node name="Background" type="NinePatchRect" parent="PanelContainer"]
-self_modulate = Color(0, 0.596078, 0.862745, 1)
+[node name="TitleContainer" type="HBoxContainer" parent="MainContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MainContainer/TitleContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD"
+
+[node name="PanelContainer" type="PanelContainer" parent="MainContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 120)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Background" type="NinePatchRect" parent="MainContainer/PanelContainer"]
+self_modulate = Color(0.74902, 0.435294, 0.290196, 1)
 layout_mode = 2
 texture = ExtResource("3_2hebc")
 patch_margin_left = 3
@@ -41,7 +57,7 @@ patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 3
 
-[node name="Border" type="NinePatchRect" parent="PanelContainer"]
+[node name="Border" type="NinePatchRect" parent="MainContainer/PanelContainer"]
 self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
 layout_mode = 2
 texture = ExtResource("4_6nd7b")
@@ -50,18 +66,42 @@ patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 3
 
-[node name="MarginContainer2" type="MarginContainer" parent="PanelContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="MainContainer/PanelContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer2"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MainContainer/PanelContainer/MarginContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 horizontal_scroll_mode = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer2/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MainContainer/PanelContainer/MarginContainer2/ScrollContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
 
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/MarginContainer2/ScrollContainer/MarginContainer"]
+[node name="GridContainer" type="GridContainer" parent="MainContainer/PanelContainer/MarginContainer2/ScrollContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 columns = 4
+
+[node name="BackButton" parent="." instance=ExtResource("5_6nd7b")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = -21.0
+offset_right = 15.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 0
+localization_text_key = "BACK"
