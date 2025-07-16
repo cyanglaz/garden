@@ -12,7 +12,15 @@ const ANIMATION_OFFSET := 3
 var status_id:String = ""
 var status_type:FieldStatusData.Type
 
+var _weak_tooltip:WeakRef = weakref(null)
+var _weak_field_status_data:WeakRef = weakref(null)
+
+func _ready() -> void:
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
+
 func setup_with_field_status_data(field_status_data:FieldStatusData) -> void:
+	_weak_field_status_data = weakref(field_status_data)
 	_icon.texture = load(Util.get_image_path_for_resource_id(field_status_data.id))
 	_stack.text = str(field_status_data.stack)
 	status_id = field_status_data.id
@@ -35,3 +43,10 @@ func play_trigger_animation() -> void:
 		tween.tween_property(_icon, "position", _icon.position + Vector2.UP * ANIMATION_OFFSET, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		tween.tween_property(_icon, "position", original_position, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	
+func _on_mouse_entered() -> void:
+	_weak_tooltip = weakref(Util.display_field_status_tooltip(_weak_field_status_data.get_ref(), self, false, GUITooltip.TooltipPosition.RIGHT, true))
+
+func _on_mouse_exited() -> void:
+	if _weak_tooltip:
+		_weak_tooltip.get_ref().queue_free()
+		_weak_tooltip = weakref(null)

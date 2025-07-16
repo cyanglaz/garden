@@ -9,10 +9,13 @@ extends PanelContainer
 var _weak_weather_tooltip:WeakRef = weakref(null)
 var _weak_weather_data:WeakRef
 
-
 func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
+
+# For display only, not used for tooltip
+func setup_with_weather_id(weather_id:String) -> void:
+	_texture_rect.texture = load(Util.get_icon_image_path_for_weather_id(weather_id))
 
 func setup_with_weather_data(weather_data:WeatherData) -> void:
 	_weak_weather_data = weakref(weather_data)
@@ -24,7 +27,7 @@ func play_flying_sound() -> void:
 func _on_mouse_entered() -> void:
 	if !has_tooltip:
 		return
-	_weak_weather_tooltip = weakref(Util.display_weather_tooltip(_weak_weather_data.get_ref(), self, false, GUITooltip.TooltipPosition.LEFT))
+	_weak_weather_tooltip = weakref(Util.display_weather_tooltip(_weak_weather_data.get_ref(), self, false, GUITooltip.TooltipPosition.RIGHT))
 
 func _on_mouse_exited() -> void:
 	if _weak_weather_tooltip.get_ref():

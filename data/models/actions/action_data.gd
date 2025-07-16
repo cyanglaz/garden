@@ -40,10 +40,6 @@ func get_duplicate() -> ThingData:
 	var action_data:ActionData = ActionData.new()
 	action_data.copy(self)
 	return action_data
-	
-func get_display_description() -> String:
-	var formatted_description := description.format(data)
-	return formatted_description
 
 func _get_action_category() -> ActionCategory:
 	if FIELD_ACTION_TYPES.has(type):

@@ -1,6 +1,14 @@
 class_name Util
 extends RefCounted
 
+enum ReferenceType {
+	STATUS_EFFECT,
+	SPACE_EFFECT,
+	RESOURCE,
+	OTHER,
+}
+
+
 const GUI_BUTTON_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_button_tooltip.tscn")
 const GUI_BINGO_BALL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_bingo_ball_tooltip.tscn")
 const GUI_STATUS_EFFECT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_status_effect_tooltip.tscn")
@@ -12,6 +20,8 @@ const GUI_IN_GAME_MENU_SCENE := preload("res://scenes/GUI/containers/gui_in_game
 const GUI_BALL_SYMBOL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_bingo_ball_symbol_tooltip.tscn")
 const GUI_PLANT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn")
 const GUI_WEATHER_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_weather_tooltip.tscn")
+const GUI_FIELD_STATUS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_field_status_tooltip.tscn")
+const GUI_ACTIONS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_actions_tooltip.tscn")
 const GUI_WARNING_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_warning_tooltip.tscn")
 const GUI_RICH_TEXT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_rich_text_tooltip.tscn")
 const GUI_POWER_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_power_tooltip.tscn")
@@ -159,6 +169,22 @@ static func display_weather_tooltip(weather_data:WeatherData, on_control_node:Co
 	weather_tooltip.update_with_weather_data(weather_data)
 	_display_tool_tip.call_deferred(weather_tooltip, on_control_node, anchor_mouse, tooltip_position)
 	return weather_tooltip
+
+static func display_field_status_tooltip(field_status_data:FieldStatusData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool) -> GUIFieldStatusTooltip:
+	var field_status_tooltip:GUIFieldStatusTooltip = GUI_FIELD_STATUS_TOOLTIP_SCENE.instantiate()
+	Singletons.main_game.add_control_to_overlay(field_status_tooltip)
+	field_status_tooltip.tooltip_position = tooltip_position
+	field_status_tooltip.update_with_field_status_data(field_status_data)
+	_display_tool_tip.call_deferred(field_status_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
+	return field_status_tooltip
+
+static func display_actions_tooltip(action_datas:Array[ActionData], on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool) -> GUIActionsTooltip:
+	var actions_tooltip:GUIActionsTooltip = GUI_ACTIONS_TOOLTIP_SCENE.instantiate()
+	Singletons.main_game.add_control_to_overlay(actions_tooltip)
+	actions_tooltip.tooltip_position = tooltip_position
+	actions_tooltip.update_with_actions(action_datas)
+	_display_tool_tip.call_deferred(actions_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
+	return actions_tooltip
 
 static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP, world_space:bool = false) -> void:
 	tooltip.show()
@@ -408,7 +434,7 @@ static func get_image_path_for_ball_type_id(id:String) -> String:
 static func get_image_path_for_resource_id(id:String) -> String:
 	return str(RESOURCE_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
 
-static func get_action_icon_with_action_type(action_type:ActionData.ActionType) -> Texture2D:
+static func get_action_id_with_action_type(action_type:ActionData.ActionType) -> String:
 	var id := ""
 	match action_type:
 		ActionData.ActionType.WATER:
@@ -421,7 +447,107 @@ static func get_action_icon_with_action_type(action_type:ActionData.ActionType) 
 			id = "fungus"
 		ActionData.ActionType.DRAW_CARD:
 			id = "card"
-	return load(Util.get_image_path_for_resource_id(id))
+		ActionData.ActionType.WEATHER_SUNNY:
+			id = "sunny"
+		ActionData.ActionType.WEATHER_RAINY:
+			id = "rainy"
+		ActionData.ActionType.NONE:
+			pass
+	return id
+
+static func formate_references(formatted_description:String, data_to_format:Dictionary, highlight_description_keys:Dictionary, additional_highlight_check:Callable, ) -> String:
+	var searching_start_index := 0
+	while true:
+		var start_index := formatted_description.find("{", searching_start_index)
+		if start_index == -1:
+			break
+		var end_index := formatted_description.find("}", start_index)
+		if end_index == -1:
+			break
+		var reference_id := formatted_description.substr(start_index + 1, end_index - start_index - 1)
+		var highlight:bool = additional_highlight_check.call(reference_id)
+		var formatted_string := _format_reference(reference_id, data_to_format, highlight_description_keys, highlight)
+		formatted_description = formatted_description.substr(0, start_index) + formatted_string + formatted_description.substr(end_index + 1)
+		searching_start_index = start_index + formatted_string.length()
+	return formatted_description
+
+static func _format_reference(reference_id:String, data_to_format:Dictionary, highlight_description_keys:Dictionary, highlight:bool) -> String:
+	# Find the referenced id under the umbrella id
+	var parsed_string := ""
+	var highlight_color := Constants.COLOR_WHITE
+	if (highlight_description_keys.has(reference_id) && highlight_description_keys[reference_id] == true) || highlight:
+		highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
+	if reference_id.begins_with("icon_"):
+		parsed_string = _format_icon_reference(reference_id, highlight)
+	elif data_to_format.has(reference_id):
+		parsed_string = data_to_format[reference_id]
+		parsed_string = Util.convert_to_bbc_highlight_text(parsed_string, highlight_color)
+	elif reference_id.begins_with("bordered_text:"):
+		reference_id = reference_id.trim_prefix("bordered_text:")
+		parsed_string = Util.convert_to_bbc_highlight_text(parsed_string, highlight_color)
+	return parsed_string
+
+static func _get_level_suffix(reference_id:String) -> String:
+	var plus_sign_index := reference_id.find("+")
+	if plus_sign_index == -1:
+		return ""
+	return reference_id.substr(plus_sign_index)
+
+static func _format_icon_reference(reference_id:String, highlight:bool) -> String:
+	reference_id = reference_id.trim_prefix("icon_")
+	var icon_string := ""
+	var image_path : = ""
+	var reference_type:ReferenceType = ReferenceType.OTHER
+
+	# For each reference id, create an icon tag, append to the final string with , separated
+	if reference_id.begins_with("status_effect_"):
+		reference_type = ReferenceType.STATUS_EFFECT
+	elif reference_id.begins_with("space_effect_"):
+		reference_type = ReferenceType.SPACE_EFFECT
+	elif reference_id.begins_with("resource_"):
+		reference_type = ReferenceType.RESOURCE
+	
+	var url_prefix := ""
+	var url := ""
+	var level_suffix := _get_level_suffix(reference_id)
+	match reference_type:
+		ReferenceType.STATUS_EFFECT:
+			url_prefix = "status_effect_"
+			reference_id = reference_id.trim_prefix("status_effect_")
+			image_path = Util.get_image_path_for_status_effect_id(reference_id)
+			url = reference_id
+		ReferenceType.SPACE_EFFECT:
+			url_prefix = "space_effect_"
+			reference_id = reference_id.trim_prefix("space_effect_")
+			image_path = Util.get_image_path_for_space_effect_id(reference_id)
+			url = reference_id
+		ReferenceType.RESOURCE:
+			reference_id = reference_id.trim_prefix("resource_")
+			image_path = Util.get_image_path_for_resource_id(reference_id)
+		ReferenceType.OTHER:
+			url_prefix = "ball_"
+			image_path = Util.get_image_path_for_ball_id(reference_id)
+			url = reference_id
+	var highlight_color := Constants.COLOR_WHITE
+	if highlight:
+		highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
+	icon_string = str("[img=6x6]", image_path, "[/img]") + Util.convert_to_bbc_highlight_text(level_suffix, highlight_color)
+	if !url.is_empty():
+		icon_string = str("[url=", url_prefix, reference_id, "]", icon_string, "[/url]")
+	return icon_string
+
+static func _highlight_string(string:String) -> String:
+	# Check if the string is already highlighted
+	var highlight_color := Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
+	if string.begins_with(str("[outline_size=1][color=", Util.get_color_hex(highlight_color), "]")) && string.ends_with("[/color][/outline_size]"):
+		return string
+	# Check if the string is already highlighted with white
+	if string.begins_with(str("[outline_size=1][color=", Util.get_color_hex(Constants.COLOR_WHITE), "]")) && string.ends_with("[/color][/outline_size]"):
+		string = string.trim_prefix(str("[outline_size=1][color=", Util.get_color_hex(Constants.COLOR_WHITE), "]"))
+		string = string.trim_suffix("[/color][/outline_size]")
+		return Util.convert_to_bbc_highlight_text(string, highlight_color)
+	assert(!string.begins_with(str("[outline_size=1]")))
+	return Util.convert_to_bbc_highlight_text(string, highlight_color)
 
 static func _trim_upgrade_suffix_from_id(id:String) -> String:
 	var plus_sign_index := id.find("+")

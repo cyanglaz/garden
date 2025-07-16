@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dc55qurnl8nhi"]
+
+[ext_resource type="PackedScene" uid="uid://73vkj3ho7ou5" path="res://scenes/GUI/tooltips/gui_tooltip.tscn" id="1_kfgau"]
+[ext_resource type="Script" uid="uid://ssci840g3c35" path="res://scenes/GUI/tooltips/gui_actions_tooltip.gd" id="2_8ulc7"]
+[ext_resource type="PackedScene" uid="uid://c7a7c2ywntwi2" path="res://scenes/GUI/shared/descriptions/shared_description/gui_actions_description.tscn" id="3_80sye"]
+
+[node name="GUIActionsTooltip" instance=ExtResource("1_kfgau")]
+script = ExtResource("2_8ulc7")
+
+[node name="GUIPanelBackgroundColor" parent="." index="0"]
+unique_name_in_owner = true
+
+[node name="ContentContainer" parent="." index="1"]
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="GUIActionsDescription" parent="ContentContainer" index="0" instance=ExtResource("3_80sye")]
+unique_name_in_owner = true
+layout_mode = 2

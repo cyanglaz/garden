@@ -27,10 +27,3 @@ func get_duplicate() -> PlantData:
 	var dup:PlantData = PlantData.new()
 	dup.copy(self)
 	return dup
-
-func get_display_description() -> String:
-	var formatted_description := description
-	formatted_description = _formate_references(formatted_description, data, func(_reference_id:String) -> bool:
-		return false
-	)
-	return formatted_description

@@ -37,4 +37,3 @@ alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
-theme_override_colors/default_color = Color(0.223529, 0.121569, 0.129412, 1)
