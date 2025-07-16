@@ -13,6 +13,7 @@ enum Type {
 
 var _normal_background_color:Color
 var _size:int = 0
+var _label_update_tween:Tween
 
 func _ready() -> void:
 	_normal_background_color = _background.self_modulate
@@ -46,11 +47,19 @@ func _set_button_state(val:ButtonState) -> void:
 			_background.self_modulate = Constants.COLOR_BEIGE_1
 
 func _on_pool_updated(pool:Array) -> void:
+	if type == Type.DRAW:
+		print("pool updated: ", pool.size())
 	var old_size := _size
 	_size = pool.size()
+	if _label_update_tween && _label_update_tween.is_running():
+		_label_update_tween.kill()
+	_label_update_tween = Util.create_scaled_tween(self)
+	_label_update_tween.set_parallel(true)
 	var increment := 1 if _size > old_size else -1
-	for i in abs(old_size - _size):
-		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * i).timeout.connect(func():
-			_label.text = str(old_size + increment * (i + 1))
-		)
+	var number_of_increament = abs(old_size - _size)
+	if number_of_increament == 0:
+		_label_update_tween.kill()
+	for i in number_of_increament:
+		_label_update_tween.tween_property(_label, "text", str(old_size + increment * (i + 1)), Constants.CARD_ANIMATION_DELAY).set_delay(Constants.CARD_ANIMATION_DELAY * i)
+
 	# _label.text = str(_size)
