@@ -41,6 +41,14 @@ func get_duplicate() -> ThingData:
 	dup.copy(self)
 	return dup
 
+func get_display_description() -> String:
+	var formatted_description := description
+	formatted_description = _formate_references(formatted_description, data, _additional_highlight_check) 
+	return formatted_description
+
+func _additional_highlight_check(_reference_id:String) -> bool:
+	return false
+
 func _formate_references(formatted_description:String, data_to_format:Dictionary, additional_highlight_check:Callable) -> String:
 	var searching_start_index := 0
 	while true:

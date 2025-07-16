@@ -20,17 +20,17 @@ func get_duplicate() -> PowerData:
 	var dup:PowerData = PowerData.new()
 	dup.copy(self)
 	return dup
-
-func get_display_description(comparison:bool) -> String:
-	var formatted_description = _formate_references(description, data, func(reference_id:String) -> bool:
-		if comparison:
-			var upgraded_from_data:PowerData = _get_upgraded_from_data()
-			if upgraded_from_data.data.has(reference_id):
-				if upgraded_from_data.data[reference_id] != data[reference_id]:
-					return true
-		return false
-	)
-	return formatted_description
+#
+#func get_display_description(comparison:bool) -> String:
+	#var formatted_description = _formate_references(description, data, func(reference_id:String) -> bool:
+		#if comparison:
+			#var upgraded_from_data:PowerData = _get_upgraded_from_data()
+			#if upgraded_from_data.data.has(reference_id):
+				#if upgraded_from_data.data[reference_id] != data[reference_id]:
+					#return true
+		#return false
+	#)
+	#return formatted_description
 
 func _get_upgraded_from_data() -> PowerData:
 	assert(!upgraded_from_id.is_empty(), "upgraded_from_id is empty")

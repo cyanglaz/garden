@@ -35,7 +35,7 @@ func bind_bingo_ball_data(bingo_ball_data:BingoBallData, show_comparison:bool) -
 		BingoBallData.Type.STATUS:
 			_type_label.text = "Status"
 	#_type_label.self_modulate = Util.get_color_for_type(bingo_ball_data.type)
-	_gui_description_rich_text_label.text = bingo_ball_data.get_display_description(show_comparison)
+	#_gui_description_rich_text_label.text = bingo_ball_data.get_display_description(show_comparison)
 
 	if _gui_description_rich_text_label.text.is_empty() && _left_rules_container.get_child_count() == 0 && _right_rules_container.get_child_count() == 0:
 		_gui_tooltip_description_saparator.hide()

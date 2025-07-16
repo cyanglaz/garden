@@ -85,4 +85,3 @@ layout_mode = 2
 [node name="GUIDescriptionRichTextLabel" parent="." instance=ExtResource("3_lgl7a")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/default_color = Color(0.223529, 0.121569, 0.129412, 1)

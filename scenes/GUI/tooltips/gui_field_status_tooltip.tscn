@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://dqcssi83vfrsc"]
+
+[ext_resource type="PackedScene" uid="uid://73vkj3ho7ou5" path="res://scenes/GUI/tooltips/gui_tooltip.tscn" id="1_5v1nc"]
+[ext_resource type="Script" uid="uid://6culqimd7ta8" path="res://scenes/GUI/tooltips/gui_field_status_tooltip.gd" id="2_mrcta"]
+[ext_resource type="PackedScene" uid="uid://cunawkq2qfyyh" path="res://scenes/GUI/shared/descriptions/field_status_description/gui_field_status_description.tscn" id="3_mrcta"]
+
+[node name="GUIFieldStatusTooltip" instance=ExtResource("1_5v1nc")]
+script = ExtResource("2_mrcta")
+
+[node name="GUIPanelBackgroundColor" parent="." index="0"]
+unique_name_in_owner = true
+
+[node name="GUIFieldStatusDescription" parent="ContentContainer" index="0" instance=ExtResource("3_mrcta")]
+unique_name_in_owner = true
+layout_mode = 2

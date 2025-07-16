@@ -17,13 +17,6 @@ func get_duplicate() -> ToolData:
 	dup.copy(self)
 	return dup
 
-func get_display_description() -> String:
-	var formatted_description := description
-	formatted_description = _formate_references(formatted_description, data, func(_reference_id:String) -> bool:
-		return false
-	)
-	return formatted_description
-
 func _get_need_select_field() -> bool:
 	for action_data:ActionData in actions:
 		if action_data.action_category == ActionData.ActionCategory.FIELD:

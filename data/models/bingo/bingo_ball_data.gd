@@ -90,22 +90,22 @@ func get_duplicate() -> BingoBallData:
 func reset_new_combat() -> void:
 	combat_dmg_boost = 0
 
-func get_display_description(comparison:bool) -> String:
-	if ball_script:
-		ball_script.evaluate_for_description()
-	var formatted_description := description
-	if type == Type.ATTACK && damage > 0:
-		formatted_description = _format_damage_text(comparison) + "\n" + formatted_description
-
-	formatted_description = _formate_references(formatted_description, data, func(reference_id:String) -> bool:
-		if comparison && is_plus:
-			var upgraded_from_data:BingoBallData = _get_upgraded_from_data()
-			if upgraded_from_data.data.has(reference_id):
-				if upgraded_from_data.data[reference_id] != data[reference_id]:
-					return true
-		return false
-	)
-	return formatted_description
+#func get_display_description(comparison:bool) -> String:
+	#if ball_script:
+		#ball_script.evaluate_for_description()
+	#var formatted_description := description
+	#if type == Type.ATTACK && damage > 0:
+		#formatted_description = _format_damage_text(comparison) + "\n" + formatted_description
+#
+	#formatted_description = _formate_references(formatted_description, data, func(reference_id:String) -> bool:
+		#if comparison && is_plus:
+			#var upgraded_from_data:BingoBallData = _get_upgraded_from_data()
+			#if upgraded_from_data.data.has(reference_id):
+				#if upgraded_from_data.data[reference_id] != data[reference_id]:
+					#return true
+		#return false
+	#)
+	#return formatted_description
 	
 func get_formatted_display_name() -> String:
 	var name := display_name
