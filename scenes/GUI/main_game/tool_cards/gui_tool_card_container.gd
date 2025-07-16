@@ -75,8 +75,8 @@ func animate_draw(draw_results:Array) -> void:
 func animate_discard(discarding_indices:Array) -> void:
 	await _gui_tool_card_animation_container.animate_discard(discarding_indices)
 
-func animate_shuffle(discard_pile_cards:Array) -> void:
-	await _gui_tool_card_animation_container.animate_shuffle(discard_pile_cards)
+func animate_shuffle(number_of_cards:int) -> void:
+	await _gui_tool_card_animation_container.animate_shuffle(number_of_cards)
 
 #endregion
 

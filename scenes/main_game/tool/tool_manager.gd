@@ -30,8 +30,8 @@ func draw_cards(count:int, gui_tool_card_container:GUIToolCardContainer) -> void
 		# gui_tool_card_container.setup_with_tool_datas(tool_deck.hand)
 
 func shuffle(gui_tool_card_container:GUIToolCardContainer) -> void:
-	var discard_pile_balls := tool_deck.discard_pool.duplicate()
-	await gui_tool_card_container.animate_shuffle(discard_pile_balls)
+	var discard_pile := tool_deck.discard_pool.duplicate()
+	await gui_tool_card_container.animate_shuffle(discard_pile.size())
 	tool_deck.shuffle_draw_pool()
 
 func discard_cards(indices:Array, gui_tool_card_container:GUIToolCardContainer) -> void:

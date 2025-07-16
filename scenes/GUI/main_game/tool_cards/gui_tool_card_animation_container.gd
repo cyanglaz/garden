@@ -5,6 +5,7 @@ const ANIMATING_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_card
 const DRAW_ANIMATION_TIME := 0.2
 const DISCARD_ANIMATION_TIME := 0.1
 const CARD_MIN_SCALE := 0.8
+const MAX_SHUFFLE_CARDS := 5
 
 signal _animation_queue_item_finished(id:int)
 
@@ -31,19 +32,18 @@ func animate_draw(draw_results:Array) -> void:
 	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_DRAW, [draw_results])
 	await item.finished
 
-func animate_shuffle(discard_pile_cards:Array) -> void:
-	if discard_pile_cards.size() == 0:
+func animate_shuffle(number_of_cards:int) -> void:
+	if number_of_cards == 0:
 		return
 	var index := 0
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
-	for tool_data:ToolData in discard_pile_cards:
+	for i in mini(number_of_cards, MAX_SHUFFLE_CARDS):
 		var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
 		add_child(animating_card)
 		animating_card.animation_mode = true
 		var original_size:Vector2 = animating_card.size
 		animating_card.scale = _discard_deck_button.size/original_size * CARD_MIN_SCALE
-		animating_card.update_with_tool_data(tool_data)
 		animating_card.global_position = _discard_deck_button.global_position + _discard_deck_button.size/2 - animating_card.size/2*animating_card.scale
 		var target_position := _draw_deck_button.global_position + _draw_deck_button.size/2 - animating_card.size/2*animating_card.scale
 		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * index - 0.01).timeout.connect(func(): animating_card.play_move_sound())
