@@ -1,11 +1,12 @@
 class_name GUIToolCardButton
 extends GUIBasicButton
 
+const SIZE := Vector2(36, 48)
 const CARD_HOVER_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_hover.wav")
 const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_select.wav")
 
 @onready var _gui_generic_description: GUIGenericDescription = %GUIGenericDescription
-@onready var _card_container: PanelContainer = %CardContainer
+@onready var _card_container: Control = %CardContainer
 @onready var _background: NinePatchRect = %Background
 @onready var _cost_label: Label = %CostLabel
 
@@ -20,6 +21,7 @@ var animation_mode := false : set = _set_animation_mode
 func _ready() -> void:
 	super._ready()
 	mouse_filter = MOUSE_FILTER_IGNORE
+	assert(size == SIZE, "size not match")
 
 func update_with_tool_data(tool_data:ToolData) -> void:
 	_weak_tool_data = weakref(tool_data)
@@ -84,6 +86,8 @@ func _set_animation_mode(value:bool) -> void:
 	animation_mode = value
 	_cost_label.visible = !value
 	_gui_generic_description.visible = !value
+	custom_minimum_size = Vector2.ZERO
+	
 
 func _on_energy_tracker_value_updated(energy_tracker:ResourcePoint) -> void:
 	_update_for_energy(energy_tracker.value)
