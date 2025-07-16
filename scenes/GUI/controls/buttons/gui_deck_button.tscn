@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_o3xsk"]
 [ext_resource type="Script" uid="uid://cfxb4l5fytuhx" path="res://scenes/GUI/controls/buttons/gui_deck_button.gd" id="2_60uvu"]
 [ext_resource type="Texture2D" uid="uid://b0nsc2v1cdqqd" path="res://resources/sprites/GUI/shared/panel_background_simple.png" id="3_xvtoq"]
-[ext_resource type="Texture2D" uid="uid://cot566voterom" path="res://resources/sprites/GUI/shared/border2.png" id="4_o3xsk"]
+[ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="4_o3xsk"]
 
 [node name="GUIDeckButton" instance=ExtResource("1_o3xsk")]
 custom_minimum_size = Vector2(12, 16)
@@ -24,7 +24,7 @@ patch_margin_bottom = 3
 
 [node name="Border" type="NinePatchRect" parent="." index="1"]
 unique_name_in_owner = true
-self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
+self_modulate = Color(0.109804, 0.0705882, 0.109804, 1)
 layout_mode = 2
 texture = ExtResource("4_o3xsk")
 patch_margin_left = 2

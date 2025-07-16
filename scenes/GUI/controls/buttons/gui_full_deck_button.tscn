@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cot566voterom" path="res://resources/sprites/GUI/shared/border2.png" id="4_lrd4x"]
 
 [node name="GUIFullDeckButton" instance=ExtResource("1_g4dd5")]
-custom_minimum_size = Vector2(8, 12)
+custom_minimum_size = Vector2(10, 12)
 offset_right = 10.0
 offset_bottom = 14.0
 script = ExtResource("2_ml7rj")
