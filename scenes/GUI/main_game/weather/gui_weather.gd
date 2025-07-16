@@ -13,6 +13,10 @@ func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 
+# For display only, not used for tooltip
+func setup_with_weather_id(weather_id:String) -> void:
+	_texture_rect.texture = load(Util.get_icon_image_path_for_weather_id(weather_id))
+
 func setup_with_weather_data(weather_data:WeatherData) -> void:
 	_weak_weather_data = weakref(weather_data)
 	_texture_rect.texture = load(Util.get_icon_image_path_for_weather_id(weather_data.id))
