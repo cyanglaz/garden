@@ -187,7 +187,8 @@ func _show_popup_action_indicator(action_data:ActionData) -> void:
 	var text := str(action_data.value)
 	if action_data.value > 0:
 		text = "+" + text
-	popup.setup(text, Constants.COLOR_WHITE, Util.get_action_icon_with_action_type(action_data.type))
+	var resource_id := Util.get_action_id_with_action_type(action_data.type)
+	popup.setup(text, Constants.COLOR_WHITE, load(Util.get_image_path_for_resource_id(resource_id)))
 	await popup.animate_show_and_destroy(6, 3, POPUP_SHOW_TIME, POPUP_DESTROY_TIME)
 
 func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> void:

@@ -18,6 +18,8 @@ var _weak_tool_data:WeakRef = weakref(null)
 var _default_button_state:GUIBasicButton.ButtonState = GUIBasicButton.ButtonState.NORMAL
 var animation_mode := false : set = _set_animation_mode
 
+var _weak_actions_tooltip:WeakRef = weakref(null)
+
 func _ready() -> void:
 	super._ready()
 	mouse_filter = MOUSE_FILTER_IGNORE
@@ -64,6 +66,17 @@ func _get_hover_sound() -> AudioStream:
 func _get_click_sound() -> AudioStream:
 	return CARD_SELECT_SOUND
 
+func _on_mouse_entered() -> void:
+	super._on_mouse_entered()
+	if activated:
+		_weak_actions_tooltip = weakref(Util.display_actions_tooltip(_tool_data.actions, self, false, GUITooltip.TooltipPosition.RIGHT, true))
+
+func _on_mouse_exited() -> void:
+	super._on_mouse_exited()
+	if _weak_actions_tooltip:
+		_weak_actions_tooltip.get_ref().queue_free()
+		_weak_actions_tooltip = weakref(null)
+
 func _set_mouse_disabled(value:bool) -> void:
 	if !activated:
 		return
@@ -87,7 +100,6 @@ func _set_animation_mode(value:bool) -> void:
 	_cost_label.visible = !value
 	_gui_generic_description.visible = !value
 	custom_minimum_size = Vector2.ZERO
-	
 
 func _on_energy_tracker_value_updated(energy_tracker:ResourcePoint) -> void:
 	_update_for_energy(energy_tracker.value)

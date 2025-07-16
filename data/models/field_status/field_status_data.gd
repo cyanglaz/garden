@@ -28,13 +28,6 @@ func get_duplicate() -> FieldStatusData:
 	dup.copy(self)
 	return dup
 
-func get_display_description() -> String:
-	var formatted_description := description
-	formatted_description = _formate_references(formatted_description, data, func(_reference_id:String) -> bool:
-		return false
-	)
-	return formatted_description
-
 func _get_status_script() -> FieldStatusScript:
 	if _status_script:
 		return _status_script

@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3 uid="uid://n2ofwd13b2vy"]
+
+[ext_resource type="Script" uid="uid://bvc2sf38b55pi" path="res://scenes/GUI/shared/descriptions/shared_description/gui_one_action_description.gd" id="1_jri6o"]
+
+[node name="GUIOneActionDescription" type="VBoxContainer"]
+offset_right = 35.0
+offset_bottom = 7.0
+theme_override_constants/separation = 0
+script = ExtResource("1_jri6o")
+
+[node name="Title" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="TextureRect" type="TextureRect" parent="Title"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(6, 6)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="Title"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD_small"
+vertical_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(35, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"RichTextControlTip"
+bbcode_enabled = true
+text = "123123123"
+fit_content = true
+scroll_active = false
+autowrap_mode = 2
+tab_size = 0
