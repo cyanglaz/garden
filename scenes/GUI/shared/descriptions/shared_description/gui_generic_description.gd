@@ -7,7 +7,7 @@ const GUI_WEATHER_ACTION_SCENE := preload("res://scenes/GUI/main_game/actions/gu
 @onready var _action_container: VBoxContainer = %ActionContainer
 @onready var _gui_description_rich_text_label: GUIDescriptionRichTextLabel = %GUIDescriptionRichTextLabel
 
-func update(display_name:String, actions:Array[ActionData], description:String) -> void:
+func update(actions:Array[ActionData], description:String) -> void:
 	Util.remove_all_children(_action_container)
 	for action_data:ActionData in actions:
 		var action_scene:GUIAction = GUI_GENERAL_ACTION_SCENE.instantiate()

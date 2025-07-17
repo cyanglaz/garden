@@ -28,7 +28,7 @@ func _ready() -> void:
 
 func update_with_tool_data(tool_data:ToolData) -> void:
 	_weak_tool_data = weakref(tool_data)
-	_gui_generic_description.update(tool_data.display_name, tool_data.actions, tool_data.get_display_description())
+	_gui_generic_description.update(tool_data.actions, tool_data.get_display_description())
 	_cost_label.text = str(tool_data.energy_cost)
 	_title.text = tool_data.display_name	
 

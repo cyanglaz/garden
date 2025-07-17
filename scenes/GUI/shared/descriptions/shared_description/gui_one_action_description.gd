@@ -4,7 +4,6 @@ extends VBoxContainer
 @onready var texture_rect: TextureRect = %TextureRect
 @onready var title_label: Label = %TitleLabel
 @onready var rich_text_label: RichTextLabel = %RichTextLabel
-@onready var gui_weather: GUIWeather = %GUIWeather
 
 func update_with_action_data(action_data:ActionData) -> void:
 	var resource_id := Util.get_action_id_with_action_type(action_data.type)

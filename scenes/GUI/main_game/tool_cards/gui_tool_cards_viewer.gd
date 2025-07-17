@@ -7,7 +7,6 @@ const SHOW_ANIMATION_DURATION := 0.15
 const HIDE_ANIMATION_DURATION := 0.15
 
 @onready var _grid_container: GridContainer = %GridContainer
-@onready var _scroll_container: ScrollContainer = %ScrollContainer
 @onready var _back_button: GUIRichTextButton = %BackButton
 @onready var _main_container: VBoxContainer = %MainContainer
 @onready var _title: Label = %Title
