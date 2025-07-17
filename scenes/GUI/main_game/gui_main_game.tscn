@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cyd2pmyuelacd"]
+[gd_scene load_steps=13 format=3 uid="uid://cyd2pmyuelacd"]
 
 [ext_resource type="Script" uid="uid://b3s0cai251tmf" path="res://scenes/GUI/main_game/gui_main_game.gd" id="1_48pcf"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_pgwuj"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://bpirre4ebu4op" path="res://scenes/GUI/main_game/energy/gui_energy_tracker.tscn" id="8_ho5j6"]
 [ext_resource type="PackedScene" uid="uid://b8ixx2yg4dgov" path="res://scenes/GUI/controls/buttons/gui_deck_button.tscn" id="9_fu4tq"]
 [ext_resource type="PackedScene" uid="uid://cra7g0krpvfvf" path="res://scenes/GUI/main_game/plant_cards/gui_plant_seed_animation_container.tscn" id="10_648op"]
+[ext_resource type="PackedScene" uid="uid://cu82s1rr2eqbq" path="res://scenes/GUI/main_game/shop/gui_shop_main.tscn" id="11_70io0"]
 [ext_resource type="PackedScene" uid="uid://cq1vyx3yrtj8p" path="res://scenes/GUI/main_game/tool_cards/gui_tool_cards_viewer.tscn" id="11_648op"]
 
 [node name="GUIMainGame" type="CanvasLayer"]
@@ -156,6 +157,9 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
+[node name="GUIShopMain" parent="MainContainer/GameContainer" instance=ExtResource("11_70io0")]
+layout_mode = 2
+
 [node name="Overlay" type="Control" parent="."]
 unique_name_in_owner = true
 layout_mode = 3
@@ -170,5 +174,6 @@ mouse_filter = 2
 
 [node name="GUIToolCardsViewer" parent="." instance=ExtResource("11_648op")]
 unique_name_in_owner = true
+visible = false
 
 [editable path="MainContainer/GameContainer/MainMarginContainer"]
