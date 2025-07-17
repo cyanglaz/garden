@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bbcxpceayay3"]
+[gd_scene load_steps=14 format=3 uid="uid://bbcxpceayay3"]
 
 [ext_resource type="PackedScene" uid="uid://byg0qymapjkn6" path="res://scenes/main_game/field/field_container.tscn" id="1_075iw"]
 [ext_resource type="Script" uid="uid://sc1eubamsw6x" path="res://scenes/main_game/main_game.gd" id="1_yra6k"]
@@ -11,14 +11,13 @@
 [ext_resource type="Resource" uid="uid://0avopik8d762" path="res://data/plants/plant_data_sunflower.tres" id="5_b4n6q"]
 [ext_resource type="Resource" uid="uid://cd1g4filickxd" path="res://data/tools/tool_drizzle.tres" id="5_r81kp"]
 [ext_resource type="Resource" uid="uid://dr13xwnk1wtam" path="res://data/tools/tool_sunlight.tres" id="6_fetp2"]
-[ext_resource type="Resource" uid="uid://bbksfeisauffm" path="res://data/tools/tool_bug_spray.tres" id="10_4y18v"]
+[ext_resource type="Resource" uid="uid://b0ckuxysbrafa" path="res://data/tools/tool_photosynthesis.tres" id="10_gl27v"]
 [ext_resource type="Resource" uid="uid://bwwawmwufgn1h" path="res://data/tools/tool_clear_sky.tres" id="11_4y18v"]
-[ext_resource type="Resource" uid="uid://fw57p6nrrvtr" path="res://data/tools/tool_fungicide.tres" id="11_irrf2"]
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 test_plant_datas = Array[ExtResource("2_6eclk")]([ExtResource("3_i3kwu"), ExtResource("4_fetp2"), ExtResource("5_b4n6q"), ExtResource("3_i3kwu"), ExtResource("4_fetp2")])
-test_tools = Array[ExtResource("4_ldk84")]([ExtResource("5_r81kp"), ExtResource("6_fetp2"), ExtResource("6_fetp2"), ExtResource("6_fetp2"), ExtResource("11_4y18v"), ExtResource("10_4y18v"), ExtResource("10_4y18v"), ExtResource("5_r81kp"), ExtResource("6_fetp2"), ExtResource("5_r81kp"), ExtResource("11_irrf2")])
+test_tools = Array[ExtResource("4_ldk84")]([ExtResource("5_r81kp"), ExtResource("6_fetp2"), ExtResource("6_fetp2"), ExtResource("11_4y18v"), ExtResource("10_gl27v")])
 number_of_fields = 2
 
 [node name="FieldContainer" parent="." instance=ExtResource("1_075iw")]
