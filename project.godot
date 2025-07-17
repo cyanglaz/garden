@@ -196,4 +196,4 @@ textures/vram_compression/import_etc2_astc=true
 textures/default_filters/use_nearest_mipmap_filter=true
 anti_aliasing/screen_space_roughness_limiter/enabled=false
 environment/volumetric_fog/use_filter=0
-environment/defaults/default_clear_color=Color(0.541176, 0.282353, 0.211765, 1)
+environment/defaults/default_clear_color=Color(0.396078, 0.45098, 0.572549, 1)

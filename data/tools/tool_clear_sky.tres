@@ -18,6 +18,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_xoigw")
 energy_cost = 2
 actions = Array[ExtResource("1_f3eb8")]([SubResource("Resource_oexgw")])
+rarity = 2
 id = "clear_sky"
 display_name = "Clear Sky"
 description = ""

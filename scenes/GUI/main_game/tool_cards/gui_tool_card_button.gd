@@ -30,7 +30,15 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	_weak_tool_data = weakref(tool_data)
 	_gui_generic_description.update(tool_data.actions, tool_data.get_display_description())
 	_cost_label.text = str(tool_data.energy_cost)
-	_title.text = tool_data.display_name	
+	_title.text = tool_data.display_name
+	match tool_data.rarity:
+		0:
+			_background.region_rect.position.x = 0
+		1:
+			_background.region_rect.position.x = 36
+		2:
+			_background.region_rect.position.x = 72
+
 
 func play_move_sound() -> void:
 	_sound_hover.play()
