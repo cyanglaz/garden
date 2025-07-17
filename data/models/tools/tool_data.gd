@@ -1,8 +1,10 @@
 class_name ToolData
 extends ThingData
 
+
 @export var energy_cost:int = 1
 @export var actions:Array[ActionData]
+@export var rarity:int = 0
 
 var need_select_field:bool : get = _get_need_select_field
 
@@ -11,6 +13,7 @@ func copy(other:ThingData) -> void:
 	var other_tool: ToolData = other as ToolData
 	energy_cost = other_tool.energy_cost
 	actions = other_tool.actions.duplicate()
+	rarity = other_tool.rarity
 
 func get_duplicate() -> ToolData:
 	var dup:ToolData = ToolData.new()

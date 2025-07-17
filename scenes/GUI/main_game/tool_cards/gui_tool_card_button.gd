@@ -9,6 +9,7 @@ const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/
 @onready var _card_container: Control = %CardContainer
 @onready var _background: NinePatchRect = %Background
 @onready var _cost_label: Label = %CostLabel
+@onready var _title: Label = %Title
 
 var container_offset:float = 0.0: set = _set_container_offset
 var mouse_disabled:bool = false: set = _set_mouse_disabled
@@ -29,6 +30,7 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	_weak_tool_data = weakref(tool_data)
 	_gui_generic_description.update(tool_data.display_name, tool_data.actions, tool_data.get_display_description())
 	_cost_label.text = str(tool_data.energy_cost)
+	_title.text = tool_data.display_name	
 
 func play_move_sound() -> void:
 	_sound_hover.play()
@@ -48,13 +50,13 @@ func _set_button_state(bs:GUIBasicButton.ButtonState) -> void:
 	super._set_button_state(bs)
 	match bs:
 		GUIBasicButton.ButtonState.HOVERED:
-			_background.region_rect.position.y = 16
+			_background.region_rect.position.y = 48
 		GUIBasicButton.ButtonState.NORMAL:
 			_background.region_rect.position.y = 0
 		GUIBasicButton.ButtonState.DISABLED:
-			_background.region_rect.position.y = 32
+			_background.region_rect.position.y = 96
 		GUIBasicButton.ButtonState.PRESSED, GUIBasicButton.ButtonState.SELECTED:
-			_background.region_rect.position.y = 16
+			_background.region_rect.position.y = 48
 
 func _set_container_offset(offset:float) -> void:
 	container_offset = offset
@@ -99,6 +101,7 @@ func _set_animation_mode(value:bool) -> void:
 	animation_mode = value
 	_cost_label.visible = !value
 	_gui_generic_description.visible = !value
+	_title.visible = !value
 	custom_minimum_size = Vector2.ZERO
 
 func _on_energy_tracker_value_updated(energy_tracker:ResourcePoint) -> void:

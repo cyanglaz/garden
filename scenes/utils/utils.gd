@@ -592,8 +592,6 @@ static func get_color_for_rarity(rarity:int) -> Color:
 			return Constants.UNCOMMON_COLOR
 		2:
 			return Constants.RARE_COLOR
-		3:
-			return Constants.ENEMY_COLOR
 		_:
 			assert(false, "Invalid rarity: " + str(rarity))
 	return Color.WHITE

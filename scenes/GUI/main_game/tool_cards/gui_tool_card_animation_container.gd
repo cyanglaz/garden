@@ -106,8 +106,8 @@ func _animate_draw(draw_results:Array, id:int) -> void:
 			animating_card.animation_mode = true
 			animating_card.global_position = _draw_deck_button.global_position
 			animating_card.size = _draw_deck_button.size
-			animating_cards.append(animating_card)
 			delay_index += 1
+		animating_cards.append(animating_card)
 		if delay_index >= 0:
 			Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index).timeout.connect(func(): animating_card.play_move_sound())
 		var card_local_position:Vector2 = card_positions[i]
@@ -117,7 +117,10 @@ func _animate_draw(draw_results:Array, id:int) -> void:
 		var scale_tweener := tween.tween_property(animating_card, "size", GUIToolCardButton.SIZE, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 		scale_tweener.finished.connect(func():
 			animating_card.animation_mode = false
+			animating_card.queue_sort()
 		)
+	for i in animating_cards:
+		i.queue_sort()
 	await tween.finished
 	_animation_queue_item_finished.emit(id)
 
