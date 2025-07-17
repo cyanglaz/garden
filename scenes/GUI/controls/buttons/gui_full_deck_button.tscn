@@ -10,7 +10,7 @@ custom_minimum_size = Vector2(10, 12)
 offset_right = 10.0
 offset_bottom = 14.0
 script = ExtResource("2_ml7rj")
-type = 1
+type = 0
 
 [node name="MarginContainer2" type="MarginContainer" parent="." index="0"]
 layout_mode = 2
