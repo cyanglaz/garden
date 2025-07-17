@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://d037gmunefqvq"
+path="res://.godot/imported/icon_sunny.aseprite-741e5e9736fe1ced4c11302116fc6ccc.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_sunny.aseprite"
+dest_files=["res://.godot/imported/icon_sunny.aseprite-741e5e9736fe1ced4c11302116fc6ccc.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

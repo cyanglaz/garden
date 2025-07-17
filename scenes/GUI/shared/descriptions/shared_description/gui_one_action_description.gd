@@ -7,18 +7,10 @@ extends VBoxContainer
 @onready var gui_weather: GUIWeather = %GUIWeather
 
 func update_with_action_data(action_data:ActionData) -> void:
-	gui_weather.hide()
-	texture_rect.hide()
 	var resource_id := Util.get_action_id_with_action_type(action_data.type)
 	title_label.text = _get_action_name(action_data)
 	rich_text_label.text = _get_action_description(action_data)
-	match action_data.action_category:
-		ActionData.ActionCategory.WEATHER:
-			gui_weather.show()
-			gui_weather.setup_with_weather_id(resource_id)
-		ActionData.ActionCategory.FIELD, ActionData.ActionCategory.CARD:
-			texture_rect.show()
-			texture_rect.texture = load(Util.get_image_path_for_resource_id(resource_id))
+	texture_rect.texture = load(Util.get_image_path_for_resource_id(resource_id))
 
 func _get_action_name(action_data:ActionData) -> String:
 	var action_name := ""
