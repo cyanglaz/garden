@@ -34,7 +34,7 @@ grow_horizontal = 2
 grow_vertical = 0
 
 [node name="Background" type="NinePatchRect" parent="MainPanel"]
-self_modulate = Color(0, 0.411765, 0.666667, 1)
+self_modulate = Color(0.396078, 0.45098, 0.572549, 1)
 layout_mode = 2
 texture = ExtResource("1_21fji")
 patch_margin_left = 3
