@@ -100,7 +100,7 @@ func _update_gold(gold:int, animated:bool) -> void:
 	_gold = gold
 	await gui_main_game.update_gold(_gold, animated)
 
-func _end_turn() -> void:
+func _end_day() -> void:
 	if week_manager.get_day() == 1:
 		# if _gold >= week_manager.get_tax_due():
 		gui_main_game.animate_show_shop(3, 2, _gold)
@@ -157,7 +157,7 @@ func _on_end_turn_button_pressed() -> void:
 	await weather_manager.apply_weather_actions(_field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
 	await _field_container.trigger_end_day_ability(self)
 	await _discard_all_tools()
-	_end_turn()
+	_end_day()
 	
 #region field events
 func _on_field_harvest_started() -> void:
