@@ -5,4 +5,4 @@ extends GUIShopButton
 
 func update_with_tool_data(tool_data:ToolData) -> void:
 	gui_tool_card_button.update_with_tool_data(tool_data)
-	cost_label.text = str(tool_data.cost)
+	cost = tool_data.cost

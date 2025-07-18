@@ -87,8 +87,8 @@ func update_weathers(weather_manager:WeatherManager) -> void:
 #endregion
 
 #region shop
-func animate_show_shop(number_of_tools:int, number_of_plants:int) -> void:
-	await gui_shop_main.animate_show(number_of_tools, number_of_plants)
+func animate_show_shop(number_of_tools:int, number_of_plants:int, gold:int) -> void:
+	await gui_shop_main.animate_show(number_of_tools, number_of_plants, gold)
 
 #region utils
 func add_control_to_overlay(control:Control) -> void:

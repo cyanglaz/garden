@@ -23,10 +23,17 @@ func _ready() -> void:
 	_display_y = _main_panel.position.y
 	_next_week_button.action_evoked.connect(_on_next_week_button_action_evoked)
 
-func animate_show(number_of_tools:int, number_of_plants:int) -> void:
+func animate_show(number_of_tools:int, number_of_plants:int, gold:int) -> void:
 	show()
 	_populate_shop(number_of_tools, number_of_plants)
+	update_for_gold(gold)
 	await _play_show_animation()
+
+func update_for_gold(gold:int) -> void:
+	for gui_shop_button:GUIShopButton in seed_container.get_children():
+		gui_shop_button.update_for_gold(gold)
+	for gui_shop_button:GUIShopButton in tool_container.get_children():
+		gui_shop_button.update_for_gold(gold)
 
 func _populate_shop(number_of_tools:int, number_of_plants:int) -> void:
 	_populate_tools(number_of_tools)

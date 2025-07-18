@@ -16,7 +16,7 @@ var weather_manager:WeatherManager = WeatherManager.new()
 var tool_manager:ToolManager
 var plant_seed_manager:PlantSeedManager
 var max_energy := 3
-var _gold := 0
+var _gold := 0: set = _set_gold
 
 func _ready() -> void:
 	Singletons.main_game = self
@@ -103,7 +103,7 @@ func _update_gold(gold:int, animated:bool) -> void:
 func _end_turn() -> void:
 	if week_manager.get_day() == 1:
 		# if _gold >= week_manager.get_tax_due():
-		gui_main_game.animate_show_shop(3, 2)
+		gui_main_game.animate_show_shop(3, 2, _gold)
 		# else:
 			# print("lose")
 	else:
@@ -197,5 +197,13 @@ func _on_plant_shop_button_pressed(plant_data:PlantData) -> void:
 func _on_tool_shop_button_pressed(tool_data:ToolData) -> void:
 	_update_gold(_gold - tool_data.cost, true)
 	tool_manager.add_tool(tool_data)
+
+#endregion
+
+#region setter/getter
+
+func _set_gold(val:int) -> void:
+	_gold = val
+	gui_main_game.gui_shop_main.update_for_gold(_gold)
 
 #endregion
