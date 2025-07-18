@@ -57,9 +57,9 @@ func bind_tool_deck(tool_deck:Deck) -> void:
 	gui_draw_box_button.bind_deck(tool_deck)
 	gui_discard_box_button.bind_deck(tool_deck)
 	_gui_top_bar.gui_full_deck_button.bind_deck(tool_deck)
-	_gui_top_bar.full_deck_button_evoked.connect(_on_deck_button_pressed.bind(tool_deck.pool, tr("FULL_DECK_TITLE")))
-	gui_draw_box_button.action_evoked.connect(_on_deck_button_pressed.bind(tool_deck.draw_pool, tr("DECK_DRAW_POOL_TITLE")))
-	gui_discard_box_button.action_evoked.connect(_on_deck_button_pressed.bind(tool_deck.discard_pool, tr("DECK_DISCARD_POOL_TITLE")))
+	_gui_top_bar.full_deck_button_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("FULL_DECK_TITLE"), GUIDeckButton.Type.ALL))
+	gui_draw_box_button.action_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DRAW_POOL_TITLE"), gui_draw_box_button.type))
+	gui_discard_box_button.action_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DISCARD_POOL_TITLE"), gui_discard_box_button.type))
 #endregion
 
 
@@ -97,8 +97,14 @@ func add_control_to_overlay(control:Control) -> void:
 
 #region events
 
-func _on_deck_button_pressed(pool:Array, title:String) -> void:
-	_gui_tool_cards_viewer.animated_show_with_pool(pool, title)
+func _on_deck_button_pressed(deck:Deck, title:String, type: GUIDeckButton.Type) -> void:
+	match type:
+		GUIDeckButton.Type.DRAW:
+			_gui_tool_cards_viewer.animated_show_with_pool(deck.draw_pool, title)
+		GUIDeckButton.Type.DISCARD:
+			_gui_tool_cards_viewer.animated_show_with_pool(deck.discard_pool, title)
+		GUIDeckButton.Type.ALL:
+			_gui_tool_cards_viewer.animated_show_with_pool(deck.pool, title)
 
 
 #endregion
