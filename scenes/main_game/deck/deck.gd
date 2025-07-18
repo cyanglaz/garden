@@ -71,10 +71,8 @@ func discard(indices:Array) -> void:
 		hand.remove_at(index)
 	discard_pool_updated.emit(discard_pool)
 
-func insert_item(item:Variant) -> void:
+func add_item(item:Variant) -> void:
 	pool.append(item)
-	draw_pool.append(item)
-	draw_pool_updated.emit(draw_pool)
 	pool_updated.emit(pool)
 
 func remove_item(item:Variant) -> void:

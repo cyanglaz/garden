@@ -17,6 +17,9 @@ func _init(initial_tools:Array) -> void:
 	_tool_applier.tool_application_failed.connect(func(index:int): tool_application_failed.emit(index))
 	_tool_applier.tool_application_completed.connect(func(index:int): tool_application_completed.emit(index))
 
+func refresh_deck() -> void:
+	tool_deck.refresh()
+
 func draw_cards(count:int, gui_tool_card_container:GUIToolCardContainer) -> void:
 	var _display_index = tool_deck.hand.size() - 1
 	var draw_results:Array = tool_deck.draw(count)
@@ -47,6 +50,9 @@ func apply_tool(main_game:MainGame, field:Field) -> void:
 	var index := selected_tool_index
 	select_tool(-1)
 	await _tool_applier.apply_tool(main_game, field, tool, index)
+
+func add_tool(tool_data:ToolData) -> void:
+	tool_deck.add_item(tool_data)
 
 func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)

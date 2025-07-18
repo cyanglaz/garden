@@ -11,6 +11,7 @@ signal tool_selected(index:int)
 @onready var gui_plant_seed_animation_container: GUIPlantSeedAnimationContainer = %GUIPlantSeedAnimationContainer
 @onready var gui_plant_draw_deck_box: GUIPlantDeckBox = %GUIPlantDrawDeckBox
 @onready var gui_plant_discard_deck_box: GUIPlantDeckBox = %GUIPlantDiscardDeckBox
+@onready var gui_shop_main: GUIShopMain = %GUIShopMain
 
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
 @onready var _overlay: Control = %Overlay
@@ -46,7 +47,6 @@ func update_tax_due(gold:int) -> void:
 	_gui_top_bar.update_tax_due(gold)
 
 #region tools
-
 func update_tools(tool_datas:Array[ToolData]) -> void:
 	gui_tool_card_container.update_tools(tool_datas)
 
@@ -64,7 +64,6 @@ func bind_tool_deck(tool_deck:Deck) -> void:
 
 
 #region plants
-
 func setup_plant_seed_animation_container(field_container:FieldContainer) -> void:
 	gui_plant_seed_animation_container.setup(field_container, gui_plant_draw_deck_box, gui_plant_discard_deck_box)
 
@@ -86,6 +85,10 @@ func update_weathers(weather_manager:WeatherManager) -> void:
 	gui_weather_container.update_with_weather_manager(weather_manager)
 
 #endregion
+
+#region shop
+func animate_show_shop(number_of_tools:int, number_of_plants:int) -> void:
+	await gui_shop_main.animate_show(number_of_tools, number_of_plants)
 
 #region utils
 func add_control_to_overlay(control:Control) -> void:
