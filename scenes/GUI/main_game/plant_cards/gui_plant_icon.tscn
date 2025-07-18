@@ -9,6 +9,7 @@
 custom_minimum_size = Vector2(16, 16)
 size_flags_horizontal = 4
 size_flags_vertical = 4
+mouse_filter = 1
 script = ExtResource("1_q7qh7")
 
 [node name="Background" type="NinePatchRect" parent="."]

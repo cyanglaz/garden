@@ -158,6 +158,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="GUIShopMain" parent="MainContainer/GameContainer" instance=ExtResource("11_70io0")]
+visible = false
 layout_mode = 2
 
 [node name="Overlay" type="Control" parent="."]

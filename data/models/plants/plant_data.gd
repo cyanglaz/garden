@@ -3,17 +3,18 @@ extends ThingData
 
 const PLANT_SCENE_PATH_PREFIX:String = "res://scenes/main_game/plants/plant_"
 
-enum Rarity {
-	COMMON,
-	UNCOMMON,
-	RARE,
-	EPIC,
+const COSTS := {
+	0: 15,
+	1: 35,
+	2: 60
 }
 
 @export var light:int
 @export var water:int
 @export var gold:int
-@export var rarity:Rarity
+@export var rarity:int
+
+var cost:int: get = _get_cost
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
@@ -27,3 +28,7 @@ func get_duplicate() -> PlantData:
 	var dup:PlantData = PlantData.new()
 	dup.copy(self)
 	return dup
+
+func _get_cost() -> int:
+	return COSTS[rarity]
+			
