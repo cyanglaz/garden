@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/icon_water.png" id="4_lgl7a"]
 
 [node name="GUIPlantDescription" type="VBoxContainer"]
-custom_minimum_size = Vector2(32, 0)
+custom_minimum_size = Vector2(42, 0)
 offset_right = 32.0
 offset_bottom = 44.0
 theme_override_constants/separation = 4
