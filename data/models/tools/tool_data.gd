@@ -1,10 +1,17 @@
 class_name ToolData
 extends ThingData
 
+const COSTS := {
+	0: 10,
+	1: 25,
+	2: 45,
+}
 
 @export var energy_cost:int = 1
 @export var actions:Array[ActionData]
 @export var rarity:int = 0
+
+var cost:int : get = _get_cost
 
 var need_select_field:bool : get = _get_need_select_field
 
@@ -25,3 +32,6 @@ func _get_need_select_field() -> bool:
 		if action_data.action_category == ActionData.ActionCategory.FIELD:
 			return true
 	return false
+
+func _get_cost() -> int:
+	return COSTS[rarity]
