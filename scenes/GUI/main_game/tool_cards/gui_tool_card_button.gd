@@ -2,6 +2,10 @@ class_name GUIToolCardButton
 extends GUIBasicButton
 
 const SIZE := Vector2(36, 48)
+const SELECTED_OFFSET := 6.0
+const HIGHLIGHTED_OFFSET := 1.0
+const ENERGY_INSUFFICIENT_COLOR := Constants.COLOR_GRAY3
+const ENERGY_SUFFICIENT_COLOR := Constants.COLOR_WHITE
 const CARD_HOVER_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_hover.wav")
 const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_select.wav")
 
@@ -10,14 +14,18 @@ const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/
 @onready var _background: NinePatchRect = %Background
 @onready var _cost_label: Label = %CostLabel
 @onready var _title: Label = %Title
+@onready var _highlight_border: NinePatchRect = %HighlightBorder
+@onready var _card_content: VBoxContainer = %CardContent
 
-var container_offset:float = 0.0: set = _set_container_offset
 var mouse_disabled:bool = false: set = _set_mouse_disabled
 var activated := false: set = _set_activated
+var selected := false: set = _set_selected
+var highlighted := false: set = _set_highlighted
 var _tool_data:ToolData: get = _get_tool_data
 var _weak_tool_data:WeakRef = weakref(null)
 var _default_button_state:GUIBasicButton.ButtonState = GUIBasicButton.ButtonState.NORMAL
 var animation_mode := false : set = _set_animation_mode
+var _container_offset:float = 0.0: set = _set_container_offset
 
 var _weak_actions_tooltip:WeakRef = weakref(null)
 
@@ -25,6 +33,7 @@ func _ready() -> void:
 	super._ready()
 	mouse_filter = MOUSE_FILTER_IGNORE
 	assert(size == SIZE, "size not match")
+	_highlight_border.hide()
 
 func update_with_tool_data(tool_data:ToolData) -> void:
 	_weak_tool_data = weakref(tool_data)
@@ -47,34 +56,16 @@ func _update_for_energy(energy:int) -> void:
 	if !_tool_data:
 		return
 	if _tool_data.energy_cost <= energy:
-		_default_button_state = GUIBasicButton.ButtonState.NORMAL
+		_cost_label.add_theme_color_override("font_color", ENERGY_SUFFICIENT_COLOR)
+		_highlight_border.modulate = ENERGY_SUFFICIENT_COLOR
+		# _default_button_state = GUIBasicButton.ButtonState.NORMAL
 	else:
-		_default_button_state = GUIBasicButton.ButtonState.DISABLED
+		_cost_label.add_theme_color_override("font_color", ENERGY_INSUFFICIENT_COLOR)
+		_highlight_border.modulate = ENERGY_INSUFFICIENT_COLOR
+		# _default_button_state = GUIBasicButton.ButtonState.DISABLED
 	_set_button_state(_default_button_state)
 
-func _set_button_state(bs:GUIBasicButton.ButtonState) -> void:
-	if _default_button_state == GUIBasicButton.ButtonState.DISABLED:
-		bs = GUIBasicButton.ButtonState.DISABLED
-	super._set_button_state(bs)
-	match bs:
-		GUIBasicButton.ButtonState.HOVERED:
-			_background.region_rect.position.y = 48
-		GUIBasicButton.ButtonState.NORMAL:
-			_background.region_rect.position.y = 0
-		GUIBasicButton.ButtonState.DISABLED:
-			_background.region_rect.position.y = 96
-		GUIBasicButton.ButtonState.PRESSED, GUIBasicButton.ButtonState.SELECTED:
-			_background.region_rect.position.y = 48
-
-func _set_container_offset(offset:float) -> void:
-	container_offset = offset
-	_card_container.position.y = offset
-
-func _get_hover_sound() -> AudioStream:
-	return CARD_HOVER_SOUND
-
-func _get_click_sound() -> AudioStream:
-	return CARD_SELECT_SOUND
+#region events
 
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
@@ -87,6 +78,12 @@ func _on_mouse_exited() -> void:
 		_weak_actions_tooltip.get_ref().queue_free()
 		_weak_actions_tooltip = weakref(null)
 
+func _on_energy_tracker_value_updated(energy_tracker:ResourcePoint) -> void:
+	_update_for_energy(energy_tracker.value)
+
+#endregion
+
+#region setters/getters
 func _set_mouse_disabled(value:bool) -> void:
 	if !activated:
 		return
@@ -107,10 +104,45 @@ func _set_activated(value:bool) -> void:
 
 func _set_animation_mode(value:bool) -> void:
 	animation_mode = value
-	_cost_label.visible = !value
-	_gui_generic_description.visible = !value
-	_title.visible = !value
-	custom_minimum_size = Vector2.ZERO
+	_card_content.visible = !value
+	if value:
+		custom_minimum_size = Vector2.ZERO
+		#_card_margin_container.custom_minimum_size = Vector2.ZERO
+		selected = false
+		highlighted = false
+	else:
+		custom_minimum_size = SIZE
 
-func _on_energy_tracker_value_updated(energy_tracker:ResourcePoint) -> void:
-	_update_for_energy(energy_tracker.value)
+func _set_selected(value:bool) -> void:
+	selected = value
+	if value:
+		_container_offset = SELECTED_OFFSET
+		_highlight_border.show()
+	else:
+		_set_highlighted(highlighted)
+
+func _set_highlighted(value:bool) -> void:
+	highlighted = value
+	if selected:
+		return
+	if value:
+		_highlight_border.show()
+		_container_offset = HIGHLIGHTED_OFFSET
+	else:
+		_highlight_border.hide()
+		_container_offset = 0.0
+	
+func _set_button_state(bs:GUIBasicButton.ButtonState) -> void:
+	if _default_button_state == GUIBasicButton.ButtonState.DISABLED:
+		bs = GUIBasicButton.ButtonState.DISABLED
+	super._set_button_state(bs)
+
+func _set_container_offset(offset:float) -> void:
+	_container_offset = offset
+	_card_container.position.y = -offset
+
+func _get_hover_sound() -> AudioStream:
+	return CARD_HOVER_SOUND
+
+func _get_click_sound() -> AudioStream:
+	return CARD_SELECT_SOUND

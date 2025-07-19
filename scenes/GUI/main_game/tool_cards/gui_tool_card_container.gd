@@ -4,7 +4,7 @@ extends PanelContainer
 signal tool_selected(index:int)
 
 const TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
-const DEFAULT_CARD_SPACE := 4.0
+const DEFAULT_CARD_SPACE := GUIToolCardButton.HIGHLIGHTED_OFFSET * 1
 const MAX_TOTAL_WIDTH := 200
 const REPOSITION_DURATION:float = 0.08
 const TOOL_SELECTED_OFFSET := -6.0
@@ -38,7 +38,8 @@ func clear_selection() -> void:
 		var gui_card = _container.get_child(i)
 		gui_card.mouse_disabled = false
 		gui_card.button_state = GUIBasicButton.ButtonState.NORMAL
-		gui_card.container_offset = 0.0
+		gui_card.selected = false
+		gui_card.highlighted = false
 
 func add_card(tool_data:ToolData) -> GUIToolCardButton:
 	var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
@@ -117,10 +118,10 @@ func _on_tool_card_action_evoked(index:int) -> void:
 		if i == index:
 			gui_card.button_state = GUIBasicButton.ButtonState.SELECTED
 			gui_card.mouse_disabled = false
-			gui_card.container_offset = TOOL_SELECTED_OFFSET
+			gui_card.selected = true
 		else:
 			gui_card.mouse_disabled = true
-			gui_card.container_offset = 0.0
+			gui_card.selected = false
 	tool_selected.emit(index)
 
 func _on_tool_card_mouse_entered(index:int) -> void:
@@ -129,7 +130,7 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 		return
 	if mouse_over_card.button_state == GUIBasicButton.ButtonState.SELECTED || mouse_over_card.button_state == GUIBasicButton.ButtonState.DISABLED:
 		return
-	mouse_over_card.container_offset = -1.0
+	mouse_over_card.highlighted = true
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	if positions.size() < 2:
 		return
@@ -161,7 +162,7 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 	if mouse_exit_card.button_state == GUIBasicButton.ButtonState.SELECTED || mouse_exit_card.button_state == GUIBasicButton.ButtonState.DISABLED:
 		return
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
-	mouse_exit_card.container_offset = 0.0
+	mouse_exit_card.highlighted = false
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
 	tween.set_ease(Tween.EASE_IN)

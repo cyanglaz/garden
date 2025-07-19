@@ -58,15 +58,6 @@ func _set_button_state(val:ButtonState) -> void:
 			_border.region_rect.position = Vector2(0, 16)
 		ButtonState.SELECTED:
 			_border.region_rect.position = Vector2(16, 16)
-			
-func _set_highlighted(val:bool) -> void:
-	super._set_highlighted(val)
-	if !_animation_player:
-		return
-	if val:
-		_animation_player.play("highlight")
-	else:
-		_animation_player.play("RESET")
 
 func _set_localization_text_key(val:String) -> void:
 	localization_text_key = val

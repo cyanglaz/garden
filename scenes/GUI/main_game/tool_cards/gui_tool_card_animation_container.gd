@@ -3,7 +3,7 @@ extends Control
 
 const ANIMATING_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const DRAW_ANIMATION_TIME := 0.2
-const DISCARD_ANIMATION_TIME := 0.1
+const DISCARD_ANIMATION_TIME := 0.2
 const CARD_MIN_SCALE := 0.8
 const MAX_SHUFFLE_CARDS := 5
 
@@ -113,14 +113,11 @@ func _animate_draw(draw_results:Array, id:int) -> void:
 		var card_local_position:Vector2 = card_positions[i]
 		var target_global_position:Vector2 = _tool_card_container.global_position + card_local_position
 		tween.tween_property(animating_card, "visible", true, 0.01).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-		tween.tween_property(animating_card, "global_position", target_global_position, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-		var scale_tweener := tween.tween_property(animating_card, "size", GUIToolCardButton.SIZE, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+		tween.tween_property(animating_card, "global_position", target_global_position, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		var scale_tweener := tween.tween_property(animating_card, "size", GUIToolCardButton.SIZE, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		scale_tweener.finished.connect(func():
 			animating_card.animation_mode = false
-			animating_card.queue_sort()
 		)
-	for i in animating_cards:
-		i.queue_sort()
 	await tween.finished
 	_animation_queue_item_finished.emit(id)
 
