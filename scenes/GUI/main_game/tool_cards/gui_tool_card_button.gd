@@ -21,9 +21,9 @@ var mouse_disabled:bool = false: set = _set_mouse_disabled
 var activated := false: set = _set_activated
 var selected := false: set = _set_selected
 var highlighted := false: set = _set_highlighted
+var energy_sufficient := false: set = _set_energy_sufficient
 var _tool_data:ToolData: get = _get_tool_data
 var _weak_tool_data:WeakRef = weakref(null)
-var _default_button_state:GUIBasicButton.ButtonState = GUIBasicButton.ButtonState.NORMAL
 var animation_mode := false : set = _set_animation_mode
 var _container_offset:float = 0.0: set = _set_container_offset
 
@@ -56,14 +56,9 @@ func _update_for_energy(energy:int) -> void:
 	if !_tool_data:
 		return
 	if _tool_data.energy_cost <= energy:
-		_cost_label.add_theme_color_override("font_color", ENERGY_SUFFICIENT_COLOR)
-		_highlight_border.modulate = ENERGY_SUFFICIENT_COLOR
-		# _default_button_state = GUIBasicButton.ButtonState.NORMAL
+		energy_sufficient = true
 	else:
-		_cost_label.add_theme_color_override("font_color", ENERGY_INSUFFICIENT_COLOR)
-		_highlight_border.modulate = ENERGY_INSUFFICIENT_COLOR
-		# _default_button_state = GUIBasicButton.ButtonState.DISABLED
-	_set_button_state(_default_button_state)
+		energy_sufficient = false
 
 #region events
 
@@ -131,11 +126,6 @@ func _set_highlighted(value:bool) -> void:
 	else:
 		_highlight_border.hide()
 		_container_offset = 0.0
-	
-func _set_button_state(bs:GUIBasicButton.ButtonState) -> void:
-	if _default_button_state == GUIBasicButton.ButtonState.DISABLED:
-		bs = GUIBasicButton.ButtonState.DISABLED
-	super._set_button_state(bs)
 
 func _set_container_offset(offset:float) -> void:
 	_container_offset = offset
@@ -146,3 +136,12 @@ func _get_hover_sound() -> AudioStream:
 
 func _get_click_sound() -> AudioStream:
 	return CARD_SELECT_SOUND
+
+func _set_energy_sufficient(value:bool) -> void:
+	energy_sufficient = value
+	if value:
+		_cost_label.add_theme_color_override("font_color", ENERGY_SUFFICIENT_COLOR)
+		_highlight_border.modulate = ENERGY_SUFFICIENT_COLOR
+	else:
+		_cost_label.add_theme_color_override("font_color", ENERGY_INSUFFICIENT_COLOR)
+		_highlight_border.modulate = ENERGY_INSUFFICIENT_COLOR

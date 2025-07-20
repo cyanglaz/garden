@@ -130,7 +130,7 @@ static func display_space_effect_tooltip(space_effect:SpaceEffect, on_control_no
 
 static func display_warning_tooltip(message:String, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIWarningTooltip:
 	var warning_tooltip:GUIWarningTooltip = GUI_WARNING_TOOLTIP_SCENE.instantiate()
-	Singletons.game_main.add_view_to_top_container(warning_tooltip)
+	Singletons.main_game.add_control_to_overlay(warning_tooltip)
 	warning_tooltip.setup_with_text(message)
 	_display_tool_tip.call_deferred(warning_tooltip, on_control_node, anchor_mouse, tooltip_position)
 	return warning_tooltip

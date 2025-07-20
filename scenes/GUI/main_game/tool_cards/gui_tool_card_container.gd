@@ -13,6 +13,7 @@ const TOOL_SELECTED_OFFSET := -6.0
 @onready var _gui_tool_card_animation_container: GUIToolCardAnimationContainer = %GUIToolCardAnimationContainer
 
 var _card_size:int
+var _weak_insufficient_energy_tooltip:WeakRef = weakref(null)
 
 func _ready() -> void:
 	var temp_tool_card := TOOL_CARD_SCENE.instantiate()
@@ -32,6 +33,7 @@ func clear() -> void:
 		return
 	for child:GUIToolCardButton in _container.get_children():
 		child.queue_free()
+	_clear_warning_tooltip()
 
 func clear_selection() -> void:
 	for i in _container.get_children().size():
@@ -40,6 +42,7 @@ func clear_selection() -> void:
 		gui_card.button_state = GUIBasicButton.ButtonState.NORMAL
 		gui_card.selected = false
 		gui_card.highlighted = false
+	_clear_warning_tooltip()
 
 func add_card(tool_data:ToolData) -> GUIToolCardButton:
 	var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
@@ -112,19 +115,34 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 	result.reverse() # First card is at the end of the array.
 	return result
 
+#region private
+
+func _clear_warning_tooltip() -> void:
+	if _weak_insufficient_energy_tooltip.get_ref():
+		_weak_insufficient_energy_tooltip.get_ref().queue_free()
+		_weak_insufficient_energy_tooltip = weakref(null)
+
+#endregion
+
+#region events
+
 func _on_tool_card_action_evoked(index:int) -> void:
-	for i in _container.get_children().size():
-		var gui_card = _container.get_child(i)
-		if i == index:
-			gui_card.button_state = GUIBasicButton.ButtonState.SELECTED
-			gui_card.mouse_disabled = false
-			gui_card.selected = true
-		else:
-			gui_card.mouse_disabled = true
-			gui_card.selected = false
-	tool_selected.emit(index)
+	_clear_warning_tooltip()
+	var selected_card = _container.get_child(index)
+	if selected_card.energy_sufficient:
+		for i in _container.get_children().size():	
+			var gui_card = _container.get_child(i)
+			if i == index:
+				gui_card.button_state = GUIBasicButton.ButtonState.SELECTED
+				gui_card.selected = true
+			else:
+				gui_card.selected = false
+		tool_selected.emit(index)
+	else:
+		_weak_insufficient_energy_tooltip = weakref(Util.display_warning_tooltip(tr("WARNING_INSUFFICIENT_ENERGY"), selected_card, false, GUITooltip.TooltipPosition.TOP))
 
 func _on_tool_card_mouse_entered(index:int) -> void:
+	_clear_warning_tooltip()
 	var mouse_over_card = _container.get_child(index)
 	if !is_instance_valid(mouse_over_card):
 		return
@@ -156,6 +174,7 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 		tween.kill()
 
 func _on_tool_card_mouse_exited(index:int) -> void:
+	_clear_warning_tooltip()
 	var mouse_exit_card = _container.get_child(index)
 	if !is_instance_valid(mouse_exit_card):
 		return
