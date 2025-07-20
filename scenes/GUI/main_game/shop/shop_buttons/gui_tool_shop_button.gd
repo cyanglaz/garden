@@ -16,3 +16,10 @@ func _get_hover_sound() -> AudioStream:
 
 func _get_click_sound() -> AudioStream:
 	return gui_tool_card_button._get_click_sound()
+
+func _set_sufficient_gold(val:bool) -> void:
+	super._set_sufficient_gold(val)
+	if val:
+		gui_tool_card_button.resource_sufficient = true
+	else:
+		gui_tool_card_button.resource_sufficient = false

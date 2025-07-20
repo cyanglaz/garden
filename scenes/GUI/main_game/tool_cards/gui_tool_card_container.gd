@@ -128,8 +128,8 @@ func _clear_warning_tooltip() -> void:
 
 func _on_tool_card_action_evoked(index:int) -> void:
 	_clear_warning_tooltip()
-	var selected_card = _container.get_child(index)
-	if selected_card.energy_sufficient:
+	var selected_card:GUIToolCardButton = _container.get_child(index)
+	if selected_card.resource_sufficient:
 		for i in _container.get_children().size():	
 			var gui_card = _container.get_child(i)
 			if i == index:

@@ -5,8 +5,8 @@ const SIZE := Vector2(36, 48)
 const SELECTED_OFFSET := 6.0
 const HIGHLIGHTED_OFFSET := 1.0
 const TOOLTIP_DELAY := 0.2
-const ENERGY_INSUFFICIENT_COLOR := Constants.COLOR_GRAY3
-const ENERGY_SUFFICIENT_COLOR := Constants.COLOR_PURPLE0
+const RESOURCE_INSUFFICIENT_COLOR := Constants.COLOR_GRAY3
+const RESOURCE_SUFFICIENT_COLOR := Constants.COLOR_PURPLE0
 const CARD_HOVER_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_hover.wav")
 const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_select.wav")
 
@@ -22,7 +22,7 @@ var mouse_disabled:bool = false: set = _set_mouse_disabled
 var activated := false: set = _set_activated
 var selected := false: set = _set_selected
 var highlighted := false: set = _set_highlighted
-var energy_sufficient := false: set = _set_energy_sufficient
+var resource_sufficient := false: set = _set_resourcet_sufficient
 var animation_mode := false : set = _set_animation_mode
 var _tool_data:ToolData: get = _get_tool_data
 var _weak_tool_data:WeakRef = weakref(null)
@@ -35,7 +35,7 @@ func _ready() -> void:
 	mouse_filter = MOUSE_FILTER_IGNORE
 	assert(size == SIZE, "size not match")
 	_highlight_border.hide()
-	_highlight_border.self_modulate = ENERGY_SUFFICIENT_COLOR
+	_highlight_border.self_modulate = RESOURCE_SUFFICIENT_COLOR
 
 func update_with_tool_data(tool_data:ToolData) -> void:
 	_weak_tool_data = weakref(tool_data)
@@ -58,9 +58,9 @@ func _update_for_energy(energy:int) -> void:
 	if !_tool_data:
 		return
 	if _tool_data.energy_cost <= energy:
-		energy_sufficient = true
+		resource_sufficient = true
 	else:
-		energy_sufficient = false
+		resource_sufficient = false
 
 #region events
 
@@ -141,11 +141,11 @@ func _get_hover_sound() -> AudioStream:
 func _get_click_sound() -> AudioStream:
 	return CARD_SELECT_SOUND
 
-func _set_energy_sufficient(value:bool) -> void:
-	energy_sufficient = value
+func _set_resourcet_sufficient(value:bool) -> void:
+	resource_sufficient = value
 	if value:
-		_cost_label.add_theme_color_override("font_color", ENERGY_SUFFICIENT_COLOR)
-		_highlight_border.modulate = ENERGY_SUFFICIENT_COLOR
+		_cost_label.add_theme_color_override("font_color", RESOURCE_SUFFICIENT_COLOR)
+		_highlight_border.modulate = RESOURCE_SUFFICIENT_COLOR
 	else:
-		_cost_label.add_theme_color_override("font_color", ENERGY_INSUFFICIENT_COLOR)
-		_highlight_border.modulate = ENERGY_INSUFFICIENT_COLOR
+		_cost_label.add_theme_color_override("font_color", RESOURCE_INSUFFICIENT_COLOR)
+		_highlight_border.modulate = RESOURCE_INSUFFICIENT_COLOR

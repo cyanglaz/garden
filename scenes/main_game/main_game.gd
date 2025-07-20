@@ -76,6 +76,7 @@ func start_new_week() -> void:
 	start_day()
 
 func start_day() -> void:
+	gui_main_game.toggle_all_ui(false)
 	energy_tracker.setup(max_energy, max_energy)
 	week_manager.next_day()
 	weather_manager.day = week_manager.get_day()
