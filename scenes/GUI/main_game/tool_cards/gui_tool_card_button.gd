@@ -5,8 +5,6 @@ const SIZE := Vector2(36, 48)
 const SELECTED_OFFSET := 6.0
 const HIGHLIGHTED_OFFSET := 1.0
 const TOOLTIP_DELAY := 0.2
-const RESOURCE_INSUFFICIENT_COLOR := Constants.COLOR_GRAY3
-const RESOURCE_SUFFICIENT_COLOR := Constants.COLOR_PURPLE0
 const CARD_HOVER_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_hover.wav")
 const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_select.wav")
 
@@ -35,7 +33,7 @@ func _ready() -> void:
 	mouse_filter = MOUSE_FILTER_IGNORE
 	assert(size == SIZE, "size not match")
 	_highlight_border.hide()
-	_highlight_border.self_modulate = RESOURCE_SUFFICIENT_COLOR
+	_highlight_border.self_modulate = Constants.RESOURCE_SUFFICIENT_COLOR
 
 func update_with_tool_data(tool_data:ToolData) -> void:
 	_weak_tool_data = weakref(tool_data)
@@ -144,8 +142,8 @@ func _get_click_sound() -> AudioStream:
 func _set_resourcet_sufficient(value:bool) -> void:
 	resource_sufficient = value
 	if value:
-		_cost_label.add_theme_color_override("font_color", RESOURCE_SUFFICIENT_COLOR)
-		_highlight_border.modulate = RESOURCE_SUFFICIENT_COLOR
+		_cost_label.add_theme_color_override("font_color", Constants.RESOURCE_SUFFICIENT_COLOR)
+		_highlight_border.modulate = Constants.RESOURCE_SUFFICIENT_COLOR
 	else:
-		_cost_label.add_theme_color_override("font_color", RESOURCE_INSUFFICIENT_COLOR)
-		_highlight_border.modulate = RESOURCE_INSUFFICIENT_COLOR
+		_cost_label.add_theme_color_override("font_color", Constants.RESOURCE_INSUFFICIENT_COLOR)
+		_highlight_border.modulate = Constants.RESOURCE_INSUFFICIENT_COLOR
