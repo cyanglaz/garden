@@ -18,6 +18,7 @@ const TOOL_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/main_game/shop/shop_bu
 @onready var _next_week_button: GUIRichTextButton = %NextWeekButton
 
 var _display_y := 0.0
+var _weak_insufficient_gold_tooltip:WeakRef = weakref(null)
 
 func _ready() -> void:
 	_display_y = _main_panel.position.y
@@ -46,7 +47,8 @@ func _populate_plants(number_of_plants) -> void:
 		var plant_shop_button:GUIPlantShopButton = PLANT_SHOP_BUTTON_SCENE.instantiate()
 		seed_container.add_child(plant_shop_button)
 		plant_shop_button.update_with_plant_data(plant_data)
-		plant_shop_button.action_evoked.connect(_on_plant_shop_button_action_evoked.bind(plant_data))
+		plant_shop_button.action_evoked.connect(_on_plant_shop_button_action_evoked.bind(plant_shop_button, plant_data))
+		plant_shop_button.mouse_exited.connect(_on_shop_button_mouse_exited.bind())
 
 func _populate_tools(number_of_tools) -> void:
 	Util.remove_all_children(tool_container)
@@ -55,7 +57,8 @@ func _populate_tools(number_of_tools) -> void:
 		var tool_shop_button:GUIToolShopButton  = TOOL_SHOP_BUTTON_SCENE.instantiate()
 		tool_container.add_child(tool_shop_button)
 		tool_shop_button.update_with_tool_data(tool_data)
-		tool_shop_button.action_evoked.connect(_on_tool_shop_button_action_evoked.bind(tool_data))
+		tool_shop_button.action_evoked.connect(_on_tool_shop_button_action_evoked.bind(tool_shop_button, tool_data))
+		tool_shop_button.mouse_exited.connect(_on_shop_button_mouse_exited.bind())
 
 func _play_show_animation() -> void:
 	_main_panel.position.y = HIDE_Y
@@ -65,18 +68,35 @@ func _play_show_animation() -> void:
 	_next_week_button.show()
 
 func animate_hide() -> void:
+	_clear_insufficient_gold_tooltip()
 	_next_week_button.hide()
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(_main_panel, "position:y", HIDE_Y, HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	await tween.finished
 	hide()
 
-func _on_plant_shop_button_action_evoked(plant_data:PlantData) -> void:
-	plant_shop_button_pressed.emit(plant_data)
+func _clear_insufficient_gold_tooltip() -> void:
+	if _weak_insufficient_gold_tooltip.get_ref():
+		_weak_insufficient_gold_tooltip.get_ref().queue_free()
+		_weak_insufficient_gold_tooltip = weakref(null)
 
-func _on_tool_shop_button_action_evoked(tool_data:ToolData) -> void:
-	tool_shop_button_pressed.emit(tool_data)
+func _on_plant_shop_button_action_evoked(gui_shop_button:GUIShopButton, plant_data:PlantData) -> void:
+	_clear_insufficient_gold_tooltip()
+	if gui_shop_button.sufficient_gold:
+		plant_shop_button_pressed.emit(plant_data)
+	else:
+		_weak_insufficient_gold_tooltip = weakref(Util.display_warning_tooltip(tr("WARNING_INSUFFICIENT_GOLD"), gui_shop_button, false, GUITooltip.TooltipPosition.TOP))
+
+func _on_tool_shop_button_action_evoked(gui_shop_button:GUIShopButton, tool_data:ToolData) -> void:
+	_clear_insufficient_gold_tooltip()
+	if gui_shop_button.sufficient_gold:
+		tool_shop_button_pressed.emit(tool_data)
+	else:
+		_weak_insufficient_gold_tooltip = weakref(Util.display_warning_tooltip(tr("WARNING_INSUFFICIENT_GOLD"), gui_shop_button, false, GUITooltip.TooltipPosition.TOP))
 
 func _on_next_week_button_action_evoked() -> void:
 	await animate_hide()
 	next_week_button_pressed.emit()
+
+func _on_shop_button_mouse_exited() -> void:
+	_clear_insufficient_gold_tooltip()
