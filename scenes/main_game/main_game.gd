@@ -2,6 +2,7 @@ class_name MainGame
 extends Node2D
 
 var hand_size := 5
+const DAYS_TO_WEEK := 7
 
 @export var test_plant_datas:Array[PlantData]
 @export var test_tools:Array[ToolData]
@@ -101,7 +102,7 @@ func _update_gold(gold:int, animated:bool) -> void:
 	await gui_main_game.update_gold(_gold, animated)
 
 func _end_day() -> void:
-	if week_manager.get_day() == 1:
+	if week_manager.get_day() == 0:
 		# if _gold >= week_manager.get_tax_due():
 		gui_main_game.animate_show_shop(3, 2, _gold)
 		# else:

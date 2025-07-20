@@ -8,7 +8,7 @@ enum AnimationType {
 }
 
 @onready var _label: Label = %Label
-@onready var _texture_rect: TextureRect = %TextureRect
+@onready var _gui_gold_icon: GUIGoldIcon = %GUIGoldIcon
 @onready var _gold_increased_sound: AudioStreamPlayer2D = %GoldIncreasedSound
 @onready var _gold_decreased_sound: AudioStreamPlayer2D = %GoldDecreasedSound
 
@@ -18,13 +18,13 @@ func update_gold(gold:int, animation_type:AnimationType) -> void:
 	if animation_type != AnimationType.NONE:
 		var tween:Tween = Util.create_scaled_tween(self)
 		_label.pivot_offset = _label.size/2
-		_texture_rect.pivot_offset = _texture_rect.size/2
+		_gui_gold_icon.pivot_offset = _gui_gold_icon.size/2
 		# Animate texture 
 		# Add a slight pause because the animation
 		tween.set_parallel(true)
 		# Simulate 3D rotation by scaling x to create perspective
-		tween.tween_property(_texture_rect, "scale:x", -1.0, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
-		tween.tween_property(_texture_rect, "scale:x", 1.0, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT).set_delay(0.1)
+		tween.tween_property(_gui_gold_icon, "scale:x", -1.0, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+		tween.tween_property(_gui_gold_icon, "scale:x", 1.0, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT).set_delay(0.1)
 		var gold_diff:int = gold - _current_gold
 		if gold_diff < 0:
 			_gold_decreased_sound.play()

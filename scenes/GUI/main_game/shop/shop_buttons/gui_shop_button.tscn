@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://b1s3tro034n0x"]
 
 [ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_sso3n"]
-[ext_resource type="Texture2D" uid="uid://cnnxje814bs2" path="res://resources/sprites/GUI/icons/resources/icon_gold.png" id="2_i8vnf"]
 [ext_resource type="Script" uid="uid://bsc770vvxl30i" path="res://scenes/GUI/main_game/shop/shop_buttons/gui_shop_button.gd" id="2_lf77y"]
+[ext_resource type="PackedScene" uid="uid://h0o7jknbwhem" path="res://scenes/GUI/shared/gui_gold_icon.tscn" id="3_i8vnf"]
 
 [node name="GUIShopButton" instance=ExtResource("1_sso3n")]
 offset_right = 16.0
@@ -25,12 +25,9 @@ layout_mode = 2
 theme_override_constants/separation = 2
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer" index="0"]
-custom_minimum_size = Vector2(8, 8)
+[node name="GUIGoldIcon" parent="VBoxContainer/HBoxContainer" index="0" instance=ExtResource("3_i8vnf")]
+unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("2_i8vnf")
-expand_mode = 1
-stretch_mode = 5
 
 [node name="CostLabel" type="Label" parent="VBoxContainer/HBoxContainer" index="1"]
 unique_name_in_owner = true

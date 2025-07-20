@@ -6,7 +6,7 @@ const SELECTED_OFFSET := 6.0
 const HIGHLIGHTED_OFFSET := 1.0
 const TOOLTIP_DELAY := 0.2
 const ENERGY_INSUFFICIENT_COLOR := Constants.COLOR_GRAY3
-const ENERGY_SUFFICIENT_COLOR := Constants.COLOR_WHITE
+const ENERGY_SUFFICIENT_COLOR := Constants.COLOR_PURPLE0
 const CARD_HOVER_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_hover.wav")
 const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_select.wav")
 
@@ -35,6 +35,7 @@ func _ready() -> void:
 	mouse_filter = MOUSE_FILTER_IGNORE
 	assert(size == SIZE, "size not match")
 	_highlight_border.hide()
+	_highlight_border.self_modulate = ENERGY_SUFFICIENT_COLOR
 
 func update_with_tool_data(tool_data:ToolData) -> void:
 	_weak_tool_data = weakref(tool_data)
