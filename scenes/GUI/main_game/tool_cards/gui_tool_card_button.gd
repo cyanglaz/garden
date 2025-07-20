@@ -4,6 +4,7 @@ extends GUIBasicButton
 const SIZE := Vector2(36, 48)
 const SELECTED_OFFSET := 6.0
 const HIGHLIGHTED_OFFSET := 1.0
+const TOOLTIP_DELAY := 0.2
 const ENERGY_INSUFFICIENT_COLOR := Constants.COLOR_GRAY3
 const ENERGY_SUFFICIENT_COLOR := Constants.COLOR_WHITE
 const CARD_HOVER_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_hover.wav")
@@ -22,9 +23,9 @@ var activated := false: set = _set_activated
 var selected := false: set = _set_selected
 var highlighted := false: set = _set_highlighted
 var energy_sufficient := false: set = _set_energy_sufficient
+var animation_mode := false : set = _set_animation_mode
 var _tool_data:ToolData: get = _get_tool_data
 var _weak_tool_data:WeakRef = weakref(null)
-var animation_mode := false : set = _set_animation_mode
 var _container_offset:float = 0.0: set = _set_container_offset
 
 var _weak_actions_tooltip:WeakRef = weakref(null)
@@ -65,11 +66,13 @@ func _update_for_energy(energy:int) -> void:
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	if activated:
-		_weak_actions_tooltip = weakref(Util.display_actions_tooltip(_tool_data.actions, self, false, GUITooltip.TooltipPosition.RIGHT, true))
+		await Util.create_scaled_timer(TOOLTIP_DELAY).timeout
+		if mouse_in:
+			_weak_actions_tooltip = weakref(Util.display_actions_tooltip(_tool_data.actions, self, false, GUITooltip.TooltipPosition.RIGHT, true))
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
-	if _weak_actions_tooltip:
+	if _weak_actions_tooltip.get_ref():
 		_weak_actions_tooltip.get_ref().queue_free()
 		_weak_actions_tooltip = weakref(null)
 

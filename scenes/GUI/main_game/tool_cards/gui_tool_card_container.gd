@@ -5,7 +5,7 @@ signal tool_selected(index:int)
 
 const TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const DEFAULT_CARD_SPACE := GUIToolCardButton.HIGHLIGHTED_OFFSET * 1
-const MAX_TOTAL_WIDTH := 200
+const MAX_TOTAL_WIDTH := 100
 const REPOSITION_DURATION:float = 0.08
 const TOOL_SELECTED_OFFSET := -6.0
 
