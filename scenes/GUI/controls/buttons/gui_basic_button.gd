@@ -6,6 +6,7 @@ const SOUND_HOVER := preload("res://resources/sounds/GUI/button_hover.wav")
 const SOUND_CLICK := preload("res://resources/sounds/GUI/button_click.wav")
 
 signal action_evoked()
+signal pressed()
 signal state_updated(state:ButtonState)
 
 enum ActionType {
@@ -137,6 +138,7 @@ func _on_mouse_exited():
 func _press():
 	if _pressing:
 		return
+	pressed.emit()
 	_pressing = true
 	_sound_click.play()
 
