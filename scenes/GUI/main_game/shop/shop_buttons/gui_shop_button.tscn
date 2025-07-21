@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_sso3n"]
 [ext_resource type="Script" uid="uid://bsc770vvxl30i" path="res://scenes/GUI/main_game/shop/shop_buttons/gui_shop_button.gd" id="2_lf77y"]
-[ext_resource type="PackedScene" uid="uid://h0o7jknbwhem" path="res://scenes/GUI/shared/gui_gold_icon.tscn" id="3_i8vnf"]
+[ext_resource type="PackedScene" uid="uid://h0o7jknbwhem" path="res://scenes/GUI/main_game/shop/shop_buttons/gui_shop_gold_icon.tscn" id="3_i8vnf"]
 
 [node name="GUIShopButton" instance=ExtResource("1_sso3n")]
 offset_right = 16.0
@@ -25,7 +25,7 @@ layout_mode = 2
 theme_override_constants/separation = 2
 alignment = 1
 
-[node name="GUIGoldIcon" parent="VBoxContainer/HBoxContainer" index="0" instance=ExtResource("3_i8vnf")]
+[node name="GUIShopGoldIcon" parent="VBoxContainer/HBoxContainer" index="0" instance=ExtResource("3_i8vnf")]
 unique_name_in_owner = true
 layout_mode = 2
 

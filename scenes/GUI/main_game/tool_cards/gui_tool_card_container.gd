@@ -133,10 +133,10 @@ func _on_tool_card_action_evoked(index:int) -> void:
 		for i in _container.get_children().size():	
 			var gui_card = _container.get_child(i)
 			if i == index:
-				gui_card.button_state = GUIBasicButton.ButtonState.SELECTED
 				gui_card.selected = true
 			else:
 				gui_card.selected = false
+				gui_card.highlighted = false
 		tool_selected.emit(index)
 	else:
 		_weak_insufficient_energy_tooltip = weakref(Util.display_warning_tooltip(tr("WARNING_INSUFFICIENT_ENERGY"), selected_card, false, GUITooltip.TooltipPosition.TOP))
@@ -145,8 +145,6 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 	_clear_warning_tooltip()
 	var mouse_over_card = _container.get_child(index)
 	if !is_instance_valid(mouse_over_card):
-		return
-	if mouse_over_card.button_state == GUIBasicButton.ButtonState.SELECTED || mouse_over_card.button_state == GUIBasicButton.ButtonState.DISABLED:
 		return
 	mouse_over_card.highlighted = true
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
@@ -177,8 +175,6 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 	_clear_warning_tooltip()
 	var mouse_exit_card = _container.get_child(index)
 	if !is_instance_valid(mouse_exit_card):
-		return
-	if mouse_exit_card.button_state == GUIBasicButton.ButtonState.SELECTED || mouse_exit_card.button_state == GUIBasicButton.ButtonState.DISABLED:
 		return
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	mouse_exit_card.highlighted = false

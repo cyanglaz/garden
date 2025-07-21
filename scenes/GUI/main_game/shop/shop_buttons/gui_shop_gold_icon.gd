@@ -1,4 +1,4 @@
-class_name GUIGoldIcon
+class_name GUIShopGoldIcon
 extends PanelContainer
 
 @onready var gold_highlight_border: NinePatchRect = %GoldHighlightBorder

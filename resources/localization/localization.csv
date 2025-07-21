@@ -79,4 +79,5 @@ ACTION_DESCRIPTION_WEATHER_RAINY, "Change today's weather to Rainy."
 ACTION_DESCRIPTION_DRAW_CARD, "Draw %s card(s)."
 WARNING_INSUFFICIENT_ENERGY, "Not Enough Energy."
 WARNING_INSUFFICIENT_GOLD, "Not Enough Gold."
-
+SHOP_TITLE, "Shop" 
+SHOP_SUBTITLE, "Unused gold will be lost when the next week starts."

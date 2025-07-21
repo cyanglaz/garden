@@ -48,7 +48,6 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 		2:
 			_background.region_rect.position.x = 72
 
-
 func play_move_sound() -> void:
 	_sound_hover.play()
 
@@ -67,6 +66,8 @@ func _on_mouse_entered() -> void:
 	if activated:
 		await Util.create_scaled_timer(TOOLTIP_DELAY).timeout
 		if mouse_in:
+			if _weak_actions_tooltip.get_ref():
+				return
 			_weak_actions_tooltip = weakref(Util.display_actions_tooltip(_tool_data.actions, self, false, GUITooltip.TooltipPosition.RIGHT, true))
 
 func _on_mouse_exited() -> void:

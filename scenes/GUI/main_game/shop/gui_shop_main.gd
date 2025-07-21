@@ -16,6 +16,8 @@ const TOOL_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/main_game/shop/shop_bu
 @onready var tool_container: HBoxContainer = %ToolContainer
 @onready var _main_panel: PanelContainer = $MainPanel
 @onready var _next_week_button: GUIRichTextButton = %NextWeekButton
+@onready var _title: Label = %Title
+@onready var _sub_title: Label = %SubTitle
 
 var _display_y := 0.0
 var _weak_insufficient_gold_tooltip:WeakRef = weakref(null)
@@ -23,6 +25,8 @@ var _weak_insufficient_gold_tooltip:WeakRef = weakref(null)
 func _ready() -> void:
 	_display_y = _main_panel.position.y
 	_next_week_button.action_evoked.connect(_on_next_week_button_action_evoked)
+	_title.text = tr("SHOP_TITLE")
+	_sub_title.text = tr("SHOP_SUBTITLE")
 
 func animate_show(number_of_tools:int, number_of_plants:int, gold:int) -> void:
 	show()
@@ -84,6 +88,7 @@ func _on_plant_shop_button_action_evoked(gui_shop_button:GUIShopButton, plant_da
 	_clear_insufficient_gold_tooltip()
 	if gui_shop_button.sufficient_gold:
 		plant_shop_button_pressed.emit(plant_data)
+		gui_shop_button.queue_free()
 	else:
 		_weak_insufficient_gold_tooltip = weakref(Util.display_warning_tooltip(tr("WARNING_INSUFFICIENT_GOLD"), gui_shop_button, false, GUITooltip.TooltipPosition.TOP))
 
@@ -91,6 +96,7 @@ func _on_tool_shop_button_action_evoked(gui_shop_button:GUIShopButton, tool_data
 	_clear_insufficient_gold_tooltip()
 	if gui_shop_button.sufficient_gold:
 		tool_shop_button_pressed.emit(tool_data)
+		gui_shop_button.queue_free()
 	else:
 		_weak_insufficient_gold_tooltip = weakref(Util.display_warning_tooltip(tr("WARNING_INSUFFICIENT_GOLD"), gui_shop_button, false, GUITooltip.TooltipPosition.TOP))
 
