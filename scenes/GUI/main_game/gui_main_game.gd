@@ -75,7 +75,7 @@ func bind_plant_seed_deck(plant_seed_deck:Deck) -> void:
 
 #region days
 func set_day(day:int) -> void:
-	_day_label.text = tr("DAY_LABEL_TEXT")% (day + 1)
+	_day_label.text = Util.get_localized_string("DAY_LABEL_TEXT")% (day + 1)
 
 func bind_energy(resource_point:ResourcePoint) -> void:
 	_gui_energy_tracker.bind_with_resource_point(resource_point)

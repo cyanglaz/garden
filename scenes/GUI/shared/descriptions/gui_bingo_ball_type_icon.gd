@@ -28,10 +28,10 @@ func _on_mouse_entered() -> void:
 	var text := ""
 	match _type:
 		BingoBallData.Type.ATTACK:
-			text = tr("CARD_TYPE_TOOLTIP_ATTACK")
+			text = Util.get_localized_string("CARD_TYPE_TOOLTIP_ATTACK")
 		BingoBallData.Type.SKILL:
-			text = tr("CARD_TYPE_TOOLTIP_SKILL")
+			text = Util.get_localized_string("CARD_TYPE_TOOLTIP_SKILL")
 		BingoBallData.Type.STATUS:
-			text = tr("CARD_TYPE_TOOLTIP_STATUS")
+			text = Util.get_localized_string("CARD_TYPE_TOOLTIP_STATUS")
 
 	_weak_tooltip = weakref(Util.display_rich_text_tooltip(text, self, true, tooltip_position))

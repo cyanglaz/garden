@@ -42,5 +42,5 @@ func _update_moving_symbols(indexes:Array) -> void:
 				space.ball_data.description += "{light_glove_move_damage_text}"
 			else:
 				space.ball_data.data["light_glove_move_damage"] += _bingo_ball_data.data["dmg"] as int
-			space.ball_data.data["light_glove_move_damage_text"] = tr("LIGHT_GLOVE_MOVE_DAMAGE_STRING")%[space.ball_data.data["light_glove_move_damage"]]
+			space.ball_data.data["light_glove_move_damage_text"] = Util.get_localized_string("LIGHT_GLOVE_MOVE_DAMAGE_STRING")%[space.ball_data.data["light_glove_move_damage"]]
 			space.ball_data.highlight_description_keys["light_glove_move_damage_text"] = true

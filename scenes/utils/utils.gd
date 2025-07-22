@@ -696,6 +696,12 @@ static func _get_game_speed_scale() -> float:
 static func convert_to_bbc_highlight_text(string:String, color:Color) -> String:
 	return str("[outline_size=1][color=", Util.get_color_hex(color), "]", string, "[/color][/outline_size]")
 
+static func get_localized_string(localized_key:String) -> String:
+	var string := Singletons.tr(localized_key)
+	if string.begins_with(" "):
+		string = string.substr(1)
+	return string
+
 static func float_equal(a:float, b:float) -> bool:
 	return abs(a - b) < FLOAT_EQUAL_EPSILON
 

@@ -25,8 +25,8 @@ var _weak_insufficient_gold_tooltip:WeakRef = weakref(null)
 func _ready() -> void:
 	_display_y = _main_panel.position.y
 	_next_week_button.action_evoked.connect(_on_next_week_button_action_evoked)
-	_title.text = tr("SHOP_TITLE")
-	_sub_title.text = tr("SHOP_SUBTITLE")
+	_title.text = Util.get_localized_string("SHOP_TITLE")
+	_sub_title.text = Util.get_localized_string("SHOP_SUBTITLE")
 
 func animate_show(number_of_tools:int, number_of_plants:int, gold:int) -> void:
 	show()

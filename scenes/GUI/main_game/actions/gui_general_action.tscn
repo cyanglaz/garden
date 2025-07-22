@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://b8tlya2sut3dl"]
+[gd_scene load_steps=4 format=3 uid="uid://b8tlya2sut3dl"]
 
 [ext_resource type="Script" uid="uid://ba26yyjk3jaqu" path="res://scenes/GUI/main_game/actions/gui_general_action.gd" id="1_neirl"]
 [ext_resource type="PackedScene" uid="uid://37pgxcxnetyd" path="res://scenes/GUI/main_game/tool_cards/gui_action_type_icon.tscn" id="1_xs6gn"]
+[ext_resource type="Texture2D" uid="uid://cl78jk1gk3jbk" path="res://resources/sprites/GUI/icons/actions/icon_target_all.png" id="3_ttkmb"]
 
 [node name="GUIGeneralAction" type="PanelContainer"]
 offset_right = 9.0
@@ -18,11 +19,6 @@ mouse_filter = 2
 theme_override_constants/separation = 1
 alignment = 1
 
-[node name="GUIActionTypeIcon" parent="SymbolContainer" instance=ExtResource("1_xs6gn")]
-unique_name_in_owner = true
-layout_mode = 2
-mouse_filter = 2
-
 [node name="ValueLabel" type="Label" parent="SymbolContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -31,7 +27,16 @@ theme_type_variation = &"HUD_small"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TargetCountIcon" type="TextureRect" parent="SymbolContainer"]
+[node name="GUIActionTypeIcon" parent="SymbolContainer" instance=ExtResource("1_xs6gn")]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
+
+[node name="AllTargetIcon" type="TextureRect" parent="SymbolContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(6, 6)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_ttkmb")
+expand_mode = 1
+stretch_mode = 5

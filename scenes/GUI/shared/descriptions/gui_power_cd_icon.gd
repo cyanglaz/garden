@@ -16,5 +16,5 @@ func update_with_cd(cd:int) -> void:
 	_label.text = str(cd)
 
 func _on_mouse_entered() -> void:
-	var text := tr("POWER_CD_TOOLTIP") % str(_cd)
+	var text := Util.get_localized_string("POWER_CD_TOOLTIP") % str(_cd)
 	_weak_tooltip = weakref(Util.display_rich_text_tooltip(text, self, true, tooltip_position))

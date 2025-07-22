@@ -111,7 +111,7 @@ func _on_tooltip_trigger_mouse_entered() -> void:
 	_weak_gui_power_tooltip = weakref(Util.display_power_tooltip(_power_data, _tooltip_trigger, true, tooltip_position))
 
 func _on_short_cut_icon_mouse_entered() -> void:
-	var short_cut_text := tr("PC_SHORT_CUT_TOOLTIP") % str("[outline_size=1][color=", Constants.COLOR_WHITE, "]", str(index+1), "[/color][/outline_size]")
+	var short_cut_text := Util.get_localized_string("PC_SHORT_CUT_TOOLTIP") % str("[outline_size=1][color=", Constants.COLOR_WHITE, "]", str(index+1), "[/color][/outline_size]")
 	_weak_short_cut_tooltip = weakref(Util.display_rich_text_tooltip(short_cut_text, _short_cut_icon, false, GUITooltip.TooltipPosition.TOP))
 
 func _on_short_cut_icon_mouse_exited() -> void:

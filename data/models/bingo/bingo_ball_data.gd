@@ -132,11 +132,11 @@ func _format_damage_text(show_comparison:bool) -> String:
 	var dmg_text = str(attack.damage)
 	dmg_text = Util.convert_to_bbc_highlight_text(dmg_text, _get_comparison_highlight_color(show_comparison, "damage"))
 	if trigger_times == 1:
-		dmg_text = tr("CARD_DAMAGE_STRING") % dmg_text
+		dmg_text = Util.get_localized_string("CARD_DAMAGE_STRING") % dmg_text
 	else:
 		var trigger_times_text := str(trigger_times)
 		trigger_times_text = Util.convert_to_bbc_highlight_text(trigger_times_text, _get_comparison_highlight_color(show_comparison, "trigger_times"))
-		dmg_text = tr("CARD_DAMAGE_STRING_MULTIPLE") % [dmg_text, trigger_times_text]
+		dmg_text = Util.get_localized_string("CARD_DAMAGE_STRING_MULTIPLE") % [dmg_text, trigger_times_text]
 	return dmg_text
 
 func _get_comparison_highlight_color(show_comparison:bool, key:String) -> Color:
