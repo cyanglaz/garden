@@ -133,10 +133,7 @@ func _on_tool_selected(index:int) -> void:
 	var tool_data:ToolData = tool_manager.selected_tool
 	if !tool_data:
 		return
-	if tool_data.need_select_field:
-		if _field_container.mouse_field:
-			_field_container.mouse_field.toggle_selection_indicator(true, tool_data)
-	else:
+	if !tool_data.need_select_field:
 		await tool_manager.apply_tool(self, null)
 	
 func _on_tool_application_started(index:int) -> void:
@@ -172,17 +169,15 @@ func _on_field_harvest_gold_update_requested(gold:int, index:int) -> void:
 
 func _on_field_hovered(hovered:bool, index:int) -> void:
 	if tool_manager.selected_tool:
-		var field := _field_container.fields[index]
 		if hovered && tool_manager.selected_tool.need_select_field:
-			field.toggle_selection_indicator(true, tool_manager.selected_tool)
+			_field_container.toggle_field_selection_indicator(true, tool_manager.selected_tool, index)
 		else:
-			field.toggle_selection_indicator(false, null)
+			_field_container.toggle_field_selection_indicator(false, tool_manager.selected_tool, index)
 
 func _on_field_pressed(index:int) -> void:
 	var field := _field_container.fields[index]
 	if tool_manager.selected_tool:
 		await tool_manager.apply_tool(self, field)
-
 
 #region weather events
 func _on_weathers_updated() -> void:

@@ -64,6 +64,14 @@ func trigger_end_day_ability(main_game:MainGame) -> void:
 func clear_tool_indicators() -> void:
 	for field:Field in fields:
 		field.toggle_selection_indicator(false, null)
+	
+func toggle_field_selection_indicator(on:bool, tool_data:ToolData, index:int) -> void:
+	if tool_data && tool_data.is_all_fields:
+		for one_field:Field in fields:
+			one_field.toggle_selection_indicator(on, tool_data)
+	else:
+		var field:Field = _container.get_child(index)
+		field.toggle_selection_indicator(on, tool_data)
 
 func get_unoccupied_fields() -> Array[int]:
 	var unoccupied_fields:Array[int] = []

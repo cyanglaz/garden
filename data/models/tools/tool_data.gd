@@ -17,6 +17,7 @@ enum Special {
 @export var specials:Array[Special]
 
 var cost:int : get = _get_cost
+var is_all_fields:bool : get = _get_is_all_fields
 
 var need_select_field:bool : get = _get_need_select_field
 
@@ -41,3 +42,6 @@ func _get_need_select_field() -> bool:
 
 func _get_cost() -> int:
 	return COSTS[rarity]
+
+func _get_is_all_fields() -> bool:
+	return specials.has(Special.ALL_FIELDS)

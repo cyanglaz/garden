@@ -55,7 +55,6 @@ func _ready() -> void:
 func toggle_selection_indicator(on:bool, tool_data:ToolData) -> void:
 	_gui_field_selection_arrow.is_active = on
 	if tool_data:
-		assert(on)
 		_gui_field_selection_arrow.is_enabled = is_tool_applicable(tool_data)
  
 func show_plant_preview(plant_data:PlantData) -> void:
