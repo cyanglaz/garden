@@ -130,7 +130,6 @@ func _animate_discard(indices:Array,id:int) -> void:
 	discard_tween.set_parallel(true)
 	for i:int in indices:
 		var card:GUIToolCardButton = _tool_card_container.get_card(i)
-		card.animation_mode = true
 		discarding_cards.append(card)
 		var target_size := _discard_deck_button.size
 		var target_position:Vector2 = _discard_deck_button.global_position
