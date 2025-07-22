@@ -8,15 +8,16 @@ enum ReferenceType {
 	OTHER,
 }
 
+const GUI_ALERT_POPUP_SCENE := preload("res://scenes/GUI/containers/gui_popup_alert.tscn")
+const GUI_SETTINGS_SCENE := preload("res://scenes/GUI/containers/gui_settings_menu.tscn")
+const GUI_IN_GAME_MENU_SCENE := preload("res://scenes/GUI/containers/gui_in_game_menu.tscn")
+const GUI_SYMBOL_SCENE := preload("res://scenes/GUI/bingo_main/shared/gui_symbol.tscn")
 
 const GUI_BUTTON_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_button_tooltip.tscn")
 const GUI_BINGO_BALL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_bingo_ball_tooltip.tscn")
 const GUI_STATUS_EFFECT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_status_effect_tooltip.tscn")
 const GUI_SPACE_EFFECT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_space_effect_tooltip.tscn")
 const GUI_ENEMY_PREVIEW_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_enemy_preview_tooltip.tscn")
-const GUI_ALERT_POPUP_SCENE := preload("res://scenes/GUI/containers/gui_popup_alert.tscn")
-const GUI_SETTINGS_SCENE := preload("res://scenes/GUI/containers/gui_settings_menu.tscn")
-const GUI_IN_GAME_MENU_SCENE := preload("res://scenes/GUI/containers/gui_in_game_menu.tscn")
 const GUI_BALL_SYMBOL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_bingo_ball_symbol_tooltip.tscn")
 const GUI_PLANT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn")
 const GUI_WEATHER_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_weather_tooltip.tscn")
@@ -25,7 +26,8 @@ const GUI_ACTIONS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_action
 const GUI_WARNING_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_warning_tooltip.tscn")
 const GUI_RICH_TEXT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_rich_text_tooltip.tscn")
 const GUI_POWER_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_power_tooltip.tscn")
-const GUI_SYMBOL_SCENE := preload("res://scenes/GUI/bingo_main/shared/gui_symbol.tscn")
+const GUI_TOOL_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_tool_card_tooltip.tscn")
+
 const BINGO_BALL_ICON_PREFIX := "res://resources/sprites/icons/balls/icon_"
 const POWER_ICON_PREFIX := "res://resources/sprites/icons/powers/icon_"
 const STATUS_EFFECT_ICON_PREFIX := "res://resources/sprites/icons/status_effect/icon_"
@@ -185,6 +187,14 @@ static func display_actions_tooltip(action_datas:Array[ActionData], on_control_n
 	actions_tooltip.update_with_actions(action_datas)
 	_display_tool_tip.call_deferred(actions_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
 	return actions_tooltip
+
+static func display_tool_card_tooltip(tool_data:ToolData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool) -> GUIToolCardTooltip:
+	var tool_card_tooltip:GUIToolCardTooltip = GUI_TOOL_CARD_TOOLTIP_SCENE.instantiate()
+	Singletons.main_game.add_control_to_overlay(tool_card_tooltip)
+	tool_card_tooltip.tooltip_position = tooltip_position
+	tool_card_tooltip.update_with_tool_data(tool_data)
+	_display_tool_tip.call_deferred(tool_card_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
+	return tool_card_tooltip
 
 static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP, world_space:bool = false) -> void:
 	tooltip.show()

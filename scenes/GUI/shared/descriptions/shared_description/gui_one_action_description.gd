@@ -7,11 +7,32 @@ const HIGHLIGHT_COLOR := Constants.COLOR_WHITE
 @onready var title_label: Label = %TitleLabel
 @onready var rich_text_label: RichTextLabel = %RichTextLabel
 
+func update_with_tool_special(special:ToolData.Special) -> void:
+	var resource_id := Util.get_id_for_tool_speical(special)
+	title_label.text = _get_special_name(special)
+	rich_text_label.text = _get_special_description(special)
+	texture_rect.texture = load(Util.get_image_path_for_resource_id(resource_id))
+
 func update_with_action_data(action_data:ActionData) -> void:
 	var resource_id := Util.get_action_id_with_action_type(action_data.type)
 	title_label.text = _get_action_name(action_data)
 	rich_text_label.text = _get_action_description(action_data)
 	texture_rect.texture = load(Util.get_image_path_for_resource_id(resource_id))
+
+func _get_special_name(special:ToolData.Special) -> String:
+	var special_name := ""
+	match special:
+		ToolData.Special.ALL_FIELDS:
+			special_name = Util.get_localized_string("SPECIAL_NAME_ALL_FIELDS")
+	return special_name
+
+func _get_special_description(special:ToolData.Special) -> String:
+	var special_description := ""
+	match special:
+		ToolData.Special.ALL_FIELDS:
+			special_description = Util.get_localized_string("SPECIAL_DESCRIPTION_ALL_FIELDS")
+	special_description += "."
+	return special_description
 
 func _get_action_name(action_data:ActionData) -> String:
 	var action_name := ""

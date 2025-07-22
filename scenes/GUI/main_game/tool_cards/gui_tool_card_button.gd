@@ -76,7 +76,7 @@ func _on_mouse_entered() -> void:
 		if mouse_in:
 			if _weak_actions_tooltip.get_ref():
 				return
-			_weak_actions_tooltip = weakref(Util.display_actions_tooltip(_tool_data.actions, self, false, GUITooltip.TooltipPosition.RIGHT, true))
+			_weak_actions_tooltip = weakref(Util.display_tool_card_tooltip(_tool_data, self, false, GUITooltip.TooltipPosition.RIGHT, true))
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
