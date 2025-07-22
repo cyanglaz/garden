@@ -15,7 +15,6 @@ func _init(initial_tools:Array) -> void:
 	tool_deck = Deck.new(initial_tools)
 	_tool_applier.tool_application_started.connect(func(index:int): tool_application_started.emit(index))
 	_tool_applier.tool_application_failed.connect(func(index:int): tool_application_failed.emit(index))
-	_tool_applier.tool_application_completed.connect(func(index:int): tool_application_completed.emit(index))
 
 func refresh_deck() -> void:
 	tool_deck.refresh()
@@ -42,17 +41,28 @@ func discard_cards(indices:Array, gui_tool_card_container:GUIToolCardContainer) 
 func select_tool(index:int) -> void:
 	selected_tool_index = index
 
-func apply_tool(main_game:MainGame, field:Field) -> void:
-	var tool := selected_tool.get_duplicate()
-	var index := selected_tool_index
+func apply_tool(main_game:MainGame, fields:Array) -> void:
+	var applying_tool := selected_tool.get_duplicate()
+	var tool_index := selected_tool_index
 	select_tool(-1)
-	await _tool_applier.apply_tool(main_game, field, tool, index)
+	if !applying_tool.need_select_field:
+		await _tool_applier.apply_tool(main_game, null, applying_tool, tool_index)
+	else:
+		await _apply_tool_to_next_field(main_game, applying_tool, fields, 0, tool_index)
 
 func add_tool(tool_data:ToolData) -> void:
 	tool_deck.add_item(tool_data)
 
 func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)
+
+func _apply_tool_to_next_field(main_game:MainGame, applying_tool:ToolData, fields:Array, field_index:int, tool_index:int) -> void:
+	if field_index >= fields.size():
+		tool_application_completed.emit(tool_index)
+		return
+	var field:Field = fields[field_index]
+	await _tool_applier.apply_tool(main_game, field, applying_tool, tool_index)
+	await _apply_tool_to_next_field(main_game, applying_tool, fields, field_index + 1, tool_index)
 
 func _get_selected_tool() -> ToolData:
 	if selected_tool_index < 0:

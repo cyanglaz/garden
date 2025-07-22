@@ -134,13 +134,13 @@ func _on_tool_selected(index:int) -> void:
 	if !tool_data:
 		return
 	if !tool_data.need_select_field:
-		await tool_manager.apply_tool(self, null)
+		await tool_manager.apply_tool(self, [])
 	
 func _on_tool_application_started(index:int) -> void:
-	gui_main_game.toggle_all_ui(false)
 	var tool_data:ToolData = tool_manager.get_tool(index)
-	await tool_manager.discard_cards([index], gui_main_game.gui_tool_card_container)
+	tool_manager.discard_cards([index], gui_main_game.gui_tool_card_container)
 	_clear_tool_selection()
+	gui_main_game.toggle_all_ui(false)
 	energy_tracker.spend(tool_data.energy_cost)
 
 func _on_tool_application_completed(_index:int) -> void:
@@ -175,9 +175,13 @@ func _on_field_hovered(hovered:bool, index:int) -> void:
 			_field_container.toggle_field_selection_indicator(false, tool_manager.selected_tool, index)
 
 func _on_field_pressed(index:int) -> void:
-	var field := _field_container.fields[index]
-	if tool_manager.selected_tool:
-		await tool_manager.apply_tool(self, field)
+	if !tool_manager.selected_tool:
+		return
+	if tool_manager.selected_tool.is_all_fields:
+		await tool_manager.apply_tool(self, _field_container.fields)
+	else:
+		var field := _field_container.fields[index]
+		await tool_manager.apply_tool(self, [field])
 
 #region weather events
 func _on_weathers_updated() -> void:
