@@ -1,6 +1,8 @@
 class_name MainGame
 extends Node2D
 
+signal _all_field_gold_gained()
+
 var hand_size := 10
 const DAYS_TO_WEEK := 7
 
@@ -18,6 +20,9 @@ var tool_manager:ToolManager
 var plant_seed_manager:PlantSeedManager
 var max_energy := 3
 var _gold := 0: set = _set_gold
+
+var _harvesting_fields:Array = []
+var _gold_gaining_fields:Array = []
 
 func _ready() -> void:
 	Singletons.main_game = self
@@ -83,11 +88,9 @@ func start_day() -> void:
 	gui_main_game.set_day(week_manager.get_day())
 	gui_main_game.clear_tool_selection()
 	await Util.await_for_tiny_time()
+	if week_manager.get_day() == 0:
+		await _plant_new_seeds()
 	await draw_cards(hand_size)
-	var unoccupied_fields:Array[int] = _field_container.get_unoccupied_fields()
-	if unoccupied_fields.size() > 0:
-		await Util.create_scaled_timer(0.2).timeout # If planting is needed, there would be a gold update animation, wait for that animationg to end before drawing new plants
-		await plant_seed_manager.draw_cards(unoccupied_fields.size(), gui_main_game.gui_plant_seed_animation_container, unoccupied_fields, _field_container)
 	gui_main_game.toggle_all_ui(true)
 
 func add_control_to_overlay(control:Control) -> void:
@@ -104,6 +107,8 @@ func _update_gold(gold:int, animated:bool) -> void:
 
 func _end_day() -> void:
 	if week_manager.get_day() == 0:
+		for field:Field in _field_container.fields:
+			field.remove_plant()
 		# if _gold >= week_manager.get_tax_due():
 		gui_main_game.animate_show_shop(3, 2, _gold)
 		# else:
@@ -121,6 +126,28 @@ func _clear_tool_selection() -> void:
 	tool_manager.select_tool(-1)
 	gui_main_game.clear_tool_selection()
 	_field_container.clear_tool_indicators()
+
+func _plant_new_seeds() -> void:
+	var field_indices:Array[int] = _field_container.get_all_field_indices()
+	assert(field_indices.size() == _field_container.fields.size())
+	await Util.create_scaled_timer(0.2).timeout # If planting is needed, there would be a gold update animation, wait for that animationg to end before drawing new plants
+	await plant_seed_manager.draw_cards(field_indices.size(), gui_main_game.gui_plant_seed_animation_container, field_indices, _field_container)
+
+#endregion
+
+#region harvest flow
+
+func _harvest() -> void:
+	_harvesting_fields = _field_container.get_harvestable_fields()
+	if _harvesting_fields.is_empty():
+		return
+	_gold_gaining_fields = _harvesting_fields.duplicate()
+	_field_container.harvest_all_fields()
+	await _all_field_gold_gained
+	await plant_seed_manager.discard_cards(_harvesting_fields, gui_main_game.gui_plant_seed_animation_container, _field_container)
+	await plant_seed_manager.draw_cards(_harvesting_fields.size(), gui_main_game.gui_plant_seed_animation_container, _harvesting_fields, _field_container)
+	_harvesting_fields.clear()
+	_gold_gaining_fields.clear()
 
 #endregion
 
@@ -144,6 +171,7 @@ func _on_tool_application_started(index:int) -> void:
 	energy_tracker.spend(tool_data.energy_cost)
 
 func _on_tool_application_completed(_index:int) -> void:
+	await _harvest()
 	gui_main_game.toggle_all_ui(true)
 
 func _on_tool_application_failed(_index:int) -> void:
@@ -155,6 +183,7 @@ func _on_end_turn_button_pressed() -> void:
 	gui_main_game.toggle_all_ui(false)
 	await weather_manager.apply_weather_actions(_field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
 	await _field_container.trigger_end_day_ability(self)
+	await _harvest()
 	await _discard_all_tools()
 	_end_day()
 	
@@ -163,9 +192,10 @@ func _on_field_harvest_started() -> void:
 	gui_main_game.toggle_all_ui(false)
 
 func _on_field_harvest_gold_update_requested(gold:int, index:int) -> void:
-	await plant_seed_manager.discard_cards([index], gui_main_game.gui_plant_seed_animation_container)
 	await _update_gold(_gold + gold, true)
-	await plant_seed_manager.draw_cards(1, gui_main_game.gui_plant_seed_animation_container, [index], _field_container)
+	_gold_gaining_fields.erase(index)
+	if _gold_gaining_fields.is_empty():
+		_all_field_gold_gained.emit()
 
 func _on_field_hovered(hovered:bool, index:int) -> void:
 	if tool_manager.selected_tool:

@@ -13,7 +13,6 @@ var _tool_applier:ToolApplier = ToolApplier.new()
 
 func _init(initial_tools:Array) -> void:
 	tool_deck = Deck.new(initial_tools)
-	_tool_applier.tool_application_started.connect(func(index:int): tool_application_started.emit(index))
 	_tool_applier.tool_application_failed.connect(func(index:int): tool_application_failed.emit(index))
 
 func refresh_deck() -> void:
@@ -44,7 +43,7 @@ func select_tool(index:int) -> void:
 func apply_tool(main_game:MainGame, fields:Array) -> void:
 	var applying_tool := selected_tool.get_duplicate()
 	var tool_index := selected_tool_index
-	select_tool(-1)
+	tool_application_started.emit(selected_tool_index)
 	if !applying_tool.need_select_field:
 		await _tool_applier.apply_tool(main_game, null, applying_tool, tool_index)
 	else:

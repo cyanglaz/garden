@@ -14,14 +14,12 @@ func draw_cards(count:int, gui_plant_seed_animation_container:GUIPlantSeedAnimat
 	var _display_index = plant_deck.hand.size() - 1
 	var draw_results:Array = plant_deck.draw(count, field_indices)
 	var planting_fields := field_indices.slice(0, draw_results.size())
-	remove_plants(field_indices, field_container)
 	await gui_plant_seed_animation_container.animate_draw(draw_results, planting_fields)
 	if draw_results.size() < count:
-		planting_fields = field_indices.slice(draw_results.size(), count - draw_results.size())
+		planting_fields = field_indices.slice(draw_results.size(), count - draw_results.size() + 1)
 		# If no sufficient cards in draw pool, shuffle discard pile and draw again.
 		await shuffle(gui_plant_seed_animation_container)
 		var second_draw_result:Array = plant_deck.draw(count - draw_results.size(), planting_fields)
-		remove_plants(planting_fields, field_container)
 		await gui_plant_seed_animation_container.animate_draw(second_draw_result, planting_fields)
 	gui_plant_seed_animation_container.draw_plant_card_completed.disconnect(_on_draw_plant_card_completed.bind(field_container))
 
@@ -30,9 +28,10 @@ func shuffle(gui_plant_seed_animation_container:GUIPlantSeedAnimationContainer) 
 	await gui_plant_seed_animation_container.animate_shuffle(discard_pile_seeds)
 	plant_deck.shuffle_draw_pool()
 
-func discard_cards(field_indices:Array, gui_plant_seed_animation_container:GUIPlantSeedAnimationContainer) -> void:
+func discard_cards(field_indices:Array, gui_plant_seed_animation_container:GUIPlantSeedAnimationContainer, field_container:FieldContainer) -> void:
 	var discarding_data := field_indices.map(func(i:int): return plant_deck.hand[i])
 	await gui_plant_seed_animation_container.animate_discard(field_indices,discarding_data)
+	remove_plants(field_indices, field_container)
 	plant_deck.discard(field_indices)
 
 func remove_plants(field_indices:Array, field_container:FieldContainer) -> void:

@@ -122,9 +122,6 @@ func apply_actions(actions:Array[ActionData]) -> void:
 				await _apply_fungus_action(action)
 			_:
 				pass
-	if _can_harvest():
-		_harvest()
-		await new_plant_planted
 
 func show_gold_popup() -> void:
 	_gold_audio.play()
@@ -135,12 +132,12 @@ func show_gold_popup() -> void:
 	gold_label.setup(str("+", plant.data.gold), color, GOLD_ICON)
 	await gold_label.animate_show_and_destroy(8, 6, POPUP_GOLD_SHOW_TIME, POPUP_GOLD_DESTROY_TIME)
 
-func _can_harvest() -> bool:
+func can_harvest() -> bool:
 	return plant && plant.can_harvest()
 
-func _harvest() -> void:
+func harvest() -> void:
 	assert(plant, "No plant planted")
-	assert(_can_harvest(), "Cannot harvest")
+	assert(can_harvest(), "Cannot harvest")
 	plant.harvest()
 
 func _show_progress_bars(p:Plant) -> void:
