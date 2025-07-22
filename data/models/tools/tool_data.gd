@@ -7,9 +7,14 @@ const COSTS := {
 	2: 45,
 }
 
+enum Special {
+	ALL_FIELDS,
+}
+
 @export var energy_cost:int = 1
 @export var actions:Array[ActionData]
 @export var rarity:int = 0
+@export var specials:Array[Special]
 
 var cost:int : get = _get_cost
 
@@ -21,6 +26,7 @@ func copy(other:ThingData) -> void:
 	energy_cost = other_tool.energy_cost
 	actions = other_tool.actions.duplicate()
 	rarity = other_tool.rarity
+	specials = other_tool.specials.duplicate()
 
 func get_duplicate() -> ToolData:
 	var dup:ToolData = ToolData.new()

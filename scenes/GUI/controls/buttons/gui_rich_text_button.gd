@@ -7,7 +7,6 @@ extends GUIBasicButton
 
 @onready var _border: NinePatchRect = %Border
 @onready var _shortcut_icon: TextureRect = %ShortcutIcon
-@onready var _animation_player: AnimationPlayer = %AnimationPlayer
 
 var _short_cut_image_region:Rect2i
 

@@ -455,6 +455,13 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			pass
 	return id
 
+static func get_id_for_tool_speical(special:ToolData.Special) -> String:
+	var id := ""
+	match special:
+		ToolData.Special.ALL_FIELDS:
+			id = "all_fields"
+	return id
+
 static func formate_references(formatted_description:String, data_to_format:Dictionary, highlight_description_keys:Dictionary, additional_highlight_check:Callable, ) -> String:
 	var searching_start_index := 0
 	while true:

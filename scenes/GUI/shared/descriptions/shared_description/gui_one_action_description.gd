@@ -4,7 +4,6 @@ extends VBoxContainer
 const HIGHLIGHT_COLOR := Constants.COLOR_WHITE
 
 @onready var texture_rect: TextureRect = %TextureRect
-@onready var all_target_icon: TextureRect = %AllTargetIcon
 @onready var title_label: Label = %TitleLabel
 @onready var rich_text_label: RichTextLabel = %RichTextLabel
 
@@ -13,10 +12,6 @@ func update_with_action_data(action_data:ActionData) -> void:
 	title_label.text = _get_action_name(action_data)
 	rich_text_label.text = _get_action_description(action_data)
 	texture_rect.texture = load(Util.get_image_path_for_resource_id(resource_id))
-	if action_data.target_count < 0:
-		all_target_icon.show()
-	else:
-		all_target_icon.hide()
 
 func _get_action_name(action_data:ActionData) -> String:
 	var action_name := ""
@@ -71,10 +66,8 @@ func _get_action_description(action_data:ActionData) -> String:
 func _get_field_action_description(action_data:ActionData) -> String:
 	var increase_description := Util.get_localized_string("ACTION_DESCRIPTION_INCREASE")
 	var decrease_description := Util.get_localized_string("ACTION_DESCRIPTION_DECREASE")
-	var all_fields_description := Util.get_localized_string("ACTION_DESCRIPTION_ALL_FIELDS")
 	var action_name := ""
 	var value:int = abs(action_data.value)
-	var all_fields := action_data.target_count < 0
 	var increase := action_data.value > 0
 	match action_data.type:
 		ActionData.ActionType.LIGHT:
@@ -95,8 +88,6 @@ func _get_field_action_description(action_data:ActionData) -> String:
 		main_description = decrease_description
 	var increase_value := Util.convert_to_bbc_highlight_text(str(value), HIGHLIGHT_COLOR)
 	main_description = main_description % [action_name, increase_value]
-	if all_fields:
-		main_description += " " + Util.convert_to_bbc_highlight_text(all_fields_description, HIGHLIGHT_COLOR)
 	return main_description
 
 func _get_weather_action_description(action_data:ActionData) -> String:

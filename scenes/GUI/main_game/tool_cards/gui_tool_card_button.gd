@@ -1,6 +1,8 @@
 class_name GUIToolCardButton
 extends GUIBasicButton
 
+const SPECIAL_ICON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_special_icon.tscn")
+
 const SIZE := Vector2(36, 48)
 const SELECTED_OFFSET := 6.0
 const HIGHLIGHTED_OFFSET := 1.0
@@ -15,6 +17,7 @@ const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/
 @onready var _title: Label = %Title
 @onready var _highlight_border: NinePatchRect = %HighlightBorder
 @onready var _card_content: VBoxContainer = %CardContent
+@onready var _specials_container: HBoxContainer = %SpecialsContainer
 
 var mouse_disabled:bool = false: set = _set_mouse_disabled
 var activated := false: set = _set_activated
@@ -47,6 +50,11 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 			_background.region_rect.position.x = 36
 		2:
 			_background.region_rect.position.x = 72
+	for special in tool_data.specials:
+		var special_icon := SPECIAL_ICON_SCENE.instantiate()
+		var special_id := Util.get_id_for_tool_speical(special)
+		special_icon.texture = load(Util.get_image_path_for_resource_id(special_id))
+		_specials_container.add_child(special_icon)
 
 func play_move_sound() -> void:
 	_sound_hover.play()
