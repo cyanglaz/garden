@@ -1,7 +1,7 @@
 class_name MainGame
 extends Node2D
 
-var hand_size := 5
+var hand_size := 10
 const DAYS_TO_WEEK := 7
 
 @export var test_plant_datas:Array[PlantData]
