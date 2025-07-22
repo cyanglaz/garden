@@ -4,6 +4,7 @@ extends VBoxContainer
 const HIGHLIGHT_COLOR := Constants.COLOR_WHITE
 
 @onready var texture_rect: TextureRect = %TextureRect
+@onready var all_target_icon: TextureRect = %AllTargetIcon
 @onready var title_label: Label = %TitleLabel
 @onready var rich_text_label: RichTextLabel = %RichTextLabel
 
@@ -12,6 +13,10 @@ func update_with_action_data(action_data:ActionData) -> void:
 	title_label.text = _get_action_name(action_data)
 	rich_text_label.text = _get_action_description(action_data)
 	texture_rect.texture = load(Util.get_image_path_for_resource_id(resource_id))
+	if action_data.target_count < 0:
+		all_target_icon.show()
+	else:
+		all_target_icon.hide()
 
 func _get_action_name(action_data:ActionData) -> String:
 	var action_name := ""

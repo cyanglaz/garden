@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://n2ofwd13b2vy"]
+[gd_scene load_steps=3 format=3 uid="uid://n2ofwd13b2vy"]
 
 [ext_resource type="Script" uid="uid://bvc2sf38b55pi" path="res://scenes/GUI/shared/descriptions/shared_description/gui_one_action_description.gd" id="1_jri6o"]
+[ext_resource type="Texture2D" uid="uid://cl78jk1gk3jbk" path="res://resources/sprites/GUI/icons/actions/icon_target_all.png" id="2_5f7u7"]
 
 [node name="GUIOneActionDescription" type="VBoxContainer"]
 offset_right = 35.0
@@ -16,6 +17,15 @@ theme_override_constants/separation = 0
 unique_name_in_owner = true
 custom_minimum_size = Vector2(6, 6)
 layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AllTargetIcon" type="TextureRect" parent="Title"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(6, 6)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_5f7u7")
 expand_mode = 1
 stretch_mode = 5
 
