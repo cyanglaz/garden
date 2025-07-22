@@ -4,7 +4,7 @@ extends PanelContainer
 signal tool_selected(index:int)
 
 const TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
-const DEFAULT_CARD_SPACE := 4.0
+const DEFAULT_CARD_SPACE := GUIToolCardButton.HIGHLIGHTED_OFFSET * 1
 const MAX_TOTAL_WIDTH := 200
 const REPOSITION_DURATION:float = 0.08
 const TOOL_SELECTED_OFFSET := -6.0
@@ -13,6 +13,8 @@ const TOOL_SELECTED_OFFSET := -6.0
 @onready var _gui_tool_card_animation_container: GUIToolCardAnimationContainer = %GUIToolCardAnimationContainer
 
 var _card_size:int
+var _weak_insufficient_energy_tooltip:WeakRef = weakref(null)
+var _selected_index:int = -1
 
 func _ready() -> void:
 	var temp_tool_card := TOOL_CARD_SCENE.instantiate()
@@ -32,13 +34,16 @@ func clear() -> void:
 		return
 	for child:GUIToolCardButton in _container.get_children():
 		child.queue_free()
+	_clear_warning_tooltip()
 
 func clear_selection() -> void:
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
 		gui_card.mouse_disabled = false
-		gui_card.button_state = GUIBasicButton.ButtonState.NORMAL
-		gui_card.container_offset = 0.0
+		gui_card.selected = false
+		gui_card.highlighted = false
+	_selected_index = -1
+	_clear_warning_tooltip()
 
 func add_card(tool_data:ToolData) -> GUIToolCardButton:
 	var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
@@ -57,13 +62,13 @@ func remove_cards(gui_cards:Array[GUIToolCardButton]) -> void:
 func _rebind_signals() -> void:
 	for i in _container.get_children().size():
 		var gui_card:GUIToolCardButton = _container.get_child(i)
-		if gui_card.action_evoked.is_connected(_on_tool_card_action_evoked):
-			gui_card.action_evoked.disconnect(_on_tool_card_action_evoked)
+		if gui_card.pressed.is_connected(_on_tool_card_pressed):
+			gui_card.pressed.disconnect(_on_tool_card_pressed)
 		if gui_card.mouse_entered.is_connected(_on_tool_card_mouse_entered):
 			gui_card.mouse_entered.disconnect(_on_tool_card_mouse_entered)
 		if gui_card.mouse_exited.is_connected(_on_tool_card_mouse_exited):
 			gui_card.mouse_exited.disconnect(_on_tool_card_mouse_exited)
-		gui_card.action_evoked.connect(_on_tool_card_action_evoked.bind(i))
+		gui_card.pressed.connect(_on_tool_card_pressed.bind(i))
 		gui_card.mouse_entered.connect(_on_tool_card_mouse_entered.bind(i))
 		gui_card.mouse_exited.connect(_on_tool_card_mouse_exited.bind(i))
 
@@ -109,27 +114,58 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 		var target_position := Vector2(start_x + i*_card_size + i*card_space, 0)
 		result.append(target_position)
 	result.reverse() # First card is at the end of the array.
+	var card_padding := result[0].x - result[1].x - _card_size
+	for i in result.size():
+		if _selected_index >= 0:
+			if card_padding < 0.0:
+				var pos = result[i]
+				if i < _selected_index:
+					# The positions are reversed
+					pos.x += 1 - card_padding # Push right cards 4 pixels left
+				elif i > _selected_index:
+					pos.x -= 1 - card_padding # Push left cards 4 pixels right
+				result[i] = pos
 	return result
 
-func _on_tool_card_action_evoked(index:int) -> void:
+#region private
+
+func _clear_warning_tooltip() -> void:
+	if _weak_insufficient_energy_tooltip.get_ref():
+		_weak_insufficient_energy_tooltip.get_ref().queue_free()
+		_weak_insufficient_energy_tooltip = weakref(null)
+
+#endregion
+
+#region events
+
+func _on_tool_card_pressed(index:int) -> void:
+	_clear_warning_tooltip()
+	var selected_card:GUIToolCardButton = _container.get_child(index)
+	_selected_index = index
+	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
-		if i == index:
-			gui_card.button_state = GUIBasicButton.ButtonState.SELECTED
-			gui_card.mouse_disabled = false
-			gui_card.container_offset = TOOL_SELECTED_OFFSET
-		else:
-			gui_card.mouse_disabled = true
-			gui_card.container_offset = 0.0
-	tool_selected.emit(index)
+		gui_card.position = positions[i]
+	if selected_card.resource_sufficient:
+		for i in _container.get_children().size():	
+			var gui_card = _container.get_child(i)
+			if i == index:
+				gui_card.selected = true
+			else:
+				gui_card.selected = false
+				gui_card.highlighted = false
+		tool_selected.emit(index)
+	else:
+		_weak_insufficient_energy_tooltip = weakref(Util.display_warning_tooltip(tr("WARNING_INSUFFICIENT_ENERGY"), selected_card, false, GUITooltip.TooltipPosition.TOP))
 
 func _on_tool_card_mouse_entered(index:int) -> void:
+	_clear_warning_tooltip()
 	var mouse_over_card = _container.get_child(index)
 	if !is_instance_valid(mouse_over_card):
 		return
-	if mouse_over_card.button_state == GUIBasicButton.ButtonState.SELECTED || mouse_over_card.button_state == GUIBasicButton.ButtonState.DISABLED:
+	mouse_over_card.highlighted = true
+	if _selected_index >= 0:
 		return
-	mouse_over_card.container_offset = -1.0
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	if positions.size() < 2:
 		return
@@ -155,13 +191,12 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 		tween.kill()
 
 func _on_tool_card_mouse_exited(index:int) -> void:
+	_clear_warning_tooltip()
 	var mouse_exit_card = _container.get_child(index)
 	if !is_instance_valid(mouse_exit_card):
 		return
-	if mouse_exit_card.button_state == GUIBasicButton.ButtonState.SELECTED || mouse_exit_card.button_state == GUIBasicButton.ButtonState.DISABLED:
-		return
+	mouse_exit_card.highlighted = false
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
-	mouse_exit_card.container_offset = 0.0
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
 	tween.set_ease(Tween.EASE_IN)

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://vinf48vrumu7"]
+
+[ext_resource type="PackedScene" uid="uid://73vkj3ho7ou5" path="res://scenes/GUI/tooltips/gui_tooltip.tscn" id="1_hijmy"]
+[ext_resource type="Script" uid="uid://cw5qyc2th2hgg" path="res://scenes/GUI/tooltips/gui_tool_card_tooltip.gd" id="2_hijmy"]
+[ext_resource type="PackedScene" uid="uid://bvgjt4ir1gjtr" path="res://scenes/GUI/shared/descriptions/tool_card_description/gui_tool_card_description.tscn" id="3_hijmy"]
+
+[node name="GUIToolCardTooltip" instance=ExtResource("1_hijmy")]
+script = ExtResource("2_hijmy")
+
+[node name="GUIPanelBackgroundColor" parent="." index="0"]
+unique_name_in_owner = true
+
+[node name="ContentContainer" parent="." index="1"]
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="GUIToolCardDescription" parent="ContentContainer" index="0" instance=ExtResource("3_hijmy")]
+unique_name_in_owner = true
+layout_mode = 2

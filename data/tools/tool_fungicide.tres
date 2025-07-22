@@ -18,6 +18,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_0s7er")
 energy_cost = 1
 actions = Array[ExtResource("1_vy2xk")]([SubResource("Resource_oexgw")])
+rarity = 0
 id = "fungicide"
 display_name = "Fungicide"
 description = ""

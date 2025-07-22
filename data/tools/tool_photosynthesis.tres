@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=5 format=3 uid="uid://b0ckuxysbrafa"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_0wo8n"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_pc4tl"]
+
+[sub_resource type="Resource" id="Resource_oexgw"]
+script = ExtResource("1_0wo8n")
+type = 1
+value = 2
+target_count = 1
+id = ""
+display_name = ""
+description = ""
+data = {}
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_0wo8n"]
+script = ExtResource("1_0wo8n")
+type = 8
+value = 1
+target_count = 1
+id = ""
+display_name = ""
+description = ""
+data = {}
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_pc4tl")
+energy_cost = 2
+actions = Array[ExtResource("1_0wo8n")]([SubResource("Resource_oexgw"), SubResource("Resource_0wo8n")])
+rarity = 1
+id = "photosynthesis"
+display_name = "Photosynthesis"
+description = ""
+data = {}
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

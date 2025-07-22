@@ -18,6 +18,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_kxdff")
 energy_cost = 1
 actions = Array[ExtResource("1_ecsgx")]([SubResource("Resource_oexgw")])
+rarity = 0
 id = "bug_spray"
 display_name = "Bug Spray"
 description = ""

@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://cwnaxb4i2xoyh"]
+
+[node name="GUIPlantCard" type="Control"]
+layout_mode = 3
+anchors_preset = 0

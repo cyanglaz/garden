@@ -26,7 +26,6 @@ const WEATHER_ACTION_TYPES := [ActionType.WEATHER_SUNNY, ActionType.WEATHER_RAIN
 
 @export var type:ActionType
 @export var value:int
-@export var target_count:int = 1
 
 var action_category:ActionCategory: get = _get_action_category
 
@@ -34,7 +33,6 @@ func copy(other:ThingData) -> void:
 	super.copy(other)
 	type = other.type
 	value = other.value
-	target_count = other.target_count
 
 func get_duplicate() -> ThingData:
 	var action_data:ActionData = ActionData.new()

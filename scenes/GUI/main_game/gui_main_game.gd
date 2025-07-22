@@ -11,6 +11,7 @@ signal tool_selected(index:int)
 @onready var gui_plant_seed_animation_container: GUIPlantSeedAnimationContainer = %GUIPlantSeedAnimationContainer
 @onready var gui_plant_draw_deck_box: GUIPlantDeckBox = %GUIPlantDrawDeckBox
 @onready var gui_plant_discard_deck_box: GUIPlantDeckBox = %GUIPlantDiscardDeckBox
+@onready var gui_shop_main: GUIShopMain = %GUIShopMain
 
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
 @onready var _overlay: Control = %Overlay
@@ -46,7 +47,6 @@ func update_tax_due(gold:int) -> void:
 	_gui_top_bar.update_tax_due(gold)
 
 #region tools
-
 func update_tools(tool_datas:Array[ToolData]) -> void:
 	gui_tool_card_container.update_tools(tool_datas)
 
@@ -57,14 +57,13 @@ func bind_tool_deck(tool_deck:Deck) -> void:
 	gui_draw_box_button.bind_deck(tool_deck)
 	gui_discard_box_button.bind_deck(tool_deck)
 	_gui_top_bar.gui_full_deck_button.bind_deck(tool_deck)
-	_gui_top_bar.full_deck_button_evoked.connect(_on_deck_button_pressed.bind(tool_deck.pool, tr("FULL_DECK_TITLE")))
-	gui_draw_box_button.action_evoked.connect(_on_deck_button_pressed.bind(tool_deck.draw_pool, tr("DECK_DRAW_POOL_TITLE")))
-	gui_discard_box_button.action_evoked.connect(_on_deck_button_pressed.bind(tool_deck.discard_pool, tr("DECK_DISCARD_POOL_TITLE")))
+	_gui_top_bar.full_deck_button_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("FULL_DECK_TITLE"), GUIDeckButton.Type.ALL))
+	gui_draw_box_button.action_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DRAW_POOL_TITLE"), gui_draw_box_button.type))
+	gui_discard_box_button.action_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DISCARD_POOL_TITLE"), gui_discard_box_button.type))
 #endregion
 
 
 #region plants
-
 func setup_plant_seed_animation_container(field_container:FieldContainer) -> void:
 	gui_plant_seed_animation_container.setup(field_container, gui_plant_draw_deck_box, gui_plant_discard_deck_box)
 
@@ -76,7 +75,7 @@ func bind_plant_seed_deck(plant_seed_deck:Deck) -> void:
 
 #region days
 func set_day(day:int) -> void:
-	_day_label.text = tr("DAY_LABEL_TEXT")% (day + 1)
+	_day_label.text = Util.get_localized_string("DAY_LABEL_TEXT")% (day + 1)
 
 func bind_energy(resource_point:ResourcePoint) -> void:
 	_gui_energy_tracker.bind_with_resource_point(resource_point)
@@ -87,6 +86,10 @@ func update_weathers(weather_manager:WeatherManager) -> void:
 
 #endregion
 
+#region shop
+func animate_show_shop(number_of_tools:int, number_of_plants:int, gold:int) -> void:
+	await gui_shop_main.animate_show(number_of_tools, number_of_plants, gold)
+
 #region utils
 func add_control_to_overlay(control:Control) -> void:
 	_overlay.add_child(control)
@@ -94,8 +97,14 @@ func add_control_to_overlay(control:Control) -> void:
 
 #region events
 
-func _on_deck_button_pressed(pool:Array, title:String) -> void:
-	_gui_tool_cards_viewer.animated_show_with_pool(pool, title)
+func _on_deck_button_pressed(deck:Deck, title:String, type: GUIDeckButton.Type) -> void:
+	match type:
+		GUIDeckButton.Type.DRAW:
+			_gui_tool_cards_viewer.animated_show_with_pool(deck.draw_pool, title)
+		GUIDeckButton.Type.DISCARD:
+			_gui_tool_cards_viewer.animated_show_with_pool(deck.discard_pool, title)
+		GUIDeckButton.Type.ALL:
+			_gui_tool_cards_viewer.animated_show_with_pool(deck.pool, title)
 
 
 #endregion

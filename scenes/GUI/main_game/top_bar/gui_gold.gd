@@ -10,7 +10,7 @@ enum AnimationType {
 @onready var _label: Label = %Label
 @onready var _texture_rect: TextureRect = %TextureRect
 @onready var _gold_increased_sound: AudioStreamPlayer2D = %GoldIncreasedSound
-@onready var _gold_decreased_sound: AudioStreamPlayer2D = %GoldDecreasedSound
+@onready var _gold_use_sound: AudioStreamPlayer2D = %GoldUseSound
 
 var _current_gold:int = 0
 
@@ -27,7 +27,7 @@ func update_gold(gold:int, animation_type:AnimationType) -> void:
 		tween.tween_property(_texture_rect, "scale:x", 1.0, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT).set_delay(0.1)
 		var gold_diff:int = gold - _current_gold
 		if gold_diff < 0:
-			_gold_decreased_sound.play()
+			_gold_use_sound.play()
 			tween.tween_property(_label, "text", str(gold), 0.2)
 		else:
 			match animation_type:

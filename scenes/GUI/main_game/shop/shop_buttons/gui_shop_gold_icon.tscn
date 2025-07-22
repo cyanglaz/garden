@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://h0o7jknbwhem"]
+
+[ext_resource type="Script" uid="uid://bwkjqil7xblrv" path="res://scenes/GUI/main_game/shop/shop_buttons/gui_shop_gold_icon.gd" id="1_g3p58"]
+[ext_resource type="Texture2D" uid="uid://d1hlhkeceq461" path="res://resources/sprites/GUI/icons/resources/icon_gold_small.png" id="2_mjcws"]
+[ext_resource type="Texture2D" uid="uid://cgl5mbicyh4u8" path="res://resources/sprites/GUI/shared/border4.png" id="3_rv63m"]
+
+[node name="GUIShopGoldIcon" type="PanelContainer"]
+script = ExtResource("1_g3p58")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
+layout_mode = 2
+texture = ExtResource("2_mjcws")
+stretch_mode = 5
+
+[node name="GoldHighlightBorder" type="NinePatchRect" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("3_rv63m")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3

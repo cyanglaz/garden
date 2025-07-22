@@ -20,7 +20,7 @@ const ATTACK_COUNT_SCENE := preload("res://scenes/GUI/shared/descriptions/gui_at
 @onready var _left_rules_container: HBoxContainer = %LeftRulesContainer
 @onready var _right_rules_container: HBoxContainer = %RightRulesContainer
 
-func bind_bingo_ball_data(bingo_ball_data:BingoBallData, show_comparison:bool) -> void:
+func bind_bingo_ball_data(bingo_ball_data:BingoBallData, _show_comparison:bool) -> void:
 	_gui_bingo_ball.bind_bingo_ball(bingo_ball_data)
 	_name_label.text = bingo_ball_data.get_formatted_display_name()
 	if bingo_ball_data.is_plus:

@@ -6,6 +6,7 @@ const SOUND_HOVER := preload("res://resources/sounds/GUI/button_hover.wav")
 const SOUND_CLICK := preload("res://resources/sounds/GUI/button_click.wav")
 
 signal action_evoked()
+signal pressed()
 signal state_updated(state:ButtonState)
 
 enum ActionType {
@@ -31,7 +32,6 @@ enum ButtonState {
 @onready var _sound_hover := AudioStreamPlayer2D.new()
 @onready var _sound_click := AudioStreamPlayer2D.new()
 
-var highlighted:bool: set = _set_highlighted
 var mouse_in:bool
 
 var _holding_start := false
@@ -138,6 +138,7 @@ func _on_mouse_exited():
 func _press():
 	if _pressing:
 		return
+	pressed.emit()
 	_pressing = true
 	_sound_click.play()
 
@@ -155,25 +156,11 @@ func _set_short_cut(val:String) -> void:
 
 func _set_button_state(val:ButtonState) -> void:
 	button_state = val
-	match button_state:
-		ButtonState.NORMAL:
-			pass
-		ButtonState.PRESSED:
-			highlighted = false
-		ButtonState.HOVERED:
-			pass
-		ButtonState.DISABLED:
-			highlighted = false
-		ButtonState.SELECTED:
-			highlighted = false
 	if button_state == ButtonState.DISABLED:
 		mouse_default_cursor_shape = Control.CursorShape.CURSOR_ARROW
 	else:
 		mouse_default_cursor_shape = Control.CursorShape.CURSOR_POINTING_HAND
 	state_updated.emit(button_state)
-
-func _set_highlighted(val:bool) -> void:
-	highlighted = val
 
 func _get_hover_sound() -> AudioStream:
 	return SOUND_HOVER

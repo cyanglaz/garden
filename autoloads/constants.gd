@@ -31,6 +31,7 @@ const COLOR_BLUE_4 := Color("0098dc")
 const COLOR_BLUE_5 := Color("00396d")
 const COLOR_BLUE_3 := Color("00cdf9")
 const COLOR_BLUE_2 := Color("0cf1ff")
+const COLOR_BLUE_1 := Color("94fdff")
 const COLOR_DARK_DARK_BLUE := Color("03193f")
 const COLOR_GREEN1 := Color("d3fc7e")
 const COLOR_GREEN2 := Color("99e65f")
@@ -76,6 +77,9 @@ const COLOR_BROWN_5 := Color("1c121c")
 const COLOR_BLACK := Color("131313")
 const COLOR_RED_PURPLE_3 := Color("93388f")
 
+const RESOURCE_INSUFFICIENT_COLOR := Constants.COLOR_GRAY3
+const RESOURCE_SUFFICIENT_COLOR := Constants.COLOR_PURPLE0
+
 const LIGHT_THEME_COLOR = COLOR_YELLOW2
 const WATER_THEME_COLOR = COLOR_BLUE_3
 
@@ -91,10 +95,9 @@ const MAX_ITEM_SLOTS_IN_INVENTORY := 36
 const MAX_INVENTORY_WIDTH := 6
 const MAX_INVENTORY_HEIGHT := 6
 
-const COMMON_C0LOR := Constants.COLOR_BLUE_GRAY_2
-const UNCOMMON_COLOR := Constants.COLOR_BLUE_4
-const RARE_COLOR := Constants.COLOR_YELLOW3
-const ENEMY_COLOR := Constants.COLOR_RED_PURPLE2
+const COMMON_C0LOR := Constants.COLOR_BEIGE_1
+const UNCOMMON_COLOR := Constants.COLOR_GREEN2
+const RARE_COLOR := Constants.COLOR_BLUE_3
 
 const TOOLTIP_HIGHLIGHT_COLOR_GREEN := Constants.COLOR_GREEN2
 const TOOLTIP_HIGHLIGHT_COLOR_PURPLE := Constants.COLOR_PURPLE1

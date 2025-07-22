@@ -8,15 +8,16 @@ enum ReferenceType {
 	OTHER,
 }
 
+const GUI_ALERT_POPUP_SCENE := preload("res://scenes/GUI/containers/gui_popup_alert.tscn")
+const GUI_SETTINGS_SCENE := preload("res://scenes/GUI/containers/gui_settings_menu.tscn")
+const GUI_IN_GAME_MENU_SCENE := preload("res://scenes/GUI/containers/gui_in_game_menu.tscn")
+const GUI_SYMBOL_SCENE := preload("res://scenes/GUI/bingo_main/shared/gui_symbol.tscn")
 
 const GUI_BUTTON_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_button_tooltip.tscn")
 const GUI_BINGO_BALL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_bingo_ball_tooltip.tscn")
 const GUI_STATUS_EFFECT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_status_effect_tooltip.tscn")
 const GUI_SPACE_EFFECT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_space_effect_tooltip.tscn")
 const GUI_ENEMY_PREVIEW_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_enemy_preview_tooltip.tscn")
-const GUI_ALERT_POPUP_SCENE := preload("res://scenes/GUI/containers/gui_popup_alert.tscn")
-const GUI_SETTINGS_SCENE := preload("res://scenes/GUI/containers/gui_settings_menu.tscn")
-const GUI_IN_GAME_MENU_SCENE := preload("res://scenes/GUI/containers/gui_in_game_menu.tscn")
 const GUI_BALL_SYMBOL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_bingo_ball_symbol_tooltip.tscn")
 const GUI_PLANT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn")
 const GUI_WEATHER_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_weather_tooltip.tscn")
@@ -25,7 +26,8 @@ const GUI_ACTIONS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_action
 const GUI_WARNING_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_warning_tooltip.tscn")
 const GUI_RICH_TEXT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_rich_text_tooltip.tscn")
 const GUI_POWER_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_power_tooltip.tscn")
-const GUI_SYMBOL_SCENE := preload("res://scenes/GUI/bingo_main/shared/gui_symbol.tscn")
+const GUI_TOOL_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_tool_card_tooltip.tscn")
+
 const BINGO_BALL_ICON_PREFIX := "res://resources/sprites/icons/balls/icon_"
 const POWER_ICON_PREFIX := "res://resources/sprites/icons/powers/icon_"
 const STATUS_EFFECT_ICON_PREFIX := "res://resources/sprites/icons/status_effect/icon_"
@@ -130,7 +132,7 @@ static func display_space_effect_tooltip(space_effect:SpaceEffect, on_control_no
 
 static func display_warning_tooltip(message:String, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIWarningTooltip:
 	var warning_tooltip:GUIWarningTooltip = GUI_WARNING_TOOLTIP_SCENE.instantiate()
-	Singletons.game_main.add_view_to_top_container(warning_tooltip)
+	Singletons.main_game.add_control_to_overlay(warning_tooltip)
 	warning_tooltip.setup_with_text(message)
 	_display_tool_tip.call_deferred(warning_tooltip, on_control_node, anchor_mouse, tooltip_position)
 	return warning_tooltip
@@ -185,6 +187,14 @@ static func display_actions_tooltip(action_datas:Array[ActionData], on_control_n
 	actions_tooltip.update_with_actions(action_datas)
 	_display_tool_tip.call_deferred(actions_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
 	return actions_tooltip
+
+static func display_tool_card_tooltip(tool_data:ToolData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool) -> GUIToolCardTooltip:
+	var tool_card_tooltip:GUIToolCardTooltip = GUI_TOOL_CARD_TOOLTIP_SCENE.instantiate()
+	Singletons.main_game.add_control_to_overlay(tool_card_tooltip)
+	tool_card_tooltip.tooltip_position = tooltip_position
+	tool_card_tooltip.update_with_tool_data(tool_data)
+	_display_tool_tip.call_deferred(tool_card_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
+	return tool_card_tooltip
 
 static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP, world_space:bool = false) -> void:
 	tooltip.show()
@@ -455,6 +465,13 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			pass
 	return id
 
+static func get_id_for_tool_speical(special:ToolData.Special) -> String:
+	var id := ""
+	match special:
+		ToolData.Special.ALL_FIELDS:
+			id = "all_fields"
+	return id
+
 static func formate_references(formatted_description:String, data_to_format:Dictionary, highlight_description_keys:Dictionary, additional_highlight_check:Callable, ) -> String:
 	var searching_start_index := 0
 	while true:
@@ -592,8 +609,6 @@ static func get_color_for_rarity(rarity:int) -> Color:
 			return Constants.UNCOMMON_COLOR
 		2:
 			return Constants.RARE_COLOR
-		3:
-			return Constants.ENEMY_COLOR
 		_:
 			assert(false, "Invalid rarity: " + str(rarity))
 	return Color.WHITE
@@ -697,6 +712,12 @@ static func _get_game_speed_scale() -> float:
 
 static func convert_to_bbc_highlight_text(string:String, color:Color) -> String:
 	return str("[outline_size=1][color=", Util.get_color_hex(color), "]", string, "[/color][/outline_size]")
+
+static func get_localized_string(localized_key:String) -> String:
+	var string := Singletons.tr(localized_key)
+	if string.begins_with(" "):
+		string = string.substr(1)
+	return string
 
 static func float_equal(a:float, b:float) -> bool:
 	return abs(a - b) < FLOAT_EQUAL_EPSILON

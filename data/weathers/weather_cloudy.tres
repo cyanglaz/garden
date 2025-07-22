@@ -8,7 +8,6 @@ script = ExtResource("2_uen8h")
 actions = Array[ExtResource("1_o58v4")]([])
 id = "cloudy"
 display_name = "Cloudy"
-description = "
-"
+description = "Nothing happens."
 data = {}
 metadata/_custom_type_script = "uid://g4t52w546b5k"

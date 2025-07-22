@@ -1,0 +1,12 @@
+[gd_scene load_steps=4 format=3 uid="uid://i82fds3d0ui"]
+
+[ext_resource type="PackedScene" uid="uid://b1s3tro034n0x" path="res://scenes/GUI/main_game/shop/shop_buttons/gui_shop_button.tscn" id="1_d7fbr"]
+[ext_resource type="Script" uid="uid://5sysew28w55o" path="res://scenes/GUI/main_game/shop/shop_buttons/gui_plant_shop_button.gd" id="2_5f0f6"]
+[ext_resource type="PackedScene" uid="uid://caiue05en2fg7" path="res://scenes/GUI/main_game/plant_cards/gui_plant_icon.tscn" id="3_fga0a"]
+
+[node name="GUIPlantShopButton" instance=ExtResource("1_d7fbr")]
+script = ExtResource("2_5f0f6")
+
+[node name="GUIPlantIcon" parent="VBoxContainer/MarginContainer" index="0" instance=ExtResource("3_fga0a")]
+unique_name_in_owner = true
+layout_mode = 2

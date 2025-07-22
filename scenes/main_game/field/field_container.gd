@@ -64,14 +64,40 @@ func trigger_end_day_ability(main_game:MainGame) -> void:
 func clear_tool_indicators() -> void:
 	for field:Field in fields:
 		field.toggle_selection_indicator(false, null)
+	
+func toggle_field_selection_indicator(on:bool, tool_data:ToolData, index:int) -> void:
+	if tool_data && tool_data.is_all_fields:
+		for one_field:Field in fields:
+			one_field.toggle_selection_indicator(on, tool_data)
+	else:
+		var field:Field = _container.get_child(index)
+		field.toggle_selection_indicator(on, tool_data)
 
-func get_unoccupied_fields() -> Array[int]:
-	var unoccupied_fields:Array[int] = []
+func get_all_field_indices() -> Array[int]:
+	var indices:Array[int] = []
 	for i in fields.size():
-		if !is_field_occupied(i):
-			unoccupied_fields.append(i)
-	return unoccupied_fields
-		
+		indices.append(i)
+	return indices
+
+func get_harvestable_fields() -> Array[int]:
+	var harvestable_fields:Array[int] = []
+	for i in fields.size():
+		if is_field_occupied(i) && fields[i].can_harvest():
+			harvestable_fields.append(i)
+	return harvestable_fields
+
+func harvest_all_fields() -> void:
+	assert(get_harvestable_fields().size() > 0, "No harvestable fields")
+	_harvest_next_field(0)
+
+func _harvest_next_field(index:int) -> void:
+	if index >= fields.size():
+		return
+	var field:Field = fields[index]
+	if field.can_harvest():
+		field.harvest()
+	_harvest_next_field(index + 1)
+	
 func _layout_fields() -> void:
 	if fields.size() == 0:
 		return

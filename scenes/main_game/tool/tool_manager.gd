@@ -13,21 +13,20 @@ var _tool_applier:ToolApplier = ToolApplier.new()
 
 func _init(initial_tools:Array) -> void:
 	tool_deck = Deck.new(initial_tools)
-	_tool_applier.tool_application_started.connect(func(index:int): tool_application_started.emit(index))
 	_tool_applier.tool_application_failed.connect(func(index:int): tool_application_failed.emit(index))
-	_tool_applier.tool_application_completed.connect(func(index:int): tool_application_completed.emit(index))
+
+func refresh_deck() -> void:
+	tool_deck.refresh()
 
 func draw_cards(count:int, gui_tool_card_container:GUIToolCardContainer) -> void:
 	var _display_index = tool_deck.hand.size() - 1
 	var draw_results:Array = tool_deck.draw(count)
 	await gui_tool_card_container.animate_draw(draw_results)
-	# gui_tool_card_container.setup_with_tool_datas(tool_deck.hand)
 	if draw_results.size() < count:
 		# If no sufficient cards in draw pool, shuffle discard pile and draw again.
 		await shuffle(gui_tool_card_container)
 		var second_draw_result:Array = tool_deck.draw(count - draw_results.size())
 		await gui_tool_card_container.animate_draw(second_draw_result)
-		# gui_tool_card_container.setup_with_tool_datas(tool_deck.hand)
 
 func shuffle(gui_tool_card_container:GUIToolCardContainer) -> void:
 	var discard_pile := tool_deck.discard_pool.duplicate()
@@ -37,19 +36,32 @@ func shuffle(gui_tool_card_container:GUIToolCardContainer) -> void:
 func discard_cards(indices:Array, gui_tool_card_container:GUIToolCardContainer) -> void:
 	tool_deck.discard(indices)
 	await gui_tool_card_container.animate_discard(indices)
-	# gui_tool_card_container.setup_with_tool_datas(tool_deck.hand)
 
 func select_tool(index:int) -> void:
 	selected_tool_index = index
 
-func apply_tool(main_game:MainGame, field:Field) -> void:
-	var tool := selected_tool.get_duplicate()
-	var index := selected_tool_index
-	select_tool(-1)
-	await _tool_applier.apply_tool(main_game, field, tool, index)
+func apply_tool(main_game:MainGame, fields:Array) -> void:
+	var applying_tool := selected_tool.get_duplicate()
+	var tool_index := selected_tool_index
+	tool_application_started.emit(selected_tool_index)
+	if !applying_tool.need_select_field:
+		await _tool_applier.apply_tool(main_game, null, applying_tool, tool_index)
+	else:
+		await _apply_tool_to_next_field(main_game, applying_tool, fields, 0, tool_index)
+
+func add_tool(tool_data:ToolData) -> void:
+	tool_deck.add_item(tool_data)
 
 func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)
+
+func _apply_tool_to_next_field(main_game:MainGame, applying_tool:ToolData, fields:Array, field_index:int, tool_index:int) -> void:
+	if field_index >= fields.size():
+		tool_application_completed.emit(tool_index)
+		return
+	var field:Field = fields[field_index]
+	await _tool_applier.apply_tool(main_game, field, applying_tool, tool_index)
+	await _apply_tool_to_next_field(main_game, applying_tool, fields, field_index + 1, tool_index)
 
 func _get_selected_tool() -> ToolData:
 	if selected_tool_index < 0:

@@ -7,5 +7,5 @@ func _has_ability(ability_type:AbilityType) -> bool:
 func _trigger_ability(ability_type:AbilityType, _main_game:MainGame) -> void:
 	assert(ability_type == AbilityType.HARVEST)
 	await Util.await_for_tiny_time()
-	Singletons.main_game.draw_cards(data.data["card"] as int)
+	await Singletons.main_game.draw_cards(data.data["card"] as int)
 	ability_triggered.emit(ability_type)

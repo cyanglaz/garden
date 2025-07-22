@@ -44,7 +44,7 @@ func _ready() -> void:
 	_gui_field_button.mouse_exited.connect(_on_field_mouse_exited)
 	_gui_field_status_container.bind_with_field_status_manager(status_manager)
 	status_manager.request_hook_message_popup.connect(_on_request_hook_message_popup)
-	status_manager.update_status("pest", 2)
+	#status_manager.update_status("pest", 2)
 	_animated_sprite_2d.play("idle")
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
@@ -55,7 +55,6 @@ func _ready() -> void:
 func toggle_selection_indicator(on:bool, tool_data:ToolData) -> void:
 	_gui_field_selection_arrow.is_active = on
 	if tool_data:
-		assert(on)
 		_gui_field_selection_arrow.is_enabled = is_tool_applicable(tool_data)
  
 func show_plant_preview(plant_data:PlantData) -> void:
@@ -123,9 +122,6 @@ func apply_actions(actions:Array[ActionData]) -> void:
 				await _apply_fungus_action(action)
 			_:
 				pass
-	if _can_harvest():
-		_harvest()
-		await new_plant_planted
 
 func show_gold_popup() -> void:
 	_gold_audio.play()
@@ -136,12 +132,12 @@ func show_gold_popup() -> void:
 	gold_label.setup(str("+", plant.data.gold), color, GOLD_ICON)
 	await gold_label.animate_show_and_destroy(8, 6, POPUP_GOLD_SHOW_TIME, POPUP_GOLD_DESTROY_TIME)
 
-func _can_harvest() -> bool:
+func can_harvest() -> bool:
 	return plant && plant.can_harvest()
 
-func _harvest() -> void:
+func harvest() -> void:
 	assert(plant, "No plant planted")
-	assert(_can_harvest(), "Cannot harvest")
+	assert(can_harvest(), "Cannot harvest")
 	plant.harvest()
 
 func _show_progress_bars(p:Plant) -> void:

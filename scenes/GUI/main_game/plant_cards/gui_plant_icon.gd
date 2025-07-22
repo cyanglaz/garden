@@ -5,10 +5,11 @@ const HIGHLIGHTED_OFFSET := 16
 
 @onready var _background: NinePatchRect = %Background
 @onready var _texture_rect: TextureRect = %TextureRect
-# @onready var _border: NinePatchRect = %Border
 @onready var _move_audio: AudioStreamPlayer2D = %MoveAudio
+@onready var _highlight_border: NinePatchRect = %HighlightBorder
 
 var highlighted:bool:set = _set_highlighted
+var resource_sufficient := false: set = _set_resourcet_sufficient
 var plant_data:PlantData:get = _get_plant_data
 var _weak_plant_data:WeakRef = weakref(null)
 
@@ -26,9 +27,16 @@ func play_move_sound() -> void:
 func _set_highlighted(val:bool) -> void:
 	highlighted = val
 	if highlighted:
-		_background.region_rect.position.y = HIGHLIGHTED_OFFSET
+		_highlight_border.show()
 	else:
-		_background.region_rect.position.y = 0
+		_highlight_border.hide()
 
 func _get_plant_data() -> PlantData:
 	return _weak_plant_data.get_ref()
+
+func _set_resourcet_sufficient(value:bool) -> void:
+	resource_sufficient = value
+	if value:
+		_highlight_border.modulate = Constants.RESOURCE_SUFFICIENT_COLOR
+	else:
+		_highlight_border.modulate = Constants.RESOURCE_INSUFFICIENT_COLOR

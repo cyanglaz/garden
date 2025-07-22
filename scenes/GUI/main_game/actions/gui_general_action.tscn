@@ -1,27 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b8tlya2sut3dl"]
 
+[ext_resource type="Script" uid="uid://ba26yyjk3jaqu" path="res://scenes/GUI/main_game/actions/gui_general_action.gd" id="1_neirl"]
 [ext_resource type="PackedScene" uid="uid://37pgxcxnetyd" path="res://scenes/GUI/main_game/tool_cards/gui_action_type_icon.tscn" id="1_xs6gn"]
-
-[sub_resource type="GDScript" id="GDScript_ou46f"]
-script/source = "class_name GUIFieldAction
-extends GUIAction
-
-const MAX_ACTION_TEXT := \"MAX\"
-
-@onready var _gui_action_type_icon: GUIActionTypeIcon = %GUIActionTypeIcon
-@onready var _value_label: Label = %ValueLabel
-
-func update_with_action(action_data:ActionData) -> void:
-	assert(action_data.action_category == ActionData.ActionCategory.FIELD, \"Action is not a field action\")
-	_gui_action_type_icon.update_with_action_type(action_data.type)
-	if action_data.value > 10:
-		_value_label.text = MAX_ACTION_TEXT
-	else:
-		var text := str(action_data.value)
-		if action_data.value > 0:
-			text = str(\"+\", text)
-		_value_label.text = text
-"
 
 [node name="GUIGeneralAction" type="PanelContainer"]
 offset_right = 9.0
@@ -29,7 +9,7 @@ offset_bottom = 7.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
 mouse_filter = 2
-script = SubResource("GDScript_ou46f")
+script = ExtResource("1_neirl")
 
 [node name="SymbolContainer" type="HBoxContainer" parent="."]
 unique_name_in_owner = true
@@ -37,11 +17,6 @@ layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 1
 alignment = 1
-
-[node name="GUIActionTypeIcon" parent="SymbolContainer" instance=ExtResource("1_xs6gn")]
-unique_name_in_owner = true
-layout_mode = 2
-mouse_filter = 2
 
 [node name="ValueLabel" type="Label" parent="SymbolContainer"]
 unique_name_in_owner = true
@@ -51,7 +26,7 @@ theme_type_variation = &"HUD_small"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TargetCountIcon" type="TextureRect" parent="SymbolContainer"]
+[node name="GUIActionTypeIcon" parent="SymbolContainer" instance=ExtResource("1_xs6gn")]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2

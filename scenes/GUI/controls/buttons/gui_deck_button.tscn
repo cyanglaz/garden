@@ -44,5 +44,6 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
 theme_type_variation = &"HUD_mid"
+text = "0"
 horizontal_alignment = 2
 vertical_alignment = 2

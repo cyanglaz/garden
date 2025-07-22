@@ -32,7 +32,7 @@ func _apply_next_action(main_game:MainGame, field:Field, tool_index:int) -> void
 		ActionData.ActionCategory.WEATHER:
 			await _apply_weather_tool_action(action, main_game, tool_index)
 		_:
-			assert(false, "Invalid action category for instant use: " + str(action.action_category))
+			await _apply_instant_use_tool_action(action, main_game, tool_index)
 	await _apply_next_action(main_game, field, tool_index)
 
 func _apply_field_tool_action(action:ActionData, field:Field) -> void:
@@ -42,3 +42,8 @@ func _apply_weather_tool_action(action:ActionData, main_game:MainGame, tool_inde
 	var tool_card_position := main_game.gui_main_game.gui_tool_card_container.get_card_position(tool_index)
 	var weather_icon_position := main_game.gui_main_game.gui_weather_container.get_today_weather_icon().global_position
 	await main_game.weather_manager.apply_weather_tool_action(action, tool_card_position, weather_icon_position)
+
+func _apply_instant_use_tool_action(action:ActionData, main_game:MainGame, _tool_index:int) -> void:
+	match action.type:
+		ActionData.ActionType.DRAW_CARD:
+			await main_game.draw_cards(action.value)

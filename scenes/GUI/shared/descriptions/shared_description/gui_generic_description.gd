@@ -4,20 +4,13 @@ extends VBoxContainer
 const GUI_GENERAL_ACTION_SCENE := preload("res://scenes/GUI/main_game/actions/gui_general_action.tscn")
 const GUI_WEATHER_ACTION_SCENE := preload("res://scenes/GUI/main_game/actions/gui_weather_action.tscn")
 
-@onready var _name_label: Label = %NameLabel
 @onready var _action_container: VBoxContainer = %ActionContainer
 @onready var _gui_description_rich_text_label: GUIDescriptionRichTextLabel = %GUIDescriptionRichTextLabel
 
-func update(display_name:String, actions:Array[ActionData], description:String) -> void:
-	_name_label.text = display_name
+func update(actions:Array[ActionData], description:String) -> void:
 	Util.remove_all_children(_action_container)
 	for action_data:ActionData in actions:
-		var action_scene:GUIAction
-		match action_data.action_category:
-			ActionData.ActionCategory.WEATHER:
-				action_scene = GUI_WEATHER_ACTION_SCENE.instantiate()
-			_:
-				action_scene = GUI_GENERAL_ACTION_SCENE.instantiate()
+		var action_scene:GUIAction = GUI_GENERAL_ACTION_SCENE.instantiate()
 		_action_container.add_child(action_scene)
 		action_scene.update_with_action(action_data)
 	if !description.is_empty():

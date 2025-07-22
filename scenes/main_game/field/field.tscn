@@ -145,11 +145,14 @@ grow_horizontal = 1
 
 [node name="GUIPlantTooltip" parent="." instance=ExtResource("11_n6lee")]
 unique_name_in_owner = true
-anchors_preset = 1
+anchors_preset = 3
 anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
-offset_left = -75.0
-offset_top = -11.0
-offset_right = -19.0
-offset_bottom = 25.0
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = -25.0
+offset_right = -20.0
+offset_bottom = 11.0
 grow_horizontal = 0
+grow_vertical = 0

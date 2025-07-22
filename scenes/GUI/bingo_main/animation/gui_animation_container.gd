@@ -3,7 +3,6 @@ extends Control
 
 const GUI_SYMBOL_SCENE := preload("res://scenes/GUI/bingo_main/shared/gui_symbol.tscn")
 const GUI_ANIMATING_BINGO_BALL_SCENE := preload("res://scenes/GUI/bingo_main/draw_box/gui_animating_bingo_ball.tscn")
-const GUI_FOLLOWING_SYMBOL_SCENE := preload("res://scenes/GUI/bingo_main/shared/gui_following_symbol.tscn")
 const BINGO_ANIMATION_TIME := 0.5
 const CONSECUTIVE_BINGO_ANIMATION_SCALE := 0.03
 const MINIMUM_ANIMATION_SCALE := 0.6
