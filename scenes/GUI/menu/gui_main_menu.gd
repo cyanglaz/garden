@@ -2,7 +2,7 @@ class_name MainMenu
 extends CanvasLayer
 
 const LEVEL_SCENE_PATH = "res://scenes/game_session/game_level.tscn"
-const SCENE_PATH = "res://scenes/game_main/game_main.tscn"
+const SCENE_PATH = "res://scenes/main_game/main_game.tscn"
 
 @onready var _new_game_button: GUIMenuButton = %NewGameButton
 @onready var _options_button: GUIMenuButton = %OptionsButton
@@ -20,7 +20,6 @@ func _ready():
 	_credits_button.action_evoked.connect(_on_credits_button_action_evoked)
 	_new_game_button.grab_focus()
 	_version_label.text = str("v.",ProjectSettings.get_setting("application/config/version"))
-	
 	
 func _on_new_game_button_action_evoked() -> void:
 	get_tree().change_scene_to_file(SCENE_PATH)
