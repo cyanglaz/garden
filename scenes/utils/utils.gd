@@ -11,21 +11,14 @@ enum ReferenceType {
 const GUI_ALERT_POPUP_SCENE := preload("res://scenes/GUI/containers/gui_popup_alert.tscn")
 const GUI_SETTINGS_SCENE := preload("res://scenes/GUI/containers/gui_settings_menu.tscn")
 const GUI_IN_GAME_MENU_SCENE := preload("res://scenes/GUI/containers/gui_in_game_menu.tscn")
-const GUI_SYMBOL_SCENE := preload("res://scenes/GUI/bingo_main/shared/gui_symbol.tscn")
 
 const GUI_BUTTON_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_button_tooltip.tscn")
-const GUI_BINGO_BALL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_bingo_ball_tooltip.tscn")
-const GUI_STATUS_EFFECT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_status_effect_tooltip.tscn")
-const GUI_SPACE_EFFECT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_space_effect_tooltip.tscn")
-const GUI_ENEMY_PREVIEW_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_enemy_preview_tooltip.tscn")
-const GUI_BALL_SYMBOL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_bingo_ball_symbol_tooltip.tscn")
 const GUI_PLANT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn")
 const GUI_WEATHER_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_weather_tooltip.tscn")
 const GUI_FIELD_STATUS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_field_status_tooltip.tscn")
 const GUI_ACTIONS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_actions_tooltip.tscn")
 const GUI_WARNING_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_warning_tooltip.tscn")
 const GUI_RICH_TEXT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_rich_text_tooltip.tscn")
-const GUI_POWER_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_power_tooltip.tscn")
 const GUI_TOOL_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_tool_card_tooltip.tscn")
 
 const BINGO_BALL_ICON_PREFIX := "res://resources/sprites/icons/balls/icon_"
@@ -89,47 +82,6 @@ static func display_button_tooltip(description:String, shortcut:String, on_contr
 	_display_tool_tip.call_deferred(button_tooltip, on_control_node, anchor_mouse, tooltip_position)
 	return button_tooltip
 
-#static func display_item_tooltip(item_data:ItemData, on_control_node:Control, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIItemTooltip:
-	#var item_tooltip:GUIItemTooltip = GUI_ITEM_TOOLTIP_SCENE.instantiate()
-	##Singletons.game_session.add_view_to_top_container(item_tooltip)
-	#item_tooltip.setup_with_item(item_data)
-	#_display_tool_tip.call_deferred(item_tooltip, on_control_node, tooltip_position)
-	#return item_tooltip
-
-static func display_power_tooltip(power_data:PowerData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIPowerTooltip:
-	var power_tooltip:GUIPowerTooltip = GUI_POWER_TOOLTIP_SCENE.instantiate()
-	Singletons.game_main.add_view_to_top_container(power_tooltip)
-	power_tooltip.tooltip_position = tooltip_position
-	power_tooltip.bind_with_power_data(power_data)
-	_display_tool_tip.call_deferred(power_tooltip, on_control_node, anchor_mouse, tooltip_position)
-	return power_tooltip
-
-static func display_ball_tooltip(ball_data:BingoBallData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIBingoBallTooltip:
-	var ball_tooltip:GUIBingoBallTooltip = GUI_BINGO_BALL_TOOLTIP_SCENE.instantiate()
-	Singletons.game_main.add_view_to_top_container(ball_tooltip)
-	# tooltip position needs to be set before binding data
-	ball_tooltip.tooltip_position = tooltip_position
-	ball_tooltip.bind_bingo_ball_data(ball_data)
-	_display_tool_tip.call_deferred(ball_tooltip, on_control_node, anchor_mouse, tooltip_position)
-	return ball_tooltip
-
-static func display_status_effect_tooltip(status_effect_data:StatusEffectData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIStatusEffectTooltip:
-	var status_effect_tooltip:GUIStatusEffectTooltip = GUI_STATUS_EFFECT_TOOLTIP_SCENE.instantiate()
-	Singletons.game_main.add_view_to_top_container(status_effect_tooltip)
-	status_effect_tooltip.tooltip_position = tooltip_position
-	status_effect_tooltip.bind_status_effect_data(status_effect_data)
-	_display_tool_tip.call_deferred(status_effect_tooltip, on_control_node, anchor_mouse, tooltip_position)
-	return status_effect_tooltip
-
-static func display_space_effect_tooltip(space_effect:SpaceEffect, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUISpaceEffectTooltip:
-	var space_effect_tooltip:GUISpaceEffectTooltip = GUI_SPACE_EFFECT_TOOLTIP_SCENE.instantiate()
-	Singletons.game_main.add_view_to_top_container(space_effect_tooltip)
-	# tooltip position needs to be set before binding data
-	space_effect_tooltip.tooltip_position = tooltip_position
-	space_effect_tooltip.bind_space_effect(space_effect)
-	_display_tool_tip.call_deferred(space_effect_tooltip, on_control_node, anchor_mouse, tooltip_position)
-	return space_effect_tooltip
-
 static func display_warning_tooltip(message:String, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIWarningTooltip:
 	var warning_tooltip:GUIWarningTooltip = GUI_WARNING_TOOLTIP_SCENE.instantiate()
 	Singletons.main_game.add_control_to_overlay(warning_tooltip)
@@ -145,15 +97,6 @@ static func display_rich_text_tooltip(description:String, on_control_node:Contro
 	rich_text_tooltip.setup(description)
 	_display_tool_tip.call_deferred(rich_text_tooltip, on_control_node, anchor_mouse, tooltip_position)
 	return rich_text_tooltip
-
-static func display_enemy_preview_tooltip(enemy:Enemy, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIEnemyPreviewTooltip:
-	var enemy_preview_tooltip:GUIEnemyPreviewTooltip = GUI_ENEMY_PREVIEW_TOOLTIP_SCENE.instantiate()
-	Singletons.game_main.add_view_to_top_container(enemy_preview_tooltip)
-	# tooltip position needs to be set before binding data
-	enemy_preview_tooltip.tooltip_position = tooltip_position
-	enemy_preview_tooltip.bind_with_enemy(enemy)
-	_display_tool_tip.call_deferred(enemy_preview_tooltip, on_control_node, anchor_mouse, tooltip_position)
-	return enemy_preview_tooltip
 
 static func display_plant_tooltip(plant_data:PlantData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIPlantTooltip:
 	var plant_tooltip:GUIPlantTooltip = GUI_PLANT_TOOLTIP_SCENE.instantiate()
@@ -244,13 +187,6 @@ static func _adjust_tooltip_position(tooltip:GUITooltip, on_control_node:Control
 		GUITooltip.TooltipPosition.BOTTOM:
 			pass
 	tooltip.adjust_positions()
-
-static func get_copied_ui_symbol(symbol:GUISymbol) -> GUISymbol:
-	var copied_symbol:GUISymbol = GUI_SYMBOL_SCENE.instantiate()
-	copied_symbol.texture = symbol.texture.duplicate()
-	copied_symbol.size = symbol.size
-	copied_symbol.position = symbol.position
-	return copied_symbol
 
 static func save_obj_array(array:Array) -> Array:
 	var result_array := []
@@ -612,42 +548,6 @@ static func get_color_for_rarity(rarity:int) -> Color:
 		_:
 			assert(false, "Invalid rarity: " + str(rarity))
 	return Color.WHITE
-
-static func get_color_for_type(type:BingoBallData.Type) -> Color:
-	match type:
-		BingoBallData.Type.ATTACK:
-			return Constants.COLOR_RED
-		BingoBallData.Type.SKILL:
-			return Constants.COLOR_BLUE_3
-		BingoBallData.Type.STATUS:
-			return Constants.COLOR_GRAY2
-		_:
-			assert(false, "Invalid type: " + str(type))
-	return Color.WHITE
-
-static func get_bingo_ball_background_region(bingo_ball:BingoBallData, highlighted:bool = false) -> Vector2:
-	var x := 0
-	var y := 0
-	if bingo_ball && bingo_ball.is_plus:
-		y = 22
-	if highlighted:
-		y = 44
-	if bingo_ball:
-		if bingo_ball.team == BingoBallData.Team.ENEMY:
-			x = 88
-		match bingo_ball.rarity:
-			0:
-				x = 22
-			1:
-				x = 44
-			2:
-				x = 66
-			3:
-				assert(bingo_ball.team == BingoBallData.Team.ENEMY)
-				x = 88
-			_:
-				assert(false, "Invalid rarity: " + str(bingo_ball.rarity))
-	return Vector2(x, y)
 
 static func get_plant_icon_background_region(plant_data:PlantData, highlighted:bool = false) -> Vector2:
 	var x := 0

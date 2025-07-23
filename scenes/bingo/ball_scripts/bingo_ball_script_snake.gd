@@ -1,2 +1,0 @@
-class_name BingoBallScriptSnake
-extends BingoBallScript

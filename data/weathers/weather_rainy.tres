@@ -7,7 +7,6 @@
 script = ExtResource("1_81tfl")
 type = 2
 value = 2
-target_count = 1
 id = ""
 display_name = ""
 description = ""

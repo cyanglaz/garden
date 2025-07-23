@@ -5,7 +5,7 @@ const GUI_GENERAL_ACTION_SCENE := preload("res://scenes/GUI/main_game/actions/gu
 const GUI_WEATHER_ACTION_SCENE := preload("res://scenes/GUI/main_game/actions/gui_weather_action.tscn")
 
 @onready var _action_container: VBoxContainer = %ActionContainer
-@onready var _gui_description_rich_text_label: GUIDescriptionRichTextLabel = %GUIDescriptionRichTextLabel
+@onready var _rich_text_label: RichTextLabel = %RichTextLabel
 
 func update(actions:Array[ActionData], description:String) -> void:
 	Util.remove_all_children(_action_container)
@@ -14,4 +14,4 @@ func update(actions:Array[ActionData], description:String) -> void:
 		_action_container.add_child(action_scene)
 		action_scene.update_with_action(action_data)
 	if !description.is_empty():
-		_gui_description_rich_text_label.text = description
+		_rich_text_label.text = description
