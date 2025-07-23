@@ -2,11 +2,10 @@ class_name Util
 extends RefCounted
 
 enum ReferenceType {
-	STATUS_EFFECT,
-	SPACE_EFFECT,
 	RESOURCE,
 	OTHER,
 }
+
 
 const GUI_ALERT_POPUP_SCENE := preload("res://scenes/GUI/containers/gui_popup_alert.tscn")
 const GUI_SETTINGS_SCENE := preload("res://scenes/GUI/containers/gui_settings_menu.tscn")
@@ -21,29 +20,14 @@ const GUI_WARNING_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_warnin
 const GUI_RICH_TEXT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_rich_text_tooltip.tscn")
 const GUI_TOOL_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_tool_card_tooltip.tscn")
 
-const BINGO_BALL_ICON_PREFIX := "res://resources/sprites/icons/balls/icon_"
-const POWER_ICON_PREFIX := "res://resources/sprites/icons/powers/icon_"
-const STATUS_EFFECT_ICON_PREFIX := "res://resources/sprites/icons/status_effect/icon_"
-const BALL_TYPE_ICON_PREFIX := "res://resources/sprites/icons/ball_types/icon_"
-const SPACE_EFFECT_ICON_PREFIX := "res://resources/sprites/icons/space_effects/icon_"
-const BINGO_BALL_SCRIPT_PREFIX := "res://scenes/bingo/ball_scripts/bingo_ball_script_"
 const FIELD_STATUS_SCRIPT_PREFIX := "res://scenes/main_game/field/status/field_status_script_"
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
-const POWER_SCRIPT_PREFIX := "res://scenes/bingo/power_scripts/power_script_"
 const PLANT_ICON_PREFIX := "res://resources/sprites/GUI/icons/plants/icon_"
 const TOOL_ICON_PREFIX := "res://resources/sprites/GUI/icons/tool/icon_"
 const WEATHER_ICON_PREFIX := "res://resources/sprites/GUI/icons/weathers/icon_"
 
-const GAME_ARENA_SIZE :float = 256
 const TOOLTIP_OFFSET:float = 2.0
 const FLOAT_EQUAL_EPSILON:float = 0.001
-
-const QUALITY_COLOR := {
-	1: Constants.COLOR_WHITE,
-	2: Constants.COLOR_GREEN3,
-	3: Constants.COLOR_BLUE_4,
-	4: Constants.COLOR_ORANGE2,
-}
 
 static var _weak_settings_menu:WeakRef
 static var _weak_in_game_menu:WeakRef
@@ -203,25 +187,6 @@ static func save_objc_dictionary(dictionary:Dictionary) -> Dictionary:
 		result_dictionary[key] = obj.save()
 	return result_dictionary
 
-static func generate_hex_tiles(width:int, height:int) -> Array[int]:
-	var result:Array[int] = []
-	@warning_ignore("integer_division")
-	var half_height := height/2
-	#assert(size % 2 == 1) # Only odd number produce perfect hexgon map
-	for j:int in range(0, height):
-		var min_i:int
-		var max_i:int
-		if j <= half_height:
-			min_i = half_height-j
-			max_i = width - 1
-		else:
-			min_i = 0
-			max_i = width - (j - half_height) - 1
-		for i in range(min_i, max_i + 1):
-			var id = j*100+i
-			result.append(id)
-	return result
-
 static func quadratic_bezier(p0: Vector2, p1: Vector2, p2: Vector2, t: float) -> Vector2:
 	var q0 = p0.lerp(p1, t)
 	var q1 = p1.lerp(p2, t)
@@ -284,10 +249,6 @@ static func read_json_from_file(path:String) -> Variant:
 		return null
 	return JSON.parse_string(file.get_as_text())
 
-
-static func get_quality_color(quality:int) -> Color:
-	return QUALITY_COLOR[quality]
-
 static func get_quality_text(quality:int) -> String:
 	match quality:
 		0:
@@ -343,16 +304,6 @@ static func get_all_file_paths(path: String, recursive:bool = true) -> Array[Str
 		file_name = dir.get_next()  
 	return file_paths
 
-
-static func get_image_path_for_power_id(id:String) -> String:
-	return str(POWER_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
-
-static func get_script_path_for_power_id(id:String) -> String:
-	return str(POWER_SCRIPT_PREFIX, _trim_upgrade_suffix_from_id(id), ".gd")
-
-static func get_image_path_for_ball_id(id:String) -> String:
-	return str(BINGO_BALL_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
-
 static func get_icon_image_path_for_plant_id(id:String) -> String:
 	return str(PLANT_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
 
@@ -362,20 +313,8 @@ static func get_icon_image_path_for_tool_id(id:String) -> String:
 static func get_icon_image_path_for_weather_id(id:String) -> String:
 	return str(WEATHER_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
 
-static func get_script_path_for_ball_id(id:String) -> String:
-	return str(BINGO_BALL_SCRIPT_PREFIX, _trim_upgrade_suffix_from_id(id), ".gd")
-
 static func get_script_path_for_field_status_id(id:String) -> String:
 	return str(FIELD_STATUS_SCRIPT_PREFIX, _trim_upgrade_suffix_from_id(id), ".gd")
-
-static func get_image_path_for_status_effect_id(id:String) -> String:
-	return str(STATUS_EFFECT_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
-
-static func get_image_path_for_space_effect_id(id:String) -> String:
-	return str(SPACE_EFFECT_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
-
-static func get_image_path_for_ball_type_id(id:String) -> String:
-	return str(BALL_TYPE_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
 
 static func get_image_path_for_resource_id(id:String) -> String:
 	return str(RESOURCE_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
@@ -453,33 +392,16 @@ static func _format_icon_reference(reference_id:String, highlight:bool) -> Strin
 	var reference_type:ReferenceType = ReferenceType.OTHER
 
 	# For each reference id, create an icon tag, append to the final string with , separated
-	if reference_id.begins_with("status_effect_"):
-		reference_type = ReferenceType.STATUS_EFFECT
-	elif reference_id.begins_with("space_effect_"):
-		reference_type = ReferenceType.SPACE_EFFECT
-	elif reference_id.begins_with("resource_"):
+	if reference_id.begins_with("resource_"):
 		reference_type = ReferenceType.RESOURCE
 	
 	var url_prefix := ""
 	var url := ""
 	var level_suffix := _get_level_suffix(reference_id)
 	match reference_type:
-		ReferenceType.STATUS_EFFECT:
-			url_prefix = "status_effect_"
-			reference_id = reference_id.trim_prefix("status_effect_")
-			image_path = Util.get_image_path_for_status_effect_id(reference_id)
-			url = reference_id
-		ReferenceType.SPACE_EFFECT:
-			url_prefix = "space_effect_"
-			reference_id = reference_id.trim_prefix("space_effect_")
-			image_path = Util.get_image_path_for_space_effect_id(reference_id)
-			url = reference_id
 		ReferenceType.RESOURCE:
 			reference_id = reference_id.trim_prefix("resource_")
 			image_path = Util.get_image_path_for_resource_id(reference_id)
-		ReferenceType.OTHER:
-			url_prefix = "ball_"
-			image_path = Util.get_image_path_for_ball_id(reference_id)
 			url = reference_id
 	var highlight_color := Constants.COLOR_WHITE
 	if highlight:
