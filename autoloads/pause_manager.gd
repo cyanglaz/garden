@@ -10,5 +10,7 @@ func try_pause() -> void:
 
 func try_unpause() -> void:
 	_pause_count -= 1
-	if _pause_count <= 0:
+	if _pause_count < 0:
+		_pause_count = 0
+	if _pause_count == 0:
 		get_tree().paused = false

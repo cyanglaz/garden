@@ -50,6 +50,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
 localization_text_key = "NEW_GAME"
 
 [node name="OptionsButton" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_k1oyj")]
@@ -57,6 +58,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
 localization_text_key = "OPTIONS"
 
 [node name="CreditsButton" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_k1oyj")]
@@ -64,6 +66,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
 localization_text_key = "CREDITS"
 
 [node name="ExitButton" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_k1oyj")]
@@ -71,6 +74,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
 localization_text_key = "EXIT"
 
 [node name="EnterTreeAudioPlayer" parent="." instance=ExtResource("3_uuxxv")]

@@ -8,8 +8,6 @@ enum ReferenceType {
 
 
 const GUI_ALERT_POPUP_SCENE := preload("res://scenes/GUI/containers/gui_popup_alert.tscn")
-const GUI_SETTINGS_SCENE := preload("res://scenes/GUI/containers/gui_settings_menu.tscn")
-const GUI_IN_GAME_MENU_SCENE := preload("res://scenes/GUI/containers/gui_in_game_menu.tscn")
 
 const GUI_BUTTON_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_button_tooltip.tscn")
 const GUI_PLANT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn")
@@ -28,29 +26,6 @@ const WEATHER_ICON_PREFIX := "res://resources/sprites/GUI/icons/weathers/icon_"
 
 const TOOLTIP_OFFSET:float = 2.0
 const FLOAT_EQUAL_EPSILON:float = 0.001
-
-static var _weak_settings_menu:WeakRef
-static var _weak_in_game_menu:WeakRef
-
-static func show_settings() -> GUISettingsMenu:
-	if _weak_settings_menu && _weak_settings_menu.get_ref():
-		return null
-	var settings := GUI_SETTINGS_SCENE.instantiate()
-	_weak_settings_menu = weakref(settings)
-	#Singletons.game_session.add_view_to_top_container(settings)
-	settings.animate_show()
-	settings.dismissed.connect(func(): _weak_settings_menu = null)
-	return settings
-
-static func show_in_game_menu() -> GUIInGameMenuContainer:
-	if _weak_in_game_menu && _weak_in_game_menu.get_ref():
-		return null
-	var in_game_menu := GUI_IN_GAME_MENU_SCENE.instantiate()
-	_weak_in_game_menu = weakref(in_game_menu)
-	#Singletons.game_session.add_view_to_top_container(in_game_menu)
-	in_game_menu.animate_show()
-	in_game_menu.dismissed.connect(func(): _weak_in_game_menu = null)
-	return in_game_menu
 
 static func show_alert(title:String, message:String, close_button_title:String, by_pass_button_title:String) -> GUIPopupAlert:
 	var popup := GUI_ALERT_POPUP_SCENE.instantiate()

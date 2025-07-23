@@ -13,6 +13,7 @@ signal tool_selected(index:int)
 @onready var gui_plant_discard_deck_box: GUIPlantDeckBox = %GUIPlantDiscardDeckBox
 @onready var gui_shop_main: GUIShopMain = %GUIShopMain
 
+@onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
 @onready var _overlay: Control = %Overlay
 @onready var _day_label: Label = %DayLabel
@@ -25,6 +26,7 @@ func _ready() -> void:
 	gui_tool_card_container.tool_selected.connect(func(index:int) -> void: tool_selected.emit(index))
 	_end_turn_button.action_evoked.connect(func() -> void: end_turn_button_pressed.emit())
 	gui_tool_card_container.setup(gui_draw_box_button, gui_discard_box_button)
+	_gui_top_bar.setting_button_evoked.connect(func() -> void: _gui_settings_main.animate_show())
 	#_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 #region all ui
