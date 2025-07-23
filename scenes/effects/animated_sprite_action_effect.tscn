@@ -70,5 +70,5 @@ metadata/_aseprite_wizard_source_file_hash_ = "a147107eef6b87d745c788db65446624"
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_qwsw4")
+&"": SubResource("AnimationLibrary_qwsw4")
 }

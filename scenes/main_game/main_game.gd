@@ -13,6 +13,8 @@ const DAYS_TO_WEEK := 7
 @onready var gui_main_game: GUIMainGame = %GUIGameSession
 @onready var _field_container: FieldContainer = %FieldContainer
 
+var session_seed := 0
+
 var energy_tracker:ResourcePoint = ResourcePoint.new()
 var week_manager:WeekManager = WeekManager.new()
 var weather_manager:WeatherManager = WeatherManager.new()

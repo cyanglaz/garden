@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cjwhkrmueycbi"]
+[gd_scene load_steps=2 format=3 uid="uid://cjwhkrmueycbi"]
 
 [ext_resource type="Script" uid="uid://dm6lkv7rfer26" path="res://scenes/GUI/shared/descriptions/shared_description/gui_generic_description.gd" id="1_23qeg"]
-[ext_resource type="PackedScene" uid="uid://defua0wjy7nqc" path="res://scenes/GUI/shared/descriptions/gui_description_rich_text_label.tscn" id="3_uwe2q"]
 
 [node name="GUIGenericDescription" type="VBoxContainer"]
 custom_minimum_size = Vector2(32, 0)
@@ -18,7 +17,10 @@ mouse_filter = 2
 theme_override_constants/separation = 2
 alignment = 1
 
-[node name="GUIDescriptionRichTextLabel" parent="." instance=ExtResource("3_uwe2q")]
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
+theme_type_variation = &"RichTextControlTip"
+bbcode_enabled = true
+fit_content = true

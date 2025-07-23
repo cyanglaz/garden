@@ -7,7 +7,6 @@
 script = ExtResource("1_ickju")
 type = 2
 value = 1
-target_count = 1
 id = ""
 display_name = ""
 description = ""

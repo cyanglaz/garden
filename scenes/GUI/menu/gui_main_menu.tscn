@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://ddpwfwgic4w2y" path="res://scenes/GUI/controls/buttons/gui_menu_button.tscn" id="2_k1oyj"]
 [ext_resource type="PackedScene" uid="uid://dj2gfcavp3n61" path="res://scenes/utils/enter_tree/enter_tree_audio_player.tscn" id="3_uuxxv"]
 [ext_resource type="PackedScene" uid="uid://baexu10jax5e2" path="res://scenes/GUI/containers/gui_credits_panel.tscn" id="5_6thnj"]
-[ext_resource type="PackedScene" uid="uid://3068uq3kyx0r" path="res://scenes/GUI/overlay_main/settings/gui_settings_main.tscn" id="5_dbfmj"]
+[ext_resource type="PackedScene" uid="uid://3068uq3kyx0r" path="res://scenes/GUI/settings/gui_settings_main.tscn" id="5_dbfmj"]
 
 [node name="MainMenu" type="CanvasLayer"]
 script = ExtResource("1_jl0j8")
@@ -50,6 +50,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
 localization_text_key = "NEW_GAME"
 
 [node name="OptionsButton" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_k1oyj")]
@@ -57,6 +58,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
 localization_text_key = "OPTIONS"
 
 [node name="CreditsButton" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_k1oyj")]
@@ -64,6 +66,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
 localization_text_key = "CREDITS"
 
 [node name="ExitButton" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_k1oyj")]
@@ -71,6 +74,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
 localization_text_key = "EXIT"
 
 [node name="EnterTreeAudioPlayer" parent="." instance=ExtResource("3_uuxxv")]

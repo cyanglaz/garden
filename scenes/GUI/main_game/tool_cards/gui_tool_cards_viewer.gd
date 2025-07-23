@@ -19,7 +19,7 @@ func _ready() -> void:
 	_back_button.hide()
 
 func animated_show_with_pool(pool:Array, title:String) -> void:
-	get_tree().paused = true
+	PauseManager.try_pause()
 	_title.text = title
 	show()
 	Util.remove_all_children(_grid_container)
@@ -57,4 +57,4 @@ func animate_hide() -> void:
 
 func _on_back_button_evoked() -> void:
 	animate_hide()
-	get_tree().paused = false
+	PauseManager.try_unpause()

@@ -18,9 +18,3 @@ func _set_button_state(val:ButtonState) -> void:
 			_texture_rect.region_rect.position = Vector2(0, 10)
 		ButtonState.SELECTED:
 			_texture_rect.region_rect.position = Vector2(20, 10)		
-
-#func _input(event: InputEvent) -> void:
-	#if event.is_action_pressed("pause"):
-		#if get_tree().paused:
-			#return
-		#_on_action_evoked()
