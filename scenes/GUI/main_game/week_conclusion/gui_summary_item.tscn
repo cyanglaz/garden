@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://dypjo506mdbnc"]
+
+[ext_resource type="Script" uid="uid://b33yg2u4oi3dk" path="res://scenes/GUI/main_game/week_conclusion/gui_summary_item.gd" id="1_edeix"]
+
+[node name="GUISummaryItem" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_edeix")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+
+[node name="Gold" type="Label" parent="."]
+layout_mode = 2
