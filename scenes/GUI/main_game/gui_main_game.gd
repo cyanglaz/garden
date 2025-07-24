@@ -12,6 +12,7 @@ signal tool_selected(index:int)
 @onready var gui_plant_draw_deck_box: GUIPlantDeckBox = %GUIPlantDrawDeckBox
 @onready var gui_plant_discard_deck_box: GUIPlantDeckBox = %GUIPlantDiscardDeckBox
 @onready var gui_shop_main: GUIShopMain = %GUIShopMain
+@onready var gui_week_summary_main: GUIWeekSummaryMain = %GUIWeekSummaryMain
 
 @onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
@@ -85,6 +86,13 @@ func bind_energy(resource_point:ResourcePoint) -> void:
 #region weathers
 func update_weathers(weather_manager:WeatherManager) -> void:
 	gui_weather_container.update_with_weather_manager(weather_manager)
+
+#endregion
+
+#region week summary
+
+func animate_show_week_summary(current_gold:int, tax:int) -> void:
+	await gui_week_summary_main.animate_show(current_gold, tax)
 
 #endregion
 

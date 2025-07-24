@@ -112,7 +112,8 @@ func _end_day() -> void:
 		for field:Field in _field_container.fields:
 			field.remove_plant()
 		# if _gold >= week_manager.get_tax_due():
-		gui_main_game.animate_show_shop(3, 2, _gold)
+		gui_main_game.animate_show_week_summary(_gold, week_manager.get_tax_due())
+		# gui_main_game.animate_show_shop(3, 2, _gold)
 		# else:
 			# print("lose")
 	else:

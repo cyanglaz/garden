@@ -3,15 +3,18 @@
 [ext_resource type="Script" uid="uid://b33yg2u4oi3dk" path="res://scenes/GUI/main_game/week_conclusion/gui_summary_item.gd" id="1_edeix"]
 
 [node name="GUISummaryItem" type="HBoxContainer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_right = 6.0
+offset_bottom = 9.0
 script = ExtResource("1_edeix")
 
-[node name="Title" type="Label" parent="."]
+[node name="TitleLabel" type="Label" parent="."]
+unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"HUD"
 
-[node name="Gold" type="Label" parent="."]
+[node name="GoldLabel" type="Label" parent="."]
+unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 10
+theme_type_variation = &"HUD"
+horizontal_alignment = 2
