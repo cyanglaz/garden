@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dypjo506mdbnc"]
 
-[ext_resource type="Script" uid="uid://b33yg2u4oi3dk" path="res://scenes/GUI/main_game/week_conclusion/gui_summary_item.gd" id="1_edeix"]
+[ext_resource type="Script" uid="uid://b33yg2u4oi3dk" path="res://scenes/GUI/main_game/week_summary/gui_summary_item.gd" id="1_edeix"]
 
 [node name="GUISummaryItem" type="HBoxContainer"]
 offset_right = 6.0

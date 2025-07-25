@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://ejige36q1ebl"
-path="res://.godot/imported/ball_error_shake.wav-92b8cb3f0bda5d3cdff5ef05897556e8.sample"
+path="res://.godot/imported/failure_message.wav-60cda2be0af9eec20043cac7679decbe.sample"
 
 [deps]
 
-source_file="res://resources/sounds/SFX/bingo/ball_error_shake.wav"
-dest_files=["res://.godot/imported/ball_error_shake.wav-92b8cb3f0bda5d3cdff5ef05897556e8.sample"]
+source_file="res://resources/sounds/SFX/summary/failure_message.wav"
+dest_files=["res://.godot/imported/failure_message.wav-60cda2be0af9eec20043cac7679decbe.sample"]
 
 [params]
 
