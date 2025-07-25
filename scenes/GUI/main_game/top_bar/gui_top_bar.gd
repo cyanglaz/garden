@@ -21,7 +21,7 @@ func update_week(week:int) -> void:
 	_week_label.text = Util.get_localized_string("WEEK_LABEL_TEXT") % (week + 1)
 
 func update_tax_due(gold:int) -> void:
-	_gui_tax_due.update_tax_due(gold)
+	await _gui_tax_due.update_tax_due(gold)
 
 func toggle_all_ui(on:bool) -> void:
 	if on:

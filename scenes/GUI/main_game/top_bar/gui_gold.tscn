@@ -29,7 +29,6 @@ vertical_alignment = 1
 [node name="GoldIncreasedSound" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("3_d0qkp")
-volume_db = 5.0
 bus = &"SFX"
 
 [node name="GoldUseSound" type="AudioStreamPlayer2D" parent="."]

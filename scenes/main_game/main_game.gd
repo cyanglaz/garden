@@ -58,6 +58,7 @@ func _ready() -> void:
 	gui_main_game.setup_plant_seed_animation_container(_field_container)
 	gui_main_game.end_turn_button_pressed.connect(_on_end_turn_button_pressed)
 	gui_main_game.tool_selected.connect(_on_tool_selected)
+	gui_main_game.week_summary_continue_button_pressed.connect(_on_week_summary_continue_button_pressed)
 	
 	#shop signals
 	gui_main_game.gui_shop_main.next_week_button_pressed.connect(_on_shop_next_week_pressed)
@@ -66,7 +67,7 @@ func _ready() -> void:
 	
 	energy_tracker.can_be_capped = false
 	start_new_week()
-	_update_gold(50, false)
+	_update_gold(0, false)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("de-select"):
@@ -79,7 +80,6 @@ func start_new_week() -> void:
 	week_manager.next_week()
 	weather_manager.generate_weathers(7, week_manager.week)
 	gui_main_game.update_week(week_manager.week)
-	gui_main_game.update_tax_due(week_manager.get_tax_due())
 	start_day()
 
 func start_day() -> void:
@@ -91,6 +91,8 @@ func start_day() -> void:
 	gui_main_game.clear_tool_selection()
 	await Util.await_for_tiny_time()
 	if week_manager.get_day() == 0:
+		await Util.create_scaled_timer(0.2).timeout
+		await gui_main_game.update_tax_due(week_manager.get_tax_due())
 		await _plant_new_seeds()
 	await draw_cards(hand_size)
 	gui_main_game.toggle_all_ui(true)
@@ -112,11 +114,17 @@ func _end_day() -> void:
 		for field:Field in _field_container.fields:
 			field.remove_plant()
 		# if _gold >= week_manager.get_tax_due():
-		gui_main_game.animate_show_shop(3, 2, _gold)
+		gui_main_game.animate_show_week_summary(_gold, week_manager.get_tax_due())
+		# gui_main_game.animate_show_shop(3, 2, _gold)
 		# else:
 			# print("lose")
 	else:
 		start_day()
+
+func _on_week_summary_continue_button_pressed(gold_left:int) -> void:
+	await _update_gold(_gold - week_manager.get_tax_due(), true)
+	assert(_gold == gold_left)
+	gui_main_game.animate_show_shop(3, 2, gold_left)
 	
 func _discard_all_tools() -> void:
 	var discarding_indices:Array[int] = []
