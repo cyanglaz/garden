@@ -5,7 +5,6 @@ const TAX_DUES := [15, 25, 40, 60, 80, 110]
 
 var week:int = -1
 var day_manager:DayManager = DayManager.new()
-var tax_due:int
 
 func next_week() -> void:
 	week += 1

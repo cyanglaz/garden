@@ -67,7 +67,7 @@ func _ready() -> void:
 	
 	energy_tracker.can_be_capped = false
 	start_new_week()
-	_update_gold(0, false)
+	_update_gold(50, false)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("de-select"):
@@ -122,6 +122,8 @@ func _end_day() -> void:
 		start_day()
 
 func _on_week_summary_continue_button_pressed(gold_left:int) -> void:
+	await _update_gold(_gold - week_manager.get_tax_due(), true)
+	assert(_gold == gold_left)
 	gui_main_game.animate_show_shop(3, 2, gold_left)
 	
 func _discard_all_tools() -> void:
