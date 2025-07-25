@@ -1,12 +1,17 @@
 class_name GUIWeekSummaryMain
 extends Control
 
+const SUMMARY_AUDIO_1 := preload("res://resources/sounds/SFX/summary/summary_1.wav")
+const SUMMARY_AUDIO_2 := preload("res://resources/sounds/SFX/summary/summary_2.wav")
+const SUMMARY_AUDIO_3 := preload("res://resources/sounds/SFX/summary/summary_3.wav")
+
+
 signal continue_button_pressed(gold_left:int)
 
 const HIDE_Y := 200
 const SHOW_ANIMATION_DURATION := 0.15
 const HIDE_ANIMATION_DURATION := 0.15
-const DISPLAY_ITEMS_DELAY := 0.2
+const DISPLAY_ITEMS_DELAY := 0.1
 
 @onready var _main_panel: PanelContainer = $MainPanel
 @onready var _continue_button: GUIRichTextButton = %ContinueButton
@@ -15,6 +20,7 @@ const DISPLAY_ITEMS_DELAY := 0.2
 @onready var _tax: GUISummaryItem = %Tax
 @onready var _conclusion: GUISummaryItem = %Conclusion
 @onready var _gui_tooltip_description_saparator: HSeparator = %GUITooltipDescriptionSaparator
+@onready var _item_audio_player: AudioStreamPlayer2D = %ItemAudioPlayer
 
 var _display_y := 0.0
 var _gold_left:int
@@ -52,12 +58,21 @@ func _play_display_items_animation() -> void:
 	_gui_tooltip_description_saparator.hide()
 	await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY).timeout
 	_earned.show()
+	_item_audio_player.stream = SUMMARY_AUDIO_1
+	_item_audio_player.play()
+	await _item_audio_player.finished
 	await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY).timeout
 	_tax.show()
+	_item_audio_player.stream = SUMMARY_AUDIO_2
+	_item_audio_player.play()
+	await _item_audio_player.finished
 	await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY).timeout
 	_gui_tooltip_description_saparator.show()
-	await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY).timeout
+	await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY * 2).timeout
 	_conclusion.show()
+	_item_audio_player.stream = SUMMARY_AUDIO_3
+	_item_audio_player.play()
+	await _item_audio_player.finished
 
 func animate_hide() -> void:
 	_continue_button.hide()

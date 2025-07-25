@@ -114,3 +114,7 @@ offset_bottom = -6.0
 grow_horizontal = 2
 grow_vertical = 0
 localization_text_key = "BUTTON_NEW_WEEK"
+
+[node name="ItemAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+bus = &"SFX"
