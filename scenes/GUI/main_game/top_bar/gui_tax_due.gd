@@ -8,4 +8,4 @@ func _ready() -> void:
 	_label.text = Util.get_localized_string("TAX_DUE_TITLE")
 
 func update_tax_due(gold:int) -> void:
-	_gui_gold.update_gold(gold, GUIGold.AnimationType.FULL)
+	await _gui_gold.update_gold(gold, GUIGold.AnimationType.FULL)

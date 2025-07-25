@@ -5,6 +5,7 @@ const SUMMARY_AUDIO_1 := preload("res://resources/sounds/SFX/summary/summary_1.w
 const SUMMARY_AUDIO_2 := preload("res://resources/sounds/SFX/summary/summary_2.wav")
 const SUMMARY_AUDIO_3 := preload("res://resources/sounds/SFX/summary/summary_3.wav")
 
+const MENU_SCENE_PATH = "res://scenes/GUI/menu/gui_main_menu.tscn"
 
 signal continue_button_pressed(gold_left:int)
 
@@ -32,16 +33,19 @@ func _ready() -> void:
 
 func animate_show(current_gold:int, tax:int) -> void:
 	show()
+	_continue_button.hide()
 	await _play_show_animation()
 	_earned.update_with_title_and_gold(tr("WEEK_SUMMARY_EARNED_TITLE"), current_gold, Constants.COLOR_WHITE)
 	_tax.update_with_title_and_gold(tr("WEEK_SUMMARY_TAX_TITLE"), tax, Constants.COLOR_WHITE)
-	var conclusion_gold := current_gold - tax
+	_gold_left = current_gold - tax
 	var conclusion_color := Constants.COLOR_WHITE
-	if conclusion_gold > 0:
+	if _gold_left >= 0:
 		conclusion_color = Constants.COLOR_GREEN3
-	elif conclusion_gold < 0:
+		_set_button_to_success()
+	elif _gold_left < 0:
 		conclusion_color = Constants.COLOR_RED
-	_conclusion.update_with_title_and_gold(tr("WEEK_SUMMARY_CONCLUSION_TITLE"), conclusion_gold, conclusion_color)
+		_set_button_to_failure()
+	_conclusion.update_with_title_and_gold(tr("WEEK_SUMMARY_CONCLUSION_TITLE"), _gold_left, conclusion_color)
 	await _play_display_items_animation()
 
 func _play_show_animation() -> void:
@@ -49,7 +53,6 @@ func _play_show_animation() -> void:
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(_main_panel, "position:y", _display_y, SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	await tween.finished
-	_continue_button.show()
 
 func _play_display_items_animation() -> void:
 	_earned.hide()
@@ -73,6 +76,8 @@ func _play_display_items_animation() -> void:
 	_item_audio_player.stream = SUMMARY_AUDIO_3
 	_item_audio_player.play()
 	await _item_audio_player.finished
+	await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY).timeout
+	_continue_button.show()
 
 func animate_hide() -> void:
 	_continue_button.hide()
@@ -81,6 +86,15 @@ func animate_hide() -> void:
 	await tween.finished
 	hide()
 
+func _set_button_to_success() -> void:
+	_continue_button.localization_text_key = "WEEK_SUMMARY_SUCCESS_BUTTON"
+
+func _set_button_to_failure() -> void:
+	_continue_button.localization_text_key = "WEEK_SUMMARY_FAILURE_BUTTON"
+
 func _on_continue_button_pressed() -> void:
-	await animate_hide()
-	continue_button_pressed.emit(_gold_left)
+	if _gold_left >= 0:
+		await animate_hide()
+		continue_button_pressed.emit(_gold_left)
+	else:
+		get_tree().change_scene_to_file(MENU_SCENE_PATH)

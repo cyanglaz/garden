@@ -3,6 +3,7 @@ extends CanvasLayer
 
 signal end_turn_button_pressed()
 signal tool_selected(index:int)
+signal week_summary_continue_button_pressed(gold_left:int)
 
 @onready var gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
 @onready var gui_tool_card_container: GUIToolCardContainer = %GUIToolCardContainer
@@ -28,7 +29,7 @@ func _ready() -> void:
 	_end_turn_button.action_evoked.connect(func() -> void: end_turn_button_pressed.emit())
 	gui_tool_card_container.setup(gui_draw_box_button, gui_discard_box_button)
 	_gui_top_bar.setting_button_evoked.connect(func() -> void: _gui_settings_main.animate_show())
-	#_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	gui_week_summary_main.continue_button_pressed.connect(func(gold_left:int) -> void: week_summary_continue_button_pressed.emit(gold_left))
 
 #region all ui
 func toggle_all_ui(on:bool) -> void:
@@ -47,7 +48,7 @@ func update_gold(gold:int, animated:bool) -> void:
 	await _gui_top_bar.update_gold(gold, animated)
 
 func update_tax_due(gold:int) -> void:
-	_gui_top_bar.update_tax_due(gold)
+	await _gui_top_bar.update_tax_due(gold)
 
 #region tools
 func update_tools(tool_datas:Array[ToolData]) -> void:
@@ -115,6 +116,5 @@ func _on_deck_button_pressed(deck:Deck, title:String, type: GUIDeckButton.Type) 
 			_gui_tool_cards_viewer.animated_show_with_pool(deck.discard_pool, title)
 		GUIDeckButton.Type.ALL:
 			_gui_tool_cards_viewer.animated_show_with_pool(deck.pool, title)
-
 
 #endregion
