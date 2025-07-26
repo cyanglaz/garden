@@ -121,7 +121,23 @@ offset_right = 15.0
 offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 0
-localization_text_key = "BUTTON_NEW_WEEK"
+localization_text_key = "WEEK_SUMMARY_SUCCESS_BUTTON"
+
+[node name="MainMenuButton" parent="." instance=ExtResource("5_yjk5o")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = -32.0
+offset_right = 15.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+localization_text_key = "WEEK_SUMMARY_FAILURE_BUTTON"
 
 [node name="ItemAudioPlayer" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true

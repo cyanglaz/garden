@@ -23,9 +23,6 @@ func update_week(week:int) -> void:
 func update_tax_due(gold:int) -> void:
 	await _gui_tax_due.update_tax_due(gold)
 
-func toggle_all_ui(on:bool) -> void:
-	if on:
-		_gui_settings_button.button_state = GUIBasicButton.ButtonState.NORMAL
-	else:
-		_gui_settings_button.button_state = GUIBasicButton.ButtonState.DISABLED
+func toggle_all_ui(_on:bool) -> void:
+	pass
 		
