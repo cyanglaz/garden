@@ -18,6 +18,10 @@ mouse_filter = 2
 theme_override_constants/separation = 1
 alignment = 1
 
+[node name="TextureRect" type="TextureRect" parent="SymbolContainer"]
+visible = false
+layout_mode = 2
+
 [node name="ValueLabel" type="Label" parent="SymbolContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -28,5 +32,7 @@ vertical_alignment = 1
 
 [node name="GUIActionTypeIcon" parent="SymbolContainer" instance=ExtResource("1_xs6gn")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(7, 7)
 layout_mode = 2
 mouse_filter = 2
+expand_mode = 0

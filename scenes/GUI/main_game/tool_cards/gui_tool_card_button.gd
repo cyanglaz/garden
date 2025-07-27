@@ -3,7 +3,7 @@ extends GUIBasicButton
 
 const SPECIAL_ICON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_special_icon.tscn")
 
-const SIZE := Vector2(36, 48)
+const SIZE := Vector2(38, 52)
 const SELECTED_OFFSET := 6.0
 const HIGHLIGHTED_OFFSET := 1.0
 const TOOLTIP_DELAY := 0.2
@@ -47,9 +47,9 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 		0:
 			_background.region_rect.position.x = 0
 		1:
-			_background.region_rect.position.x = 36
+			_background.region_rect.position.x = 38	
 		2:
-			_background.region_rect.position.x = 72
+			_background.region_rect.position.x = 76
 	for special in tool_data.specials:
 		var special_icon := SPECIAL_ICON_SCENE.instantiate()
 		var special_id := Util.get_id_for_tool_speical(special)
