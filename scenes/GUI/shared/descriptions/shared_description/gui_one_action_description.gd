@@ -79,7 +79,7 @@ func _get_action_description(action_data:ActionData) -> String:
 		ActionData.ActionType.NONE:
 			pass
 	if action_description.contains("%s"):
-		action_description = action_description % abs(action_data.value)
+		action_description = action_description % _get_value_text(action_data)
 	action_description = Util.formate_references(action_description, {}, {}, func(_reference_id:String) -> bool: return false)
 	action_description += "."
 	return action_description
@@ -88,8 +88,7 @@ func _get_field_action_description(action_data:ActionData) -> String:
 	var increase_description := Util.get_localized_string("ACTION_DESCRIPTION_INCREASE")
 	var decrease_description := Util.get_localized_string("ACTION_DESCRIPTION_DECREASE")
 	var action_name := ""
-	var value:int = abs(action_data.value)
-	var increase := action_data.value > 0
+	var increase := action_data.value > 0 || action_data.value_type != ActionData.ValueType.NUMBER
 	match action_data.type:
 		ActionData.ActionType.LIGHT:
 			action_name = Util.get_localized_string("RESOURCE_NAME_LIGHT")
@@ -107,8 +106,7 @@ func _get_field_action_description(action_data:ActionData) -> String:
 		main_description = increase_description
 	else:
 		main_description = decrease_description
-	var increase_value := Util.convert_to_bbc_highlight_text(str(value), HIGHLIGHT_COLOR)
-	main_description = main_description % [action_name, increase_value]
+	main_description = main_description % [action_name, _get_value_text(action_data)]
 	return main_description
 
 func _get_weather_action_description(action_data:ActionData) -> String:
@@ -127,7 +125,16 @@ func _get_weather_action_description(action_data:ActionData) -> String:
 
 func _get_draw_card_action_description(action_data:ActionData) -> String:
 	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_DRAW_CARD")
-	var value:int = abs(action_data.value)
-	var value_text := Util.convert_to_bbc_highlight_text(str(value), HIGHLIGHT_COLOR)
-	main_description = main_description % [value_text]
+	main_description = main_description % [_get_value_text(action_data)]
 	return main_description
+
+func _get_value_text(action_data:ActionData) -> String:
+	var value_text := ""
+	match action_data.value_type:
+		ActionData.ValueType.NUMBER:
+			value_text =  Util.convert_to_bbc_highlight_text(str(abs(action_data.value)), HIGHLIGHT_COLOR)
+		ActionData.ValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
+			value_text =  Util.convert_to_bbc_highlight_text(tr("ACTION_DESCRIPTION_NUMBER_OF_TOOL_CARDS_IN_HAND"), HIGHLIGHT_COLOR)
+		_:
+			assert(false, "Invalid value type: %s" % action_data.value_type)
+	return value_text
