@@ -159,33 +159,44 @@ func is_tool_applicable(tool_data:ToolData) -> bool:
 
 func _apply_light_action(action:ActionData) -> void:
 	if plant:
-		await _show_popup_action_indicator(action)
-		plant.light.value += action.value
+		var true_value := _get_action_true_value(action)
+		await _show_popup_action_indicator(action, true_value)
+		plant.light.value += true_value
 
 func _apply_water_action(action:ActionData) -> void:
 	if plant:
-		await _show_popup_action_indicator(action)
+		var true_value := _get_action_true_value(action)
+		await _show_popup_action_indicator(action, true_value)
 		plant.water.value += action.value
 
 func _apply_pest_action(action:ActionData) -> void:
-	await _show_popup_action_indicator(action)
+	var true_value := _get_action_true_value(action)
+	await _show_popup_action_indicator(action, true_value)
 	status_manager.update_status("pest", action.value)
 
 func _apply_fungus_action(action:ActionData) -> void:
-	await _show_popup_action_indicator(action)
+	var true_value := _get_action_true_value(action)
+	await _show_popup_action_indicator(action, true_value)
 	status_manager.update_status("fungus", action.value)
 
-func _show_popup_action_indicator(action_data:ActionData) -> void:
+func _show_popup_action_indicator(action_data:ActionData, true_value:int) -> void:
 	_buff_sound.play()
 	var popup:PopupLabelIcon = POPUP_LABEL_ICON_SCENE.instantiate()
 	add_child(popup)
 	popup.global_position = _gui_field_button.global_position + _gui_field_button.size/2 + Vector2.RIGHT * 8
-	var text := str(action_data.value)
-	if action_data.value > 0:
+	var text := str(true_value)
+	if true_value > 0:
 		text = "+" + text
 	var resource_id := Util.get_action_id_with_action_type(action_data.type)
 	popup.setup(text, Constants.COLOR_WHITE, load(Util.get_image_path_for_resource_id(resource_id)))
 	await popup.animate_show_and_destroy(6, 3, POPUP_SHOW_TIME, POPUP_DESTROY_TIME)
+
+func _get_action_true_value(action_data:ActionData) -> int:
+	if action_data.value_type == ActionData.ValueType.NUMBER:
+		return action_data.value
+	elif action_data.value_type == ActionData.ValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
+		return Singletons.main_game.tool_manager.tool_deck.hand.size()
+	return 0
 
 func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> void:
 	match state:
