@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cfqih7tn7gdu" path="res://resources/sprites/GUI/icon_backgrounds/tool_card_border.png" id="4_cxlev"]
 
 [node name="GUIToolCardButton" type="PanelContainer"]
-custom_minimum_size = Vector2(36, 48)
+custom_minimum_size = Vector2(38, 52)
 offset_right = 36.0
 offset_bottom = 48.0
 size_flags_vertical = 4
@@ -22,7 +22,7 @@ mouse_filter = 2
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("2_a7c0j")
-region_rect = Rect2(0, 0, 36, 48)
+region_rect = Rect2(0, 0, 38, 52)
 patch_margin_left = 3
 patch_margin_top = 3
 patch_margin_right = 3
@@ -98,8 +98,8 @@ custom_minimum_size = Vector2(38, 0)
 layout_mode = 1
 offset_left = -1.0
 offset_top = -1.0
-offset_right = 37.0
-offset_bottom = 49.0
+offset_right = 39.0
+offset_bottom = 53.0
 texture = ExtResource("4_cxlev")
 patch_margin_left = 4
 patch_margin_top = 4

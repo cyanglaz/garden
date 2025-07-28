@@ -3,7 +3,7 @@ extends Node2D
 
 signal _all_field_gold_gained()
 
-var hand_size := 10
+var hand_size := 5
 const DAYS_TO_WEEK := 7
 
 @export var test_plant_datas:Array[PlantData]

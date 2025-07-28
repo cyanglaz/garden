@@ -20,12 +20,18 @@ enum ActionCategory {
 	CARD,
 }
 
+enum ValueType {
+	NUMBER,
+	NUMBER_OF_TOOL_CARDS_IN_HAND,
+}
+
 const CARD_ACTION_TYPES := [ActionType.DRAW_CARD]
 const FIELD_ACTION_TYPES := [ActionType.LIGHT, ActionType.WATER, ActionType.PEST, ActionType.FUNGUS, ActionType.GLOW]
 const WEATHER_ACTION_TYPES := [ActionType.WEATHER_SUNNY, ActionType.WEATHER_RAINY]
 
 @export var type:ActionType
 @export var value:int
+@export var value_type:ValueType = ValueType.NUMBER
 
 var action_category:ActionCategory: get = _get_action_category
 
@@ -33,6 +39,7 @@ func copy(other:ThingData) -> void:
 	super.copy(other)
 	type = other.type
 	value = other.value
+	value_type = other.value_type
 
 func get_duplicate() -> ThingData:
 	var action_data:ActionData = ActionData.new()

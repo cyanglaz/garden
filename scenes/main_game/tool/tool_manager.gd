@@ -46,6 +46,7 @@ func apply_tool(main_game:MainGame, fields:Array) -> void:
 	tool_application_started.emit(selected_tool_index)
 	if !applying_tool.need_select_field:
 		await _tool_applier.apply_tool(main_game, null, applying_tool, tool_index)
+		tool_application_completed.emit(tool_index)
 	else:
 		await _apply_tool_to_next_field(main_game, applying_tool, fields, 0, tool_index)
 

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://e3l2yte3dgfe"
+path="res://.godot/imported/icon_minus.aseprite-c98210b2d519543d9cc1352fd1939909.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/cards/signs/icon_minus.aseprite"
+dest_files=["res://.godot/imported/icon_minus.aseprite-c98210b2d519543d9cc1352fd1939909.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
