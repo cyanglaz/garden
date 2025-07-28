@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="PlantData" load_steps=2 format=3 uid="uid://77nrfqt5l4mx"]
+
+[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_tk04h"]
+
+[resource]
+script = ExtResource("1_tk04h")
+light = 1
+water = 1
+gold = 5
+rarity = 1
+id = "hibiscus"
+display_name = "Hibiscus"
+description = "+ {card} card on gaining light."
+data = {
+"card": "1"
+}
+metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

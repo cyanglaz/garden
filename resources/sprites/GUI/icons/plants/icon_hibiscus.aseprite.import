@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://hw7tu582qtf0"
+path="res://.godot/imported/icon_hibiscus.aseprite-fa700dc52eec9710d74aca2c913e1fce.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/plants/icon_hibiscus.aseprite"
+dest_files=["res://.godot/imported/icon_hibiscus.aseprite-fa700dc52eec9710d74aca2c913e1fce.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
