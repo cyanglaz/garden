@@ -7,7 +7,7 @@ const DISCARD_ANIMATION_TIME := 0.2
 const CARD_MIN_SCALE := 0.8
 const MAX_SHUFFLE_CARDS := 5
 
-signal _animation_queue_item_finished(id:int)
+signal _animation_queue_item_finished(finished_item:AnimationQueueItem)
 
 var _tool_card_container:GUIToolCardContainer: get = _get_tool_card_container
 var _draw_deck_button:GUIDeckButton: get = _get_draw_deck_button
@@ -81,14 +81,15 @@ func _enqueue_animation(type:AnimationQueueItem.AnimationType, args:Array) -> An
 func _play_next_animation() -> void:
 	if _animation_queue.is_empty():
 		return
-	var next_item:AnimationQueueItem = _animation_queue.front()
+	var next_item:AnimationQueueItem = _animation_queue.pop_front()
 	match next_item.animation_type:
 		AnimationQueueItem.AnimationType.ANIMATE_DRAW:
-			_animate_draw(next_item.animation_args[0], next_item.id)
+			_animate_draw(next_item)
 		AnimationQueueItem.AnimationType.ANIMATE_DISCARD:
-			_animate_discard(next_item.animation_args[0], next_item.id)
+			_animate_discard(next_item)
 
-func _animate_draw(draw_results:Array, id:int) -> void:
+func _animate_draw(animation_item:AnimationQueueItem) -> void:
+	var draw_results:Array = animation_item.animation_args[0].duplicate()
 	var total_card_count:int = _tool_card_container.get_card_count() + draw_results.size()
 	var card_positions:Array[Vector2] = _tool_card_container.calculate_default_positions(total_card_count)
 	var starting_index:int = _tool_card_container.get_card_count()
@@ -115,13 +116,12 @@ func _animate_draw(draw_results:Array, id:int) -> void:
 		tween.tween_property(animating_card, "visible", true, 0.01).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 		tween.tween_property(animating_card, "global_position", target_global_position, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		var scale_tweener := tween.tween_property(animating_card, "size", GUIToolCardButton.SIZE, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		scale_tweener.finished.connect(func():
-			animating_card.animation_mode = false
-		)
+		scale_tweener.finished.connect(_on_draw_animation_scaler_tweener_finished.bind(animating_card))
 	await tween.finished
-	_animation_queue_item_finished.emit(id)
+	_animation_queue_item_finished.emit(animation_item)
 
-func _animate_discard(indices:Array,id:int) -> void:
+func _animate_discard(animation_item:AnimationQueueItem) -> void:
+	var indices:Array = animation_item.animation_args[0].duplicate()
 	var discarding_cards:Array[GUIToolCardButton] = []
 	for i:int in _tool_card_container.get_card_count():
 		var card :GUIToolCardButton = _tool_card_container.get_card(i)
@@ -140,7 +140,7 @@ func _animate_discard(indices:Array,id:int) -> void:
 	await discard_tween.finished
 	_tool_card_container.remove_cards(discarding_cards)
 	await animate_reposition()
-	_animation_queue_item_finished.emit(id)
+	_animation_queue_item_finished.emit(animation_item)
 
 func _get_tool_card_container() -> GUIToolCardContainer:
 	return _weak_tool_card_container.get_ref()
@@ -151,11 +151,12 @@ func _get_draw_deck_button() -> GUIDeckButton:
 func _get_discard_deck_button() -> GUIDeckButton:
 	return _weak_discard_deck_button.get_ref()
 
-func _on_animation_queue_item_finished(id:int) -> void:
-	var finished_item:AnimationQueueItem = _animation_queue.pop_front()
-	assert(finished_item.id == id, "Animation queue item id mismatch")
+func _on_animation_queue_item_finished(finished_item:AnimationQueueItem) -> void:
 	finished_item.finished.emit()
 	_play_next_animation()
+
+func _on_draw_animation_scaler_tweener_finished(card:GUIToolCardButton) -> void:
+	card.animation_mode = false
 
 class AnimationQueueItem:
 
