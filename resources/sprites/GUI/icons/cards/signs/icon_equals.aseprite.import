@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://deui4r22plyjf"
+path="res://.godot/imported/icon_equals.aseprite-99724809bd092b036acff0962c90f2e6.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/cards/signs/icon_equals.aseprite"
+dest_files=["res://.godot/imported/icon_equals.aseprite-99724809bd092b036acff0962c90f2e6.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

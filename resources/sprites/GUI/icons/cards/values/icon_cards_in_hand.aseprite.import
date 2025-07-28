@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cdfr4gl18ubrt"
+path="res://.godot/imported/icon_cards_in_hand.aseprite-93f79def9978f8b47a9f2551386fab02.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/cards/values/icon_cards_in_hand.aseprite"
+dest_files=["res://.godot/imported/icon_cards_in_hand.aseprite-93f79def9978f8b47a9f2551386fab02.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
