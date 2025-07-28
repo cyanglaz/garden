@@ -4,6 +4,7 @@ extends Node2D
 enum AbilityType {
 	HARVEST,
 	END_DAY,
+	LIGHT_GAIN,
 }
 
 @warning_ignore("unused_signal")

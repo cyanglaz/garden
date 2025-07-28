@@ -162,6 +162,8 @@ func _apply_light_action(action:ActionData) -> void:
 		var true_value := _get_action_true_value(action)
 		await _show_popup_action_indicator(action, true_value)
 		plant.light.value += true_value
+		if true_value > 0:
+			await plant.trigger_ability(Plant.AbilityType.LIGHT_GAIN, Singletons.main_game)
 
 func _apply_water_action(action:ActionData) -> void:
 	if plant:
