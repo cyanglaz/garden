@@ -18,21 +18,19 @@ mouse_filter = 2
 theme_override_constants/separation = 1
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="SymbolContainer"]
-visible = false
-layout_mode = 2
-
-[node name="ValueLabel" type="Label" parent="SymbolContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 1
-theme_type_variation = &"HUD_small"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="GUIActionTypeIcon" parent="SymbolContainer" instance=ExtResource("1_xs6gn")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(7, 7)
+custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 mouse_filter = 2
 expand_mode = 0
+
+[node name="SignIcon" type="TextureRect" parent="SymbolContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+stretch_mode = 5
+
+[node name="ValueIcon" type="TextureRect" parent="SymbolContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+stretch_mode = 5
