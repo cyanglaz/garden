@@ -61,14 +61,13 @@ theme_override_constants/margin_bottom = 2
 layout_mode = 2
 mouse_filter = 2
 
-[node name="CostLabel" type="Label" parent="CardContainer/CardContent/MarginContainer/FreeContainer"]
+[node name="CostIcon" type="TextureRect" parent="CardContainer/CardContent/MarginContainer/FreeContainer"]
 unique_name_in_owner = true
 layout_mode = 1
 offset_left = 2.0
 offset_top = 3.0
-offset_right = 4.0
-offset_bottom = 11.0
-theme_type_variation = &"HUD_mid"
+offset_right = 2.0
+offset_bottom = 3.0
 
 [node name="GUIGenericDescription" parent="CardContainer/CardContent/MarginContainer" instance=ExtResource("4_882ho")]
 unique_name_in_owner = true

@@ -19,6 +19,8 @@ const TOOL_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/main_game/shop/shop_bu
 @onready var _title: Label = %Title
 @onready var _sub_title: Label = %SubTitle
 
+var _weak_tooltip:WeakRef = weakref(null)
+
 var _display_y := 0.0
 var _weak_insufficient_gold_tooltip:WeakRef = weakref(null)
 
@@ -53,6 +55,7 @@ func _populate_plants(number_of_plants) -> void:
 		plant_shop_button.update_with_plant_data(plant_data)
 		plant_shop_button.action_evoked.connect(_on_plant_shop_button_action_evoked.bind(plant_shop_button, plant_data))
 		plant_shop_button.mouse_exited.connect(_on_shop_button_mouse_exited.bind())
+		plant_shop_button.mouse_entered.connect(_on_plant_shop_button_mouse_entered.bind(plant_data, plant_shop_button))
 
 func _populate_tools(number_of_tools) -> void:
 	Util.remove_all_children(tool_container)
@@ -63,6 +66,7 @@ func _populate_tools(number_of_tools) -> void:
 		tool_shop_button.update_with_tool_data(tool_data)
 		tool_shop_button.action_evoked.connect(_on_tool_shop_button_action_evoked.bind(tool_shop_button, tool_data))
 		tool_shop_button.mouse_exited.connect(_on_shop_button_mouse_exited.bind())
+		tool_shop_button.mouse_entered.connect(_on_tool_shop_button_mouse_entered.bind(tool_data, tool_shop_button))
 
 func _play_show_animation() -> void:
 	_main_panel.position.y = HIDE_Y
@@ -106,3 +110,12 @@ func _on_next_week_button_action_evoked() -> void:
 
 func _on_shop_button_mouse_exited() -> void:
 	_clear_insufficient_gold_tooltip()
+	if _weak_tooltip.get_ref():
+		_weak_tooltip.get_ref().queue_free()
+		_weak_tooltip = weakref(null)
+
+func _on_plant_shop_button_mouse_entered(plant_data:PlantData, control:Control) -> void:
+	_weak_tooltip = weakref(Util.display_plant_tooltip(plant_data, control, false, GUITooltip.TooltipPosition.RIGHT))
+
+func _on_tool_shop_button_mouse_entered(tool_data:ToolData, control:Control) -> void:
+	_weak_tooltip = weakref(Util.display_tool_card_tooltip(tool_data, control, false, GUITooltip.TooltipPosition.RIGHT, false))
