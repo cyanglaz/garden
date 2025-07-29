@@ -2,6 +2,7 @@ class_name GUIToolCardButton
 extends GUIBasicButton
 
 const SPECIAL_ICON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_special_icon.tscn")
+const VALUE_ICON_PREFIX := "res://resources/sprites/GUI/icons/cards/values/icon_"
 
 const SIZE := Vector2(38, 52)
 const SELECTED_OFFSET := 6.0
@@ -13,11 +14,11 @@ const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/
 @onready var _gui_generic_description: GUIGenericDescription = %GUIGenericDescription
 @onready var _card_container: Control = %CardContainer
 @onready var _background: NinePatchRect = %Background
-@onready var _cost_label: Label = %CostLabel
 @onready var _title: Label = %Title
 @onready var _highlight_border: NinePatchRect = %HighlightBorder
 @onready var _card_content: VBoxContainer = %CardContent
 @onready var _specials_container: HBoxContainer = %SpecialsContainer
+@onready var _cost_icon: TextureRect = %CostIcon
 
 var mouse_disabled:bool = false: set = _set_mouse_disabled
 var activated := false: set = _set_activated
@@ -41,7 +42,7 @@ func _ready() -> void:
 func update_with_tool_data(tool_data:ToolData) -> void:
 	_weak_tool_data = weakref(tool_data)
 	_gui_generic_description.update(tool_data.actions, tool_data.get_display_description())
-	_cost_label.text = str(tool_data.energy_cost)
+	_cost_icon.texture = load(VALUE_ICON_PREFIX + str(tool_data.energy_cost) + ".png")
 	_title.text = tool_data.display_name
 	match tool_data.rarity:
 		0:
@@ -151,8 +152,8 @@ func _get_click_sound() -> AudioStream:
 func _set_resourcet_sufficient(value:bool) -> void:
 	resource_sufficient = value
 	if value:
-		_cost_label.add_theme_color_override("font_color", Constants.RESOURCE_SUFFICIENT_COLOR)
+		_cost_icon.modulate = Constants.RESOURCE_SUFFICIENT_COLOR
 		_highlight_border.modulate = Constants.RESOURCE_SUFFICIENT_COLOR
 	else:
-		_cost_label.add_theme_color_override("font_color", Constants.RESOURCE_INSUFFICIENT_COLOR)
+		_cost_icon.modulate = Constants.RESOURCE_INSUFFICIENT_COLOR
 		_highlight_border.modulate = Constants.RESOURCE_INSUFFICIENT_COLOR
