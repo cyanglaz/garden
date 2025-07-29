@@ -31,6 +31,7 @@ energy_cost = 2
 actions = Array[ExtResource("1_5hrx5")]([SubResource("Resource_oexgw"), SubResource("Resource_0wo8n")])
 rarity = 1
 specials = Array[int]([])
+need_select_field = true
 id = "sundial"
 display_name = "Sundial"
 description = ""

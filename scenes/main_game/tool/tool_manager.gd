@@ -2,7 +2,6 @@ class_name ToolManager
 extends RefCounted
 
 signal tool_application_started(index:int)
-signal tool_application_failed(index:int)
 signal tool_application_completed(index:int)
 
 var tool_deck:Deck
@@ -13,7 +12,6 @@ var _tool_applier:ToolApplier = ToolApplier.new()
 
 func _init(initial_tools:Array) -> void:
 	tool_deck = Deck.new(initial_tools)
-	_tool_applier.tool_application_failed.connect(func(index:int): tool_application_failed.emit(index))
 
 func refresh_deck() -> void:
 	tool_deck.refresh()

@@ -5,7 +5,6 @@ const GUI_GENERAL_ACTION_SCENE := preload("res://scenes/GUI/main_game/actions/gu
 const GUI_WEATHER_ACTION_SCENE := preload("res://scenes/GUI/main_game/actions/gui_weather_action.tscn")
 
 @onready var _action_container: VBoxContainer = %ActionContainer
-@onready var _rich_text_label: RichTextLabel = %RichTextLabel
 
 func update(actions:Array[ActionData]) -> void:
 	Util.remove_all_children(_action_container)

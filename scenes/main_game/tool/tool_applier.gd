@@ -2,20 +2,20 @@ class_name ToolApplier
 extends RefCounted
 
 signal tool_application_started(tool_index:int)
-signal tool_application_failed(tool_index:int)
 signal tool_application_completed(tool_index:int)
 
 var _pending_actions:Array[ActionData] = []
 var _action_index:int = 0
 
 func apply_tool(main_game:MainGame, field:Field, tool_data:ToolData, tool_index:int) -> void:
-	if tool_data.need_select_field && !field.is_tool_applicable(tool_data):
-		tool_application_failed.emit(tool_index)
-		return
-	_action_index = 0
-	_pending_actions = tool_data.actions.duplicate()
 	tool_application_started.emit(tool_index)
-	await _apply_next_action(main_game, field, tool_index)
+	if tool_data.tool_script:
+		await tool_data.tool_script.apply_tool(main_game, field, tool_data, tool_index)
+		tool_application_completed.emit(tool_index)
+	else:
+		_action_index = 0
+		_pending_actions = tool_data.actions.duplicate()
+		await _apply_next_action(main_game, field, tool_index)
 
 func _apply_next_action(main_game:MainGame, field:Field, tool_index:int) -> void:
 	if _action_index >= _pending_actions.size():

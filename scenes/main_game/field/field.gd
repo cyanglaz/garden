@@ -52,10 +52,8 @@ func _ready() -> void:
 	_gui_plant_tooltip.hide()
 	_reset_progress_bars()
 
-func toggle_selection_indicator(on:bool, tool_data:ToolData) -> void:
+func toggle_selection_indicator(on:bool) -> void:
 	_gui_field_selection_arrow.is_active = on
-	if tool_data:
-		_gui_field_selection_arrow.is_enabled = is_tool_applicable(tool_data)
  
 func show_plant_preview(plant_data:PlantData) -> void:
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
@@ -150,12 +148,6 @@ func _reset_progress_bars() -> void:
 	_light_bar.current_value = 0
 	_water_bar.max_value = 1
 	_water_bar.current_value = 0
-
-func is_tool_applicable(tool_data:ToolData) -> bool:
-	for action_data:ActionData in tool_data.actions:
-		if is_action_applicable(action_data):
-			return true
-	return false
 
 func _apply_light_action(action:ActionData) -> void:
 	if plant:

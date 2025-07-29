@@ -49,7 +49,6 @@ func _ready() -> void:
 		tool_manager = ToolManager.new(test_tools)
 		tool_manager.tool_application_started.connect(_on_tool_application_started)
 		tool_manager.tool_application_completed.connect(_on_tool_application_completed)
-		tool_manager.tool_application_failed.connect(_on_tool_application_failed)
 		
 	#gui main signals
 	gui_main_game.bind_energy(energy_tracker)
@@ -110,7 +109,7 @@ func _update_gold(gold:int, animated:bool) -> void:
 	await gui_main_game.update_gold(_gold, animated)
 
 func _end_day() -> void:
-	if week_manager.get_day() == 0:
+	if week_manager.get_day() == 6:
 		for field:Field in _field_container.fields:
 			field.remove_plant()
 		# if _gold >= week_manager.get_tax_due():
@@ -182,10 +181,6 @@ func _on_tool_application_started(index:int) -> void:
 
 func _on_tool_application_completed(_index:int) -> void:
 	await _harvest()
-	gui_main_game.toggle_all_ui(true)
-
-func _on_tool_application_failed(_index:int) -> void:
-	_clear_tool_selection()
 	gui_main_game.toggle_all_ui(true)
 
 #region gui main events
