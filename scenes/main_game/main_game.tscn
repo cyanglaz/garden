@@ -10,14 +10,14 @@
 [ext_resource type="Resource" uid="uid://cd1g4filickxd" path="res://data/tools/tool_drizzle.tres" id="5_r81kp"]
 [ext_resource type="Resource" uid="uid://b7kyqku5vtyny" path="res://data/tools/tool_mirror_pool.tres" id="9_b4n6q"]
 [ext_resource type="Resource" uid="uid://5w8jcfwyuxvq" path="res://data/tools/tool_aphid_alert.tres" id="9_gl27v"]
-[ext_resource type="Resource" uid="uid://bbksfeisauffm" path="res://data/tools/tool_bug_spray.tres" id="10_4y18v"]
+[ext_resource type="Resource" uid="uid://s0blrnpmv88c" path="res://data/tools/tool_ladybug_patrol.tres" id="10_4y18v"]
 [ext_resource type="Resource" uid="uid://b0ckuxysbrafa" path="res://data/tools/tool_photosynthesis.tres" id="10_gl27v"]
 [ext_resource type="Resource" uid="uid://dr13xwnk1wtam" path="res://data/tools/tool_sunlight.tres" id="11_irrf2"]
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 test_plant_datas = Array[ExtResource("2_6eclk")]([ExtResource("4_gl27v"), ExtResource("4_gl27v"), ExtResource("4_gl27v")])
-test_tools = Array[ExtResource("4_ldk84")]([ExtResource("5_r81kp"), ExtResource("10_gl27v"), ExtResource("9_b4n6q"), ExtResource("11_irrf2"), ExtResource("9_gl27v"), ExtResource("10_4y18v"), ExtResource("10_4y18v")])
+test_tools = Array[ExtResource("4_ldk84")]([ExtResource("5_r81kp"), ExtResource("10_gl27v"), ExtResource("9_b4n6q"), ExtResource("11_irrf2"), ExtResource("9_gl27v"), ExtResource("10_4y18v")])
 number_of_fields = 2
 
 [node name="FieldContainer" parent="." instance=ExtResource("1_075iw")]
