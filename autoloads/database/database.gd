@@ -10,6 +10,8 @@ func get_all_datas() -> Array:
 	return _datas.values()
 
 func get_data_by_id(id:String, copy:bool=false) -> Resource:
+	if !_datas.has(id):
+		return null
 	var original_data = _datas[id]
 	if !copy:
 		return original_data

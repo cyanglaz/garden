@@ -118,6 +118,8 @@ func apply_actions(actions:Array[ActionData]) -> void:
 				await _apply_pest_action(action)
 			ActionData.ActionType.FUNGUS:
 				await _apply_fungus_action(action)
+			ActionData.ActionType.GREENHOUSE:
+				await _apply_greenhouse_action(action)
 			_:
 				pass
 
@@ -172,6 +174,11 @@ func _apply_fungus_action(action:ActionData) -> void:
 	var true_value := _get_action_true_value(action)
 	await _show_popup_action_indicator(action, true_value)
 	status_manager.update_status("fungus", action.value)
+
+func _apply_greenhouse_action(action:ActionData) -> void:
+	var true_value := _get_action_true_value(action)
+	await _show_popup_action_indicator(action, true_value)
+	status_manager.update_status("greenhouse", action.value)
 
 func _show_popup_action_indicator(action_data:ActionData, true_value:int) -> void:
 	_buff_sound.play()

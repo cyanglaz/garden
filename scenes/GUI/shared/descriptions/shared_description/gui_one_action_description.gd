@@ -45,14 +45,14 @@ func _get_action_name(action_data:ActionData) -> String:
 			action_name = Util.get_localized_string("ACTION_NAME_PEST")
 		ActionData.ActionType.FUNGUS:
 			action_name = Util.get_localized_string("ACTION_NAME_FUNGUS")
-		ActionData.ActionType.GLOW:
-			action_name = Util.get_localized_string("ACTION_NAME_GLOW")
 		ActionData.ActionType.WEATHER_SUNNY:
 			action_name = Util.get_localized_string("ACTION_NAME_WEATHER_SUNNY")
 		ActionData.ActionType.WEATHER_RAINY:
 			action_name = Util.get_localized_string("ACTION_NAME_WEATHER_RAINY")
 		ActionData.ActionType.DRAW_CARD:
 			action_name = Util.get_localized_string("ACTION_NAME_DRAW_CARD")
+		ActionData.ActionType.GREENHOUSE:
+			action_name = Util.get_localized_string("ACTION_NAME_GREENHOUSE")
 		ActionData.ActionType.NONE:
 			pass
 	return action_name
@@ -65,11 +65,17 @@ func _get_action_description(action_data:ActionData) -> String:
 		ActionData.ActionType.WATER:
 			action_description = _get_field_action_description(action_data)
 		ActionData.ActionType.PEST:
-			action_description = _get_field_action_description(action_data)
+			action_description = _get_field_status_description(action_data)
+			action_description += "\n"
+			action_description += _get_field_action_description(action_data)
 		ActionData.ActionType.FUNGUS:
-			action_description = _get_field_action_description(action_data)
-		ActionData.ActionType.GLOW:
-			action_description = Util.get_localized_string("ACTION_DESCRIPTION_GLOW")
+			action_description = _get_field_status_description(action_data)
+			action_description += "\n"
+			action_description += _get_field_action_description(action_data)
+		ActionData.ActionType.GREENHOUSE:
+			action_description = _get_field_status_description(action_data)
+			action_description += "\n"
+			action_description += _get_field_action_description(action_data)
 		ActionData.ActionType.WEATHER_SUNNY:
 			action_description = _get_weather_action_description(action_data)
 		ActionData.ActionType.WEATHER_RAINY:
@@ -81,7 +87,8 @@ func _get_action_description(action_data:ActionData) -> String:
 	if action_description.contains("%s"):
 		action_description = action_description % _get_value_text(action_data)
 	action_description = Util.formate_references(action_description, {}, {}, func(_reference_id:String) -> bool: return false)
-	action_description += "."
+	if !action_description.ends_with("."):
+		action_description += "."
 	return action_description
 
 func _get_field_action_description(action_data:ActionData) -> String:
@@ -98,6 +105,8 @@ func _get_field_action_description(action_data:ActionData) -> String:
 			action_name = Util.get_localized_string("RESOURCE_NAME_PEST")
 		ActionData.ActionType.FUNGUS:
 			action_name = Util.get_localized_string("RESOURCE_NAME_FUNGUS")
+		ActionData.ActionType.GREENHOUSE:
+			action_name = Util.get_localized_string("RESOURCE_NAME_GREENHOUSE")
 		_:
 			assert(false, "Invalid action type: %s" % action_data.type)
 	action_name = Util.convert_to_bbc_highlight_text(action_name, HIGHLIGHT_COLOR)
@@ -138,3 +147,11 @@ func _get_value_text(action_data:ActionData) -> String:
 		_:
 			assert(false, "Invalid value type: %s" % action_data.value_type)
 	return value_text
+
+func _get_field_status_description(action_data:ActionData) -> String:
+	var id := Util.get_action_id_with_action_type(action_data.type)
+	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(id)
+	if !field_status_data:
+		return ""
+	return field_status_data.get_display_description()
+	
