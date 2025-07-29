@@ -2,8 +2,8 @@ class_name GUIToolCardAnimationContainer
 extends Control
 
 const ANIMATING_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
-const DRAW_ANIMATION_TIME := 0.2
-const DISCARD_ANIMATION_TIME := 0.2
+const DRAW_ANIMATION_TIME := 0.4
+const DISCARD_ANIMATION_TIME := 0.4
 const CARD_MIN_SCALE := 0.8
 const MAX_SHUFFLE_CARDS := 5
 
