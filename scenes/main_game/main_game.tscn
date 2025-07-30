@@ -8,7 +8,7 @@
 [ext_resource type="Resource" uid="uid://77nrfqt5l4mx" path="res://data/plants/plant_data_hibiscus.tres" id="4_gl27v"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="4_ldk84"]
 [ext_resource type="Resource" uid="uid://fw57p6nrrvtr" path="res://data/field_status/tool_fungicide.tres" id="6_fetp2"]
-[ext_resource type="Resource" uid="uid://dyxnhfa0lax6i" path="res://data/tools/tool_greenburst.tres" id="7_r81kp"]
+[ext_resource type="Resource" uid="uid://dyxnhfa0lax6i" path="res://data/tools/tool_greenhouse.tres" id="7_r81kp"]
 [ext_resource type="Resource" uid="uid://s0blrnpmv88c" path="res://data/tools/tool_ladybug_patrol.tres" id="8_b4n6q"]
 [ext_resource type="Resource" uid="uid://bbksfeisauffm" path="res://data/tools/tool_bug_spray.tres" id="10_4y18v"]
 
