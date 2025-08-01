@@ -26,11 +26,15 @@ func _load_data_from_dir(dir_path:String):
 	var all_resource_files := Util.get_all_file_paths(dir_path, true)
 	for file_path in all_resource_files:
 		var resource := load(file_path)
+		_evaluate_data(resource)
 		_datas[resource.id] = resource
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		_datas.clear()
+	
+func _evaluate_data(resource:Resource) -> void:
+	assert(true)
 
 func _get_data_dir() -> String:
 	return ""
