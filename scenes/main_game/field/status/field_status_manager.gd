@@ -64,7 +64,7 @@ func _handle_next_ability_hook(ability_type:Plant.AbilityType, plant:Plant, fina
 	var status_id:String = _ability_hook_queue[_current_ability_hook_index]
 	var status_data := field_status_map[status_id]
 	await _send_hook_animation_signals(status_data)
-	var hook_result := status_data.status_script.handle_ability_hook(ability_type, plant)
+	var hook_result := await status_data.status_script.handle_ability_hook(ability_type, plant)
 	if hook_result == FieldStatusScript.HookResultType.ABORT:
 		final_result_type = hook_result
 	_current_ability_hook_index += 1
@@ -84,7 +84,7 @@ func _handle_next_harvest_gold_hook(plant:Plant) -> void:
 	var status_id:String = _harvest_gold_hook_queue[_current_harvest_gold_hook_index]
 	var status_data := field_status_map[status_id]
 	await _send_hook_animation_signals(status_data)
-	status_data.status_script.handle_harvest_gold_hook(plant)
+	await status_data.status_script.handle_harvest_gold_hook(plant)
 	_current_harvest_gold_hook_index += 1
 	await _handle_next_harvest_gold_hook(plant)
 

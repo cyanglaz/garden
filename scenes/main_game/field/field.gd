@@ -44,7 +44,7 @@ func _ready() -> void:
 	_gui_field_button.mouse_exited.connect(_on_field_mouse_exited)
 	_gui_field_status_container.bind_with_field_status_manager(status_manager)
 	status_manager.request_hook_message_popup.connect(_on_request_hook_message_popup)
-	#status_manager.update_status("pest", 2)
+	#status_manager.update_status("fungus", 2)
 	_animated_sprite_2d.play("idle")
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
