@@ -6,7 +6,7 @@ signal field_harvest_gold_update_requested(gold:int, index:int)
 signal field_hovered(hovered:bool, index:int)
 signal field_pressed(index:int)
 
-const MAX_DISTANCE_BETWEEN_FIELDS := 10
+const MAX_DISTANCE_BETWEEN_FIELDS := 15
 const MARGIN := 36
 
 const FIELD_SCENE := preload("res://scenes/main_game/field/field.tscn")
@@ -89,6 +89,10 @@ func get_harvestable_fields() -> Array[int]:
 func harvest_all_fields() -> void:
 	assert(get_harvestable_fields().size() > 0, "No harvestable fields")
 	_harvest_next_field(0)
+
+func handle_turn_end() -> void:
+	for field:Field in fields:
+		field.handle_turn_end()
 
 func _harvest_next_field(index:int) -> void:
 	if index >= fields.size():

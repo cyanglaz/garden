@@ -137,9 +137,9 @@ unique_name_in_owner = true
 anchors_preset = 2
 anchor_left = 0.0
 anchor_right = 0.0
-offset_left = 15.0
+offset_left = 16.0
 offset_top = 11.0
-offset_right = 15.0
+offset_right = 16.0
 offset_bottom = 11.0
 grow_horizontal = 1
 

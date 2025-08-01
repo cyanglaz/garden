@@ -153,6 +153,9 @@ func harvest() -> void:
 	assert(can_harvest(), "Cannot harvest")
 	plant.harvest()
 
+func handle_turn_end() -> void:
+	status_manager.handle_status_on_turn_end()
+
 func _show_progress_bars(p:Plant) -> void:
 	assert(p.data)
 	_light_bar.bind_with_resource_point(p.light)

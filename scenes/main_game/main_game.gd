@@ -109,6 +109,7 @@ func _update_gold(gold:int, animated:bool) -> void:
 	await gui_main_game.update_gold(_gold, animated)
 
 func _end_day() -> void:
+	_field_container.handle_turn_end()
 	if week_manager.get_day() == 6:
 		for field:Field in _field_container.fields:
 			field.remove_plant()

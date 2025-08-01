@@ -12,6 +12,17 @@ var _current_harvest_gold_hook_index:int = 0
 var _ability_hook_queue:Array[String] = []
 var _current_ability_hook_index:int = 0
 
+func handle_status_on_turn_end() -> void:
+	for status_id in field_status_map.keys():
+		var status_data:FieldStatusData = field_status_map[status_id]
+		if status_data.reduce_stack_on_turn_end:
+			status_data.stack -= 1
+			if status_data.stack <= 0:
+				field_status_map.erase(status_id)
+		if status_data.single_turn:
+			field_status_map.erase(status_id)
+	status_updated.emit()
+
 func update_status(status_id:String, stack:int) -> void:
 	var status_data := MainDatabase.field_status_database.get_data_by_id(status_id)
 	if field_status_map.has(status_id):

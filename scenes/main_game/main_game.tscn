@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bbcxpceayay3"]
+[gd_scene load_steps=13 format=3 uid="uid://bbcxpceayay3"]
 
 [ext_resource type="PackedScene" uid="uid://byg0qymapjkn6" path="res://scenes/main_game/field/field_container.tscn" id="1_075iw"]
 [ext_resource type="Script" uid="uid://sc1eubamsw6x" path="res://scenes/main_game/main_game.gd" id="1_yra6k"]
@@ -10,12 +10,13 @@
 [ext_resource type="Resource" uid="uid://fw57p6nrrvtr" path="res://data/field_status/tool_fungicide.tres" id="6_fetp2"]
 [ext_resource type="Resource" uid="uid://dyxnhfa0lax6i" path="res://data/tools/tool_greenhouse.tres" id="7_r81kp"]
 [ext_resource type="Resource" uid="uid://s0blrnpmv88c" path="res://data/tools/tool_ladybug_patrol.tres" id="8_b4n6q"]
+[ext_resource type="Resource" uid="uid://c6k0erxrqmrlg" path="res://data/tools/tool_heat.tres" id="9_b4n6q"]
 [ext_resource type="Resource" uid="uid://bbksfeisauffm" path="res://data/tools/tool_bug_spray.tres" id="10_4y18v"]
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 test_plant_datas = Array[ExtResource("2_6eclk")]([ExtResource("4_gl27v"), ExtResource("4_gl27v"), ExtResource("4_gl27v")])
-test_tools = Array[ExtResource("4_ldk84")]([ExtResource("7_r81kp"), ExtResource("6_fetp2"), ExtResource("10_4y18v"), ExtResource("10_4y18v"), ExtResource("8_b4n6q")])
+test_tools = Array[ExtResource("4_ldk84")]([ExtResource("7_r81kp"), ExtResource("6_fetp2"), ExtResource("10_4y18v"), ExtResource("8_b4n6q"), ExtResource("9_b4n6q")])
 number_of_fields = 2
 
 [node name="FieldContainer" parent="." instance=ExtResource("1_075iw")]
