@@ -6,6 +6,9 @@
 script = ExtResource("1_hiam4")
 type = 0
 popup_message = "Ability Disabled"
+stackable = true
+single_turn = false
+reduce_stack_on_turn_end = true
 id = "pest"
 display_name = "Pest"
 description = "Disable plant's ability."

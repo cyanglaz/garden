@@ -311,8 +311,6 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "sunny"
 		ActionData.ActionType.WEATHER_RAINY:
 			id = "rainy"
-		ActionData.ActionType.GREENHOUSE:
-			id = "greenhouse"
 		ActionData.ActionType.NONE:
 			pass
 	return id

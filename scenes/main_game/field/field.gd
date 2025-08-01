@@ -115,13 +115,26 @@ func apply_actions(actions:Array[ActionData]) -> void:
 			ActionData.ActionType.WATER:
 				await _apply_water_action(action)
 			ActionData.ActionType.PEST:
-				await _apply_pest_action(action)
+				await _apply_field_status_action(action)
 			ActionData.ActionType.FUNGUS:
-				await _apply_fungus_action(action)
-			ActionData.ActionType.GREENHOUSE:
-				await _apply_greenhouse_action(action)
+				await _apply_field_status_action(action)
 			_:
 				pass
+
+func apply_field_status(field_status_id:String, stack:int) -> void:
+	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(field_status_id)
+	if field_status_data.stackable:
+		var text := str(stack)
+		if stack > 0:
+			text = "+" + str(stack)
+		await _show_resource_icon_popup(field_status_id, text)
+		status_manager.update_status(field_status_id, stack)
+	else:
+		var text := "+"
+		if stack < 0:
+			text = "-"
+		await _show_resource_icon_popup(field_status_id, text)
+		status_manager.update_status(field_status_id, 1)
 
 func show_gold_popup() -> void:
 	_gold_audio.play()
@@ -163,33 +176,27 @@ func _apply_water_action(action:ActionData) -> void:
 	if plant:
 		var true_value := _get_action_true_value(action)
 		await _show_popup_action_indicator(action, true_value)
-		plant.water.value += action.value
+		plant.water.value += true_value
 
-func _apply_pest_action(action:ActionData) -> void:
+func _apply_field_status_action(action:ActionData) -> void:
+	var resource_id := Util.get_action_id_with_action_type(action.type)
 	var true_value := _get_action_true_value(action)
-	await _show_popup_action_indicator(action, true_value)
-	status_manager.update_status("pest", action.value)
-
-func _apply_fungus_action(action:ActionData) -> void:
-	var true_value := _get_action_true_value(action)
-	await _show_popup_action_indicator(action, true_value)
-	status_manager.update_status("fungus", action.value)
-
-func _apply_greenhouse_action(action:ActionData) -> void:
-	var true_value := _get_action_true_value(action)
-	await _show_popup_action_indicator(action, true_value)
-	status_manager.update_status("greenhouse", action.value)
+	await apply_field_status(resource_id, true_value)
 
 func _show_popup_action_indicator(action_data:ActionData, true_value:int) -> void:
-	_buff_sound.play()
-	var popup:PopupLabelIcon = POPUP_LABEL_ICON_SCENE.instantiate()
-	add_child(popup)
-	popup.global_position = _gui_field_button.global_position + _gui_field_button.size/2 + Vector2.RIGHT * 8
 	var text := str(true_value)
 	if true_value > 0:
 		text = "+" + text
 	var resource_id := Util.get_action_id_with_action_type(action_data.type)
-	popup.setup(text, Constants.COLOR_WHITE, load(Util.get_image_path_for_resource_id(resource_id)))
+	await _show_resource_icon_popup(resource_id, text)
+
+func _show_resource_icon_popup(icon_id:String, text:String) -> void:
+	_buff_sound.play()
+	var popup:PopupLabelIcon = POPUP_LABEL_ICON_SCENE.instantiate()
+	add_child(popup)
+	popup.global_position = _gui_field_button.global_position + _gui_field_button.size/2 + Vector2.RIGHT * 8
+	var color:Color = Constants.COLOR_WHITE
+	popup.setup(text, color, load(Util.get_image_path_for_resource_id(icon_id)))
 	await popup.animate_show_and_destroy(6, 3, POPUP_SHOW_TIME, POPUP_DESTROY_TIME)
 
 func _get_action_true_value(action_data:ActionData) -> int:

@@ -1,8 +1,7 @@
 class_name ToolScriptGreenhouse
 extends ToolScript
 
+const GREENHOUSE_FIELD_STATUS_DATA := preload("res://data/field_status/field_status_greenhouse.tres")
+
 func apply_tool(_main_game:MainGame, field:Field, _tool_data:ToolData, _tool_index:int) -> void:
-	var action_data:ActionData = ActionData.new()
-	action_data.type = ActionData.ActionType.GREENHOUSE
-	action_data.value = field.plant.light.value
-	await field.apply_actions([action_data])
+	await field.apply_field_status(GREENHOUSE_FIELD_STATUS_DATA.id, 1)

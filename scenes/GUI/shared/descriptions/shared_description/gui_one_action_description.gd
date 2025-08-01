@@ -51,8 +51,6 @@ func _get_action_name(action_data:ActionData) -> String:
 			action_name = Util.get_localized_string("ACTION_NAME_WEATHER_RAINY")
 		ActionData.ActionType.DRAW_CARD:
 			action_name = Util.get_localized_string("ACTION_NAME_DRAW_CARD")
-		ActionData.ActionType.GREENHOUSE:
-			action_name = Util.get_localized_string("ACTION_NAME_GREENHOUSE")
 		ActionData.ActionType.NONE:
 			pass
 	return action_name
@@ -69,10 +67,6 @@ func _get_action_description(action_data:ActionData) -> String:
 			action_description += "\n"
 			action_description += _get_field_action_description(action_data)
 		ActionData.ActionType.FUNGUS:
-			action_description = _get_field_status_description(action_data)
-			action_description += "\n"
-			action_description += _get_field_action_description(action_data)
-		ActionData.ActionType.GREENHOUSE:
 			action_description = _get_field_status_description(action_data)
 			action_description += "\n"
 			action_description += _get_field_action_description(action_data)
@@ -105,8 +99,6 @@ func _get_field_action_description(action_data:ActionData) -> String:
 			action_name = Util.get_localized_string("RESOURCE_NAME_PEST")
 		ActionData.ActionType.FUNGUS:
 			action_name = Util.get_localized_string("RESOURCE_NAME_FUNGUS")
-		ActionData.ActionType.GREENHOUSE:
-			action_name = Util.get_localized_string("RESOURCE_NAME_GREENHOUSE")
 		_:
 			assert(false, "Invalid action type: %s" % action_data.type)
 	action_name = Util.convert_to_bbc_highlight_text(action_name, HIGHLIGHT_COLOR)
