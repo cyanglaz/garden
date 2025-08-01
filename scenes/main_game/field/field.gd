@@ -156,6 +156,9 @@ func harvest() -> void:
 func handle_turn_end() -> void:
 	status_manager.handle_status_on_turn_end()
 
+func handle_tool_application_hook() -> void:
+	await status_manager.handle_tool_application_hook(plant)
+
 func _show_progress_bars(p:Plant) -> void:
 	assert(p.data)
 	_light_bar.bind_with_resource_point(p.light)
@@ -234,8 +237,8 @@ func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
 		FieldStatusData.Type.BAD:
 			color = Constants.COLOR_RED2
 		FieldStatusData.Type.GOOD:
-			color = Constants.COLOR_GREEN2
-	popup.animate_show_label_and_destroy(status_data.popup_message, 18, 1, POPUP_SHOW_TIME, POPUP_STATUS_DESTROY_TIME, color)
+			color = Constants.COLOR_YELLOW2
+	popup.animate_show_label_and_destroy(status_data.popup_message, 10, 1, POPUP_SHOW_TIME, POPUP_STATUS_DESTROY_TIME, color)
 
 func _on_field_mouse_entered() -> void:
 	field_hovered.emit(true)

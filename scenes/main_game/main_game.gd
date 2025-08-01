@@ -11,7 +11,7 @@ const DAYS_TO_WEEK := 7
 @export var number_of_fields := 0
 
 @onready var gui_main_game: GUIMainGame = %GUIGameSession
-@onready var _field_container: FieldContainer = %FieldContainer
+@onready var field_container: FieldContainer = %FieldContainer
 
 var session_seed := 0
 
@@ -30,11 +30,11 @@ func _ready() -> void:
 	Singletons.main_game = self
 	
 	#field signals
-	_field_container.update_with_number_of_fields(number_of_fields)
-	_field_container.field_hovered.connect(_on_field_hovered)
-	_field_container.field_pressed.connect(_on_field_pressed)
-	_field_container.field_harvest_started.connect(_on_field_harvest_started)
-	_field_container.field_harvest_gold_update_requested.connect(_on_field_harvest_gold_update_requested)
+	field_container.update_with_number_of_fields(number_of_fields)
+	field_container.field_hovered.connect(_on_field_hovered)
+	field_container.field_pressed.connect(_on_field_pressed)
+	field_container.field_harvest_started.connect(_on_field_harvest_started)
+	field_container.field_harvest_gold_update_requested.connect(_on_field_harvest_gold_update_requested)
 	
 	#weather signals
 	weather_manager.weathers_updated.connect(_on_weathers_updated)
@@ -54,7 +54,7 @@ func _ready() -> void:
 	gui_main_game.bind_energy(energy_tracker)
 	gui_main_game.bind_tool_deck(tool_manager.tool_deck)
 	gui_main_game.bind_plant_seed_deck(plant_seed_manager.plant_deck)
-	gui_main_game.setup_plant_seed_animation_container(_field_container)
+	gui_main_game.setup_plant_seed_animation_container(field_container)
 	gui_main_game.end_turn_button_pressed.connect(_on_end_turn_button_pressed)
 	gui_main_game.tool_selected.connect(_on_tool_selected)
 	gui_main_game.week_summary_continue_button_pressed.connect(_on_week_summary_continue_button_pressed)
@@ -109,9 +109,9 @@ func _update_gold(gold:int, animated:bool) -> void:
 	await gui_main_game.update_gold(_gold, animated)
 
 func _end_day() -> void:
-	_field_container.handle_turn_end()
+	field_container.handle_turn_end()
 	if week_manager.get_day() == 6:
-		for field:Field in _field_container.fields:
+		for field:Field in field_container.fields:
 			field.remove_plant()
 		# if _gold >= week_manager.get_tax_due():
 		gui_main_game.animate_show_week_summary(_gold, week_manager.get_tax_due())
@@ -135,27 +135,27 @@ func _discard_all_tools() -> void:
 func _clear_tool_selection() -> void:
 	tool_manager.select_tool(-1)
 	gui_main_game.clear_tool_selection()
-	_field_container.clear_tool_indicators()
+	field_container.clear_tool_indicators()
 
 func _plant_new_seeds() -> void:
-	var field_indices:Array[int] = _field_container.get_all_field_indices()
-	assert(field_indices.size() == _field_container.fields.size())
+	var field_indices:Array[int] = field_container.get_all_field_indices()
+	assert(field_indices.size() == field_container.fields.size())
 	await Util.create_scaled_timer(0.2).timeout # If planting is needed, there would be a gold update animation, wait for that animationg to end before drawing new plants
-	await plant_seed_manager.draw_cards(field_indices.size(), gui_main_game.gui_plant_seed_animation_container, field_indices, _field_container)
+	await plant_seed_manager.draw_cards(field_indices.size(), gui_main_game.gui_plant_seed_animation_container, field_indices, field_container)
 
 #endregion
 
 #region harvest flow
 
 func _harvest() -> void:
-	_harvesting_fields = _field_container.get_harvestable_fields()
+	_harvesting_fields = field_container.get_harvestable_fields()
 	if _harvesting_fields.is_empty():
 		return
 	_gold_gaining_fields = _harvesting_fields.duplicate()
-	_field_container.harvest_all_fields()
+	field_container.harvest_all_fields()
 	await _all_field_gold_gained
-	await plant_seed_manager.discard_cards(_harvesting_fields, gui_main_game.gui_plant_seed_animation_container, _field_container)
-	await plant_seed_manager.draw_cards(_harvesting_fields.size(), gui_main_game.gui_plant_seed_animation_container, _harvesting_fields, _field_container)
+	await plant_seed_manager.discard_cards(_harvesting_fields, gui_main_game.gui_plant_seed_animation_container, field_container)
+	await plant_seed_manager.draw_cards(_harvesting_fields.size(), gui_main_game.gui_plant_seed_animation_container, _harvesting_fields, field_container)
 	_harvesting_fields.clear()
 	_gold_gaining_fields.clear()
 
@@ -165,7 +165,7 @@ func _harvest() -> void:
 #region tool events
 
 func _on_tool_selected(index:int) -> void:
-	_field_container.clear_tool_indicators()
+	field_container.clear_tool_indicators()
 	tool_manager.select_tool(index)
 	var tool_data:ToolData = tool_manager.selected_tool
 	if !tool_data:
@@ -187,8 +187,8 @@ func _on_tool_application_completed(_index:int) -> void:
 #region gui main events
 func _on_end_turn_button_pressed() -> void:
 	gui_main_game.toggle_all_ui(false)
-	await weather_manager.apply_weather_actions(_field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
-	await _field_container.trigger_end_day_ability(self)
+	await weather_manager.apply_weather_actions(field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
+	await field_container.trigger_end_day_ability(self)
 	await _harvest()
 	await _discard_all_tools()
 	_end_day()
@@ -206,17 +206,17 @@ func _on_field_harvest_gold_update_requested(gold:int, index:int) -> void:
 func _on_field_hovered(hovered:bool, index:int) -> void:
 	if tool_manager.selected_tool:
 		if hovered && tool_manager.selected_tool.need_select_field:
-			_field_container.toggle_field_selection_indicator(true, tool_manager.selected_tool, index)
+			field_container.toggle_field_selection_indicator(true, tool_manager.selected_tool, index)
 		else:
-			_field_container.toggle_field_selection_indicator(false, tool_manager.selected_tool, index)
+			field_container.toggle_field_selection_indicator(false, tool_manager.selected_tool, index)
 
 func _on_field_pressed(index:int) -> void:
 	if !tool_manager.selected_tool:
 		return
 	if tool_manager.selected_tool.is_all_fields:
-		await tool_manager.apply_tool(self, _field_container.fields)
+		await tool_manager.apply_tool(self, field_container.fields)
 	else:
-		var field := _field_container.fields[index]
+		var field := field_container.fields[index]
 		await tool_manager.apply_tool(self, [field])
 
 #region weather events

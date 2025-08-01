@@ -21,6 +21,12 @@ func has_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> bool:
 func handle_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> HookResultType:
 	return _handle_ability_hook(ability_type, plant)
 
+func has_tool_application_hook() -> bool:
+	return _has_tool_application_hook()
+
+func handle_tool_application_hook(plant:Plant) -> void:
+	await _handle_tool_application_hook(plant)
+
 #region for override
 
 func _has_harvest_gold_hook() -> bool:
@@ -34,5 +40,11 @@ func _has_ability_hook(_ability_type:Plant.AbilityType, _plant:Plant) -> bool:
 
 func _handle_ability_hook(_ability_type:Plant.AbilityType, _plant:Plant) -> HookResultType:
 	return HookResultType.PASS
+
+func _has_tool_application_hook() -> bool:
+	return false
+
+func _handle_tool_application_hook(_plant:Plant) -> void:
+	await Util.await_for_tiny_time()
 
 #endregion

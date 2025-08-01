@@ -42,6 +42,7 @@ func apply_tool(main_game:MainGame, fields:Array) -> void:
 	var applying_tool := selected_tool.get_duplicate()
 	var tool_index := selected_tool_index
 	tool_application_started.emit(selected_tool_index)
+	await main_game.field_container.trigger_tool_application_hook()
 	if !applying_tool.need_select_field:
 		await _tool_applier.apply_tool(main_game, null, applying_tool, tool_index)
 		tool_application_completed.emit(tool_index)

@@ -11,6 +11,8 @@ var _harvest_gold_hook_queue:Array[String] = []
 var _current_harvest_gold_hook_index:int = 0
 var _ability_hook_queue:Array[String] = []
 var _current_ability_hook_index:int = 0
+var _tool_application_hook_queue:Array[String] = []
+var _current_tool_application_hook_index:int = 0
 
 func handle_status_on_turn_end() -> void:
 	for status_id in field_status_map.keys():
@@ -85,6 +87,24 @@ func _handle_next_harvest_gold_hook(plant:Plant) -> void:
 	status_data.status_script.handle_harvest_gold_hook(plant)
 	_current_harvest_gold_hook_index += 1
 	await _handle_next_harvest_gold_hook(plant)
+
+func handle_tool_application_hook(plant:Plant) -> void:
+	var all_status_ids := field_status_map.keys()
+	_tool_application_hook_queue = all_status_ids.filter(func(status_id:String) -> bool:
+		return field_status_map[status_id].status_script.has_tool_application_hook()
+	)
+	_current_tool_application_hook_index = 0
+	await _handle_next_tool_application_hook(plant)
+
+func _handle_next_tool_application_hook(plant:Plant) -> void:
+	if _current_tool_application_hook_index >= _tool_application_hook_queue.size():
+		return
+	var status_id:String = _tool_application_hook_queue[_current_tool_application_hook_index]
+	var status_data := field_status_map[status_id]
+	await _send_hook_animation_signals(status_data)
+	await status_data.status_script.handle_tool_application_hook(plant)
+	_current_tool_application_hook_index += 1
+	await _handle_next_tool_application_hook(plant)
 
 func _send_hook_animation_signals(status_data:FieldStatusData) -> void:
 	request_status_hook_animation.emit(status_data.id)

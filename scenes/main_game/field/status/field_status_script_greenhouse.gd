@@ -1,8 +1,11 @@
 class_name FieldStatusScriptGreenhouse
 extends FieldStatusScript
 
-func _has_harvest_gold_hook() -> bool:
+func _has_tool_application_hook() -> bool:
 	return true
 
-func _handle_harvest_gold_hook(plant:Plant) -> void:
-	plant.data.gold = int(plant.data.gold * 0.5)
+func _handle_tool_application_hook(plant:Plant) -> void:
+	var action:ActionData = ActionData.new()
+	action.type = ActionData.ActionType.LIGHT
+	action.value = 1
+	await plant.field.apply_actions([action])

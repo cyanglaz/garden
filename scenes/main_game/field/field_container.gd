@@ -60,6 +60,10 @@ func trigger_end_day_ability(main_game:MainGame) -> void:
 	for field:Field in _container.get_children():
 		if field.plant:
 			await field.plant.trigger_ability(Plant.AbilityType.END_DAY, main_game)
+
+func trigger_tool_application_hook() -> void:
+	for field:Field in _container.get_children():
+		await field.handle_tool_application_hook()
 	
 func clear_tool_indicators() -> void:
 	for field:Field in fields:
