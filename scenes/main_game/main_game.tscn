@@ -14,7 +14,7 @@
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 test_plant_datas = Array[ExtResource("2_6eclk")]([ExtResource("4_gl27v"), ExtResource("4_gl27v"), ExtResource("4_gl27v")])
-test_tools = Array[ExtResource("4_ldk84")]([ExtResource("9_4y18v"), ExtResource("9_gl27v"), ExtResource("10_gl27v"), ExtResource("10_gl27v"), ExtResource("10_gl27v")])
+test_tools = Array[ExtResource("4_ldk84")]([ExtResource("9_4y18v"), ExtResource("9_gl27v"), ExtResource("10_gl27v"), ExtResource("10_gl27v"), ExtResource("10_gl27v"), ExtResource("10_gl27v"), ExtResource("10_gl27v"), ExtResource("10_gl27v"), ExtResource("10_gl27v")])
 number_of_fields = 2
 
 [node name="FieldContainer" parent="." instance=ExtResource("1_075iw")]
