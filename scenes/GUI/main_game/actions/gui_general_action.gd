@@ -36,3 +36,6 @@ func update_with_action(action_data:ActionData) -> void:
 			_value_icon.show()
 			_sign_icon.texture = load(SIGN_ICON_PATH + "equals.png")
 			_value_icon.texture = load(VALUE_ICON_PATH + "cards_in_hand.png")
+		ActionData.ValueType.RANDOM:
+			_value_icon.show()
+			_value_icon.texture = load(VALUE_ICON_PATH + "random.png")

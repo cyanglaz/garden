@@ -47,3 +47,17 @@ func _apply_instant_use_tool_action(action:ActionData, main_game:MainGame, _tool
 	match action.type:
 		ActionData.ActionType.DRAW_CARD:
 			await main_game.draw_cards(action.value)
+		ActionData.ActionType.DISCARD_CARD:
+			await _handle_discard_card_action(action, main_game, _tool_index)
+
+func _handle_discard_card_action(action:ActionData, main_game:MainGame, _tool_index:int) -> void:
+	var random := action.value_type == ActionData.ValueType.RANDOM
+	var discard_size := action.value
+	if random:
+		var indices := []
+		for i in main_game.tool_manager.tool_deck.hand.size():
+			indices.append(i)
+		var random_indices := Util.unweighted_roll(indices, discard_size)
+		await main_game.discard_cards(random_indices)
+	else:
+		assert(false, "TODO: create manual discard flow")

@@ -102,6 +102,9 @@ func add_control_to_overlay(control:Control) -> void:
 func draw_cards(count:int) -> void:
 	await tool_manager.draw_cards(count, gui_main_game.gui_tool_card_container)
 
+func discard_cards(indices:Array) -> void:
+	await tool_manager.discard_cards(indices, gui_main_game.gui_tool_card_container)
+
 #region private
 
 func _update_gold(gold:int, animated:bool) -> void:

@@ -306,7 +306,9 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 		ActionData.ActionType.FUNGUS:
 			id = "fungus"
 		ActionData.ActionType.DRAW_CARD:
-			id = "card"
+			id = "draw_card"
+		ActionData.ActionType.DISCARD_CARD:
+			id = "discard_card"
 		ActionData.ActionType.WEATHER_SUNNY:
 			id = "sunny"
 		ActionData.ActionType.WEATHER_RAINY:

@@ -33,8 +33,8 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		_datas.clear()
 	
-func _evaluate_data(resource:Resource) -> void:
-	assert(true)
+func _evaluate_data(_resource:Resource) -> void:
+	pass
 
 func _get_data_dir() -> String:
 	return ""
