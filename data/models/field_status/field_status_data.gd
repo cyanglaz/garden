@@ -43,4 +43,5 @@ func _create_status_script() -> FieldStatusScript:
 	var path := Util.get_script_path_for_field_status_id(id)
 	if ResourceLoader.exists(path):
 		_status_script = load(path).new(self)
+		_status_script.status_data = self
 	return _status_script
