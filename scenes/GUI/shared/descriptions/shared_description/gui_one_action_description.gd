@@ -147,7 +147,7 @@ func _get_value_text(action_data:ActionData) -> String:
 			value_text =  Util.convert_to_bbc_highlight_text(tr("ACTION_DESCRIPTION_NUMBER_OF_TOOL_CARDS_IN_HAND"), HIGHLIGHT_COLOR)
 		ActionData.ValueType.RANDOM:
 			value_text = Util.convert_to_bbc_highlight_text(str(abs(action_data.value)), HIGHLIGHT_COLOR)
-			value_text += Util.get_localized_string("ACTION_DESCRIPTION_RANDOM")
+			value_text += Util.convert_to_bbc_highlight_text(Util.get_localized_string("ACTION_DESCRIPTION_RANDOM"), HIGHLIGHT_COLOR)
 		_:
 			assert(false, "Invalid value type: %s" % action_data.value_type)
 	return value_text
