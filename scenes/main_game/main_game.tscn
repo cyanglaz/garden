@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bbcxpceayay3"]
+[gd_scene load_steps=11 format=3 uid="uid://bbcxpceayay3"]
 
 [ext_resource type="PackedScene" uid="uid://byg0qymapjkn6" path="res://scenes/main_game/field/field_container.tscn" id="1_075iw"]
 [ext_resource type="Script" uid="uid://sc1eubamsw6x" path="res://scenes/main_game/main_game.gd" id="1_yra6k"]
@@ -7,16 +7,14 @@
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
 [ext_resource type="Resource" uid="uid://77nrfqt5l4mx" path="res://data/plants/plant_data_hibiscus.tres" id="4_gl27v"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="4_ldk84"]
-[ext_resource type="Resource" uid="uid://b7kyqku5vtyny" path="res://data/tools/tool_mirror_pool.tres" id="6_b4n6q"]
-[ext_resource type="Resource" uid="uid://dyxnhfa0lax6i" path="res://data/tools/tool_greenhouse.tres" id="7_r81kp"]
 [ext_resource type="Resource" uid="uid://dveio5prp3e4b" path="res://data/tools/tool_burn.tres" id="9_4y18v"]
-[ext_resource type="Resource" uid="uid://c6k0erxrqmrlg" path="res://data/tools/tool_heat.tres" id="9_b4n6q"]
-[ext_resource type="Resource" uid="uid://ycpn4weg0bdk" path="res://data/tools/tool_radiant_insight.tres" id="10_irrf2"]
+[ext_resource type="Resource" uid="uid://5w8jcfwyuxvq" path="res://data/tools/tool_aphid_alert.tres" id="9_gl27v"]
+[ext_resource type="Resource" uid="uid://b0ckuxysbrafa" path="res://data/tools/tool_photosynthesis.tres" id="10_gl27v"]
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 test_plant_datas = Array[ExtResource("2_6eclk")]([ExtResource("4_gl27v"), ExtResource("4_gl27v"), ExtResource("4_gl27v")])
-test_tools = Array[ExtResource("4_ldk84")]([ExtResource("9_b4n6q"), ExtResource("6_b4n6q"), ExtResource("7_r81kp"), ExtResource("9_4y18v"), ExtResource("10_irrf2")])
+test_tools = Array[ExtResource("4_ldk84")]([ExtResource("9_4y18v"), ExtResource("9_gl27v"), ExtResource("10_gl27v"), ExtResource("10_gl27v"), ExtResource("10_gl27v"), ExtResource("10_gl27v"), ExtResource("10_gl27v"), ExtResource("10_gl27v")])
 number_of_fields = 2
 
 [node name="FieldContainer" parent="." instance=ExtResource("1_075iw")]

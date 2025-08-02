@@ -32,6 +32,10 @@ func animate_draw(draw_results:Array) -> void:
 	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_DRAW, [draw_results])
 	await item.finished
 
+func animate_reposition() -> void:
+	var item := _enqueue_animation(AnimationQueueItem.AnimationType.REPOSITION, [])
+	await item.finished
+
 func animate_shuffle(number_of_cards:int) -> void:
 	if number_of_cards == 0:
 		return
@@ -57,19 +61,6 @@ func animate_discard(indices:Array) -> void:
 	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_DISCARD, [indices])
 	await item.finished
 
-func animate_reposition() -> void:
-	if _tool_card_container.get_card_count() == 0:
-		return
-	var default_positions:Array[Vector2] = _tool_card_container.calculate_default_positions(_tool_card_container.get_card_count())
-	var reposition_tween:Tween = Util.create_scaled_tween(self)
-	reposition_tween.set_parallel(true)
-	for i:int in _tool_card_container.get_card_count():
-		var card:GUIToolCardButton = _tool_card_container.get_card(i)
-		var target_position:Vector2 = _tool_card_container.global_position + default_positions[i]
-		card.play_move_sound()
-		reposition_tween.tween_property(card, "global_position", target_position, DISCARD_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	await reposition_tween.finished
-
 func _enqueue_animation(type:AnimationQueueItem.AnimationType, args:Array) -> AnimationQueueItem:
 	var id := _animation_queue.size()
 	var item := AnimationQueueItem.new(id, type, args)
@@ -81,12 +72,14 @@ func _enqueue_animation(type:AnimationQueueItem.AnimationType, args:Array) -> An
 func _play_next_animation() -> void:
 	if _animation_queue.is_empty():
 		return
-	var next_item:AnimationQueueItem = _animation_queue.pop_front()
+	var next_item:AnimationQueueItem = _animation_queue.front()
 	match next_item.animation_type:
 		AnimationQueueItem.AnimationType.ANIMATE_DRAW:
 			_animate_draw(next_item)
 		AnimationQueueItem.AnimationType.ANIMATE_DISCARD:
 			_animate_discard(next_item)
+		AnimationQueueItem.AnimationType.REPOSITION:
+			_animate_reposition(next_item)
 
 func _animate_draw(animation_item:AnimationQueueItem) -> void:
 	var draw_results:Array = animation_item.animation_args[0].duplicate()
@@ -139,7 +132,21 @@ func _animate_discard(animation_item:AnimationQueueItem) -> void:
 		discard_tween.tween_property(card, "size", target_size, DISCARD_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * i).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await discard_tween.finished
 	_tool_card_container.remove_cards(discarding_cards)
-	await animate_reposition()
+	_animation_queue_item_finished.emit(animation_item)
+
+func _animate_reposition(animation_item:AnimationQueueItem) -> void:
+	if _tool_card_container.get_card_count() == 0:
+		_animation_queue_item_finished.emit(animation_item)
+		return
+	var default_positions:Array[Vector2] = _tool_card_container.calculate_default_positions(_tool_card_container.get_card_count())
+	var reposition_tween:Tween = Util.create_scaled_tween(self)
+	reposition_tween.set_parallel(true)
+	for i:int in _tool_card_container.get_card_count():
+		var card:GUIToolCardButton = _tool_card_container.get_card(i)
+		var target_position:Vector2 = _tool_card_container.global_position + default_positions[i]
+		card.play_move_sound()
+		reposition_tween.tween_property(card, "global_position", target_position, DISCARD_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	await reposition_tween.finished
 	_animation_queue_item_finished.emit(animation_item)
 
 func _get_tool_card_container() -> GUIToolCardContainer:
@@ -152,7 +159,10 @@ func _get_discard_deck_button() -> GUIDeckButton:
 	return _weak_discard_deck_button.get_ref()
 
 func _on_animation_queue_item_finished(finished_item:AnimationQueueItem) -> void:
+	_animation_queue.pop_front()
 	finished_item.finished.emit()
+	if finished_item.animation_type == AnimationQueueItem.AnimationType.ANIMATE_DISCARD:
+		animate_reposition()
 	_play_next_animation()
 
 func _on_draw_animation_scaler_tweener_finished(card:GUIToolCardButton) -> void:
@@ -166,6 +176,7 @@ class AnimationQueueItem:
 	enum AnimationType {
 		ANIMATE_DRAW,
 		ANIMATE_DISCARD,
+		REPOSITION,
 	}
 
 	var animation_type:AnimationType
