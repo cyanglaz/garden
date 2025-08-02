@@ -51,6 +51,8 @@ func _get_action_name(action_data:ActionData) -> String:
 			action_name = Util.get_localized_string("ACTION_NAME_WEATHER_RAINY")
 		ActionData.ActionType.DRAW_CARD:
 			action_name = Util.get_localized_string("ACTION_NAME_DRAW_CARD")
+		ActionData.ActionType.DISCARD_CARD:
+			action_name = Util.get_localized_string("ACTION_NAME_DISCARD_CARD")
 		ActionData.ActionType.NONE:
 			pass
 	return action_name
@@ -76,6 +78,8 @@ func _get_action_description(action_data:ActionData) -> String:
 			action_description = _get_weather_action_description(action_data)
 		ActionData.ActionType.DRAW_CARD:
 			action_description = _get_draw_card_action_description(action_data)
+		ActionData.ActionType.DISCARD_CARD:
+			action_description = _get_discard_card_action_description(action_data)
 		ActionData.ActionType.NONE:
 			pass
 	if action_description.contains("%s"):
@@ -129,6 +133,11 @@ func _get_draw_card_action_description(action_data:ActionData) -> String:
 	main_description = main_description % [_get_value_text(action_data)]
 	return main_description
 
+func _get_discard_card_action_description(action_data:ActionData) -> String:
+	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_DISCARD_CARD")
+	main_description = main_description % [_get_value_text(action_data)]
+	return main_description
+
 func _get_value_text(action_data:ActionData) -> String:
 	var value_text := ""
 	match action_data.value_type:
@@ -136,6 +145,9 @@ func _get_value_text(action_data:ActionData) -> String:
 			value_text =  Util.convert_to_bbc_highlight_text(str(abs(action_data.value)), HIGHLIGHT_COLOR)
 		ActionData.ValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
 			value_text =  Util.convert_to_bbc_highlight_text(tr("ACTION_DESCRIPTION_NUMBER_OF_TOOL_CARDS_IN_HAND"), HIGHLIGHT_COLOR)
+		ActionData.ValueType.RANDOM:
+			value_text = Util.convert_to_bbc_highlight_text(str(abs(action_data.value)), HIGHLIGHT_COLOR)
+			value_text += Util.get_localized_string("ACTION_DESCRIPTION_RANDOM")
 		_:
 			assert(false, "Invalid value type: %s" % action_data.value_type)
 	return value_text
