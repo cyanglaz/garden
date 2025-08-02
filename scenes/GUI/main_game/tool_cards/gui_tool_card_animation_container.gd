@@ -17,7 +17,6 @@ var _weak_draw_deck_button:WeakRef = weakref(null)
 var _weak_discard_deck_button:WeakRef = weakref(null)
 
 var _animation_queue:Array = []
-var _reposition_tween:Tween
 
 func _ready() -> void:
 	_animation_queue_item_finished.connect(_on_animation_queue_item_finished)
