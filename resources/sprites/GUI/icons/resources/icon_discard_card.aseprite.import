@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c2rpgawcccddn"
+path="res://.godot/imported/icon_discard_card.aseprite-6c91d33d595a18b262f7d4f063f90229.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_discard_card.aseprite"
+dest_files=["res://.godot/imported/icon_discard_card.aseprite-6c91d33d595a18b262f7d4f063f90229.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

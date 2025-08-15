@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://be1hs8nv830s7"
+path="res://.godot/imported/icon_greenhouse.aseprite-a19aa14ba58ad82c6cefff9953e79090.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_greenhouse.aseprite"
+dest_files=["res://.godot/imported/icon_greenhouse.aseprite-a19aa14ba58ad82c6cefff9953e79090.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

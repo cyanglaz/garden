@@ -4,30 +4,30 @@
 [ext_resource type="Script" uid="uid://tuu0gwwwv0ys" path="res://scenes/main_game/plants/plants/plant_daisy.gd" id="2_uas1e"]
 [ext_resource type="Texture2D" uid="uid://nm4wlycbeyfh" path="res://resources/sprites/plants/plant_daisy.png" id="3_mn8ri"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ip5as"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ohi4o"]
 atlas = ExtResource("3_mn8ri")
 region = Rect2(0, 0, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ky5dn"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_kfn1r"]
 atlas = ExtResource("3_mn8ri")
 region = Rect2(36, 0, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ey3vu"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_b484h"]
 atlas = ExtResource("3_mn8ri")
 region = Rect2(0, 36, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_swvck"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_5mi5s"]
 atlas = ExtResource("3_mn8ri")
 region = Rect2(36, 36, 36, 36)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_bsvjl"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_myygq"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ip5as")
+"texture": SubResource("AtlasTexture_ohi4o")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ky5dn")
+"texture": SubResource("AtlasTexture_kfn1r")
 }],
 "loop": true,
 "name": &"idle_1",
@@ -35,10 +35,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ey3vu")
+"texture": SubResource("AtlasTexture_b484h")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_swvck")
+"texture": SubResource("AtlasTexture_5mi5s")
 }],
 "loop": true,
 "name": &"idle_2",
@@ -50,7 +50,7 @@ script = ExtResource("2_uas1e")
 
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_bsvjl")
+sprite_frames = SubResource("SpriteFrames_myygq")
 animation = &"idle_1"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,

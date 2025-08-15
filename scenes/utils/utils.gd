@@ -306,7 +306,9 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 		ActionData.ActionType.FUNGUS:
 			id = "fungus"
 		ActionData.ActionType.DRAW_CARD:
-			id = "card"
+			id = "draw_card"
+		ActionData.ActionType.DISCARD_CARD:
+			id = "discard_card"
 		ActionData.ActionType.WEATHER_SUNNY:
 			id = "sunny"
 		ActionData.ActionType.WEATHER_RAINY:
@@ -370,20 +372,15 @@ static func _format_icon_reference(reference_id:String, highlight:bool) -> Strin
 	if reference_id.begins_with("resource_"):
 		reference_type = ReferenceType.RESOURCE
 	
-	var url_prefix := ""
-	var url := ""
 	var level_suffix := _get_level_suffix(reference_id)
 	match reference_type:
 		ReferenceType.RESOURCE:
 			reference_id = reference_id.trim_prefix("resource_")
 			image_path = Util.get_image_path_for_resource_id(reference_id)
-			url = reference_id
 	var highlight_color := Constants.COLOR_WHITE
 	if highlight:
 		highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
 	icon_string = str("[img=6x6]", image_path, "[/img]") + Util.convert_to_bbc_highlight_text(level_suffix, highlight_color)
-	if !url.is_empty():
-		icon_string = str("[url=", url_prefix, reference_id, "]", icon_string, "[/url]")
 	return icon_string
 
 static func _highlight_string(string:String) -> String:

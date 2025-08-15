@@ -7,6 +7,7 @@
 script = ExtResource("1_vy2xk")
 type = 4
 value = -1
+value_type = 0
 id = ""
 display_name = ""
 description = ""
@@ -19,6 +20,7 @@ energy_cost = 1
 actions = Array[ExtResource("1_vy2xk")]([SubResource("Resource_oexgw")])
 rarity = 0
 specials = Array[int]([])
+need_select_field = true
 id = "fungicide"
 display_name = "Fungicide"
 description = ""

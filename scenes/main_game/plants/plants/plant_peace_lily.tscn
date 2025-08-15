@@ -4,30 +4,30 @@
 [ext_resource type="Script" uid="uid://bs0ixaewm1oxe" path="res://scenes/main_game/plants/plants/plant_peace_lily.gd" id="2_a171i"]
 [ext_resource type="Texture2D" uid="uid://bn7irm5luatjg" path="res://resources/sprites/plants/plant_peace_lily.png" id="3_fusfv"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fusfv"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_a171i"]
 atlas = ExtResource("3_fusfv")
 region = Rect2(0, 0, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_26dl7"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_j3o6h"]
 atlas = ExtResource("3_fusfv")
 region = Rect2(36, 0, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qdb3k"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jwibv"]
 atlas = ExtResource("3_fusfv")
 region = Rect2(0, 36, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dbg2v"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_awiv4"]
 atlas = ExtResource("3_fusfv")
 region = Rect2(36, 36, 36, 36)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_cwyo1"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_uc87n"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fusfv")
+"texture": SubResource("AtlasTexture_a171i")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_26dl7")
+"texture": SubResource("AtlasTexture_j3o6h")
 }],
 "loop": true,
 "name": &"idle_1",
@@ -35,10 +35,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qdb3k")
+"texture": SubResource("AtlasTexture_jwibv")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_dbg2v")
+"texture": SubResource("AtlasTexture_awiv4")
 }],
 "loop": true,
 "name": &"idle_2",
@@ -50,7 +50,7 @@ script = ExtResource("2_a171i")
 
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_cwyo1")
+sprite_frames = SubResource("SpriteFrames_uc87n")
 animation = &"idle_1"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,

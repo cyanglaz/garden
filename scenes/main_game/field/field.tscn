@@ -13,23 +13,23 @@
 [ext_resource type="AudioStream" uid="uid://d1akur2jywp1n" path="res://resources/sounds/SFX/other/plants/plant_down.wav" id="9_sqga6"]
 [ext_resource type="PackedScene" uid="uid://bbwbuyve75w7l" path="res://scenes/GUI/tooltips/gui_plant_tooltip.tscn" id="11_n6lee"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8wd00"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_sqga6"]
 atlas = ExtResource("1_se4o6")
 region = Rect2(36, 0, 36, 22)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wjfsy"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_u5lh2"]
 atlas = ExtResource("1_se4o6")
 region = Rect2(0, 0, 36, 22)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_50o30"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ipwbb"]
 atlas = ExtResource("1_se4o6")
 region = Rect2(0, 22, 36, 22)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_3ecbu"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_rw11e"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_8wd00")
+"texture": SubResource("AtlasTexture_sqga6")
 }],
 "loop": false,
 "name": &"hover",
@@ -37,7 +37,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wjfsy")
+"texture": SubResource("AtlasTexture_u5lh2")
 }],
 "loop": false,
 "name": &"idle",
@@ -45,7 +45,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_50o30")
+"texture": SubResource("AtlasTexture_ipwbb")
 }],
 "loop": false,
 "name": &"pressed",
@@ -58,7 +58,7 @@ script = ExtResource("1_4blml")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_3ecbu")
+sprite_frames = SubResource("SpriteFrames_rw11e")
 animation = &"hover"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
@@ -137,9 +137,9 @@ unique_name_in_owner = true
 anchors_preset = 2
 anchor_left = 0.0
 anchor_right = 0.0
-offset_left = 15.0
+offset_left = 16.0
 offset_top = 11.0
-offset_right = 15.0
+offset_right = 16.0
 offset_bottom = 11.0
 grow_horizontal = 1
 

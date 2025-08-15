@@ -1,6 +1,10 @@
 class_name FieldStatusScript
 extends RefCounted
 
+@warning_ignore("unused_private_class_variable")
+var status_data:FieldStatusData: get = _get_status_data, set = _set_status_data
+var _weak_data:WeakRef = weakref(self)
+
 @warning_ignore("unused_signal")
 signal hook_complicated()
 
@@ -13,13 +17,19 @@ func has_harvest_gold_hook() -> bool:
 	return _has_harvest_gold_hook()
 
 func handle_harvest_gold_hook(plant:Plant) -> void:
-	_handle_harvest_gold_hook(plant)
+	await _handle_harvest_gold_hook(plant)
 
 func has_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> bool:
 	return _has_ability_hook(ability_type, plant)
 
 func handle_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> HookResultType:
-	return _handle_ability_hook(ability_type, plant)
+	return await _handle_ability_hook(ability_type, plant)
+
+func has_tool_application_hook() -> bool:
+	return _has_tool_application_hook()
+
+func handle_tool_application_hook(plant:Plant) -> void:
+	await _handle_tool_application_hook(plant)
 
 #region for override
 
@@ -27,12 +37,25 @@ func _has_harvest_gold_hook() -> bool:
 	return false
 
 func _handle_harvest_gold_hook(_plant:Plant) -> void:
-	pass
+	await Util.await_for_tiny_time()
 
 func _has_ability_hook(_ability_type:Plant.AbilityType, _plant:Plant) -> bool:
 	return false
 
 func _handle_ability_hook(_ability_type:Plant.AbilityType, _plant:Plant) -> HookResultType:
+	await Util.await_for_tiny_time()
 	return HookResultType.PASS
 
+func _has_tool_application_hook() -> bool:
+	return false
+
+func _handle_tool_application_hook(_plant:Plant) -> void:
+	await Util.await_for_tiny_time()
+
 #endregion
+
+func _get_status_data() -> FieldStatusData:
+	return _weak_data.get_ref()
+
+func _set_status_data(value:FieldStatusData) -> void:
+	_weak_data = weakref(value)

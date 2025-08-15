@@ -4,7 +4,7 @@ extends PanelContainer
 signal tool_selected(index:int)
 
 const TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
-const DEFAULT_CARD_SPACE := GUIToolCardButton.HIGHLIGHTED_OFFSET * 1
+const DEFAULT_CARD_SPACE := 1.0
 const MAX_TOTAL_WIDTH := 200
 const REPOSITION_DURATION:float = 0.08
 const TOOL_SELECTED_OFFSET := -6.0
@@ -114,16 +114,15 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 		var target_position := Vector2(start_x + i*_card_size + i*card_space, 0)
 		result.append(target_position)
 	result.reverse() # First card is at the end of the array.
-	var card_padding := result[0].x - result[1].x - _card_size
 	for i in result.size():
 		if _selected_index >= 0:
-			if card_padding < 0.0:
+			if card_space < 0.0:
 				var pos = result[i]
 				if i < _selected_index:
 					# The positions are reversed
-					pos.x += 1 - card_padding # Push right cards 4 pixels left
+					pos.x += 1 - card_space # Push right cards 4 pixels left
 				elif i > _selected_index:
-					pos.x -= 1 - card_padding # Push left cards 4 pixels right
+					pos.x -= 1 - card_space # Push left cards 4 pixels right
 				result[i] = pos
 	return result
 

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=3 format=3 uid="uid://b7kyqku5vtyny"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_o6ad8"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_28b6n"]
+
+[resource]
+script = ExtResource("2_28b6n")
+energy_cost = 2
+actions = Array[ExtResource("1_o6ad8")]([])
+rarity = 2
+specials = Array[int]([])
+need_select_field = true
+id = "mirror_pool"
+display_name = "Mirror Pool"
+description = "Set the {icon_resource_water} on a plant equal to its {icon_resource_light}."
+data = {}
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

@@ -10,6 +10,8 @@ func get_all_datas() -> Array:
 	return _datas.values()
 
 func get_data_by_id(id:String, copy:bool=false) -> Resource:
+	if !_datas.has(id):
+		return null
 	var original_data = _datas[id]
 	if !copy:
 		return original_data
@@ -24,11 +26,15 @@ func _load_data_from_dir(dir_path:String):
 	var all_resource_files := Util.get_all_file_paths(dir_path, true)
 	for file_path in all_resource_files:
 		var resource := load(file_path)
+		_evaluate_data(resource)
 		_datas[resource.id] = resource
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		_datas.clear()
+	
+func _evaluate_data(_resource:Resource) -> void:
+	pass
 
 func _get_data_dir() -> String:
 	return ""

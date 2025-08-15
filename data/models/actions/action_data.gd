@@ -7,10 +7,10 @@ enum ActionType {
 	WATER,
 	PEST,
 	FUNGUS,
-	GLOW,
 	WEATHER_SUNNY,
 	WEATHER_RAINY,
 	DRAW_CARD,
+	DISCARD_CARD,
 }
 
 enum ActionCategory {
@@ -23,10 +23,11 @@ enum ActionCategory {
 enum ValueType {
 	NUMBER,
 	NUMBER_OF_TOOL_CARDS_IN_HAND,
+	RANDOM,
 }
 
-const CARD_ACTION_TYPES := [ActionType.DRAW_CARD]
-const FIELD_ACTION_TYPES := [ActionType.LIGHT, ActionType.WATER, ActionType.PEST, ActionType.FUNGUS, ActionType.GLOW]
+const CARD_ACTION_TYPES := [ActionType.DRAW_CARD, ActionType.DISCARD_CARD]
+const FIELD_ACTION_TYPES := [ActionType.LIGHT, ActionType.WATER, ActionType.PEST, ActionType.FUNGUS]
 const WEATHER_ACTION_TYPES := [ActionType.WEATHER_SUNNY, ActionType.WEATHER_RAINY]
 
 @export var type:ActionType

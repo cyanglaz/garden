@@ -16,7 +16,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [sub_resource type="Resource" id="Resource_0wo8n"]
 script = ExtResource("1_0wo8n")
-type = 8
+type = 7
 value = 1
 value_type = 0
 id = ""
@@ -31,6 +31,7 @@ energy_cost = 2
 actions = Array[ExtResource("1_0wo8n")]([SubResource("Resource_oexgw"), SubResource("Resource_0wo8n")])
 rarity = 1
 specials = Array[int]([])
+need_select_field = true
 id = "photosynthesis"
 display_name = "Photosynthesis"
 description = ""

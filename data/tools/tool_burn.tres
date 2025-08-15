@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=5 format=3 uid="uid://dveio5prp3e4b"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_l00fl"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_nyhx2"]
+
+[sub_resource type="Resource" id="Resource_l00fl"]
+script = ExtResource("1_l00fl")
+type = 8
+value = 1
+value_type = 2
+id = ""
+display_name = ""
+description = ""
+data = {}
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_oexgw"]
+script = ExtResource("1_l00fl")
+type = 1
+value = 2
+value_type = 0
+id = ""
+display_name = ""
+description = ""
+data = {}
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_nyhx2")
+energy_cost = 1
+actions = Array[ExtResource("1_l00fl")]([SubResource("Resource_l00fl"), SubResource("Resource_oexgw")])
+rarity = 1
+specials = Array[int]([])
+need_select_field = true
+id = "burn"
+display_name = "Burn"
+description = ""
+data = {}
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

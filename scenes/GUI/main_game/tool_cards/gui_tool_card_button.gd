@@ -11,7 +11,8 @@ const TOOLTIP_DELAY := 0.2
 const CARD_HOVER_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_hover.wav")
 const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_select.wav")
 
-@onready var _gui_generic_description: GUIGenericDescription = %GUIGenericDescription
+
+@onready var _gui_action_list: GUIActionList = %GUIActionList
 @onready var _card_container: Control = %CardContainer
 @onready var _background: NinePatchRect = %Background
 @onready var _title: Label = %Title
@@ -19,6 +20,7 @@ const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/
 @onready var _card_content: VBoxContainer = %CardContent
 @onready var _specials_container: HBoxContainer = %SpecialsContainer
 @onready var _cost_icon: TextureRect = %CostIcon
+@onready var _rich_text_label: RichTextLabel = %RichTextLabel
 
 var mouse_disabled:bool = false: set = _set_mouse_disabled
 var activated := false: set = _set_activated
@@ -41,7 +43,10 @@ func _ready() -> void:
 
 func update_with_tool_data(tool_data:ToolData) -> void:
 	_weak_tool_data = weakref(tool_data)
-	_gui_generic_description.update(tool_data.actions, tool_data.get_display_description())
+	if tool_data.actions.is_empty():
+		_rich_text_label.text = tool_data.get_display_description()
+	else:
+		_gui_action_list.update(tool_data.actions)
 	_cost_icon.texture = load(VALUE_ICON_PREFIX + str(tool_data.energy_cost) + ".png")
 	_title.text = tool_data.display_name
 	match tool_data.rarity:
@@ -74,7 +79,7 @@ func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	if activated:
 		await Util.create_scaled_timer(TOOLTIP_DELAY).timeout
-		if mouse_in:
+		if mouse_in && !_tool_data.actions.is_empty():
 			if _weak_actions_tooltip.get_ref():
 				return
 			_weak_actions_tooltip = weakref(Util.display_tool_card_tooltip(_tool_data, self, false, GUITooltip.TooltipPosition.RIGHT, true))

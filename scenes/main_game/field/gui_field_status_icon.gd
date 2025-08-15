@@ -7,7 +7,6 @@ const ANIMATION_OFFSET := 3
 @onready var _stack: Label = %Stack
 @onready var _good_animation_audio: AudioStreamPlayer2D = %GoodAnimationAudio
 @onready var _bad_animation_audio: AudioStreamPlayer2D = %BadAnimationAudio
-@onready var _background: ColorRect = %Background
 
 var status_id:String = ""
 var status_type:FieldStatusData.Type
@@ -22,14 +21,12 @@ func _ready() -> void:
 func setup_with_field_status_data(field_status_data:FieldStatusData) -> void:
 	_weak_field_status_data = weakref(field_status_data)
 	_icon.texture = load(Util.get_image_path_for_resource_id(field_status_data.id))
-	_stack.text = str(field_status_data.stack)
+	if field_status_data.stackable:
+		_stack.text = str(field_status_data.stack)
+	else:
+		_stack.text = ""
 	status_id = field_status_data.id
 	status_type = field_status_data.type
-	match status_type:
-		FieldStatusData.Type.BAD:
-			_background.color = Constants.COLOR_PURPLE1
-		FieldStatusData.Type.GOOD:
-			_background.color = Constants.COLOR_ORANGE2
 
 func play_trigger_animation() -> void:
 	match status_type:

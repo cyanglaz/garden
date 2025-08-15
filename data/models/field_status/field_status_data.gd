@@ -8,6 +8,9 @@ enum Type {
 
 @export var type:Type
 @export var popup_message:String
+@export var stackable:bool
+@export var single_turn:bool
+@export var reduce_stack_on_turn_end:bool
 
 var status_script:FieldStatusScript: get = _get_status_script
 
@@ -22,6 +25,9 @@ func copy(other:ThingData) -> void:
 	type = other_field_status_data.type
 	popup_message = other_field_status_data.popup_message
 	_status_script = _create_status_script()
+	stackable = other_field_status_data.stackable
+	single_turn = other_field_status_data.single_turn
+	reduce_stack_on_turn_end = other_field_status_data.reduce_stack_on_turn_end
 
 func get_duplicate() -> FieldStatusData:
 	var dup:FieldStatusData = FieldStatusData.new()
@@ -37,4 +43,5 @@ func _create_status_script() -> FieldStatusScript:
 	var path := Util.get_script_path_for_field_status_id(id)
 	if ResourceLoader.exists(path):
 		_status_script = load(path).new(self)
+		_status_script.status_data = self
 	return _status_script

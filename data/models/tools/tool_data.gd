@@ -1,6 +1,8 @@
 class_name ToolData
 extends ThingData
 
+const TOOL_SCRIPT_PATH := "res://scenes/main_game/tool/tool_scripts/tool_script_%s.gd"
+
 const COSTS := {
 	0: 10,
 	1: 25,
@@ -15,11 +17,12 @@ enum Special {
 @export var actions:Array[ActionData]
 @export var rarity:int = 0
 @export var specials:Array[Special]
+@export var need_select_field:bool
 
 var cost:int : get = _get_cost
 var is_all_fields:bool : get = _get_is_all_fields
+var tool_script:ToolScript : get = _get_tool_script
 
-var need_select_field:bool : get = _get_need_select_field
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
@@ -28,20 +31,23 @@ func copy(other:ThingData) -> void:
 	actions = other_tool.actions.duplicate()
 	rarity = other_tool.rarity
 	specials = other_tool.specials.duplicate()
+	need_select_field = other_tool.need_select_field
 
 func get_duplicate() -> ToolData:
 	var dup:ToolData = ToolData.new()
 	dup.copy(self)
 	return dup
 
-func _get_need_select_field() -> bool:
-	for action_data:ActionData in actions:
-		if action_data.action_category == ActionData.ActionCategory.FIELD:
-			return true
-	return false
-
 func _get_cost() -> int:
 	return COSTS[rarity]
 
 func _get_is_all_fields() -> bool:
 	return specials.has(Special.ALL_FIELDS)
+
+func _get_tool_script() -> ToolScript:
+	var script_path := TOOL_SCRIPT_PATH % [id]
+	if ResourceLoader.exists(script_path):
+		return load(script_path).new()
+	else:
+		return null
+	

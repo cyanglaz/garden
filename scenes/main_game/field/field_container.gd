@@ -6,7 +6,7 @@ signal field_harvest_gold_update_requested(gold:int, index:int)
 signal field_hovered(hovered:bool, index:int)
 signal field_pressed(index:int)
 
-const MAX_DISTANCE_BETWEEN_FIELDS := 10
+const MAX_DISTANCE_BETWEEN_FIELDS := 15
 const MARGIN := 36
 
 const FIELD_SCENE := preload("res://scenes/main_game/field/field.tscn")
@@ -60,18 +60,22 @@ func trigger_end_day_ability(main_game:MainGame) -> void:
 	for field:Field in _container.get_children():
 		if field.plant:
 			await field.plant.trigger_ability(Plant.AbilityType.END_DAY, main_game)
+
+func trigger_tool_application_hook() -> void:
+	for field:Field in _container.get_children():
+		await field.handle_tool_application_hook()
 	
 func clear_tool_indicators() -> void:
 	for field:Field in fields:
-		field.toggle_selection_indicator(false, null)
+		field.toggle_selection_indicator(false)
 	
 func toggle_field_selection_indicator(on:bool, tool_data:ToolData, index:int) -> void:
 	if tool_data && tool_data.is_all_fields:
 		for one_field:Field in fields:
-			one_field.toggle_selection_indicator(on, tool_data)
+			one_field.toggle_selection_indicator(on)
 	else:
 		var field:Field = _container.get_child(index)
-		field.toggle_selection_indicator(on, tool_data)
+		field.toggle_selection_indicator(on)
 
 func get_all_field_indices() -> Array[int]:
 	var indices:Array[int] = []
@@ -89,6 +93,10 @@ func get_harvestable_fields() -> Array[int]:
 func harvest_all_fields() -> void:
 	assert(get_harvestable_fields().size() > 0, "No harvestable fields")
 	_harvest_next_field(0)
+
+func handle_turn_end() -> void:
+	for field:Field in fields:
+		field.handle_turn_end()
 
 func _harvest_next_field(index:int) -> void:
 	if index >= fields.size():

@@ -44,7 +44,7 @@ func _ready() -> void:
 	_gui_field_button.mouse_exited.connect(_on_field_mouse_exited)
 	_gui_field_status_container.bind_with_field_status_manager(status_manager)
 	status_manager.request_hook_message_popup.connect(_on_request_hook_message_popup)
-	#status_manager.update_status("pest", 2)
+	#status_manager.update_status("fungus", 2)
 	_animated_sprite_2d.play("idle")
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
@@ -52,10 +52,8 @@ func _ready() -> void:
 	_gui_plant_tooltip.hide()
 	_reset_progress_bars()
 
-func toggle_selection_indicator(on:bool, tool_data:ToolData) -> void:
+func toggle_selection_indicator(on:bool) -> void:
 	_gui_field_selection_arrow.is_active = on
-	if tool_data:
-		_gui_field_selection_arrow.is_enabled = is_tool_applicable(tool_data)
  
 func show_plant_preview(plant_data:PlantData) -> void:
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
@@ -117,11 +115,26 @@ func apply_actions(actions:Array[ActionData]) -> void:
 			ActionData.ActionType.WATER:
 				await _apply_water_action(action)
 			ActionData.ActionType.PEST:
-				await _apply_pest_action(action)
+				await _apply_field_status_action(action)
 			ActionData.ActionType.FUNGUS:
-				await _apply_fungus_action(action)
+				await _apply_field_status_action(action)
 			_:
 				pass
+
+func apply_field_status(field_status_id:String, stack:int) -> void:
+	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(field_status_id)
+	if field_status_data.stackable:
+		var text := str(stack)
+		if stack > 0:
+			text = "+" + str(stack)
+		await _show_resource_icon_popup(field_status_id, text)
+		status_manager.update_status(field_status_id, stack)
+	else:
+		var text := "+"
+		if stack < 0:
+			text = "-"
+		await _show_resource_icon_popup(field_status_id, text)
+		status_manager.update_status(field_status_id, 1)
 
 func show_gold_popup() -> void:
 	_gold_audio.play()
@@ -140,6 +153,12 @@ func harvest() -> void:
 	assert(can_harvest(), "Cannot harvest")
 	plant.harvest()
 
+func handle_turn_end() -> void:
+	status_manager.handle_status_on_turn_end()
+
+func handle_tool_application_hook() -> void:
+	await status_manager.handle_tool_application_hook(plant)
+
 func _show_progress_bars(p:Plant) -> void:
 	assert(p.data)
 	_light_bar.bind_with_resource_point(p.light)
@@ -150,12 +169,6 @@ func _reset_progress_bars() -> void:
 	_light_bar.current_value = 0
 	_water_bar.max_value = 1
 	_water_bar.current_value = 0
-
-func is_tool_applicable(tool_data:ToolData) -> bool:
-	for action_data:ActionData in tool_data.actions:
-		if is_action_applicable(action_data):
-			return true
-	return false
 
 func _apply_light_action(action:ActionData) -> void:
 	if plant:
@@ -169,28 +182,27 @@ func _apply_water_action(action:ActionData) -> void:
 	if plant:
 		var true_value := _get_action_true_value(action)
 		await _show_popup_action_indicator(action, true_value)
-		plant.water.value += action.value
+		plant.water.value += true_value
 
-func _apply_pest_action(action:ActionData) -> void:
+func _apply_field_status_action(action:ActionData) -> void:
+	var resource_id := Util.get_action_id_with_action_type(action.type)
 	var true_value := _get_action_true_value(action)
-	await _show_popup_action_indicator(action, true_value)
-	status_manager.update_status("pest", action.value)
-
-func _apply_fungus_action(action:ActionData) -> void:
-	var true_value := _get_action_true_value(action)
-	await _show_popup_action_indicator(action, true_value)
-	status_manager.update_status("fungus", action.value)
+	await apply_field_status(resource_id, true_value)
 
 func _show_popup_action_indicator(action_data:ActionData, true_value:int) -> void:
-	_buff_sound.play()
-	var popup:PopupLabelIcon = POPUP_LABEL_ICON_SCENE.instantiate()
-	add_child(popup)
-	popup.global_position = _gui_field_button.global_position + _gui_field_button.size/2 + Vector2.RIGHT * 8
 	var text := str(true_value)
 	if true_value > 0:
 		text = "+" + text
 	var resource_id := Util.get_action_id_with_action_type(action_data.type)
-	popup.setup(text, Constants.COLOR_WHITE, load(Util.get_image_path_for_resource_id(resource_id)))
+	await _show_resource_icon_popup(resource_id, text)
+
+func _show_resource_icon_popup(icon_id:String, text:String) -> void:
+	_buff_sound.play()
+	var popup:PopupLabelIcon = POPUP_LABEL_ICON_SCENE.instantiate()
+	add_child(popup)
+	popup.global_position = _gui_field_button.global_position + _gui_field_button.size/2 + Vector2.RIGHT * 8
+	var color:Color = Constants.COLOR_WHITE
+	popup.setup(text, color, load(Util.get_image_path_for_resource_id(icon_id)))
 	await popup.animate_show_and_destroy(6, 3, POPUP_SHOW_TIME, POPUP_DESTROY_TIME)
 
 func _get_action_true_value(action_data:ActionData) -> int:
@@ -225,8 +237,8 @@ func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
 		FieldStatusData.Type.BAD:
 			color = Constants.COLOR_RED2
 		FieldStatusData.Type.GOOD:
-			color = Constants.COLOR_GREEN2
-	popup.animate_show_label_and_destroy(status_data.popup_message, 18, 1, POPUP_SHOW_TIME, POPUP_STATUS_DESTROY_TIME, color)
+			color = Constants.COLOR_YELLOW2
+	popup.animate_show_label_and_destroy(status_data.popup_message, 10, 1, POPUP_SHOW_TIME, POPUP_STATUS_DESTROY_TIME, color)
 
 func _on_field_mouse_entered() -> void:
 	field_hovered.emit(true)

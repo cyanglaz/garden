@@ -25,12 +25,17 @@ layout_mode = 2
 mouse_filter = 2
 expand_mode = 0
 
-[node name="SignIcon" type="TextureRect" parent="SymbolContainer"]
+[node name="PreValueIcon" type="TextureRect" parent="SymbolContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 stretch_mode = 5
 
 [node name="ValueIcon" type="TextureRect" parent="SymbolContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+stretch_mode = 5
+
+[node name="PostValueIcon" type="TextureRect" parent="SymbolContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 stretch_mode = 5

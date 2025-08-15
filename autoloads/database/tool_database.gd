@@ -14,3 +14,9 @@ func roll_tools(number_of_tools:int) -> Array[ToolData]:
 
 func _get_data_dir() -> String:
 	return DIR
+
+func _evaluate_data(tool_data:Resource) -> void:
+	assert(tool_data is ToolData)
+	for action:ActionData in (tool_data as ToolData).actions:
+		var action_type := action.type
+		assert(action_type in ActionData.ActionType.values())

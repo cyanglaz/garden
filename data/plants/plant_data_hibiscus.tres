@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1_tk04h")
-light = 1
-water = 1
+light = 5
+water = 2
 gold = 5
 rarity = 1
 id = "hibiscus"
