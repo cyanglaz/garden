@@ -6,7 +6,7 @@
 script = ExtResource("1_x380q")
 light = 1
 water = 0
-gold = 6
+points = 5
 rarity = 0
 id = "peace_lily"
 display_name = "Peace Lily"

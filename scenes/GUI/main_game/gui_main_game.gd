@@ -3,7 +3,7 @@ extends CanvasLayer
 
 signal end_turn_button_pressed()
 signal tool_selected(index:int)
-signal week_summary_continue_button_pressed(gold_left:int)
+signal week_summary_continue_button_pressed()
 
 @onready var gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
 @onready var gui_tool_card_container: GUIToolCardContainer = %GUIToolCardContainer
@@ -22,6 +22,7 @@ signal week_summary_continue_button_pressed(gold_left:int)
 @onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
 @onready var _gui_top_bar: GUITopBar = %GUITopBar
 @onready var _gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
+@onready var _gui_points: GUIPoints = %GUIPoints
 
 func _ready() -> void:
 	_gui_tool_cards_viewer.hide()
@@ -29,7 +30,7 @@ func _ready() -> void:
 	_end_turn_button.action_evoked.connect(func() -> void: end_turn_button_pressed.emit())
 	gui_tool_card_container.setup(gui_draw_box_button, gui_discard_box_button)
 	_gui_top_bar.setting_button_evoked.connect(func() -> void: _gui_settings_main.animate_show())
-	gui_week_summary_main.continue_button_pressed.connect(func(gold_left:int) -> void: week_summary_continue_button_pressed.emit(gold_left))
+	gui_week_summary_main.continue_button_pressed.connect(func() -> void: week_summary_continue_button_pressed.emit())
 
 #region all ui
 func toggle_all_ui(on:bool) -> void:
@@ -47,8 +48,11 @@ func update_week(week:int) -> void:
 func update_gold(gold:int, animated:bool) -> void:
 	await _gui_top_bar.update_gold(gold, animated)
 
-func update_tax_due(gold:int) -> void:
-	await _gui_top_bar.update_tax_due(gold)
+func update_points(points:int, _animated:bool) -> void:
+	_gui_points.update_earned(points)
+
+func update_points_due(points:int) -> void:
+	_gui_points.update_due(points)
 
 #region tools
 func update_tools(tool_datas:Array[ToolData]) -> void:
@@ -92,8 +96,8 @@ func update_weathers(weather_manager:WeatherManager) -> void:
 
 #region week summary
 
-func animate_show_week_summary(current_gold:int, tax:int) -> void:
-	await gui_week_summary_main.animate_show(current_gold, tax)
+func animate_show_week_summary(point:int, due:int) -> void:
+	await gui_week_summary_main.animate_show(point, due)
 
 #endregion
 

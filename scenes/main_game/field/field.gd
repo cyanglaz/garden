@@ -4,10 +4,10 @@ extends Node2D
 const PLANT_SCENE_PATH_PREFIX := "res://scenes/main_game/plants/plants/plant_"
 const POPUP_LABEL_ICON_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label_icon.tscn")
 const POPUP_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label.tscn")
-const GOLD_ICON := preload("res://resources/sprites/GUI/icons/resources/icon_gold.png")
-const GOLD_LABEL_OFFSET := Vector2.RIGHT * 12
-const POPUP_GOLD_SHOW_TIME := 0.5
-const POPUP_GOLD_DESTROY_TIME := 1.0
+const point_ICON := preload("res://resources/sprites/GUI/icons/resources/icon_point.png")
+const point_LABEL_OFFSET := Vector2.RIGHT * 12
+const POPUP_point_SHOW_TIME := 0.5
+const POPUP_point_DESTROY_TIME := 1.0
 const POPUP_SHOW_TIME := 0.2
 const POPUP_DESTROY_TIME:= 0.8
 const POPUP_STATUS_DESTROY_TIME := 1.2
@@ -16,7 +16,7 @@ signal field_pressed()
 signal field_hovered(hovered:bool)
 signal tool_application_completed(tool_data:ToolData)
 signal plant_harvest_started()
-signal plant_harvest_gold_update_requested(gold:int)
+signal plant_harvest_point_update_requested(points:int)
 signal new_plant_planted()
 
 @onready var _animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
@@ -25,7 +25,7 @@ signal new_plant_planted()
 @onready var _water_bar: GUISegmentedProgressBar = %WaterBar
 @onready var _plant_container: Node2D = %PlantContainer
 @onready var _buff_sound: AudioStreamPlayer2D = %BuffSound
-@onready var _gold_audio: AudioStreamPlayer2D = %GoldAudio
+@onready var _point_audio: AudioStreamPlayer2D = %PointAudio
 @onready var _gui_field_selection_arrow: GUIFieldSelectionArrow = %GUIFieldSelectionArrow
 @onready var _gui_field_status_container: GUIFieldStatusContainer = %GUIFieldStatusContainer
 @onready var _gui_plant_tooltip: GUIPlantTooltip = %GUIPlantTooltip
@@ -75,7 +75,7 @@ func plant_seed(plant_data:PlantData) -> void:
 	_plant_container.add_child(plant)
 	_show_progress_bars(plant)
 	plant.harvest_started.connect(_on_plant_harvest_started)
-	plant.harvest_gold_update_requested.connect(_on_plant_harvest_gold_update_requested)
+	plant.harvest_point_update_requested.connect(_on_plant_harvest_point_update_requested)
 	plant.field = self
 	new_plant_planted.emit()
 
@@ -136,14 +136,14 @@ func apply_field_status(field_status_id:String, stack:int) -> void:
 		await _show_resource_icon_popup(field_status_id, text)
 		status_manager.update_status(field_status_id, 1)
 
-func show_gold_popup() -> void:
-	_gold_audio.play()
-	var gold_label:PopupLabelIcon = POPUP_LABEL_ICON_SCENE.instantiate()
-	add_child(gold_label)
-	gold_label.global_position = _gui_field_button.global_position + _gui_field_button.size/2 + Vector2.LEFT * 16
+func show_point_popup() -> void:
+	_point_audio.play()
+	var point_label:PopupLabelIcon = POPUP_LABEL_ICON_SCENE.instantiate()
+	add_child(point_label)
+	point_label.global_position = _gui_field_button.global_position + _gui_field_button.size/2 + Vector2.LEFT * 16
 	var color:Color = Constants.COLOR_YELLOW2
-	gold_label.setup(str("+", plant.data.gold), color, GOLD_ICON)
-	await gold_label.animate_show_and_destroy(8, 6, POPUP_GOLD_SHOW_TIME, POPUP_GOLD_DESTROY_TIME)
+	point_label.setup(str("+", plant.data.point), color, point_ICON)
+	await point_label.animate_show_and_destroy(8, 6, POPUP_point_SHOW_TIME, POPUP_point_DESTROY_TIME)
 
 func can_harvest() -> bool:
 	return plant && plant.can_harvest()
@@ -224,8 +224,8 @@ func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> vo
 func _on_plant_harvest_started() -> void:
 	plant_harvest_started.emit()
 
-func _on_plant_harvest_gold_update_requested(gold:int) -> void:
-	plant_harvest_gold_update_requested.emit(gold)
+func _on_plant_harvest_point_update_requested(points:int) -> void:
+	plant_harvest_point_update_requested.emit(points)
 	_reset_progress_bars()
 
 func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:

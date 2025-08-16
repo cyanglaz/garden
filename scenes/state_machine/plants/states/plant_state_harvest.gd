@@ -10,7 +10,7 @@ func enter() -> void:
 
 func _gain_gold() -> void:
 	await plant.field.show_gold_popup()
-	plant.harvest_gold_update_requested.emit(plant.data.gold)
+	plant.harvest_point_update_requested.emit(plant.data.gold)
 	exit("")
 
 func _handle_ability() -> void:

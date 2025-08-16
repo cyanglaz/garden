@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://da80t3khvji05"]
+
+[ext_resource type="Texture2D" uid="uid://bhqydxgtda0mu" path="res://resources/sprites/icons/other/icon_action_points.png" id="1_8p1l0"]
+[ext_resource type="Script" uid="uid://cwlso4wx3b8yq" path="res://scenes/GUI/main_game/points/gui_points.gd" id="1_ogqy6"]
+
+[node name="GUIPoints" type="HBoxContainer"]
+theme_override_constants/separation = 2
+script = ExtResource("1_ogqy6")
+
+[node name="Earned" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="Icon" type="TextureRect" parent="Earned"]
+layout_mode = 2
+texture = ExtResource("1_8p1l0")
+
+[node name="EarnedLabel" type="Label" parent="Earned"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD"
+
+[node name="Due" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="DueLabel" type="Label" parent="Due"]
+layout_mode = 2
+theme_type_variation = &"HUD"
+theme_override_colors/font_color = Color(0.917647, 0.196078, 0.235294, 1)
+text = "DUE"
+
+[node name="DueAmountLabel" type="Label" parent="Due"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD"

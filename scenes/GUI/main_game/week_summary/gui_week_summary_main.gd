@@ -8,7 +8,7 @@ const FAILURE_MESSAGE_AUDIO = preload("res://resources/sounds/SFX/summary/failur
 
 const MENU_SCENE_PATH = "res://scenes/GUI/menu/gui_main_menu.tscn"
 
-signal continue_button_pressed(gold_left:int)
+signal continue_button_pressed()
 
 const HIDE_Y := 200
 const SHOW_ANIMATION_DURATION := 0.15
@@ -27,7 +27,7 @@ const DISPLAY_ITEMS_DELAY := 0.1
 @onready var _failed_label: Label = %FailedLabel
 
 var _display_y := 0.0
-var _gold_left:int
+var _success := false
 
 func _ready() -> void:
 	_display_y = _main_panel.position.y
@@ -36,7 +36,7 @@ func _ready() -> void:
 	_title.text = Util.get_localized_string("WEEK_SUMMARY_TITLE")
 	_failed_label.text = Util.get_localized_string("WEEK_SUMMARY_FAILURE_MESSAGE")
 
-func animate_show(current_gold:int, tax:int) -> void:
+func animate_show(point:int, due:int) -> void:
 	_continue_button.hide()
 	_earned.hide()
 	_tax.hide()
@@ -44,16 +44,10 @@ func animate_show(current_gold:int, tax:int) -> void:
 	_gui_tooltip_description_saparator.hide()
 	_failed_label.hide()
 	_main_menu_button.hide()
-	_gold_left = current_gold - tax
-	var conclusion_color := Constants.COLOR_WHITE
-	if _gold_left >= 0:
-		conclusion_color = Constants.COLOR_GREEN3
-	elif _gold_left < 0:
-		conclusion_color = Constants.COLOR_RED
 	show()
-	_earned.update_with_title_and_gold(tr("WEEK_SUMMARY_EARNED_TITLE"), current_gold, Constants.COLOR_WHITE)
-	_tax.update_with_title_and_gold(tr("WEEK_SUMMARY_TAX_TITLE"), tax, Constants.COLOR_WHITE)
-	_conclusion.update_with_title_and_gold(tr("WEEK_SUMMARY_CONCLUSION_TITLE"), _gold_left, conclusion_color)
+	_earned.update_with_title_and_points(tr("WEEK_SUMMARY_EARNED_TITLE"), point, Constants.COLOR_WHITE)
+	_tax.update_with_title_and_points(tr("WEEK_SUMMARY_DUE_TITLE"), due, Constants.COLOR_WHITE)
+	_success = point >= due
 	await _play_show_animation()
 	await _play_display_items_animation()
 
@@ -90,16 +84,16 @@ func _play_display_items_animation() -> void:
 	await _item_audio_player.finished
 	
 	# Show failure message and button
-	if _gold_left < 0:
+	if _success:
+		await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY).timeout
+		_continue_button.show()
+	else:
 		await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY).timeout
 		_failed_label.show()
 		_item_audio_player.stream = FAILURE_MESSAGE_AUDIO
 		_item_audio_player.play()
 		await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY).timeout
 		_main_menu_button.show()
-	else:
-		await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY).timeout
-		_continue_button.show()
 
 func animate_hide() -> void:
 	_continue_button.hide()
@@ -109,10 +103,8 @@ func animate_hide() -> void:
 	hide()
 
 func _on_continue_button_pressed() -> void:
-	assert(_gold_left >= 0, "continue button only shows when gold is > 0")
 	await animate_hide()
-	continue_button_pressed.emit(_gold_left)
+	continue_button_pressed.emit()
 
 func _on_main_menu_button_pressed() -> void:
-	assert(_gold_left < 0, "main menu button only shows when gold is < 0")
 	get_tree().change_scene_to_file(MENU_SCENE_PATH)
