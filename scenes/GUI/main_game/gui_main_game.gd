@@ -18,7 +18,6 @@ signal week_summary_continue_button_pressed()
 @onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
 @onready var _overlay: Control = %Overlay
-@onready var _day_label: Label = %DayLabel
 @onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
 @onready var _gui_top_bar: GUITopBar = %GUITopBar
 @onready var _gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
@@ -82,8 +81,8 @@ func bind_plant_seed_deck(plant_seed_deck:Deck) -> void:
 #endregion
 
 #region days
-func set_day(day:int) -> void:
-	_day_label.text = Util.get_localized_string("DAY_LABEL_TEXT")% (day + 1)
+func update_day(day:int) -> void:
+	_gui_top_bar.update_day(day)
 
 func bind_energy(resource_point:ResourcePoint) -> void:
 	_gui_energy_tracker.bind_with_resource_point(resource_point)

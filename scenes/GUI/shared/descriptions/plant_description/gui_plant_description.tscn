@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bd28yuw5ttosm" path="res://scenes/GUI/shared/descriptions/plant_description/gui_plant_description.gd" id="1_lgl7a"]
 [ext_resource type="PackedScene" uid="uid://bfye3pwakcidx" path="res://scenes/GUI/shared/descriptions/gui_tooltip_description_separator.tscn" id="2_22r1h"]
-[ext_resource type="Texture2D" uid="uid://d1hlhkeceq461" path="res://resources/sprites/GUI/icons/resources/icon_gold_small.png" id="2_lgl7a"]
+[ext_resource type="Texture2D" uid="uid://btcy11c1e3w2x" path="res://resources/sprites/GUI/icons/resources/icon_point.png" id="2_lgl7a"]
 [ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/GUI/icons/resources/icon_light.png" id="3_22r1h"]
 [ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/icon_water.png" id="4_lgl7a"]
 
@@ -36,7 +36,6 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 1
 
 [node name="TextureRect" type="TextureRect" parent="RequirementContainerHbox/Points"]
-custom_minimum_size = Vector2(6, 6)
 layout_mode = 2
 texture = ExtResource("2_lgl7a")
 stretch_mode = 5

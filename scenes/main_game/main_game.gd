@@ -89,7 +89,7 @@ func start_day() -> void:
 	energy_tracker.setup(max_energy, max_energy)
 	week_manager.next_day()
 	weather_manager.day = week_manager.get_day()
-	gui_main_game.set_day(week_manager.get_day())
+	gui_main_game.update_day(week_manager.get_day())
 	gui_main_game.clear_tool_selection()
 	await Util.await_for_tiny_time()
 	if week_manager.get_day() == 0:

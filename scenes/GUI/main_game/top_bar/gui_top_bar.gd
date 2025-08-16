@@ -8,7 +8,7 @@ signal full_deck_button_evoked()
 @onready var _gui_gold: GUIGold = %GUIGold
 @onready var _week_label: Label = %WeekLabel
 @onready var _gui_settings_button: GUISettingsButton = %GUISettingsButton
-@onready var _gui_tax_due: GUITaxDue = %GUITaxDue
+@onready var _day_label: Label = %DayLabel
 
 func _ready() -> void:
 	_gui_settings_button.action_evoked.connect(func() -> void: setting_button_evoked.emit())
@@ -20,8 +20,8 @@ func update_gold(gold:int, animated:bool) -> void:
 func update_week(week:int) -> void:
 	_week_label.text = Util.get_localized_string("WEEK_LABEL_TEXT") % (week + 1)
 
-func update_tax_due(gold:int) -> void:
-	await _gui_tax_due.update_tax_due(gold)
+func update_day(day:int) -> void:
+	_day_label.text = Util.get_localized_string("DAY_LABEL_TEXT")% (day + 1)
 
 func toggle_all_ui(_on:bool) -> void:
 	pass
