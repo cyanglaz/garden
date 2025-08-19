@@ -68,7 +68,7 @@ func _ready() -> void:
 	energy_tracker.can_be_capped = false
 	start_new_week()
 	_update_gold(50, false)
-	_update_points(0, false)
+	_update_points(0)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("de-select"):
@@ -76,7 +76,7 @@ func _input(event: InputEvent) -> void:
 			_clear_tool_selection()
 
 func start_new_week() -> void:
-	_update_points(0, false)
+	_update_points(0)
 	tool_manager.refresh_deck()
 	plant_seed_manager.refresh_deck()
 	week_manager.next_week()
@@ -94,7 +94,7 @@ func start_day() -> void:
 	await Util.await_for_tiny_time()
 	if week_manager.get_day() == 0:
 		await Util.create_scaled_timer(0.2).timeout
-		await gui_main_game.update_points_due(week_manager.get_points_due())
+		gui_main_game.update_points_due(week_manager.get_points_due())
 		await _plant_new_seeds()
 	await draw_cards(hand_size)
 	gui_main_game.toggle_all_ui(true)
@@ -114,9 +114,9 @@ func _update_gold(gold:int, animated:bool) -> void:
 	_gold = gold
 	await gui_main_game.update_gold(_gold, animated)
 
-func _update_points(points:int, animated:bool) -> void:
+func _update_points(points:int) -> void:
 	_points = points
-	await gui_main_game.update_points(_points, animated)
+	await gui_main_game.update_points(_points)
 
 func _end_day() -> void:
 	field_container.handle_turn_end()
@@ -206,7 +206,7 @@ func _on_field_harvest_started() -> void:
 	gui_main_game.toggle_all_ui(false)
 
 func _on_field_harvest_point_update_requested(points:int, index:int) -> void:
-	await _update_points(_points + points, true)
+	await _update_points(_points + points)
 	_point_gaining_fields.erase(index)
 	if _point_gaining_fields.is_empty():
 		_all_field_point_gained.emit()

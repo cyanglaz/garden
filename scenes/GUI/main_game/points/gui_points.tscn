@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://da80t3khvji05"]
+[gd_scene load_steps=4 format=3 uid="uid://da80t3khvji05"]
 
 [ext_resource type="Script" uid="uid://cwlso4wx3b8yq" path="res://scenes/GUI/main_game/points/gui_points.gd" id="1_ogqy6"]
 [ext_resource type="Texture2D" uid="uid://btcy11c1e3w2x" path="res://resources/sprites/GUI/icons/resources/icon_point.png" id="2_ogqy6"]
+[ext_resource type="AudioStream" uid="uid://cnjsxqrjyqthb" path="res://resources/sounds/SFX/other/gold/gold_increased.wav" id="3_hkpxh"]
 
 [node name="GUIPoints" type="HBoxContainer"]
 theme_override_constants/separation = 2
@@ -12,6 +13,7 @@ layout_mode = 2
 theme_override_constants/separation = 1
 
 [node name="Icon" type="TextureRect" parent="Earned"]
+unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("2_ogqy6")
 stretch_mode = 5
@@ -35,3 +37,8 @@ text = "DUE"
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HUD"
+
+[node name="PointIncreaseSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_hkpxh")
+bus = &"SFX"

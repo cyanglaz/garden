@@ -47,8 +47,8 @@ func update_week(week:int) -> void:
 func update_gold(gold:int, animated:bool) -> void:
 	await _gui_top_bar.update_gold(gold, animated)
 
-func update_points(points:int, _animated:bool) -> void:
-	_gui_points.update_earned(points)
+func update_points(points:int) -> void:
+	await _gui_points.update_earned(points)
 
 func update_points_due(points:int) -> void:
 	_gui_points.update_due(points)
