@@ -90,7 +90,7 @@ func start_day() -> void:
 	energy_tracker.setup(max_energy, max_energy)
 	week_manager.next_day()
 	weather_manager.day = week_manager.get_day()
-	gui_main_game.update_day(week_manager.get_day())
+	gui_main_game.update_day_left(week_manager.get_day_left())
 	gui_main_game.clear_tool_selection()
 	await Util.await_for_tiny_time()
 	if week_manager.get_day() == 0:
@@ -121,7 +121,7 @@ func _update_points(points:int) -> void:
 	
 func _win() -> void:
 	await Util.create_scaled_timer(WIN_PAUSE_TIME).timeout
-	gui_main_game.animate_show_week_summary(6 - week_manager.get_day())
+	gui_main_game.animate_show_week_summary(week_manager.get_day_left())
 	for field:Field in field_container.fields:
 		field.remove_plant()
 

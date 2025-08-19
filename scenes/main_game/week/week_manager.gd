@@ -16,5 +16,8 @@ func next_day() -> void:
 func get_day() -> int:
 	return day_manager.day
 
+func get_day_left() -> int:
+	return 6 - day_manager.day
+
 func get_points_due() -> int:
 	return POINTS_DUES[week]

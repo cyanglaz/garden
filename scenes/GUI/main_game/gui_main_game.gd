@@ -81,8 +81,8 @@ func bind_plant_seed_deck(plant_seed_deck:Deck) -> void:
 #endregion
 
 #region days
-func update_day(day:int) -> void:
-	_gui_top_bar.update_day(day)
+func update_day_left(day_left:int) -> void:
+	_gui_top_bar.update_day_left(day_left)
 
 func bind_energy(resource_point:ResourcePoint) -> void:
 	_gui_energy_tracker.bind_with_resource_point(resource_point)

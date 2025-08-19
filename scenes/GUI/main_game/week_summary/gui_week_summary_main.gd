@@ -9,13 +9,12 @@ const FAILURE_MESSAGE_AUDIO = preload("res://resources/sounds/SFX/summary/failur
 const MENU_SCENE_PATH = "res://scenes/GUI/menu/gui_main_menu.tscn"
 
 signal continue_button_pressed()
+signal gold_increased(gold:int)
 
 const HIDE_Y := 200
 const SHOW_ANIMATION_DURATION := 0.15
 const HIDE_ANIMATION_DURATION := 0.15
 const DISPLAY_ITEMS_DELAY := 0.1
-const DAYS_LEFT_ANIMATION_DURATION := 0.1
-const DAYS_LEFT_ANIMATION_DELAY := 0.15
 
 const BASE_GOLD := 6
 const GOLD_PER_DAY_LEFT := 3
@@ -35,6 +34,7 @@ func _ready() -> void:
 	_display_y = _main_panel.position.y
 	_continue_button.action_evoked.connect(_on_continue_button_pressed)
 	_title.text = Util.get_localized_string("WEEK_SUMMARY_TITLE")
+	_gui_gold.gold_incremented.connect(_on_gold_incremented)
 
 func animate_show(days_left:int) -> void:
 	_days_left = days_left
@@ -67,15 +67,9 @@ func _play_show_animation() -> void:
 	await tween.finished
 
 func _play_earn_gold_animation() -> void:
-	var delay := 0.0
-	var total_time := DAYS_LEFT_ANIMATION_DELAY * (_days_left - 1)
-	for i in range(1, _days_left + 1):
-		Util.create_scaled_timer(delay).timeout.connect(func(): 
-			_days_left_label.value_text = str(_days_left - i)
-			_gui_gold.update_gold(BASE_GOLD + i * GOLD_PER_DAY_LEFT, GUIGold.AnimationType.FULL)
-		)
-		delay += DAYS_LEFT_ANIMATION_DELAY
-	await Util.create_scaled_timer(total_time).timeout
+	var total := BASE_GOLD + _days_left * GOLD_PER_DAY_LEFT
+	await _gui_gold.update_gold(total, GUIGold.AnimationType.SINGLE, GOLD_PER_DAY_LEFT)
+	gold_increased.emit(total)
 
 func animate_hide() -> void:
 	_continue_button.hide()
@@ -87,3 +81,6 @@ func animate_hide() -> void:
 func _on_continue_button_pressed() -> void:
 	await animate_hide()
 	continue_button_pressed.emit()
+
+func _on_gold_incremented(step:int) -> void:
+	_days_left_label.value_text = str(_days_left - step - 1)

@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/icon_water.png" id="6_bhkj4"]
 [ext_resource type="AudioStream" uid="uid://bs0jg061p4c2d" path="res://resources/sounds/SFX/field/field_buff.wav" id="7_wjfsy"]
 [ext_resource type="PackedScene" uid="uid://e0jhp4mhrm81" path="res://scenes/main_game/field/gui_field_status_container.tscn" id="9_3ecbu"]
-[ext_resource type="AudioStream" uid="uid://t10sv74gr8qu" path="res://resources/sounds/SFX/other/gold/gold_collected.wav" id="9_n6lee"]
+[ext_resource type="AudioStream" uid="uid://t10sv74gr8qu" path="res://resources/sounds/SFX/other/points/points_collected.wav" id="9_n6lee"]
 [ext_resource type="AudioStream" uid="uid://d1akur2jywp1n" path="res://resources/sounds/SFX/other/plants/plant_down.wav" id="9_sqga6"]
 [ext_resource type="PackedScene" uid="uid://bbwbuyve75w7l" path="res://scenes/GUI/tooltips/gui_plant_tooltip.tscn" id="11_n6lee"]
 

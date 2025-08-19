@@ -26,7 +26,12 @@ theme_override_colors/font_color = Color(1, 0.921569, 0.341176, 1)
 text = "xx"
 vertical_alignment = 1
 
-[node name="GoldIncreasedSound" type="AudioStreamPlayer2D" parent="."]
+[node name="GoldIncreasedSoundFull" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_d0qkp")
+bus = &"SFX"
+
+[node name="GoldIncreasedSoundSingle" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("3_d0qkp")
 bus = &"SFX"
