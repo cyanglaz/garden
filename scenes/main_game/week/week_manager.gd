@@ -1,7 +1,7 @@
 class_name WeekManager
 extends RefCounted
 
-const POINTS_DUES := [15, 25, 40, 60, 80, 110]
+const POINTS_DUES := [5, 25, 40, 60, 80, 110]
 
 var week:int = -1
 var day_manager:DayManager = DayManager.new()

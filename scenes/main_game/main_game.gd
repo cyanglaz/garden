@@ -5,6 +5,7 @@ signal _all_field_point_gained()
 
 var hand_size := 5
 const DAYS_TO_WEEK := 7
+const WIN_PAUSE_TIME := 0.4
 
 @export var test_plant_datas:Array[PlantData]
 @export var test_tools:Array[ToolData]
@@ -117,10 +118,9 @@ func _update_gold(gold:int, animated:bool) -> void:
 func _update_points(points:int) -> void:
 	_points = points
 	await gui_main_game.update_points(_points)
-	if _points >= week_manager.get_points_due():	
-		_win()
 	
 func _win() -> void:
+	await Util.create_scaled_timer(WIN_PAUSE_TIME).timeout
 	gui_main_game.animate_show_week_summary(_points, week_manager.get_points_due())
 	for field:Field in field_container.fields:
 		field.remove_plant()
@@ -164,8 +164,11 @@ func _harvest() -> void:
 	_point_gaining_fields = _harvesting_fields.duplicate()
 	field_container.harvest_all_fields()
 	await _all_field_point_gained
-	await plant_seed_manager.discard_cards(_harvesting_fields, gui_main_game.gui_plant_seed_animation_container, field_container)
-	await plant_seed_manager.draw_cards(_harvesting_fields.size(), gui_main_game.gui_plant_seed_animation_container, _harvesting_fields, field_container)
+	if _points >= week_manager.get_points_due():	
+		_win()
+	else:
+		await plant_seed_manager.discard_cards(_harvesting_fields, gui_main_game.gui_plant_seed_animation_container, field_container)
+		await plant_seed_manager.draw_cards(_harvesting_fields.size(), gui_main_game.gui_plant_seed_animation_container, _harvesting_fields, field_container)
 	_harvesting_fields.clear()
 	_point_gaining_fields.clear()
 
