@@ -60,6 +60,7 @@ func _ready() -> void:
 	gui_main_game.end_turn_button_pressed.connect(_on_end_turn_button_pressed)
 	gui_main_game.tool_selected.connect(_on_tool_selected)
 	gui_main_game.week_summary_continue_button_pressed.connect(_on_week_summary_continue_button_pressed)
+	gui_main_game.gold_increased.connect(_on_week_summary_gold_increased)
 	
 	#shop signals
 	gui_main_game.gui_shop_main.next_week_button_pressed.connect(_on_shop_next_week_pressed)
@@ -247,6 +248,11 @@ func _on_plant_shop_button_pressed(plant_data:PlantData) -> void:
 func _on_tool_shop_button_pressed(tool_data:ToolData) -> void:
 	_update_gold(_gold - tool_data.cost, true)
 	tool_manager.add_tool(tool_data)
+
+#region week summary events
+func _on_week_summary_gold_increased(gold:int) -> void:
+	_update_gold(_gold + gold, true)
+#endregion
 
 #endregion
 

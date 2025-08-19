@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cwlso4wx3b8yq" path="res://scenes/GUI/main_game/points/gui_points.gd" id="1_ogqy6"]
 [ext_resource type="Texture2D" uid="uid://btcy11c1e3w2x" path="res://resources/sprites/GUI/icons/resources/icon_point.png" id="2_ogqy6"]
-[ext_resource type="AudioStream" uid="uid://cnjsxqrjyqthb" path="res://resources/sounds/SFX/other/gold/gold_increased.wav" id="3_hkpxh"]
+[ext_resource type="AudioStream" uid="uid://clf3bx3nulion" path="res://resources/sounds/SFX/other/points/points_increased.wav" id="3_vyoc8"]
 
 [node name="GUIPoints" type="HBoxContainer"]
 theme_override_constants/separation = 2
@@ -40,5 +40,5 @@ theme_type_variation = &"HUD"
 
 [node name="PointIncreaseSound" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("3_hkpxh")
+stream = ExtResource("3_vyoc8")
 bus = &"SFX"

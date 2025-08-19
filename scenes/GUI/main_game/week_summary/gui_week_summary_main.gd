@@ -15,6 +15,7 @@ const HIDE_Y := 200
 const SHOW_ANIMATION_DURATION := 0.15
 const HIDE_ANIMATION_DURATION := 0.15
 const DISPLAY_ITEMS_DELAY := 0.1
+const FINAL_GOLD_INCREASE_DELAY := 0.2
 
 const BASE_GOLD := 6
 const GOLD_PER_DAY_LEFT := 3
@@ -69,6 +70,7 @@ func _play_show_animation() -> void:
 func _play_earn_gold_animation() -> void:
 	var total := BASE_GOLD + _days_left * GOLD_PER_DAY_LEFT
 	await _gui_gold.update_gold(total, GUIGold.AnimationType.SINGLE, GOLD_PER_DAY_LEFT)
+	await Util.create_scaled_timer(FINAL_GOLD_INCREASE_DELAY)
 	gold_increased.emit(total)
 
 func animate_hide() -> void:

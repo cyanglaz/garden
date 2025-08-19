@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dm1jpn72n0ue7"]
+[gd_scene load_steps=6 format=3 uid="uid://dm1jpn72n0ue7"]
 
 [ext_resource type="Script" uid="uid://bs0ss0m4xt5ut" path="res://scenes/GUI/main_game/top_bar/gui_gold.gd" id="1_tw8gy"]
 [ext_resource type="Texture2D" uid="uid://cnnxje814bs2" path="res://resources/sprites/GUI/icons/resources/icon_gold.png" id="2_tw8gy"]
+[ext_resource type="AudioStream" uid="uid://de7fd7oigrigc" path="res://resources/sounds/SFX/other/gold/gold_gain.wav" id="3_1552w"]
 [ext_resource type="AudioStream" uid="uid://cnjsxqrjyqthb" path="res://resources/sounds/SFX/other/gold/gold_increased.wav" id="3_d0qkp"]
 [ext_resource type="AudioStream" uid="uid://c1e0ywk11f7c7" path="res://resources/sounds/SFX/other/gold/gold_use.wav" id="4_1552w"]
 
@@ -28,7 +29,7 @@ vertical_alignment = 1
 
 [node name="GoldIncreasedSoundFull" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("3_d0qkp")
+stream = ExtResource("3_1552w")
 bus = &"SFX"
 
 [node name="GoldIncreasedSoundSingle" type="AudioStreamPlayer2D" parent="."]

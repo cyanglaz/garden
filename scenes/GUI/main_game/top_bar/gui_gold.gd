@@ -54,7 +54,6 @@ func update_gold(gold:int, animation_type:AnimationType, increment_step:int = 1)
 						Util.create_scaled_timer(delay).timeout.connect(func(): gold_incremented.emit(i))
 						Util.create_scaled_timer(delay + ANIMATION_TIME).timeout.connect(func(): 
 							_label.text = str(gold_to_show)
-							print(gold_to_show)
 						)
 						tween.tween_property(_label, "scale", Vector2.ONE * 1.5, ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN).set_delay(delay)
 						tween.tween_property(_label, "scale", Vector2.ONE, ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(delay + ANIMATION_TIME)

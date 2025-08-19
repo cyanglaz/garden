@@ -4,6 +4,7 @@ extends CanvasLayer
 signal end_turn_button_pressed()
 signal tool_selected(index:int)
 signal week_summary_continue_button_pressed()
+signal gold_increased(gold:int)
 
 @onready var gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
 @onready var gui_tool_card_container: GUIToolCardContainer = %GUIToolCardContainer
@@ -30,6 +31,7 @@ func _ready() -> void:
 	gui_tool_card_container.setup(gui_draw_box_button, gui_discard_box_button)
 	_gui_top_bar.setting_button_evoked.connect(func() -> void: _gui_settings_main.animate_show())
 	gui_week_summary_main.continue_button_pressed.connect(func() -> void: week_summary_continue_button_pressed.emit())
+	gui_week_summary_main.gold_increased.connect(func(gold:int) -> void: gold_increased.emit(gold))
 
 #region all ui
 func toggle_all_ui(on:bool) -> void:

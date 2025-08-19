@@ -15,7 +15,7 @@ func _ready() -> void:
 	gui_full_deck_button.action_evoked.connect(func() -> void: full_deck_button_evoked.emit())
 
 func update_gold(gold:int, animated:bool) -> void:
-	await _gui_gold.update_gold(gold, GUIGold.AnimationType.SINGLE if animated else GUIGold.AnimationType.NONE)
+	await _gui_gold.update_gold(gold, GUIGold.AnimationType.FULL if animated else GUIGold.AnimationType.NONE)
 
 func update_week(week:int) -> void:
 	_week_label.text = Util.get_localized_string("WEEK_LABEL_TEXT") % (week + 1)
