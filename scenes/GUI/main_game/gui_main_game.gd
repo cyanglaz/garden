@@ -95,8 +95,8 @@ func update_weathers(weather_manager:WeatherManager) -> void:
 
 #region week summary
 
-func animate_show_week_summary(point:int, due:int) -> void:
-	await gui_week_summary_main.animate_show(point, due)
+func animate_show_week_summary(days_left:int) -> void:
+	await gui_week_summary_main.animate_show(days_left)
 
 #endregion
 

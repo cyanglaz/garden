@@ -7,12 +7,17 @@ enum AnimationType {
 	FULL,
 }
 
+@export var label_alignment:HorizontalAlignment = HorizontalAlignment.HORIZONTAL_ALIGNMENT_LEFT
+
 @onready var _label: Label = %Label
 @onready var _texture_rect: TextureRect = %TextureRect
 @onready var _gold_increased_sound: AudioStreamPlayer2D = %GoldIncreasedSound
 @onready var _gold_use_sound: AudioStreamPlayer2D = %GoldUseSound
 
 var _current_gold:int = 0
+
+func _ready() -> void:
+	_label.horizontal_alignment = label_alignment
 
 func update_gold(gold:int, animation_type:AnimationType) -> void:
 	if animation_type != AnimationType.NONE:

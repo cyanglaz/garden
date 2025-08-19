@@ -121,7 +121,7 @@ func _update_points(points:int) -> void:
 	
 func _win() -> void:
 	await Util.create_scaled_timer(WIN_PAUSE_TIME).timeout
-	gui_main_game.animate_show_week_summary(_points, week_manager.get_points_due())
+	gui_main_game.animate_show_week_summary(6 - week_manager.get_day())
 	for field:Field in field_container.fields:
 		field.remove_plant()
 
