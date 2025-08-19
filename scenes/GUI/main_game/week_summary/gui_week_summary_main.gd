@@ -14,6 +14,8 @@ const HIDE_Y := 200
 const SHOW_ANIMATION_DURATION := 0.15
 const HIDE_ANIMATION_DURATION := 0.15
 const DISPLAY_ITEMS_DELAY := 0.1
+const DAYS_LEFT_ANIMATION_DURATION := 0.1
+const DAYS_LEFT_ANIMATION_DELAY := 0.15
 
 const BASE_GOLD := 6
 const GOLD_PER_DAY_LEFT := 3
@@ -24,7 +26,6 @@ const GOLD_PER_DAY_LEFT := 3
 @onready var _days_left_label: GUISummaryItem = %DaysLeftLabel
 @onready var _gui_gold: GUIGold = %GUIGold
 
-@onready var _gui_tooltip_description_saparator: HSeparator = %GUITooltipDescriptionSaparator
 @onready var _item_audio_player: AudioStreamPlayer2D = %ItemAudioPlayer
 
 var _display_y := 0.0
@@ -39,10 +40,25 @@ func animate_show(days_left:int) -> void:
 	_days_left = days_left
 	_continue_button.hide()
 	show()
-	_days_left_label.update_with_title_and_points(tr("WEEK_SUMMARY_DAYS_LEFT_TITLE"), days_left, Constants.COLOR_WHITE)
-	_gui_gold.update_gold(BASE_GOLD, GUIGold.AnimationType.NONE)
+	_gui_gold.update_gold(0, GUIGold.AnimationType.NONE)
+	_days_left_label.value_text = ""
 	await _play_show_animation()
-	#await _play_display_items_animation()
+	
+	await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY).timeout
+	_days_left_label.value_text = str(days_left)
+	_item_audio_player.stream = SUMMARY_AUDIO_1
+	_item_audio_player.play()
+	await _item_audio_player.finished
+	
+	await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY * 2).timeout
+	_gui_gold.update_gold(BASE_GOLD, GUIGold.AnimationType.NONE)
+	_item_audio_player.stream = SUMMARY_AUDIO_3
+	_item_audio_player.play()
+	await _item_audio_player.finished
+	
+	await _play_earn_gold_animation()
+	await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY).timeout
+	_continue_button.show()
 
 func _play_show_animation() -> void:
 	_main_panel.position.y = HIDE_Y
@@ -50,43 +66,16 @@ func _play_show_animation() -> void:
 	tween.tween_property(_main_panel, "position:y", _display_y, SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	await tween.finished
 
-#func _play_display_items_animation() -> void:	
-	## Show earned
-	#await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY).timeout
-	#_earned.show()
-	#_item_audio_player.stream = SUMMARY_AUDIO_1
-	#_item_audio_player.play()
-	#await _item_audio_player.finished
-	#
-	## Show tax
-	#await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY).timeout
-	#_tax.show()
-	#_item_audio_player.stream = SUMMARY_AUDIO_2
-	#_item_audio_player.play()
-	#await _item_audio_player.finished
-	#
-	## Show separator
-	#await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY).timeout
-	#_gui_tooltip_description_saparator.show()
-	#
-	## Show summary
-	#await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY * 2).timeout
-	#_conclusion.show()
-	#_item_audio_player.stream = SUMMARY_AUDIO_3
-	#_item_audio_player.play()
-	#await _item_audio_player.finished
-	#
-	## Show failure message and button
-	#if _success:
-		#await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY).timeout
-		#_continue_button.show()
-	#else:
-		#await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY).timeout
-		#_failed_label.show()
-		#_item_audio_player.stream = FAILURE_MESSAGE_AUDIO
-		#_item_audio_player.play()
-		#await Util.create_scaled_timer(DISPLAY_ITEMS_DELAY).timeout
-		#_main_menu_button.show()
+func _play_earn_gold_animation() -> void:
+	var delay := 0.0
+	var total_time := DAYS_LEFT_ANIMATION_DELAY * (_days_left - 1)
+	for i in range(1, _days_left + 1):
+		Util.create_scaled_timer(delay).timeout.connect(func(): 
+			_days_left_label.value_text = str(_days_left - i)
+			_gui_gold.update_gold(BASE_GOLD + i * GOLD_PER_DAY_LEFT, GUIGold.AnimationType.FULL)
+		)
+		delay += DAYS_LEFT_ANIMATION_DELAY
+	await Util.create_scaled_timer(total_time).timeout
 
 func animate_hide() -> void:
 	_continue_button.hide()
