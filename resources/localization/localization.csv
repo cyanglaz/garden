@@ -99,7 +99,7 @@ SHOP_SUBTITLE, "Unused gold will be lost when the next week starts."
 WEEK_SUMMARY_TITLE, "Week Summary"
 WEEK_SUMMARY_DAYS_LEFT_TITLE, "Days Left"
 WEEK_SUMMARY_CONCLUSION_TITLE, "Conclusion"
-WEEK_SUMMARY_SUCCESS_BUTTON, "Get Rewards"
+WEEK_SUMMARY_SUCCESS_BUTTON, "Go to Shop"
 WEEK_SUMMARY_FAILURE_BUTTON, "Main Menu"
 WEEK_SUMMARY_FAILURE_MESSAGE, "You don't have enough gold to pay the tax."
 
