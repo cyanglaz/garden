@@ -142,7 +142,7 @@ func show_point_popup() -> void:
 	add_child(point_label)
 	point_label.global_position = _gui_field_button.global_position + _gui_field_button.size/2 + Vector2.LEFT * 16
 	var color:Color = Constants.COLOR_YELLOW2
-	point_label.setup(str("+", plant.data.point), color, point_ICON)
+	point_label.setup(str("+", plant.data.points), color, point_ICON)
 	await point_label.animate_show_and_destroy(8, 6, POPUP_point_SHOW_TIME, POPUP_point_DESTROY_TIME)
 
 func can_harvest() -> bool:

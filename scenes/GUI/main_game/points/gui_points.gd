@@ -10,6 +10,7 @@ var _current_earned:int = 0
 
 func update_earned(points:int) -> void:
 	if points == 0:
+		_current_earned = points
 		earned_label.text = str(points)
 		return
 	var tween:Tween = Util.create_scaled_tween(self)
@@ -31,6 +32,7 @@ func update_earned(points:int) -> void:
 		tween.tween_property(earned_label, "scale", Vector2.ONE, animation_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(delay + animation_time)
 		delay += animation_time * 2
 	earned_label.text = str(points)
+	_current_earned = points
 	await tween.finished
 
 func update_due(points:int) -> void:

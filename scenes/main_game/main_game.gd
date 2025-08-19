@@ -117,17 +117,19 @@ func _update_gold(gold:int, animated:bool) -> void:
 func _update_points(points:int) -> void:
 	_points = points
 	await gui_main_game.update_points(_points)
+	if _points >= week_manager.get_points_due():	
+		_win()
+	
+func _win() -> void:
+	gui_main_game.animate_show_week_summary(_points, week_manager.get_points_due())
+	for field:Field in field_container.fields:
+		field.remove_plant()
 
 func _end_day() -> void:
 	field_container.handle_turn_end()
 	if week_manager.get_day() == 6:
-		for field:Field in field_container.fields:
-			field.remove_plant()
-		# if _points >= week_manager.get_points_due():
-		gui_main_game.animate_show_week_summary(_points, week_manager.get_points_due())
-		# gui_main_game.animate_show_shop(3, 2, _gold)
-		# else:
-			# print("lose")
+		assert(_points < week_manager.get_points_due(), "points should be less than due if last day is ended without reaching win condition")
+		print("lose")
 	else:
 		start_day()
 

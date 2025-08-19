@@ -45,7 +45,7 @@ func update_with_action(action_data:ActionData) -> void:
 			_post_value_icon.texture = load(VALUE_ICON_PATH + "random.png")
 
 func _get_value_id(value:int) -> String:
-	var value_id := str(value)
+	var value_id := str(abs(value))
 	if value > 10:
 		value_id = "max"
 	return value_id
