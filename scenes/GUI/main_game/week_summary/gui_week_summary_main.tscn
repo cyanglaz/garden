@@ -20,6 +20,7 @@ script = ExtResource("1_bf6q1")
 
 [node name="GUIOverlayBackground" parent="." instance=ExtResource("2_v8dyu")]
 layout_mode = 1
+color = Color(0, 0, 0, 0.862745)
 
 [node name="MainPanel" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(120, 82)

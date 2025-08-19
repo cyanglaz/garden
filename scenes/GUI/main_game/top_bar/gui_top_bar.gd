@@ -21,7 +21,7 @@ func update_week(week:int) -> void:
 	_week_label.text = Util.get_localized_string("WEEK_LABEL_TEXT") % (week + 1)
 
 func update_day(day:int) -> void:
-	_day_label.text = Util.get_localized_string("DAY_LABEL_TEXT")% (day + 1)
+	_day_label.text = Util.get_localized_string("DAY_LABEL_TEXT")% (7-day)
 
 func toggle_all_ui(_on:bool) -> void:
 	pass
