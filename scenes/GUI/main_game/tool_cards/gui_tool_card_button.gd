@@ -11,7 +11,6 @@ const TOOLTIP_DELAY := 0.2
 const CARD_HOVER_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_hover.wav")
 const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_select.wav")
 
-
 @onready var _gui_action_list: GUIActionList = %GUIActionList
 @onready var _card_container: Control = %CardContainer
 @onready var _background: NinePatchRect = %Background
