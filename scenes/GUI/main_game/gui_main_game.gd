@@ -103,6 +103,13 @@ func animate_show_week_summary(days_left:int) -> void:
 
 #endregion
 
+#region gameover
+
+func animate_show_game_over(session_summary:SessionSummary) -> void:
+	await gui_game_over_main.animate_show(session_summary)
+
+#endregion
+
 #region shop
 func animate_show_shop(number_of_tools:int, number_of_plants:int, gold:int) -> void:
 	await gui_shop_main.animate_show(number_of_tools, number_of_plants, gold)

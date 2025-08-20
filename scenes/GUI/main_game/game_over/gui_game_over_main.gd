@@ -25,7 +25,7 @@ func _ready() -> void:
 func animate_show(session_summary:SessionSummary) -> void:
 	_continue_button.hide()
 	show()
-	_week_label.value_text = str(session_summary.week)
+	_week_label.value_text = str(session_summary.week + 1)
 	_total_days_skipped_label.value_text = str(session_summary.total_days_skipped)
 	_total_gold_earned_label.value_text = str(session_summary.total_gold_earned)
 

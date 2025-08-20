@@ -22,6 +22,7 @@ var weather_manager:WeatherManager = WeatherManager.new()
 var tool_manager:ToolManager
 var plant_seed_manager:PlantSeedManager
 var max_energy := 3
+var session_summary:SessionSummary
 var _gold := 0: set = _set_gold
 var _points := 0
 
@@ -30,6 +31,8 @@ var _point_gaining_fields:Array = []
 
 func _ready() -> void:
 	Singletons.main_game = self
+	
+	session_summary = SessionSummary.new()
 	
 	#field signals
 	field_container.update_with_number_of_fields(number_of_fields)
@@ -82,6 +85,7 @@ func start_new_week() -> void:
 	tool_manager.refresh_deck()
 	plant_seed_manager.refresh_deck()
 	week_manager.next_week()
+	session_summary.week = week_manager.week
 	weather_manager.generate_weathers(7, week_manager.week)
 	gui_main_game.update_week(week_manager.week)
 	start_day()
@@ -126,18 +130,23 @@ func _win() -> void:
 	for field:Field in field_container.fields:
 		field.remove_plant()
 	await _discard_all_tools()
+	session_summary.total_days_skipped += week_manager.get_day_left()
 	gui_main_game.animate_show_week_summary(week_manager.get_day_left())
+	_harvesting_fields.clear()
+	_point_gaining_fields.clear()
 
 func _lose() -> void:
 	gui_main_game.toggle_all_ui(false)
 	await Util.create_scaled_timer(WIN_PAUSE_TIME).timeout
-	gui_main_game.animate_show_week_summary(week_manager.get_day_left())
+	gui_main_game.animate_show_game_over(session_summary)
 
 func _end_day() -> void:
 	field_container.handle_turn_end()
-	if week_manager.get_day() == 6:
-		assert(_points < week_manager.get_points_due(), "points should be less than due if last day is ended without reaching win condition")
-		print("lose")
+	if week_manager.get_day() == 0:
+		if _points >= week_manager.get_points_due():	
+			return #Win condition has been met at the end of the day, _harvest will take care of win
+		else:
+			_lose()
 	else:
 		start_day()
 
@@ -148,6 +157,8 @@ func _discard_all_tools() -> void:
 	var discarding_indices:Array[int] = []
 	for i in tool_manager.tool_deck.hand.size():
 		discarding_indices.append(i)
+	if discarding_indices.is_empty():
+		return
 	await tool_manager.discard_cards(discarding_indices, gui_main_game.gui_tool_card_container)
 
 func _clear_tool_selection() -> void:
@@ -177,8 +188,8 @@ func _harvest() -> void:
 	else:
 		await plant_seed_manager.discard_cards(_harvesting_fields, gui_main_game.gui_plant_seed_animation_container, field_container)
 		await plant_seed_manager.draw_cards(_harvesting_fields.size(), gui_main_game.gui_plant_seed_animation_container, _harvesting_fields, field_container)
-	_harvesting_fields.clear()
-	_point_gaining_fields.clear()
+		_harvesting_fields.clear()
+		_point_gaining_fields.clear()
 
 #endregion
 
@@ -259,6 +270,7 @@ func _on_tool_shop_button_pressed(tool_data:ToolData) -> void:
 #region week summary events
 func _on_week_summary_gold_increased(gold:int) -> void:
 	_update_gold(_gold + gold, true)
+	session_summary.total_gold_earned += gold
 #endregion
 
 #endregion

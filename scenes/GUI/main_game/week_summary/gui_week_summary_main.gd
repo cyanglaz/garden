@@ -70,7 +70,7 @@ func _play_show_animation() -> void:
 func _play_earn_gold_animation() -> void:
 	var total := BASE_GOLD + _days_left * GOLD_PER_DAY_LEFT
 	await _gui_gold.update_gold(total, GUIGold.AnimationType.SINGLE, GOLD_PER_DAY_LEFT)
-	await Util.create_scaled_timer(FINAL_GOLD_INCREASE_DELAY)
+	await Util.create_scaled_timer(FINAL_GOLD_INCREASE_DELAY).timeout
 	gold_increased.emit(total)
 
 func animate_hide() -> void:
