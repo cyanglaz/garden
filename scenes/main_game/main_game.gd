@@ -142,7 +142,7 @@ func _lose() -> void:
 
 func _end_day() -> void:
 	field_container.handle_turn_end()
-	if week_manager.get_day() == 0:
+	if week_manager.get_day() == 6:
 		if _points >= week_manager.get_points_due():	
 			return #Win condition has been met at the end of the day, _harvest will take care of win
 		else:
