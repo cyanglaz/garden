@@ -128,6 +128,11 @@ func _win() -> void:
 	await _discard_all_tools()
 	gui_main_game.animate_show_week_summary(week_manager.get_day_left())
 
+func _lose() -> void:
+	gui_main_game.toggle_all_ui(false)
+	await Util.create_scaled_timer(WIN_PAUSE_TIME).timeout
+	gui_main_game.animate_show_week_summary(week_manager.get_day_left())
+
 func _end_day() -> void:
 	field_container.handle_turn_end()
 	if week_manager.get_day() == 6:

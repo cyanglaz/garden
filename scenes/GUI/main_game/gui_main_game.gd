@@ -15,6 +15,7 @@ signal gold_increased(gold:int)
 @onready var gui_plant_discard_deck_box: GUIPlantDeckBox = %GUIPlantDiscardDeckBox
 @onready var gui_shop_main: GUIShopMain = %GUIShopMain
 @onready var gui_week_summary_main: GUIWeekSummaryMain = %GUIWeekSummaryMain
+@onready var gui_game_over_main: GUIGameOverMain = %GUIGameOverMain
 
 @onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
