@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="3_ldk84"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="4_ldk84"]
-[ext_resource type="Resource" uid="uid://dmmqf31ijms54" path="res://data/plants/plant_data_peace_lily.tres" id="4_r81kp"]
+[ext_resource type="Resource" uid="uid://cf678cnphhouf" path="res://data/plants/plant_data_daisy.tres" id="4_r81kp"]
 [ext_resource type="Resource" uid="uid://dveio5prp3e4b" path="res://data/tools/tool_burn.tres" id="5_r81kp"]
 
 [node name="MainGame" type="Node2D"]

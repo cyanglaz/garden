@@ -94,7 +94,7 @@ func _animate_draw(animation_item:AnimationQueueItem) -> void:
 			animating_card.animation_mode = true
 			animating_card.global_position = _draw_deck_button.global_position
 			animating_card.size = _draw_deck_button.size
-			delay_index += 1
+		delay_index += 1
 		animating_cards.append(animating_card)
 		if delay_index >= 0:
 			Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index).timeout.connect(func(): animating_card.play_move_sound())
