@@ -61,14 +61,11 @@ func draw(count:int, indices:Array = []) -> Array:
 	draw_pool_updated.emit(draw_pool)
 	return drawn_items
 
-func discard(indices:Array) -> void:
+func discard(items:Array) -> void:
 	# Removing from largest index to smallest index to avoid index change during removal.
-	indices.reverse()
-	for index:int in indices:
-		var item:Variant = hand[index]
+	for item:Variant in items:
 		discard_pool.append(item)
-		assert(index >= 0)
-		hand.remove_at(index)
+		hand.erase(item)
 	discard_pool_updated.emit(discard_pool)
 
 func add_item(item:Variant) -> void:

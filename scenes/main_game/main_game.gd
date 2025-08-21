@@ -121,8 +121,8 @@ func add_control_to_overlay(control:Control) -> void:
 func draw_cards(count:int) -> void:
 	await tool_manager.draw_cards(count, gui_main_game.gui_tool_card_container)
 
-func discard_cards(indices:Array) -> void:
-	await tool_manager.discard_cards(indices, gui_main_game.gui_tool_card_container)
+func discard_cards(tools:Array) -> void:
+	await tool_manager.discard_cards(tools, gui_main_game.gui_tool_card_container)
 
 #region private
 
@@ -164,12 +164,9 @@ func _on_week_summary_continue_button_pressed() -> void:
 	gui_main_game.animate_show_shop(3, 2, _gold)
 	
 func _discard_all_tools() -> void:
-	var discarding_indices:Array[int] = []
-	for i in tool_manager.tool_deck.hand.size():
-		discarding_indices.append(i)
-	if discarding_indices.is_empty():
+	if tool_manager.tool_deck.hand.is_empty():
 		return
-	await tool_manager.discard_cards(discarding_indices, gui_main_game.gui_tool_card_container)
+	await tool_manager.discard_cards(tool_manager.tool_deck.hand, gui_main_game.gui_tool_card_container)
 
 func _clear_tool_selection() -> void:
 	tool_manager.select_tool(-1)
@@ -217,14 +214,13 @@ func _on_tool_selected(index:int) -> void:
 	if !tool_data.need_select_field:
 		await tool_manager.apply_tool(self, [])
 	
-func _on_tool_application_started(index:int) -> void:
-	tool_manager.discard_cards([index], gui_main_game.gui_tool_card_container)
-	_clear_tool_selection()
-	var tool_data:ToolData = tool_manager.get_tool(index)
+func _on_tool_application_started(tool_data:ToolData) -> void:
 	gui_main_game.toggle_all_ui(false)
 	energy_tracker.spend(tool_data.energy_cost)
 
-func _on_tool_application_completed() -> void:
+func _on_tool_application_completed(tool_data:ToolData) -> void:
+	tool_manager.discard_cards([tool_data], gui_main_game.gui_tool_card_container)
+	_clear_tool_selection()
 	await _harvest()
 	gui_main_game.toggle_all_ui(true)
 

@@ -32,7 +32,8 @@ func discard_cards(field_indices:Array, gui_plant_seed_animation_container:GUIPl
 	var discarding_data := field_indices.map(func(i:int): return plant_deck.hand[i])
 	await gui_plant_seed_animation_container.animate_discard(field_indices,discarding_data)
 	remove_plants(field_indices, field_container)
-	plant_deck.discard(field_indices)
+	var plant_datas := field_indices.map(func(i:int): return plant_deck.hand[i])
+	plant_deck.discard(plant_datas)
 
 func remove_plants(field_indices:Array, field_container:FieldContainer) -> void:
 	for field_index:int in field_indices:

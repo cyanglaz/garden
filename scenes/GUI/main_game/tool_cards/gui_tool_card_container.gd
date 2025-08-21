@@ -95,6 +95,9 @@ func get_card_position(index:int) -> Vector2:
 	var gui_card:GUIToolCardButton = _container.get_child(index)
 	return gui_card.global_position
 
+func get_center_position() -> Vector2:
+	return _container.global_position + _container.size/2
+
 func remove_card(card:GUIToolCardButton) -> void:
 	_container.remove_child(card)
 
