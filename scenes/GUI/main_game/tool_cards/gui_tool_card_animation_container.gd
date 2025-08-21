@@ -102,8 +102,8 @@ func _animate_draw(animation_item:AnimationQueueItem) -> void:
 		var target_global_position:Vector2 = _tool_card_container.global_position + card_local_position
 		tween.tween_property(animating_card, "visible", true, 0.01).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 		tween.tween_property(animating_card, "global_position", target_global_position, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		var scale_tweener := tween.tween_property(animating_card, "size", GUIToolCardButton.SIZE, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		scale_tweener.finished.connect(_on_draw_animation_scaler_tweener_finished.bind(animating_card))
+		tween.tween_property(animating_card, "size", GUIToolCardButton.SIZE, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index).timeout.connect(func(): animating_card.animation_mode = false)
 	await tween.finished
 	_animation_queue_item_finished.emit(animation_item)
 
@@ -161,9 +161,6 @@ func _get_discard_deck_button() -> GUIDeckButton:
 func _on_animation_queue_item_finished(finished_item:AnimationQueueItem) -> void:
 	finished_item.finished.emit()
 	_play_next_animation()
-
-func _on_draw_animation_scaler_tweener_finished(card:GUIToolCardButton) -> void:
-	card.animation_mode = false
 
 class AnimationQueueItem:
 

@@ -3,7 +3,8 @@ extends CanvasLayer
 
 signal end_turn_button_pressed()
 signal tool_selected(index:int)
-signal week_summary_continue_button_pressed(gold_left:int)
+signal week_summary_continue_button_pressed()
+signal gold_increased(gold:int)
 
 @onready var gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
 @onready var gui_tool_card_container: GUIToolCardContainer = %GUIToolCardContainer
@@ -14,14 +15,15 @@ signal week_summary_continue_button_pressed(gold_left:int)
 @onready var gui_plant_discard_deck_box: GUIPlantDeckBox = %GUIPlantDiscardDeckBox
 @onready var gui_shop_main: GUIShopMain = %GUIShopMain
 @onready var gui_week_summary_main: GUIWeekSummaryMain = %GUIWeekSummaryMain
+@onready var gui_game_over_main: GUIGameOverMain = %GUIGameOverMain
 
 @onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
 @onready var _overlay: Control = %Overlay
-@onready var _day_label: Label = %DayLabel
 @onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
 @onready var _gui_top_bar: GUITopBar = %GUITopBar
 @onready var _gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
+@onready var _gui_points: GUIPoints = %GUIPoints
 
 func _ready() -> void:
 	_gui_tool_cards_viewer.hide()
@@ -29,7 +31,8 @@ func _ready() -> void:
 	_end_turn_button.action_evoked.connect(func() -> void: end_turn_button_pressed.emit())
 	gui_tool_card_container.setup(gui_draw_box_button, gui_discard_box_button)
 	_gui_top_bar.setting_button_evoked.connect(func() -> void: _gui_settings_main.animate_show())
-	gui_week_summary_main.continue_button_pressed.connect(func(gold_left:int) -> void: week_summary_continue_button_pressed.emit(gold_left))
+	gui_week_summary_main.continue_button_pressed.connect(func() -> void: week_summary_continue_button_pressed.emit())
+	gui_week_summary_main.gold_increased.connect(func(gold:int) -> void: gold_increased.emit(gold))
 
 #region all ui
 func toggle_all_ui(on:bool) -> void:
@@ -47,8 +50,11 @@ func update_week(week:int) -> void:
 func update_gold(gold:int, animated:bool) -> void:
 	await _gui_top_bar.update_gold(gold, animated)
 
-func update_tax_due(gold:int) -> void:
-	await _gui_top_bar.update_tax_due(gold)
+func update_points(points:int) -> void:
+	await _gui_points.update_earned(points)
+
+func update_points_due(points:int) -> void:
+	_gui_points.update_due(points)
 
 #region tools
 func update_tools(tool_datas:Array[ToolData]) -> void:
@@ -78,8 +84,8 @@ func bind_plant_seed_deck(plant_seed_deck:Deck) -> void:
 #endregion
 
 #region days
-func set_day(day:int) -> void:
-	_day_label.text = Util.get_localized_string("DAY_LABEL_TEXT")% (day + 1)
+func update_day_left(day_left:int) -> void:
+	_gui_top_bar.update_day_left(day_left)
 
 func bind_energy(resource_point:ResourcePoint) -> void:
 	_gui_energy_tracker.bind_with_resource_point(resource_point)
@@ -92,8 +98,15 @@ func update_weathers(weather_manager:WeatherManager) -> void:
 
 #region week summary
 
-func animate_show_week_summary(current_gold:int, tax:int) -> void:
-	await gui_week_summary_main.animate_show(current_gold, tax)
+func animate_show_week_summary(days_left:int) -> void:
+	await gui_week_summary_main.animate_show(days_left)
+
+#endregion
+
+#region gameover
+
+func animate_show_game_over(session_summary:SessionSummary) -> void:
+	await gui_game_over_main.animate_show(session_summary)
 
 #endregion
 

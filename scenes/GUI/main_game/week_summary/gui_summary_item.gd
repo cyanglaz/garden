@@ -1,10 +1,16 @@
 class_name GUISummaryItem
 extends HBoxContainer
 
-@onready var title_label: Label = %TitleLabel
-@onready var gold_label: Label = %GoldLabel
+@export var title_localized_string:String
 
-func update_with_title_and_gold(title:String, gold:int, gold_tax_color:Color) -> void:
-	title_label.text = title
-	gold_label.text = str(gold)
-	gold_label.add_theme_color_override("font_color", gold_tax_color)
+@onready var title_label: Label = %TitleLabel
+@onready var value_label: Label = %ValueLabel
+
+var value_text:String : set = _set_value_text
+
+func _ready() -> void:
+	title_label.text = Util.get_localized_string(title_localized_string)
+
+func _set_value_text(val:String) -> void:
+	value_text = val
+	value_label.text = val

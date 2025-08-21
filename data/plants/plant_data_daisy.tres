@@ -6,7 +6,7 @@
 script = ExtResource("1_ni2q2")
 light = 1
 water = 1
-gold = 3
+points = 3
 rarity = 0
 id = "daisy"
 display_name = "Daisy"

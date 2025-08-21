@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://t10sv74gr8qu"
-path="res://.godot/imported/gold_collected.wav-79171071f24805e4e9a7e922d80f4d8d.sample"
+path="res://.godot/imported/points_collected.wav-a51ce9623af17529e78ad67fbe2b2316.sample"
 
 [deps]
 
-source_file="res://resources/sounds/SFX/other/gold/gold_collected.wav"
-dest_files=["res://.godot/imported/gold_collected.wav-79171071f24805e4e9a7e922d80f4d8d.sample"]
+source_file="res://resources/sounds/SFX/other/points/points_collected.wav"
+dest_files=["res://.godot/imported/points_collected.wav-a51ce9623af17529e78ad67fbe2b2316.sample"]
 
 [params]
 

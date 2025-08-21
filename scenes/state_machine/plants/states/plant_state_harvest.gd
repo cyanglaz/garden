@@ -6,11 +6,11 @@ func enter() -> void:
 	plant.harvest_started.emit()
 	await plant.field.status_manager.handle_harvest_gold_hooks(plant)
 	await _handle_ability()
-	_gain_gold()
+	_gain_points()
 
-func _gain_gold() -> void:
-	await plant.field.show_gold_popup()
-	plant.harvest_gold_update_requested.emit(plant.data.gold)
+func _gain_points() -> void:
+	await plant.field.show_point_popup()
+	plant.harvest_point_update_requested.emit(plant.data.points)
 	exit("")
 
 func _handle_ability() -> void:
@@ -18,4 +18,3 @@ func _handle_ability() -> void:
 
 func _get_animation_name() -> String:
 	return "idle" + str("_", plant.stage)
-
