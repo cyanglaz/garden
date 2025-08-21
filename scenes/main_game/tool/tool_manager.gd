@@ -2,7 +2,7 @@ class_name ToolManager
 extends RefCounted
 
 signal tool_application_started(index:int)
-signal tool_application_completed(index:int)
+signal tool_application_completed()
 
 var tool_deck:Deck
 var selected_tool_index:int = -1
@@ -45,7 +45,7 @@ func apply_tool(main_game:MainGame, fields:Array) -> void:
 	await main_game.field_container.trigger_tool_application_hook()
 	if !applying_tool.need_select_field:
 		await _tool_applier.apply_tool(main_game, null, applying_tool, tool_index)
-		tool_application_completed.emit(tool_index)
+		tool_application_completed.emit()
 	else:
 		await _apply_tool_to_next_field(main_game, applying_tool, fields, 0, tool_index)
 
@@ -57,7 +57,7 @@ func get_tool(index:int) -> ToolData:
 
 func _apply_tool_to_next_field(main_game:MainGame, applying_tool:ToolData, fields:Array, field_index:int, tool_index:int) -> void:
 	if field_index >= fields.size():
-		tool_application_completed.emit(tool_index)
+		tool_application_completed.emit()
 		return
 	var field:Field = fields[field_index]
 	await _tool_applier.apply_tool(main_game, field, applying_tool, tool_index)

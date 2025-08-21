@@ -2,7 +2,7 @@ class_name ToolApplier
 extends RefCounted
 
 signal tool_application_started(tool_index:int)
-signal tool_application_completed(tool_index:int)
+signal tool_application_completed()
 
 var _pending_actions:Array[ActionData] = []
 var _action_index:int = 0
@@ -11,7 +11,7 @@ func apply_tool(main_game:MainGame, field:Field, tool_data:ToolData, tool_index:
 	tool_application_started.emit(tool_index)
 	if tool_data.tool_script:
 		await tool_data.tool_script.apply_tool(main_game, field, tool_data, tool_index)
-		tool_application_completed.emit(tool_index)
+		tool_application_completed.emit()
 	else:
 		_action_index = 0
 		_pending_actions = tool_data.actions.duplicate()
@@ -21,7 +21,7 @@ func _apply_next_action(main_game:MainGame, field:Field, tool_index:int) -> void
 	if _action_index >= _pending_actions.size():
 		_pending_actions.clear()
 		_action_index = 0
-		tool_application_completed.emit(tool_index)
+		tool_application_completed.emit()
 		return
 	var action:ActionData = _pending_actions[_action_index]
 	_action_index += 1
@@ -50,15 +50,17 @@ func _apply_instant_use_tool_action(action:ActionData, main_game:MainGame, _tool
 		ActionData.ActionType.DISCARD_CARD:
 			await _handle_discard_card_action(action, main_game, _tool_index)
 
-func _handle_discard_card_action(action:ActionData, main_game:MainGame, tool_index:int) -> void:
+func _handle_discard_card_action(action:ActionData, main_game:MainGame, _tool_index:int) -> void:
 	var random := action.value_type == ActionData.ValueType.RANDOM
 	var discard_size := action.value
 	if random:
 		var indices := []
 		for i in main_game.tool_manager.tool_deck.hand.size():
-			if i == tool_index:
-				continue
 			indices.append(i)
+		if indices.size() == 0:
+			return
+		if indices.size() < discard_size:
+			discard_size = indices.size()
 		var random_indices := Util.unweighted_roll(indices, discard_size)
 		await main_game.discard_cards(random_indices)
 	else:

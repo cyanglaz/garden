@@ -218,13 +218,13 @@ func _on_tool_selected(index:int) -> void:
 		await tool_manager.apply_tool(self, [])
 	
 func _on_tool_application_started(index:int) -> void:
-	var tool_data:ToolData = tool_manager.get_tool(index)
 	tool_manager.discard_cards([index], gui_main_game.gui_tool_card_container)
 	_clear_tool_selection()
+	var tool_data:ToolData = tool_manager.get_tool(index)
 	gui_main_game.toggle_all_ui(false)
 	energy_tracker.spend(tool_data.energy_cost)
 
-func _on_tool_application_completed(_index:int) -> void:
+func _on_tool_application_completed() -> void:
 	await _harvest()
 	gui_main_game.toggle_all_ui(true)
 
