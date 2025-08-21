@@ -63,7 +63,8 @@ func _on_mouse_entered(index:int) -> void:
 			else:
 				icon = _next_container.get_child(index - 1)
 				plant_data = icon.plant_data
-			_weak_tooltip = weakref(Util.display_plant_tooltip(plant_data, icon, false, GUITooltip.TooltipPosition.RIGHT))
+			if plant_data:
+				_weak_tooltip = weakref(Util.display_plant_tooltip(plant_data, icon, false, GUITooltip.TooltipPosition.RIGHT))
 		Type.DISCARD:
 			_next_container.show()
 
