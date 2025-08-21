@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1_r6f3l")
-light = 1
-water = 1
+light = 5
+water = 2
 points = 4
 rarity = 0
 id = "sunflower"

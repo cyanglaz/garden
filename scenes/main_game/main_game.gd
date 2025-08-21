@@ -7,9 +7,10 @@ var hand_size := 5
 const DAYS_TO_WEEK := 7
 const WIN_PAUSE_TIME := 0.4
 
+@export var player:PlayerData
 @export var test_plant_datas:Array[PlantData]
 @export var test_tools:Array[ToolData]
-@export var number_of_fields := 0
+@export var test_number_of_fields := 0
 
 @onready var gui_main_game: GUIMainGame = %GUIGameSession
 @onready var field_container: FieldContainer = %FieldContainer
@@ -35,7 +36,10 @@ func _ready() -> void:
 	session_summary = SessionSummary.new()
 	
 	#field signals
-	field_container.update_with_number_of_fields(number_of_fields)
+	if test_number_of_fields > 0:
+		field_container.update_with_number_of_fields(test_number_of_fields)
+	else:
+		field_container.update_with_number_of_fields(player.number_of_fields)
 	field_container.field_hovered.connect(_on_field_hovered)
 	field_container.field_pressed.connect(_on_field_pressed)
 	field_container.field_harvest_started.connect(_on_field_harvest_started)
@@ -46,14 +50,19 @@ func _ready() -> void:
 	
 	if !test_plant_datas.is_empty():
 		plant_seed_manager = PlantSeedManager.new(test_plant_datas)
+	else:
+		plant_seed_manager = PlantSeedManager.new(player.initial_plants)
 	if !test_tools.is_empty():
 		#test_tools.append_array(test_tools)
 		#test_tools.append_array(test_tools)
 		
 		#tool signals
 		tool_manager = ToolManager.new(test_tools)
-		tool_manager.tool_application_started.connect(_on_tool_application_started)
-		tool_manager.tool_application_completed.connect(_on_tool_application_completed)
+	else:
+		tool_manager = ToolManager.new(player.initial_tools)
+		
+	tool_manager.tool_application_started.connect(_on_tool_application_started)
+	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
 		
 	#gui main signals
 	gui_main_game.bind_energy(energy_tracker)
