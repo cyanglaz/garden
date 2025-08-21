@@ -255,11 +255,7 @@ func _on_field_hovered(hovered:bool, index:int) -> void:
 func _on_field_pressed(index:int) -> void:
 	if !tool_manager.selected_tool:
 		return
-	if tool_manager.selected_tool.is_all_fields:
-		await tool_manager.apply_tool(self, field_container.fields)
-	else:
-		var field := field_container.fields[index]
-		await tool_manager.apply_tool(self, [field])
+	await tool_manager.apply_tool(self, field_container.fields, index)
 
 #region weather events
 func _on_weathers_updated() -> void:

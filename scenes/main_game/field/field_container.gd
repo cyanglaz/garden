@@ -70,7 +70,7 @@ func clear_tool_indicators() -> void:
 		field.toggle_selection_indicator(false)
 	
 func toggle_field_selection_indicator(on:bool, tool_data:ToolData, index:int) -> void:
-	if tool_data && tool_data.is_all_fields:
+	if tool_data && tool_data.has_action_to_all_fields():
 		for one_field:Field in fields:
 			one_field.toggle_selection_indicator(on)
 	else:

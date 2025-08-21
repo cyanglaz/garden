@@ -9,28 +9,22 @@ const HIGHLIGHT_COLOR := Constants.COLOR_WHITE
 
 func update_with_tool_special(special:ToolData.Special) -> void:
 	var resource_id := Util.get_id_for_tool_speical(special)
+	texture_rect.texture = load(Util.get_image_path_for_resource_id(resource_id))
 	title_label.text = _get_special_name(special)
 	rich_text_label.text = _get_special_description(special)
-	texture_rect.texture = load(Util.get_image_path_for_resource_id(resource_id))
 
 func update_with_action_data(action_data:ActionData) -> void:
 	var resource_id := Util.get_action_id_with_action_type(action_data.type)
+	texture_rect.texture = load(Util.get_image_path_for_resource_id(resource_id))
 	title_label.text = _get_action_name(action_data)
 	rich_text_label.text = _get_action_description(action_data)
-	texture_rect.texture = load(Util.get_image_path_for_resource_id(resource_id))
 
 func _get_special_name(special:ToolData.Special) -> String:
 	var special_name := ""
-	match special:
-		ToolData.Special.ALL_FIELDS:
-			special_name = Util.get_localized_string("SPECIAL_NAME_ALL_FIELDS")
 	return special_name
 
 func _get_special_description(special:ToolData.Special) -> String:
 	var special_description := ""
-	match special:
-		ToolData.Special.ALL_FIELDS:
-			special_description = Util.get_localized_string("SPECIAL_DESCRIPTION_ALL_FIELDS")
 	special_description += "."
 	return special_description
 
@@ -112,6 +106,11 @@ func _get_field_action_description(action_data:ActionData) -> String:
 	else:
 		main_description = decrease_description
 	main_description = main_description % [action_name, _get_value_text(action_data)]
+	for special:ActionData.Special in action_data.specials:
+		match special:
+			ActionData.Special.ALL_FIELDS:
+				var all_fields_string := Util.get_localized_string("ACTION_ALL_FIELDS_TEXT")
+				main_description += Util.convert_to_bbc_highlight_text(all_fields_string, HIGHLIGHT_COLOR)
 	return main_description
 
 func _get_weather_action_description(action_data:ActionData) -> String:

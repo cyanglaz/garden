@@ -43,7 +43,7 @@ func discard_cards(tools:Array, gui_tool_card_container:GUIToolCardContainer) ->
 func select_tool(index:int) -> void:
 	selected_tool_index = index
 
-func apply_tool(main_game:MainGame, fields:Array) -> void:
+func apply_tool(main_game:MainGame, fields:Array, selected_index:int) -> void:
 	var applying_tool := selected_tool
 	tool_application_started.emit(applying_tool)
 	await main_game.field_container.trigger_tool_application_hook()
@@ -58,6 +58,8 @@ func add_tool(tool_data:ToolData) -> void:
 
 func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)
+
+
 
 func _apply_tool_to_next_field(main_game:MainGame, applying_tool:ToolData, fields:Array, field_index:int) -> void:
 	if field_index >= fields.size():
