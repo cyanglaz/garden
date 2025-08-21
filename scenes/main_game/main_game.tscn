@@ -1,16 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://bbcxpceayay3"]
+[gd_scene load_steps=10 format=3 uid="uid://bbcxpceayay3"]
 
 [ext_resource type="PackedScene" uid="uid://byg0qymapjkn6" path="res://scenes/main_game/field/field_container.tscn" id="1_075iw"]
 [ext_resource type="Script" uid="uid://sc1eubamsw6x" path="res://scenes/main_game/main_game.gd" id="1_yra6k"]
 [ext_resource type="Resource" uid="uid://d1jqracpdos0e" path="res://data/player/player_apprentice.tres" id="2_8ywsm"]
 [ext_resource type="PackedScene" uid="uid://drjaux1gtvc31" path="res://scenes/utils/camera/feedback_camera_2d.tscn" id="2_yra6k"]
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
+[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="3_ldk84"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="4_ldk84"]
+[ext_resource type="Resource" uid="uid://dmmqf31ijms54" path="res://data/plants/plant_data_peace_lily.tres" id="4_r81kp"]
 [ext_resource type="Resource" uid="uid://dveio5prp3e4b" path="res://data/tools/tool_burn.tres" id="5_r81kp"]
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 player = ExtResource("2_8ywsm")
+test_plant_datas = Array[ExtResource("3_ldk84")]([ExtResource("4_r81kp"), ExtResource("4_r81kp")])
 test_tools = Array[ExtResource("4_ldk84")]([ExtResource("5_r81kp"), ExtResource("5_r81kp"), ExtResource("5_r81kp"), ExtResource("5_r81kp"), ExtResource("5_r81kp")])
 
 [node name="FieldContainer" parent="." instance=ExtResource("1_075iw")]
