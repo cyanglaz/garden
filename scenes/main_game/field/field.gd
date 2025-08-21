@@ -14,7 +14,7 @@ const POPUP_STATUS_DESTROY_TIME := 1.2
 
 signal field_pressed()
 signal field_hovered(hovered:bool)
-signal tool_application_completed(tool_data:ToolData)
+signal action_application_completed()
 signal plant_harvest_started()
 signal plant_harvest_point_update_requested(points:int)
 signal new_plant_planted()
@@ -93,10 +93,6 @@ func remove_plant_preview() -> void:
 		_weak_plant_preview.get_ref().queue_free()
 		_reset_progress_bars()
 
-func apply_tool(tool_data:ToolData) -> void:
-	await apply_actions(tool_data.actions)
-	tool_application_completed.emit(tool_data)
-
 func apply_weather_actions(weather_data:WeatherData) -> void:
 	await apply_actions(weather_data.actions)
 
@@ -120,6 +116,7 @@ func apply_actions(actions:Array[ActionData]) -> void:
 				await _apply_field_status_action(action)
 			_:
 				pass
+	action_application_completed.emit()
 
 func apply_field_status(field_status_id:String, stack:int) -> void:
 	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(field_status_id)

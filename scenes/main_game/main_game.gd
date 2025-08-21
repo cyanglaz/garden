@@ -212,7 +212,7 @@ func _on_tool_selected(index:int) -> void:
 	if !tool_data:
 		return
 	if !tool_data.need_select_field:
-		await tool_manager.apply_tool(self, [])
+		await tool_manager.apply_tool(self, [], -1)
 	
 func _on_tool_application_started(tool_data:ToolData) -> void:
 	tool_manager.discard_cards([tool_data], gui_main_game.gui_tool_card_container)
