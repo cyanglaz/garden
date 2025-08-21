@@ -18,8 +18,13 @@ var weathers:Array[WeatherData]
 var forecast_days := 1
 var day:int = 0: set = _set_day
 
-func generate_weathers(number_of_weathers:int, week:int) -> void:
-	weathers = MainDatabase.weather_database.roll_weathers(number_of_weathers, week)
+func generate_weathers(number_of_weathers:int, week:int, test_weather:WeatherData) -> void:
+	weathers.clear()
+	if test_weather:
+		for i in number_of_weathers:
+			weathers.append(test_weather)
+	else:		
+		weathers = MainDatabase.weather_database.roll_weathers(number_of_weathers, week)
 	weathers_updated.emit()
 
 func get_current_weather() -> WeatherData:
