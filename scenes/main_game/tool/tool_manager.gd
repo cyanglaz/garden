@@ -51,7 +51,7 @@ func apply_tool(main_game:MainGame, fields:Array, selected_index:int) -> void:
 		await _tool_applier.apply_tool(main_game, [], -1, applying_tool)
 		tool_application_completed.emit(applying_tool)
 	else:
-		await _apply_tool_to_field(main_game, applying_tool, fields, 0)
+		await _apply_tool_to_field(main_game, applying_tool, fields, selected_index)
 
 func add_tool(tool_data:ToolData) -> void:
 	tool_deck.add_item(tool_data)

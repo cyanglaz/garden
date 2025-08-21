@@ -19,11 +19,11 @@ func update_with_action_data(action_data:ActionData) -> void:
 	title_label.text = _get_action_name(action_data)
 	rich_text_label.text = _get_action_description(action_data)
 
-func _get_special_name(special:ToolData.Special) -> String:
+func _get_special_name(_special:ToolData.Special) -> String:
 	var special_name := ""
 	return special_name
 
-func _get_special_description(special:ToolData.Special) -> String:
+func _get_special_description(_special:ToolData.Special) -> String:
 	var special_description := ""
 	special_description += "."
 	return special_description
