@@ -11,6 +11,7 @@ const WIN_PAUSE_TIME := 0.4
 @export var test_plant_datas:Array[PlantData]
 @export var test_tools:Array[ToolData]
 @export var test_number_of_fields := 0
+@export var test_weather:WeatherData
 
 @onready var gui_main_game: GUIMainGame = %GUIGameSession
 @onready var field_container: FieldContainer = %FieldContainer
@@ -95,7 +96,7 @@ func start_new_week() -> void:
 	plant_seed_manager.refresh_deck()
 	week_manager.next_week()
 	session_summary.week = week_manager.week
-	weather_manager.generate_weathers(7, week_manager.week)
+	weather_manager.generate_weathers(7, week_manager.week, test_weather)
 	gui_main_game.update_week(week_manager.week)
 	start_day()
 
@@ -139,10 +140,10 @@ func _win() -> void:
 	for field:Field in field_container.fields:
 		field.remove_plant()
 	await _discard_all_tools()
-	session_summary.total_days_skipped += week_manager.get_day_left()
-	gui_main_game.animate_show_week_summary(week_manager.get_day_left())
 	_harvesting_fields.clear()
 	_point_gaining_fields.clear()
+	session_summary.total_days_skipped += week_manager.get_day_left()
+	gui_main_game.animate_show_week_summary(week_manager.get_day_left())
 
 func _lose() -> void:
 	gui_main_game.toggle_all_ui(false)
@@ -185,20 +186,22 @@ func _plant_new_seeds() -> void:
 
 #region harvest flow
 
-func _harvest() -> void:
+func _harvest() -> bool:
 	_harvesting_fields = field_container.get_harvestable_fields()
 	if _harvesting_fields.is_empty():
-		return
+		return false
 	_point_gaining_fields = _harvesting_fields.duplicate()
 	field_container.harvest_all_fields()
 	await _all_field_point_gained
 	if _points >= week_manager.get_points_due():	
-		_win()
+		await _win()
+		return true
 	else:
 		await plant_seed_manager.discard_cards(_harvesting_fields, gui_main_game.gui_plant_seed_animation_container, field_container)
 		await plant_seed_manager.draw_cards(_harvesting_fields.size(), gui_main_game.gui_plant_seed_animation_container, _harvesting_fields, field_container)
 		_harvesting_fields.clear()
 		_point_gaining_fields.clear()
+		return true
 
 #endregion
 
@@ -230,7 +233,9 @@ func _on_end_turn_button_pressed() -> void:
 	gui_main_game.toggle_all_ui(false)
 	await weather_manager.apply_weather_actions(field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
 	await field_container.trigger_end_day_ability(self)
-	await _harvest()
+	var won := await _harvest()
+	if won:
+		return #Harvest won the game, no need to discard tools or end the day
 	await _discard_all_tools()
 	_end_day()
 	
