@@ -161,7 +161,10 @@ func _end_day() -> void:
 		start_day()
 
 func _on_week_summary_continue_button_pressed() -> void:
-	gui_main_game.animate_show_shop(3, 2, _gold)
+	if week_manager.is_boss_week():
+		gui_main_game.animate_show_demo_end()
+	else:
+		gui_main_game.animate_show_shop(3, 2, _gold)
 	
 func _discard_all_tools() -> void:
 	if tool_manager.tool_deck.hand.is_empty():

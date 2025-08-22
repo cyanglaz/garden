@@ -16,6 +16,7 @@ signal gold_increased(gold:int)
 @onready var gui_shop_main: GUIShopMain = %GUIShopMain
 @onready var gui_week_summary_main: GUIWeekSummaryMain = %GUIWeekSummaryMain
 @onready var gui_game_over_main: GUIGameOverMain = %GUIGameOverMain
+@onready var gui_demo_end_main: GUIDemoEndMain = %GUIDemoEndMain
 
 @onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
@@ -115,6 +116,14 @@ func animate_show_shop(number_of_tools:int, number_of_plants:int, gold:int) -> v
 	await gui_shop_main.animate_show(number_of_tools, number_of_plants, gold)
 
 #region utils
+
+#region demo
+
+func animate_show_demo_end() -> void:
+	gui_demo_end_main.animate_show()
+
+#endregion
+
 func add_control_to_overlay(control:Control) -> void:
 	_overlay.add_child(control)
 #endregion

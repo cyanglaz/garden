@@ -18,6 +18,9 @@ func next_day() -> void:
 func get_day() -> int:
 	return day_manager.day
 
+func is_boss_week() -> bool:
+	return (week + 1) % WEEKS_PER_BOSS == 0
+
 func get_day_left() -> int:
 	return 6 - day_manager.day
 
