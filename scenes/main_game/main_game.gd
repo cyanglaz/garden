@@ -83,7 +83,7 @@ func _ready() -> void:
 	
 	energy_tracker.can_be_capped = false
 	start_new_week()
-	#_update_gold(50, false)
+	_update_gold(_gold, false)
 	_update_points(0)
 
 func _input(event: InputEvent) -> void:
