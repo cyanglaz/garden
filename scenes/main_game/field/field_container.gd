@@ -3,6 +3,7 @@ extends Node2D
 
 signal field_harvest_started()
 signal field_harvest_point_update_requested(points:int, index:int)
+signal field_harvest_completed()
 signal field_hovered(hovered:bool, index:int)
 signal field_pressed(index:int)
 
@@ -25,6 +26,7 @@ func update_with_number_of_fields(number_of_fields:int) -> void:
 		field.field_hovered.connect(_on_field_hovered.bind(i))
 		field.field_pressed.connect(func(): field_pressed.emit(i))
 		field.plant_harvest_started.connect(func(): field_harvest_started.emit())
+		field.plant_harvest_completed.connect(func(): field_harvest_completed.emit())
 		field.plant_harvest_point_update_requested.connect(func(points:int): field_harvest_point_update_requested.emit(points, i))
 		if last_field:
 			field.weak_left_field = weakref(last_field)

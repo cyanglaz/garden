@@ -44,6 +44,7 @@ func _ready() -> void:
 	field_container.field_hovered.connect(_on_field_hovered)
 	field_container.field_pressed.connect(_on_field_pressed)
 	field_container.field_harvest_started.connect(_on_field_harvest_started)
+	field_container.field_harvest_completed.connect(_on_field_harvest_completed)
 	field_container.field_harvest_point_update_requested.connect(_on_field_harvest_point_update_requested)
 	
 	#weather signals
@@ -144,11 +145,13 @@ func _win() -> void:
 	_point_gaining_fields.clear()
 	session_summary.total_days_skipped += week_manager.get_day_left()
 	gui_main_game.animate_show_week_summary(week_manager.get_day_left())
+	gui_main_game.toggle_all_ui(true)
 
 func _lose() -> void:
 	gui_main_game.toggle_all_ui(false)
 	await Util.create_scaled_timer(WIN_PAUSE_TIME).timeout
 	gui_main_game.animate_show_game_over(session_summary)
+	gui_main_game.toggle_all_ui(true)
 
 func _end_day() -> void:
 	field_container.handle_turn_end()
@@ -236,11 +239,15 @@ func _on_end_turn_button_pressed() -> void:
 	if won:
 		return #Harvest won the game, no need to discard tools or end the day
 	await _discard_all_tools()
+	gui_main_game.toggle_all_ui(true)
 	_end_day()
 	
 #region field events
 func _on_field_harvest_started() -> void:
 	gui_main_game.toggle_all_ui(false)
+
+func _on_field_harvest_completed() -> void:
+	gui_main_game.toggle_all_ui(true)
 
 func _on_field_harvest_point_update_requested(points:int, index:int) -> void:
 	await _update_points(_points + points)

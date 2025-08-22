@@ -16,6 +16,7 @@ signal field_pressed()
 signal field_hovered(hovered:bool)
 signal action_application_completed()
 signal plant_harvest_started()
+signal plant_harvest_completed()
 signal plant_harvest_point_update_requested(points:int)
 signal new_plant_planted()
 
@@ -74,7 +75,8 @@ func plant_seed(plant_data:PlantData) -> void:
 	plant.data = plant_data.get_duplicate()
 	_plant_container.add_child(plant)
 	_show_progress_bars(plant)
-	plant.harvest_started.connect(_on_plant_harvest_started)
+	plant.harvest_started.connect(func(): plant_harvest_started.emit())
+	plant.harvest_completed.connect(func(): plant_harvest_completed.emit())
 	plant.harvest_point_update_requested.connect(_on_plant_harvest_point_update_requested)
 	plant.field = self
 	new_plant_planted.emit()
@@ -220,9 +222,6 @@ func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> vo
 			_animated_sprite_2d.play("hover")
 		GUIBasicButton.ButtonState.PRESSED:
 			_animated_sprite_2d.play("pressed")
-
-func _on_plant_harvest_started() -> void:
-	plant_harvest_started.emit()
 
 func _on_plant_harvest_point_update_requested(points:int) -> void:
 	plant_harvest_point_update_requested.emit(points)
