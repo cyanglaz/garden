@@ -68,7 +68,7 @@ func _enqueue_animation(type:AnimationQueueItem.AnimationType, args:Array) -> An
 func _play_next_animation() -> void:
 	if _animation_queue.is_empty():
 		return
-	var next_item:AnimationQueueItem = _animation_queue.pop_front()
+	var next_item:AnimationQueueItem = _animation_queue.front()
 	match next_item.animation_type:
 		AnimationQueueItem.AnimationType.ANIMATE_DRAW:
 			_animate_draw(next_item)
@@ -160,6 +160,7 @@ func _get_discard_deck_button() -> GUIDeckButton:
 
 func _on_animation_queue_item_finished(finished_item:AnimationQueueItem) -> void:
 	finished_item.finished.emit()
+	_animation_queue.pop_front()
 	_play_next_animation()
 
 class AnimationQueueItem:

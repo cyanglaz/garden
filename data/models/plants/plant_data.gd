@@ -4,9 +4,9 @@ extends ThingData
 const PLANT_SCENE_PATH_PREFIX:String = "res://scenes/main_game/plants/plant_"
 
 const COSTS := {
-	0: 15,
-	1: 35,
-	2: 60
+	0: 12,
+	1: 18,
+	2: 24
 }
 
 @export var light:int

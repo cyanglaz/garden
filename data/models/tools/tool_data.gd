@@ -4,9 +4,9 @@ extends ThingData
 const TOOL_SCRIPT_PATH := "res://scenes/main_game/tool/tool_scripts/tool_script_%s.gd"
 
 const COSTS := {
-	0: 10,
-	1: 25,
-	2: 45,
+	0: 6,
+	1: 11,
+	2: 19,
 }
 
 enum Special {
