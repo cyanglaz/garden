@@ -11,7 +11,7 @@ single_turn = true
 reduce_stack_on_turn_end = false
 id = "dew_collector"
 display_name = "Dew Collector"
-description = "Gain {water} water when a card is discarded."
+description = "For each stack, gain {water} water when a card is discarded."
 data = {
 &"water": "1"
 }
