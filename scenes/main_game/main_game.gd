@@ -44,7 +44,6 @@ func _ready() -> void:
 	field_container.field_hovered.connect(_on_field_hovered)
 	field_container.field_pressed.connect(_on_field_pressed)
 	field_container.field_harvest_started.connect(_on_field_harvest_started)
-	field_container.field_harvest_completed.connect(_on_field_harvest_completed)
 	field_container.field_harvest_point_update_requested.connect(_on_field_harvest_point_update_requested)
 	
 	#weather signals
@@ -204,7 +203,7 @@ func _harvest() -> bool:
 		await plant_seed_manager.draw_cards(_harvesting_fields.size(), gui_main_game.gui_plant_seed_animation_container, _harvesting_fields, field_container)
 		_harvesting_fields.clear()
 		_point_gaining_fields.clear()
-		return true
+		return false
 
 #endregion
 
@@ -245,9 +244,6 @@ func _on_end_turn_button_pressed() -> void:
 #region field events
 func _on_field_harvest_started() -> void:
 	gui_main_game.toggle_all_ui(false)
-
-func _on_field_harvest_completed() -> void:
-	gui_main_game.toggle_all_ui(true)
 
 func _on_field_harvest_point_update_requested(points:int, index:int) -> void:
 	await _update_points(_points + points)
