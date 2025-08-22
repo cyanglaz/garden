@@ -26,6 +26,10 @@ enum ValueType {
 	RANDOM,
 }
 
+enum Special {
+	ALL_FIELDS,
+}
+
 const CARD_ACTION_TYPES := [ActionType.DRAW_CARD, ActionType.DISCARD_CARD]
 const FIELD_ACTION_TYPES := [ActionType.LIGHT, ActionType.WATER, ActionType.PEST, ActionType.FUNGUS]
 const WEATHER_ACTION_TYPES := [ActionType.WEATHER_SUNNY, ActionType.WEATHER_RAINY]
@@ -33,6 +37,7 @@ const WEATHER_ACTION_TYPES := [ActionType.WEATHER_SUNNY, ActionType.WEATHER_RAIN
 @export var type:ActionType
 @export var value:int
 @export var value_type:ValueType = ValueType.NUMBER
+@export var specials:Array[Special]
 
 var action_category:ActionCategory: get = _get_action_category
 
@@ -41,6 +46,7 @@ func copy(other:ThingData) -> void:
 	type = other.type
 	value = other.value
 	value_type = other.value_type
+	specials = other.specials.duplicate()
 
 func get_duplicate() -> ThingData:
 	var action_data:ActionData = ActionData.new()

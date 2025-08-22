@@ -118,4 +118,5 @@ func _on_plant_shop_button_mouse_entered(plant_data:PlantData, control:Control) 
 	_weak_tooltip = weakref(Util.display_plant_tooltip(plant_data, control, false, GUITooltip.TooltipPosition.RIGHT))
 
 func _on_tool_shop_button_mouse_entered(tool_data:ToolData, control:Control) -> void:
-	_weak_tooltip = weakref(Util.display_tool_card_tooltip(tool_data, control, false, GUITooltip.TooltipPosition.RIGHT, false))
+	if !tool_data.actions.is_empty():
+		_weak_tooltip = weakref(Util.display_tool_card_tooltip(tool_data, control, false, GUITooltip.TooltipPosition.RIGHT, false))

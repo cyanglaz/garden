@@ -82,7 +82,7 @@ func _ready() -> void:
 	
 	energy_tracker.can_be_capped = false
 	start_new_week()
-	_update_gold(50, false)
+	_update_gold(_gold, false)
 	_update_points(0)
 
 func _input(event: InputEvent) -> void:
@@ -121,8 +121,8 @@ func add_control_to_overlay(control:Control) -> void:
 func draw_cards(count:int) -> void:
 	await tool_manager.draw_cards(count, gui_main_game.gui_tool_card_container)
 
-func discard_cards(indices:Array) -> void:
-	await tool_manager.discard_cards(indices, gui_main_game.gui_tool_card_container)
+func discard_cards(tools:Array) -> void:
+	await tool_manager.discard_cards(tools, gui_main_game.gui_tool_card_container)
 
 #region private
 
@@ -144,11 +144,13 @@ func _win() -> void:
 	_point_gaining_fields.clear()
 	session_summary.total_days_skipped += week_manager.get_day_left()
 	gui_main_game.animate_show_week_summary(week_manager.get_day_left())
+	gui_main_game.toggle_all_ui(true)
 
 func _lose() -> void:
 	gui_main_game.toggle_all_ui(false)
 	await Util.create_scaled_timer(WIN_PAUSE_TIME).timeout
 	gui_main_game.animate_show_game_over(session_summary)
+	gui_main_game.toggle_all_ui(true)
 
 func _end_day() -> void:
 	field_container.handle_turn_end()
@@ -161,15 +163,15 @@ func _end_day() -> void:
 		start_day()
 
 func _on_week_summary_continue_button_pressed() -> void:
-	gui_main_game.animate_show_shop(3, 2, _gold)
+	if week_manager.is_boss_week():
+		gui_main_game.animate_show_demo_end()
+	else:
+		gui_main_game.animate_show_shop(3, 2, _gold)
 	
 func _discard_all_tools() -> void:
-	var discarding_indices:Array[int] = []
-	for i in tool_manager.tool_deck.hand.size():
-		discarding_indices.append(i)
-	if discarding_indices.is_empty():
+	if tool_manager.tool_deck.hand.is_empty():
 		return
-	await tool_manager.discard_cards(discarding_indices, gui_main_game.gui_tool_card_container)
+	await tool_manager.discard_cards(tool_manager.tool_deck.hand.duplicate(), gui_main_game.gui_tool_card_container)
 
 func _clear_tool_selection() -> void:
 	tool_manager.select_tool(-1)
@@ -201,7 +203,7 @@ func _harvest() -> bool:
 		await plant_seed_manager.draw_cards(_harvesting_fields.size(), gui_main_game.gui_plant_seed_animation_container, _harvesting_fields, field_container)
 		_harvesting_fields.clear()
 		_point_gaining_fields.clear()
-		return true
+		return false
 
 #endregion
 
@@ -215,16 +217,15 @@ func _on_tool_selected(index:int) -> void:
 	if !tool_data:
 		return
 	if !tool_data.need_select_field:
-		await tool_manager.apply_tool(self, [])
+		await tool_manager.apply_tool(self, [], -1)
 	
-func _on_tool_application_started(index:int) -> void:
-	var tool_data:ToolData = tool_manager.get_tool(index)
-	tool_manager.discard_cards([index], gui_main_game.gui_tool_card_container)
+func _on_tool_application_started(tool_data:ToolData) -> void:
+	tool_manager.discard_cards([tool_data], gui_main_game.gui_tool_card_container)
 	_clear_tool_selection()
 	gui_main_game.toggle_all_ui(false)
 	energy_tracker.spend(tool_data.energy_cost)
 
-func _on_tool_application_completed(_index:int) -> void:
+func _on_tool_application_completed(_tool_data:ToolData) -> void:
 	await _harvest()
 	gui_main_game.toggle_all_ui(true)
 
@@ -237,6 +238,7 @@ func _on_end_turn_button_pressed() -> void:
 	if won:
 		return #Harvest won the game, no need to discard tools or end the day
 	await _discard_all_tools()
+	gui_main_game.toggle_all_ui(true)
 	_end_day()
 	
 #region field events
@@ -259,11 +261,7 @@ func _on_field_hovered(hovered:bool, index:int) -> void:
 func _on_field_pressed(index:int) -> void:
 	if !tool_manager.selected_tool:
 		return
-	if tool_manager.selected_tool.is_all_fields:
-		await tool_manager.apply_tool(self, field_container.fields)
-	else:
-		var field := field_container.fields[index]
-		await tool_manager.apply_tool(self, [field])
+	await tool_manager.apply_tool(self, field_container.fields, index)
 
 #region weather events
 func _on_weathers_updated() -> void:

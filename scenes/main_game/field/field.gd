@@ -14,8 +14,9 @@ const POPUP_STATUS_DESTROY_TIME := 1.2
 
 signal field_pressed()
 signal field_hovered(hovered:bool)
-signal tool_application_completed(tool_data:ToolData)
+signal action_application_completed()
 signal plant_harvest_started()
+signal plant_harvest_completed()
 signal plant_harvest_point_update_requested(points:int)
 signal new_plant_planted()
 
@@ -74,7 +75,8 @@ func plant_seed(plant_data:PlantData) -> void:
 	plant.data = plant_data.get_duplicate()
 	_plant_container.add_child(plant)
 	_show_progress_bars(plant)
-	plant.harvest_started.connect(_on_plant_harvest_started)
+	plant.harvest_started.connect(func(): plant_harvest_started.emit())
+	plant.harvest_completed.connect(func(): plant_harvest_completed.emit())
 	plant.harvest_point_update_requested.connect(_on_plant_harvest_point_update_requested)
 	plant.field = self
 	new_plant_planted.emit()
@@ -92,10 +94,6 @@ func remove_plant_preview() -> void:
 	if _weak_plant_preview.get_ref():
 		_weak_plant_preview.get_ref().queue_free()
 		_reset_progress_bars()
-
-func apply_tool(tool_data:ToolData) -> void:
-	await apply_actions(tool_data.actions)
-	tool_application_completed.emit(tool_data)
 
 func apply_weather_actions(weather_data:WeatherData) -> void:
 	await apply_actions(weather_data.actions)
@@ -120,6 +118,7 @@ func apply_actions(actions:Array[ActionData]) -> void:
 				await _apply_field_status_action(action)
 			_:
 				pass
+	action_application_completed.emit()
 
 func apply_field_status(field_status_id:String, stack:int) -> void:
 	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(field_status_id)
@@ -158,6 +157,9 @@ func handle_turn_end() -> void:
 
 func handle_tool_application_hook() -> void:
 	await status_manager.handle_tool_application_hook(plant)
+
+func handle_tool_discard_hook(count:int) -> void:
+	await status_manager.handle_tool_discard_hook(plant, count)
 
 func _show_progress_bars(p:Plant) -> void:
 	assert(p.data)
@@ -220,9 +222,6 @@ func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> vo
 			_animated_sprite_2d.play("hover")
 		GUIBasicButton.ButtonState.PRESSED:
 			_animated_sprite_2d.play("pressed")
-
-func _on_plant_harvest_started() -> void:
-	plant_harvest_started.emit()
 
 func _on_plant_harvest_point_update_requested(points:int) -> void:
 	plant_harvest_point_update_requested.emit(points)

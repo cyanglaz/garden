@@ -7,6 +7,7 @@ func enter() -> void:
 	await plant.field.status_manager.handle_harvest_gold_hooks(plant)
 	await _handle_ability()
 	_gain_points()
+	plant.harvest_completed.emit()
 
 func _gain_points() -> void:
 	await plant.field.show_point_popup()

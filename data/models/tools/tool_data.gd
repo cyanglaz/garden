@@ -4,13 +4,13 @@ extends ThingData
 const TOOL_SCRIPT_PATH := "res://scenes/main_game/tool/tool_scripts/tool_script_%s.gd"
 
 const COSTS := {
-	0: 10,
-	1: 25,
-	2: 45,
+	0: 6,
+	1: 11,
+	2: 19,
 }
 
 enum Special {
-	ALL_FIELDS,
+	NONE,
 }
 
 @export var energy_cost:int = 1
@@ -20,9 +20,7 @@ enum Special {
 @export var need_select_field:bool
 
 var cost:int : get = _get_cost
-var is_all_fields:bool : get = _get_is_all_fields
 var tool_script:ToolScript : get = _get_tool_script
-
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
@@ -38,11 +36,14 @@ func get_duplicate() -> ToolData:
 	dup.copy(self)
 	return dup
 
+func has_action_to_all_fields() -> bool:
+	for action:ActionData in actions:
+		if action.specials.has(ActionData.Special.ALL_FIELDS):
+			return true
+	return false
+
 func _get_cost() -> int:
 	return COSTS[rarity]
-
-func _get_is_all_fields() -> bool:
-	return specials.has(Special.ALL_FIELDS)
 
 func _get_tool_script() -> ToolScript:
 	var script_path := TOOL_SCRIPT_PATH % [id]

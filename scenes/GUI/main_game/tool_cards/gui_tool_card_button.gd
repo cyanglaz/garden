@@ -27,6 +27,7 @@ var selected := false: set = _set_selected
 var highlighted := false: set = _set_highlighted
 var resource_sufficient := false: set = _set_resourcet_sufficient
 var animation_mode := false : set = _set_animation_mode
+var display_mode := false
 var _tool_data:ToolData: get = _get_tool_data
 var _weak_tool_data:WeakRef = weakref(null)
 var _container_offset:float = 0.0: set = _set_container_offset
@@ -159,5 +160,8 @@ func _set_resourcet_sufficient(value:bool) -> void:
 		_cost_icon.modulate = Constants.RESOURCE_SUFFICIENT_COLOR
 		_highlight_border.modulate = Constants.RESOURCE_SUFFICIENT_COLOR
 	else:
-		_cost_icon.modulate = Constants.RESOURCE_INSUFFICIENT_COLOR
+		if display_mode:
+			_cost_icon.modulate = Constants.RESOURCE_SUFFICIENT_COLOR
+		else:
+			_cost_icon.modulate = Constants.RESOURCE_INSUFFICIENT_COLOR
 		_highlight_border.modulate = Constants.RESOURCE_INSUFFICIENT_COLOR

@@ -26,6 +26,7 @@ func animated_show_with_pool(pool:Array, title:String) -> void:
 	#var card_size := Vector2.ONE
 	for tool_data in pool:
 		var gui_tool_card: GUIToolCardButton = TOOL_CARD_BUTTON_SCENE.instantiate()
+		gui_tool_card.display_mode = true
 		_grid_container.add_child(gui_tool_card)
 		gui_tool_card.update_with_tool_data(tool_data)
 		#card_size = GUIToolCardButton.SIZE

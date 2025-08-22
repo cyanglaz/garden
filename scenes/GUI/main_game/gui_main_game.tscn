@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cyd2pmyuelacd"]
+[gd_scene load_steps=18 format=3 uid="uid://cyd2pmyuelacd"]
 
 [ext_resource type="Script" uid="uid://b3s0cai251tmf" path="res://scenes/GUI/main_game/gui_main_game.gd" id="1_48pcf"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_pgwuj"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://cu82s1rr2eqbq" path="res://scenes/GUI/main_game/shop/gui_shop_main.tscn" id="11_70io0"]
 [ext_resource type="PackedScene" uid="uid://cq1vyx3yrtj8p" path="res://scenes/GUI/main_game/tool_cards/gui_tool_cards_viewer.tscn" id="11_648op"]
 [ext_resource type="PackedScene" uid="uid://da80t3khvji05" path="res://scenes/GUI/main_game/points/gui_points.tscn" id="11_nwxmg"]
+[ext_resource type="PackedScene" uid="uid://cgvd1dcwahof5" path="res://scenes/GUI/top_level_overlays/demo_end/gui_demo_end_main.tscn" id="12_bkemh"]
 [ext_resource type="PackedScene" uid="uid://3068uq3kyx0r" path="res://scenes/GUI/settings/gui_settings_main.tscn" id="12_wnks3"]
 [ext_resource type="PackedScene" uid="uid://blnntdbnqmjsp" path="res://scenes/GUI/main_game/game_over/gui_game_over_main.tscn" id="14_k6nqb"]
 
@@ -173,6 +174,11 @@ visible = false
 layout_mode = 2
 
 [node name="GUIGameOverMain" parent="MainContainer/GameContainer" instance=ExtResource("14_k6nqb")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="GUIDemoEndMain" parent="MainContainer/GameContainer" instance=ExtResource("12_bkemh")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2

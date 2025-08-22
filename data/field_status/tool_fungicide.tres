@@ -8,6 +8,7 @@ script = ExtResource("1_vy2xk")
 type = 4
 value = -1
 value_type = 0
+specials = Array[int]([])
 id = ""
 display_name = ""
 description = ""

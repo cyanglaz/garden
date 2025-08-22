@@ -3,21 +3,21 @@ extends GUIAction
 
 const VALUE_ICON_PATH := "res://resources/sprites/GUI/icons/cards/values/icon_"
 const SIGN_ICON_PATH := "res://resources/sprites/GUI/icons/cards/signs/icon_"
+const SPECIAL_ICON_PATH := "res://resources/sprites/GUI/icons/cards/specials/icon_"
 
 const MAX_ACTION_TEXT := "MAX"
 
 @onready var _gui_action_type_icon: GUIActionTypeIcon = %GUIActionTypeIcon
-@onready var _pre_value_icon: TextureRect = %PreValueIcon
+@onready var _sign_icon: TextureRect = %SignIcon
 @onready var _value_icon: TextureRect = %ValueIcon
-@onready var _post_value_icon: TextureRect = %PostValueIcon
-
-
-func _ready() -> void:
-	_pre_value_icon.hide()
-	_value_icon.hide()
-	_post_value_icon.hide()
+@onready var _random_icon: TextureRect = %RandomIcon
+@onready var _field_application_icon: TextureRect = %FieldApplicationIcon
 
 func update_with_action(action_data:ActionData) -> void:
+	_sign_icon.hide()
+	_value_icon.hide()
+	_random_icon.hide()
+	_field_application_icon.hide()
 	_gui_action_type_icon.update_with_action_type(action_data.type)
 	match action_data.value_type:
 		ActionData.ValueType.NUMBER:
@@ -29,11 +29,11 @@ func update_with_action(action_data:ActionData) -> void:
 				var icon_path := VALUE_ICON_PATH + value_id + ".png"
 				_value_icon.texture = load(icon_path)
 				if action_data.value < 0:
-					_pre_value_icon.show()
-					_pre_value_icon.texture = load(SIGN_ICON_PATH + "minus.png")
+					_sign_icon.show()
+					_sign_icon.texture = load(SIGN_ICON_PATH + "minus.png")
 		ActionData.ValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
-			_pre_value_icon.show()
-			_pre_value_icon.texture = load(SIGN_ICON_PATH + "equals.png")
+			_sign_icon.show()
+			_sign_icon.texture = load(SIGN_ICON_PATH + "equals.png")
 			_value_icon.show()
 			_value_icon.texture = load(VALUE_ICON_PATH + "cards_in_hand.png")
 		ActionData.ValueType.RANDOM:
@@ -41,8 +41,15 @@ func update_with_action(action_data:ActionData) -> void:
 			var value_id := _get_value_id(action_data.value)
 			var icon_path := VALUE_ICON_PATH + value_id + ".png"
 			_value_icon.texture = load(icon_path)
-			_post_value_icon.show()
-			_post_value_icon.texture = load(VALUE_ICON_PATH + "random.png")
+			_random_icon.show()
+			
+	for special:ActionData.Special in action_data.specials:
+		match special:
+			ActionData.Special.ALL_FIELDS:
+				_field_application_icon.show()
+				var path := SPECIAL_ICON_PATH + "all_fields.png"
+				_field_application_icon.texture = load(path)
+				
 
 func _get_value_id(value:int) -> String:
 	var value_id := str(abs(value))

@@ -320,7 +320,16 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 static func get_id_for_tool_speical(special:ToolData.Special) -> String:
 	var id := ""
 	match special:
-		ToolData.Special.ALL_FIELDS:
+		ToolData.Special.NONE:
+			assert(false, "special not valid")
+			id = "none"
+	return id
+
+
+static func get_id_for_action_speical(special:ActionData.Special) -> String:
+	var id := ""
+	match special:
+		ActionData.Special.ALL_FIELDS:
 			id = "all_fields"
 	return id
 

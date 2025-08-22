@@ -68,7 +68,7 @@ func _enqueue_animation(type:AnimationQueueItem.AnimationType, args:Array) -> An
 func _play_next_animation() -> void:
 	if _animation_queue.is_empty():
 		return
-	var next_item:AnimationQueueItem = _animation_queue.pop_front()
+	var next_item:AnimationQueueItem = _animation_queue.front()
 	match next_item.animation_type:
 		AnimationQueueItem.AnimationType.ANIMATE_DRAW:
 			_animate_draw(next_item)
@@ -94,7 +94,7 @@ func _animate_draw(animation_item:AnimationQueueItem) -> void:
 			animating_card.animation_mode = true
 			animating_card.global_position = _draw_deck_button.global_position
 			animating_card.size = _draw_deck_button.size
-			delay_index += 1
+		delay_index += 1
 		animating_cards.append(animating_card)
 		if delay_index >= 0:
 			Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index).timeout.connect(func(): animating_card.play_move_sound())
@@ -160,6 +160,7 @@ func _get_discard_deck_button() -> GUIDeckButton:
 
 func _on_animation_queue_item_finished(finished_item:AnimationQueueItem) -> void:
 	finished_item.finished.emit()
+	_animation_queue.pop_front()
 	_play_next_animation()
 
 class AnimationQueueItem:

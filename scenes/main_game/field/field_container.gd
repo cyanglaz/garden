@@ -3,6 +3,7 @@ extends Node2D
 
 signal field_harvest_started()
 signal field_harvest_point_update_requested(points:int, index:int)
+signal field_harvest_completed()
 signal field_hovered(hovered:bool, index:int)
 signal field_pressed(index:int)
 
@@ -25,6 +26,7 @@ func update_with_number_of_fields(number_of_fields:int) -> void:
 		field.field_hovered.connect(_on_field_hovered.bind(i))
 		field.field_pressed.connect(func(): field_pressed.emit(i))
 		field.plant_harvest_started.connect(func(): field_harvest_started.emit())
+		field.plant_harvest_completed.connect(func(): field_harvest_completed.emit())
 		field.plant_harvest_point_update_requested.connect(func(points:int): field_harvest_point_update_requested.emit(points, i))
 		if last_field:
 			field.weak_left_field = weakref(last_field)
@@ -65,12 +67,16 @@ func trigger_tool_application_hook() -> void:
 	for field:Field in _container.get_children():
 		await field.handle_tool_application_hook()
 	
+func trigger_tool_discard_hook(count:int) -> void:
+	for field:Field in _container.get_children():
+		await field.handle_tool_discard_hook(count)
+
 func clear_tool_indicators() -> void:
 	for field:Field in fields:
 		field.toggle_selection_indicator(false)
 	
 func toggle_field_selection_indicator(on:bool, tool_data:ToolData, index:int) -> void:
-	if tool_data && tool_data.is_all_fields:
+	if tool_data && tool_data.has_action_to_all_fields():
 		for one_field:Field in fields:
 			one_field.toggle_selection_indicator(on)
 	else:

@@ -19,3 +19,5 @@ layout_mode = 1
 [node name="GUIDemoEndContainer" parent="." instance=ExtResource("3_e4cqx")]
 unique_name_in_owner = true
 layout_mode = 1
+offset_top = -45.0
+offset_bottom = 45.0
