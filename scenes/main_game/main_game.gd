@@ -166,7 +166,7 @@ func _on_week_summary_continue_button_pressed() -> void:
 func _discard_all_tools() -> void:
 	if tool_manager.tool_deck.hand.is_empty():
 		return
-	await tool_manager.discard_cards(tool_manager.tool_deck.hand, gui_main_game.gui_tool_card_container)
+	await tool_manager.discard_cards(tool_manager.tool_deck.hand.duplicate(), gui_main_game.gui_tool_card_container)
 
 func _clear_tool_selection() -> void:
 	tool_manager.select_tool(-1)

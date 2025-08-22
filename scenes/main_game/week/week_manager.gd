@@ -1,7 +1,9 @@
 class_name WeekManager
 extends RefCounted
 
-const POINTS_DUES := [10, 25, 40, 60, 80, 110]
+const BASE_POINTS := 15
+const POINTS_INCREASE_PER_WEEK := 5
+const WEEKS_PER_BOSS := 4
 
 var week:int = -1
 var day_manager:DayManager = DayManager.new()
@@ -20,4 +22,4 @@ func get_day_left() -> int:
 	return 6 - day_manager.day
 
 func get_points_due() -> int:
-	return POINTS_DUES[week]
+	return BASE_POINTS + POINTS_INCREASE_PER_WEEK * week
