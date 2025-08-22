@@ -71,6 +71,7 @@ func _handle_discard_card_action(action:ActionData, main_game:MainGame, tool_dat
 			return
 		var random_tools := Util.unweighted_roll(tool_datas_to_discard, discard_size)
 		await main_game.discard_cards(random_tools)
+		await main_game.field_container.trigger_tool_discard_hook(discard_size)
 	else:
 		assert(false, "TODO: create manual discard flow")
 

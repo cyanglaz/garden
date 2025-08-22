@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="FieldStatusData" load_steps=2 format=3 uid="uid://035jkl5jmhru"]
+
+[ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/field_status_data.gd" id="1_5qrid"]
+
+[resource]
+script = ExtResource("1_5qrid")
+type = 1
+popup_message = "Water Gained"
+stackable = true
+single_turn = true
+reduce_stack_on_turn_end = false
+id = "dew_collector"
+display_name = "Dew Collector"
+description = "Gain {water} water when a card is discarded."
+data = {
+&"water": "1"
+}
+metadata/_custom_type_script = "uid://ep5ey6gqhty1"

@@ -65,6 +65,10 @@ func trigger_tool_application_hook() -> void:
 	for field:Field in _container.get_children():
 		await field.handle_tool_application_hook()
 	
+func trigger_tool_discard_hook(count:int) -> void:
+	for field:Field in _container.get_children():
+		await field.handle_tool_discard_hook(count)
+
 func clear_tool_indicators() -> void:
 	for field:Field in fields:
 		field.toggle_selection_indicator(false)

@@ -156,6 +156,9 @@ func handle_turn_end() -> void:
 func handle_tool_application_hook() -> void:
 	await status_manager.handle_tool_application_hook(plant)
 
+func handle_tool_discard_hook(count:int) -> void:
+	await status_manager.handle_tool_discard_hook(plant, count)
+
 func _show_progress_bars(p:Plant) -> void:
 	assert(p.data)
 	_light_bar.bind_with_resource_point(p.light)

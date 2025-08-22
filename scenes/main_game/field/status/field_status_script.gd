@@ -31,6 +31,12 @@ func has_tool_application_hook() -> bool:
 func handle_tool_application_hook(plant:Plant) -> void:
 	await _handle_tool_application_hook(plant)
 
+func has_tool_discard_hook(count:int) -> bool:
+	return _has_tool_discard_hook(count)
+
+func handle_tool_discard_hook(plant:Plant, count:int) -> void:
+	await _handle_tool_discard_hook(plant, count)
+
 #region for override
 
 func _has_harvest_gold_hook() -> bool:
@@ -50,6 +56,12 @@ func _has_tool_application_hook() -> bool:
 	return false
 
 func _handle_tool_application_hook(_plant:Plant) -> void:
+	await Util.await_for_tiny_time()
+	
+func _has_tool_discard_hook(_count:int) -> bool:
+	return false
+
+func _handle_tool_discard_hook(_plant:Plant, _count:int) -> void:
 	await Util.await_for_tiny_time()
 
 #endregion

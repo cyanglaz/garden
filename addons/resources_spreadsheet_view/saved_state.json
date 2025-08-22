@@ -110,6 +110,17 @@
         "visibility": 0.0
       }
     },
+    "res://data/field_status/": {
+      "metadata/_custom_type_script": {
+        "visibility": 0
+      },
+      "resource_local_to_scene": {
+        "visibility": 0
+      },
+      "resource_name": {
+        "visibility": 0
+      }
+    },
     "res://data/plants/": {
       "metadata/_custom_type_script": {
         "visibility": 0.0
@@ -180,7 +191,8 @@
     "res://data/balls/player/",
     "res://data/tools/",
     "res://data/weathers/",
-    "res://data/plants/"
+    "res://data/plants/",
+    "res://data/field_status/"
   ],
   "table_functions": {
     "filter": [
