@@ -10,7 +10,7 @@ points = 4
 rarity = 0
 id = "sunflower"
 display_name = "Sunflower"
-description = "When blossom, gain +{light} {icon_resource_light} on sunny days."
+description = "Gain +{light} {icon_resource_light} on sunny days."
 data = {
 "light": "1"
 }
