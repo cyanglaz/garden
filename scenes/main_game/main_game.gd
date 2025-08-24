@@ -25,7 +25,6 @@ var plant_seed_manager:PlantSeedManager
 var max_energy := 3
 var session_summary:SessionSummary
 var _gold := 0: set = _set_gold
-var _points := 0
 
 var _harvesting_fields:Array = []
 var _point_gaining_fields:Array = []
@@ -143,10 +142,10 @@ func _lose() -> void:
 func _end_day() -> void:
 	field_container.handle_turn_end()
 	if week_manager.get_day() == 6:
-		if _points >= week_manager.get_points_due():	
-			return #Win condition has been met at the end of the day, _harvest will take care of win
-		else:
+		if plant_seed_manager.has_more_plants():	
 			_lose()
+		else:
+			return #Win condition has been met at the end of the day, _harvest will take care of win
 	else:
 		start_day()
 
@@ -172,7 +171,6 @@ func _plant_new_seeds() -> void:
 	await Util.create_scaled_timer(0.2).timeout # If planting is needed, there would be a p update animation, wait for that animation to end before drawing new plants
 	await plant_seed_manager.draw_plants(field_indices.size(), gui_main_game.gui_plant_seed_animation_container, field_indices)
 
-
 #endregion
 
 #region harvest flow
@@ -184,15 +182,15 @@ func _harvest() -> bool:
 	_point_gaining_fields = _harvesting_fields.duplicate()
 	field_container.harvest_all_fields()
 	await _all_field_point_gained
-	if _points >= week_manager.get_points_due():	
-		await _win()
-		return true
-	else:
+	if plant_seed_manager.has_more_plants():
 		_remove_plants(_harvesting_fields)
 		await plant_seed_manager.draw_plants(_harvesting_fields.size(), gui_main_game.gui_plant_seed_animation_container, _harvesting_fields)
 		_harvesting_fields.clear()
 		_point_gaining_fields.clear()
 		return false
+	else:
+		await _win()
+		return true
 	
 func _remove_plants(field_indices:Array[int]) -> void:
 	for field_index:int in field_indices:
