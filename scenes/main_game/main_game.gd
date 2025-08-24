@@ -1,7 +1,7 @@
 class_name MainGame
 extends Node2D
 
-signal _all_field_point_gained()
+signal _all_field_harvested()
 
 var hand_size := 5
 const DAYS_TO_WEEK := 7
@@ -27,7 +27,6 @@ var session_summary:SessionSummary
 var _gold := 0: set = _set_gold
 
 var _harvesting_fields:Array = []
-var _point_gaining_fields:Array = []
 
 func _ready() -> void:
 	Singletons.main_game = self
@@ -42,7 +41,7 @@ func _ready() -> void:
 	field_container.field_hovered.connect(_on_field_hovered)
 	field_container.field_pressed.connect(_on_field_pressed)
 	field_container.field_harvest_started.connect(_on_field_harvest_started)
-	field_container.field_harvest_point_update_requested.connect(_on_field_harvest_point_update_requested)
+	field_container.field_harvest_completed.connect(_on_field_harvest_completed)
 	
 	#weather signals
 	weather_manager.weathers_updated.connect(_on_weathers_updated)
@@ -120,6 +119,9 @@ func discard_cards(tools:Array) -> void:
 func _update_gold(gold:int, animated:bool) -> void:
 	_gold = gold
 	await gui_main_game.update_gold(_gold, animated)
+
+func _met_win_conditon() -> bool:
+	return !field_container.has_plants() && !plant_seed_manager.has_more_plants()
 	
 func _win() -> void:
 	gui_main_game.toggle_all_ui(false)
@@ -128,7 +130,6 @@ func _win() -> void:
 		field.remove_plant()
 	await _discard_all_tools()
 	_harvesting_fields.clear()
-	_point_gaining_fields.clear()
 	session_summary.total_days_skipped += week_manager.get_day_left()
 	gui_main_game.animate_show_week_summary(week_manager.get_day_left())
 	gui_main_game.toggle_all_ui(true)
@@ -142,10 +143,10 @@ func _lose() -> void:
 func _end_day() -> void:
 	field_container.handle_turn_end()
 	if week_manager.get_day() == 6:
-		if plant_seed_manager.has_more_plants():	
-			_lose()
-		else:
+		if _met_win_conditon():	
 			return #Win condition has been met at the end of the day, _harvest will take care of win
+		else:
+			_lose()
 	else:
 		start_day()
 
@@ -176,21 +177,18 @@ func _plant_new_seeds() -> void:
 #region harvest flow
 
 func _harvest() -> bool:
-	_harvesting_fields = field_container.get_harvestable_fields()
+	var fields_to_harvest = field_container.get_harvestable_fields()
+	_harvesting_fields = fields_to_harvest.duplicate()
 	if _harvesting_fields.is_empty():
 		return false
-	_point_gaining_fields = _harvesting_fields.duplicate()
 	field_container.harvest_all_fields()
-	await _all_field_point_gained
-	if plant_seed_manager.has_more_plants():
-		_remove_plants(_harvesting_fields)
-		await plant_seed_manager.draw_plants(_harvesting_fields.size(), gui_main_game.gui_plant_seed_animation_container, _harvesting_fields)
-		_harvesting_fields.clear()
-		_point_gaining_fields.clear()
-		return false
-	else:
+	await _all_field_harvested
+	if _met_win_conditon():
 		await _win()
 		return true
+	else:
+		await plant_seed_manager.draw_plants(fields_to_harvest.size(), gui_main_game.gui_plant_seed_animation_container, fields_to_harvest)
+		return false
 	
 func _remove_plants(field_indices:Array[int]) -> void:
 	for field_index:int in field_indices:
@@ -237,10 +235,12 @@ func _on_end_turn_button_pressed() -> void:
 func _on_field_harvest_started() -> void:
 	gui_main_game.toggle_all_ui(false)
 
-func _on_field_harvest_point_update_requested(_pts:int, index:int) -> void:
-	_point_gaining_fields.erase(index)
-	if _point_gaining_fields.is_empty():
-		_all_field_point_gained.emit()
+func _on_field_harvest_completed(index:int) -> void:
+	var field:Field = field_container.fields[index]
+	field.remove_plant()
+	_harvesting_fields.erase(index)
+	if _harvesting_fields.is_empty():
+		_all_field_harvested.emit()
 
 func _on_field_hovered(hovered:bool, index:int) -> void:
 	if tool_manager.selected_tool:

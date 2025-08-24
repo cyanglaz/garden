@@ -11,7 +11,6 @@ const COSTS := {
 
 @export var light:int
 @export var water:int
-@export var points:int
 @export var rarity:int
 
 var cost:int: get = _get_cost
@@ -21,7 +20,6 @@ func copy(other:ThingData) -> void:
 	var other_plant: PlantData = other as PlantData
 	light = other_plant.light
 	water = other_plant.water
-	points = other_plant.points
 	rarity = other_plant.rarity
 
 func get_duplicate() -> PlantData:

@@ -17,7 +17,6 @@ signal field_hovered(hovered:bool)
 signal action_application_completed()
 signal plant_harvest_started()
 signal plant_harvest_completed()
-signal plant_harvest_point_update_requested(points:int)
 signal new_plant_planted()
 
 @onready var _animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
@@ -76,8 +75,7 @@ func plant_seed(plant_data:PlantData) -> void:
 	_plant_container.add_child(plant)
 	_show_progress_bars(plant)
 	plant.harvest_started.connect(func(): plant_harvest_started.emit())
-	plant.harvest_completed.connect(func(): plant_harvest_completed.emit())
-	plant.harvest_point_update_requested.connect(_on_plant_harvest_point_update_requested)
+	plant.harvest_completed.connect(_on_plant_harvest_completed)
 	plant.field = self
 	new_plant_planted.emit()
 
@@ -135,14 +133,10 @@ func apply_field_status(field_status_id:String, stack:int) -> void:
 		await _show_resource_icon_popup(field_status_id, text)
 		status_manager.update_status(field_status_id, 1)
 
-func show_point_popup() -> void:
+func show_harvest_popup() -> void:
 	_point_audio.play()
-	var point_label:PopupLabelIcon = POPUP_LABEL_ICON_SCENE.instantiate()
-	add_child(point_label)
-	point_label.global_position = _gui_field_button.global_position + _gui_field_button.size/2 + Vector2.LEFT * 16
-	var color:Color = Constants.COLOR_YELLOW2
-	point_label.setup(str("+", plant.data.points), color, point_ICON)
-	await point_label.animate_show_and_destroy(8, 6, POPUP_point_SHOW_TIME, POPUP_point_DESTROY_TIME)
+	await Util.await_for_small_time()
+	# TODO:
 
 func can_harvest() -> bool:
 	return plant && plant.can_harvest()
@@ -223,9 +217,9 @@ func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> vo
 		GUIBasicButton.ButtonState.PRESSED:
 			_animated_sprite_2d.play("pressed")
 
-func _on_plant_harvest_point_update_requested(points:int) -> void:
-	plant_harvest_point_update_requested.emit(points)
+func _on_plant_harvest_completed() -> void:
 	_reset_progress_bars()
+	plant_harvest_completed.emit()
 
 func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
 	var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()
