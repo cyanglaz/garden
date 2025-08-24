@@ -111,8 +111,8 @@ func animate_show_game_over(session_summary:SessionSummary) -> void:
 #endregion
 
 #region shop
-func animate_show_shop(number_of_tools:int, number_of_plants:int, gold:int) -> void:
-	await gui_shop_main.animate_show(number_of_tools, number_of_plants, gold)
+func animate_show_shop(number_of_tools:int, gold:int) -> void:
+	await gui_shop_main.animate_show(number_of_tools, gold)
 
 #region utils
 

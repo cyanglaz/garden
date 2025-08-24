@@ -72,7 +72,6 @@ func _ready() -> void:
 	
 	#shop signals
 	gui_main_game.gui_shop_main.next_week_button_pressed.connect(_on_shop_next_week_pressed)
-	gui_main_game.gui_shop_main.plant_shop_button_pressed.connect(_on_plant_shop_button_pressed)
 	gui_main_game.gui_shop_main.tool_shop_button_pressed.connect(_on_tool_shop_button_pressed)
 	
 	energy_tracker.can_be_capped = false
@@ -155,7 +154,7 @@ func _on_week_summary_continue_button_pressed() -> void:
 	if week_manager.is_boss_week():
 		gui_main_game.animate_show_demo_end()
 	else:
-		gui_main_game.animate_show_shop(3, 2, _gold)
+		gui_main_game.animate_show_shop(3, _gold)
 	
 func _discard_all_tools() -> void:
 	if tool_manager.tool_deck.hand.is_empty():
@@ -267,10 +266,6 @@ func _on_weathers_updated() -> void:
 #region shop events
 func _on_shop_next_week_pressed() -> void:
 	start_new_week()
-
-func _on_plant_shop_button_pressed(plant_data:PlantData) -> void:
-	_update_gold(_gold - plant_data.cost, true)
-	plant_seed_manager.add_plant(plant_data)
 
 func _on_tool_shop_button_pressed(tool_data:ToolData) -> void:
 	_update_gold(_gold - tool_data.cost, true)
