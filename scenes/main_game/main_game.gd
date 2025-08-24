@@ -11,7 +11,7 @@ const WIN_PAUSE_TIME := 0.4
 @export var test_plant_datas:Array[PlantData]
 @export var test_tools:Array[ToolData]
 @export var test_number_of_fields := 0
-@export var test_weather:WeatherData
+@export var level_data:LevelData
 
 @onready var gui_main_game: GUIMainGame = %GUIGameSession
 @onready var field_container: FieldContainer = %FieldContainer
@@ -94,9 +94,9 @@ func start_new_week() -> void:
 	_update_points(0)
 	tool_manager.refresh_deck()
 	plant_seed_manager.refresh_deck()
-	week_manager.next_week()
+	week_manager.next_week(level_data)
 	session_summary.week = week_manager.week
-	weather_manager.generate_weathers(7, week_manager.week, test_weather)
+	weather_manager.generate_weathers(level_data)
 	gui_main_game.update_week(week_manager.week)
 	start_day()
 
