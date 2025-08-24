@@ -8,7 +8,6 @@ const DAYS_TO_WEEK := 7
 const WIN_PAUSE_TIME := 0.4
 
 @export var player:PlayerData
-@export var test_plant_datas:Array[PlantData]
 @export var test_tools:Array[ToolData]
 @export var test_number_of_fields := 0
 @export var level_data:LevelData
@@ -49,10 +48,6 @@ func _ready() -> void:
 	#weather signals
 	weather_manager.weathers_updated.connect(_on_weathers_updated)
 	
-	if !test_plant_datas.is_empty():
-		plant_seed_manager = PlantSeedManager.new(test_plant_datas)
-	else:
-		plant_seed_manager = PlantSeedManager.new(player.initial_plants)
 	if !test_tools.is_empty():
 		#test_tools.append_array(test_tools)
 		#test_tools.append_array(test_tools)
@@ -68,12 +63,12 @@ func _ready() -> void:
 	#gui main signals
 	gui_main_game.bind_energy(energy_tracker)
 	gui_main_game.bind_tool_deck(tool_manager.tool_deck)
-	gui_main_game.bind_plant_seed_deck(plant_seed_manager.plant_deck)
 	gui_main_game.setup_plant_seed_animation_container(field_container)
 	gui_main_game.end_turn_button_pressed.connect(_on_end_turn_button_pressed)
 	gui_main_game.tool_selected.connect(_on_tool_selected)
 	gui_main_game.week_summary_continue_button_pressed.connect(_on_week_summary_continue_button_pressed)
 	gui_main_game.gold_increased.connect(_on_week_summary_gold_increased)
+	gui_main_game.plant_seed_drawn_animation_completed.connect(_on_plant_seed_drawn_animation_completed)
 	
 	#shop signals
 	gui_main_game.gui_shop_main.next_week_button_pressed.connect(_on_shop_next_week_pressed)
@@ -83,7 +78,6 @@ func _ready() -> void:
 	energy_tracker.can_be_capped = false
 	start_new_week()
 	_update_gold(_gold, false)
-	_update_points(0)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("de-select"):
@@ -91,9 +85,9 @@ func _input(event: InputEvent) -> void:
 			_clear_tool_selection()
 
 func start_new_week() -> void:
-	_update_points(0)
+	plant_seed_manager = PlantSeedManager.new(level_data.plants)
+	gui_main_game.update_with_level_data(level_data)
 	tool_manager.refresh_deck()
-	plant_seed_manager.refresh_deck()
 	week_manager.next_week(level_data)
 	session_summary.week = week_manager.week
 	weather_manager.generate_weathers(level_data)
@@ -110,7 +104,6 @@ func start_day() -> void:
 	await Util.await_for_tiny_time()
 	if week_manager.get_day() == 0:
 		await Util.create_scaled_timer(0.2).timeout
-		gui_main_game.update_points_due(week_manager.get_points_due())
 		await _plant_new_seeds()
 	await draw_cards(hand_size)
 	gui_main_game.toggle_all_ui(true)
@@ -129,10 +122,6 @@ func discard_cards(tools:Array) -> void:
 func _update_gold(gold:int, animated:bool) -> void:
 	_gold = gold
 	await gui_main_game.update_gold(_gold, animated)
-
-func _update_points(points:int) -> void:
-	_points = points
-	await gui_main_game.update_points(_points)
 	
 func _win() -> void:
 	gui_main_game.toggle_all_ui(false)
@@ -184,6 +173,7 @@ func _plant_new_seeds() -> void:
 	await Util.create_scaled_timer(0.2).timeout # If planting is needed, there would be a p update animation, wait for that animation to end before drawing new plants
 	await plant_seed_manager.draw_cards(field_indices.size(), gui_main_game.gui_plant_seed_animation_container, field_indices, field_container)
 
+
 #endregion
 
 #region harvest flow
@@ -199,11 +189,16 @@ func _harvest() -> bool:
 		await _win()
 		return true
 	else:
-		await plant_seed_manager.discard_cards(_harvesting_fields, gui_main_game.gui_plant_seed_animation_container, field_container)
+		_remove_plants(_harvesting_fields)
 		await plant_seed_manager.draw_cards(_harvesting_fields.size(), gui_main_game.gui_plant_seed_animation_container, _harvesting_fields, field_container)
 		_harvesting_fields.clear()
 		_point_gaining_fields.clear()
 		return false
+	
+func _remove_plants(field_indices:Array[int]) -> void:
+	for field_index:int in field_indices:
+		var field:Field = field_container.fields[field_index]
+		field.remove_plant()
 
 #endregion
 
@@ -245,8 +240,7 @@ func _on_end_turn_button_pressed() -> void:
 func _on_field_harvest_started() -> void:
 	gui_main_game.toggle_all_ui(false)
 
-func _on_field_harvest_point_update_requested(points:int, index:int) -> void:
-	await _update_points(_points + points)
+func _on_field_harvest_point_update_requested(_pts:int, index:int) -> void:
 	_point_gaining_fields.erase(index)
 	if _point_gaining_fields.is_empty():
 		_all_field_point_gained.emit()
@@ -262,6 +256,9 @@ func _on_field_pressed(index:int) -> void:
 	if !tool_manager.selected_tool:
 		return
 	await tool_manager.apply_tool(self, field_container.fields, index)
+
+func _on_plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData) -> void:
+	field_container.fields[field_index].plant_seed(plant_data)
 
 #region weather events
 func _on_weathers_updated() -> void:
