@@ -39,7 +39,7 @@ var weak_right_field:WeakRef = weakref(null)
 
 func _ready() -> void:
 	_gui_field_button.state_updated.connect(_on_gui_field_button_state_updated)
-	_gui_field_button.action_evoked.connect(func(): field_pressed.emit())
+	_gui_field_button.action_evoked.connect(_on_gui_field_button_action_evoked)
 	_gui_field_button.mouse_entered.connect(_on_field_mouse_entered)
 	_gui_field_button.mouse_exited.connect(_on_field_mouse_exited)
 	_gui_field_status_container.bind_with_field_status_manager(status_manager)
@@ -234,11 +234,15 @@ func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
 	popup.animate_show_label_and_destroy(status_data.popup_message, 10, 1, POPUP_SHOW_TIME, POPUP_STATUS_DESTROY_TIME, color)
 
 func _on_field_mouse_entered() -> void:
-	field_hovered.emit(true)
 	if plant:
+		field_hovered.emit(true)
 		_gui_plant_tooltip.update_with_plant_data(plant.data)
 		_gui_plant_tooltip.show()
 
 func _on_field_mouse_exited() -> void:
 	field_hovered.emit(false)
 	_gui_plant_tooltip.hide()
+
+func _on_gui_field_button_action_evoked() -> void:
+	if plant:
+		field_pressed.emit()
