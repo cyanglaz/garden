@@ -32,8 +32,6 @@ script = ExtResource("2_pndmv")
 actions = Array[ExtResource("1_81tfl")]([SubResource("Resource_51kjc"), SubResource("Resource_81tfl")])
 id = "rainy"
 display_name = "Rainy"
-description = "Add {value} {icon_resource_water} to all fields."
-data = {
-&"value": "2"
-}
+description = ""
+data = {}
 metadata/_custom_type_script = "uid://g4t52w546b5k"

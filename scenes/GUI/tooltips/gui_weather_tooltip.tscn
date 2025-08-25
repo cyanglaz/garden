@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://c5wrwnfmwrpyv"]
+[gd_scene load_steps=4 format=3 uid="uid://c5wrwnfmwrpyv"]
 
 [ext_resource type="PackedScene" uid="uid://73vkj3ho7ou5" path="res://scenes/GUI/tooltips/gui_tooltip.tscn" id="1_tuiew"]
 [ext_resource type="Script" uid="uid://ljw1psasxodq" path="res://scenes/GUI/tooltips/gui_weather_tooltip.gd" id="2_tuiew"]
+[ext_resource type="PackedScene" uid="uid://cjwhkrmueycbi" path="res://scenes/GUI/shared/descriptions/shared_description/gui_action_list.tscn" id="3_tuiew"]
 
 [node name="GUIWeatherTooltip" instance=ExtResource("1_tuiew")]
 offset_right = 40.0
@@ -20,7 +21,11 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HUD_small"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="ContentContainer/VBoxContainer" index="1"]
+[node name="GUIActionList" parent="ContentContainer/VBoxContainer" index="1" instance=ExtResource("3_tuiew")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ContentContainer/VBoxContainer" index="2"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(35, 0)
 layout_mode = 2

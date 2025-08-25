@@ -20,8 +20,6 @@ script = ExtResource("2_padls")
 actions = Array[ExtResource("1_51kjc")]([SubResource("Resource_51kjc")])
 id = "sunny"
 display_name = "Sunny"
-description = "Add {value} {icon_resource_light} to all fields."
-data = {
-&"value": "1"
-}
+description = ""
+data = {}
 metadata/_custom_type_script = "uid://g4t52w546b5k"
