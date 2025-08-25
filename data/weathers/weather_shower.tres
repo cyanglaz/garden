@@ -8,6 +8,7 @@ script = ExtResource("1_ickju")
 type = 2
 value = 1
 value_type = 0
+specials = Array[int]([])
 id = ""
 display_name = ""
 description = ""
