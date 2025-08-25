@@ -19,6 +19,7 @@ func animate_draw(plant_datas:Array[PlantData], draw_results:Array, target_field
 	assert(draw_results.size() == target_field_indices.size())
 	if draw_results.size() == 0:
 		return
+	_plant_deck_box.set_active(draw_results)
 	var animating_cards:Array[GUIPlantIcon] = []
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
