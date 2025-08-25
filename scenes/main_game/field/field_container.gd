@@ -108,6 +108,12 @@ func has_plants() -> bool:
 			return true
 	return false
 
+func get_plants(indices:Array[int]) -> Array[Plant]:
+	var plants:Array[Plant] = []
+	for index:int in indices:
+		plants.append(fields[index].plant)
+	return plants
+
 func _harvest_next_field(index:int) -> void:
 	if index >= fields.size():
 		return

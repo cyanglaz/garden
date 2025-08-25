@@ -170,15 +170,16 @@ func _plant_new_seeds() -> void:
 	var field_indices:Array[int] = field_container.get_all_field_indices()
 	assert(field_indices.size() == field_container.fields.size())
 	await Util.create_scaled_timer(0.2).timeout # If planting is needed, there would be a p update animation, wait for that animation to end before drawing new plants
-	await plant_seed_manager.draw_plants(field_indices.size(), gui_main_game.gui_plant_seed_animation_container, field_indices)
+	await plant_seed_manager.draw_plants(field_indices, gui_main_game.gui_plant_seed_animation_container,)
 
 #endregion
 
 #region harvest flow
 
 func _harvest() -> bool:
-	var fields_to_harvest = field_container.get_harvestable_fields()
-	_harvesting_fields = fields_to_harvest.duplicate()
+	var field_indices_to_harvest = field_container.get_harvestable_fields()
+	_harvesting_fields = field_indices_to_harvest.duplicate()
+	var harvestable_plant_datas:Array = field_container.get_plants(_harvesting_fields).map(func(plant:Plant): return plant.data)
 	if _harvesting_fields.is_empty():
 		return false
 	field_container.harvest_all_fields()
@@ -187,7 +188,8 @@ func _harvest() -> bool:
 		await _win()
 		return true
 	else:
-		await plant_seed_manager.draw_plants(fields_to_harvest.size(), gui_main_game.gui_plant_seed_animation_container, fields_to_harvest)
+		await plant_seed_manager.finish_plants(field_indices_to_harvest, harvestable_plant_datas, gui_main_game.gui_plant_seed_animation_container)
+		await plant_seed_manager.draw_plants(field_indices_to_harvest, gui_main_game.gui_plant_seed_animation_container)
 		return false
 	
 func _remove_plants(field_indices:Array[int]) -> void:
