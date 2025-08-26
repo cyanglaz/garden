@@ -5,7 +5,8 @@ static var _all_popup_things:Array[PopupThing] = []
 
 const BUMP_UP_TIME := 0.2
 const BUMP_UP_DISTANCE := 2.0
-
+const BUMP_UP_SPREAD := 3.0
+3
 var _position_tween:Tween
 var end_position:Vector2
 
@@ -39,7 +40,7 @@ func animate_destroy(time:float) -> void:
 	queue_free()
 
 func bump_up(height:float) -> void:
-	end_position += Vector2(0, -height)
+	end_position += Vector2(randf_range(-BUMP_UP_SPREAD, BUMP_UP_SPREAD), -height)
 	bump_up_overlapping_popup_things.call_deferred()
 	if _position_tween && _position_tween.is_running():
 		_position_tween.kill()
