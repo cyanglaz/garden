@@ -43,9 +43,9 @@ general/default_playback_type.web=0
 
 Constants="*res://autoloads/constants.gd"
 Events="*res://autoloads/events.gd"
+MainDatabase="*res://autoloads/database/main_database.gd"
 Save="*res://autoloads/save.gd"
 PlayerSettings="*res://autoloads/player_settings.gd"
-MainDatabase="*res://autoloads/database/main_database.gd"
 Stats="*res://autoloads/stats.gd"
 Singletons="*res://autoloads/singletons.gd"
 TrashBin="*res://autoloads/trash_bin.gd"

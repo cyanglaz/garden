@@ -9,7 +9,6 @@ const HIGHLIGHTED_OFFSET := 16
 @onready var _highlight_border: NinePatchRect = %HighlightBorder
 
 var highlighted:bool:set = _set_highlighted
-var resource_sufficient := false: set = _set_resourcet_sufficient
 var plant_data:PlantData:get = _get_plant_data
 var _weak_plant_data:WeakRef = weakref(null)
 
@@ -33,10 +32,3 @@ func _set_highlighted(val:bool) -> void:
 
 func _get_plant_data() -> PlantData:
 	return _weak_plant_data.get_ref()
-
-func _set_resourcet_sufficient(value:bool) -> void:
-	resource_sufficient = value
-	if value:
-		_highlight_border.modulate = Constants.RESOURCE_SUFFICIENT_COLOR
-	else:
-		_highlight_border.modulate = Constants.RESOURCE_INSUFFICIENT_COLOR

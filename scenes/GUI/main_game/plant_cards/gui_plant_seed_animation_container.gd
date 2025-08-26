@@ -7,30 +7,30 @@ const ANIMATING_PLANT_SEED_SCENE := preload("res://scenes/GUI/main_game/plant_ca
 const SEED_ICON_DISAPPEAR_TIME := 0.4
 
 var _field_container:FieldContainer: get = _get_field_container
-var _draw_deck_button:GUIPlantDeckBox: get = _get_draw_deck_button
-var _discard_deck_button:GUIPlantDeckBox: get = _get_discard_deck_button
-var _weak_draw_deck_button:WeakRef = weakref(null)
-var _weak_discard_deck_button:WeakRef = weakref(null)
+var _plant_deck_box:GUIPlantDeckBox: get = _get_plant_deck_box
+var _weak_plant_deck_box:WeakRef = weakref(null)
 var _weak_field_container:WeakRef = weakref(null)
 
-func setup(field_container:FieldContainer, draw_box_button:GUIPlantDeckBox, discard_box_button:GUIPlantDeckBox) -> void:
+func setup(field_container:FieldContainer, plant_deck_box:GUIPlantDeckBox) -> void:
 	_weak_field_container = weakref(field_container)
-	_weak_draw_deck_button = weakref(draw_box_button)
-	_weak_discard_deck_button = weakref(discard_box_button)
+	_weak_plant_deck_box = weakref(plant_deck_box)
 
-func animate_draw(draw_results:Array, target_field_indices:Array) -> void:
+func animate_draw(plant_datas:Array[PlantData], draw_results:Array, target_field_indices:Array) -> void:
 	assert(draw_results.size() == target_field_indices.size())
 	if draw_results.size() == 0:
 		return
+	_plant_deck_box.set_mode(GUIPlantCard.Mode.ACTIVE, draw_results)
 	var animating_cards:Array[GUIPlantIcon] = []
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
 	for i:int in draw_results.size():
+		var index:int = draw_results[i]
+		var plant_data = plant_datas[index]
 		var animating_card:GUIPlantIcon = ANIMATING_PLANT_SEED_SCENE.instantiate()
 		add_child(animating_card)
-		animating_card.update_with_plant_data(draw_results[i])
+		animating_card.update_with_plant_data(plant_data)
 		animating_card.hide()
-		animating_card.global_position = _draw_deck_button.global_position
+		animating_card.global_position = _plant_deck_box.get_icon_position(index)
 		animating_cards.append(animating_card)
 		var delay_index := i
 		if delay_index >= 0:
@@ -41,33 +41,13 @@ func animate_draw(draw_results:Array, target_field_indices:Array) -> void:
 		tween.tween_property(animating_card, "global_position", target_position, Constants.PLANT_SEED_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 		var disappear_tween := tween.tween_property(animating_card, "modulate:a", 0, SEED_ICON_DISAPPEAR_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index + Constants.PLANT_SEED_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 		disappear_tween.finished.connect(func():
-			draw_plant_card_completed.emit(target_field_indices[i], draw_results[i])
+			draw_plant_card_completed.emit(target_field_indices[i], plant_data)
 		)
 	await tween.finished
 	for card in animating_cards:
 		card.queue_free()
 
-func animate_shuffle(discard_pile_cards:Array) -> void:
-	if discard_pile_cards.size() == 0:
-		return
-	var index := 0
-	var tween:Tween = Util.create_scaled_tween(self)
-	tween.set_parallel(true)
-	for plant_data:PlantData in discard_pile_cards:
-		var animating_card:GUIPlantIcon = ANIMATING_PLANT_SEED_SCENE.instantiate()
-		add_child(animating_card)
-		animating_card.update_with_plant_data(plant_data)
-		animating_card.global_position = _discard_deck_button.global_position
-		var target_position := _draw_deck_button.global_position
-		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * index - 0.01).timeout.connect(func(): animating_card.play_move_sound())
-		var tweener := tween.tween_property(animating_card, "global_position", target_position, Constants.PLANT_SEED_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * index)
-		tweener.finished.connect(func():
-			animating_card.queue_free()
-		)
-		index += 1
-	await tween.finished
-
-func animate_discard(field_indices:Array, discarding_data:Array) -> void:
+func animate_finish(field_indices:Array, harvestable_plant_datas:Array, harvestable_card_indices:Array) -> void:
 	var discarding_cards:Array[GUIPlantIcon] = []
 	var discard_tween:Tween = Util.create_scaled_tween(self)
 	discard_tween.set_parallel(true)
@@ -76,20 +56,20 @@ func animate_discard(field_indices:Array, discarding_data:Array) -> void:
 		var field := _field_container.fields[field_index]
 		var card:GUIPlantIcon = ANIMATING_PLANT_SEED_SCENE.instantiate()
 		add_child(card)
-		card.update_with_plant_data(discarding_data[i])
+		var plant_data:PlantData = harvestable_plant_datas[i]
+		var plant_card_index:int = harvestable_card_indices[i]
+		card.update_with_plant_data(plant_data)
 		discarding_cards.append(card)
 		card.global_position = field.get_preview_icon_global_position(card)
-		var target_position := _discard_deck_button.global_position
+		var target_position := _plant_deck_box.get_icon_position(plant_card_index)
 		discard_tween.tween_property(card, "global_position", target_position, Constants.PLANT_SEED_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY).set_delay(Constants.CARD_ANIMATION_DELAY * i).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await discard_tween.finished
+	_plant_deck_box.set_mode(GUIPlantCard.Mode.FINISHED, harvestable_card_indices)
 	for discarding_card in discarding_cards:
 		discarding_card.queue_free()
 
 func _get_field_container() -> FieldContainer:
 	return _weak_field_container.get_ref()
 
-func _get_draw_deck_button() -> GUIPlantDeckBox:
-	return _weak_draw_deck_button.get_ref()
-
-func _get_discard_deck_button() -> GUIPlantDeckBox:
-	return _weak_discard_deck_button.get_ref()
+func _get_plant_deck_box() -> GUIPlantDeckBox:
+	return _weak_plant_deck_box.get_ref()

@@ -6,7 +6,6 @@
 script = ExtResource("1_r6f3l")
 light = 5
 water = 2
-points = 4
 rarity = 0
 id = "sunflower"
 display_name = "Sunflower"

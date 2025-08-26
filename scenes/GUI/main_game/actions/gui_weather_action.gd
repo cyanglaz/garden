@@ -1,8 +1,8 @@
 class_name GUIWeatherAction
 extends GUIAction
 
-const WEATHER_DATA_SUNNY := preload("res://data/weathers/weather_sunny.tres")
-const WEATHER_DATA_RAINY := preload("res://data/weathers/weather_rainy.tres")
+var WEATHER_DATA_SUNNY := load("res://data/weathers/weather_sunny.tres")
+var WEATHER_DATA_RAINY := load("res://data/weathers/weather_rainy.tres")
 
 @onready var gui_weather: GUIWeather = %GUIWeather
 

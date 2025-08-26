@@ -8,9 +8,9 @@ const WEEKS_PER_BOSS := 4
 var week:int = -1
 var day_manager:DayManager = DayManager.new()
 
-func next_week() -> void:
+func next_week(level_data:LevelData) -> void:
 	week += 1
-	day_manager.start_new()
+	day_manager.start_new(level_data)
 
 func next_day() -> void:
 	day_manager.next_day()
@@ -22,7 +22,7 @@ func is_boss_week() -> bool:
 	return (week + 1) % WEEKS_PER_BOSS == 0
 
 func get_day_left() -> int:
-	return 6 - day_manager.day
+	return day_manager.get_day_left()
 
 func get_points_due() -> int:
 	return BASE_POINTS + POINTS_INCREASE_PER_WEEK * week

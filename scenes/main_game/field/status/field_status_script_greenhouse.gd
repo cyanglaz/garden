@@ -1,8 +1,8 @@
 class_name FieldStatusScriptGreenhouse
 extends FieldStatusScript
 
-func _has_tool_application_hook() -> bool:
-	return true
+func _has_tool_application_hook(plant:Plant) -> bool:
+	return plant != null
 
 func _handle_tool_application_hook(plant:Plant) -> void:
 	var action:ActionData = ActionData.new()

@@ -10,8 +10,6 @@ enum AbilityType {
 @warning_ignore("unused_signal")
 signal harvest_started()
 @warning_ignore("unused_signal")
-signal harvest_point_update_requested(points:int)
-@warning_ignore("unused_signal")
 signal removed_from_field()
 @warning_ignore("unused_signal")
 signal harvest_completed()

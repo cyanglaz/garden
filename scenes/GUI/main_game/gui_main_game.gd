@@ -5,14 +5,16 @@ signal end_turn_button_pressed()
 signal tool_selected(index:int)
 signal week_summary_continue_button_pressed()
 signal gold_increased(gold:int)
+signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData)
 
 @onready var gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
 @onready var gui_tool_card_container: GUIToolCardContainer = %GUIToolCardContainer
 @onready var gui_draw_box_button: GUIDeckButton = %GUIDrawBoxButton
 @onready var gui_discard_box_button: GUIDeckButton = %GUIDiscardBoxButton
+
+@onready var gui_plant_deck_box: GUIPlantDeckBox = %GUIPlantDeckBox
 @onready var gui_plant_seed_animation_container: GUIPlantSeedAnimationContainer = %GUIPlantSeedAnimationContainer
-@onready var gui_plant_draw_deck_box: GUIPlantDeckBox = %GUIPlantDrawDeckBox
-@onready var gui_plant_discard_deck_box: GUIPlantDeckBox = %GUIPlantDiscardDeckBox
+
 @onready var gui_shop_main: GUIShopMain = %GUIShopMain
 @onready var gui_week_summary_main: GUIWeekSummaryMain = %GUIWeekSummaryMain
 @onready var gui_game_over_main: GUIGameOverMain = %GUIGameOverMain
@@ -24,7 +26,6 @@ signal gold_increased(gold:int)
 @onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
 @onready var _gui_top_bar: GUITopBar = %GUITopBar
 @onready var _gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
-@onready var _gui_points: GUIPoints = %GUIPoints
 
 func _ready() -> void:
 	_gui_tool_cards_viewer.hide()
@@ -34,6 +35,14 @@ func _ready() -> void:
 	_gui_top_bar.setting_button_evoked.connect(func() -> void: _gui_settings_main.animate_show())
 	gui_week_summary_main.continue_button_pressed.connect(func() -> void: week_summary_continue_button_pressed.emit())
 	gui_week_summary_main.gold_increased.connect(func(gold:int) -> void: gold_increased.emit(gold))
+	gui_plant_seed_animation_container.draw_plant_card_completed.connect(func(field_index:int, plant_data:PlantData) -> void: plant_seed_drawn_animation_completed.emit(field_index, plant_data))
+
+#region level
+
+func update_with_level_data(level_data:LevelData) -> void:
+	gui_plant_deck_box.update_with_plants(level_data.plants)
+
+#endregion
 
 #region all ui
 func toggle_all_ui(on:bool) -> void:
@@ -50,12 +59,6 @@ func update_week(week:int) -> void:
 
 func update_gold(gold:int, animated:bool) -> void:
 	await _gui_top_bar.update_gold(gold, animated)
-
-func update_points(points:int) -> void:
-	await _gui_points.update_earned(points)
-
-func update_points_due(points:int) -> void:
-	_gui_points.update_due(points)
 
 #region tools
 func update_tools(tool_datas:Array[ToolData]) -> void:
@@ -76,11 +79,7 @@ func bind_tool_deck(tool_deck:Deck) -> void:
 
 #region plants
 func setup_plant_seed_animation_container(field_container:FieldContainer) -> void:
-	gui_plant_seed_animation_container.setup(field_container, gui_plant_draw_deck_box, gui_plant_discard_deck_box)
-
-func bind_plant_seed_deck(plant_seed_deck:Deck) -> void:
-	gui_plant_draw_deck_box.bind_deck(plant_seed_deck)
-	gui_plant_discard_deck_box.bind_deck(plant_seed_deck)
+	gui_plant_seed_animation_container.setup(field_container, gui_plant_deck_box)
 
 #endregion
 
@@ -112,8 +111,8 @@ func animate_show_game_over(session_summary:SessionSummary) -> void:
 #endregion
 
 #region shop
-func animate_show_shop(number_of_tools:int, number_of_plants:int, gold:int) -> void:
-	await gui_shop_main.animate_show(number_of_tools, number_of_plants, gold)
+func animate_show_shop(number_of_tools:int, gold:int) -> void:
+	await gui_shop_main.animate_show(number_of_tools, gold)
 
 #region utils
 

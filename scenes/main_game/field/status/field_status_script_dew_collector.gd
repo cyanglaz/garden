@@ -1,8 +1,8 @@
 class_name FieldStatusScriptDewCollector
 extends FieldStatusScript
 
-func _has_tool_discard_hook(_count:int) -> bool:
-	return true
+func _has_tool_discard_hook(_count:int, plant:Plant) -> bool:
+	return plant != null
 
 func _handle_tool_discard_hook(plant:Plant, count:int) -> void:
 	var action:ActionData = ActionData.new()

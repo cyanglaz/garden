@@ -2,8 +2,7 @@ class_name FieldContainer
 extends Node2D
 
 signal field_harvest_started()
-signal field_harvest_point_update_requested(points:int, index:int)
-signal field_harvest_completed()
+signal field_harvest_completed(index:int)
 signal field_hovered(hovered:bool, index:int)
 signal field_pressed(index:int)
 
@@ -26,8 +25,7 @@ func update_with_number_of_fields(number_of_fields:int) -> void:
 		field.field_hovered.connect(_on_field_hovered.bind(i))
 		field.field_pressed.connect(func(): field_pressed.emit(i))
 		field.plant_harvest_started.connect(func(): field_harvest_started.emit())
-		field.plant_harvest_completed.connect(func(): field_harvest_completed.emit())
-		field.plant_harvest_point_update_requested.connect(func(points:int): field_harvest_point_update_requested.emit(points, i))
+		field.plant_harvest_completed.connect(func(): field_harvest_completed.emit(i))
 		if last_field:
 			field.weak_left_field = weakref(last_field)
 			last_field.weak_right_field = weakref(field)
@@ -57,6 +55,10 @@ func clear_previews() -> void:
 func get_preview_icon_global_position(preview_icon:Control, index:int) -> Vector2:
 	var field:Field = _container.get_child(index)
 	return field.get_preview_icon_global_position(preview_icon)
+
+func trigger_end_day_hook(main_game:MainGame) -> void:
+	for field:Field in _container.get_children():
+		await field.handle_end_day_hook(main_game)
 
 func trigger_end_day_ability(main_game:MainGame) -> void:
 	for field:Field in _container.get_children():
@@ -103,6 +105,18 @@ func harvest_all_fields() -> void:
 func handle_turn_end() -> void:
 	for field:Field in fields:
 		field.handle_turn_end()
+
+func has_plants() -> bool:
+	for field:Field in _container.get_children():
+		if field.plant:
+			return true
+	return false
+
+func get_plants(indices:Array[int]) -> Array[Plant]:
+	var plants:Array[Plant] = []
+	for index:int in indices:
+		plants.append(fields[index].plant)
+	return plants
 
 func _harvest_next_field(index:int) -> void:
 	if index >= fields.size():

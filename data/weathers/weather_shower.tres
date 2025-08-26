@@ -8,6 +8,7 @@ script = ExtResource("1_ickju")
 type = 2
 value = 1
 value_type = 0
+specials = Array[int]([])
 id = ""
 display_name = ""
 description = ""
@@ -19,8 +20,6 @@ script = ExtResource("2_eqbcn")
 actions = Array[ExtResource("1_ickju")]([SubResource("Resource_51kjc")])
 id = "shower"
 display_name = "Shower"
-description = "Add {value} {icon_resource_water} to all fields."
-data = {
-&"value": "1"
-}
+description = ""
+data = {}
 metadata/_custom_type_script = "uid://g4t52w546b5k"
