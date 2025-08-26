@@ -4,11 +4,8 @@ extends Node2D
 const PLANT_SCENE_PATH_PREFIX := "res://scenes/main_game/plants/plants/plant_"
 const POPUP_LABEL_ICON_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label_icon.tscn")
 const POPUP_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label.tscn")
-const point_ICON := preload("res://resources/sprites/GUI/icons/resources/icon_point.png")
 const point_LABEL_OFFSET := Vector2.RIGHT * 12
-const POPUP_point_SHOW_TIME := 0.5
-const POPUP_point_DESTROY_TIME := 1.0
-const POPUP_SHOW_TIME := 0.2
+const POPUP_SHOW_TIME := 0.3
 const POPUP_DESTROY_TIME:= 0.8
 const POPUP_STATUS_DESTROY_TIME := 1.2
 
