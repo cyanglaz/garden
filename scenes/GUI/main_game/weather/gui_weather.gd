@@ -1,6 +1,8 @@
 class_name GUIWeather
 extends PanelContainer
 
+const ACTION_TOOLTIP_DELAY := 0.2
+
 @export var has_tooltip:bool = false
 
 @onready var _texture_rect: TextureRect = %TextureRect
@@ -8,6 +10,7 @@ extends PanelContainer
 
 var _weak_weather_tooltip:WeakRef = weakref(null)
 var _weak_weather_data:WeakRef
+var _weak_actions_tooltip:WeakRef = weakref(null)
 
 func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
@@ -28,8 +31,16 @@ func _on_mouse_entered() -> void:
 	if !has_tooltip:
 		return
 	_weak_weather_tooltip = weakref(Util.display_weather_tooltip(_weak_weather_data.get_ref(), self, false, GUITooltip.TooltipPosition.LEFT))
+	await Util.create_scaled_timer(ACTION_TOOLTIP_DELAY).timeout
+	if _weak_weather_tooltip.get_ref():
+		if _weak_actions_tooltip.get_ref():
+			return
+		_weak_actions_tooltip = weakref(Util.display_actions_tooltip(_weak_weather_data.get_ref().actions, _weak_weather_tooltip.get_ref(), false, GUITooltip.TooltipPosition.LEFT, false))
 
 func _on_mouse_exited() -> void:
 	if _weak_weather_tooltip.get_ref():
 		_weak_weather_tooltip.get_ref().queue_free()
 		_weak_weather_tooltip = weakref(null)
+	if _weak_actions_tooltip.get_ref():
+		_weak_actions_tooltip.get_ref().queue_free()
+		_weak_actions_tooltip = weakref(null)

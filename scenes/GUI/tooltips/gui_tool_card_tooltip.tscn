@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://vinf48vrumu7"]
+[gd_scene load_steps=5 format=3 uid="uid://vinf48vrumu7"]
 
 [ext_resource type="PackedScene" uid="uid://73vkj3ho7ou5" path="res://scenes/GUI/tooltips/gui_tooltip.tscn" id="1_hijmy"]
 [ext_resource type="Script" uid="uid://cw5qyc2th2hgg" path="res://scenes/GUI/tooltips/gui_tool_card_tooltip.gd" id="2_hijmy"]
-[ext_resource type="PackedScene" uid="uid://bvgjt4ir1gjtr" path="res://scenes/GUI/shared/descriptions/tool_card_description/gui_tool_card_description.tscn" id="3_hijmy"]
+[ext_resource type="PackedScene" uid="uid://c7a7c2ywntwi2" path="res://scenes/GUI/shared/descriptions/shared_description/gui_actions_description.tscn" id="3_kpb3v"]
+[ext_resource type="PackedScene" uid="uid://bgqmmofde46i1" path="res://scenes/GUI/shared/descriptions/shared_description/gui_tool_special_description.tscn" id="4_pibga"]
 
 [node name="GUIToolCardTooltip" instance=ExtResource("1_hijmy")]
 script = ExtResource("2_hijmy")
@@ -16,6 +17,14 @@ theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="GUIToolCardDescription" parent="ContentContainer" index="0" instance=ExtResource("3_hijmy")]
+[node name="VBoxContainer" type="VBoxContainer" parent="ContentContainer" index="0"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="GUIActionsDescription" parent="ContentContainer/VBoxContainer" index="0" instance=ExtResource("3_kpb3v")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="GUIToolSpecialDescription" parent="ContentContainer/VBoxContainer" index="1" instance=ExtResource("4_pibga")]
 unique_name_in_owner = true
 layout_mode = 2
