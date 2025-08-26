@@ -1,6 +1,8 @@
 class_name PopupThing
 extends PanelContainer
 
+var _position_tween:Tween
+
 func _ready() -> void:
 	top_level = true
 
@@ -12,11 +14,12 @@ func animate_show(height:float, spread:float, time:float):
 	var end_x_position := randf_range(-spread, spread)
 	var end_position = global_position + Vector2(end_x_position, -height)
 	modulate.a = 0.0
-	tween.parallel().tween_property(self, "global_position", end_position, time).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	_position_tween = Util.create_scaled_tween(self)
+	_position_tween.parallel().tween_property(self, "global_position", end_position, time).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	#tween.parallel().tween_property(self, "scale", Vector2(final_scale, final_scale), time).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	tween.parallel().tween_property(self, "modulate:a", 1.0, time/2).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	tween.play()
-	await tween.finished
+	await _position_tween.finished
 
 func animate_destroy(time:float) -> void:
 	var tween = Util.create_scaled_tween(self)
