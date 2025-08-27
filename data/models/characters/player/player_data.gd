@@ -1,5 +1,5 @@
 class_name PlayerData
-extends ThingData
+extends CharacterData
 
 @export var initial_tools:Array[ToolData]
 @export var initial_plants:Array[PlantData]
