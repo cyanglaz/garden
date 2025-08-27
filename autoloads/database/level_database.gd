@@ -8,9 +8,8 @@ func roll_levels(number_of_levels:int, chapter:int, level:int) -> Array[LevelDat
 	var result:Array[LevelData] = []
 	for i in number_of_levels:
 		var level_data:LevelData = available_levels.pick_random()
-		if !level_data.chapters.has(chapter):
-			continue
-		if !level_data.levels.has(level):
+		var appearance_string = str(chapter, level)
+		if !level_data.appearance.has(appearance_string):
 			continue
 		result.append(level_data.get_duplicate())
 		available_levels.erase(level_data)

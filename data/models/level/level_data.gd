@@ -9,8 +9,7 @@ enum Type {
 }
 
 @export var type:Type
-@export var chapters:Array[int]
-@export var levels:Array[int]
+@export var appearance:Array[String]
 @export var plants:Array[PlantData]
 @export var weathers:Array[WeatherData]
 @export var number_of_days:int
@@ -21,8 +20,7 @@ func copy(other:ThingData) -> void:
 	super.copy(other)
 	var other_level: LevelData = other as LevelData
 	type = other_level.type
-	chapters = other_level.chapters.duplicate()
-	levels = other_level.levels.duplicate()
+	appearance = other_level.appearance.duplicate()
 	plants = other_level.plants.duplicate()
 	weathers = other_level.weathers.duplicate()
 	number_of_days = other_level.number_of_days

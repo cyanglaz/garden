@@ -1,17 +1,16 @@
 [gd_resource type="Resource" script_class="PlayerData" load_steps=8 format=3 uid="uid://d1jqracpdos0e"]
 
-[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_h2054"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_m7e3l"]
 [ext_resource type="Resource" uid="uid://dr13xwnk1wtam" path="res://data/tools/tool_sunlight.tres" id="3_eiyk4"]
 [ext_resource type="Resource" uid="uid://bbksfeisauffm" path="res://data/tools/tool_bug_spray.tres" id="4_gxn42"]
+[ext_resource type="Resource" uid="uid://c6k0erxrqmrlg" path="res://data/tools/tool_heat.tres" id="5_eiyk4"]
 [ext_resource type="Resource" uid="uid://b0ckuxysbrafa" path="res://data/tools/tool_photosynthesis.tres" id="6_gxn42"]
 [ext_resource type="Script" uid="uid://tci75sqv26ut" path="res://data/models/characters/player/player_data.gd" id="7_gxn42"]
 [ext_resource type="Resource" uid="uid://cd1g4filickxd" path="res://data/tools/tool_drizzle.tres" id="7_xkk26"]
 
 [resource]
 script = ExtResource("7_gxn42")
-initial_tools = Array[ExtResource("2_m7e3l")]([ExtResource("3_eiyk4"), ExtResource("3_eiyk4"), ExtResource("4_gxn42"), ExtResource("6_gxn42"), ExtResource("7_xkk26"), ExtResource("7_xkk26")])
-initial_plants = Array[ExtResource("1_h2054")]([])
+initial_tools = Array[ExtResource("2_m7e3l")]([ExtResource("3_eiyk4"), ExtResource("3_eiyk4"), ExtResource("4_gxn42"), ExtResource("7_xkk26"), ExtResource("7_xkk26"), ExtResource("5_eiyk4"), ExtResource("5_eiyk4"), ExtResource("6_gxn42")])
 number_of_fields = 2
 id = "apprentice"
 display_name = "Apprentice"
