@@ -226,13 +226,13 @@ func _on_tool_application_completed(_tool_data:ToolData) -> void:
 #region gui main events
 func _on_end_turn_button_pressed() -> void:
 	gui_main_game.toggle_all_ui(false)
+	await _discard_all_tools()
 	await weather_manager.apply_weather_actions(field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
 	await field_container.trigger_end_day_hook(self)
 	await field_container.trigger_end_day_ability(self)
 	var won := await _harvest()
 	if won:
 		return #Harvest won the game, no need to discard tools or end the day
-	await _discard_all_tools()
 	gui_main_game.toggle_all_ui(true)
 	_end_day()
 	
