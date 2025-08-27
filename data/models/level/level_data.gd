@@ -1,7 +1,13 @@
 class_name LevelData
 extends ThingData
 
-@export var chapter:int
+enum Type {
+	MINION,
+	BOSS
+}
+
+@export var type:Type
+@export var chapters:Array[int]
 @export var plants:Array[PlantData]
 @export var weathers:Array[WeatherData]
 @export var number_of_days:int
@@ -9,7 +15,8 @@ extends ThingData
 func copy(other:ThingData) -> void:
 	super.copy(other)
 	var other_level: LevelData = other as LevelData
-	chapter = other_level.chapter
+	type = other_level.type
+	chapters = other_level.chapters
 	plants = other_level.plants.duplicate()
 	weathers = other_level.weathers.duplicate()
 	number_of_days = other_level.number_of_days
