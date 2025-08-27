@@ -14,6 +14,8 @@ initial_tools = Array[ExtResource("2_m7e3l")]([ExtResource("3_eiyk4"), ExtResour
 number_of_fields = 2
 id = "apprentice"
 display_name = "Apprentice"
-description = ""
-data = {}
+description = "On first day, draw {card} additional card."
+data = {
+&"card": "1"
+}
 metadata/_custom_type_script = "uid://tci75sqv26ut"
