@@ -7,8 +7,6 @@ signal week_summary_continue_button_pressed()
 signal gold_increased(gold:int)
 signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData)
 
-@onready var gui_player: GUICharacter = %GUIPlayer
-
 @onready var gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
 @onready var gui_tool_card_container: GUIToolCardContainer = %GUIToolCardContainer
 @onready var gui_draw_box_button: GUIDeckButton = %GUIDrawBoxButton
@@ -65,7 +63,7 @@ func update_gold(gold:int, animated:bool) -> void:
 #region characters
 
 func update_player(player_data:PlayerData) -> void:
-	gui_player.update_with_player_data(player_data)
+	_gui_top_bar.update_player(player_data)
 
 #region tools
 func update_tools(tool_datas:Array[ToolData]) -> void:

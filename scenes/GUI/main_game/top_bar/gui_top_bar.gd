@@ -9,6 +9,7 @@ signal full_deck_button_evoked()
 @onready var _week_label: Label = %WeekLabel
 @onready var _gui_settings_button: GUISettingsButton = %GUISettingsButton
 @onready var _day_label: Label = %DayLabel
+@onready var _gui_player: GUICharacter = %GUIPlayer
 
 func _ready() -> void:
 	_gui_settings_button.action_evoked.connect(func() -> void: setting_button_evoked.emit())
@@ -22,6 +23,9 @@ func update_week(week:int) -> void:
 
 func update_day_left(day_left:int) -> void:
 	_day_label.text = Util.get_localized_string("DAY_LABEL_TEXT")% day_left
+
+func update_player(player_data:PlayerData) -> void:
+	_gui_player.update_with_player_data(player_data)
 
 func toggle_all_ui(_on:bool) -> void:
 	pass
