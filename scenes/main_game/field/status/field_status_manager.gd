@@ -74,14 +74,6 @@ func _handle_next_ability_hook(ability_type:Plant.AbilityType, plant:Plant, fina
 	_current_ability_hook_index += 1
 	return await _handle_next_ability_hook(ability_type, plant, final_result_type)
 
-func handle_harvest_gold_hooks(plant:Plant) -> void:
-	var all_status_ids := field_status_map.keys()
-	_harvest_gold_hook_queue = all_status_ids.filter(func(status_id:String) -> bool:
-		return field_status_map[status_id].status_script.has_harvest_gold_hook()
-	)
-	_current_harvest_gold_hook_index = 0
-	await _handle_next_harvest_gold_hook(plant)
-
 func _handle_next_harvest_gold_hook(plant:Plant) -> void:
 	if _current_harvest_gold_hook_index >= _harvest_gold_hook_queue.size():
 		return
