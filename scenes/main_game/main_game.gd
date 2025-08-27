@@ -6,6 +6,7 @@ signal _all_field_harvested()
 var hand_size := 5
 const DAYS_TO_WEEK := 7
 const WIN_PAUSE_TIME := 0.4
+const INSTANT_CARD_USE_DELAY := 0.3
 
 @export var player:PlayerData
 @export var test_tools:Array[ToolData]
@@ -111,7 +112,12 @@ func add_control_to_overlay(control:Control) -> void:
 	gui_main_game.add_control_to_overlay(control)
 
 func draw_cards(count:int) -> void:
-	await tool_manager.draw_cards(count, gui_main_game.gui_tool_card_container)
+	var draw_results:Array = await tool_manager.draw_cards(count, gui_main_game.gui_tool_card_container)
+	for tool_data:ToolData in draw_results:
+		if tool_data.specials.has(ToolData.Special.USE_ON_DRAW):
+			var index:int = tool_manager.tool_deck.hand.find(tool_data)
+			_handle_select_tool(index)
+			await _apply_instant_tool()
 
 func discard_cards(tools:Array) -> void:
 	await tool_manager.discard_cards(tools, gui_main_game.gui_tool_card_container)
@@ -183,6 +189,14 @@ func _plant_new_seeds() -> void:
 	await Util.create_scaled_timer(0.2).timeout # If planting is needed, there would be a p update animation, wait for that animation to end before drawing new plants
 	await plant_seed_manager.draw_plants(field_indices, gui_main_game.gui_plant_seed_animation_container,)
 
+func _handle_select_tool(index:int) -> void:
+	field_container.clear_tool_indicators()
+	tool_manager.select_tool(index)
+
+func _apply_instant_tool() -> void:
+	await Util.create_scaled_timer(INSTANT_CARD_USE_DELAY).timeout
+	await tool_manager.apply_tool(self, field_container.fields, 0)
+
 #endregion
 
 #region harvest flow
@@ -214,13 +228,12 @@ func _remove_plants(field_indices:Array[int]) -> void:
 #region tool events
 
 func _on_tool_selected(index:int) -> void:
-	field_container.clear_tool_indicators()
-	tool_manager.select_tool(index)
+	_handle_select_tool(index)
 	var tool_data:ToolData = tool_manager.selected_tool
 	if !tool_data:
 		return
 	if !tool_data.need_select_field:
-		await tool_manager.apply_tool(self, [], -1)
+		await _apply_instant_tool()
 	
 func _on_tool_application_started(tool_data:ToolData) -> void:
 	tool_manager.discard_cards([tool_data], gui_main_game.gui_tool_card_container)

@@ -16,7 +16,7 @@ func _init(initial_tools:Array) -> void:
 func refresh_deck() -> void:
 	tool_deck.refresh()
 
-func draw_cards(count:int, gui_tool_card_container:GUIToolCardContainer) -> void:
+func draw_cards(count:int, gui_tool_card_container:GUIToolCardContainer) -> Array:
 	var _display_index = tool_deck.hand.size() - 1
 	var draw_results:Array = tool_deck.draw(count)
 	await gui_tool_card_container.animate_draw(draw_results)
@@ -25,6 +25,8 @@ func draw_cards(count:int, gui_tool_card_container:GUIToolCardContainer) -> void
 		await shuffle(gui_tool_card_container)
 		var second_draw_result:Array = tool_deck.draw(count - draw_results.size())
 		await gui_tool_card_container.animate_draw(second_draw_result)
+		draw_results.append_array(second_draw_result)
+	return draw_results
 
 func shuffle(gui_tool_card_container:GUIToolCardContainer) -> void:
 	var discard_pile := tool_deck.discard_pool.duplicate()
@@ -37,14 +39,15 @@ func discard_cards(tools:Array, gui_tool_card_container:GUIToolCardContainer) ->
 		var index:int = tool_deck.hand.find(tool_data)
 		assert(index >= 0)
 		indices.append(index)
-	await gui_tool_card_container.animate_discard(indices)
+	# Order is important, discard first, then animate
 	tool_deck.discard(tools)
+	await gui_tool_card_container.animate_discard(indices)
 
 func select_tool(index:int) -> void:
 	selected_tool_index = index
 
 func apply_tool(main_game:MainGame, fields:Array, selected_index:int) -> void:
-	var applying_tool := selected_tool
+	var applying_tool = selected_tool
 	tool_application_started.emit(applying_tool)
 	await main_game.field_container.trigger_tool_application_hook()
 	if !applying_tool.need_select_field:
