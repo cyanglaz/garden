@@ -9,9 +9,9 @@
 [resource]
 script = ExtResource("3_8x0lk")
 type = 0
-appearance = Array[String](["00"])
+appearance = Array[String](["00", "01"])
 plants = Array[ExtResource("1_4o81b")]([ExtResource("2_twb2q"), ExtResource("2_twb2q"), ExtResource("2_twb2q")])
-weathers = Array[ExtResource("4_05k8t")]([ExtResource("5_v4hcr"), ExtResource("5_v4hcr")])
+weathers = Array[ExtResource("4_05k8t")]([ExtResource("5_v4hcr")])
 number_of_days = 5
 id = ""
 display_name = ""

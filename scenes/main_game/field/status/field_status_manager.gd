@@ -30,7 +30,7 @@ func handle_status_on_turn_end() -> void:
 	status_updated.emit()
 
 func update_status(status_id:String, stack:int) -> void:
-	var status_data := MainDatabase.field_status_database.get_data_by_id(status_id)
+	var status_data := MainDatabase.field_status_database.get_data_by_id(status_id, true)
 	if field_status_map.has(status_id):
 		field_status_map[status_id].stack += stack
 	else:

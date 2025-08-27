@@ -85,6 +85,7 @@ func _input(event: InputEvent) -> void:
 func start_new_week() -> void:
 	plant_seed_manager = PlantSeedManager.new(level_data.plants)
 	gui_main_game.update_with_level_data(level_data)
+	gui_main_game.update_with_plants(plant_seed_manager.plant_datas)
 	tool_manager.refresh_deck()
 	week_manager.next_week(level_data)
 	session_summary.week = week_manager.week

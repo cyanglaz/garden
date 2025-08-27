@@ -41,8 +41,14 @@ func _ready() -> void:
 #region level
 
 func update_with_level_data(level_data:LevelData) -> void:
-	gui_plant_deck_box.update_with_plants(level_data.plants)
 	_gui_enemy.update_with_level_data(level_data)
+
+#endregion
+
+#region plants
+
+func update_with_plants(plants:Array[PlantData]) -> void:
+	gui_plant_deck_box.update_with_plants(plants)
 
 #endregion
 

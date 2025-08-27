@@ -116,7 +116,7 @@ func apply_actions(actions:Array[ActionData]) -> void:
 	action_application_completed.emit()
 
 func apply_field_status(field_status_id:String, stack:int) -> void:
-	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(field_status_id)
+	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(field_status_id, true)
 	if field_status_data.stackable:
 		var text := str(stack)
 		if stack > 0:
