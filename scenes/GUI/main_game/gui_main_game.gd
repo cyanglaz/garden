@@ -26,6 +26,7 @@ signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantDat
 @onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
 @onready var _gui_top_bar: GUITopBar = %GUITopBar
 @onready var _gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
+@onready var _gui_enemy: GUIEnemy = %GUIEnemy
 
 func _ready() -> void:
 	_gui_tool_cards_viewer.hide()
@@ -41,6 +42,7 @@ func _ready() -> void:
 
 func update_with_level_data(level_data:LevelData) -> void:
 	gui_plant_deck_box.update_with_plants(level_data.plants)
+	_gui_enemy.update_with_level_data(level_data)
 
 #endregion
 

@@ -1,5 +1,5 @@
 class_name GUIWeatherContainer
-extends HBoxContainer
+extends VBoxContainer
 
 const FORECAST_SIZE_SCALE := 0.7
 

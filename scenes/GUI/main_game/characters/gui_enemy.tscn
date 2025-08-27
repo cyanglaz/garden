@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dkd8risr4s2i3"]
+
+[ext_resource type="Script" uid="uid://dif8s871cnsv2" path="res://scenes/GUI/main_game/characters/gui_enemy.gd" id="1_duy6r"]
+
+[node name="GUIEnemy" type="PanelContainer"]
+offset_right = 2.0
+offset_bottom = 2.0
+script = ExtResource("1_duy6r")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+stretch_mode = 5
