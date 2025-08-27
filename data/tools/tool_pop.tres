@@ -22,6 +22,7 @@ actions = Array[ExtResource("1_b1q6o")]([SubResource("Resource_k3nfm")])
 rarity = 0
 specials = Array[int]([])
 need_select_field = false
+usage_type = 0
 id = "pop"
 display_name = "Pop"
 description = ""

@@ -108,3 +108,5 @@ GAME_OVER_WEEK, "Week"
 GAME_OVER_TOTAL_DAYS_SKIPPED, "Total Days Skipped"
 GAME_OVER_TOTAL_GOLD_EARNED, "Total Gold Earned"
 
+CARD_SPECIAL_NAME_ON_DRAW, "On Draw"
+CARD_SPECIAL_DESCRIPTION_ON_DRAW, "This card is automatically used when drawn."

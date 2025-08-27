@@ -10,7 +10,7 @@ const COSTS := {
 }
 
 enum Special {
-	NONE,
+	USE_ON_DRAW,
 }
 
 @export var energy_cost:int = 1

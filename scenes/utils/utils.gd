@@ -320,9 +320,8 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 static func get_id_for_tool_speical(special:ToolData.Special) -> String:
 	var id := ""
 	match special:
-		ToolData.Special.NONE:
-			assert(false, "special not valid")
-			id = "none"
+		ToolData.Special.USE_ON_DRAW:
+			id = "use_on_draw"
 	return id
 
 

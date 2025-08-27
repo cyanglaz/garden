@@ -17,7 +17,7 @@ const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/
 @onready var _title: Label = %Title
 @onready var _highlight_border: NinePatchRect = %HighlightBorder
 @onready var _card_content: VBoxContainer = %CardContent
-@onready var _specials_container: HBoxContainer = %SpecialsContainer
+@onready var _specials_container: VBoxContainer = %SpecialsContainer
 @onready var _cost_icon: TextureRect = %CostIcon
 @onready var _rich_text_label: RichTextLabel = %RichTextLabel
 
@@ -47,7 +47,10 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 		_rich_text_label.text = tool_data.get_display_description()
 	else:
 		_gui_action_list.update(tool_data.actions)
-	_cost_icon.texture = load(VALUE_ICON_PREFIX + str(tool_data.energy_cost) + ".png")
+	if tool_data.energy_cost >= 0:
+		_cost_icon.texture = load(VALUE_ICON_PREFIX + str(tool_data.energy_cost) + ".png")
+	else:
+		_cost_icon.hide()
 	_title.text = tool_data.display_name
 	match tool_data.rarity:
 		0:

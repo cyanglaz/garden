@@ -22,6 +22,7 @@ actions = Array[ExtResource("1_6pbky")]([SubResource("Resource_oexgw")])
 rarity = 0
 specials = Array[int]([])
 need_select_field = true
+usage_type = 0
 id = "sunlight"
 display_name = "Sunlight"
 description = ""
