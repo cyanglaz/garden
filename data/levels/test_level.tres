@@ -10,7 +10,8 @@
 script = ExtResource("2_tkee1")
 type = 0
 chapters = Array[int]([])
-plants = Array[ExtResource("1_1j250")]([ExtResource("2_mh4wk"), ExtResource("2_mh4wk"), ExtResource("2_mh4wk")])
+levels = Array[int]([])
+plants = Array[ExtResource("1_1j250")]([ExtResource("2_mh4wk"), ExtResource("2_mh4wk"), null])
 weathers = Array[ExtResource("3_mh4wk")]([ExtResource("5_mh4wk")])
 number_of_days = 3
 id = ""
