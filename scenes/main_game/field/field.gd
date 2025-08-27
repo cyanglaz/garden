@@ -92,6 +92,7 @@ func remove_plant_preview() -> void:
 
 func apply_weather_actions(weather_data:WeatherData) -> void:
 	await apply_actions(weather_data.actions)
+	await plant.trigger_ability(Plant.AbilityType.WEATHER, Singletons.main_game)
 
 func is_action_applicable(action:ActionData) -> bool:
 	if action.type == ActionData.ActionType.PEST || action.type == ActionData.ActionType.FUNGUS:

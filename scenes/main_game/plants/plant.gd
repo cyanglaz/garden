@@ -5,6 +5,7 @@ enum AbilityType {
 	HARVEST,
 	END_DAY,
 	LIGHT_GAIN,
+	WEATHER,
 }
 
 @warning_ignore("unused_signal")

@@ -2,10 +2,10 @@ class_name PlantSunflower
 extends Plant
 
 func _has_ability(ability_type:AbilityType) -> bool:
-	return ability_type == AbilityType.END_DAY
+	return ability_type == AbilityType.WEATHER
 
 func _trigger_ability(ability_type:AbilityType, main_game:MainGame) -> void:
-	assert(ability_type == AbilityType.END_DAY)
+	assert(ability_type == AbilityType.WEATHER)
 	var weather_data:WeatherData = main_game.weather_manager.get_current_weather()
 	if weather_data.id == "sunny":
 		var action_data:ActionData = ActionData.new()
