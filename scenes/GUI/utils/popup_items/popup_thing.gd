@@ -6,7 +6,7 @@ static var _all_popup_things:Array[PopupThing] = []
 const BUMP_UP_TIME := 0.2
 const BUMP_UP_DISTANCE := 2.0
 const BUMP_UP_SPREAD := 3.0
-3
+
 var _position_tween:Tween
 var end_position:Vector2
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqv2hnyj78cvg"
-path="res://.godot/imported/icon_lich.png-1163dcdc0cb7fe0204222883f4c1b06c.ctex"
+uid="uid://dm7iy68884boa"
+path="res://.godot/imported/icon_apprentice.png-a1979fa14629c36cc0ee1bd91329aec4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/icons/characters/icon_lich.png"
-dest_files=["res://.godot/imported/icon_lich.png-1163dcdc0cb7fe0204222883f4c1b06c.ctex"]
+source_file="res://resources/sprites/icons/characters/icon_apprentice.png"
+dest_files=["res://.godot/imported/icon_apprentice.png-a1979fa14629c36cc0ee1bd91329aec4.ctex"]
 
 [params]
 

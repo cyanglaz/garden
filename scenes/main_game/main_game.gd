@@ -59,6 +59,7 @@ func _ready() -> void:
 	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
 		
 	#gui main signals
+	gui_main_game.update_player(player)
 	gui_main_game.bind_energy(energy_tracker)
 	gui_main_game.bind_tool_deck(tool_manager.tool_deck)
 	gui_main_game.setup_plant_seed_animation_container(field_container)
@@ -84,6 +85,7 @@ func _input(event: InputEvent) -> void:
 func start_new_week() -> void:
 	plant_seed_manager = PlantSeedManager.new(level_data.plants)
 	gui_main_game.update_with_level_data(level_data)
+	gui_main_game.update_with_plants(plant_seed_manager.plant_datas)
 	tool_manager.refresh_deck()
 	week_manager.next_week(level_data)
 	session_summary.week = week_manager.week
@@ -141,6 +143,15 @@ func _lose() -> void:
 	gui_main_game.toggle_all_ui(true)
 
 func _end_day() -> void:
+	gui_main_game.toggle_all_ui(false)
+	await _discard_all_tools()
+	await weather_manager.apply_weather_actions(field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
+	await field_container.trigger_end_day_hook(self)
+	await field_container.trigger_end_day_ability(self)
+	var won := await _harvest()
+	if won:
+		return #Harvest won the game, no need to discard tools or end the day
+	gui_main_game.toggle_all_ui(true)
 	field_container.handle_turn_end()
 	if week_manager.day_manager.get_day_left() == 0:
 		if _met_win_conditon():	
@@ -223,15 +234,6 @@ func _on_tool_application_completed(_tool_data:ToolData) -> void:
 
 #region gui main events
 func _on_end_turn_button_pressed() -> void:
-	gui_main_game.toggle_all_ui(false)
-	await weather_manager.apply_weather_actions(field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
-	await field_container.trigger_end_day_hook(self)
-	await field_container.trigger_end_day_ability(self)
-	var won := await _harvest()
-	if won:
-		return #Harvest won the game, no need to discard tools or end the day
-	await _discard_all_tools()
-	gui_main_game.toggle_all_ui(true)
 	_end_day()
 	
 #region field events

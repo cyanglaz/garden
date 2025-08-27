@@ -132,6 +132,17 @@
         "visibility": 0.0
       }
     },
+    "res://data/player/": {
+      "metadata/_custom_type_script": {
+        "visibility": 0
+      },
+      "resource_local_to_scene": {
+        "visibility": 0
+      },
+      "resource_name": {
+        "visibility": 0
+      }
+    },
     "res://data/players/": {
       "metadata/_custom_type_script": {
         "visibility": 0.0
@@ -192,7 +203,8 @@
     "res://data/tools/",
     "res://data/weathers/",
     "res://data/plants/",
-    "res://data/field_status/"
+    "res://data/field_status/",
+    "res://data/player/"
   ],
   "table_functions": {
     "filter": [

@@ -4,7 +4,6 @@ extends PlantState
 func enter() -> void:
 	super.enter()
 	plant.harvest_started.emit()
-	await plant.field.status_manager.handle_harvest_gold_hooks(plant)
 	await _handle_ability()
 	_play_harvest_animation()
 	plant.harvest_completed.emit()

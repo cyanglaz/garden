@@ -92,6 +92,7 @@ func remove_plant_preview() -> void:
 
 func apply_weather_actions(weather_data:WeatherData) -> void:
 	await apply_actions(weather_data.actions)
+	await plant.trigger_ability(Plant.AbilityType.WEATHER, Singletons.main_game)
 
 func is_action_applicable(action:ActionData) -> bool:
 	if action.type == ActionData.ActionType.PEST || action.type == ActionData.ActionType.FUNGUS:
@@ -116,7 +117,7 @@ func apply_actions(actions:Array[ActionData]) -> void:
 	action_application_completed.emit()
 
 func apply_field_status(field_status_id:String, stack:int) -> void:
-	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(field_status_id)
+	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(field_status_id, true)
 	if field_status_data.stackable:
 		var text := str(stack)
 		if stack > 0:

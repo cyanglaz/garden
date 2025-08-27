@@ -26,6 +26,7 @@ signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantDat
 @onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
 @onready var _gui_top_bar: GUITopBar = %GUITopBar
 @onready var _gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
+@onready var _gui_enemy: GUIEnemy = %GUIEnemy
 
 func _ready() -> void:
 	_gui_tool_cards_viewer.hide()
@@ -40,7 +41,14 @@ func _ready() -> void:
 #region level
 
 func update_with_level_data(level_data:LevelData) -> void:
-	gui_plant_deck_box.update_with_plants(level_data.plants)
+	_gui_enemy.update_with_level_data(level_data)
+
+#endregion
+
+#region plants
+
+func update_with_plants(plants:Array[PlantData]) -> void:
+	gui_plant_deck_box.update_with_plants(plants)
 
 #endregion
 
@@ -59,6 +67,11 @@ func update_week(week:int) -> void:
 
 func update_gold(gold:int, animated:bool) -> void:
 	await _gui_top_bar.update_gold(gold, animated)
+
+#region characters
+
+func update_player(player_data:PlayerData) -> void:
+	_gui_top_bar.update_player(player_data)
 
 #region tools
 func update_tools(tool_datas:Array[ToolData]) -> void:

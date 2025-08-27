@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://crxaulpvw4tms"
+path="res://.godot/imported/icon_apprentice.aseprite-7d288eda8c794c28f74cce10ce7d299b.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/characters/icon_apprentice.aseprite"
+dest_files=["res://.godot/imported/icon_apprentice.aseprite-7d288eda8c794c28f74cce10ce7d299b.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
