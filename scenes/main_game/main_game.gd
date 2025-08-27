@@ -59,6 +59,7 @@ func _ready() -> void:
 	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
 		
 	#gui main signals
+	gui_main_game.update_player(player)
 	gui_main_game.bind_energy(energy_tracker)
 	gui_main_game.bind_tool_deck(tool_manager.tool_deck)
 	gui_main_game.setup_plant_seed_animation_container(field_container)

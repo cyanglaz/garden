@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2ttrcf1bo4ju"]
+
+[ext_resource type="Script" uid="uid://b5kd4bv11nx2p" path="res://scenes/GUI/main_game/characters/gui_player.gd" id="1_1xntm"]
+[ext_resource type="Texture2D" uid="uid://cot566voterom" path="res://resources/sprites/GUI/shared/border2.png" id="2_bv7r5"]
+
+[node name="GUIPlayer" type="PanelContainer"]
+offset_right = 2.0
+offset_bottom = 2.0
+script = ExtResource("1_1xntm")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
+layout_mode = 2
+texture = ExtResource("2_bv7r5")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="TextureRect" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+stretch_mode = 5
