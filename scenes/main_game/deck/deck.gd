@@ -9,6 +9,7 @@ var pool:Array
 var draw_pool:Array
 var hand:Array
 var discard_pool:Array
+var in_use_item:Variant = null
 
 func _init(initial_items:Array) -> void:
 	for item_data:Variant in initial_items:
@@ -65,8 +66,17 @@ func discard(items:Array) -> void:
 	# Removing from largest index to smallest index to avoid index change during removal.
 	for item:Variant in items:
 		discard_pool.append(item)
-		hand.erase(item)
+		if item == in_use_item:
+			in_use_item = null
+		elif hand.has(item):
+			hand.erase(item)
+		else:
+			assert(false, "discarding item not in hand or in use: " + str(item))
 	discard_pool_updated.emit(discard_pool)
+
+func use(item:Variant) -> void:
+	hand.erase(item)
+	in_use_item = item
 
 func add_item(item:Variant) -> void:
 	pool.append(item)
