@@ -2,32 +2,32 @@
 
 [ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plant.tscn" id="1_bsgs4"]
 [ext_resource type="Script" uid="uid://jbdw6vvbivu0" path="res://scenes/main_game/plants/plants/plant_rose.gd" id="2_bsgs4"]
-[ext_resource type="Texture2D" uid="uid://bw127evybv6nv" path="res://resources/sprites/plants/plant_sunflower.png" id="3_esugy"]
+[ext_resource type="Texture2D" uid="uid://bx634lc8neue3" path="res://resources/sprites/plants/plant_rose.png" id="3_bsgs4"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hpldu"]
-atlas = ExtResource("3_esugy")
+[sub_resource type="AtlasTexture" id="AtlasTexture_bsgs4"]
+atlas = ExtResource("3_bsgs4")
 region = Rect2(0, 0, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_go2ad"]
-atlas = ExtResource("3_esugy")
+[sub_resource type="AtlasTexture" id="AtlasTexture_ifmde"]
+atlas = ExtResource("3_bsgs4")
 region = Rect2(36, 0, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qfn4b"]
-atlas = ExtResource("3_esugy")
+[sub_resource type="AtlasTexture" id="AtlasTexture_esugy"]
+atlas = ExtResource("3_bsgs4")
 region = Rect2(0, 36, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_q3t6l"]
-atlas = ExtResource("3_esugy")
+[sub_resource type="AtlasTexture" id="AtlasTexture_icw6i"]
+atlas = ExtResource("3_bsgs4")
 region = Rect2(36, 36, 36, 36)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_6wost"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_hewkr"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_hpldu")
+"texture": SubResource("AtlasTexture_bsgs4")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_go2ad")
+"texture": SubResource("AtlasTexture_ifmde")
 }],
 "loop": true,
 "name": &"idle_1",
@@ -35,10 +35,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qfn4b")
+"texture": SubResource("AtlasTexture_esugy")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_q3t6l")
+"texture": SubResource("AtlasTexture_icw6i")
 }],
 "loop": true,
 "name": &"idle_2",
@@ -50,7 +50,7 @@ script = ExtResource("2_bsgs4")
 
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_6wost")
+sprite_frames = SubResource("SpriteFrames_hewkr")
 animation = &"idle_2"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
@@ -64,6 +64,6 @@ metadata/_aseprite_wizard_config_ = {
 "only_visible": true,
 "should_round_fps": true,
 "slice": "",
-"source": "res://resources/sprites/plants/plant_sunflower.aseprite"
+"source": "res://resources/sprites/plants/plant_rose.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "60dcf21d58e6afd17f2cc3f83a618c78"
+metadata/_aseprite_wizard_source_file_hash_ = "20e12bed5537840017159abe844043e6"
