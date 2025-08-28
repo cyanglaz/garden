@@ -470,13 +470,6 @@ static func get_plant_icon_background_region(plant_data:PlantData, highlighted:b
 				assert(false, "Invalid rarity: " + str(plant_data.rarity))
 	return Vector2(x, y)
 
-static func get_tool_icon_background_region(_tool_data:ToolData, highlighted:bool = false) -> Vector2:
-	var x := 0
-	var y := 0
-	if highlighted:
-		y = 16
-	return Vector2(x, y)
-
 static func create_scaled_tween(binding_node:Node) -> Tween:
 	var tween:Tween = binding_node.create_tween()
 	tween.set_speed_scale(_get_game_speed_scale())

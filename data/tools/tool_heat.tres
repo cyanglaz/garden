@@ -34,7 +34,6 @@ actions = Array[ExtResource("1_cn5io")]([SubResource("Resource_cn5io"), SubResou
 rarity = 0
 specials = Array[int]([])
 need_select_field = true
-usage_type = 0
 id = "heat"
 display_name = "Heat"
 description = ""

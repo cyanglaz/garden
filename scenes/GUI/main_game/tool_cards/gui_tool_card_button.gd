@@ -60,12 +60,14 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 		_cost_icon.hide()
 	_title.text = tool_data.display_name
 	match tool_data.rarity:
-		0:
+		-1:
 			_background.region_rect.position.x = 0
-		1:
+		0:
 			_background.region_rect.position.x = 38	
-		2:
+		1:
 			_background.region_rect.position.x = 76
+		2:
+			_background.region_rect.position.x = 114
 	for special in tool_data.specials:
 		var special_icon := SPECIAL_ICON_SCENE.instantiate()
 		var special_id := Util.get_id_for_tool_speical(special)

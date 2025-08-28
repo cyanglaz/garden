@@ -13,6 +13,7 @@ enum Special {
 	USE_ON_DRAW,
 }
 
+
 @export var energy_cost:int = 1
 @export var actions:Array[ActionData]
 @export var rarity:int = 0
