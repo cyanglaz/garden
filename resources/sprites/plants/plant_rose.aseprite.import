@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://beojkprdd5hha"
+path="res://.godot/imported/plant_rose.aseprite-8958d070da1e221d0a5fc4681c7a7aff.res"
+
+[deps]
+
+source_file="res://resources/sprites/plants/plant_rose.aseprite"
+dest_files=["res://.godot/imported/plant_rose.aseprite-8958d070da1e221d0a5fc4681c7a7aff.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
