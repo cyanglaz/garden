@@ -10,7 +10,7 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 
 func _set_highlighted(val:bool) -> void:
 	super._set_highlighted(val)
-	gui_tool_card_button.highlighted = val
+	gui_tool_card_button.card_state = GUIToolCardButton.CardState.HIGHLIGHTED
 
 func _get_hover_sound() -> AudioStream:
 	return gui_tool_card_button._get_hover_sound()

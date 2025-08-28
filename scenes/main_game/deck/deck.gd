@@ -68,14 +68,13 @@ func discard(items:Array) -> void:
 		discard_pool.append(item)
 		if item == in_use_item:
 			in_use_item = null
-		elif hand.has(item):
+		if hand.has(item):
 			hand.erase(item)
 		else:
-			assert(false, "discarding item not in hand or in use: " + str(item))
+			assert(false, "discarding item not in hand" + str(item))
 	discard_pool_updated.emit(discard_pool)
 
 func use(item:Variant) -> void:
-	hand.erase(item)
 	in_use_item = item
 
 func add_item(item:Variant) -> void:

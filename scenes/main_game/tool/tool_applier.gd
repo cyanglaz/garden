@@ -65,7 +65,7 @@ func _handle_discard_card_action(action:ActionData, main_game:MainGame, tool_dat
 	var random := action.value_type == ActionData.ValueType.RANDOM
 	var discard_size := action.value
 	if random:
-		var tool_datas_to_discard:Array = main_game.tool_manager.tool_deck.hand.duplicate()
+		var tool_datas_to_discard:Array = main_game.tool_manager.discardable_cards()
 		tool_datas_to_discard.erase(tool_data)
 		if tool_datas_to_discard.is_empty():
 			return
