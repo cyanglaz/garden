@@ -1,17 +1,26 @@
 class_name ToolManager
 extends RefCounted
 
+const IN_USE_PAUSE := 0.2
+
 signal tool_application_started(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
+signal _discard_animation_completed(tool_datas:Array)
+signal _tool_applied(tool_data:ToolData)
 
 var tool_deck:Deck
 var selected_tool_index:int = -1
 var selected_tool:ToolData: get = _get_selected_tool
 
 var _tool_applier:ToolApplier = ToolApplier.new()
+var _applying_discard_tools := []
+var _applying_tools := []
+var _applying_started_tools := []
 
 func _init(initial_tools:Array) -> void:
 	tool_deck = Deck.new(initial_tools)
+	_discard_animation_completed.connect(_on_discard_animation_completed)
+	_tool_applied.connect(_on_tool_applied)
 
 func refresh_deck() -> void:
 	tool_deck.refresh()
@@ -42,20 +51,25 @@ func discard_cards(tools:Array, gui_tool_card_container:GUIToolCardContainer) ->
 	# Order is important, discard first, then animate
 	tool_deck.discard(tools)
 	await gui_tool_card_container.animate_discard(indices)
+	_discard_animation_completed.emit(tools)
 
 func select_tool(index:int) -> void:
 	selected_tool_index = index
 
-func apply_tool(main_game:MainGame, fields:Array, selected_index:int) -> void:
+func apply_tool(main_game:MainGame, fields:Array, selected_index:int, gui_tool_card_container:GUIToolCardContainer) -> void:
 	var applying_tool = selected_tool
+	_applying_started_tools.append(applying_tool)
 	tool_deck.use(applying_tool)
+	gui_tool_card_container.get_card(selected_tool_index).card_state = GUIToolCardButton.CardState.IN_USE
 	tool_application_started.emit(applying_tool)
 	await main_game.field_container.trigger_tool_application_hook()
+	_applying_discard_tools.append(applying_tool)
+	_applying_tools.append(applying_tool)
 	if !applying_tool.need_select_field:
-		await _tool_applier.apply_tool(main_game, [], -1, applying_tool)
-		tool_application_completed.emit(applying_tool)
+		_apply_non_field_tool(main_game, applying_tool)
 	else:
-		await _apply_tool_to_field(main_game, applying_tool, fields, selected_index)
+		_apply_tool_to_field(main_game, applying_tool, fields, selected_index)
+	discard_cards([applying_tool], gui_tool_card_container)
 
 func discardable_cards() -> Array:
 	return tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return !tool_data.need_select_field)
@@ -66,11 +80,32 @@ func add_tool(tool_data:ToolData) -> void:
 func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)
 
+func _apply_non_field_tool(main_game:MainGame, applying_tool:ToolData) -> void:
+	await _tool_applier.apply_tool(main_game, [], -1, applying_tool)
+	_tool_applied.emit(applying_tool)
+
 func _apply_tool_to_field(main_game:MainGame, applying_tool:ToolData, fields:Array, selected_index:int) -> void:
 	await _tool_applier.apply_tool(main_game, fields, selected_index, applying_tool)
-	tool_application_completed.emit(applying_tool)
+	_tool_applied.emit(applying_tool)
 
 func _get_selected_tool() -> ToolData:
 	if selected_tool_index < 0:
 		return null
 	return tool_deck.get_item(selected_tool_index)
+
+func _on_discard_animation_completed(tool_datas:Array) -> void:
+	if tool_datas.size() != 1:
+		# This only handles when the discarding is from applying card
+		# Multiple card discarding is ignored
+		return
+	var tool_data:ToolData = tool_datas.front()
+	_applying_discard_tools.erase(tool_data)
+	if !_applying_tools.has(tool_data) && !_applying_discard_tools.has(tool_data) && _applying_started_tools.has(tool_data):
+		_applying_started_tools.erase(tool_data)
+		tool_application_completed.emit()
+
+func _on_tool_applied(tool_data:ToolData) -> void:
+	_applying_tools.erase(tool_data)
+	if !_applying_tools.has(tool_data) && !_applying_discard_tools.has(tool_data) && _applying_started_tools.has(tool_data):
+		_applying_started_tools.erase(tool_data)
+		tool_application_completed.emit()

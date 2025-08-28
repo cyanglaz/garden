@@ -28,6 +28,8 @@ signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantDat
 @onready var _gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
 @onready var _gui_enemy: GUIEnemy = %GUIEnemy
 
+var _toggle_ui_semaphore := 0
+
 func _ready() -> void:
 	_gui_tool_cards_viewer.hide()
 	gui_tool_card_container.tool_selected.connect(func(index:int) -> void: tool_selected.emit(index))
@@ -54,9 +56,19 @@ func update_with_plants(plants:Array[PlantData]) -> void:
 
 #region all ui
 func toggle_all_ui(on:bool) -> void:
-	_gui_top_bar.toggle_all_ui(on)
-	gui_tool_card_container.toggle_all_tool_cards(on)
 	if on:
+		_toggle_ui_semaphore -= 1
+	else:
+		_toggle_ui_semaphore += 1
+	assert(_toggle_ui_semaphore >= 0)
+	var toggle_on := false
+	if _toggle_ui_semaphore > 0:
+		toggle_on = false
+	else:
+		toggle_on = true
+	_gui_top_bar.toggle_all_ui(toggle_on)
+	gui_tool_card_container.toggle_all_tool_cards(toggle_on)
+	if toggle_on:
 		_end_turn_button.button_state = GUIBasicButton.ButtonState.NORMAL
 	else:
 		_end_turn_button.button_state = GUIBasicButton.ButtonState.DISABLED
