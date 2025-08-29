@@ -1,8 +1,6 @@
 class_name GUIShopMain
 extends Control
 
-const ANIMATING_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
-
 const HIDE_Y := 200
 const SHOW_ANIMATION_DURATION := 0.15
 const HIDE_ANIMATION_DURATION := 0.15
@@ -11,6 +9,7 @@ const ADD_CARD_TO_PILE_ANIMATION_TIME := 0.3
 signal tool_shop_button_pressed(tool_data:ToolData)
 signal next_week_button_pressed()
 
+const ANIMATING_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const TOOL_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/main_game/shop/shop_buttons/gui_tool_shop_button.tscn")
 
 @onready var tool_container: HBoxContainer = %ToolContainer
