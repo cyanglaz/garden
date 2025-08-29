@@ -1,9 +1,12 @@
 class_name GUIShopMain
 extends Control
 
+const ANIMATING_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
+
 const HIDE_Y := 200
 const SHOW_ANIMATION_DURATION := 0.15
 const HIDE_ANIMATION_DURATION := 0.15
+const ADD_CARD_TO_PILE_ANIMATION_TIME := 0.3
 
 signal tool_shop_button_pressed(tool_data:ToolData)
 signal next_week_button_pressed()
@@ -18,6 +21,9 @@ const TOOL_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/main_game/shop/shop_bu
 
 var _weak_tooltip:WeakRef = weakref(null)
 
+var _full_deck_button:GUIDeckButton: get = _get_full_deck_button
+var _weak_full_deck_button:WeakRef = weakref(null)
+
 var _display_y := 0.0
 var _weak_insufficient_gold_tooltip:WeakRef = weakref(null)
 
@@ -26,6 +32,9 @@ func _ready() -> void:
 	_next_week_button.action_evoked.connect(_on_next_week_button_action_evoked)
 	_title.text = Util.get_localized_string("SHOP_TITLE")
 	_sub_title.text = Util.get_localized_string("SHOP_SUBTITLE")
+
+func setup(full_deck_button:GUIDeckButton) -> void:
+	_weak_full_deck_button = weakref(full_deck_button)
 
 func animate_show(number_of_tools:int, gold:int) -> void:
 	show()
@@ -66,15 +75,34 @@ func animate_hide() -> void:
 	await tween.finished
 	hide()
 
+func _animate_add_card_to_deck(gui_shop_button:GUIShopButton, tool_data:ToolData) -> void:
+	var from_global_position:Vector2 = gui_shop_button.global_position
+	var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
+	add_child(animating_card)
+	animating_card.update_with_tool_data(tool_data)
+	animating_card.global_position = from_global_position
+	animating_card.play_move_sound()
+	Util.create_scaled_timer(ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25).timeout.connect(func(): animating_card.animation_mode = true)
+	var tween := Util.create_scaled_tween(self)
+	tween.set_parallel(true)
+	tween.tween_property(animating_card, "global_position", _full_deck_button.global_position, ADD_CARD_TO_PILE_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(animating_card, "size", _full_deck_button.size, ADD_CARD_TO_PILE_ANIMATION_TIME * 0.75).set_delay(ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	await tween.finished
+	animating_card.queue_free()
+
 func _clear_insufficient_gold_tooltip() -> void:
 	if _weak_insufficient_gold_tooltip.get_ref():
 		_weak_insufficient_gold_tooltip.get_ref().queue_free()
 		_weak_insufficient_gold_tooltip = weakref(null)
 
+func _get_full_deck_button() -> GUIDeckButton:
+	return _weak_full_deck_button.get_ref()
+
 func _on_tool_shop_button_action_evoked(gui_shop_button:GUIShopButton, tool_data:ToolData) -> void:
 	_clear_insufficient_gold_tooltip()
 	if gui_shop_button.sufficient_gold:
-		tool_shop_button_pressed.emit(tool_data)
+		tool_shop_button_pressed.emit(tool_data, gui_shop_button.global_position)
+		_animate_add_card_to_deck(gui_shop_button, tool_data)
 		gui_shop_button.queue_free()
 	else:
 		_weak_insufficient_gold_tooltip = weakref(Util.display_warning_tooltip(tr("WARNING_INSUFFICIENT_GOLD"), gui_shop_button, false, GUITooltip.TooltipPosition.TOP))

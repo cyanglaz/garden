@@ -6,8 +6,8 @@ const DRAW_ANIMATION_TIME := 0.3
 const DISCARD_ANIMATION_TIME := 0.3
 const CARD_MIN_SCALE := 0.8
 const MAX_SHUFFLE_CARDS := 5
-const ADD_CARD_TO_DRAW_PILE_ANIMATION_TIME := 0.5
-const ADD_CARD_TO_DRAW_PILE_PAUSE_TIME := 0.15
+const ADD_CARD_TO_PILE_ANIMATION_TIME := 0.5
+const ADD_CARD_TO_PILE_PAUSE_TIME := 0.15
 
 signal _animation_queue_item_finished(finished_item:AnimationQueueItem)
 
@@ -138,13 +138,13 @@ func _animate_add_card_to_draw_pile(animation_item:AnimationQueueItem) -> void:
 	animating_card.update_with_tool_data(tool_data)
 	animating_card.global_position = from_global_position - GUIToolCardButton.SIZE / 2
 	if pause:
-		await Util.create_scaled_timer(ADD_CARD_TO_DRAW_PILE_PAUSE_TIME).timeout
+		await Util.create_scaled_timer(ADD_CARD_TO_PILE_PAUSE_TIME).timeout
 	animating_card.play_move_sound()
-	Util.create_scaled_timer(ADD_CARD_TO_DRAW_PILE_ANIMATION_TIME * 0.25).timeout.connect(func(): animating_card.animation_mode = true)
+	Util.create_scaled_timer(ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25).timeout.connect(func(): animating_card.animation_mode = true)
 	var tween := Util.create_scaled_tween(self)
 	tween.set_parallel(true)
-	tween.tween_property(animating_card, "global_position", _draw_deck_button.global_position, ADD_CARD_TO_DRAW_PILE_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(animating_card, "size", _draw_deck_button.size, ADD_CARD_TO_DRAW_PILE_ANIMATION_TIME * 0.75).set_delay(ADD_CARD_TO_DRAW_PILE_ANIMATION_TIME * 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(animating_card, "global_position", _draw_deck_button.global_position, ADD_CARD_TO_PILE_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(animating_card, "size", _draw_deck_button.size, ADD_CARD_TO_PILE_ANIMATION_TIME * 0.75).set_delay(ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	await tween.finished
 	animating_card.queue_free()
 	_animation_queue_item_finished.emit(animation_item)
@@ -202,7 +202,7 @@ class AnimationQueueItem:
 	enum AnimationType {
 		ANIMATE_DRAW,
 		ANIMATE_DISCARD,
-		ANIMATE_ADD_CARD_TO_DRAW_PILE
+		ANIMATE_ADD_CARD_TO_DRAW_PILE,
 	}
 
 	var animation_type:AnimationType

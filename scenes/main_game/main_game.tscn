@@ -6,13 +6,14 @@
 [ext_resource type="PackedScene" uid="uid://drjaux1gtvc31" path="res://scenes/utils/camera/feedback_camera_2d.tscn" id="2_yra6k"]
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="3_mijjq"]
-[ext_resource type="Resource" uid="uid://dr13xwnk1wtam" path="res://data/tools/tool_sunlight.tres" id="4_mijjq"]
+[ext_resource type="Resource" uid="uid://dr13xwnk1wtam" path="res://data/tools/purchasable/tool_sunlight.tres" id="4_mijjq"]
 [ext_resource type="Resource" uid="uid://r34vkggwq6bf" path="res://data/levels/test_level.tres" id="7_r81kp"]
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 player = ExtResource("2_8ywsm")
 test_tools = Array[ExtResource("3_mijjq")]([ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq")])
+test_number_of_fields = null
 level_data = ExtResource("7_r81kp")
 
 [node name="FieldContainer" parent="." instance=ExtResource("1_075iw")]

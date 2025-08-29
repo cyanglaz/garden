@@ -39,6 +39,7 @@ func _ready() -> void:
 	gui_week_summary_main.continue_button_pressed.connect(func() -> void: week_summary_continue_button_pressed.emit())
 	gui_week_summary_main.gold_increased.connect(func(gold:int) -> void: gold_increased.emit(gold))
 	gui_plant_seed_animation_container.draw_plant_card_completed.connect(func(field_index:int, plant_data:PlantData) -> void: plant_seed_drawn_animation_completed.emit(field_index, plant_data))
+	gui_shop_main.setup(_gui_top_bar.gui_full_deck_button)
 
 #region level
 
