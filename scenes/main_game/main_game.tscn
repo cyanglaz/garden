@@ -12,7 +12,7 @@
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 player = ExtResource("2_8ywsm")
-test_tools = Array[ExtResource("3_mijjq")]([ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq")])
+test_tools = Array[ExtResource("3_mijjq")]([ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq")])
 level_data = ExtResource("7_r81kp")
 
 [node name="FieldContainer" parent="." instance=ExtResource("1_075iw")]

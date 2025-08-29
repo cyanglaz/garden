@@ -90,6 +90,9 @@ func animate_shuffle(number_of_cards:int) -> void:
 func animate_use_card(index:int) -> void:
 	await _gui_tool_card_animation_container.animate_use_card(index)
 
+func animate_add_card_to_draw_pile(tool_data:ToolData, from_global_position:Vector2, pause:bool) -> void:
+	await _gui_tool_card_animation_container.animate_add_card_to_draw_pile(tool_data, from_global_position, pause)
+
 #endregion
 
 func get_card(index:int) -> GUIToolCardButton:

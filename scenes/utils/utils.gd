@@ -324,7 +324,6 @@ static func get_id_for_tool_speical(special:ToolData.Special) -> String:
 			id = "use_on_draw"
 	return id
 
-
 static func get_id_for_action_speical(special:ActionData.Special) -> String:
 	var id := ""
 	match special:

@@ -52,9 +52,9 @@ func _ready() -> void:
 		#test_tools.append_array(test_tools)
 		
 		#tool signals
-		tool_manager = ToolManager.new(test_tools)
+		tool_manager = ToolManager.new(test_tools, gui_main_game.gui_tool_card_container)
 	else:
-		tool_manager = ToolManager.new(player.initial_tools)
+		tool_manager = ToolManager.new(player.initial_tools, gui_main_game.gui_tool_card_container)
 		
 	tool_manager.tool_application_started.connect(_on_tool_application_started)
 	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
@@ -112,7 +112,7 @@ func add_control_to_overlay(control:Control) -> void:
 	gui_main_game.add_control_to_overlay(control)
 
 func draw_cards(count:int) -> void:
-	var draw_results:Array = await tool_manager.draw_cards(count, gui_main_game.gui_tool_card_container)
+	var draw_results:Array = await tool_manager.draw_cards(count)
 	for tool_data:ToolData in draw_results:
 		if tool_data.specials.has(ToolData.Special.USE_ON_DRAW):
 			var index:int = tool_manager.tool_deck.hand.find(tool_data)
@@ -120,7 +120,7 @@ func draw_cards(count:int) -> void:
 			await _apply_instant_tool()
 
 func discard_cards(tools:Array) -> void:
-	await tool_manager.discard_cards(tools, gui_main_game.gui_tool_card_container)
+	await tool_manager.discard_cards(tools)
 
 #region private
 
@@ -176,7 +176,7 @@ func _on_week_summary_continue_button_pressed() -> void:
 func _discard_all_tools() -> void:
 	if tool_manager.tool_deck.hand.is_empty():
 		return
-	await tool_manager.discard_cards(tool_manager.tool_deck.hand.duplicate(), gui_main_game.gui_tool_card_container)
+	await tool_manager.discard_cards(tool_manager.tool_deck.hand.duplicate())
 
 func _clear_tool_selection() -> void:
 	tool_manager.select_tool(-1)
@@ -195,7 +195,7 @@ func _handle_select_tool(index:int) -> void:
 
 func _apply_instant_tool() -> void:
 	await Util.create_scaled_timer(INSTANT_CARD_USE_DELAY).timeout
-	await tool_manager.apply_tool(self, field_container.fields, 0, gui_main_game.gui_tool_card_container)
+	await tool_manager.apply_tool(self, field_container.fields, 0)
 
 #endregion
 
@@ -270,7 +270,7 @@ func _on_field_hovered(hovered:bool, index:int) -> void:
 func _on_field_pressed(index:int) -> void:
 	if !tool_manager.selected_tool:
 		return
-	await tool_manager.apply_tool(self, field_container.fields, index, gui_main_game.gui_tool_card_container)
+	await tool_manager.apply_tool(self, field_container.fields, index)
 
 func _on_plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData) -> void:
 	field_container.fields[field_index].plant_seed(plant_data)
