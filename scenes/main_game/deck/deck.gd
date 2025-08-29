@@ -29,7 +29,6 @@ func refresh() -> void:
 	hand.clear()
 
 func shuffle_draw_pool() -> void:
-	assert(draw_pool.size() + discard_pool.size() + hand.size()== pool.size())
 	draw_pool.append_array(discard_pool.duplicate())
 	draw_pool.shuffle()
 	draw_pool_updated.emit(draw_pool)
@@ -80,6 +79,14 @@ func use(item:Variant) -> void:
 func add_item(item:Variant) -> void:
 	pool.append(item)
 	pool_updated.emit(pool)
+
+func add_temp_item_to_draw_pile(item:Variant, random_place:bool = true) -> void:
+	pool.append(item)
+	if random_place && draw_pool.size() > 0:
+		draw_pool.insert(randi() % draw_pool.size(), item)
+	else:
+		draw_pool.insert(0, item)
+	draw_pool_updated.emit(draw_pool)
 
 func remove_item(item:Variant) -> void:
 	pool.erase(item)

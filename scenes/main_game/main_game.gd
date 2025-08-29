@@ -128,7 +128,7 @@ func _update_gold(gold:int, animated:bool) -> void:
 	_gold = gold
 	await gui_main_game.update_gold(_gold, animated)
 
-func _met_win_conditon() -> bool:
+func _met_win_condition() -> bool:
 	return !field_container.has_plants() && !plant_seed_manager.has_more_plants()
 	
 func _win() -> void:
@@ -160,7 +160,7 @@ func _end_day() -> void:
 	gui_main_game.toggle_all_ui(true)
 	field_container.handle_turn_end()
 	if week_manager.day_manager.get_day_left() == 0:
-		if _met_win_conditon():	
+		if _met_win_condition():	
 			return #Win condition has been met at the end of the day, _harvest will take care of win
 		else:
 			_lose()
@@ -210,7 +210,7 @@ func _harvest() -> bool:
 	field_container.harvest_all_fields()
 	await _all_field_harvested
 	await plant_seed_manager.finish_plants(field_indices_to_harvest, harvestable_plant_datas, gui_main_game.gui_plant_seed_animation_container)
-	if _met_win_conditon():
+	if _met_win_condition():
 		await _win()
 		return true
 	else:
@@ -250,7 +250,8 @@ func _on_end_turn_button_pressed() -> void:
 	
 #region field events
 func _on_field_harvest_started() -> void:
-	gui_main_game.toggle_all_ui(false)
+	pass
+	#gui_main_game.toggle_all_ui(false)
 
 func _on_field_harvest_completed(index:int) -> void:
 	var field:Field = field_container.fields[index]
@@ -284,7 +285,7 @@ func _on_shop_next_week_pressed() -> void:
 
 func _on_tool_shop_button_pressed(tool_data:ToolData) -> void:
 	_update_gold(_gold - tool_data.cost, true)
-	tool_manager.add_tool(tool_data)
+	tool_manager.add_tool_to_deck(tool_data)
 
 #region week summary events
 func _on_week_summary_gold_increased(gold:int) -> void:

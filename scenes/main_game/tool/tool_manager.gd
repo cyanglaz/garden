@@ -72,10 +72,13 @@ func apply_tool(main_game:MainGame, fields:Array, selected_index:int, gui_tool_c
 	discard_cards([applying_tool], gui_tool_card_container)
 
 func discardable_cards() -> Array:
-	return tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return !tool_data.need_select_field)
+	return tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return tool_data != selected_tool)
 
-func add_tool(tool_data:ToolData) -> void:
+func add_tool_to_deck(tool_data:ToolData) -> void:
 	tool_deck.add_item(tool_data)
+
+func add_tool_to_draw_pile(tool_data:ToolData, random_place:bool) -> void:
+	tool_deck.add_temp_item_to_draw_pile(tool_data, random_place)
 
 func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)
