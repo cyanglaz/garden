@@ -77,7 +77,6 @@ func _ready() -> void:
 	energy_tracker.can_be_capped = false
 	start_new_week()
 	_update_gold(50, false)
-	gui_main_game.animate_show_shop(3, _gold)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("de-select"):
@@ -284,9 +283,9 @@ func _on_weathers_updated() -> void:
 func _on_shop_next_week_pressed() -> void:
 	start_new_week()
 
-func _on_tool_shop_button_pressed(tool_data:ToolData, card_positions:Vector2) -> void:
+func _on_tool_shop_button_pressed(tool_data:ToolData) -> void:
 	_update_gold(_gold - tool_data.cost, true)
-	await tool_manager.add_tool_to_deck(tool_data)
+	tool_manager.add_tool_to_deck(tool_data)
 
 #region week summary events
 func _on_week_summary_gold_increased(gold:int) -> void:

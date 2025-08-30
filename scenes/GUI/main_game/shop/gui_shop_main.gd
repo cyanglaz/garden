@@ -100,7 +100,7 @@ func _get_full_deck_button() -> GUIDeckButton:
 func _on_tool_shop_button_action_evoked(gui_shop_button:GUIShopButton, tool_data:ToolData) -> void:
 	_clear_insufficient_gold_tooltip()
 	if gui_shop_button.sufficient_gold:
-		tool_shop_button_pressed.emit(tool_data, gui_shop_button.global_position)
+		tool_shop_button_pressed.emit(tool_data)
 		_animate_add_card_to_deck(gui_shop_button, tool_data)
 		gui_shop_button.queue_free()
 	else:

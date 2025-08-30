@@ -271,7 +271,7 @@ static func get_all_file_paths(path: String, recursive:bool = true) -> Array[Str
 	while file_name != "":  
 		if file_name.ends_with(".remap"):
 			file_name = file_name.replace(".remap", "")
-		var file_path = path + "/" + file_name  
+		var file_path = path + "/" + file_name 
 		if recursive && dir.current_is_dir():  
 			file_paths += get_all_file_paths(file_path, recursive)  
 		else:  
