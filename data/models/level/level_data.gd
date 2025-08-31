@@ -11,6 +11,7 @@ enum Type {
 @export var type:Type
 @export var appearance:Array[String]
 @export var plants:Array[PlantData]
+@export var shuffle_plants:bool = false
 @export var weathers:Array[WeatherData]
 @export var number_of_days:int
 
@@ -22,6 +23,7 @@ func copy(other:ThingData) -> void:
 	type = other_level.type
 	appearance = other_level.appearance.duplicate()
 	plants = other_level.plants.duplicate()
+	shuffle_plants = other_level.shuffle_plants
 	weathers = other_level.weathers.duplicate()
 	number_of_days = other_level.number_of_days
 	

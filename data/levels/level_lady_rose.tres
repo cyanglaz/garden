@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=7 format=3 uid="uid://beaehexsm0mll"]
+
+[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_xtkft"]
+[ext_resource type="Resource" uid="uid://cf678cnphhouf" path="res://data/plants/plant_data_daisy.tres" id="2_gvysm"]
+[ext_resource type="Resource" uid="uid://hsjy22n36v8s" path="res://data/plants/plant_data_rose.tres" id="2_xtkft"]
+[ext_resource type="Script" uid="uid://bt7c5hiesqa06" path="res://data/models/level/level_data.gd" id="3_6cv43"]
+[ext_resource type="Script" uid="uid://g4t52w546b5k" path="res://data/models/weather/weather_data.gd" id="4_3kdyu"]
+[ext_resource type="Resource" uid="uid://cbvas0c5a6cc7" path="res://data/weathers/weather_sunny.tres" id="5_ief7o"]
+
+[resource]
+script = ExtResource("3_6cv43")
+type = 1
+appearance = Array[String](["03"])
+plants = Array[ExtResource("1_xtkft")]([ExtResource("2_xtkft"), ExtResource("2_gvysm"), ExtResource("2_xtkft"), ExtResource("2_gvysm")])
+shuffle_plants = true
+weathers = Array[ExtResource("4_3kdyu")]([ExtResource("5_ief7o")])
+number_of_days = 7
+id = "lady_rose"
+display_name = "Lady Hawthorne"
+description = ""
+data = {}
+metadata/_custom_type_script = "uid://bt7c5hiesqa06"
