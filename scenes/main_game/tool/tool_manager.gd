@@ -64,6 +64,7 @@ func apply_tool(main_game:MainGame, fields:Array, selected_index:int) -> void:
 	_applying_started_tools.append(applying_tool)
 	tool_deck.use(applying_tool)
 	_gui_tool_card_container.get_card(selected_tool_index).card_state = GUIToolCardButton.CardState.IN_USE
+	_gui_tool_card_container.get_card(selected_tool_index).play_use_sound()
 	tool_application_started.emit(applying_tool)
 	await main_game.field_container.trigger_tool_application_hook()
 	_applying_discard_tools.append(applying_tool)
