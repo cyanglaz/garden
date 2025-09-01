@@ -9,6 +9,7 @@ var pool:Array
 var draw_pool:Array
 var hand:Array
 var discard_pool:Array
+var in_use_item:Variant = null
 
 func _init(initial_items:Array) -> void:
 	for item_data:Variant in initial_items:
@@ -28,7 +29,6 @@ func refresh() -> void:
 	hand.clear()
 
 func shuffle_draw_pool() -> void:
-	assert(draw_pool.size() + discard_pool.size() + hand.size()== pool.size())
 	draw_pool.append_array(discard_pool.duplicate())
 	draw_pool.shuffle()
 	draw_pool_updated.emit(draw_pool)
@@ -65,12 +65,28 @@ func discard(items:Array) -> void:
 	# Removing from largest index to smallest index to avoid index change during removal.
 	for item:Variant in items:
 		discard_pool.append(item)
-		hand.erase(item)
+		if item == in_use_item:
+			in_use_item = null
+		if hand.has(item):
+			hand.erase(item)
+		else:
+			assert(false, "discarding item not in hand" + str(item))
 	discard_pool_updated.emit(discard_pool)
+
+func use(item:Variant) -> void:
+	in_use_item = item
 
 func add_item(item:Variant) -> void:
 	pool.append(item)
 	pool_updated.emit(pool)
+
+func add_temp_item_to_draw_pile(item:Variant, random_place:bool = true) -> void:
+	pool.append(item)
+	if random_place && draw_pool.size() > 0:
+		draw_pool.insert(randi() % draw_pool.size(), item)
+	else:
+		draw_pool.insert(0, item)
+	draw_pool_updated.emit(draw_pool)
 
 func remove_item(item:Variant) -> void:
 	pool.erase(item)

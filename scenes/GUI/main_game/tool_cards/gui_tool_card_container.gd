@@ -40,8 +40,9 @@ func clear_selection() -> void:
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
 		gui_card.mouse_disabled = false
-		gui_card.selected = false
-		gui_card.highlighted = false
+		if gui_card.card_state == GUIToolCardButton.CardState.IN_USE:
+			continue
+		gui_card.card_state = GUIToolCardButton.CardState.NORMAL
 	_selected_index = -1
 	_clear_warning_tooltip()
 
@@ -80,8 +81,20 @@ func animate_draw(draw_results:Array) -> void:
 func animate_discard(discarding_indices:Array) -> void:
 	await _gui_tool_card_animation_container.animate_discard(discarding_indices)
 
+func animate_discard_using_card() -> void:
+	await _gui_tool_card_animation_container.animate_discard_using_card()
+
 func animate_shuffle(number_of_cards:int) -> void:
 	await _gui_tool_card_animation_container.animate_shuffle(number_of_cards)
+
+func animate_use_card(index:int) -> void:
+	await _gui_tool_card_animation_container.animate_use_card(index)
+
+func animate_add_card_to_draw_pile(tool_data:ToolData, from_global_position:Vector2, pause:bool) -> void:
+	await _gui_tool_card_animation_container.animate_add_card_to_draw_pile(tool_data, from_global_position, pause)
+
+func animate_add_card_to_deck(tool_data:ToolData, from_global_position:Vector2) -> void:
+	await _gui_tool_card_animation_container.animate_add_card_to_deck(tool_data, from_global_position)
 
 #endregion
 
@@ -152,10 +165,9 @@ func _on_tool_card_pressed(index:int) -> void:
 		for i in _container.get_children().size():	
 			var gui_card = _container.get_child(i)
 			if i == index:
-				gui_card.selected = true
+				gui_card.card_state = GUIToolCardButton.CardState.SELECTED
 			else:
-				gui_card.selected = false
-				gui_card.highlighted = false
+				gui_card.card_state = GUIToolCardButton.CardState.NORMAL
 		tool_selected.emit(index)
 	else:
 		_weak_insufficient_energy_tooltip = weakref(Util.display_warning_tooltip(tr("WARNING_INSUFFICIENT_ENERGY"), selected_card, false, GUITooltip.TooltipPosition.TOP))
@@ -165,7 +177,8 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 	var mouse_over_card = _container.get_child(index)
 	if !is_instance_valid(mouse_over_card):
 		return
-	mouse_over_card.highlighted = true
+	if mouse_over_card.card_state == GUIToolCardButton.CardState.NORMAL:
+		mouse_over_card.card_state = GUIToolCardButton.CardState.HIGHLIGHTED
 	if _selected_index >= 0:
 		return
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
@@ -197,7 +210,8 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 	var mouse_exit_card = _container.get_child(index)
 	if !is_instance_valid(mouse_exit_card):
 		return
-	mouse_exit_card.highlighted = false
+	if mouse_exit_card.card_state == GUIToolCardButton.CardState.HIGHLIGHTED:
+		mouse_exit_card.card_state = GUIToolCardButton.CardState.NORMAL
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)

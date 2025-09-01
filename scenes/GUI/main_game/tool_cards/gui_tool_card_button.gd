@@ -1,11 +1,19 @@
 class_name GUIToolCardButton
 extends GUIBasicButton
 
+enum CardState {
+	NORMAL,
+	HIGHLIGHTED,
+	SELECTED,
+	IN_USE,
+}
+
 const SPECIAL_ICON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_special_icon.tscn")
 const VALUE_ICON_PREFIX := "res://resources/sprites/GUI/icons/cards/values/icon_"
 
 const SIZE := Vector2(38, 52)
 const SELECTED_OFFSET := 6.0
+const IN_USE_OFFSET := 10.0
 const HIGHLIGHTED_OFFSET := 1.0
 const TOOLTIP_DELAY := 0.2
 const CARD_HOVER_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_hover.wav")
@@ -17,14 +25,14 @@ const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/
 @onready var _title: Label = %Title
 @onready var _highlight_border: NinePatchRect = %HighlightBorder
 @onready var _card_content: VBoxContainer = %CardContent
-@onready var _specials_container: HBoxContainer = %SpecialsContainer
+@onready var _specials_container: VBoxContainer = %SpecialsContainer
 @onready var _cost_icon: TextureRect = %CostIcon
 @onready var _rich_text_label: RichTextLabel = %RichTextLabel
+@onready var _use_sound: AudioStreamPlayer2D = %UseSound
 
 var mouse_disabled:bool = false: set = _set_mouse_disabled
 var activated := false: set = _set_activated
-var selected := false: set = _set_selected
-var highlighted := false: set = _set_highlighted
+var card_state:CardState = CardState.NORMAL: set = _set_card_state
 var resource_sufficient := false: set = _set_resourcet_sufficient
 var animation_mode := false : set = _set_animation_mode
 var display_mode := false
@@ -47,15 +55,20 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 		_rich_text_label.text = tool_data.get_display_description()
 	else:
 		_gui_action_list.update(tool_data.actions)
-	_cost_icon.texture = load(VALUE_ICON_PREFIX + str(tool_data.energy_cost) + ".png")
+	if tool_data.energy_cost >= 0:
+		_cost_icon.texture = load(VALUE_ICON_PREFIX + str(tool_data.energy_cost) + ".png")
+	else:
+		_cost_icon.hide()
 	_title.text = tool_data.display_name
 	match tool_data.rarity:
-		0:
+		-1:
 			_background.region_rect.position.x = 0
-		1:
+		0:
 			_background.region_rect.position.x = 38	
-		2:
+		1:
 			_background.region_rect.position.x = 76
+		2:
+			_background.region_rect.position.x = 114
 	for special in tool_data.specials:
 		var special_icon := SPECIAL_ICON_SCENE.instantiate()
 		var special_id := Util.get_id_for_tool_speical(special)
@@ -64,6 +77,9 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 
 func play_move_sound() -> void:
 	_sound_hover.play()
+
+func play_use_sound() -> void:
+	_use_sound.play()
 
 func _update_for_energy(energy:int) -> void:
 	if !_tool_data:
@@ -120,29 +136,25 @@ func _set_animation_mode(value:bool) -> void:
 	if value:
 		custom_minimum_size = Vector2.ZERO
 		#_card_margin_container.custom_minimum_size = Vector2.ZERO
-		selected = false
-		highlighted = false
+		card_state = CardState.NORMAL
 	else:
 		custom_minimum_size = SIZE
 
-func _set_selected(value:bool) -> void:
-	selected = value
-	if value:
-		_container_offset = SELECTED_OFFSET
-		_highlight_border.show()
-	else:
-		_set_highlighted(highlighted)
-
-func _set_highlighted(value:bool) -> void:
-	highlighted = value
-	if selected:
-		return
-	if value:
-		_highlight_border.show()
-		_container_offset = HIGHLIGHTED_OFFSET
-	else:
-		_highlight_border.hide()
-		_container_offset = 0.0
+func _set_card_state(value:CardState) -> void:
+	card_state = value
+	match value:
+		CardState.NORMAL:
+			_container_offset = 0.0
+			_highlight_border.hide()
+		CardState.SELECTED:
+			_container_offset = SELECTED_OFFSET
+			_highlight_border.show()
+		CardState.HIGHLIGHTED:
+			_container_offset = HIGHLIGHTED_OFFSET
+			_highlight_border.show()
+		CardState.IN_USE:
+			_container_offset = IN_USE_OFFSET
+			_highlight_border.show()
 
 func _set_container_offset(offset:float) -> void:
 	_container_offset = offset

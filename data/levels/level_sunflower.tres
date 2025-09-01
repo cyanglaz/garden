@@ -13,6 +13,7 @@ script = ExtResource("3_sbfa0")
 type = 0
 appearance = Array[String](["01", "02"])
 plants = Array[ExtResource("1_y8kyj")]([ExtResource("2_mtv0x"), ExtResource("2_mtv0x"), ExtResource("3_mtv0x"), ExtResource("3_mtv0x")])
+shuffle_plants = true
 weathers = Array[ExtResource("4_6vmld")]([ExtResource("5_l84wb"), ExtResource("6_o877g")])
 number_of_days = 6
 id = ""

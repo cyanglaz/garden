@@ -19,13 +19,24 @@ func update_with_action_data(action_data:ActionData) -> void:
 	title_label.text = _get_action_name(action_data)
 	rich_text_label.text = _get_action_description(action_data)
 
-func _get_special_name(_special:ToolData.Special) -> String:
+func _get_special_name(special:ToolData.Special) -> String:
 	var special_name := ""
+	match special:
+		ToolData.Special.USE_ON_DRAW:
+			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_ON_DRAW")
+		_:
+			assert(false, "Invalid special: %s" % special)
 	return special_name
 
-func _get_special_description(_special:ToolData.Special) -> String:
+func _get_special_description(special:ToolData.Special) -> String:
 	var special_description := ""
-	special_description += "."
+	match special:
+		ToolData.Special.USE_ON_DRAW:
+			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_ON_DRAW")
+		_:
+			assert(false, "Invalid special: %s" % special)
+	if !special_description.ends_with("."):
+		special_description += "."
 	return special_description
 
 func _get_action_name(action_data:ActionData) -> String:

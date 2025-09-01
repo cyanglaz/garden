@@ -12,3 +12,4 @@ func _trigger_ability(ability_type:AbilityType, main_game:MainGame) -> void:
 		action_data.type = ActionData.ActionType.LIGHT
 		action_data.value = data.data["light"] as int
 		await field.apply_actions([action_data])
+		ability_triggered.emit(ability_type)

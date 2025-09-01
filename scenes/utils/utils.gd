@@ -271,7 +271,7 @@ static func get_all_file_paths(path: String, recursive:bool = true) -> Array[Str
 	while file_name != "":  
 		if file_name.ends_with(".remap"):
 			file_name = file_name.replace(".remap", "")
-		var file_path = path + "/" + file_name  
+		var file_path = path + "/" + file_name 
 		if recursive && dir.current_is_dir():  
 			file_paths += get_all_file_paths(file_path, recursive)  
 		else:  
@@ -320,11 +320,9 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 static func get_id_for_tool_speical(special:ToolData.Special) -> String:
 	var id := ""
 	match special:
-		ToolData.Special.NONE:
-			assert(false, "special not valid")
-			id = "none"
+		ToolData.Special.USE_ON_DRAW:
+			id = "use_on_draw"
 	return id
-
 
 static func get_id_for_action_speical(special:ActionData.Special) -> String:
 	var id := ""
@@ -469,13 +467,6 @@ static func get_plant_icon_background_region(plant_data:PlantData, highlighted:b
 				x = 48
 			_:
 				assert(false, "Invalid rarity: " + str(plant_data.rarity))
-	return Vector2(x, y)
-
-static func get_tool_icon_background_region(_tool_data:ToolData, highlighted:bool = false) -> Vector2:
-	var x := 0
-	var y := 0
-	if highlighted:
-		y = 16
 	return Vector2(x, y)
 
 static func create_scaled_tween(binding_node:Node) -> Tween:

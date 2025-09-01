@@ -1,7 +1,7 @@
 class_name GUIToolSpecialDescription
 extends VBoxContainer
 
-const ONE_ACTION_DESCRIPTION_SCENE := preload("res://scenes/GUI/shared/descriptions/shared_description/gui_one_action_description.tscn")
+var ONE_ACTION_DESCRIPTION_SCENE := load("res://scenes/GUI/shared/descriptions/shared_description/gui_one_action_description.tscn")
 
 func update_with_specials(specials:Array) -> void:
 	Util.remove_all_children(self)

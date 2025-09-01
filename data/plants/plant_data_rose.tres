@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="PlantData" load_steps=2 format=3 uid="uid://hsjy22n36v8s"]
+
+[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_6715y"]
+
+[resource]
+script = ExtResource("1_6715y")
+light = 4
+water = 3
+rarity = 1
+id = "rose"
+display_name = "Rose"
+description = "When harvested, shuffle a {card_thorn} into the draw pile."
+data = {
+&"card_thorn": "Thorn"
+}
+metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

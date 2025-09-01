@@ -6,6 +6,7 @@ signal _all_field_harvested()
 var hand_size := 5
 const DAYS_TO_WEEK := 7
 const WIN_PAUSE_TIME := 0.4
+const INSTANT_CARD_USE_DELAY := 0.3
 
 @export var player:PlayerData
 @export var test_tools:Array[ToolData]
@@ -51,9 +52,9 @@ func _ready() -> void:
 		#test_tools.append_array(test_tools)
 		
 		#tool signals
-		tool_manager = ToolManager.new(test_tools)
+		tool_manager = ToolManager.new(test_tools, gui_main_game.gui_tool_card_container)
 	else:
-		tool_manager = ToolManager.new(player.initial_tools)
+		tool_manager = ToolManager.new(player.initial_tools, gui_main_game.gui_tool_card_container)
 		
 	tool_manager.tool_application_started.connect(_on_tool_application_started)
 	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
@@ -75,7 +76,7 @@ func _ready() -> void:
 	
 	energy_tracker.can_be_capped = false
 	start_new_week()
-	_update_gold(_gold, false)
+	_update_gold(50, false)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("de-select"):
@@ -111,10 +112,15 @@ func add_control_to_overlay(control:Control) -> void:
 	gui_main_game.add_control_to_overlay(control)
 
 func draw_cards(count:int) -> void:
-	await tool_manager.draw_cards(count, gui_main_game.gui_tool_card_container)
+	var draw_results:Array = await tool_manager.draw_cards(count)
+	for tool_data:ToolData in draw_results:
+		if tool_data.specials.has(ToolData.Special.USE_ON_DRAW):
+			var index:int = tool_manager.tool_deck.hand.find(tool_data)
+			_handle_select_tool(index)
+			await _apply_instant_tool()
 
 func discard_cards(tools:Array) -> void:
-	await tool_manager.discard_cards(tools, gui_main_game.gui_tool_card_container)
+	await tool_manager.discard_cards(tools)
 
 #region private
 
@@ -122,7 +128,7 @@ func _update_gold(gold:int, animated:bool) -> void:
 	_gold = gold
 	await gui_main_game.update_gold(_gold, animated)
 
-func _met_win_conditon() -> bool:
+func _met_win_condition() -> bool:
 	return !field_container.has_plants() && !plant_seed_manager.has_more_plants()
 	
 func _win() -> void:
@@ -154,7 +160,7 @@ func _end_day() -> void:
 	gui_main_game.toggle_all_ui(true)
 	field_container.handle_turn_end()
 	if week_manager.day_manager.get_day_left() == 0:
-		if _met_win_conditon():	
+		if _met_win_condition():	
 			return #Win condition has been met at the end of the day, _harvest will take care of win
 		else:
 			_lose()
@@ -170,7 +176,7 @@ func _on_week_summary_continue_button_pressed() -> void:
 func _discard_all_tools() -> void:
 	if tool_manager.tool_deck.hand.is_empty():
 		return
-	await tool_manager.discard_cards(tool_manager.tool_deck.hand.duplicate(), gui_main_game.gui_tool_card_container)
+	await tool_manager.discard_cards(tool_manager.tool_deck.hand.duplicate())
 
 func _clear_tool_selection() -> void:
 	tool_manager.select_tool(-1)
@@ -182,6 +188,14 @@ func _plant_new_seeds() -> void:
 	assert(field_indices.size() == field_container.fields.size())
 	await Util.create_scaled_timer(0.2).timeout # If planting is needed, there would be a p update animation, wait for that animation to end before drawing new plants
 	await plant_seed_manager.draw_plants(field_indices, gui_main_game.gui_plant_seed_animation_container,)
+
+func _handle_select_tool(index:int) -> void:
+	field_container.clear_tool_indicators()
+	tool_manager.select_tool(index)
+
+func _apply_instant_tool() -> void:
+	await Util.create_scaled_timer(INSTANT_CARD_USE_DELAY).timeout
+	await tool_manager.apply_tool(self, field_container.fields, 0)
 
 #endregion
 
@@ -196,7 +210,7 @@ func _harvest() -> bool:
 	field_container.harvest_all_fields()
 	await _all_field_harvested
 	await plant_seed_manager.finish_plants(field_indices_to_harvest, harvestable_plant_datas, gui_main_game.gui_plant_seed_animation_container)
-	if _met_win_conditon():
+	if _met_win_condition():
 		await _win()
 		return true
 	else:
@@ -214,21 +228,19 @@ func _remove_plants(field_indices:Array[int]) -> void:
 #region tool events
 
 func _on_tool_selected(index:int) -> void:
-	field_container.clear_tool_indicators()
-	tool_manager.select_tool(index)
+	_handle_select_tool(index)
 	var tool_data:ToolData = tool_manager.selected_tool
 	if !tool_data:
 		return
 	if !tool_data.need_select_field:
-		await tool_manager.apply_tool(self, [], -1)
-	
+		await _apply_instant_tool()
+
 func _on_tool_application_started(tool_data:ToolData) -> void:
-	tool_manager.discard_cards([tool_data], gui_main_game.gui_tool_card_container)
 	_clear_tool_selection()
 	gui_main_game.toggle_all_ui(false)
 	energy_tracker.spend(tool_data.energy_cost)
 
-func _on_tool_application_completed(_tool_data:ToolData) -> void:
+func _on_tool_application_completed() -> void:
 	await _harvest()
 	gui_main_game.toggle_all_ui(true)
 
@@ -238,7 +250,8 @@ func _on_end_turn_button_pressed() -> void:
 	
 #region field events
 func _on_field_harvest_started() -> void:
-	gui_main_game.toggle_all_ui(false)
+	pass
+	#gui_main_game.toggle_all_ui(false)
 
 func _on_field_harvest_completed(index:int) -> void:
 	var field:Field = field_container.fields[index]
@@ -272,7 +285,7 @@ func _on_shop_next_week_pressed() -> void:
 
 func _on_tool_shop_button_pressed(tool_data:ToolData) -> void:
 	_update_gold(_gold - tool_data.cost, true)
-	tool_manager.add_tool(tool_data)
+	tool_manager.add_tool_to_deck(tool_data)
 
 #region week summary events
 func _on_week_summary_gold_increased(gold:int) -> void:

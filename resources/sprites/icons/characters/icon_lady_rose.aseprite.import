@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://boh8a4j07jgyd"
+path="res://.godot/imported/icon_lady_rose.aseprite-d013ed6d70d592902b2b31509c31915f.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/characters/icon_lady_rose.aseprite"
+dest_files=["res://.godot/imported/icon_lady_rose.aseprite-d013ed6d70d592902b2b31509c31915f.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
