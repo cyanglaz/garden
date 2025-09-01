@@ -3,6 +3,7 @@ extends GUIBasicButton
 
 const MINION_ICON := preload("res://resources/sprites/icons/other/icon_level_minion.png")
 const BOSS_ICON := preload("res://resources/sprites/icons/other/icon_level_boss.png")
+const REGION_SIZE := Vector2(13, 13)
 
 @onready var _texture_rect: TextureRect = %TextureRect
 
@@ -10,12 +11,15 @@ var _has_outline:bool = true: set = _set_has_outline
 var _weak_level_data:WeakRef = weakref(null)
 
 func update_with_level_data(level_data:LevelData) -> void:
+	var texture := AtlasTexture.new()
+	texture.region.size = REGION_SIZE
 	match level_data.type:
 		LevelData.Type.MINION:
-			_texture_rect.texture = MINION_ICON
+			texture.atlas = MINION_ICON			
 		LevelData.Type.BOSS:
-			_texture_rect.texture = BOSS_ICON
-
+			texture.atlas = BOSS_ICON
+	_texture_rect.texture = texture
+	
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	_set_has_outline(true)

@@ -99,6 +99,7 @@ func start_new_week() -> void:
 	session_summary.week = week_manager.week
 	weather_manager.generate_weathers(level_data)
 	gui_main_game.update_week(week_manager.week)
+	gui_main_game.update_levels(level_manager.levels)
 	week_manager.day_manager.start_new(level_data)
 	start_day()
 
