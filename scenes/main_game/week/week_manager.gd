@@ -8,9 +8,8 @@ const WEEKS_PER_BOSS := 4
 var week:int = -1
 var day_manager:DayManager = DayManager.new()
 
-func next_week(level_data:LevelData) -> void:
+func next_week() -> void:
 	week += 1
-	day_manager.start_new(level_data)
 
 func next_day() -> void:
 	day_manager.next_day()

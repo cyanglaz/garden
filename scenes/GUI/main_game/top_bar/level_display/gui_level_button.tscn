@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://dplm44kjm08pn"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_3m3ux"]
+[ext_resource type="Script" uid="uid://cykqjxqip0o3g" path="res://scenes/GUI/main_game/top_bar/level_display/gui_level_button.gd" id="2_q4cim"]
+[ext_resource type="Texture2D" uid="uid://m14ehradxag2" path="res://resources/sprites/icons/other/icon_level_minion.png" id="4_tpoye"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hmtgi"]
+atlas = ExtResource("4_tpoye")
+region = Rect2(0, 0, 13, 13)
+
+[node name="GUILevelButton" instance=ExtResource("1_3m3ux")]
+custom_minimum_size = Vector2(0, 0)
+offset_right = 13.0
+offset_bottom = 13.0
+script = ExtResource("2_q4cim")
+
+[node name="TextureRect" type="TextureRect" parent="." index="0"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(13, 13)
+layout_mode = 2
+texture = SubResource("AtlasTexture_hmtgi")
+stretch_mode = 3

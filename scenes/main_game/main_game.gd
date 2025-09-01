@@ -11,7 +11,7 @@ const INSTANT_CARD_USE_DELAY := 0.3
 @export var player:PlayerData
 @export var test_tools:Array[ToolData]
 @export var test_number_of_fields := 0
-@export var level_data:LevelData
+@export var test_level_data:LevelData
 
 @onready var gui_main_game: GUIMainGame = %GUIGameSession
 @onready var field_container: FieldContainer = %FieldContainer
@@ -21,6 +21,7 @@ var session_seed := 0
 var energy_tracker:ResourcePoint = ResourcePoint.new()
 var week_manager:WeekManager = WeekManager.new()
 var weather_manager:WeatherManager = WeatherManager.new()
+var level_manager:LevelManager = LevelManager.new()
 var tool_manager:ToolManager
 var plant_seed_manager:PlantSeedManager
 var max_energy := 3
@@ -84,14 +85,21 @@ func _input(event: InputEvent) -> void:
 			_clear_tool_selection()
 
 func start_new_week() -> void:
+	week_manager.next_week()
+	level_manager.generate_with_chapter(0)
+	var level_data:LevelData
+	if test_level_data:
+		level_data = test_level_data
+	else:
+		level_data = level_manager.levels[week_manager.week]
 	plant_seed_manager = PlantSeedManager.new(level_data.plants)
 	gui_main_game.update_with_level_data(level_data)
 	gui_main_game.update_with_plants(plant_seed_manager.plant_datas)
 	tool_manager.refresh_deck()
-	week_manager.next_week(level_data)
 	session_summary.week = week_manager.week
 	weather_manager.generate_weathers(level_data)
 	gui_main_game.update_week(week_manager.week)
+	week_manager.day_manager.start_new(level_data)
 	start_day()
 
 func start_day() -> void:

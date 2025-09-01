@@ -41,6 +41,13 @@ func _ready() -> void:
 	gui_plant_seed_animation_container.draw_plant_card_completed.connect(func(field_index:int, plant_data:PlantData) -> void: plant_seed_drawn_animation_completed.emit(field_index, plant_data))
 	gui_shop_main.setup(_gui_top_bar.gui_full_deck_button)
 
+#region month
+
+func update_levels(levels:Array) -> void:
+	_gui_top_bar.update_levels(levels)
+
+#endregion
+
 #region level
 
 func update_with_level_data(level_data:LevelData) -> void:

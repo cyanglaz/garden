@@ -10,6 +10,7 @@ signal full_deck_button_evoked()
 @onready var _gui_settings_button: GUISettingsButton = %GUISettingsButton
 @onready var _day_label: Label = %DayLabel
 @onready var _gui_player: GUICharacter = %GUIPlayer
+@onready var _gui_level_display: GUILevelDisplay = %GUILevelDisplay
 
 func _ready() -> void:
 	_gui_settings_button.action_evoked.connect(func() -> void: setting_button_evoked.emit())
@@ -26,6 +27,9 @@ func update_day_left(day_left:int) -> void:
 
 func update_player(player_data:PlayerData) -> void:
 	_gui_player.update_with_player_data(player_data)
+
+func update_levels(levels:Array) -> void:
+	_gui_level_display.update_with_levels(levels)
 
 func toggle_all_ui(_on:bool) -> void:
 	pass
