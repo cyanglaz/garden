@@ -6,8 +6,8 @@ const LEVEL_BUTTON_SCENE := preload("res://scenes/GUI/main_game/top_bar/level_di
 var _weak_level_tooltip:WeakRef = weakref(null)
 var _tool_tip_index:int = -1
 
-func _input(_event:InputEvent) -> void:
-	if _event.is_action_released("select") || _event.is_action_released("de-select"):
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_released("select") || event.is_action_released("de-select"):
 		if _weak_level_tooltip.get_ref():
 			_weak_level_tooltip.get_ref().queue_destroy_with_tooltips()
 			_weak_level_tooltip = weakref(null)
@@ -34,7 +34,6 @@ func _on_level_button_action_evoked(level_data:LevelData, index:int) -> void:
 		_weak_level_tooltip = weakref(null)
 	if index == _tool_tip_index:
 		_tool_tip_index = -1
-		return
 	else:
 		_weak_level_tooltip = weakref(Util.display_level_tooltip(level_data, get_child(index), false, GUITooltip.TooltipPosition.BOTTOM))
 		_tool_tip_index = index

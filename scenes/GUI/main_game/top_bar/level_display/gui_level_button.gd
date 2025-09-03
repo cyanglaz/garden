@@ -53,10 +53,14 @@ func _set_icon_state(val:IconState) -> void:
 	icon_state = val
 	if val == IconState.NORMAL:
 		(fill.texture as AtlasTexture).region.position.x = 0
+		(border.texture as AtlasTexture).region.position.x = 0
 	elif val == IconState.CURRENT:
 		(fill.texture as AtlasTexture).region.position.x = ICON_SIZE
+		(border.texture as AtlasTexture).region.position.x = 0
 	elif val == IconState.FINISHED:
 		(fill.texture as AtlasTexture).region.position.x = ICON_SIZE * 2
+		(border.texture as AtlasTexture).region.position.x = ICON_SIZE
+		
 
 func _on_level_finished() -> void:
 	icon_state = IconState.FINISHED
