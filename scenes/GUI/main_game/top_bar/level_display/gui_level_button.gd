@@ -26,6 +26,9 @@ func update_with_level_data(level_data:LevelData) -> void:
 		LevelData.Type.BOSS:
 			(fill.texture as AtlasTexture).region.position.y = ICON_SIZE
 			(border.texture as AtlasTexture).region.position.y = ICON_SIZE
+	level_data.finished.connect(_on_level_finished)
+	if level_data.is_finished:
+		_on_level_finished()
 	border.hide()
 	
 func _on_mouse_entered() -> void:
@@ -54,3 +57,6 @@ func _set_icon_state(val:IconState) -> void:
 		(fill.texture as AtlasTexture).region.position.x = ICON_SIZE
 	elif val == IconState.FINISHED:
 		(fill.texture as AtlasTexture).region.position.x = ICON_SIZE * 2
+
+func _on_level_finished() -> void:
+	icon_state = IconState.FINISHED

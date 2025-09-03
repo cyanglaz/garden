@@ -25,14 +25,8 @@ func update_with_levels(levels:Array) -> void:
 
 func set_current_index(index:int) -> void:
 	assert(get_child_count() > 0)
-	for i in get_child_count():
-		var gui_level_button: GUILevelButton = get_child(i)
-		if i == index:
-			gui_level_button.icon_state = GUILevelButton.IconState.CURRENT
-		elif i < index:
-			gui_level_button.icon_state = GUILevelButton.IconState.FINISHED
-		else:
-			gui_level_button.icon_state = GUILevelButton.IconState.NORMAL
+	var gui_level_button: GUILevelButton = get_child(index)
+	gui_level_button.icon_state = GUILevelButton.IconState.CURRENT
 
 func _on_level_button_action_evoked(level_data:LevelData, index:int) -> void:
 	if _weak_level_tooltip.get_ref():

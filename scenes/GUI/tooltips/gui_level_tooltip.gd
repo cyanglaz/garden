@@ -8,6 +8,7 @@ const WEATHER_SCENE := preload("res://scenes/GUI/main_game/weather/gui_weather.t
 @onready var max_day_label: Label = %MaxDayLabel
 @onready var plants_container: HBoxContainer = %PlantsContainer
 @onready var weathers_container: HBoxContainer = %WeathersContainer
+@onready var check: TextureRect = %Check
 
 var _weak_plant_tooltip:WeakRef = weakref(null)
 var _weak_weather_tooltip:WeakRef = weakref(null)
@@ -37,6 +38,7 @@ func update_with_level(level_data:LevelData) -> void:
 		gui_weather.weather_tooltip_shown.connect(_on_weather_tooltip_shown)
 		gui_weather.weather_action_tooltip_shown.connect(_on_weather_action_tooltip_shown)
 		gui_weather.tooltips_removed.connect(_on_tooltips_removed)
+	check.visible = level_data.is_finished
 
 func _on_mouse_entered_plant_icon(plant_data:PlantData) -> void:
 	_weak_plant_tooltip = weakref(Util.display_plant_tooltip(plant_data, self, false, GUITooltip.TooltipPosition.LEFT))

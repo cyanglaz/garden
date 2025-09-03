@@ -171,7 +171,6 @@ func _on_deck_button_pressed(deck:Deck, title:String, type: GUIDeckButton.Type) 
 		GUIDeckButton.Type.ALL:
 			_gui_tool_cards_viewer.animated_show_with_pool(deck.pool, title)
 
-
 func _on_settings_button_evoked() -> void:
 	_gui_settings_main.animate_show()
 

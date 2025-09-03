@@ -76,6 +76,7 @@ func _ready() -> void:
 	gui_main_game.gui_shop_main.tool_shop_button_pressed.connect(_on_tool_shop_button_pressed)
 	
 	energy_tracker.can_be_capped = false
+	level_manager.generate_with_chapter(0)
 	start_new_week()
 	_update_gold(50, false)
 
@@ -86,7 +87,6 @@ func _input(event: InputEvent) -> void:
 
 func start_new_week() -> void:
 	week_manager.next_week()
-	level_manager.generate_with_chapter(0)
 	var level_data:LevelData
 	if test_level_data:
 		level_data = test_level_data
@@ -150,6 +150,7 @@ func _win() -> void:
 	session_summary.total_days_skipped += week_manager.get_day_left()
 	gui_main_game.animate_show_week_summary(week_manager.get_day_left())
 	gui_main_game.toggle_all_ui(true)
+	level_manager.levels[week_manager.week].is_finished = true
 
 func _lose() -> void:
 	gui_main_game.toggle_all_ui(false)
