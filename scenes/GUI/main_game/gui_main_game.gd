@@ -35,7 +35,7 @@ func _ready() -> void:
 	gui_tool_card_container.tool_selected.connect(func(index:int) -> void: tool_selected.emit(index))
 	_end_turn_button.action_evoked.connect(func() -> void: end_turn_button_pressed.emit())
 	gui_tool_card_container.setup(gui_draw_box_button, gui_discard_box_button)
-	_gui_top_bar.setting_button_evoked.connect(func() -> void: _gui_settings_main.animate_show())
+	_gui_top_bar.setting_button_evoked.connect(_on_settings_button_evoked)
 	gui_week_summary_main.continue_button_pressed.connect(func() -> void: week_summary_continue_button_pressed.emit())
 	gui_week_summary_main.gold_increased.connect(func(gold:int) -> void: gold_increased.emit(gold))
 	gui_plant_seed_animation_container.draw_plant_card_completed.connect(func(field_index:int, plant_data:PlantData) -> void: plant_seed_drawn_animation_completed.emit(field_index, plant_data))
@@ -170,5 +170,9 @@ func _on_deck_button_pressed(deck:Deck, title:String, type: GUIDeckButton.Type) 
 			_gui_tool_cards_viewer.animated_show_with_pool(deck.discard_pool, title)
 		GUIDeckButton.Type.ALL:
 			_gui_tool_cards_viewer.animated_show_with_pool(deck.pool, title)
+
+
+func _on_settings_button_evoked() -> void:
+	_gui_settings_main.animate_show()
 
 #endregion

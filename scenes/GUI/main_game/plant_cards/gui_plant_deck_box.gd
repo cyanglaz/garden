@@ -30,7 +30,7 @@ func get_icon_position(index:int) -> Vector2:
 	return _plant_card_container.get_child(index).global_position
 
 func _on_mouse_entered(index:int) -> void:
-	var card:GUIPlantCard = _plant_card_container.get_child(index - 1)
+	var card:GUIPlantCard = _plant_card_container.get_child(index)
 	var plant_data = card.gui_plant_icon.plant_data
 	_weak_tooltip = weakref(Util.display_plant_tooltip(plant_data, card, false, GUITooltip.TooltipPosition.BOTTOM))
 
