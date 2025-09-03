@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://m14ehradxag2"
-path="res://.godot/imported/icon_level_minion.png-7b26bc648e1d35b22ac0901be31ed2c0.ctex"
+uid="uid://cohn0uxc0l1jf"
+path="res://.godot/imported/icon_level_border.png-396595c496a6eb6b172398265992e87c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/icons/other/icon_level_minion.png"
-dest_files=["res://.godot/imported/icon_level_minion.png-7b26bc648e1d35b22ac0901be31ed2c0.ctex"]
+source_file="res://resources/sprites/icons/other/icon_level_border.png"
+dest_files=["res://.godot/imported/icon_level_border.png-396595c496a6eb6b172398265992e87c.ctex"]
 
 [params]
 

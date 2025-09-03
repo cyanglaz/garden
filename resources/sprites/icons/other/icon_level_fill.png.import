@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cp3fx08ccfvws"
-path="res://.godot/imported/icon_level_boss.png-d1e746eecb5baf1afaaf4d5a8a31c7d5.ctex"
+uid="uid://d1kbiu8qkb1f3"
+path="res://.godot/imported/icon_level_fill.png-4eb724bfd257353240b9dc0ce579f628.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/icons/other/icon_level_boss.png"
-dest_files=["res://.godot/imported/icon_level_boss.png-d1e746eecb5baf1afaaf4d5a8a31c7d5.ctex"]
+source_file="res://resources/sprites/icons/other/icon_level_fill.png"
+dest_files=["res://.godot/imported/icon_level_fill.png-4eb724bfd257353240b9dc0ce579f628.ctex"]
 
 [params]
 

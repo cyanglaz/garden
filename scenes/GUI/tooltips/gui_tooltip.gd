@@ -32,7 +32,6 @@ func _ready() -> void:
 	_sticky_progress_bar.max_value = STICKY_TIME
 	_sticky_progress_bar.value = _sticky_progress_bar.max_value
 	_sticky_progress_bar.step = 0.01			
-	mouse_default_cursor_shape = Control.CursorShape.CURSOR_HELP
 
 func _process(delta: float) -> void:
 	mouse_in = get_global_rect().has_point(get_global_mouse_position())

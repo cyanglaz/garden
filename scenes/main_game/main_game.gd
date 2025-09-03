@@ -98,8 +98,8 @@ func start_new_week() -> void:
 	tool_manager.refresh_deck()
 	session_summary.week = week_manager.week
 	weather_manager.generate_weathers(level_data)
-	gui_main_game.update_week(week_manager.week)
 	gui_main_game.update_levels(level_manager.levels)
+	gui_main_game.update_week(week_manager.week)
 	week_manager.day_manager.start_new(level_data)
 	start_day()
 

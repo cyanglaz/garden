@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cu64w23eh46d4"
+path="res://.godot/imported/icon_level_border.aseprite-546f6a229db744f3b958b37253d22edb.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/other/icon_level_border.aseprite"
+dest_files=["res://.godot/imported/icon_level_border.aseprite-546f6a229db744f3b958b37253d22edb.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

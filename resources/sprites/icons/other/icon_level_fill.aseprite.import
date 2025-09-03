@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dc8qejl84vvgf"
+path="res://.godot/imported/icon_level_fill.aseprite-b0252a9d496b4013c4c7c822fda2ce5b.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/other/icon_level_fill.aseprite"
+dest_files=["res://.godot/imported/icon_level_fill.aseprite-b0252a9d496b4013c4c7c822fda2ce5b.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -21,6 +21,7 @@ func update_gold(gold:int, animated:bool) -> void:
 
 func update_week(week:int) -> void:
 	_week_label.text = Util.get_localized_string("WEEK_LABEL_TEXT") % (week + 1)
+	_gui_level_display.set_current_index(week)
 
 func update_day_left(day_left:int) -> void:
 	_day_label.text = Util.get_localized_string("DAY_LABEL_TEXT")% day_left
