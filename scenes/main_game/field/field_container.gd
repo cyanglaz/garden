@@ -85,6 +85,18 @@ func toggle_field_selection_indicator(on:bool, tool_data:ToolData, index:int) ->
 		var field:Field = _container.get_child(index)
 		field.toggle_selection_indicator(on)
 
+func harvest_all_fields() -> void:
+	assert(get_harvestable_fields().size() > 0, "No harvestable fields")
+	_harvest_next_field(0)
+
+func handle_turn_end() -> void:
+	for field:Field in fields:
+		field.handle_turn_end()
+
+func clear_all_statuses() -> void:
+	for field:Field in fields:
+		field.clear_all_statuses()
+
 func get_all_field_indices() -> Array[int]:
 	var indices:Array[int] = []
 	for i in fields.size():
@@ -97,14 +109,6 @@ func get_harvestable_fields() -> Array[int]:
 		if is_field_occupied(i) && fields[i].can_harvest():
 			harvestable_fields.append(i)
 	return harvestable_fields
-
-func harvest_all_fields() -> void:
-	assert(get_harvestable_fields().size() > 0, "No harvestable fields")
-	_harvest_next_field(0)
-
-func handle_turn_end() -> void:
-	for field:Field in fields:
-		field.handle_turn_end()
 
 func has_plants() -> bool:
 	for field:Field in _container.get_children():

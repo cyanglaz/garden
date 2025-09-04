@@ -93,14 +93,14 @@ func start_new_week() -> void:
 	else:
 		level_data = level_manager.levels[week_manager.week]
 	plant_seed_manager = PlantSeedManager.new(level_data.plants)
-	gui_main_game.update_with_level_data(level_data)
-	gui_main_game.update_with_plants(plant_seed_manager.plant_datas)
 	tool_manager.refresh_deck()
 	session_summary.week = week_manager.week
 	weather_manager.generate_weathers(level_data)
+	week_manager.day_manager.start_new(level_data)
+	gui_main_game.update_with_level_data(level_data)
+	gui_main_game.update_with_plants(plant_seed_manager.plant_datas)
 	gui_main_game.update_levels(level_manager.levels)
 	gui_main_game.update_week(week_manager.week)
-	week_manager.day_manager.start_new(level_data)
 	start_day()
 
 func start_day() -> void:
@@ -146,6 +146,7 @@ func _win() -> void:
 	for field:Field in field_container.fields:
 		field.remove_plant()
 	await _discard_all_tools()
+	field_container.clear_all_statuses()
 	_harvesting_fields.clear()
 	session_summary.total_days_skipped += week_manager.get_day_left()
 	gui_main_game.animate_show_week_summary(week_manager.get_day_left())

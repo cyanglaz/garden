@@ -156,6 +156,9 @@ func handle_tool_discard_hook(count:int) -> void:
 func handle_end_day_hook(main_game:MainGame) -> void:
 	await status_manager.handle_end_day_hook(main_game, plant)
 
+func clear_all_statuses() -> void:
+	status_manager.clear_all_statuses()
+
 func _show_progress_bars(p:Plant) -> void:
 	assert(p.data)
 	_light_bar.bind_with_resource_point(p.light)
