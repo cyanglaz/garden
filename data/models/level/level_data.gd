@@ -17,7 +17,7 @@ signal finished()
 @export var weathers:Array[WeatherData]
 @export var number_of_days:int
 
-var is_finished:bool = true: set = _set_is_finished
+var is_finished:bool = false: set = _set_is_finished
 var portrait_icon:Texture2D: get = _get_portrait_icon
 
 func copy(other:ThingData) -> void:
