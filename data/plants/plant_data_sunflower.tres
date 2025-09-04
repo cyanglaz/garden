@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1_r6f3l")
-light = 1
-water = 0
+light = 5
+water = 2
 rarity = 0
 id = "sunflower"
 display_name = "Sunflower"
@@ -13,4 +13,5 @@ description = "Gain +{light} {icon_resource_light} on sunny days."
 data = {
 "light": "1"
 }
+note = ""
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"
