@@ -95,11 +95,7 @@ func apply_weather_actions(weather_data:WeatherData) -> void:
 	await plant.trigger_ability(Plant.AbilityType.WEATHER, Singletons.main_game)
 
 func is_action_applicable(action:ActionData) -> bool:
-	if action.type == ActionData.ActionType.PEST || action.type == ActionData.ActionType.FUNGUS:
-		return true
-	elif plant:
-		return true
-	return false
+	return plant != null
 
 func apply_actions(actions:Array[ActionData]) -> void:
 	for action:ActionData in actions:

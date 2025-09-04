@@ -10,7 +10,7 @@
 
 [resource]
 script = ExtResource("7_gxn42")
-initial_tools = Array[ExtResource("2_m7e3l")]([ExtResource("3_eiyk4"), ExtResource("3_eiyk4"), ExtResource("4_gxn42"), ExtResource("7_xkk26"), ExtResource("7_xkk26"), ExtResource("5_eiyk4"), ExtResource("6_gxn42")])
+initial_tools = Array[ExtResource("2_m7e3l")]([ExtResource("3_eiyk4"), ExtResource("3_eiyk4"), ExtResource("7_xkk26"), ExtResource("7_xkk26"), ExtResource("5_eiyk4"), ExtResource("4_gxn42"), ExtResource("6_gxn42")])
 number_of_fields = 2
 id = "apprentice"
 display_name = "Apprentice"
@@ -18,4 +18,5 @@ description = "On first day, draw {card} additional card."
 data = {
 &"card": "1"
 }
+note = ""
 metadata/_custom_type_script = "uid://tci75sqv26ut"

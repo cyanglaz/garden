@@ -162,9 +162,9 @@ func _lose() -> void:
 func _end_day() -> void:
 	gui_main_game.toggle_all_ui(false)
 	await _discard_all_tools()
-	await weather_manager.apply_weather_actions(field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
 	await field_container.trigger_end_day_hook(self)
 	await field_container.trigger_end_day_ability(self)
+	await weather_manager.apply_weather_actions(field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
 	var won := await _harvest()
 	gui_main_game.toggle_all_ui(true)
 	if won:
