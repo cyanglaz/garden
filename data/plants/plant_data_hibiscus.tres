@@ -9,7 +9,7 @@ water = 2
 rarity = 0
 id = "hibiscus"
 display_name = "Hibiscus"
-description = "+ {card} card on light gain."
+description = "+ {card} {icon_resource_draw_card} on light gain."
 data = {
 "card": "1"
 }

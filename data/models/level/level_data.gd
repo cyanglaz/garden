@@ -8,6 +8,8 @@ enum Type {
 	BOSS
 }
 
+signal finished()
+
 @export var type:Type
 @export var appearance:Array[String]
 @export var plants:Array[PlantData]
@@ -15,6 +17,7 @@ enum Type {
 @export var weathers:Array[WeatherData]
 @export var number_of_days:int
 
+var is_finished:bool = true: set = _set_is_finished
 var portrait_icon:Texture2D: get = _get_portrait_icon
 
 func copy(other:ThingData) -> void:
@@ -26,12 +29,17 @@ func copy(other:ThingData) -> void:
 	shuffle_plants = other_level.shuffle_plants
 	weathers = other_level.weathers.duplicate()
 	number_of_days = other_level.number_of_days
+	is_finished = other_level.is_finished
 	
 
 func get_duplicate() -> LevelData:
 	var dup:LevelData = LevelData.new()
 	dup.copy(self)
 	return dup
+
+func _set_is_finished(value:bool) -> void:
+	is_finished = value
+	finished.emit()
 
 func _get_portrait_icon() -> Texture2D:
 	if !ResourceLoader.exists(ICON_PATH_PREFIX + id + ".png"):

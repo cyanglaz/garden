@@ -1,0 +1,61 @@
+[gd_scene load_steps=5 format=3 uid="uid://q05u3rbqcnvx"]
+
+[ext_resource type="PackedScene" uid="uid://73vkj3ho7ou5" path="res://scenes/GUI/tooltips/gui_tooltip.tscn" id="1_dfo0o"]
+[ext_resource type="Script" uid="uid://djs3em1rm45ji" path="res://scenes/GUI/tooltips/gui_level_tooltip.gd" id="2_rl0um"]
+[ext_resource type="Texture2D" uid="uid://cnfm60idmptxi" path="res://resources/sprites/GUI/icons/other_icons/checked_icon_small.png" id="3_3rywu"]
+[ext_resource type="PackedScene" uid="uid://bfye3pwakcidx" path="res://scenes/GUI/shared/descriptions/gui_tooltip_description_separator.tscn" id="3_dfo0o"]
+
+[node name="GUILevelTooltip" instance=ExtResource("1_dfo0o")]
+offset_right = 40.0
+offset_bottom = 12.0
+script = ExtResource("2_rl0um")
+
+[node name="GUIPanelBackgroundColor" parent="." index="0"]
+unique_name_in_owner = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ContentContainer" index="0"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ContentContainer/VBoxContainer" index="0"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ContentContainer/VBoxContainer/HBoxContainer" index="0"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="NameLabel" type="Label" parent="ContentContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD_mid"
+theme_override_colors/font_color = Color(0.952941, 0.537255, 0.960784, 1)
+
+[node name="MaxDayLabel" type="Label" parent="ContentContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD_mid"
+theme_override_colors/font_color = Color(0.580392, 0.992157, 1, 1)
+
+[node name="Check" type="TextureRect" parent="ContentContainer/VBoxContainer/HBoxContainer" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 0
+texture = ExtResource("3_3rywu")
+stretch_mode = 5
+
+[node name="GUITooltipDescriptionSaparator2" parent="ContentContainer/VBoxContainer" index="1" instance=ExtResource("3_dfo0o")]
+layout_mode = 2
+
+[node name="PlantsContainer" type="HBoxContainer" parent="ContentContainer/VBoxContainer" index="2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="GUITooltipDescriptionSaparator" parent="ContentContainer/VBoxContainer" index="3" instance=ExtResource("3_dfo0o")]
+layout_mode = 2
+
+[node name="WeathersContainer" type="HBoxContainer" parent="ContentContainer/VBoxContainer" index="4"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 2

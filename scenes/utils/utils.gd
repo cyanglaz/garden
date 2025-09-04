@@ -17,6 +17,7 @@ const GUI_ACTIONS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_action
 const GUI_WARNING_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_warning_tooltip.tscn")
 const GUI_RICH_TEXT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_rich_text_tooltip.tscn")
 const GUI_TOOL_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_tool_card_tooltip.tscn")
+const GUI_LEVEL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_level_tooltip.tscn")
 
 const FIELD_STATUS_SCRIPT_PREFIX := "res://scenes/main_game/field/status/field_status_script_"
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
@@ -97,6 +98,14 @@ static func display_tool_card_tooltip(tool_data:ToolData, on_control_node:Contro
 	tool_card_tooltip.update_with_tool_data(tool_data)
 	_display_tool_tip.call_deferred(tool_card_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
 	return tool_card_tooltip
+
+static func display_level_tooltip(level_data:LevelData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition) -> GUILevelTooltip:
+	var level_tooltip:GUILevelTooltip = GUI_LEVEL_TOOLTIP_SCENE.instantiate()
+	Singletons.main_game.add_control_to_overlay(level_tooltip)
+	level_tooltip.tooltip_position = tooltip_position
+	level_tooltip.update_with_level(level_data)
+	_display_tool_tip.call_deferred(level_tooltip, on_control_node, anchor_mouse, tooltip_position, false)
+	return level_tooltip
 
 static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP, world_space:bool = false) -> void:
 	tooltip.show()

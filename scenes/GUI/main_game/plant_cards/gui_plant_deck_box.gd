@@ -18,7 +18,7 @@ func update_with_plants(plants:Array[PlantData]) -> void:
 		gui_plant_icon.mouse_entered.connect(_on_mouse_entered.bind(index))
 		gui_plant_icon.mouse_exited.connect(_on_mouse_exited.bind(index))
 		index += 1
-	
+
 func set_mode(mode:GUIPlantCard.Mode, indeces:Array) -> void:
 	for i in indeces:
 		var card:GUIPlantCard = _plant_card_container.get_child(i)
@@ -30,7 +30,7 @@ func get_icon_position(index:int) -> Vector2:
 	return _plant_card_container.get_child(index).global_position
 
 func _on_mouse_entered(index:int) -> void:
-	var card:GUIPlantCard = _plant_card_container.get_child(index - 1)
+	var card:GUIPlantCard = _plant_card_container.get_child(index)
 	var plant_data = card.gui_plant_icon.plant_data
 	_weak_tooltip = weakref(Util.display_plant_tooltip(plant_data, card, false, GUITooltip.TooltipPosition.BOTTOM))
 

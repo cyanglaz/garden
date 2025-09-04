@@ -110,3 +110,5 @@ GAME_OVER_TOTAL_GOLD_EARNED, "Total Gold Earned"
 
 CARD_SPECIAL_NAME_ON_DRAW, "On Draw"
 CARD_SPECIAL_DESCRIPTION_ON_DRAW, "This card is automatically used when drawn."
+
+MAX_DAY_LABEL_TEXT, "Max Days: %s"
