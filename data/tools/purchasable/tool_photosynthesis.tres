@@ -13,6 +13,7 @@ id = ""
 display_name = ""
 description = ""
 data = {}
+note = ""
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [sub_resource type="Resource" id="Resource_0wo8n"]
@@ -25,6 +26,7 @@ id = ""
 display_name = ""
 description = ""
 data = {}
+note = ""
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
@@ -38,4 +40,6 @@ id = "photosynthesis"
 display_name = "Photosynthesis"
 description = ""
 data = {}
+note = "+2 light
++1 card"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

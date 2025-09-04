@@ -13,6 +13,7 @@ id = ""
 display_name = ""
 description = ""
 data = {}
+note = ""
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
@@ -26,4 +27,5 @@ id = "ladybug_patrol"
 display_name = "Ladybug Patrol"
 description = ""
 data = {}
+note = "-1 pest all"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

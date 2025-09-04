@@ -13,6 +13,7 @@ id = ""
 display_name = ""
 description = ""
 data = {}
+note = ""
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [sub_resource type="Resource" id="Resource_oexgw"]
@@ -25,6 +26,7 @@ id = ""
 display_name = ""
 description = ""
 data = {}
+note = ""
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
@@ -38,4 +40,6 @@ id = "burn"
 display_name = "Burn"
 description = ""
 data = {}
+note = "discard random card
++1 light to all fields"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"
