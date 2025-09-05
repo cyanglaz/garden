@@ -13,6 +13,7 @@ id = ""
 display_name = ""
 description = ""
 data = {}
+note = ""
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [sub_resource type="Resource" id="Resource_oexgw"]
@@ -20,11 +21,12 @@ script = ExtResource("1_xnxx8")
 type = 3
 value = 1
 value_type = 0
-specials = Array[int]([])
+specials = Array[int]([0])
 id = ""
 display_name = ""
 description = ""
 data = {}
+note = ""
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
@@ -33,9 +35,11 @@ energy_cost = 0
 actions = Array[ExtResource("1_xnxx8")]([SubResource("Resource_xnxx8"), SubResource("Resource_oexgw")])
 rarity = 0
 specials = Array[int]([])
-need_select_field = true
+need_select_field = false
 id = "alphid_alert"
 display_name = "Alphid Alert"
 description = ""
 data = {}
+note = "Draw 2 cards
++1 pest to all fields"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

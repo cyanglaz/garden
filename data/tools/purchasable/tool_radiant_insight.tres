@@ -13,6 +13,7 @@ id = ""
 display_name = ""
 description = ""
 data = {}
+note = ""
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
@@ -24,6 +25,7 @@ specials = Array[int]([])
 need_select_field = true
 id = "radiant_insight"
 display_name = "Radiant Insignt"
-description = ""
+description = "+ light = number of cards on hand"
 data = {}
+note = ""
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

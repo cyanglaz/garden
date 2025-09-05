@@ -13,6 +13,7 @@ enum ReferenceType {
 @export var display_name:String
 @export_multiline var description:String
 @export var data:Dictionary
+@export_multiline var note:String
 
 var upgrade_to_id:String: get = _get_upgrade_to_id
 var upgraded_from_id:String: get = _get_upgraded_from_id

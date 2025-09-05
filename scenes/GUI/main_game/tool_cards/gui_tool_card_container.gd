@@ -165,10 +165,11 @@ func _on_tool_card_pressed(index:int) -> void:
 		for i in _container.get_children().size():	
 			var gui_card = _container.get_child(i)
 			if i == index:
-				gui_card.card_state = GUIToolCardButton.CardState.SELECTED
+				if gui_card.card_state != GUIToolCardButton.CardState.SELECTED:
+					gui_card.card_state = GUIToolCardButton.CardState.SELECTED
+					tool_selected.emit(index)
 			else:
 				gui_card.card_state = GUIToolCardButton.CardState.NORMAL
-		tool_selected.emit(index)
 	else:
 		_weak_insufficient_energy_tooltip = weakref(Util.display_warning_tooltip(tr("WARNING_INSUFFICIENT_ENERGY"), selected_card, false, GUITooltip.TooltipPosition.TOP))
 

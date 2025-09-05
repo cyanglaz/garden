@@ -5,8 +5,9 @@ extends HBoxContainer
 @export var max_value: int = 100: set = _set_max_value
 @export var current_value: int = 0: set = _set_current_value
 @export var segment_color: Color = Constants.COLOR_BLUE_2
-@export var segment_off_color: Color = Constants.COLOR_GRAY4
+@export var segment_off_color: Color = Constants.COLOR_GRAY3
 @export var border_color:Color = Constants.COLOR_GRAY6 : set = _set_border_color
+@export var background_color:Color = Constants.COLOR_GRAY4: set = _set_background_color
 @export var icon_texture:Texture2D: set = _set_icon_texture
 @export var icon_size:Vector2: set = _set_icon_size
 @export var segment_separation:float = 1.0
@@ -22,6 +23,7 @@ var _weak_resource_point:WeakRef = weakref(null)
 func _ready() -> void:
 	#assert(((size.x as int) - 1) % max_value == 0, "segemented bar has to be equally devided to have the segenemts to be the same size")
 	_set_border_color(border_color)
+	_set_background_color(background_color)
 	_set_icon_size(icon_size)
 	_set_max_value(max_value)
 	_set_current_value(current_value)
@@ -54,8 +56,21 @@ func _set_border_color(val: Color) -> void:
 	border_color = val
 	if _border:
 		_border.self_modulate = border_color
-		_background.self_modulate = border_color
+	if _background:
+		if max_value == 0:
+			_background.self_modulate = background_color
+		else:
+			_background.self_modulate = border_color
+	
 
+func _set_background_color(val:Color) -> void:
+	background_color = val
+	if _background:
+		if max_value == 0:
+			_background.self_modulate = background_color
+		else:
+			_background.self_modulate = border_color
+	
 func _set_max_value(val: int) -> void:
 	max_value = val
 	if _segment_container:
@@ -64,6 +79,11 @@ func _set_max_value(val: int) -> void:
 			var segment:= ColorRect.new()
 			_segment_container.add_child(segment)
 	_adjust_segment_size.call_deferred()
+	if _background:
+		if max_value == 0:
+			_background.self_modulate = background_color
+		else:
+			_background.self_modulate = border_color
 
 func _set_current_value(val: int) -> void:
 	current_value = val

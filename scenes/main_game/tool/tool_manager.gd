@@ -69,10 +69,8 @@ func apply_tool(main_game:MainGame, fields:Array, selected_index:int) -> void:
 	await main_game.field_container.trigger_tool_application_hook()
 	_applying_discard_tools.append(applying_tool)
 	_applying_tools.append(applying_tool)
-	if !applying_tool.need_select_field:
-		_apply_non_field_tool(main_game, applying_tool)
-	else:
-		_apply_tool_to_field(main_game, applying_tool, fields, selected_index)
+	await _tool_applier.apply_tool(main_game, fields, selected_index, applying_tool)
+	_tool_applied.emit(applying_tool)
 	discard_cards([applying_tool])
 
 func discardable_cards() -> Array:
@@ -87,14 +85,6 @@ func add_tool_to_draw_pile(tool_data:ToolData, from_global_position:Vector2, ran
 
 func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)
-
-func _apply_non_field_tool(main_game:MainGame, applying_tool:ToolData) -> void:
-	await _tool_applier.apply_tool(main_game, [], -1, applying_tool)
-	_tool_applied.emit(applying_tool)
-
-func _apply_tool_to_field(main_game:MainGame, applying_tool:ToolData, fields:Array, selected_index:int) -> void:
-	await _tool_applier.apply_tool(main_game, fields, selected_index, applying_tool)
-	_tool_applied.emit(applying_tool)
 
 func _get_selected_tool() -> ToolData:
 	if selected_tool_index < 0:

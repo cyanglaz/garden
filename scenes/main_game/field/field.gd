@@ -92,14 +92,14 @@ func remove_plant_preview() -> void:
 
 func apply_weather_actions(weather_data:WeatherData) -> void:
 	await apply_actions(weather_data.actions)
-	await plant.trigger_ability(Plant.AbilityType.WEATHER, Singletons.main_game)
+	if plant:
+		await plant.trigger_ability(Plant.AbilityType.WEATHER, Singletons.main_game)
 
 func is_action_applicable(action:ActionData) -> bool:
-	if action.type == ActionData.ActionType.PEST || action.type == ActionData.ActionType.FUNGUS:
+	if action.type == ActionData.ActionType.LIGHT || action.type == ActionData.ActionType.WATER:
+		return plant != null
+	else:
 		return true
-	elif plant:
-		return true
-	return false
 
 func apply_actions(actions:Array[ActionData]) -> void:
 	for action:ActionData in actions:
@@ -156,29 +156,32 @@ func handle_tool_discard_hook(count:int) -> void:
 func handle_end_day_hook(main_game:MainGame) -> void:
 	await status_manager.handle_end_day_hook(main_game, plant)
 
+func clear_all_statuses() -> void:
+	status_manager.clear_all_statuses()
+
 func _show_progress_bars(p:Plant) -> void:
 	assert(p.data)
 	_light_bar.bind_with_resource_point(p.light)
 	_water_bar.bind_with_resource_point(p.water)
 
 func _reset_progress_bars() -> void:
-	_light_bar.max_value = 1
+	_light_bar.max_value = 0
 	_light_bar.current_value = 0
-	_water_bar.max_value = 1
+	_water_bar.max_value = 0
 	_water_bar.current_value = 0
 
 func _apply_light_action(action:ActionData) -> void:
+	var true_value := _get_action_true_value(action)
+	await _show_popup_action_indicator(action, true_value)
 	if plant:
-		var true_value := _get_action_true_value(action)
-		await _show_popup_action_indicator(action, true_value)
 		plant.light.value += true_value
 		if true_value > 0:
 			await plant.trigger_ability(Plant.AbilityType.LIGHT_GAIN, Singletons.main_game)
 
 func _apply_water_action(action:ActionData) -> void:
+	var true_value := _get_action_true_value(action)
+	await _show_popup_action_indicator(action, true_value)
 	if plant:
-		var true_value := _get_action_true_value(action)
-		await _show_popup_action_indicator(action, true_value)
 		plant.water.value += true_value
 
 func _apply_field_status_action(action:ActionData) -> void:

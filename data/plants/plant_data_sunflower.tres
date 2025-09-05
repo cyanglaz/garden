@@ -13,4 +13,5 @@ description = "Gain +{light} {icon_resource_light} on sunny days."
 data = {
 "light": "1"
 }
+note = ""
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"
