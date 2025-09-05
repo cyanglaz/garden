@@ -9,6 +9,9 @@ const CARD_MIN_SCALE := 0.8
 const MAX_SHUFFLE_CARDS := 5
 const ADD_CARD_TO_PILE_ANIMATION_TIME := 0.5
 const ADD_CARD_TO_PILE_PAUSE_TIME := 0.15
+const USE_CARD_OFFSET := 40
+const USE_CARD_PAUSE_TIME := 0.2
+
 
 signal _animation_queue_item_finished(finished_item:AnimationQueueItem)
 
@@ -61,6 +64,10 @@ func animate_discard(indices:Array) -> void:
 	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_DISCARD, [indices])
 	await item.finished
 
+func animate_use_and_discard_card(index:int) -> void:
+	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_USE_AND_DISCARD_CARD, [index])
+	await item.finished
+
 func animate_add_card_to_draw_pile(tool_data:ToolData, from_global_position:Vector2, pause:bool) -> void:
 	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_ADD_CARD_TO_DRAW_PILE, [tool_data, from_global_position, pause])
 	await item.finished
@@ -84,6 +91,8 @@ func _play_next_animation() -> void:
 			_animate_discard(next_item)
 		AnimationQueueItem.AnimationType.ANIMATE_ADD_CARD_TO_DRAW_PILE:
 			_animate_add_card_to_draw_pile(next_item)
+		AnimationQueueItem.AnimationType.ANIMATE_USE_AND_DISCARD_CARD:
+			_animate_use_and_discard(next_item)
 
 func _animate_draw(animation_item:AnimationQueueItem) -> void:
 	var draw_results:Array = animation_item.animation_args[0].duplicate()
@@ -156,6 +165,26 @@ func _animate_add_card_to_draw_pile(animation_item:AnimationQueueItem) -> void:
 	animating_card.queue_free()
 	_animation_queue_item_finished.emit(animation_item)
 
+func _animate_use_and_discard(animation_item:AnimationQueueItem) -> void:
+	var index:int = animation_item.animation_args[0]
+	var card:GUIToolCardButton = _tool_card_container.get_card(index)
+	var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
+	add_child(animating_card)
+	animating_card.update_with_tool_data(card._tool_data)
+	animating_card.global_position = card.global_position
+	animating_card.mouse_disabled = true
+	_tool_card_container.remove_cards([card])
+	_animate_reposition()
+	var tween:Tween = Util.create_scaled_tween(self)
+	tween.set_parallel(true)
+	tween.tween_property(animating_card, "global_position", animating_card.global_position + Vector2.UP * USE_CARD_OFFSET, REPOSITION_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	await tween.finished
+	await Util.create_scaled_timer(USE_CARD_PAUSE_TIME).timeout
+	var discard_tween := Util.create_scaled_tween(self)
+	_animate_discard_a_card(animating_card, discard_tween, 0)
+	await discard_tween.finished
+	_animation_queue_item_finished.emit(animation_item)
+
 func _animate_reposition() -> void:
 	if _tool_card_container.get_card_count() == 0:
 		return
@@ -211,6 +240,7 @@ class AnimationQueueItem:
 		ANIMATE_DRAW,
 		ANIMATE_DISCARD,
 		ANIMATE_ADD_CARD_TO_DRAW_PILE,
+		ANIMATE_USE_AND_DISCARD_CARD,
 	}
 
 	var animation_type:AnimationType

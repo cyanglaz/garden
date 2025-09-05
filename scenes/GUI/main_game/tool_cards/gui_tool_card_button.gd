@@ -5,7 +5,6 @@ enum CardState {
 	NORMAL,
 	HIGHLIGHTED,
 	SELECTED,
-	IN_USE,
 }
 
 const SPECIAL_ICON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_special_icon.tscn")
@@ -151,9 +150,6 @@ func _set_card_state(value:CardState) -> void:
 			_highlight_border.show()
 		CardState.HIGHLIGHTED:
 			_container_offset = HIGHLIGHTED_OFFSET
-			_highlight_border.show()
-		CardState.IN_USE:
-			_container_offset = IN_USE_OFFSET
 			_highlight_border.show()
 
 func _set_container_offset(offset:float) -> void:

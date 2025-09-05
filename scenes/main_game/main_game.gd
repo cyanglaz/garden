@@ -206,7 +206,7 @@ func _handle_select_tool(index:int) -> void:
 
 func _apply_instant_tool() -> void:
 	await Util.create_scaled_timer(INSTANT_CARD_USE_DELAY).timeout
-	await tool_manager.apply_tool(self, field_container.fields, 0)
+	tool_manager.apply_tool(self, field_container.fields, 0)
 
 #endregion
 
@@ -281,7 +281,7 @@ func _on_field_hovered(hovered:bool, index:int) -> void:
 func _on_field_pressed(index:int) -> void:
 	if !tool_manager.selected_tool:
 		return
-	await tool_manager.apply_tool(self, field_container.fields, index)
+	tool_manager.apply_tool(self, field_container.fields, index)
 
 func _on_plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData) -> void:
 	field_container.fields[field_index].plant_seed(plant_data)

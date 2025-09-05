@@ -29,6 +29,7 @@ func refresh() -> void:
 	hand.clear()
 
 func shuffle_draw_pool() -> void:
+	assert(draw_pool.size() + discard_pool.size() + hand.size() + (1 if in_use_item else 0) == pool.size())
 	draw_pool.append_array(discard_pool.duplicate())
 	draw_pool.shuffle()
 	draw_pool_updated.emit(draw_pool)
@@ -67,13 +68,14 @@ func discard(items:Array) -> void:
 		discard_pool.append(item)
 		if item == in_use_item:
 			in_use_item = null
-		if hand.has(item):
+		elif hand.has(item):
 			hand.erase(item)
 		else:
 			assert(false, "discarding item not in hand" + str(item))
 	discard_pool_updated.emit(discard_pool)
 
 func use(item:Variant) -> void:
+	hand.erase(item)
 	in_use_item = item
 
 func add_item(item:Variant) -> void:
@@ -96,3 +98,5 @@ func remove_item(item:Variant) -> void:
 	draw_pool_updated.emit(draw_pool)
 	discard_pool_updated.emit(discard_pool)
 	pool_updated.emit(pool)
+	if item == in_use_item:
+		in_use_item = null
