@@ -12,6 +12,7 @@ const COSTS := {
 @export var light:int
 @export var water:int
 @export var rarity:int
+@export var immune_to_status:Array[String]
 
 var cost:int: get = _get_cost
 
@@ -21,6 +22,7 @@ func copy(other:ThingData) -> void:
 	light = other_plant.light
 	water = other_plant.water
 	rarity = other_plant.rarity
+	immune_to_status = other_plant.immune_to_status.duplicate()
 
 func get_duplicate() -> PlantData:
 	var dup:PlantData = PlantData.new()

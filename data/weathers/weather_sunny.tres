@@ -13,6 +13,7 @@ id = ""
 display_name = ""
 description = ""
 data = {}
+note = ""
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
@@ -22,4 +23,5 @@ id = "sunny"
 display_name = "Sunny"
 description = ""
 data = {}
+note = ""
 metadata/_custom_type_script = "uid://g4t52w546b5k"
