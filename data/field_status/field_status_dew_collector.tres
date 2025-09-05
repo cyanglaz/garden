@@ -15,4 +15,5 @@ description = "For each stack, gain {water} water when a card is discarded."
 data = {
 &"water": "1"
 }
+note = ""
 metadata/_custom_type_script = "uid://ep5ey6gqhty1"

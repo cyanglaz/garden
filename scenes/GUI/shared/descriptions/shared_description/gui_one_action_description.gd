@@ -89,7 +89,7 @@ func _get_action_description(action_data:ActionData) -> String:
 			pass
 	if action_description.contains("%s"):
 		action_description = action_description % _get_value_text(action_data)
-	action_description = Util.formate_references(action_description, {}, {}, func(_reference_id:String) -> bool: return false)
+	action_description = Util.format_references(action_description, {}, {}, func(_reference_id:String) -> bool: return false)
 	if !action_description.ends_with("."):
 		action_description += "."
 	return action_description

@@ -340,7 +340,7 @@ static func get_id_for_action_speical(special:ActionData.Special) -> String:
 			id = "all_fields"
 	return id
 
-static func formate_references(formatted_description:String, data_to_format:Dictionary, highlight_description_keys:Dictionary, additional_highlight_check:Callable, ) -> String:
+static func format_references(formatted_description:String, data_to_format:Dictionary, highlight_description_keys:Dictionary, additional_highlight_check:Callable, ) -> String:
 	var searching_start_index := 0
 	while true:
 		var start_index := formatted_description.find("{", searching_start_index)

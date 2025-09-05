@@ -20,4 +20,5 @@ id = "lady_rose"
 display_name = "Lady Hawthorne"
 description = ""
 data = {}
+note = ""
 metadata/_custom_type_script = "uid://bt7c5hiesqa06"

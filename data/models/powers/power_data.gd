@@ -22,7 +22,7 @@ func get_duplicate() -> PowerData:
 	return dup
 #
 #func get_display_description(comparison:bool) -> String:
-	#var formatted_description = _formate_references(description, data, func(reference_id:String) -> bool:
+	#var formatted_description = _format_references(description, data, func(reference_id:String) -> bool:
 		#if comparison:
 			#var upgraded_from_data:PowerData = _get_upgraded_from_data()
 			#if upgraded_from_data.data.has(reference_id):
