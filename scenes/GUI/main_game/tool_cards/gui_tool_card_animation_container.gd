@@ -124,7 +124,7 @@ func _animate_draw(animation_item:AnimationQueueItem) -> void:
 			animating_card.animation_mode = true
 			animating_card.global_position = _draw_deck_button.global_position
 			animating_card.size = _draw_deck_button.size
-		delay_index += 1
+			delay_index += 1
 		animating_card.mouse_disabled = true
 		animating_cards.append(animating_card)
 		if delay_index >= 0:

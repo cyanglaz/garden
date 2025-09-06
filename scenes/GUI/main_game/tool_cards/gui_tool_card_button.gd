@@ -32,7 +32,7 @@ const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/
 var mouse_disabled:bool = false: set = _set_mouse_disabled
 var activated := false: set = _set_activated
 var card_state:CardState = CardState.NORMAL: set = _set_card_state
-var resource_sufficient := false: set = _set_resourcet_sufficient
+var resource_sufficient := false: set = _set_resource_sufficient
 var animation_mode := false : set = _set_animation_mode
 var display_mode := false
 var _tool_data:ToolData: get = _get_tool_data
@@ -162,7 +162,7 @@ func _get_hover_sound() -> AudioStream:
 func _get_click_sound() -> AudioStream:
 	return CARD_SELECT_SOUND
 
-func _set_resourcet_sufficient(value:bool) -> void:
+func _set_resource_sufficient(value:bool) -> void:
 	resource_sufficient = value
 	if value:
 		_cost_icon.modulate = Constants.RESOURCE_SUFFICIENT_COLOR
