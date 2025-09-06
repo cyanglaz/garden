@@ -182,11 +182,13 @@ func _animate_use_card(animation_item:AnimationQueueItem) -> void:
 	assert(_in_use_card == null)
 	_in_use_card = ANIMATING_TOOL_CARD_SCENE.instantiate()
 	add_child(_in_use_card)
+	_in_use_card.card_state = GUIToolCardButton.CardState.HIGHLIGHTED
 	_in_use_card.update_with_tool_data(card._tool_data)
 	_in_use_card.global_position = card.global_position
 	_in_use_card.mouse_disabled = true
+	_in_use_card.play_use_sound()
 	_tool_card_container.remove_cards([card])
-	_animate_reposition()
+	#_animate_reposition()
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
 	tween.tween_property(_in_use_card, "global_position", _in_use_card.global_position + Vector2.UP * USE_CARD_OFFSET, REPOSITION_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)

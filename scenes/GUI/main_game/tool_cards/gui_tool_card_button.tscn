@@ -115,3 +115,5 @@ patch_margin_bottom = 4
 [node name="UseSound" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("5_a7c0j")
+volume_db = 5.0
+bus = &"SFX"

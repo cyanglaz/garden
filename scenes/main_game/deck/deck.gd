@@ -35,16 +35,6 @@ func shuffle_draw_pool() -> void:
 	draw_pool_updated.emit(draw_pool)
 	discard_pool.clear()
 	discard_pool_updated.emit(discard_pool)
-	#if pool[0] is PlantData:
-		#print("draw pool: ", draw_pool.size())
-		#for item in draw_pool:
-			#print(item.id)
-		#print("discard pool: ", discard_pool.size())
-		#for item in discard_pool:
-			#print(item.id)
-		#print("hand: ", hand.size())
-		#for item in hand:
-			#print(item.id)
 
 func draw(count:int, indices:Array = []) -> Array:
 	indices = indices.duplicate()
