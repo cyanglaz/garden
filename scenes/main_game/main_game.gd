@@ -75,7 +75,7 @@ func _ready() -> void:
 	gui_main_game.gui_shop_main.next_week_button_pressed.connect(_on_shop_next_week_pressed)
 	gui_main_game.gui_shop_main.tool_shop_button_pressed.connect(_on_tool_shop_button_pressed)
 	
-	energy_tracker.can_be_capped = false
+	energy_tracker.capped = false
 	level_manager.generate_with_chapter(0)
 	start_new_week()
 	_update_gold(50, false)

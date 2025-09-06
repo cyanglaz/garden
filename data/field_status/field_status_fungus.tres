@@ -15,4 +15,5 @@ description = "Reduce {icon_resource_light} and {icon_resource_water} by {value}
 data = {
 &"value": "1"
 }
+note = ""
 metadata/_custom_type_script = "uid://ep5ey6gqhty1"
