@@ -5,24 +5,23 @@ const IN_USE_PAUSE := 0.2
 
 signal tool_application_started(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
-signal _discard_animation_completed(tool_datas:Array)
-signal _tool_applied(tool_data:ToolData)
+signal _apply_card_animation_completed()
+signal _apply_animation_completed()
 
 var tool_deck:Deck
-var selected_tool_index:int = -1
-var selected_tool:ToolData: get = _get_selected_tool
+var selected_tool_index:int: get = _get_selected_tool_index
+var selected_tool:ToolData
 
 var _gui_tool_card_container:GUIToolCardContainer: get = _get_gui_tool_card_container
 var _tool_applier:ToolApplier = ToolApplier.new()
-var _applying_discard_tools := []
-var _applying_tools := []
-var _applying_started_tools := []
+var _apply_animation_started:bool = false
+var _apply_card_animation_started:bool = false
 var _weak_gui_tool_card_container:WeakRef = weakref(null)
 
 func _init(initial_tools:Array, gui_tool_card_container:GUIToolCardContainer) -> void:
 	tool_deck = Deck.new(initial_tools)
-	_discard_animation_completed.connect(_on_discard_animation_completed)
-	_tool_applied.connect(_on_tool_applied)
+	_apply_card_animation_completed.connect(_on_apply_card_animation_completed)
+	_apply_animation_completed.connect(_on_apply_animation_completed)
 	_weak_gui_tool_card_container = weakref(gui_tool_card_container)
 
 func refresh_deck() -> void:
@@ -54,24 +53,24 @@ func discard_cards(tools:Array) -> void:
 	# Order is important, discard first, then animate
 	tool_deck.discard(tools)
 	await _gui_tool_card_container.animate_discard(indices)
-	_discard_animation_completed.emit(tools)
 
-func select_tool(index:int) -> void:
-	selected_tool_index = index
+func animate_use_card(tool_data:ToolData) -> void:
+	var index:int = tool_deck.hand.find(tool_data)
+	tool_deck.use(tool_data)
+	await _gui_tool_card_container.animate_use_card(index)
 
-func apply_tool(main_game:MainGame, fields:Array, selected_index:int) -> void:
+func animate_discard_in_use_card() -> void:
+	tool_deck.discard([tool_deck.in_use_item])
+	await _gui_tool_card_container.animate_discard_in_use_card()
+
+func select_tool(tool_data:ToolData) -> void:
+	selected_tool = tool_data
+
+func apply_tool(main_game:MainGame, fields:Array, field_index:int) -> void:
 	var applying_tool = selected_tool
-	_applying_started_tools.append(applying_tool)
-	tool_deck.use(applying_tool)
-	_gui_tool_card_container.get_card(selected_tool_index).card_state = GUIToolCardButton.CardState.IN_USE
-	_gui_tool_card_container.get_card(selected_tool_index).play_use_sound()
+	_handle_card(applying_tool)
+	_run_apply_tool(main_game, fields, field_index, applying_tool)
 	tool_application_started.emit(applying_tool)
-	await main_game.field_container.trigger_tool_application_hook()
-	_applying_discard_tools.append(applying_tool)
-	_applying_tools.append(applying_tool)
-	await _tool_applier.apply_tool(main_game, fields, selected_index, applying_tool)
-	_tool_applied.emit(applying_tool)
-	discard_cards([applying_tool])
 
 func discardable_cards() -> Array:
 	return tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return tool_data != selected_tool)
@@ -86,27 +85,37 @@ func add_tool_to_draw_pile(tool_data:ToolData, from_global_position:Vector2, ran
 func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)
 
-func _get_selected_tool() -> ToolData:
-	if selected_tool_index < 0:
-		return null
-	return tool_deck.get_item(selected_tool_index)
+func _handle_card(tool_data:ToolData) -> void:
+	_apply_card_animation_started = true
+	if tool_data.need_select_field:
+		await discard_cards([tool_data])
+	else:
+		await animate_use_card(tool_data)
+		await animate_discard_in_use_card()
+	_apply_card_animation_started = false
+	_apply_card_animation_completed.emit()
+
+func _run_apply_tool(main_game:MainGame, fields:Array, field_index:int, tool_data:ToolData) -> void:
+	_apply_animation_started = true
+	await main_game.field_container.trigger_tool_application_hook()
+	await _tool_applier.apply_tool(main_game, fields, field_index, tool_data)
+	_apply_animation_started = false
+	_apply_animation_completed.emit()
+
+func _get_selected_tool_index() -> int:
+	if !selected_tool:
+		return -1
+	return tool_deck.hand.find(selected_tool)
 
 func _get_gui_tool_card_container() -> GUIToolCardContainer:
 	return _weak_gui_tool_card_container.get_ref()
 
-func _on_discard_animation_completed(tool_datas:Array) -> void:
-	if tool_datas.size() != 1:
-		# This only handles when the discarding is from applying card
-		# Multiple card discarding is ignored
-		return
-	var tool_data:ToolData = tool_datas.front()
-	_applying_discard_tools.erase(tool_data)
-	if !_applying_tools.has(tool_data) && !_applying_discard_tools.has(tool_data) && _applying_started_tools.has(tool_data):
-		_applying_started_tools.erase(tool_data)
+func _on_apply_card_animation_completed() -> void:
+	assert(!_apply_card_animation_started)
+	if !_apply_animation_started:
 		tool_application_completed.emit()
 
-func _on_tool_applied(tool_data:ToolData) -> void:
-	_applying_tools.erase(tool_data)
-	if !_applying_tools.has(tool_data) && !_applying_discard_tools.has(tool_data) && _applying_started_tools.has(tool_data):
-		_applying_started_tools.erase(tool_data)
+func _on_apply_animation_completed() -> void:
+	assert(!_apply_animation_started)
+	if !_apply_card_animation_started:
 		tool_application_completed.emit()

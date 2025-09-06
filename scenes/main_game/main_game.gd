@@ -190,7 +190,7 @@ func _discard_all_tools() -> void:
 	await tool_manager.discard_cards(tool_manager.tool_deck.hand.duplicate())
 
 func _clear_tool_selection() -> void:
-	tool_manager.select_tool(-1)
+	tool_manager.select_tool(null)
 	gui_main_game.clear_tool_selection()
 	field_container.clear_tool_indicators()
 
@@ -202,11 +202,11 @@ func _plant_new_seeds() -> void:
 
 func _handle_select_tool(index:int) -> void:
 	field_container.clear_tool_indicators()
-	tool_manager.select_tool(index)
+	tool_manager.select_tool(tool_manager.tool_deck.hand[index])
 
 func _apply_instant_tool() -> void:
 	await Util.create_scaled_timer(INSTANT_CARD_USE_DELAY).timeout
-	await tool_manager.apply_tool(self, field_container.fields, 0)
+	tool_manager.apply_tool(self, field_container.fields, 0)
 
 #endregion
 
@@ -249,7 +249,8 @@ func _on_tool_selected(index:int) -> void:
 func _on_tool_application_started(tool_data:ToolData) -> void:
 	_clear_tool_selection()
 	gui_main_game.toggle_all_ui(false)
-	energy_tracker.spend(tool_data.energy_cost)
+	if tool_data.energy_cost > 0:
+		energy_tracker.spend(tool_data.energy_cost)
 
 func _on_tool_application_completed() -> void:
 	await _harvest()
@@ -281,7 +282,7 @@ func _on_field_hovered(hovered:bool, index:int) -> void:
 func _on_field_pressed(index:int) -> void:
 	if !tool_manager.selected_tool:
 		return
-	await tool_manager.apply_tool(self, field_container.fields, index)
+	tool_manager.apply_tool(self, field_container.fields, index)
 
 func _on_plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData) -> void:
 	field_container.fields[field_index].plant_seed(plant_data)

@@ -40,8 +40,6 @@ func clear_selection() -> void:
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
 		gui_card.mouse_disabled = false
-		if gui_card.card_state == GUIToolCardButton.CardState.IN_USE:
-			continue
 		gui_card.card_state = GUIToolCardButton.CardState.NORMAL
 	_selected_index = -1
 	_clear_warning_tooltip()
@@ -81,14 +79,14 @@ func animate_draw(draw_results:Array) -> void:
 func animate_discard(discarding_indices:Array) -> void:
 	await _gui_tool_card_animation_container.animate_discard(discarding_indices)
 
-func animate_discard_using_card() -> void:
-	await _gui_tool_card_animation_container.animate_discard_using_card()
+func animate_use_card(index:int) -> void:
+	await _gui_tool_card_animation_container.animate_use_card(index)
+
+func animate_discard_in_use_card() -> void:
+	await _gui_tool_card_animation_container.animate_discard_in_use_card()
 
 func animate_shuffle(number_of_cards:int) -> void:
 	await _gui_tool_card_animation_container.animate_shuffle(number_of_cards)
-
-func animate_use_card(index:int) -> void:
-	await _gui_tool_card_animation_container.animate_use_card(index)
 
 func animate_add_card_to_draw_pile(tool_data:ToolData, from_global_position:Vector2, pause:bool) -> void:
 	await _gui_tool_card_animation_container.animate_add_card_to_draw_pile(tool_data, from_global_position, pause)

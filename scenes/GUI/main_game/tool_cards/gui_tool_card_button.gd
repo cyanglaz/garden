@@ -5,7 +5,6 @@ enum CardState {
 	NORMAL,
 	HIGHLIGHTED,
 	SELECTED,
-	IN_USE,
 }
 
 const SPECIAL_ICON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_special_icon.tscn")
@@ -33,7 +32,7 @@ const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/
 var mouse_disabled:bool = false: set = _set_mouse_disabled
 var activated := false: set = _set_activated
 var card_state:CardState = CardState.NORMAL: set = _set_card_state
-var resource_sufficient := false: set = _set_resourcet_sufficient
+var resource_sufficient := false: set = _set_resource_sufficient
 var animation_mode := false : set = _set_animation_mode
 var display_mode := false
 var _tool_data:ToolData: get = _get_tool_data
@@ -152,9 +151,6 @@ func _set_card_state(value:CardState) -> void:
 		CardState.HIGHLIGHTED:
 			_container_offset = HIGHLIGHTED_OFFSET
 			_highlight_border.show()
-		CardState.IN_USE:
-			_container_offset = IN_USE_OFFSET
-			_highlight_border.show()
 
 func _set_container_offset(offset:float) -> void:
 	_container_offset = offset
@@ -166,7 +162,7 @@ func _get_hover_sound() -> AudioStream:
 func _get_click_sound() -> AudioStream:
 	return CARD_SELECT_SOUND
 
-func _set_resourcet_sufficient(value:bool) -> void:
+func _set_resource_sufficient(value:bool) -> void:
 	resource_sufficient = value
 	if value:
 		_cost_icon.modulate = Constants.RESOURCE_SUFFICIENT_COLOR
