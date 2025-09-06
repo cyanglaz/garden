@@ -190,7 +190,7 @@ func _discard_all_tools() -> void:
 	await tool_manager.discard_cards(tool_manager.tool_deck.hand.duplicate())
 
 func _clear_tool_selection() -> void:
-	tool_manager.select_tool(-1)
+	tool_manager.select_tool(null)
 	gui_main_game.clear_tool_selection()
 	field_container.clear_tool_indicators()
 
@@ -202,7 +202,7 @@ func _plant_new_seeds() -> void:
 
 func _handle_select_tool(index:int) -> void:
 	field_container.clear_tool_indicators()
-	tool_manager.select_tool(index)
+	tool_manager.select_tool(tool_manager.tool_deck.hand[index])
 
 func _apply_instant_tool() -> void:
 	await Util.create_scaled_timer(INSTANT_CARD_USE_DELAY).timeout

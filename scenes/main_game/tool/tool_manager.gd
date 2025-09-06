@@ -9,8 +9,8 @@ signal _apply_card_animation_completed()
 signal _apply_animation_completed()
 
 var tool_deck:Deck
-var selected_tool_index:int = -1
-var selected_tool:ToolData: get = _get_selected_tool
+var selected_tool_index:int: get = _get_selected_tool_index
+var selected_tool:ToolData
 
 var _gui_tool_card_container:GUIToolCardContainer: get = _get_gui_tool_card_container
 var _tool_applier:ToolApplier = ToolApplier.new()
@@ -54,16 +54,20 @@ func discard_cards(tools:Array) -> void:
 	tool_deck.discard(tools)
 	await _gui_tool_card_container.animate_discard(indices)
 
-func use_and_discard_card(tool_data:ToolData) -> void:
+func animate_use_card(tool_data:ToolData) -> void:
+	var index:int = tool_deck.hand.find(tool_data)
 	tool_deck.use(tool_data)
-	await _gui_tool_card_container.animate_use_and_discard_card(selected_tool_index)
+	await _gui_tool_card_container.animate_use_card(index)
 
-func select_tool(index:int) -> void:
-	selected_tool_index = index
+func animate_discard_in_use_card() -> void:
+	tool_deck.discard([tool_deck.in_use_item])
+	await _gui_tool_card_container.animate_discard_in_use_card()
+
+func select_tool(tool_data:ToolData) -> void:
+	selected_tool = tool_data
 
 func apply_tool(main_game:MainGame, fields:Array, field_index:int) -> void:
 	var applying_tool = selected_tool
-	selected_tool_index = -1
 	_handle_card(applying_tool)
 	_run_apply_tool(main_game, fields, field_index, applying_tool)
 	tool_application_started.emit(applying_tool)
@@ -86,7 +90,8 @@ func _handle_card(tool_data:ToolData) -> void:
 	if tool_data.need_select_field:
 		await discard_cards([tool_data])
 	else:
-		await use_and_discard_card(tool_data)
+		await animate_use_card(tool_data)
+		await animate_discard_in_use_card()
 	_apply_card_animation_started = false
 	_apply_card_animation_completed.emit()
 
@@ -97,10 +102,10 @@ func _run_apply_tool(main_game:MainGame, fields:Array, field_index:int, tool_dat
 	_apply_animation_started = false
 	_apply_animation_completed.emit()
 
-func _get_selected_tool() -> ToolData:
-	if selected_tool_index < 0:
-		return null
-	return tool_deck.get_item(selected_tool_index)
+func _get_selected_tool_index() -> int:
+	if !selected_tool:
+		return -1
+	return tool_deck.hand.find(selected_tool)
 
 func _get_gui_tool_card_container() -> GUIToolCardContainer:
 	return _weak_gui_tool_card_container.get_ref()
