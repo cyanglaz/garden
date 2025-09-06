@@ -77,6 +77,7 @@ func animate_discard_in_use_card() -> void:
 	discard_tween.set_parallel(true)
 	_animate_discard_a_card(in_use_card, discard_tween, 0)
 	await discard_tween.finished
+	_animate_reposition()
 	in_use_card.queue_free()
 
 func animate_add_card_to_draw_pile(tool_data:ToolData, from_global_position:Vector2, pause:bool) -> void:
