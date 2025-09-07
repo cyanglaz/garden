@@ -47,8 +47,6 @@ func _set_button_state(val:ButtonState) -> void:
 			_background.self_modulate = Constants.COLOR_BEIGE_1
 
 func _on_pool_updated(pool:Array) -> void:
-	if type == Type.ALL:
-		print("pool updated: ", pool.size())
 	var old_size := _size
 	_size = pool.size()
 	if _label_update_tween && _label_update_tween.is_running():

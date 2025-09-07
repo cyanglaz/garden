@@ -70,7 +70,6 @@ func _handle_discard_card_action(action:ActionData, main_game:MainGame, tool_dat
 		if tool_datas_to_discard.is_empty():
 			return
 		var random_tools := Util.unweighted_roll(tool_datas_to_discard, discard_size)
-		print("Discarding cards: ", random_tools.size())
 		await main_game.discard_cards(random_tools)
 		await main_game.field_container.trigger_tool_discard_hook(discard_size)
 	else:
