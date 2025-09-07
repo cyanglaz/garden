@@ -11,12 +11,13 @@ const COSTS := {
 
 enum Special {
 	USE_ON_DRAW,
+	WASTE,
 }
 
 
 @export var energy_cost:int = 1
 @export var actions:Array[ActionData]
-@export var rarity:int = 0 # -1: curse, 0: common, 1: uncommon, 2: rare
+@export var rarity:int = 0 # -1: waste, 0: common, 1: uncommon, 2: rare
 @export var specials:Array[Special]
 @export var need_select_field:bool
 

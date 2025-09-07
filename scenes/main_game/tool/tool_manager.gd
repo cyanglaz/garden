@@ -27,6 +27,9 @@ func _init(initial_tools:Array, gui_tool_card_container:GUIToolCardContainer) ->
 func refresh_deck() -> void:
 	tool_deck.refresh()
 
+func cleanup_deck() -> void:
+	tool_deck.filter_items(func(tool_data:ToolData): return !tool_data.specials.has(ToolData.Special.WASTE))
+
 func draw_cards(count:int) -> Array:
 	var _display_index = tool_deck.hand.size() - 1
 	var draw_results:Array = tool_deck.draw(count)

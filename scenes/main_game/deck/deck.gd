@@ -90,3 +90,12 @@ func remove_item(item:Variant) -> void:
 	pool_updated.emit(pool)
 	if item == in_use_item:
 		in_use_item = null
+
+func filter_items(filter_func:Callable) -> void:
+	pool = pool.filter(filter_func)
+	draw_pool = draw_pool.filter(filter_func)
+	hand = hand.filter(filter_func)
+	discard_pool = discard_pool.filter(filter_func)
+	pool_updated.emit(pool)
+	draw_pool_updated.emit(draw_pool)
+	discard_pool_updated.emit(discard_pool)

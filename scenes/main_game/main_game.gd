@@ -142,6 +142,7 @@ func _met_win_condition() -> bool:
 	
 func _win() -> void:
 	gui_main_game.toggle_all_ui(false)
+	tool_manager.cleanup_deck()
 	await Util.create_scaled_timer(WIN_PAUSE_TIME).timeout
 	for field:Field in field_container.fields:
 		field.remove_plant()
