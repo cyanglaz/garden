@@ -188,6 +188,7 @@ func _animate_use_card(animation_item:AnimationQueueItem) -> void:
 	_in_use_card.global_position = card.global_position
 	_in_use_card.mouse_disabled = true
 	_in_use_card.play_use_sound()
+	print("card removed")
 	_tool_card_container.remove_cards([card])
 	#_animate_reposition()
 	var tween:Tween = Util.create_scaled_tween(self)
@@ -206,7 +207,6 @@ func _animate_reposition() -> void:
 	for i:int in _tool_card_container.get_card_count():
 		var card:GUIToolCardButton = _tool_card_container.get_card(i)
 		var target_position:Vector2 = _tool_card_container.global_position + default_positions[i]
-		card.play_move_sound()
 		reposition_tween.tween_property(card, "global_position", target_position, REPOSITION_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await reposition_tween.finished
 

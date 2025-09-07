@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bhwybbx8bmbks"
+path="res://.godot/imported/icon_compost.aseprite-5910c8f432343cec41bae3b7a3701727.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_compost.aseprite"
+dest_files=["res://.godot/imported/icon_compost.aseprite-5910c8f432343cec41bae3b7a3701727.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

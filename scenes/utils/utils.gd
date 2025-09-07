@@ -334,8 +334,8 @@ static func get_id_for_tool_speical(special:ToolData.Special) -> String:
 	match special:
 		ToolData.Special.USE_ON_DRAW:
 			id = "use_on_draw"
-		ToolData.Special.WASTE:
-			id = "waste"
+		ToolData.Special.COMPOST:
+			id = "compost"
 		_:
 			assert(false, "special id not implemented")
 	return id

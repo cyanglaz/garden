@@ -110,8 +110,8 @@ GAME_OVER_TOTAL_GOLD_EARNED, "Total Gold Earned"
 
 CARD_SPECIAL_NAME_ON_DRAW, "On Draw"
 CARD_SPECIAL_DESCRIPTION_ON_DRAW, "This card is automatically used when drawn."
-CARD_SPECIAL_NAME_WASTE, "Waste"
-CARD_SPECIAL_DESCRIPTION_WASTE, "This card is removed from the deck at the end of the week."
+CARD_SPECIAL_NAME_COMPOST, "Compost"
+CARD_SPECIAL_DESCRIPTION_COMPOST, "After play, this card is unavailable until next level."
 
 MAX_DAY_LABEL_TEXT, "Max Days: %s"
 IMMUNE_TO_STATUS_TEXT, "Immune to: %s"

@@ -28,7 +28,7 @@ func refresh_deck() -> void:
 	tool_deck.refresh()
 
 func cleanup_deck() -> void:
-	tool_deck.filter_items(func(tool_data:ToolData): return !tool_data.specials.has(ToolData.Special.WASTE))
+	tool_deck.filter_items(func(tool_data:ToolData): return !tool_data.rarity != -1)
 
 func draw_cards(count:int) -> Array:
 	var _display_index = tool_deck.hand.size() - 1
@@ -49,22 +49,25 @@ func shuffle() -> void:
 
 func discard_cards(tools:Array) -> void:
 	var indices:Array = []
+	var discarding_in_use_card:ToolData
 	for tool_data:ToolData in tools:
-		var index:int = tool_deck.hand.find(tool_data)
-		assert(index >= 0)
-		indices.append(index)
+		if tool_data == tool_deck.in_use_item:
+			discarding_in_use_card = tool_data
+		else:
+			var index:int = tool_deck.hand.find(tool_data)
+			assert(index >= 0)
+			indices.append(index)
 	# Order is important, discard first, then animate
 	tool_deck.discard(tools)
-	await _gui_tool_card_container.animate_discard(indices)
+	if indices.size() > 0:
+		await _gui_tool_card_container.animate_discard(indices)
+	if discarding_in_use_card:
+		await _gui_tool_card_container.animate_discard_in_use_card()
 
-func animate_use_card(tool_data:ToolData) -> void:
+func use_card(tool_data:ToolData) -> void:
 	var index:int = tool_deck.hand.find(tool_data)
 	tool_deck.use(tool_data)
 	await _gui_tool_card_container.animate_use_card(index)
-
-func animate_discard_in_use_card() -> void:
-	tool_deck.discard([tool_deck.in_use_item])
-	await _gui_tool_card_container.animate_discard_in_use_card()
 
 func select_tool(tool_data:ToolData) -> void:
 	selected_tool = tool_data
@@ -90,11 +93,9 @@ func get_tool(index:int) -> ToolData:
 
 func _handle_card(tool_data:ToolData) -> void:
 	_apply_card_animation_started = true
-	if tool_data.need_select_field:
-		await discard_cards([tool_data])
-	else:
-		await animate_use_card(tool_data)
-		await animate_discard_in_use_card()
+	if !tool_data.need_select_field:
+		await use_card(tool_data)
+	await discard_cards([tool_data])
 	_apply_card_animation_started = false
 	_apply_card_animation_completed.emit()
 
