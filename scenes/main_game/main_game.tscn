@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://sc1eubamsw6x" path="res://scenes/main_game/main_game.gd" id="1_yra6k"]
 [ext_resource type="Resource" uid="uid://d1jqracpdos0e" path="res://data/player/player_apprentice.tres" id="2_8ywsm"]
 [ext_resource type="PackedScene" uid="uid://drjaux1gtvc31" path="res://scenes/utils/camera/feedback_camera_2d.tscn" id="2_yra6k"]
-[ext_resource type="Resource" uid="uid://r34vkggwq6bf" path="res://data/levels/test_level.tres" id="3_6eclk"]
+[ext_resource type="Resource" uid="uid://beaehexsm0mll" path="res://data/levels/level_lady_rose.tres" id="3_6eclk"]
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
 
 [node name="MainGame" type="Node2D"]
