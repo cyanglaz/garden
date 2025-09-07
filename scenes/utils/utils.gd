@@ -58,13 +58,13 @@ static func display_rich_text_tooltip(description:String, on_control_node:Contro
 	_display_tool_tip.call_deferred(rich_text_tooltip, on_control_node, anchor_mouse, tooltip_position)
 	return rich_text_tooltip
 
-static func display_plant_tooltip(plant_data:PlantData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIPlantTooltip:
+static func display_plant_tooltip(plant_data:PlantData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP, world_space:bool = false) -> GUIPlantTooltip:
 	var plant_tooltip:GUIPlantTooltip = GUI_PLANT_TOOLTIP_SCENE.instantiate()
 	plant_tooltip.hide()
 	Singletons.main_game.add_control_to_overlay(plant_tooltip)
 	plant_tooltip.tooltip_position = tooltip_position
 	plant_tooltip.update_with_plant_data(plant_data)
-	_display_tool_tip.call_deferred(plant_tooltip, on_control_node, anchor_mouse, tooltip_position)
+	_display_tool_tip.call_deferred(plant_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
 	return plant_tooltip
 
 static func display_weather_tooltip(weather_data:WeatherData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIWeatherTooltip:
@@ -124,12 +124,15 @@ static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_m
 	match tooltip_position:
 		GUITooltip.TooltipPosition.TOP_RIGHT:
 			x_offset = on_control_node.size.x + TOOLTIP_OFFSET
-			y_offset = - tooltip.size.y - TOOLTIP_OFFSET
+			y_offset = - tooltip.size.y + on_control_node.size.y - TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.TOP:
 			x_offset = on_control_node.size.x/2 - tooltip.size.x/2
 			y_offset = - tooltip.size.y - TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.RIGHT:
 			x_offset = on_control_node.size.x + TOOLTIP_OFFSET
+		GUITooltip.TooltipPosition.LEFT_TOP:
+			x_offset = -tooltip.size.x - TOOLTIP_OFFSET
+			y_offset = - tooltip.size.y + on_control_node.size.y - TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.LEFT:
 			x_offset = -tooltip.size.x - TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.BOTTOM:

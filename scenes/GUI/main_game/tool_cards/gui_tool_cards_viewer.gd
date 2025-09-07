@@ -28,7 +28,11 @@ func animated_show_with_pool(pool:Array, title:String) -> void:
 		var gui_tool_card: GUIToolCardButton = TOOL_CARD_BUTTON_SCENE.instantiate()
 		gui_tool_card.display_mode = true
 		_grid_container.add_child(gui_tool_card)
+		gui_tool_card.activated = true
+		gui_tool_card.mouse_disabled = false
 		gui_tool_card.update_with_tool_data(tool_data)
+		gui_tool_card.mouse_entered.connect(_on_mouse_entered.bind(gui_tool_card))
+		gui_tool_card.mouse_exited.connect(_on_mouse_exited)
 		#card_size = GUIToolCardButton.SIZE
 	@warning_ignore("integer_division")
 	#var rows := pool.size()/_grid_container.columns
@@ -59,3 +63,14 @@ func animate_hide() -> void:
 func _on_back_button_evoked() -> void:
 	animate_hide()
 	PauseManager.try_unpause()
+
+func _on_mouse_entered(gui_tool_card:GUIToolCardButton) -> void:
+	for tool_card:GUIToolCardButton in _grid_container.get_children():
+		if tool_card == gui_tool_card:
+			tool_card.card_state = GUIToolCardButton.CardState.HIGHLIGHTED
+			continue
+		tool_card.card_state = GUIToolCardButton.CardState.NORMAL
+	
+func _on_mouse_exited() -> void:
+	for tool_card:GUIToolCardButton in _grid_container.get_children():
+		tool_card.card_state = GUIToolCardButton.CardState.NORMAL

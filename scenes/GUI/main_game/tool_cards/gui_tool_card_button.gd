@@ -125,9 +125,10 @@ func _get_tool_data() -> ToolData:
 
 func _set_activated(value:bool) -> void:
 	activated = value
-	var energy_tracker := Singletons.main_game.energy_tracker
-	_update_for_energy(energy_tracker.value)
-	energy_tracker.value_update.connect(_on_energy_tracker_value_updated.bind(energy_tracker))
+	if !display_mode:
+		var energy_tracker := Singletons.main_game.energy_tracker
+		_update_for_energy(energy_tracker.value)
+		energy_tracker.value_update.connect(_on_energy_tracker_value_updated.bind(energy_tracker))
 
 func _set_animation_mode(value:bool) -> void:
 	animation_mode = value
@@ -157,9 +158,13 @@ func _set_container_offset(offset:float) -> void:
 	_card_container.position.y = -offset
 
 func _get_hover_sound() -> AudioStream:
+	if display_mode:
+		return super._get_hover_sound()
 	return CARD_HOVER_SOUND
 
 func _get_click_sound() -> AudioStream:
+	if display_mode:
+		return super._get_click_sound()
 	return CARD_SELECT_SOUND
 
 func _set_resource_sufficient(value:bool) -> void:

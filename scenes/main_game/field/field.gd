@@ -25,7 +25,6 @@ signal new_plant_planted()
 @onready var _point_audio: AudioStreamPlayer2D = %PointAudio
 @onready var _gui_field_selection_arrow: GUIFieldSelectionArrow = %GUIFieldSelectionArrow
 @onready var _gui_field_status_container: GUIFieldStatusContainer = %GUIFieldStatusContainer
-@onready var _gui_plant_tooltip: GUIPlantTooltip = %GUIPlantTooltip
 @onready var _plant_down_sound: AudioStreamPlayer2D = %PlantDownSound
 
 var _weak_plant_preview:WeakRef = weakref(null)
@@ -33,6 +32,8 @@ var plant:Plant
 var status_manager:FieldStatusManager = FieldStatusManager.new()
 var weak_left_field:WeakRef = weakref(null)
 var weak_right_field:WeakRef = weakref(null)
+
+var _weak_plant_tooltip = weakref(null)
 
 func _ready() -> void:
 	_gui_field_button.state_updated.connect(_on_gui_field_button_state_updated)
@@ -46,7 +47,6 @@ func _ready() -> void:
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
 	_gui_field_selection_arrow.is_active = false
-	_gui_plant_tooltip.hide()
 	_reset_progress_bars()
 
 func toggle_selection_indicator(on:bool) -> void:
@@ -240,12 +240,12 @@ func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
 func _on_field_mouse_entered() -> void:
 	if plant:
 		field_hovered.emit(true)
-		_gui_plant_tooltip.update_with_plant_data(plant.data)
-		_gui_plant_tooltip.show()
+		_weak_plant_tooltip = weakref(Util.display_plant_tooltip(plant.data, _gui_field_button, false, GUITooltip.TooltipPosition.LEFT_TOP, true))
 
 func _on_field_mouse_exited() -> void:
 	field_hovered.emit(false)
-	_gui_plant_tooltip.hide()
+	if _weak_plant_tooltip.get_ref():
+		_weak_plant_tooltip.get_ref().queue_free()
 
 func _on_gui_field_button_action_evoked() -> void:
 	if plant:
