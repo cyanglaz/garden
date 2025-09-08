@@ -58,6 +58,15 @@ func remove_cards(gui_cards:Array[GUIToolCardButton]) -> void:
 		gui_card.queue_free()
 	_rebind_signals()
 
+func get_all_cards() -> Array:
+	return _container.get_children()
+
+func find_card(tool_data:ToolData) -> GUIToolCardButton:
+	for card:GUIToolCardButton in _container.get_children():
+		if card._tool_data == tool_data:
+			return card
+	return null
+
 func _rebind_signals() -> void:
 	for i in _container.get_children().size():
 		var gui_card:GUIToolCardButton = _container.get_child(i)
@@ -76,14 +85,11 @@ func _rebind_signals() -> void:
 func animate_draw(draw_results:Array) -> void:
 	await _gui_tool_card_animation_container.animate_draw(draw_results)
 	
-func animate_discard(discarding_indices:Array) -> void:
-	await _gui_tool_card_animation_container.animate_discard(discarding_indices)
+func animate_discard(discarding_tool_datas:Array) -> void:
+	await _gui_tool_card_animation_container.animate_discard(discarding_tool_datas)
 
-func animate_use_card(index:int) -> void:
-	await _gui_tool_card_animation_container.animate_use_card(index)
-
-func animate_discard_in_use_card() -> void:
-	await _gui_tool_card_animation_container.animate_discard_in_use_card()
+func animate_use_card(tool_data:ToolData) -> void:
+	await _gui_tool_card_animation_container.animate_use_card(tool_data)
 
 func animate_shuffle(number_of_cards:int) -> void:
 	await _gui_tool_card_animation_container.animate_shuffle(number_of_cards)

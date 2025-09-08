@@ -48,26 +48,14 @@ func shuffle() -> void:
 	tool_deck.shuffle_draw_pool()
 
 func discard_cards(tools:Array) -> void:
-	var indices:Array = []
-	var discarding_in_use_card:ToolData
-	for tool_data:ToolData in tools:
-		if tool_data == tool_deck.in_use_item:
-			discarding_in_use_card = tool_data
-		else:
-			var index:int = tool_deck.hand.find(tool_data)
-			assert(index >= 0)
-			indices.append(index)
+	assert(tools.size() > 0)
 	# Order is important, discard first, then animate
 	tool_deck.discard(tools)
-	if indices.size() > 0:
-		await _gui_tool_card_container.animate_discard(indices)
-	if discarding_in_use_card:
-		await _gui_tool_card_container.animate_discard_in_use_card()
+	await _gui_tool_card_container.animate_discard(tools)
 
 func use_card(tool_data:ToolData) -> void:
-	var index:int = tool_deck.hand.find(tool_data)
 	tool_deck.use(tool_data)
-	await _gui_tool_card_container.animate_use_card(index)
+	await _gui_tool_card_container.animate_use_card(tool_data)
 
 func select_tool(tool_data:ToolData) -> void:
 	selected_tool = tool_data
