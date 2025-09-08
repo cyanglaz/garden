@@ -11,6 +11,7 @@ signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantDat
 @onready var gui_tool_card_container: GUIToolCardContainer = %GUIToolCardContainer
 @onready var gui_draw_box_button: GUIDeckButton = %GUIDrawBoxButton
 @onready var gui_discard_box_button: GUIDeckButton = %GUIDiscardBoxButton
+@onready var gui_exhaust_box_button: GUIDeckButton = %GUIExhaustBoxButton
 
 @onready var gui_plant_deck_box: GUIPlantDeckBox = %GUIPlantDeckBox
 @onready var gui_plant_seed_animation_container: GUIPlantSeedAnimationContainer = %GUIPlantSeedAnimationContainer
@@ -103,10 +104,12 @@ func clear_tool_selection() -> void:
 func bind_tool_deck(tool_deck:Deck) -> void:
 	gui_draw_box_button.bind_deck(tool_deck)
 	gui_discard_box_button.bind_deck(tool_deck)
+	gui_exhaust_box_button.bind_deck(tool_deck)
 	_gui_top_bar.gui_full_deck_button.bind_deck(tool_deck)
 	_gui_top_bar.full_deck_button_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("FULL_DECK_TITLE"), GUIDeckButton.Type.ALL))
 	gui_draw_box_button.action_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DRAW_POOL_TITLE"), gui_draw_box_button.type))
 	gui_discard_box_button.action_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DISCARD_POOL_TITLE"), gui_discard_box_button.type))
+	gui_exhaust_box_button.action_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_EXHAUST_POOL_TITLE"), gui_exhaust_box_button.type))
 #endregion
 
 
@@ -170,6 +173,8 @@ func _on_deck_button_pressed(deck:Deck, title:String, type: GUIDeckButton.Type) 
 			_gui_tool_cards_viewer.animated_show_with_pool(deck.discard_pool, title)
 		GUIDeckButton.Type.ALL:
 			_gui_tool_cards_viewer.animated_show_with_pool(deck.pool, title)
+		GUIDeckButton.Type.EXHAUST:
+			_gui_tool_cards_viewer.animated_show_with_pool(deck.exhaust_pool, title)
 
 func _on_settings_button_evoked() -> void:
 	_gui_settings_main.animate_show()

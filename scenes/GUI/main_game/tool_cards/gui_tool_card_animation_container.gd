@@ -70,7 +70,7 @@ func animate_discard(tool_datas:Array) -> void:
 	var in_use_card:ToolData
 	var in_hand_cards:Array = []
 	for tool_data in tool_datas:
-		if tool_data == _in_use_card._tool_data:
+		if _in_use_card && tool_data == _in_use_card._tool_data:
 			in_use_card = tool_data
 		else:
 			in_hand_cards.append(tool_data)

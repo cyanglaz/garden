@@ -86,7 +86,7 @@ func exhaust(items:Array) -> void:
 			draw_pool_updated.emit(draw_pool)
 		else:
 			assert(false, "exhausting item at wrong place" + str(item))
-		exhaust_pool.append(items)
+	exhaust_pool.append_array(items)
 	exhaust_pool_updated.emit(exhaust_pool)
 
 func add_item(item:Variant) -> void:
