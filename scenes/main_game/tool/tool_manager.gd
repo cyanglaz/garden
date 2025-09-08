@@ -57,7 +57,7 @@ func exhaust_cards(tools:Array) -> void:
 	assert(tools.size() > 0)
 	# Order is important, exhaust first, then animate
 	tool_deck.exhaust(tools)
-	await _gui_tool_card_container.animate_exhaust_card(tools)
+	await _gui_tool_card_container.animate_exhaust(tools)
 
 func use_card(tool_data:ToolData) -> void:
 	tool_deck.use(tool_data)
@@ -89,7 +89,10 @@ func _handle_card(tool_data:ToolData) -> void:
 	_apply_card_animation_started = true
 	if !tool_data.need_select_field:
 		await use_card(tool_data)
-	await discard_cards([tool_data])
+	if tool_data.specials.has(ToolData.Special.COMPOST):
+		await exhaust_cards([tool_data])
+	else:
+		await discard_cards([tool_data])
 	_apply_card_animation_started = false
 	_apply_card_animation_completed.emit()
 
