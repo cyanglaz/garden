@@ -175,13 +175,10 @@ func _animate_discard(animation_item:AnimationQueueItem) -> void:
 func _animate_exhaust(animation_item:AnimationQueueItem) -> void:
 	var tool_datas:Array = animation_item.animation_args[0].duplicate()
 	var exhausting_cards:Array[GUIToolCardButton] = []
-	var exhaust_tween:Tween = Util.create_scaled_tween(self)
-	var index := 0
 	for card:GUIToolCardButton in _tool_card_container.get_all_cards():
 		if tool_datas.has(card._tool_data):
 			exhausting_cards.append(card)
-			index += 1
-	await exhaust_tween.finished
+			await card.play_exhaust_animation()
 	_tool_card_container.remove_cards(exhausting_cards)
 	await _animate_reposition()
 	_animation_queue_item_finished.emit(animation_item)
@@ -242,6 +239,7 @@ func _animate_exhaust_in_use_card() -> void:
 	assert(_in_use_card != null)
 	var in_use_card := _in_use_card
 	_in_use_card = null
+	await in_use_card.play_exhaust_animation()
 	# exhaust the card
 	_animate_reposition()
 	in_use_card.queue_free()

@@ -28,6 +28,7 @@ const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/
 @onready var _cost_icon: TextureRect = %CostIcon
 @onready var _rich_text_label: RichTextLabel = %RichTextLabel
 @onready var _use_sound: AudioStreamPlayer2D = %UseSound
+@onready var _animation_player: AnimationPlayer = %AnimationPlayer
 
 var mouse_disabled:bool = false: set = _set_mouse_disabled
 var activated := false: set = _set_activated
@@ -79,6 +80,10 @@ func play_move_sound() -> void:
 
 func play_use_sound() -> void:
 	_use_sound.play()
+
+func play_exhaust_animation() -> void:
+	_animation_player.play("dissolve")
+	await _animation_player.animation_finished
 
 func _update_for_energy(energy:int) -> void:
 	if !_tool_data:
