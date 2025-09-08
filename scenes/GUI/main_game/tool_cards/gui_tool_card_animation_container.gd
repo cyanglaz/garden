@@ -24,7 +24,6 @@ var _weak_discard_deck_button:WeakRef = weakref(null)
 
 var _animation_queue:Array = []
 var _in_use_card:GUIToolCardButton
-var _reposition_tween:Tween
 
 func _ready() -> void:
 	_animation_queue_item_finished.connect(_on_animation_queue_item_finished)
@@ -75,7 +74,7 @@ func animate_discard(tool_datas:Array) -> void:
 		else:
 			in_hand_cards.append(tool_data)
 	if in_use_card:
-		_animate_discard_in_use_card()
+		await _animate_discard_in_use_card()
 	if in_hand_cards.size() > 0:
 		var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_DISCARD, [in_hand_cards])
 		await item.finished
@@ -93,7 +92,7 @@ func animate_exhaust(tool_datas:Array) -> void:
 		else:
 			in_hand_cards.append(tool_data)
 	if in_use_card:
-		_animate_exhaust_in_use_card()
+		await _animate_exhaust_in_use_card()
 	if in_hand_cards.size() > 0:
 		var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_EXHAUST, [in_hand_cards])
 		await item.finished
@@ -265,18 +264,17 @@ func _animate_discard_a_card(card:GUIToolCardButton, tween:Tween, delay:float) -
 	)
 
 func _animate_reposition() -> void:
-	if _tool_card_container.get_card_count() == 0:
+	var card_count := _tool_card_container.get_card_count()
+	if card_count == 0:
 		return
-	if _reposition_tween && _reposition_tween.is_running():
-		_reposition_tween.kill()
-	var default_positions:Array[Vector2] = _tool_card_container.calculate_default_positions(_tool_card_container.get_card_count())
-	_reposition_tween = Util.create_scaled_tween(self)
-	_reposition_tween.set_parallel(true)
-	for i:int in _tool_card_container.get_card_count():
+	var default_positions:Array[Vector2] = _tool_card_container.calculate_default_positions(card_count)
+	var tween = Util.create_scaled_tween(self)
+	tween.set_parallel(true)
+	for i:int in card_count:
 		var card:GUIToolCardButton = _tool_card_container.get_card(i)
 		var target_position:Vector2 = _tool_card_container.global_position + default_positions[i]
-		_reposition_tween.tween_property(card, "global_position", target_position, REPOSITION_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	await _reposition_tween.finished
+		tween.tween_property(card, "global_position", target_position, REPOSITION_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	await tween.finished
 
 func _get_tool_card_container() -> GUIToolCardContainer:
 	return _weak_tool_card_container.get_ref()

@@ -1,6 +1,8 @@
 class_name GUIToolCardButton
 extends GUIBasicButton
 
+signal _dissolve_finished()
+
 enum CardState {
 	NORMAL,
 	HIGHLIGHTED,
@@ -48,6 +50,7 @@ func _ready() -> void:
 	assert(size == SIZE, "size not match")
 	_highlight_border.hide()
 	_highlight_border.self_modulate = Constants.RESOURCE_SUFFICIENT_COLOR
+	_animation_player.animation_finished.connect(_on_animation_finished)
 
 func update_with_tool_data(tool_data:ToolData) -> void:
 	_weak_tool_data = weakref(tool_data)
@@ -83,7 +86,7 @@ func play_use_sound() -> void:
 
 func play_exhaust_animation() -> void:
 	_animation_player.play("dissolve")
-	await _animation_player.animation_finished
+	await _dissolve_finished
 
 func _update_for_energy(energy:int) -> void:
 	if !_tool_data:
@@ -183,3 +186,7 @@ func _set_resource_sufficient(value:bool) -> void:
 		else:
 			_cost_icon.modulate = Constants.RESOURCE_INSUFFICIENT_COLOR
 		_highlight_border.modulate = Constants.RESOURCE_INSUFFICIENT_COLOR
+	
+func _on_animation_finished(anim_name:String) -> void:
+	if anim_name == "dissolve":
+		_dissolve_finished.emit()
