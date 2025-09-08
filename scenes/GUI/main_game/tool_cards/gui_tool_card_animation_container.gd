@@ -12,6 +12,7 @@ const ADD_CARD_TO_PILE_PAUSE_TIME := 0.2
 const USE_CARD_OFFSET := 40
 const USE_CARD_PAUSE_TIME := 0.3
 const USE_CARD_DISCARD_DELAY := 0.2
+const SHUFFLE_ANIMATION_TIME := 0.3
 
 signal _animation_queue_item_finished(finished_item:AnimationQueueItem)
 
@@ -54,7 +55,7 @@ func animate_shuffle(number_of_cards:int) -> void:
 		animating_card.global_position = _discard_deck_button.global_position
 		var target_position := _draw_deck_button.global_position
 		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * index - 0.01).timeout.connect(func(): animating_card.play_move_sound())
-		var tweener := tween.tween_property(animating_card, "global_position", target_position, DISCARD_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * index)
+		var tweener := tween.tween_property(animating_card, "global_position", target_position, SHUFFLE_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * index)
 		tweener.finished.connect(func():
 			animating_card.queue_free()
 		)
