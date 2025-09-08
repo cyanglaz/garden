@@ -2,15 +2,15 @@ class_name GUIToolCardAnimationContainer
 extends Control
 
 const ANIMATING_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
-const DRAW_ANIMATION_TIME := 0.3
-const DISCARD_ANIMATION_TIME := 0.3
+const DRAW_ANIMATION_TIME := 0.5
+const DISCARD_ANIMATION_TIME := 0.5
 const REPOSITION_ANIMATION_TIME := 0.15
 const CARD_MIN_SCALE := 0.8
 const MAX_SHUFFLE_CARDS := 5
 const ADD_CARD_TO_PILE_ANIMATION_TIME := 0.5
-const ADD_CARD_TO_PILE_PAUSE_TIME := 0.15
+const ADD_CARD_TO_PILE_PAUSE_TIME := 0.2
 const USE_CARD_OFFSET := 40
-const USE_CARD_PAUSE_TIME := 0.2
+const USE_CARD_PAUSE_TIME := 0.3
 const USE_CARD_DISCARD_DELAY := 0.2
 
 signal _animation_queue_item_finished(finished_item:AnimationQueueItem)
@@ -238,10 +238,12 @@ func _animate_exhaust_in_use_card() -> void:
 	assert(_in_use_card != null)
 	var in_use_card := _in_use_card
 	_in_use_card = null
+	in_use_card.play_exhaust_sound()
+	in_use_card.exhaust_sound_finished.connect(func() -> void:in_use_card.queue_free())
 	await in_use_card.play_exhaust_animation()
 	# exhaust the card
 	_animate_reposition()
-	in_use_card.queue_free()
+	in_use_card.hide()
 
 func _animate_discard_a_card(card:GUIToolCardButton, tween:Tween, delay:float) -> void:
 	var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
