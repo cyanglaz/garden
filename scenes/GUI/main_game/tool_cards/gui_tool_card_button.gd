@@ -18,8 +18,8 @@ const SELECTED_OFFSET := 6.0
 const IN_USE_OFFSET := 10.0
 const HIGHLIGHTED_OFFSET := 1.0
 const TOOLTIP_DELAY := 0.2
-const CARD_HOVER_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_hover.wav")
-const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_select.wav")
+const CARD_HOVER_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_hover.wav")
+const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_select.wav")
 
 @onready var _gui_action_list: GUIActionList = %GUIActionList
 @onready var _card_container: Control = %CardContainer

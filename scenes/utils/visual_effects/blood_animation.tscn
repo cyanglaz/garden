@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bqbyd8n0fq3e2" path="res://scenes/utils/visual_effects/one_shot_animation.tscn" id="1_dcgp0"]
 [ext_resource type="Texture2D" uid="uid://cjckoborwowat" path="res://resources/sprites/effects/other/blood.png" id="2_ijux7"]
-[ext_resource type="AudioStream" uid="uid://cgell1cdyboun" path="res://resources/sounds/SFX/effects/water_splash.wav" id="3_8lbb5"]
+[ext_resource type="AudioStream" uid="uid://cgell1cdyboun" path="res://resources/sounds/SFX/other/effects/water_splash.wav" id="3_8lbb5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u2ra4"]
 atlas = ExtResource("2_ijux7")

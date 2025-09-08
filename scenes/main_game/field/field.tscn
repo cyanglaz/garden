@@ -10,7 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://bs0jg061p4c2d" path="res://resources/sounds/SFX/field/field_buff.wav" id="7_wjfsy"]
 [ext_resource type="PackedScene" uid="uid://e0jhp4mhrm81" path="res://scenes/main_game/field/gui_field_status_container.tscn" id="9_3ecbu"]
 [ext_resource type="AudioStream" uid="uid://t10sv74gr8qu" path="res://resources/sounds/SFX/other/points/points_collected.wav" id="9_n6lee"]
-[ext_resource type="AudioStream" uid="uid://d1akur2jywp1n" path="res://resources/sounds/SFX/other/plants/plant_down.wav" id="9_sqga6"]
+[ext_resource type="AudioStream" uid="uid://d1akur2jywp1n" path="res://resources/sounds/SFX/plants/plant_down.wav" id="9_sqga6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sqga6"]
 atlas = ExtResource("1_se4o6")
