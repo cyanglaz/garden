@@ -3,14 +3,14 @@ extends RefCounted
 
 signal draw_pool_updated(draw_pool:Array)
 signal discard_pool_updated(discard_pool:Array)
-signal compost_pool_updated(compost_pool:Array)
+signal exhaust_pool_updated(exhaust_pool:Array)
 signal pool_updated(pool:Array)
 
 var pool:Array
 var draw_pool:Array
 var hand:Array
 var discard_pool:Array
-var compost_pool:Array
+var exhaust_pool:Array
 var in_use_item:Variant = null
 
 func _init(initial_items:Array) -> void:
@@ -28,12 +28,12 @@ func refresh() -> void:
 	draw_pool_updated.emit(draw_pool)
 	discard_pool.clear()
 	discard_pool_updated.emit(discard_pool)
-	compost_pool.clear()
-	compost_pool_updated.emit(compost_pool)
+	exhaust_pool.clear()
+	exhaust_pool_updated.emit(exhaust_pool)
 	hand.clear()
 
 func shuffle_draw_pool() -> void:
-	assert(draw_pool.size() + discard_pool.size() + hand.size() + compost_pool.size() + (1 if in_use_item else 0) == pool.size())
+	assert(draw_pool.size() + discard_pool.size() + hand.size() + exhaust_pool.size() + (1 if in_use_item else 0) == pool.size())
 	draw_pool.append_array(discard_pool.duplicate())
 	draw_pool.shuffle()
 	draw_pool_updated.emit(draw_pool)
@@ -72,21 +72,22 @@ func use(item:Variant) -> void:
 	hand.erase(item)
 	in_use_item = item
 
-func compost(item:Variant) -> void:
-	if item == in_use_item:
-		in_use_item = null
-	elif hand.has(item):
-		hand.erase(item)
-	elif discard_pool.has(item):
-		discard_pool.erase(item)
-		discard_pool_updated.emit(discard_pool)
-	elif draw_pool.has(item):
-		draw_pool.erase(item)
-		draw_pool_updated.emit(draw_pool)
-	else:
-		assert(false, "composting item at wrong place" + str(item))
-	compost_pool.append(item)
-	compost_pool_updated.emit(compost_pool)
+func exhaust(items:Array) -> void:
+	for item:Variant in items:
+		if item == in_use_item:
+			in_use_item = null
+		elif hand.has(item):
+			hand.erase(item)
+		elif discard_pool.has(item):
+			discard_pool.erase(item)
+			discard_pool_updated.emit(discard_pool)
+		elif draw_pool.has(item):
+			draw_pool.erase(item)
+			draw_pool_updated.emit(draw_pool)
+		else:
+			assert(false, "exhausting item at wrong place" + str(item))
+		exhaust_pool.append(items)
+	exhaust_pool_updated.emit(exhaust_pool)
 
 func add_item(item:Variant) -> void:
 	pool.append(item)
@@ -118,6 +119,6 @@ func filter_items(filter_func:Callable) -> void:
 	draw_pool_updated.emit(draw_pool)
 	discard_pool = discard_pool.filter(filter_func)
 	discard_pool_updated.emit(discard_pool)
-	compost_pool = compost_pool.filter(filter_func)
-	compost_pool_updated.emit(compost_pool)
+	exhaust_pool = exhaust_pool.filter(filter_func)
+	exhaust_pool_updated.emit(exhaust_pool)
 	hand = hand.filter(filter_func)

@@ -100,6 +100,9 @@ func animate_add_card_to_draw_pile(tool_data:ToolData, from_global_position:Vect
 func animate_add_card_to_deck(tool_data:ToolData, from_global_position:Vector2) -> void:
 	await _gui_tool_card_animation_container.animate_add_card_to_deck(tool_data, from_global_position)
 
+func animate_exhaust(tool_datas:Array) -> void:
+	await _gui_tool_card_animation_container.animate_exhaust(tool_datas)
+
 #endregion
 
 func get_card(index:int) -> GUIToolCardButton:

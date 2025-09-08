@@ -67,15 +67,36 @@ func animate_use_card(tool_data:ToolData) -> void:
 	await item.finished
 
 func animate_discard(tool_datas:Array) -> void:
-	if tool_datas.size() == 1 && tool_datas[0] == _in_use_card._tool_data:
+	var in_use_card:ToolData
+	var in_hand_cards:Array = []
+	for tool_data in tool_datas:
+		if tool_data == _in_use_card._tool_data:
+			in_use_card = tool_data
+		else:
+			in_hand_cards.append(tool_data)
+	if in_use_card:
 		_animate_discard_in_use_card()
-	else:
-		var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_DISCARD, [tool_datas])
+	if in_hand_cards.size() > 0:
+		var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_DISCARD, [in_hand_cards])
 		await item.finished
 
 func animate_add_card_to_draw_pile(tool_data:ToolData, from_global_position:Vector2, pause:bool) -> void:
 	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_ADD_CARD_TO_DRAW_PILE, [tool_data, from_global_position, pause])
 	await item.finished
+
+func animate_exhaust(tool_datas:Array) -> void:
+	var in_use_card:ToolData
+	var in_hand_cards:Array = []
+	for tool_data in tool_datas:
+		if tool_data == _in_use_card._tool_data:
+			in_use_card = tool_data
+		else:
+			in_hand_cards.append(tool_data)
+	if in_use_card:
+		_animate_exhaust_in_use_card()
+	if in_hand_cards.size() > 0:
+		var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_EXHAUST, [in_hand_cards])
+		await item.finished
 
 func _enqueue_animation(type:AnimationQueueItem.AnimationType, args:Array) -> AnimationQueueItem:
 	var id := _animation_queue.size()
@@ -151,6 +172,20 @@ func _animate_discard(animation_item:AnimationQueueItem) -> void:
 	await _animate_reposition()
 	_animation_queue_item_finished.emit(animation_item)
 
+func _animate_exhaust(animation_item:AnimationQueueItem) -> void:
+	var tool_datas:Array = animation_item.animation_args[0].duplicate()
+	var exhausting_cards:Array[GUIToolCardButton] = []
+	var exhaust_tween:Tween = Util.create_scaled_tween(self)
+	var index := 0
+	for card:GUIToolCardButton in _tool_card_container.get_all_cards():
+		if tool_datas.has(card._tool_data):
+			exhausting_cards.append(card)
+			index += 1
+	await exhaust_tween.finished
+	_tool_card_container.remove_cards(exhausting_cards)
+	await _animate_reposition()
+	_animation_queue_item_finished.emit(animation_item)
+
 func _animate_add_card_to_draw_pile(animation_item:AnimationQueueItem) -> void:
 	var tool_data:ToolData = animation_item.animation_args[0]
 	var from_global_position:Vector2 = animation_item.animation_args[1]
@@ -200,6 +235,14 @@ func _animate_discard_in_use_card() -> void:
 	discard_tween.set_parallel(true)
 	_animate_discard_a_card(in_use_card, discard_tween, 0)
 	await discard_tween.finished
+	_animate_reposition()
+	in_use_card.queue_free()
+
+func _animate_exhaust_in_use_card() -> void:
+	assert(_in_use_card != null)
+	var in_use_card := _in_use_card
+	_in_use_card = null
+	# exhaust the card
 	_animate_reposition()
 	in_use_card.queue_free()
 
@@ -261,6 +304,7 @@ class AnimationQueueItem:
 		ANIMATE_DISCARD,
 		ANIMATE_ADD_CARD_TO_DRAW_PILE,
 		ANIMATE_USE_CARD,
+		ANIMATE_EXHAUST,
 	}
 
 	var animation_type:AnimationType

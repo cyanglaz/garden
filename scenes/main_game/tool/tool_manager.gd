@@ -53,6 +53,12 @@ func discard_cards(tools:Array) -> void:
 	tool_deck.discard(tools)
 	await _gui_tool_card_container.animate_discard(tools)
 
+func exhaust_cards(tools:Array) -> void:
+	assert(tools.size() > 0)
+	# Order is important, exhaust first, then animate
+	tool_deck.exhaust(tools)
+	await _gui_tool_card_container.animate_exhaust_card(tools)
+
 func use_card(tool_data:ToolData) -> void:
 	tool_deck.use(tool_data)
 	await _gui_tool_card_container.animate_use_card(tool_data)
