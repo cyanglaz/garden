@@ -35,5 +35,5 @@ func _on_level_button_action_evoked(level_data:LevelData, index:int) -> void:
 	if index == _tool_tip_index:
 		_tool_tip_index = -1
 	else:
-		_weak_level_tooltip = weakref(Util.display_level_tooltip(level_data, get_child(index), false, GUITooltip.TooltipPosition.BOTTOM))
+		_weak_level_tooltip = weakref(Util.display_level_tooltip(level_data, get_child(index), false, GUITooltip.TooltipPosition.BOTTOM_LEFT))
 		_tool_tip_index = index

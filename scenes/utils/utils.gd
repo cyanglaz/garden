@@ -147,6 +147,9 @@ static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_m
 		GUITooltip.TooltipPosition.BOTTOM:
 			x_offset = on_control_node.size.x/2 - tooltip.size.x/2
 			y_offset = on_control_node.size.y + TOOLTIP_OFFSET
+		GUITooltip.TooltipPosition.BOTTOM_LEFT:
+			x_offset = -tooltip.size.x + on_control_node.size.x
+			y_offset = on_control_node.size.y + TOOLTIP_OFFSET
 	var reference_position := on_control_node.global_position
 	if world_space:
 		assert(on_control_node)
