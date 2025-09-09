@@ -94,8 +94,8 @@ func animate_use_card(tool_data:ToolData) -> void:
 func animate_shuffle(number_of_cards:int) -> void:
 	await _gui_tool_card_animation_container.animate_shuffle(number_of_cards)
 
-func animate_add_card_to_draw_pile(tool_data:ToolData, from_global_position:Vector2, pause:bool) -> void:
-	await _gui_tool_card_animation_container.animate_add_card_to_draw_pile(tool_data, from_global_position, pause)
+func animate_add_cards_to_draw_pile(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+	await _gui_tool_card_animation_container.animate_add_cards_to_draw_pile(tool_datas, from_global_position, pause)
 
 func animate_add_card_to_deck(tool_data:ToolData, from_global_position:Vector2) -> void:
 	await _gui_tool_card_animation_container.animate_add_card_to_deck(tool_data, from_global_position)

@@ -28,7 +28,7 @@ func refresh_deck() -> void:
 	tool_deck.refresh()
 
 func cleanup_deck() -> void:
-	tool_deck.filter_items(func(tool_data:ToolData): return !tool_data.rarity != -1)
+	tool_deck.cleanup_temp_items()
 
 func draw_cards(count:int) -> Array:
 	var _display_index = tool_deck.hand.size() - 1
@@ -78,9 +78,9 @@ func discardable_cards() -> Array:
 func add_tool_to_deck(tool_data:ToolData) -> void:
 	tool_deck.add_item(tool_data)
 
-func add_tool_to_draw_pile(tool_data:ToolData, from_global_position:Vector2, random_place:bool, pause:bool) -> void:
-	await _gui_tool_card_container.animate_add_card_to_draw_pile(tool_data, from_global_position, pause)
-	tool_deck.add_temp_item_to_draw_pile(tool_data, random_place)
+func add_temp_tools_to_draw_pile(tool_datas:Array[ToolData], from_global_position:Vector2, random_place:bool, pause:bool) -> void:
+	await _gui_tool_card_container.animate_add_cards_to_draw_pile(tool_datas, from_global_position, pause)
+	tool_deck.add_temp_items_to_draw_pile(tool_datas, random_place)
 
 func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)

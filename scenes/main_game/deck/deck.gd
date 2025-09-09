@@ -12,6 +12,7 @@ var hand:Array
 var discard_pool:Array
 var exhaust_pool:Array
 var in_use_item:Variant = null
+var temp_items:Array = []
 
 func _init(initial_items:Array) -> void:
 	for item_data:Variant in initial_items:
@@ -31,6 +32,18 @@ func refresh() -> void:
 	exhaust_pool.clear()
 	exhaust_pool_updated.emit(exhaust_pool)
 	hand.clear()
+
+func cleanup_temp_items() -> void:
+	for item in temp_items:
+		pool.erase(item)
+		draw_pool.erase(item)
+		temp_items.erase(item)
+		discard_pool.erase(item)
+		hand.erase(item)
+	pool_updated.emit(pool)
+	draw_pool_updated.emit(draw_pool)
+	discard_pool_updated.emit(discard_pool)
+	temp_items.clear()
 
 func shuffle_draw_pool() -> void:
 	assert(draw_pool.size() + discard_pool.size() + hand.size() + exhaust_pool.size() + (1 if in_use_item else 0) == pool.size())
@@ -93,13 +106,16 @@ func add_item(item:Variant) -> void:
 	pool.append(item)
 	pool_updated.emit(pool)
 
-func add_temp_item_to_draw_pile(item:Variant, random_place:bool = true) -> void:
-	pool.append(item)
-	if random_place && draw_pool.size() > 0:
-		draw_pool.insert(randi() % draw_pool.size(), item)
-	else:
-		draw_pool.insert(0, item)
+func add_temp_items_to_draw_pile(items:Array, random_place:bool = true) -> void:
+	pool.append_array(items)
+	for item in items:
+		if random_place && draw_pool.size() > 0:
+			draw_pool.insert(randi() % draw_pool.size(), item)
+		else:
+			draw_pool.insert(0, item)
 	draw_pool_updated.emit(draw_pool)
+	pool_updated.emit(pool)
+	temp_items.append_array(items)
 
 func remove_item(item:Variant) -> void:
 	pool.erase(item)

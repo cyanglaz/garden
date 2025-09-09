@@ -13,6 +13,7 @@ const USE_CARD_OFFSET := 40
 const USE_CARD_PAUSE_TIME := 0.3
 const USE_CARD_DISCARD_DELAY := 0.2
 const SHUFFLE_ANIMATION_TIME := 0.3
+const ADD_CARD_TO_PILE_DELAY := 0.2
 
 signal _animation_queue_item_finished(finished_item:AnimationQueueItem)
 
@@ -80,8 +81,8 @@ func animate_discard(tool_datas:Array) -> void:
 		var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_DISCARD, [in_hand_cards])
 		await item.finished
 
-func animate_add_card_to_draw_pile(tool_data:ToolData, from_global_position:Vector2, pause:bool) -> void:
-	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_ADD_CARD_TO_DRAW_PILE, [tool_data, from_global_position, pause])
+func animate_add_cards_to_draw_pile(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_ADD_CARD_TO_DRAW_PILE, [tool_datas, from_global_position, pause])
 	await item.finished
 
 func animate_exhaust(tool_datas:Array) -> void:
@@ -184,24 +185,35 @@ func _animate_exhaust(animation_item:AnimationQueueItem) -> void:
 	_animation_queue_item_finished.emit(animation_item)
 
 func _animate_add_card_to_draw_pile(animation_item:AnimationQueueItem) -> void:
-	var tool_data:ToolData = animation_item.animation_args[0]
+	var tool_datas:Array[ToolData] = animation_item.animation_args[0]
 	var from_global_position:Vector2 = animation_item.animation_args[1]
 	var pause:bool = animation_item.animation_args[2]
-	var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
-	Singletons.main_game.add_control_to_overlay(animating_card)
-	animating_card.update_with_tool_data(tool_data)
-	animating_card.global_position = from_global_position - GUIToolCardButton.SIZE / 2
-	animating_card.mouse_disabled = true
-	if pause:
-		await Util.create_scaled_timer(ADD_CARD_TO_PILE_PAUSE_TIME).timeout
-	animating_card.play_move_sound()
-	Util.create_scaled_timer(ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25).timeout.connect(func(): animating_card.animation_mode = true)
+	var animating_cards:Array[GUIToolCardButton] = []
+	var index := 0
 	var tween := Util.create_scaled_tween(self)
 	tween.set_parallel(true)
-	tween.tween_property(animating_card, "global_position", _draw_deck_button.global_position, ADD_CARD_TO_PILE_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(animating_card, "size", _draw_deck_button.size, ADD_CARD_TO_PILE_ANIMATION_TIME * 0.75).set_delay(ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	for tool_data:ToolData in tool_datas:
+		var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
+		animating_cards.append(animating_card)
+		Singletons.main_game.add_control_to_overlay(animating_card)
+		animating_card.update_with_tool_data(tool_data)
+		animating_card.global_position = from_global_position - GUIToolCardButton.SIZE / 2
+		animating_card.mouse_disabled = true
+		animating_card.hide()
+		Util.create_scaled_timer(ADD_CARD_TO_PILE_DELAY * index).timeout.connect(func(): 
+			animating_card.show()
+			animating_card.play_move_sound()
+		)
+		Util.create_scaled_timer(ADD_CARD_TO_PILE_DELAY * index + ADD_CARD_TO_PILE_ANIMATION_TIME - 0.01).timeout.connect(func(): animating_card.hide())
+		Util.create_scaled_timer(ADD_CARD_TO_PILE_DELAY * index + ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25).timeout.connect(func(): animating_card.animation_mode = true)
+		if pause:
+			await Util.create_scaled_timer(ADD_CARD_TO_PILE_PAUSE_TIME).timeout
+		tween.tween_property(animating_card, "global_position", _draw_deck_button.global_position, ADD_CARD_TO_PILE_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_delay(ADD_CARD_TO_PILE_DELAY * index)
+		tween.tween_property(animating_card, "size", _draw_deck_button.size, ADD_CARD_TO_PILE_ANIMATION_TIME * 0.75).set_trans(Tween.TRANS_CUBIC).set_delay(ADD_CARD_TO_PILE_DELAY * index + ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25)
+		index += 1
 	await tween.finished
-	animating_card.queue_free()
+	for animating_card in animating_cards:
+		animating_card.queue_free()
 	_animation_queue_item_finished.emit(animation_item)
 
 func _animate_use_card(animation_item:AnimationQueueItem) -> void:

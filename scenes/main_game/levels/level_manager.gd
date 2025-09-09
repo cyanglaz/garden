@@ -2,7 +2,7 @@ class_name LevelManager
 extends RefCounted
 
 const GUI_ENEMY_SCENE := preload("res://scenes/GUI/main_game/characters/gui_enemy.tscn")
-const GUI_ENEMY_MOVE_TIME := 1.0
+const GUI_ENEMY_MOVE_TIME := 0.8
 
 const LEVEL_PER_CHAPTER := 4
 const BASE_POINTS := 15
@@ -63,7 +63,7 @@ func _animate_level_icon_move(main_game:MainGame, level_data:LevelData) -> void:
 		"global_position",
 		target_position,	
 		GUI_ENEMY_MOVE_TIME
-	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await tween.finished
 
 func _remove_icon() -> void:
