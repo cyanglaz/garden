@@ -88,7 +88,7 @@ func start_new_level() -> void:
 	level_manager.next_level()
 	if test_level_data:
 		level_manager.current_level = test_level_data
-	plant_seed_manager = PlantSeedManager.new(level_manager.current_level.plants)
+	plant_seed_manager = PlantSeedManager.new(level_manager.current_level.plants, level_manager.current_level.shuffle_plants)
 	tool_manager.refresh_deck()
 	session_summary.level = level_manager.level_index
 	weather_manager.generate_weathers(level_manager.current_level)

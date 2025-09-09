@@ -8,7 +8,7 @@ const REPOSITION_ANIMATION_TIME := 0.15
 const CARD_MIN_SCALE := 0.8
 const MAX_SHUFFLE_CARDS := 5
 const ADD_CARD_TO_PILE_ANIMATION_TIME := 0.5
-const ADD_CARD_TO_PILE_PAUSE_TIME := 0.2
+const ADD_CARD_TO_PILE_PAUSE_TIME := 0.3
 const USE_CARD_OFFSET := 40
 const USE_CARD_PAUSE_TIME := 0.3
 const USE_CARD_DISCARD_DELAY := 0.2
@@ -192,6 +192,7 @@ func _animate_add_card_to_draw_pile(animation_item:AnimationQueueItem) -> void:
 	var index := 0
 	var tween := Util.create_scaled_tween(self)
 	tween.set_parallel(true)
+	var display_pause_time := ADD_CARD_TO_PILE_PAUSE_TIME if pause else 0.0
 	for tool_data:ToolData in tool_datas:
 		var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
 		animating_cards.append(animating_card)
@@ -202,14 +203,13 @@ func _animate_add_card_to_draw_pile(animation_item:AnimationQueueItem) -> void:
 		animating_card.hide()
 		Util.create_scaled_timer(ADD_CARD_TO_PILE_DELAY * index).timeout.connect(func(): 
 			animating_card.show()
+			await Util.create_scaled_timer(display_pause_time).timeout
 			animating_card.play_move_sound()
 		)
-		Util.create_scaled_timer(ADD_CARD_TO_PILE_DELAY * index + ADD_CARD_TO_PILE_ANIMATION_TIME - 0.01).timeout.connect(func(): animating_card.hide())
-		Util.create_scaled_timer(ADD_CARD_TO_PILE_DELAY * index + ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25).timeout.connect(func(): animating_card.animation_mode = true)
-		if pause:
-			await Util.create_scaled_timer(ADD_CARD_TO_PILE_PAUSE_TIME).timeout
-		tween.tween_property(animating_card, "global_position", _draw_deck_button.global_position, ADD_CARD_TO_PILE_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_delay(ADD_CARD_TO_PILE_DELAY * index)
-		tween.tween_property(animating_card, "size", _draw_deck_button.size, ADD_CARD_TO_PILE_ANIMATION_TIME * 0.75).set_trans(Tween.TRANS_CUBIC).set_delay(ADD_CARD_TO_PILE_DELAY * index + ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25)
+		Util.create_scaled_timer(ADD_CARD_TO_PILE_DELAY * index + ADD_CARD_TO_PILE_ANIMATION_TIME + display_pause_time - 0.01).timeout.connect(func(): animating_card.hide())
+		Util.create_scaled_timer(ADD_CARD_TO_PILE_DELAY * index + ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25 + display_pause_time).timeout.connect(func(): animating_card.animation_mode = true)
+		tween.tween_property(animating_card, "global_position", _draw_deck_button.global_position, ADD_CARD_TO_PILE_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_delay(ADD_CARD_TO_PILE_DELAY * index + display_pause_time)
+		tween.tween_property(animating_card, "size", _draw_deck_button.size, ADD_CARD_TO_PILE_ANIMATION_TIME * 0.75).set_trans(Tween.TRANS_CUBIC).set_delay(display_pause_time + ADD_CARD_TO_PILE_DELAY * index + ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25)
 		index += 1
 	await tween.finished
 	for animating_card in animating_cards:

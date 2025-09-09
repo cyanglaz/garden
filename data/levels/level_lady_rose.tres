@@ -20,6 +20,7 @@ id = "lady_rose"
 display_name = "Lady Hawthorne"
 description = "At level start, shuffle {value} {card_thorn} into the draw pile."
 data = {
+&"card_thorn": "Thorn",
 &"value": "2"
 }
 note = ""

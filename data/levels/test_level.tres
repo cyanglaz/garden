@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="LevelData" load_steps=6 format=3 uid="uid://r34vkggwq6bf"]
 
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_1j250"]
-[ext_resource type="Resource" uid="uid://cf678cnphhouf" path="res://data/plants/plant_data_daisy.tres" id="2_mh4wk"]
+[ext_resource type="Resource" uid="uid://hsjy22n36v8s" path="res://data/plants/plant_data_rose.tres" id="2_mh4wk"]
 [ext_resource type="Script" uid="uid://bt7c5hiesqa06" path="res://data/models/level/level_data.gd" id="2_tkee1"]
 [ext_resource type="Script" uid="uid://g4t52w546b5k" path="res://data/models/weather/weather_data.gd" id="3_mh4wk"]
 [ext_resource type="Resource" uid="uid://cytu2rr2gw3mi" path="res://data/weathers/weather_rainy.tres" id="5_mh4wk"]
@@ -10,7 +10,7 @@
 script = ExtResource("2_tkee1")
 type = 0
 appearance = Array[String]([])
-plants = Array[ExtResource("1_1j250")]([ExtResource("2_mh4wk"), ExtResource("2_mh4wk"), ExtResource("2_mh4wk")])
+plants = Array[ExtResource("1_1j250")]([ExtResource("2_mh4wk"), ExtResource("2_mh4wk")])
 shuffle_plants = false
 weathers = Array[ExtResource("3_mh4wk")]([ExtResource("5_mh4wk")])
 number_of_days = 10
