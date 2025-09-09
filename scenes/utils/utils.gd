@@ -19,6 +19,7 @@ const GUI_RICH_TEXT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_rich
 const GUI_TOOL_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_tool_card_tooltip.tscn")
 const GUI_LEVEL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_level_tooltip.tscn")
 const GUI_BOSS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_boss_tooltip.tscn")
+const GUI_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_card_tooltip.tscn")
 
 const FIELD_STATUS_SCRIPT_PREFIX := "res://scenes/main_game/field/status/field_status_script_"
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
@@ -115,6 +116,14 @@ static func display_boss_tooltip(level_data:LevelData, on_control_node:Control, 
 	boss_tooltip.update_with_level_data(level_data)
 	_display_tool_tip.call_deferred(boss_tooltip, on_control_node, anchor_mouse, tooltip_position, false)
 	return boss_tooltip
+
+static func display_card_tooltip(tool_data:ToolData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition) -> GUICardTooltip:
+	var card_tooltip:GUICardTooltip = GUI_CARD_TOOLTIP_SCENE.instantiate()
+	Singletons.main_game.add_control_to_overlay(card_tooltip)
+	card_tooltip.tooltip_position = tooltip_position
+	card_tooltip.update_with_tool_data(tool_data)
+	_display_tool_tip.call_deferred(card_tooltip, on_control_node, anchor_mouse, tooltip_position, false)
+	return card_tooltip
 
 static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP, world_space:bool = false) -> void:
 	tooltip.show()
@@ -358,6 +367,15 @@ static func get_id_for_action_speical(special:ActionData.Special) -> String:
 		ActionData.Special.ALL_FIELDS:
 			id = "all_fields"
 	return id
+
+static func find_tool_ids_in_data(data:Dictionary) -> Array[String]:
+	var tool_ids:Array[String] = []
+	for key:String in data.keys():
+		if key.begins_with("card_"):
+			var key_parts:Array = key.split("_")
+			var tool_id:String = key_parts[1]
+			tool_ids.append(tool_id)
+	return tool_ids
 
 static func format_references(formatted_description:String, data_to_format:Dictionary, highlight_description_keys:Dictionary, additional_highlight_check:Callable, ) -> String:
 	var searching_start_index := 0

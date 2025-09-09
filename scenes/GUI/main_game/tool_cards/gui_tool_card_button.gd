@@ -17,7 +17,6 @@ const SIZE := Vector2(38, 52)
 const SELECTED_OFFSET := 6.0
 const IN_USE_OFFSET := 10.0
 const HIGHLIGHTED_OFFSET := 1.0
-const TOOLTIP_DELAY := 0.2
 const CARD_HOVER_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_hover.wav")
 const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_select.wav")
 
@@ -108,7 +107,7 @@ func _update_for_energy(energy:int) -> void:
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	if activated:
-		await Util.create_scaled_timer(TOOLTIP_DELAY).timeout
+		await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
 		if mouse_in && !tool_data.actions.is_empty():
 			if _weak_actions_tooltip.get_ref():
 				return
