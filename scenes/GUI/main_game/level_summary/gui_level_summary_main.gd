@@ -1,4 +1,4 @@
-class_name GUIWeekSummaryMain
+class_name GUILevelSummaryMain
 extends Control
 
 const SUMMARY_AUDIO_1 := preload("res://resources/sounds/SFX/summary/summary_1.wav")

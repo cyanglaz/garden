@@ -3,9 +3,12 @@ extends CanvasLayer
 
 signal end_turn_button_pressed()
 signal tool_selected(index:int)
-signal week_summary_continue_button_pressed()
+signal level_summary_continue_button_pressed()
 signal gold_increased(gold:int)
 signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData)
+
+@onready var gui_top_bar: GUITopBar = %GUITopBar
+@onready var game_container: PanelContainer = %GameContainer
 
 @onready var gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
 @onready var gui_tool_card_container: GUIToolCardContainer = %GUIToolCardContainer
@@ -17,17 +20,18 @@ signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantDat
 @onready var gui_plant_seed_animation_container: GUIPlantSeedAnimationContainer = %GUIPlantSeedAnimationContainer
 
 @onready var gui_shop_main: GUIShopMain = %GUIShopMain
-@onready var gui_week_summary_main: GUIWeekSummaryMain = %GUIWeekSummaryMain
+@onready var gui_level_summary_main: GUILevelSummaryMain = %GUILevelSummaryMain
 @onready var gui_game_over_main: GUIGameOverMain = %GUIGameOverMain
 @onready var gui_demo_end_main: GUIDemoEndMain = %GUIDemoEndMain
+@onready var gui_enemy: GUIEnemy = %GUIEnemy
+
+
 
 @onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
 @onready var _overlay: Control = %Overlay
 @onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
-@onready var _gui_top_bar: GUITopBar = %GUITopBar
 @onready var _gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
-@onready var _gui_enemy: GUIEnemy = %GUIEnemy
 
 var _toggle_ui_semaphore := 0
 
@@ -36,23 +40,23 @@ func _ready() -> void:
 	gui_tool_card_container.tool_selected.connect(func(index:int) -> void: tool_selected.emit(index))
 	_end_turn_button.action_evoked.connect(func() -> void: end_turn_button_pressed.emit())
 	gui_tool_card_container.setup(gui_draw_box_button, gui_discard_box_button)
-	_gui_top_bar.setting_button_evoked.connect(_on_settings_button_evoked)
-	gui_week_summary_main.continue_button_pressed.connect(func() -> void: week_summary_continue_button_pressed.emit())
-	gui_week_summary_main.gold_increased.connect(func(gold:int) -> void: gold_increased.emit(gold))
+	gui_top_bar.setting_button_evoked.connect(_on_settings_button_evoked)
+	gui_level_summary_main.continue_button_pressed.connect(func() -> void: level_summary_continue_button_pressed.emit())
+	gui_level_summary_main.gold_increased.connect(func(gold:int) -> void: gold_increased.emit(gold))
 	gui_plant_seed_animation_container.draw_plant_card_completed.connect(func(field_index:int, plant_data:PlantData) -> void: plant_seed_drawn_animation_completed.emit(field_index, plant_data))
-	gui_shop_main.setup(_gui_top_bar.gui_full_deck_button)
+	gui_shop_main.setup(gui_top_bar.gui_full_deck_button)
 
 #region month
 
 func update_levels(levels:Array) -> void:
-	_gui_top_bar.update_levels(levels)
+	gui_top_bar.update_levels(levels)
 
 #endregion
 
 #region level
 
 func update_with_level_data(level_data:LevelData) -> void:
-	_gui_enemy.update_with_level_data(level_data)
+	gui_enemy.update_with_level_data(level_data)
 
 #endregion
 
@@ -75,7 +79,7 @@ func toggle_all_ui(on:bool) -> void:
 		toggle_on = false
 	else:
 		toggle_on = true
-	_gui_top_bar.toggle_all_ui(toggle_on)
+	gui_top_bar.toggle_all_ui(toggle_on)
 	gui_tool_card_container.toggle_all_tool_cards(toggle_on)
 	if toggle_on:
 		_end_turn_button.button_state = GUIBasicButton.ButtonState.NORMAL
@@ -83,16 +87,16 @@ func toggle_all_ui(on:bool) -> void:
 		_end_turn_button.button_state = GUIBasicButton.ButtonState.DISABLED
 
 #region topbar
-func update_week(week:int) -> void:
-	_gui_top_bar.update_week(week)
+func update_level(level:int) -> void:
+	gui_top_bar.update_level(level)
 
 func update_gold(gold:int, animated:bool) -> void:
-	await _gui_top_bar.update_gold(gold, animated)
+	await gui_top_bar.update_gold(gold, animated)
 
 #region characters
 
 func update_player(player_data:PlayerData) -> void:
-	_gui_top_bar.update_player(player_data)
+	gui_top_bar.update_player(player_data)
 
 #region tools
 func update_tools(tool_datas:Array[ToolData]) -> void:
@@ -105,8 +109,8 @@ func bind_tool_deck(tool_deck:Deck) -> void:
 	gui_draw_box_button.bind_deck(tool_deck)
 	gui_discard_box_button.bind_deck(tool_deck)
 	gui_exhaust_box_button.bind_deck(tool_deck)
-	_gui_top_bar.gui_full_deck_button.bind_deck(tool_deck)
-	_gui_top_bar.full_deck_button_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("FULL_DECK_TITLE"), GUIDeckButton.Type.ALL))
+	gui_top_bar.gui_full_deck_button.bind_deck(tool_deck)
+	gui_top_bar.full_deck_button_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("FULL_DECK_TITLE"), GUIDeckButton.Type.ALL))
 	gui_draw_box_button.action_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DRAW_POOL_TITLE"), gui_draw_box_button.type))
 	gui_discard_box_button.action_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DISCARD_POOL_TITLE"), gui_discard_box_button.type))
 	gui_exhaust_box_button.action_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_EXHAUST_POOL_TITLE"), gui_exhaust_box_button.type))
@@ -121,7 +125,7 @@ func setup_plant_seed_animation_container(field_container:FieldContainer) -> voi
 
 #region days
 func update_day_left(day_left:int) -> void:
-	_gui_top_bar.update_day_left(day_left)
+	gui_top_bar.update_day_left(day_left)
 
 func bind_energy(resource_point:ResourcePoint) -> void:
 	_gui_energy_tracker.bind_with_resource_point(resource_point)
@@ -132,10 +136,10 @@ func update_weathers(weather_manager:WeatherManager) -> void:
 
 #endregion
 
-#region week summary
+#region level summary
 
-func animate_show_week_summary(days_left:int) -> void:
-	await gui_week_summary_main.animate_show(days_left)
+func animate_show_level_summary(days_left:int) -> void:
+	await gui_level_summary_main.animate_show(days_left)
 
 #endregion
 
@@ -159,9 +163,13 @@ func animate_show_demo_end() -> void:
 
 #endregion
 
+#region control
+
 func add_control_to_overlay(control:Control) -> void:
 	_overlay.add_child(control)
+
 #endregion
+
 
 #region events
 

@@ -19,7 +19,6 @@ const INSTANT_CARD_USE_DELAY := 0.3
 var session_seed := 0
 
 var energy_tracker:ResourcePoint = ResourcePoint.new()
-var week_manager:WeekManager = WeekManager.new()
 var weather_manager:WeatherManager = WeatherManager.new()
 var level_manager:LevelManager = LevelManager.new()
 var tool_manager:ToolManager
@@ -67,51 +66,53 @@ func _ready() -> void:
 	gui_main_game.setup_plant_seed_animation_container(field_container)
 	gui_main_game.end_turn_button_pressed.connect(_on_end_turn_button_pressed)
 	gui_main_game.tool_selected.connect(_on_tool_selected)
-	gui_main_game.week_summary_continue_button_pressed.connect(_on_week_summary_continue_button_pressed)
-	gui_main_game.gold_increased.connect(_on_week_summary_gold_increased)
+	gui_main_game.level_summary_continue_button_pressed.connect(_on_level_summary_continue_button_pressed)
+	gui_main_game.gold_increased.connect(_on_level_summary_gold_increased)
 	gui_main_game.plant_seed_drawn_animation_completed.connect(_on_plant_seed_drawn_animation_completed)
 	
 	#shop signals
-	gui_main_game.gui_shop_main.next_week_button_pressed.connect(_on_shop_next_week_pressed)
+	gui_main_game.gui_shop_main.next_level_button_pressed.connect(_on_shop_next_level_pressed)
 	gui_main_game.gui_shop_main.tool_shop_button_pressed.connect(_on_tool_shop_button_pressed)
 	
 	energy_tracker.capped = false
 	level_manager.generate_with_chapter(0)
-	start_new_week()
-	_update_gold(50, false)
+	start_new_level()
+	#_update_gold(50, false)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("de-select"):
 		if tool_manager.selected_tool:
 			_clear_tool_selection()
 
-func start_new_week() -> void:
-	week_manager.next_week()
+func start_new_level() -> void:
+	level_manager.next_level()
 	var level_data:LevelData
 	if test_level_data:
 		level_data = test_level_data
 	else:
-		level_data = level_manager.levels[week_manager.week]
+		level_data = level_manager.levels[level_manager.level]
 	plant_seed_manager = PlantSeedManager.new(level_data.plants)
 	tool_manager.refresh_deck()
-	session_summary.week = week_manager.week
+	session_summary.level = level_manager.level
 	weather_manager.generate_weathers(level_data)
-	week_manager.day_manager.start_new(level_data)
+	level_manager.day_manager.start_new(level_data)
 	gui_main_game.update_with_level_data(level_data)
 	gui_main_game.update_with_plants(plant_seed_manager.plant_datas)
 	gui_main_game.update_levels(level_manager.levels)
-	gui_main_game.update_week(week_manager.week)
+	gui_main_game.update_level(level_manager.level)
+	await Util.await_for_tiny_time()
+	await level_manager.apply_level_actions(self, level_data, LevelScript.HookType.LEVEL_START)
 	start_day()
 
 func start_day() -> void:
 	gui_main_game.toggle_all_ui(false)
 	energy_tracker.setup(max_energy, max_energy)
-	week_manager.next_day()
-	weather_manager.day = week_manager.get_day()
-	gui_main_game.update_day_left(week_manager.get_day_left())
+	level_manager.next_day()
+	weather_manager.day = level_manager.get_day()
+	gui_main_game.update_day_left(level_manager.get_day_left())
 	gui_main_game.clear_tool_selection()
 	await Util.await_for_tiny_time()
-	if week_manager.get_day() == 0:
+	if level_manager.get_day() == 0:
 		await Util.create_scaled_timer(0.2).timeout
 		await _plant_new_seeds()
 	await draw_cards(hand_size)
@@ -149,10 +150,10 @@ func _win() -> void:
 	await _discard_all_tools()
 	field_container.clear_all_statuses()
 	_harvesting_fields.clear()
-	session_summary.total_days_skipped += week_manager.get_day_left()
-	gui_main_game.animate_show_week_summary(week_manager.get_day_left())
+	session_summary.total_days_skipped += level_manager.get_day_left()
+	gui_main_game.animate_show_level_summary(level_manager.get_day_left())
 	gui_main_game.toggle_all_ui(true)
-	level_manager.levels[week_manager.week].is_finished = true
+	level_manager.levels[level_manager.level].is_finished = true
 
 func _lose() -> void:
 	gui_main_game.toggle_all_ui(false)
@@ -171,7 +172,7 @@ func _end_day() -> void:
 	if won:
 		return #Harvest won the game, no need to discard tools or end the day
 	field_container.handle_turn_end()
-	if week_manager.day_manager.get_day_left() == 0:
+	if level_manager.day_manager.get_day_left() == 0:
 		if _met_win_condition():	
 			return #Win condition has been met at the end of the day, _harvest will take care of win
 		else:
@@ -179,8 +180,8 @@ func _end_day() -> void:
 	else:
 		start_day()
 
-func _on_week_summary_continue_button_pressed() -> void:
-	if week_manager.is_boss_week():
+func _on_level_summary_continue_button_pressed() -> void:
+	if level_manager.is_boss_level():
 		gui_main_game.animate_show_demo_end()
 	else:
 		gui_main_game.animate_show_shop(3, _gold)
@@ -293,15 +294,15 @@ func _on_weathers_updated() -> void:
 	gui_main_game.update_weathers(weather_manager)
 
 #region shop events
-func _on_shop_next_week_pressed() -> void:
-	start_new_week()
+func _on_shop_next_level_pressed() -> void:
+	start_new_level()
 
 func _on_tool_shop_button_pressed(tool_data:ToolData) -> void:
 	_update_gold(_gold - tool_data.cost, true)
 	tool_manager.add_tool_to_deck(tool_data)
 
-#region week summary events
-func _on_week_summary_gold_increased(gold:int) -> void:
+#region level summary events
+func _on_level_summary_gold_increased(gold:int) -> void:
 	_update_gold(_gold + gold, true)
 	session_summary.total_gold_earned += gold
 #endregion

@@ -3,7 +3,7 @@ extends Database
 
 const DIR = "res://data/weathers"
 
-func roll_weathers(number_of_weathers:int, _week:int) -> Array[WeatherData]:
+func roll_weathers(number_of_weathers:int, _level:int) -> Array[WeatherData]:
 	var available_weathers:Array = _get_all_resources(_datas, "").values()
 	var result:Array[WeatherData] = []
 	for i in number_of_weathers:

@@ -7,14 +7,14 @@ const HIDE_ANIMATION_DURATION := 0.15
 const ADD_CARD_TO_PILE_ANIMATION_TIME := 0.3
 
 signal tool_shop_button_pressed(tool_data:ToolData)
-signal next_week_button_pressed()
+signal next_level_button_pressed()
 
 const ANIMATING_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const TOOL_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/main_game/shop/shop_buttons/gui_tool_shop_button.tscn")
 
 @onready var tool_container: HBoxContainer = %ToolContainer
 @onready var _main_panel: PanelContainer = $MainPanel
-@onready var _next_week_button: GUIRichTextButton = %NextWeekButton
+@onready var _next_level_button: GUIRichTextButton = %NextLevelButton
 @onready var _title: Label = %Title
 @onready var _sub_title: Label = %SubTitle
 
@@ -28,7 +28,7 @@ var _weak_insufficient_gold_tooltip:WeakRef = weakref(null)
 
 func _ready() -> void:
 	_display_y = _main_panel.position.y
-	_next_week_button.action_evoked.connect(_on_next_week_button_action_evoked)
+	_next_level_button.action_evoked.connect(_on_next_level_button_action_evoked)
 	_title.text = Util.get_localized_string("SHOP_TITLE")
 	_sub_title.text = Util.get_localized_string("SHOP_SUBTITLE")
 
@@ -64,11 +64,11 @@ func _play_show_animation() -> void:
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(_main_panel, "position:y", _display_y, SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	await tween.finished
-	_next_week_button.show()
+	_next_level_button.show()
 
 func animate_hide() -> void:
 	_clear_insufficient_gold_tooltip()
-	_next_week_button.hide()
+	_next_level_button.hide()
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(_main_panel, "position:y", HIDE_Y, HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	await tween.finished
@@ -106,9 +106,9 @@ func _on_tool_shop_button_action_evoked(gui_shop_button:GUIShopButton, tool_data
 	else:
 		_weak_insufficient_gold_tooltip = weakref(Util.display_warning_tooltip(tr("WARNING_INSUFFICIENT_GOLD"), gui_shop_button, false, GUITooltip.TooltipPosition.TOP))
 
-func _on_next_week_button_action_evoked() -> void:
+func _on_next_level_button_action_evoked() -> void:
 	await animate_hide()
-	next_week_button_pressed.emit()
+	next_level_button_pressed.emit()
 
 func _on_shop_button_mouse_exited() -> void:
 	_clear_insufficient_gold_tooltip()

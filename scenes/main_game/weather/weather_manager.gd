@@ -13,7 +13,7 @@ const WEATHER_TOOL_ACTION_ICON_MOVE_TIME := 0.5
 
 const GUI_WEATHER_SCENE := preload("res://scenes/GUI/main_game/weather/gui_weather.tscn")
 
-#var week:int
+#var level:int
 var weathers:Array[WeatherData]
 var forecast_days := 1
 var day:int = 0: set = _set_day
@@ -35,6 +35,19 @@ func get_forecasts() -> Array[WeatherData]:
 
 func apply_weather_actions(fields:Array[Field], today_weather_icon:GUIWeather) -> void:
 	await _apply_weather_action_to_next_field(fields, 0, today_weather_icon)
+
+func apply_weather_tool_action(action:ActionData, icon_move_start_position:Vector2, icon_move_target_position:Vector2) -> void:
+	await Util.await_for_tiny_time()
+	assert(action.action_category == ActionData.ActionCategory.WEATHER)
+	match action.type:
+		ActionData.ActionType.WEATHER_SUNNY:
+			weathers[day] = WEATHER_SUNNY.get_duplicate()
+		ActionData.ActionType.WEATHER_RAINY:
+			weathers[day] = WEATHER_RAINY.get_duplicate()
+		_:
+			assert(false, "Invalid action type for weather tool: " + str(action.action_type))
+	await _animate_weather_icon_move(weathers[day], icon_move_start_position, icon_move_target_position)
+	weathers_updated.emit()
 
 func _apply_weather_action_to_next_field(fields:Array[Field], field_index:int, today_weather_icon:GUIWeather) -> void:
 	if field_index >= fields.size():
@@ -66,19 +79,6 @@ func _apply_weather_action_to_next_field(fields:Array[Field], field_index:int, t
 		disappear_tween.finished.connect(func() -> void: gui_weather_copy.queue_free())
 		await field.apply_weather_actions(today_weather)
 		await _apply_weather_action_to_next_field(fields, field_index + 1, today_weather_icon)
-
-func apply_weather_tool_action(action:ActionData, icon_move_start_position:Vector2, icon_move_target_position:Vector2) -> void:
-	await Util.await_for_tiny_time()
-	assert(action.action_category == ActionData.ActionCategory.WEATHER)
-	match action.type:
-		ActionData.ActionType.WEATHER_SUNNY:
-			weathers[day] = WEATHER_SUNNY.get_duplicate()
-		ActionData.ActionType.WEATHER_RAINY:
-			weathers[day] = WEATHER_RAINY.get_duplicate()
-		_:
-			assert(false, "Invalid action type for weather tool: " + str(action.action_type))
-	await _animate_weather_icon_move(weathers[day], icon_move_start_position, icon_move_target_position)
-	weathers_updated.emit()
 
 func _animate_weather_icon_move(weather_data:WeatherData, start_position:Vector2, target_position:Vector2) -> void:
 	var gui_weather_copy := GUI_WEATHER_SCENE.instantiate()
