@@ -188,7 +188,7 @@ func _animate_add_card_to_draw_pile(animation_item:AnimationQueueItem) -> void:
 	var from_global_position:Vector2 = animation_item.animation_args[1]
 	var pause:bool = animation_item.animation_args[2]
 	var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
-	add_child(animating_card)
+	Singletons.main_game.add_control_to_overlay(animating_card)
 	animating_card.update_with_tool_data(tool_data)
 	animating_card.global_position = from_global_position - GUIToolCardButton.SIZE / 2
 	animating_card.mouse_disabled = true
