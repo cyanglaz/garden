@@ -4,8 +4,8 @@
 [ext_resource type="AudioStream" uid="uid://bs7wm2c8wghxx" path="res://resources/sounds/SFX/weather/weather_icon_flying.wav" id="2_hspnr"]
 
 [node name="GUIEnemy" type="PanelContainer"]
-offset_right = 2.0
-offset_bottom = 2.0
+offset_right = 18.0
+offset_bottom = 18.0
 script = ExtResource("1_duy6r")
 
 [node name="TextureRect" type="TextureRect" parent="."]

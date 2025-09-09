@@ -86,22 +86,15 @@ func _input(event: InputEvent) -> void:
 
 func start_new_level() -> void:
 	level_manager.next_level()
-	var level_data:LevelData
 	if test_level_data:
-		level_data = test_level_data
-	else:
-		level_data = level_manager.levels[level_manager.level]
-	plant_seed_manager = PlantSeedManager.new(level_data.plants)
+		level_manager.current_level = test_level_data
+	plant_seed_manager = PlantSeedManager.new(level_manager.current_level.plants)
 	tool_manager.refresh_deck()
-	session_summary.level = level_manager.level
-	weather_manager.generate_weathers(level_data)
-	level_manager.day_manager.start_new(level_data)
-	gui_main_game.update_with_level_data(level_data)
+	session_summary.level = level_manager.level_index
+	weather_manager.generate_weathers(level_manager.current_level)
+	level_manager.day_manager.start_new(level_manager.current_level)
 	gui_main_game.update_with_plants(plant_seed_manager.plant_datas)
-	gui_main_game.update_levels(level_manager.levels)
-	gui_main_game.update_level(level_manager.level)
-	await Util.await_for_tiny_time()
-	await level_manager.apply_level_actions(self, level_data, LevelScript.HookType.LEVEL_START)
+	gui_main_game.update_levels(level_manager)
 	start_day()
 
 func start_day() -> void:
@@ -113,6 +106,7 @@ func start_day() -> void:
 	gui_main_game.clear_tool_selection()
 	await Util.await_for_tiny_time()
 	if level_manager.get_day() == 0:
+		await level_manager.apply_level_actions(self, LevelScript.HookType.LEVEL_START)
 		await Util.create_scaled_timer(0.2).timeout
 		await _plant_new_seeds()
 	await draw_cards(hand_size)

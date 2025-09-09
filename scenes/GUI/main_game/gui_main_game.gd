@@ -46,17 +46,12 @@ func _ready() -> void:
 	gui_plant_seed_animation_container.draw_plant_card_completed.connect(func(field_index:int, plant_data:PlantData) -> void: plant_seed_drawn_animation_completed.emit(field_index, plant_data))
 	gui_shop_main.setup(gui_top_bar.gui_full_deck_button)
 
-#region month
-
-func update_levels(levels:Array) -> void:
-	gui_top_bar.update_levels(levels)
-
-#endregion
-
 #region level
 
-func update_with_level_data(level_data:LevelData) -> void:
-	gui_enemy.update_with_level_data(level_data)
+func update_levels(level_manager:LevelManager) -> void:
+	gui_top_bar.update_levels(level_manager.levels)
+	gui_top_bar.update_level(level_manager.level_index)
+	gui_enemy.update_with_level_data(level_manager.current_level)
 
 #endregion
 
