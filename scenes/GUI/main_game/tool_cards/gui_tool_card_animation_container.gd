@@ -197,7 +197,7 @@ func _animate_add_card_to_draw_pile(animation_item:AnimationQueueItem) -> void:
 		animating_cards.append(animating_card)
 		Singletons.main_game.add_control_to_overlay(animating_card)
 		animating_card.update_with_tool_data(tool_data)
-		animating_card.global_position = from_global_position - GUIToolCardButton.SIZE / 2
+		animating_card.global_position = from_global_position
 		animating_card.mouse_disabled = true
 		animating_card.hide()
 		Util.create_scaled_timer(ADD_CARD_TO_PILE_DELAY * index).timeout.connect(func(): 
