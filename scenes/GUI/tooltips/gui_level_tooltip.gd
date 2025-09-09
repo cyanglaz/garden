@@ -12,7 +12,6 @@ const WEATHER_SCENE := preload("res://scenes/GUI/main_game/weather/gui_weather.t
 
 var _weak_plant_tooltip:WeakRef = weakref(null)
 var _weak_weather_tooltip:WeakRef = weakref(null)
-var _weak_weather_action_tooltip:WeakRef = weakref(null)
 
 func update_with_level(level_data:LevelData) -> void:
 	if level_data.display_name.is_empty():
@@ -36,8 +35,6 @@ func update_with_level(level_data:LevelData) -> void:
 		gui_weather.has_tooltip = true
 		gui_weather.tooltip_anchor = self
 		gui_weather.weather_tooltip_shown.connect(_on_weather_tooltip_shown)
-		gui_weather.weather_action_tooltip_shown.connect(_on_weather_action_tooltip_shown)
-		gui_weather.tooltips_removed.connect(_on_tooltips_removed)
 	check.visible = level_data.is_finished
 
 func _on_mouse_entered_plant_icon(plant_data:PlantData) -> void:
@@ -55,18 +52,7 @@ func queue_destroy_with_tooltips() -> void:
 	if _weak_weather_tooltip.get_ref():
 		_weak_weather_tooltip.get_ref().queue_free()
 		_weak_weather_tooltip = weakref(null)
-	if _weak_weather_action_tooltip.get_ref():
-		_weak_weather_action_tooltip.get_ref().queue_free()
-		_weak_weather_action_tooltip = weakref(null)
 	queue_free()
 
 func _on_weather_tooltip_shown(tooltip:GUIWeatherTooltip) -> void:
 	_weak_weather_tooltip = weakref(tooltip)
-
-func _on_weather_action_tooltip_shown(tooltip:GUIActionsTooltip) -> void:
-	_weak_weather_action_tooltip = weakref(tooltip)
-
-func _on_tooltips_removed() -> void:
-	if _weak_weather_tooltip.get_ref():
-		_weak_weather_tooltip.get_ref().queue_free()
-		_weak_weather_tooltip = weakref(null)
