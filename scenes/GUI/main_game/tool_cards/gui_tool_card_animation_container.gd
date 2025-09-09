@@ -71,7 +71,7 @@ func animate_discard(tool_datas:Array) -> void:
 	var in_use_card:ToolData
 	var in_hand_cards:Array = []
 	for tool_data in tool_datas:
-		if _in_use_card && tool_data == _in_use_card._tool_data:
+		if _in_use_card && tool_data == _in_use_card.tool_data:
 			in_use_card = tool_data
 		else:
 			in_hand_cards.append(tool_data)
@@ -89,7 +89,7 @@ func animate_exhaust(tool_datas:Array) -> void:
 	var in_use_card:ToolData
 	var in_hand_cards:Array = []
 	for tool_data in tool_datas:
-		if tool_data == _in_use_card._tool_data:
+		if tool_data == _in_use_card.tool_data:
 			in_use_card = tool_data
 		else:
 			in_hand_cards.append(tool_data)
@@ -164,7 +164,7 @@ func _animate_discard(animation_item:AnimationQueueItem) -> void:
 	discard_tween.set_parallel(true)
 	var index := 0
 	for card:GUIToolCardButton in _tool_card_container.get_all_cards():
-		if tool_datas.has(card._tool_data):
+		if tool_datas.has(card.tool_data):
 			discarding_cards.append(card)
 			_animate_discard_a_card(card, discard_tween, Constants.CARD_ANIMATION_DELAY * index)
 			index += 1
@@ -177,7 +177,7 @@ func _animate_exhaust(animation_item:AnimationQueueItem) -> void:
 	var tool_datas:Array = animation_item.animation_args[0].duplicate()
 	var exhausting_cards:Array[GUIToolCardButton] = []
 	for card:GUIToolCardButton in _tool_card_container.get_all_cards():
-		if tool_datas.has(card._tool_data):
+		if tool_datas.has(card.tool_data):
 			exhausting_cards.append(card)
 			await card.play_exhaust_animation()
 	_tool_card_container.remove_cards(exhausting_cards)
@@ -223,7 +223,7 @@ func _animate_use_card(animation_item:AnimationQueueItem) -> void:
 	_in_use_card = ANIMATING_TOOL_CARD_SCENE.instantiate()
 	add_child(_in_use_card)
 	_in_use_card.card_state = GUIToolCardButton.CardState.HIGHLIGHTED
-	_in_use_card.update_with_tool_data(card._tool_data)
+	_in_use_card.update_with_tool_data(card.tool_data)
 	_in_use_card.global_position = card.global_position
 	_in_use_card.mouse_disabled = true
 	_in_use_card.play_use_sound()
@@ -261,7 +261,7 @@ func _animate_exhaust_in_use_card() -> void:
 func _animate_discard_a_card(card:GUIToolCardButton, tween:Tween, delay:float) -> void:
 	var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
 	add_child(animating_card)
-	animating_card.update_with_tool_data(card._tool_data)
+	animating_card.update_with_tool_data(card.tool_data)
 	animating_card.global_position = card.global_position
 	animating_card.hide()
 	animating_card.animation_mode = true

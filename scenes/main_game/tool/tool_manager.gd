@@ -85,6 +85,18 @@ func add_temp_tools_to_draw_pile(tool_datas:Array[ToolData], from_global_positio
 func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)
 
+func apply_auto_tools(main_game:MainGame, fields:Array, filter_func:Callable) -> void:
+	var has_tool_to_apply:bool = true
+	while has_tool_to_apply:
+		has_tool_to_apply = false
+		for tool_data:ToolData in tool_deck.hand:
+			if filter_func.call(tool_data):
+				select_tool(tool_data)
+				apply_tool(main_game, fields, 0)
+				await tool_application_completed
+				has_tool_to_apply = true
+				break
+
 func _handle_card(tool_data:ToolData) -> void:
 	_apply_card_animation_started = true
 	if !tool_data.need_select_field:

@@ -2,7 +2,7 @@ class_name GUIMainGame
 extends CanvasLayer
 
 signal end_turn_button_pressed()
-signal tool_selected(index:int)
+signal tool_selected(tool_data:ToolData)
 signal level_summary_continue_button_pressed()
 signal gold_increased(gold:int)
 signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData)
@@ -37,7 +37,7 @@ var _toggle_ui_semaphore := 0
 
 func _ready() -> void:
 	_gui_tool_cards_viewer.hide()
-	gui_tool_card_container.tool_selected.connect(func(index:int) -> void: tool_selected.emit(index))
+	gui_tool_card_container.tool_selected.connect(func(tool_data:ToolData) -> void: tool_selected.emit(tool_data))
 	_end_turn_button.action_evoked.connect(func() -> void: end_turn_button_pressed.emit())
 	gui_tool_card_container.setup(gui_draw_box_button, gui_discard_box_button)
 	gui_top_bar.setting_button_evoked.connect(_on_settings_button_evoked)

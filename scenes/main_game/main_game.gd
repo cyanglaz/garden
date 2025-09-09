@@ -116,12 +116,8 @@ func add_control_to_overlay(control:Control) -> void:
 	gui_main_game.add_control_to_overlay(control)
 
 func draw_cards(count:int) -> void:
-	var draw_results:Array = await tool_manager.draw_cards(count)
-	for tool_data:ToolData in draw_results:
-		if tool_data.specials.has(ToolData.Special.USE_ON_DRAW):
-			var index:int = tool_manager.tool_deck.hand.find(tool_data)
-			_handle_select_tool(index)
-			await _apply_instant_tool()
+	await tool_manager.draw_cards(count)
+	await tool_manager.apply_auto_tools(self, field_container.fields, func(tool_data:ToolData): return tool_data.specials.has(ToolData.Special.USE_ON_DRAW))
 
 func discard_cards(tools:Array) -> void:
 	await tool_manager.discard_cards(tools)
@@ -196,13 +192,14 @@ func _plant_new_seeds() -> void:
 	await Util.create_scaled_timer(0.2).timeout # If planting is needed, there would be a p update animation, wait for that animation to end before drawing new plants
 	await plant_seed_manager.draw_plants(field_indices, gui_main_game.gui_plant_seed_animation_container,)
 
-func _handle_select_tool(index:int) -> void:
+func _handle_select_tool(tool_data:ToolData) -> void:
 	field_container.clear_tool_indicators()
-	tool_manager.select_tool(tool_manager.tool_deck.hand[index])
+	tool_manager.select_tool(tool_data)
 
 func _apply_instant_tool() -> void:
 	await Util.create_scaled_timer(INSTANT_CARD_USE_DELAY).timeout
 	tool_manager.apply_tool(self, field_container.fields, 0)
+	await tool_manager.tool_application_completed
 
 #endregion
 
@@ -234,9 +231,8 @@ func _remove_plants(field_indices:Array[int]) -> void:
 #region events
 #region tool events
 
-func _on_tool_selected(index:int) -> void:
-	_handle_select_tool(index)
-	var tool_data:ToolData = tool_manager.selected_tool
+func _on_tool_selected(tool_data:ToolData) -> void:
+	_handle_select_tool(tool_data)
 	if !tool_data:
 		return
 	if !tool_data.need_select_field:

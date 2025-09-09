@@ -1,7 +1,7 @@
 class_name GUIToolCardContainer
 extends PanelContainer
 
-signal tool_selected(index:int)
+signal tool_selected(tool_data:ToolData)
 
 const TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const DEFAULT_CARD_SPACE := 1.0
@@ -63,7 +63,7 @@ func get_all_cards() -> Array:
 
 func find_card(tool_data:ToolData) -> GUIToolCardButton:
 	for card:GUIToolCardButton in _container.get_children():
-		if card._tool_data == tool_data:
+		if card.tool_data == tool_data:
 			return card
 	return null
 
@@ -170,11 +170,11 @@ func _on_tool_card_pressed(index:int) -> void:
 		gui_card.position = positions[i]
 	if selected_card.resource_sufficient:
 		for i in _container.get_children().size():	
-			var gui_card = _container.get_child(i)
+			var gui_card:GUIToolCardButton = _container.get_child(i)
 			if i == index:
 				if gui_card.card_state != GUIToolCardButton.CardState.SELECTED:
 					gui_card.card_state = GUIToolCardButton.CardState.SELECTED
-					tool_selected.emit(index)
+					tool_selected.emit(gui_card.tool_data)
 			else:
 				gui_card.card_state = GUIToolCardButton.CardState.NORMAL
 	else:

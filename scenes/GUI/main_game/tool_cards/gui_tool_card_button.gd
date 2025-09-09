@@ -40,7 +40,7 @@ var card_state:CardState = CardState.NORMAL: set = _set_card_state
 var resource_sufficient := false: set = _set_resource_sufficient
 var animation_mode := false : set = _set_animation_mode
 var display_mode := false
-var _tool_data:ToolData: get = _get_tool_data
+var tool_data:ToolData: get = _get_tool_data
 var _weak_tool_data:WeakRef = weakref(null)
 var _container_offset:float = 0.0: set = _set_container_offset
 
@@ -54,8 +54,8 @@ func _ready() -> void:
 	_highlight_border.self_modulate = Constants.RESOURCE_SUFFICIENT_COLOR
 	_animation_player.animation_finished.connect(_on_animation_finished)
 
-func update_with_tool_data(tool_data:ToolData) -> void:
-	_weak_tool_data = weakref(tool_data)
+func update_with_tool_data(td:ToolData) -> void:
+	_weak_tool_data = weakref(td)
 	if tool_data.actions.is_empty():
 		_rich_text_label.text = tool_data.get_display_description()
 	else:
@@ -96,9 +96,9 @@ func play_exhaust_sound() -> void:
 	exhaust_sound_finished.emit()
 
 func _update_for_energy(energy:int) -> void:
-	if !_tool_data:
+	if !tool_data:
 		return
-	if _tool_data.energy_cost <= energy:
+	if tool_data.energy_cost <= energy:
 		resource_sufficient = true
 	else:
 		resource_sufficient = false
@@ -109,10 +109,10 @@ func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	if activated:
 		await Util.create_scaled_timer(TOOLTIP_DELAY).timeout
-		if mouse_in && !_tool_data.actions.is_empty():
+		if mouse_in && !tool_data.actions.is_empty():
 			if _weak_actions_tooltip.get_ref():
 				return
-			_weak_actions_tooltip = weakref(Util.display_tool_card_tooltip(_tool_data, self, false, GUITooltip.TooltipPosition.RIGHT, true))
+			_weak_actions_tooltip = weakref(Util.display_tool_card_tooltip(tool_data, self, false, GUITooltip.TooltipPosition.RIGHT, true))
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
