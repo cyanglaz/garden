@@ -68,7 +68,7 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="WeekLabel" type="Label" parent="MarginContainer/Container/CenterContainer"]
+[node name="LevelLabel" type="Label" parent="MarginContainer/Container/CenterContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4

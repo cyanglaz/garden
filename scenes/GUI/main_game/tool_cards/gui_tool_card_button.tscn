@@ -1,10 +1,151 @@
-[gd_scene load_steps=6 format=3 uid="uid://bacvied61ghpe"]
+[gd_scene load_steps=12 format=3 uid="uid://bacvied61ghpe"]
 
 [ext_resource type="Script" uid="uid://t7x03xkbah7n" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.gd" id="1_a7c0j"]
+[ext_resource type="Shader" uid="uid://6cqmrfdokad8" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.gdshader" id="1_ckxcp"]
 [ext_resource type="Texture2D" uid="uid://ugtybr3upkmn" path="res://resources/sprites/GUI/icon_backgrounds/tool_card_background.png" id="2_a7c0j"]
 [ext_resource type="PackedScene" uid="uid://cjwhkrmueycbi" path="res://scenes/GUI/shared/descriptions/shared_description/gui_action_list.tscn" id="4_882ho"]
 [ext_resource type="Texture2D" uid="uid://cfqih7tn7gdu" path="res://resources/sprites/GUI/icon_backgrounds/tool_card_border.png" id="4_cxlev"]
-[ext_resource type="AudioStream" uid="uid://bgyg7vg7fsae6" path="res://resources/sounds/SFX/other/tool_cards/card_use.wav" id="5_a7c0j"]
+[ext_resource type="AudioStream" uid="uid://bgyg7vg7fsae6" path="res://resources/sounds/SFX/tool_cards/card_use.wav" id="5_a7c0j"]
+[ext_resource type="AudioStream" uid="uid://b6rsvcpwe5a2m" path="res://resources/sounds/SFX/tool_cards/card_exhaust.wav" id="7_882ho"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ckxcp"]
+resource_local_to_scene = true
+shader = ExtResource("1_ckxcp")
+shader_parameter/sensitivity = 0.0
+
+[sub_resource type="Animation" id="Animation_882ho"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CardContainer/Background:material:shader_parameter/sensitivity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CardContainer/CardContent:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CardContainer/HighlightContainer:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ExhaustSound:playing")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_ckxcp"]
+resource_name = "dissolve"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CardContainer/Background:material:shader_parameter/sensitivity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CardContainer/CardContent:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CardContainer/HighlightContainer:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ExhaustSound:playing")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 1,
+"values": []
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_882ho"]
+_data = {
+&"RESET": SubResource("Animation_882ho"),
+&"dissolve": SubResource("Animation_ckxcp")
+}
 
 [node name="GUIToolCardButton" type="PanelContainer"]
 custom_minimum_size = Vector2(38, 52)
@@ -21,6 +162,7 @@ mouse_filter = 2
 
 [node name="Background" type="NinePatchRect" parent="CardContainer"]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_ckxcp")
 layout_mode = 2
 texture = ExtResource("2_a7c0j")
 region_rect = Rect2(0, 0, 38, 52)
@@ -44,7 +186,7 @@ unique_name_in_owner = true
 layout_mode = 1
 offset_left = 2.0
 offset_top = 2.0
-offset_right = 34.0
+offset_right = 36.0
 offset_bottom = 9.0
 theme_type_variation = &"HUD_small"
 horizontal_alignment = 1
@@ -92,6 +234,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
+theme_override_constants/separation = 1
 alignment = 2
 
 [node name="HighlightContainer" type="Control" parent="CardContainer"]
@@ -117,3 +260,14 @@ unique_name_in_owner = true
 stream = ExtResource("5_a7c0j")
 volume_db = 5.0
 bus = &"SFX"
+
+[node name="ExhaustSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("7_882ho")
+bus = &"SFX"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_882ho")
+}

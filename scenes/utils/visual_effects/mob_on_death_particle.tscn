@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dj2gfcavp3n61" path="res://scenes/utils/enter_tree/enter_tree_audio_player.tscn" id="1_2hlbj"]
 [ext_resource type="Texture2D" uid="uid://dg8kxbdj5ptm1" path="res://resources/sprites/effects/particles/particle_3.png" id="1_jeov1"]
 [ext_resource type="Script" uid="uid://bbqu57pfod3o2" path="res://scenes/utils/visual_effects/one_shot_particle.gd" id="2_f71sg"]
-[ext_resource type="AudioStream" uid="uid://cq88midfwani4" path="res://resources/sounds/SFX/character/building_explode.wav" id="3_6aeyc"]
+[ext_resource type="AudioStream" uid="uid://cq88midfwani4" path="res://resources/sounds/SFX/other/character/building_explode.wav" id="3_6aeyc"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_80lsh"]
 particle_flag_disable_z = true

@@ -6,7 +6,7 @@ signal full_deck_button_evoked()
 
 @onready var gui_full_deck_button: GUIDeckButton = %GUIFullDeckButton
 @onready var _gui_gold: GUIGold = %GUIGold
-@onready var _week_label: Label = %WeekLabel
+@onready var _level_label: Label = %LevelLabel
 @onready var _gui_settings_button: GUISettingsButton = %GUISettingsButton
 @onready var _day_label: Label = %DayLabel
 @onready var _gui_player: GUICharacter = %GUIPlayer
@@ -19,9 +19,9 @@ func _ready() -> void:
 func update_gold(gold:int, animated:bool) -> void:
 	await _gui_gold.update_gold(gold, GUIGold.AnimationType.FULL if animated else GUIGold.AnimationType.NONE)
 
-func update_week(week:int) -> void:
-	_week_label.text = Util.get_localized_string("WEEK_LABEL_TEXT") % (week + 1)
-	_gui_level_display.set_current_index(week)
+func update_level(level:int) -> void:
+	_level_label.text = Util.get_localized_string("WEEK_LABEL_TEXT") % (level + 1)
+	_gui_level_display.set_current_index(level)
 
 func update_day_left(day_left:int) -> void:
 	_day_label.text = Util.get_localized_string("DAY_LABEL_TEXT")% day_left

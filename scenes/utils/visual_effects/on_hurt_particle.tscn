@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dg8kxbdj5ptm1" path="res://resources/sprites/effects/particles/particle_3.png" id="1_bw7na"]
 [ext_resource type="Script" uid="uid://bux7dp7ivayfw" path="res://scenes/utils/visual_effects/on_hurt_particle.gd" id="2_3bw5h"]
-[ext_resource type="AudioStream" uid="uid://bjyi12p14uq8w" path="res://resources/sounds/SFX/mob/mob_hurt.wav" id="3_su13h"]
+[ext_resource type="AudioStream" uid="uid://bjyi12p14uq8w" path="res://resources/sounds/SFX/other/mob/mob_hurt.wav" id="3_su13h"]
 [ext_resource type="PackedScene" uid="uid://dj2gfcavp3n61" path="res://scenes/utils/enter_tree/enter_tree_audio_player.tscn" id="4_imlk5"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_k7c6v"]

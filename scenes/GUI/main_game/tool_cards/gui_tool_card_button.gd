@@ -1,6 +1,9 @@
 class_name GUIToolCardButton
 extends GUIBasicButton
 
+signal _dissolve_finished()
+signal exhaust_sound_finished()
+
 enum CardState {
 	NORMAL,
 	HIGHLIGHTED,
@@ -14,9 +17,8 @@ const SIZE := Vector2(38, 52)
 const SELECTED_OFFSET := 6.0
 const IN_USE_OFFSET := 10.0
 const HIGHLIGHTED_OFFSET := 1.0
-const TOOLTIP_DELAY := 0.2
-const CARD_HOVER_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_hover.wav")
-const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/card_select.wav")
+const CARD_HOVER_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_hover.wav")
+const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_select.wav")
 
 @onready var _gui_action_list: GUIActionList = %GUIActionList
 @onready var _card_container: Control = %CardContainer
@@ -28,6 +30,8 @@ const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/other/tool_cards/
 @onready var _cost_icon: TextureRect = %CostIcon
 @onready var _rich_text_label: RichTextLabel = %RichTextLabel
 @onready var _use_sound: AudioStreamPlayer2D = %UseSound
+@onready var _exhaust_sound: AudioStreamPlayer2D = %ExhaustSound
+@onready var _animation_player: AnimationPlayer = %AnimationPlayer
 
 var mouse_disabled:bool = false: set = _set_mouse_disabled
 var activated := false: set = _set_activated
@@ -35,7 +39,7 @@ var card_state:CardState = CardState.NORMAL: set = _set_card_state
 var resource_sufficient := false: set = _set_resource_sufficient
 var animation_mode := false : set = _set_animation_mode
 var display_mode := false
-var _tool_data:ToolData: get = _get_tool_data
+var tool_data:ToolData: get = _get_tool_data
 var _weak_tool_data:WeakRef = weakref(null)
 var _container_offset:float = 0.0: set = _set_container_offset
 
@@ -47,9 +51,10 @@ func _ready() -> void:
 	assert(size == SIZE, "size not match")
 	_highlight_border.hide()
 	_highlight_border.self_modulate = Constants.RESOURCE_SUFFICIENT_COLOR
+	_animation_player.animation_finished.connect(_on_animation_finished)
 
-func update_with_tool_data(tool_data:ToolData) -> void:
-	_weak_tool_data = weakref(tool_data)
+func update_with_tool_data(td:ToolData) -> void:
+	_weak_tool_data = weakref(td)
 	if tool_data.actions.is_empty():
 		_rich_text_label.text = tool_data.get_display_description()
 	else:
@@ -80,10 +85,19 @@ func play_move_sound() -> void:
 func play_use_sound() -> void:
 	_use_sound.play()
 
+func play_exhaust_animation() -> void:
+	_animation_player.play("dissolve")
+	await _dissolve_finished
+
+func play_exhaust_sound() -> void:
+	_exhaust_sound.play()
+	await _exhaust_sound.finished
+	exhaust_sound_finished.emit()
+
 func _update_for_energy(energy:int) -> void:
-	if !_tool_data:
+	if !tool_data:
 		return
-	if _tool_data.energy_cost <= energy:
+	if tool_data.energy_cost <= energy:
 		resource_sufficient = true
 	else:
 		resource_sufficient = false
@@ -93,11 +107,11 @@ func _update_for_energy(energy:int) -> void:
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	if activated:
-		await Util.create_scaled_timer(TOOLTIP_DELAY).timeout
-		if mouse_in && !_tool_data.actions.is_empty():
+		await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
+		if mouse_in && !tool_data.actions.is_empty():
 			if _weak_actions_tooltip.get_ref():
 				return
-			_weak_actions_tooltip = weakref(Util.display_tool_card_tooltip(_tool_data, self, false, GUITooltip.TooltipPosition.RIGHT, true))
+			_weak_actions_tooltip = weakref(Util.display_tool_card_tooltip(tool_data, self, false, GUITooltip.TooltipPosition.RIGHT, true))
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
@@ -125,9 +139,10 @@ func _get_tool_data() -> ToolData:
 
 func _set_activated(value:bool) -> void:
 	activated = value
-	var energy_tracker := Singletons.main_game.energy_tracker
-	_update_for_energy(energy_tracker.value)
-	energy_tracker.value_update.connect(_on_energy_tracker_value_updated.bind(energy_tracker))
+	if !display_mode:
+		var energy_tracker := Singletons.main_game.energy_tracker
+		_update_for_energy(energy_tracker.value)
+		energy_tracker.value_update.connect(_on_energy_tracker_value_updated.bind(energy_tracker))
 
 func _set_animation_mode(value:bool) -> void:
 	animation_mode = value
@@ -157,9 +172,13 @@ func _set_container_offset(offset:float) -> void:
 	_card_container.position.y = -offset
 
 func _get_hover_sound() -> AudioStream:
+	if display_mode:
+		return super._get_hover_sound()
 	return CARD_HOVER_SOUND
 
 func _get_click_sound() -> AudioStream:
+	if display_mode:
+		return super._get_click_sound()
 	return CARD_SELECT_SOUND
 
 func _set_resource_sufficient(value:bool) -> void:
@@ -173,3 +192,7 @@ func _set_resource_sufficient(value:bool) -> void:
 		else:
 			_cost_icon.modulate = Constants.RESOURCE_INSUFFICIENT_COLOR
 		_highlight_border.modulate = Constants.RESOURCE_INSUFFICIENT_COLOR
+	
+func _on_animation_finished(anim_name:String) -> void:
+	if anim_name == "dissolve":
+		_dissolve_finished.emit()

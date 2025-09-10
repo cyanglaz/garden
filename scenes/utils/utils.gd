@@ -18,6 +18,8 @@ const GUI_WARNING_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_warnin
 const GUI_RICH_TEXT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_rich_text_tooltip.tscn")
 const GUI_TOOL_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_tool_card_tooltip.tscn")
 const GUI_LEVEL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_level_tooltip.tscn")
+const GUI_BOSS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_boss_tooltip.tscn")
+const GUI_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_card_tooltip.tscn")
 
 const FIELD_STATUS_SCRIPT_PREFIX := "res://scenes/main_game/field/status/field_status_script_"
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
@@ -58,13 +60,13 @@ static func display_rich_text_tooltip(description:String, on_control_node:Contro
 	_display_tool_tip.call_deferred(rich_text_tooltip, on_control_node, anchor_mouse, tooltip_position)
 	return rich_text_tooltip
 
-static func display_plant_tooltip(plant_data:PlantData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIPlantTooltip:
+static func display_plant_tooltip(plant_data:PlantData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP, world_space:bool = false) -> GUIPlantTooltip:
 	var plant_tooltip:GUIPlantTooltip = GUI_PLANT_TOOLTIP_SCENE.instantiate()
 	plant_tooltip.hide()
 	Singletons.main_game.add_control_to_overlay(plant_tooltip)
 	plant_tooltip.tooltip_position = tooltip_position
 	plant_tooltip.update_with_plant_data(plant_data)
-	_display_tool_tip.call_deferred(plant_tooltip, on_control_node, anchor_mouse, tooltip_position)
+	_display_tool_tip.call_deferred(plant_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
 	return plant_tooltip
 
 static func display_weather_tooltip(weather_data:WeatherData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIWeatherTooltip:
@@ -107,6 +109,22 @@ static func display_level_tooltip(level_data:LevelData, on_control_node:Control,
 	_display_tool_tip.call_deferred(level_tooltip, on_control_node, anchor_mouse, tooltip_position, false)
 	return level_tooltip
 
+static func display_boss_tooltip(level_data:LevelData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition) -> GUIBossTooltip:
+	var boss_tooltip:GUIBossTooltip = GUI_BOSS_TOOLTIP_SCENE.instantiate()
+	Singletons.main_game.add_control_to_overlay(boss_tooltip)
+	boss_tooltip.tooltip_position = tooltip_position
+	boss_tooltip.update_with_level_data(level_data)
+	_display_tool_tip.call_deferred(boss_tooltip, on_control_node, anchor_mouse, tooltip_position, false)
+	return boss_tooltip
+
+static func display_card_tooltip(tool_data:ToolData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition) -> GUICardTooltip:
+	var card_tooltip:GUICardTooltip = GUI_CARD_TOOLTIP_SCENE.instantiate()
+	Singletons.main_game.add_control_to_overlay(card_tooltip)
+	card_tooltip.tooltip_position = tooltip_position
+	card_tooltip.update_with_tool_data(tool_data)
+	_display_tool_tip.call_deferred(card_tooltip, on_control_node, anchor_mouse, tooltip_position, false)
+	return card_tooltip
+
 static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP, world_space:bool = false) -> void:
 	tooltip.show()
 	if tooltip is GUITooltip:
@@ -124,16 +142,22 @@ static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_m
 	match tooltip_position:
 		GUITooltip.TooltipPosition.TOP_RIGHT:
 			x_offset = on_control_node.size.x + TOOLTIP_OFFSET
-			y_offset = - tooltip.size.y - TOOLTIP_OFFSET
+			y_offset = - tooltip.size.y + on_control_node.size.y - TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.TOP:
 			x_offset = on_control_node.size.x/2 - tooltip.size.x/2
 			y_offset = - tooltip.size.y - TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.RIGHT:
 			x_offset = on_control_node.size.x + TOOLTIP_OFFSET
+		GUITooltip.TooltipPosition.LEFT_TOP:
+			x_offset = -tooltip.size.x - TOOLTIP_OFFSET
+			y_offset = - tooltip.size.y + on_control_node.size.y - TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.LEFT:
 			x_offset = -tooltip.size.x - TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.BOTTOM:
 			x_offset = on_control_node.size.x/2 - tooltip.size.x/2
+			y_offset = on_control_node.size.y + TOOLTIP_OFFSET
+		GUITooltip.TooltipPosition.BOTTOM_LEFT:
+			x_offset = -tooltip.size.x + on_control_node.size.x
 			y_offset = on_control_node.size.y + TOOLTIP_OFFSET
 	var reference_position := on_control_node.global_position
 	if world_space:
@@ -331,6 +355,10 @@ static func get_id_for_tool_speical(special:ToolData.Special) -> String:
 	match special:
 		ToolData.Special.USE_ON_DRAW:
 			id = "use_on_draw"
+		ToolData.Special.COMPOST:
+			id = "compost"
+		_:
+			assert(false, "special id not implemented")
 	return id
 
 static func get_id_for_action_speical(special:ActionData.Special) -> String:
@@ -339,6 +367,15 @@ static func get_id_for_action_speical(special:ActionData.Special) -> String:
 		ActionData.Special.ALL_FIELDS:
 			id = "all_fields"
 	return id
+
+static func find_tool_ids_in_data(data:Dictionary) -> Array[String]:
+	var tool_ids:Array[String] = []
+	for key:String in data.keys():
+		if key.begins_with("card_"):
+			var key_parts:Array = key.split("_")
+			var tool_id:String = key_parts[1]
+			tool_ids.append(tool_id)
+	return tool_ids
 
 static func format_references(formatted_description:String, data_to_format:Dictionary, highlight_description_keys:Dictionary, additional_highlight_check:Callable, ) -> String:
 	var searching_start_index := 0

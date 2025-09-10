@@ -4,7 +4,8 @@ extends GUIBasicButton
 enum Type {
 	ALL,
 	DRAW,
-	DISCARD
+	DISCARD,
+	EXHAUST
 }
 
 @export var type:Type
@@ -19,21 +20,25 @@ func _ready() -> void:
 	_normal_background_color = _background.self_modulate
 	super._ready()
 
-func bind_deck(tool:Deck) -> void:
+func bind_deck(deck:Deck) -> void:
 	var pool := []
 	match type:
 		Type.ALL:
 			_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			pool = tool.pool
-			tool.pool_updated.connect(_on_pool_updated)
+			pool = deck.pool
+			deck.pool_updated.connect(_on_pool_updated)
 		Type.DRAW:
 			_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-			pool = tool.draw_pool
-			tool.draw_pool_updated.connect(_on_pool_updated)
+			pool = deck.draw_pool
+			deck.draw_pool_updated.connect(_on_pool_updated)
 		Type.DISCARD:
 			_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-			pool = tool.discard_pool
-			tool.discard_pool_updated.connect(_on_pool_updated)
+			pool = deck.discard_pool
+			deck.discard_pool_updated.connect(_on_pool_updated)
+		Type.EXHAUST:
+			_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			pool = deck.exhaust_pool
+			deck.exhaust_pool_updated.connect(_on_pool_updated)
 	_on_pool_updated(pool)
 
 func _set_button_state(val:ButtonState) -> void:
@@ -47,8 +52,6 @@ func _set_button_state(val:ButtonState) -> void:
 			_background.self_modulate = Constants.COLOR_BEIGE_1
 
 func _on_pool_updated(pool:Array) -> void:
-	if type == Type.ALL:
-		print("pool updated: ", pool.size())
 	var old_size := _size
 	_size = pool.size()
 	if _label_update_tween && _label_update_tween.is_running():

@@ -10,14 +10,16 @@ const TOOLTIP_MOUSE_OFFSET:float = 2.0
 @onready var _sticky_progress_bar: TextureProgressBar = %StickyProgressBar
 
 enum TooltipPosition {
-	TOP_RIGHT,
 	RIGHT,
+	TOP_RIGHT,
 	TOP,
 	BOTTOM,
+	BOTTOM_LEFT,
+	LEFT_TOP,
 	LEFT,
 }
 
-var tooltip_position:TooltipPosition = TooltipPosition.TOP_RIGHT: set = _set_tooltip_position
+var tooltip_position:TooltipPosition = TooltipPosition.RIGHT: set = _set_tooltip_position
 var host_view_size:Vector2
 var mouse_in:bool = false
 var anchor_to_mouse:bool = false
@@ -99,12 +101,26 @@ func update_anchors() -> void:
 			anchor_top = 1
 			grow_horizontal = Control.GROW_DIRECTION_BOTH
 			grow_vertical = Control.GROW_DIRECTION_BEGIN
-		TooltipPosition.LEFT:
+		TooltipPosition.LEFT_TOP:		
 			anchor_right = 0
 			anchor_left = 0
 			anchor_bottom = 1
 			anchor_top = 1
 			grow_horizontal = Control.GROW_DIRECTION_END
+			grow_vertical = Control.GROW_DIRECTION_END
+		TooltipPosition.LEFT:
+			anchor_right = 0
+			anchor_left = 0
+			anchor_bottom = 0
+			anchor_top = 0
+			grow_horizontal = Control.GROW_DIRECTION_END
+			grow_vertical = Control.GROW_DIRECTION_BEGIN
+		TooltipPosition.BOTTOM_LEFT:
+			anchor_right = 0
+			anchor_left = 0
+			anchor_bottom = 1
+			anchor_top = 1
+			grow_horizontal = Control.GROW_DIRECTION_BEGIN
 			grow_vertical = Control.GROW_DIRECTION_END
 		# TooltipPosition.BOTTOM:
 		# 	anchor_right = 0.5
@@ -147,7 +163,7 @@ func _follow_mouse_position() -> void:
 		GUITooltip.TooltipPosition.RIGHT:
 			x_offset = - TOOLTIP_MOUSE_OFFSET
 			y_offset = - TOOLTIP_MOUSE_OFFSET
-		GUITooltip.TooltipPosition.LEFT:
+		GUITooltip.TooltipPosition.LEFT_TOP:
 			x_offset = -size.x + TOOLTIP_MOUSE_OFFSET
 			y_offset = - TOOLTIP_MOUSE_OFFSET
 		GUITooltip.TooltipPosition.BOTTOM:

@@ -8,7 +8,7 @@ const HIDE_Y := 200
 const SHOW_ANIMATION_DURATION := 0.15
 const HIDE_ANIMATION_DURATION := 0.15
 
-@onready var _week_label: GUISummaryItem = %WeekLabel
+@onready var _level_label: GUISummaryItem = %LevelLabel
 @onready var _total_days_skipped_label: GUISummaryItem = %TotalDaysSkippedLabel
 @onready var _total_gold_earned_label: GUISummaryItem = %TotalGoldEarnedLabel
 @onready var _continue_button: GUIRichTextButton = %ContinueButton
@@ -25,7 +25,7 @@ func _ready() -> void:
 func animate_show(session_summary:SessionSummary) -> void:
 	_continue_button.hide()
 	show()
-	_week_label.value_text = str(session_summary.week + 1)
+	_level_label.value_text = str(session_summary.level + 1)
 	_total_days_skipped_label.value_text = str(session_summary.total_days_skipped)
 	_total_gold_earned_label.value_text = str(session_summary.total_gold_earned)
 

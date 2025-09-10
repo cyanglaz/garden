@@ -2,6 +2,7 @@ class_name LevelData
 extends ThingData
 
 const ICON_PATH_PREFIX := "res://resources/sprites/icons/characters/icon_"
+const LEVEL_SCRIPT_PATH := "res://scenes/main_game/levels/scripts/level_script_%s.gd"
 
 enum Type {
 	MINION,
@@ -19,6 +20,7 @@ signal finished()
 
 var is_finished:bool = false: set = _set_is_finished
 var portrait_icon:Texture2D: get = _get_portrait_icon
+var level_script:LevelScript: get = _get_level_script
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
@@ -30,7 +32,6 @@ func copy(other:ThingData) -> void:
 	weathers = other_level.weathers.duplicate()
 	number_of_days = other_level.number_of_days
 	is_finished = other_level.is_finished
-	
 
 func get_duplicate() -> LevelData:
 	var dup:LevelData = LevelData.new()
@@ -45,3 +46,12 @@ func _get_portrait_icon() -> Texture2D:
 	if !ResourceLoader.exists(ICON_PATH_PREFIX + id + ".png"):
 		return null
 	return load(ICON_PATH_PREFIX + id + ".png")
+
+func _get_level_script() -> LevelScript:
+	var script_path := LEVEL_SCRIPT_PATH % [id]
+	if ResourceLoader.exists(script_path):
+		var ls:LevelScript = load(script_path).new()
+		ls.level_data = self
+		return ls
+	else:
+		return null

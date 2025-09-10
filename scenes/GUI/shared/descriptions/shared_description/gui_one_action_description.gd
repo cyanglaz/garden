@@ -24,6 +24,8 @@ func _get_special_name(special:ToolData.Special) -> String:
 	match special:
 		ToolData.Special.USE_ON_DRAW:
 			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_ON_DRAW")
+		ToolData.Special.COMPOST:
+			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_COMPOST")
 		_:
 			assert(false, "Invalid special: %s" % special)
 	return special_name
@@ -33,6 +35,8 @@ func _get_special_description(special:ToolData.Special) -> String:
 	match special:
 		ToolData.Special.USE_ON_DRAW:
 			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_ON_DRAW")
+		ToolData.Special.COMPOST:
+			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_COMPOST")
 		_:
 			assert(false, "Invalid special: %s" % special)
 	if !special_description.ends_with("."):

@@ -36,5 +36,5 @@ func _on_mouse_entered(index:int) -> void:
 
 func _on_mouse_exited(_index:int) -> void:
 	if _weak_tooltip.get_ref():
-		_weak_tooltip.get_ref().hide()
+		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)

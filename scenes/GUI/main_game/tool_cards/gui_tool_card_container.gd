@@ -1,7 +1,7 @@
 class_name GUIToolCardContainer
 extends PanelContainer
 
-signal tool_selected(index:int)
+signal tool_selected(tool_data:ToolData)
 
 const TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const DEFAULT_CARD_SPACE := 1.0
@@ -58,6 +58,15 @@ func remove_cards(gui_cards:Array[GUIToolCardButton]) -> void:
 		gui_card.queue_free()
 	_rebind_signals()
 
+func get_all_cards() -> Array:
+	return _container.get_children()
+
+func find_card(tool_data:ToolData) -> GUIToolCardButton:
+	for card:GUIToolCardButton in _container.get_children():
+		if card.tool_data == tool_data:
+			return card
+	return null
+
 func _rebind_signals() -> void:
 	for i in _container.get_children().size():
 		var gui_card:GUIToolCardButton = _container.get_child(i)
@@ -76,23 +85,23 @@ func _rebind_signals() -> void:
 func animate_draw(draw_results:Array) -> void:
 	await _gui_tool_card_animation_container.animate_draw(draw_results)
 	
-func animate_discard(discarding_indices:Array) -> void:
-	await _gui_tool_card_animation_container.animate_discard(discarding_indices)
+func animate_discard(discarding_tool_datas:Array) -> void:
+	await _gui_tool_card_animation_container.animate_discard(discarding_tool_datas)
 
-func animate_use_card(index:int) -> void:
-	await _gui_tool_card_animation_container.animate_use_card(index)
-
-func animate_discard_in_use_card() -> void:
-	await _gui_tool_card_animation_container.animate_discard_in_use_card()
+func animate_use_card(tool_data:ToolData) -> void:
+	await _gui_tool_card_animation_container.animate_use_card(tool_data)
 
 func animate_shuffle(number_of_cards:int) -> void:
 	await _gui_tool_card_animation_container.animate_shuffle(number_of_cards)
 
-func animate_add_card_to_draw_pile(tool_data:ToolData, from_global_position:Vector2, pause:bool) -> void:
-	await _gui_tool_card_animation_container.animate_add_card_to_draw_pile(tool_data, from_global_position, pause)
+func animate_add_cards_to_draw_pile(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+	await _gui_tool_card_animation_container.animate_add_cards_to_draw_pile(tool_datas, from_global_position, pause)
 
 func animate_add_card_to_deck(tool_data:ToolData, from_global_position:Vector2) -> void:
 	await _gui_tool_card_animation_container.animate_add_card_to_deck(tool_data, from_global_position)
+
+func animate_exhaust(tool_datas:Array) -> void:
+	await _gui_tool_card_animation_container.animate_exhaust(tool_datas)
 
 #endregion
 
@@ -161,11 +170,11 @@ func _on_tool_card_pressed(index:int) -> void:
 		gui_card.position = positions[i]
 	if selected_card.resource_sufficient:
 		for i in _container.get_children().size():	
-			var gui_card = _container.get_child(i)
+			var gui_card:GUIToolCardButton = _container.get_child(i)
 			if i == index:
 				if gui_card.card_state != GUIToolCardButton.CardState.SELECTED:
 					gui_card.card_state = GUIToolCardButton.CardState.SELECTED
-					tool_selected.emit(index)
+					tool_selected.emit(gui_card.tool_data)
 			else:
 				gui_card.card_state = GUIToolCardButton.CardState.NORMAL
 	else:

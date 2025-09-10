@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dg8kxbdj5ptm1" path="res://resources/sprites/effects/particles/particle_3.png" id="1_vur6d"]
 [ext_resource type="Script" uid="uid://bbqu57pfod3o2" path="res://scenes/utils/visual_effects/one_shot_particle.gd" id="2_mc0sk"]
 [ext_resource type="PackedScene" uid="uid://dj2gfcavp3n61" path="res://scenes/utils/enter_tree/enter_tree_audio_player.tscn" id="3_e7yhy"]
-[ext_resource type="AudioStream" uid="uid://bjyi12p14uq8w" path="res://resources/sounds/SFX/mob/mob_hurt.wav" id="4_d60wn"]
+[ext_resource type="AudioStream" uid="uid://bjyi12p14uq8w" path="res://resources/sounds/SFX/other/mob/mob_hurt.wav" id="4_d60wn"]
 
 [sub_resource type="Gradient" id="Gradient_qpg2d"]
 interpolation_mode = 1

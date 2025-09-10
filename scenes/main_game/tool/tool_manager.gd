@@ -27,6 +27,9 @@ func _init(initial_tools:Array, gui_tool_card_container:GUIToolCardContainer) ->
 func refresh_deck() -> void:
 	tool_deck.refresh()
 
+func cleanup_deck() -> void:
+	tool_deck.cleanup_temp_items()
+
 func draw_cards(count:int) -> Array:
 	var _display_index = tool_deck.hand.size() - 1
 	var draw_results:Array = tool_deck.draw(count)
@@ -45,23 +48,20 @@ func shuffle() -> void:
 	tool_deck.shuffle_draw_pool()
 
 func discard_cards(tools:Array) -> void:
-	var indices:Array = []
-	for tool_data:ToolData in tools:
-		var index:int = tool_deck.hand.find(tool_data)
-		assert(index >= 0)
-		indices.append(index)
+	assert(tools.size() > 0)
 	# Order is important, discard first, then animate
 	tool_deck.discard(tools)
-	await _gui_tool_card_container.animate_discard(indices)
+	await _gui_tool_card_container.animate_discard(tools)
 
-func animate_use_card(tool_data:ToolData) -> void:
-	var index:int = tool_deck.hand.find(tool_data)
+func exhaust_cards(tools:Array) -> void:
+	assert(tools.size() > 0)
+	# Order is important, exhaust first, then animate
+	tool_deck.exhaust(tools)
+	await _gui_tool_card_container.animate_exhaust(tools)
+
+func use_card(tool_data:ToolData) -> void:
 	tool_deck.use(tool_data)
-	await _gui_tool_card_container.animate_use_card(index)
-
-func animate_discard_in_use_card() -> void:
-	tool_deck.discard([tool_deck.in_use_item])
-	await _gui_tool_card_container.animate_discard_in_use_card()
+	await _gui_tool_card_container.animate_use_card(tool_data)
 
 func select_tool(tool_data:ToolData) -> void:
 	selected_tool = tool_data
@@ -78,20 +78,33 @@ func discardable_cards() -> Array:
 func add_tool_to_deck(tool_data:ToolData) -> void:
 	tool_deck.add_item(tool_data)
 
-func add_tool_to_draw_pile(tool_data:ToolData, from_global_position:Vector2, random_place:bool, pause:bool) -> void:
-	await _gui_tool_card_container.animate_add_card_to_draw_pile(tool_data, from_global_position, pause)
-	tool_deck.add_temp_item_to_draw_pile(tool_data, random_place)
+func add_temp_tools_to_draw_pile(tool_datas:Array[ToolData], from_global_position:Vector2, random_place:bool, pause:bool) -> void:
+	await _gui_tool_card_container.animate_add_cards_to_draw_pile(tool_datas, from_global_position, pause)
+	tool_deck.add_temp_items_to_draw_pile(tool_datas, random_place)
 
 func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)
 
+func apply_auto_tools(main_game:MainGame, fields:Array, filter_func:Callable) -> void:
+	var has_tool_to_apply:bool = true
+	while has_tool_to_apply:
+		has_tool_to_apply = false
+		for tool_data:ToolData in tool_deck.hand:
+			if filter_func.call(tool_data):
+				select_tool(tool_data)
+				apply_tool(main_game, fields, 0)
+				await tool_application_completed
+				has_tool_to_apply = true
+				break
+
 func _handle_card(tool_data:ToolData) -> void:
 	_apply_card_animation_started = true
-	if tool_data.need_select_field:
-		await discard_cards([tool_data])
+	if !tool_data.need_select_field:
+		await use_card(tool_data)
+	if tool_data.specials.has(ToolData.Special.COMPOST):
+		await exhaust_cards([tool_data])
 	else:
-		await animate_use_card(tool_data)
-		await animate_discard_in_use_card()
+		await discard_cards([tool_data])
 	_apply_card_animation_started = false
 	_apply_card_animation_completed.emit()
 
