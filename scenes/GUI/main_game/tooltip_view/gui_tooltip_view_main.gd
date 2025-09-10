@@ -17,26 +17,43 @@ var tooltip_data_stack:Array[Resource] = []
 func _ready() -> void:
 	title_label.text = Util.get_localized_string("INFO_TITLE")
 	sub_title_label.text = ""
-	update_with_level_data(MainDatabase.level_database.get_data_by_id("lady_rose"))
+	update_with_data(MainDatabase.plant_database.get_data_by_id("rose"))
 
-func update_with_plant_data(plant_data:PlantData) -> void:
+func update_with_data(data:Resource) -> void:
+	if data is PlantData:
+		_update_with_plant_data(data)
+	elif data is ToolData:
+		_update_with_tool_data(data)
+	elif data is LevelData:
+		_update_with_level_data(data)
+	elif data is FieldStatusData:
+		_update_with_field_status_data(data)
+
+func _update_with_plant_data(plant_data:PlantData) -> void:
 	var column:GUITooltipViewColumn = COLUMN_SCENE.instantiate()
 	tooltip_container.add_child(column)
 	column.update_with_plant_data(plant_data)
 	column.reference_button_evoked.connect(_on_reference_button_evoked.bind(tooltip_container.get_child_count() -1))
 	column.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
 
-func update_with_tool_data(tool_data:ToolData) -> void:
+func _update_with_tool_data(tool_data:ToolData) -> void:
 	var column:GUITooltipViewColumn = COLUMN_SCENE.instantiate()
 	tooltip_container.add_child(column)
 	column.update_with_tool_data(tool_data)
 	column.reference_button_evoked.connect(_on_reference_button_evoked.bind(tooltip_container.get_child_count() -1))
 	column.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
 
-func update_with_level_data(level_data:LevelData) -> void:
+func _update_with_level_data(level_data:LevelData) -> void:
 	var column:GUITooltipViewColumn = COLUMN_SCENE.instantiate()
 	tooltip_container.add_child(column)
 	column.update_with_level_data(level_data)
+	column.reference_button_evoked.connect(_on_reference_button_evoked.bind(tooltip_container.get_child_count() -1))
+	column.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
+
+func _update_with_field_status_data(field_status_data:FieldStatusData) -> void:
+	var column:GUITooltipViewColumn = COLUMN_SCENE.instantiate()
+	tooltip_container.add_child(column)
+	column.update_with_field_status_data(field_status_data)
 	column.reference_button_evoked.connect(_on_reference_button_evoked.bind(tooltip_container.get_child_count() -1))
 	column.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
 
@@ -46,19 +63,18 @@ func _clear_tooltips(from_level:int) -> void:
 			tooltip_container.get_child(i).queue_free()
 func _on_reference_button_evoked(reference_pair:Array, level:int) -> void:
 	_clear_tooltips(level + 1)
+	var data:Resource
 	if reference_pair[0] == "plant":
-		update_with_plant_data(MainDatabase.plant_database.get_data_by_id(reference_pair[1]))
+		data = MainDatabase.plant_database.get_data_by_id(reference_pair[1])
 	elif reference_pair[0] == "card":
-		update_with_tool_data(MainDatabase.tool_database.get_data_by_id(reference_pair[1]))
+		data = MainDatabase.tool_database.get_data_by_id(reference_pair[1])
 	elif reference_pair[0] == "level":
-		update_with_level_data(MainDatabase.level_database.get_data_by_id(reference_pair[1]))
+		data = MainDatabase.level_database.get_data_by_id(reference_pair[1])
+	elif reference_pair[0] == "field_status":
+		data = MainDatabase.field_status_database.get_data_by_id(reference_pair[1])
+	update_with_data(data)
 
 func _on_tooltip_button_evoked(data:Resource) -> void:
 	tooltip_data_stack.append(data)
 	Util.remove_all_children(tooltip_container)
-	if data is PlantData:
-		update_with_plant_data(data)
-	elif data is ToolData:
-		update_with_tool_data(data)
-	elif data is LevelData:
-		update_with_level_data(data)
+	update_with_data(data)
