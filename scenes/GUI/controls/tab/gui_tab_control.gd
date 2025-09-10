@@ -10,9 +10,25 @@ signal tab_selected(index:int)
 
 @onready var _buttons_container: HBoxContainer = %ButtonsContainer
 
+var selected_index:int = -1
+
 func _ready() -> void:
 	_set_number_of_tabs(number_of_tabs)
 	_set_tab_localization_titles(tab_localization_titles)
+
+func _add_tab() -> void:
+	var button:GUIBasicButton = tab_options_scene.instantiate()
+	_buttons_container.add_child(button)
+	button.action_evoked.connect(_on_tab_button_action_evoked.bind(_buttons_container.get_child_count() - 1))
+
+func select_button(index:int) -> void:
+	selected_index = index
+	for button in _buttons_container.get_children():
+		if button.get_index() == index:
+			button.button_state = GUIBasicButton.ButtonState.SELECTED
+		else:
+			button.button_state = GUIBasicButton.ButtonState.NORMAL
+	tab_selected.emit(index)
 
 func _set_tab_localization_titles(val:Array[String]) -> void:
 	tab_localization_titles = val
@@ -23,24 +39,14 @@ func _set_tab_localization_titles(val:Array[String]) -> void:
 			_buttons_container.get_child(index).localization_text_key = title
 			index += 1
 		if _buttons_container.get_child_count() > 0:
-			_select_button(0)
+			select_button(0)
 
 func _set_number_of_tabs(val:int) -> void:
 	number_of_tabs = val
 	if _buttons_container:
 		Util.remove_all_children(_buttons_container)
 		for index:int in range(val):
-			var button:GUITabbarButton = tab_options_scene.instantiate()
-			_buttons_container.add_child(button)
-			button.action_evoked.connect(_on_tab_button_action_evoked.bind(index))
-
-func _select_button(index:int) -> void:
-	for button in _buttons_container.get_children():
-		if button.get_index() == index:
-			button.button_state = GUIBasicButton.ButtonState.SELECTED
-		else:
-			button.button_state = GUIBasicButton.ButtonState.NORMAL
-	tab_selected.emit(index)
+			_add_tab()
 
 func _on_tab_button_action_evoked(index:int) -> void:
-	_select_button(index)
+	select_button(index)

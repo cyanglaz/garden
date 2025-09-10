@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bnvsl3n0ds473"
+path="res://.godot/imported/plant_icon_background.aseprite-e4607a48749260a2cf382ddcd45f1482.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/backgrounds/plant_icon_background.aseprite"
+dest_files=["res://.godot/imported/plant_icon_background.aseprite-e4607a48749260a2cf382ddcd45f1482.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

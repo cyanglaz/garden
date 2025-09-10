@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://dpb75hmacxebu"]
+
+[ext_resource type="PackedScene" uid="uid://c0pj4bmuxbn87" path="res://scenes/GUI/controls/tab/gui_tabbar.tscn" id="1_jgox7"]
+[ext_resource type="Script" uid="uid://chb33lmqs7oxh" path="res://scenes/GUI/main_game/library/gui_library_tabbar.gd" id="2_8xki0"]
+[ext_resource type="PackedScene" uid="uid://cptk6xvoksia6" path="res://scenes/GUI/controls/buttons/gui_library_tabbar_button.tscn" id="3_ma774"]
+
+[node name="GUILibararyTabbar" instance=ExtResource("1_jgox7")]
+custom_minimum_size = Vector2(0, 14)
+script = ExtResource("2_8xki0")
+tab_options_scene = ExtResource("3_ma774")
+number_of_tabs = 0
+
+[node name="VBoxContainer" parent="." index="0"]
+theme_override_constants/separation = -1
+
+[node name="ButtonsContainer" parent="VBoxContainer/MarginContainer" index="0"]
+custom_minimum_size = Vector2(0, 14)
+theme_override_constants/separation = 1

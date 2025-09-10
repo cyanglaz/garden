@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bk1aikmynwikg"
+path="res://.godot/imported/tool_icon_background.aseprite-b15accddd13216fae74ad63cce0f3df7.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/backgrounds/tool_icon_background.aseprite"
+dest_files=["res://.godot/imported/tool_icon_background.aseprite-b15accddd13216fae74ad63cce0f3df7.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
