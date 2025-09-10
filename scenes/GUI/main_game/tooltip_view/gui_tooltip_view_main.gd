@@ -24,38 +24,26 @@ func update_with_plant_data(plant_data:PlantData) -> void:
 	tooltip_container.add_child(column)
 	column.update_with_plant_data(plant_data)
 	column.reference_button_evoked.connect(_on_reference_button_evoked.bind(tooltip_container.get_child_count() -1))
+	column.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
 
 func update_with_tool_data(tool_data:ToolData) -> void:
 	var column:GUITooltipViewColumn = COLUMN_SCENE.instantiate()
 	tooltip_container.add_child(column)
 	column.update_with_tool_data(tool_data)
 	column.reference_button_evoked.connect(_on_reference_button_evoked.bind(tooltip_container.get_child_count() -1))
+	column.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
 
 func update_with_level_data(level_data:LevelData) -> void:
 	var column:GUITooltipViewColumn = COLUMN_SCENE.instantiate()
 	tooltip_container.add_child(column)
 	column.update_with_level_data(level_data)
 	column.reference_button_evoked.connect(_on_reference_button_evoked.bind(tooltip_container.get_child_count() -1))
-
-func _add_tooltip(tooltip:GUITooltip) -> void:
-	tooltip_container.add_child(tooltip)
-	tooltip.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	column.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
 
 func _clear_tooltips(from_level:int) -> void:
 	for i in tooltip_container.get_child_count():
 		if i >= from_level:
 			tooltip_container.get_child(i).queue_free()
-	
-func _on_tooltip_pressed(event: InputEvent, data:Resource) -> void:
-	if !event.is_action_pressed("select"):
-		return
-	tooltip_data_stack.append(data)
-	Util.remove_all_children(tooltip_container)
-	if data is PlantData:
-		update_with_plant_data(data)
-	elif data is ToolData:
-		update_with_tool_data(data)
-
 func _on_reference_button_evoked(reference_pair:Array, level:int) -> void:
 	_clear_tooltips(level + 1)
 	if reference_pair[0] == "plant":
@@ -64,3 +52,13 @@ func _on_reference_button_evoked(reference_pair:Array, level:int) -> void:
 		update_with_tool_data(MainDatabase.tool_database.get_data_by_id(reference_pair[1]))
 	elif reference_pair[0] == "level":
 		update_with_level_data(MainDatabase.level_database.get_data_by_id(reference_pair[1]))
+
+func _on_tooltip_button_evoked(data:Resource) -> void:
+	tooltip_data_stack.append(data)
+	Util.remove_all_children(tooltip_container)
+	if data is PlantData:
+		update_with_plant_data(data)
+	elif data is ToolData:
+		update_with_tool_data(data)
+	elif data is LevelData:
+		update_with_level_data(data)
