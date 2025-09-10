@@ -81,7 +81,6 @@ horizontal_alignment = 1
 [node name="TooltipContainer" type="HBoxContainer" parent="MainPanel/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-alignment = 1
 
 [node name="BackButton" parent="." instance=ExtResource("5_a4wsu")]
 unique_name_in_owner = true

@@ -44,26 +44,7 @@ func _get_special_description(special:ToolData.Special) -> String:
 	return special_description
 
 func _get_action_name(action_data:ActionData) -> String:
-	var action_name := ""
-	match action_data.type:
-		ActionData.ActionType.LIGHT:
-			action_name = Util.get_localized_string("ACTION_NAME_LIGHT")
-		ActionData.ActionType.WATER:
-			action_name = Util.get_localized_string("ACTION_NAME_WATER")
-		ActionData.ActionType.PEST:
-			action_name = Util.get_localized_string("ACTION_NAME_PEST")
-		ActionData.ActionType.FUNGUS:
-			action_name = Util.get_localized_string("ACTION_NAME_FUNGUS")
-		ActionData.ActionType.WEATHER_SUNNY:
-			action_name = Util.get_localized_string("ACTION_NAME_WEATHER_SUNNY")
-		ActionData.ActionType.WEATHER_RAINY:
-			action_name = Util.get_localized_string("ACTION_NAME_WEATHER_RAINY")
-		ActionData.ActionType.DRAW_CARD:
-			action_name = Util.get_localized_string("ACTION_NAME_DRAW_CARD")
-		ActionData.ActionType.DISCARD_CARD:
-			action_name = Util.get_localized_string("ACTION_NAME_DISCARD_CARD")
-		ActionData.ActionType.NONE:
-			pass
+	var action_name := Util.get_action_name_from_action_type(action_data.type)
 	return action_name
 
 func _get_action_description(action_data:ActionData) -> String:
@@ -93,7 +74,7 @@ func _get_action_description(action_data:ActionData) -> String:
 			pass
 	if action_description.contains("%s"):
 		action_description = action_description % _get_value_text(action_data)
-	action_description = Util.format_references(action_description, {}, {}, func(_reference_id:String) -> bool: return false)
+	action_description = DescriptionParser.format_references(action_description, {}, {}, func(_reference_id:String) -> bool: return false)
 	if !action_description.ends_with("."):
 		action_description += "."
 	return action_description

@@ -2,7 +2,11 @@ class_name GUITooltipViewMain
 extends Control
 
 const PLANT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn")
-const CARd_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_card_tooltip.tscn")
+const CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_card_tooltip.tscn")
+const TOOL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_tool_card_tooltip.tscn")
+const BOSS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_boss_tooltip.tscn")
+
+const COLUMN_SCENE := preload("res://scenes/GUI/main_game/tooltip_view/gui_tooltip_view_column.tscn")
 
 @onready var title_label: Label = %TitleLabel
 @onready var sub_title_label: Label = %SubTitleLabel
@@ -13,27 +17,35 @@ var tooltip_data_stack:Array[Resource] = []
 func _ready() -> void:
 	title_label.text = Util.get_localized_string("INFO_TITLE")
 	sub_title_label.text = ""
-	update_with_plant_data(MainDatabase.plant_database.get_data_by_id("rose"))
+	update_with_level_data(MainDatabase.level_database.get_data_by_id("lady_rose"))
 
 func update_with_plant_data(plant_data:PlantData) -> void:
-	var plant_tooltip:GUIPlantTooltip = PLANT_TOOLTIP_SCENE.instantiate()
-	tooltip_container.add_child(plant_tooltip)
-	plant_tooltip.update_with_plant_data(plant_data)
-	plant_tooltip.mouse_default_cursor_shape = Control.CursorShape.CURSOR_POINTING_HAND
-	plant_tooltip.gui_input.connect(_on_tooltip_pressed.bind(plant_data))
-	# Find secondary tooltips (ToolData)
-	var tool_ids:Array[String] = Util.find_tool_ids_in_data(plant_data.data)
-	for tool_id:String in tool_ids:
-		var tool_data := MainDatabase.tool_database.get_data_by_id(tool_id)
-		update_with_tool_data(tool_data)
+	var column:GUITooltipViewColumn = COLUMN_SCENE.instantiate()
+	tooltip_container.add_child(column)
+	column.update_with_plant_data(plant_data)
+	column.reference_button_evoked.connect(_on_reference_button_evoked.bind(tooltip_container.get_child_count() -1))
 
 func update_with_tool_data(tool_data:ToolData) -> void:
-	var tool_tooltip:GUICardTooltip = CARd_TOOLTIP_SCENE.instantiate()
-	tooltip_container.add_child(tool_tooltip)
-	tool_tooltip.update_with_tool_data(tool_data)
-	tool_tooltip.gui_input.connect(_on_tooltip_pressed.bind(tool_data))
-	tool_tooltip.mouse_default_cursor_shape = Control.CursorShape.CURSOR_POINTING_HAND
+	var column:GUITooltipViewColumn = COLUMN_SCENE.instantiate()
+	tooltip_container.add_child(column)
+	column.update_with_tool_data(tool_data)
+	column.reference_button_evoked.connect(_on_reference_button_evoked.bind(tooltip_container.get_child_count() -1))
 
+func update_with_level_data(level_data:LevelData) -> void:
+	var column:GUITooltipViewColumn = COLUMN_SCENE.instantiate()
+	tooltip_container.add_child(column)
+	column.update_with_level_data(level_data)
+	column.reference_button_evoked.connect(_on_reference_button_evoked.bind(tooltip_container.get_child_count() -1))
+
+func _add_tooltip(tooltip:GUITooltip) -> void:
+	tooltip_container.add_child(tooltip)
+	tooltip.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+
+func _clear_tooltips(from_level:int) -> void:
+	for i in tooltip_container.get_child_count():
+		if i >= from_level:
+			tooltip_container.get_child(i).queue_free()
+	
 func _on_tooltip_pressed(event: InputEvent, data:Resource) -> void:
 	if !event.is_action_pressed("select"):
 		return
@@ -43,3 +55,12 @@ func _on_tooltip_pressed(event: InputEvent, data:Resource) -> void:
 		update_with_plant_data(data)
 	elif data is ToolData:
 		update_with_tool_data(data)
+
+func _on_reference_button_evoked(reference_pair:Array, level:int) -> void:
+	_clear_tooltips(level + 1)
+	if reference_pair[0] == "plant":
+		update_with_plant_data(MainDatabase.plant_database.get_data_by_id(reference_pair[1]))
+	elif reference_pair[0] == "card":
+		update_with_tool_data(MainDatabase.tool_database.get_data_by_id(reference_pair[1]))
+	elif reference_pair[0] == "level":
+		update_with_level_data(MainDatabase.level_database.get_data_by_id(reference_pair[1]))

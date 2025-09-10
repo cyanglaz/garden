@@ -44,7 +44,7 @@ func get_duplicate() -> ThingData:
 
 func get_display_description() -> String:
 	var formatted_description := description
-	formatted_description = Util.format_references(formatted_description, data, highlight_description_keys, _additional_highlight_check)
+	formatted_description = DescriptionParser.format_references(formatted_description, data, highlight_description_keys, _additional_highlight_check)
 	return formatted_description
 
 func _additional_highlight_check(_reference_id:String) -> bool:

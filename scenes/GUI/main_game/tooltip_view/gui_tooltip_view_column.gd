@@ -1,0 +1,79 @@
+class_name GUITooltipViewColumn
+extends VBoxContainer
+
+signal reference_button_evoked(reference_pair:Array)
+
+const REFERENCE_BUTTON_SCENE := preload("res://scenes/GUI/controls/buttons/gui_tooltip_reference_button.tscn")
+const PLANT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn")
+const CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_card_tooltip.tscn")
+const TOOL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_tool_card_tooltip.tscn")
+const BOSS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_boss_tooltip.tscn")
+
+const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
+const CARD_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_card.png"
+
+func update_with_plant_data(plant_data:PlantData) -> void:
+	var plant_tooltip:GUIPlantTooltip = PLANT_TOOLTIP_SCENE.instantiate()
+	add_child(plant_tooltip)
+	plant_tooltip.update_with_plant_data(plant_data)
+	_add_reference_buttons(plant_data.description)
+
+func update_with_tool_data(tool_data:ToolData) -> void:
+	var h_box_container:HBoxContainer = HBoxContainer.new()
+	h_box_container.add_theme_constant_override("separation", 1)
+	add_child(h_box_container)
+	var tool_tooltip:GUICardTooltip = CARD_TOOLTIP_SCENE.instantiate()
+	tool_tooltip.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	h_box_container.add_child(tool_tooltip)
+	tool_tooltip.update_with_tool_data(tool_data)
+	if !tool_data.actions.is_empty():
+		var tool_card_tooltip:GUIToolCardTooltip = TOOL_TOOLTIP_SCENE.instantiate()
+		tool_card_tooltip.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+		h_box_container.add_child(tool_card_tooltip)
+		tool_card_tooltip.update_with_tool_data(tool_data)
+	_add_reference_buttons(tool_data.description)
+
+func update_with_level_data(level_data:LevelData) -> void:
+	var boss_tooltip:GUIBossTooltip = BOSS_TOOLTIP_SCENE.instantiate()
+	add_child(boss_tooltip)
+	boss_tooltip.update_with_level_data(level_data)
+	_add_reference_buttons(level_data.description)
+	
+func _add_reference_buttons(description:String) -> void:
+	var reference_pairs:Array = DescriptionParser.find_all_reference_pairs(description)
+	for reference_pair:Array in reference_pairs:
+		var category:String = reference_pair[0]
+		var id:String = reference_pair[1]
+		if category == "resource":
+			continue
+		var reference_button:GUITooltipReferenceButton = REFERENCE_BUTTON_SCENE.instantiate()
+		add_child(reference_button)
+		var icon_path:String = _get_reference_button_icon_path(category, id)
+		var display_name:String = _get_reference_name(category, id)
+		reference_button.update_with_icon(icon_path, display_name)
+		reference_button.action_evoked.connect(func(): reference_button_evoked.emit(reference_pair))
+	
+func _get_reference_button_icon_path(category:String, id:String) -> String:
+	match category:
+		"field_status":
+			return str(RESOURCE_ICON_PREFIX, id, ".png")
+		"action":
+			return str(RESOURCE_ICON_PREFIX, id, ".png")
+		"card":
+			return CARD_ICON_PATH
+		_:
+			assert(false, "category not implemented")
+	return ""
+
+func _get_reference_name(category:String, id:String) -> String:
+	match category:
+		"field_status":
+			return MainDatabase.field_status_database.get_data_by_id(id).display_name
+		"action":
+			var action_type:ActionData.ActionType = Util.get_action_type_from_action_id(id)
+			return Util.get_action_name_from_action_type(action_type)
+		"card":
+			return MainDatabase.tool_database.get_data_by_id(id).display_name
+		_:
+			assert(false, "category not implemented")
+	return ""
