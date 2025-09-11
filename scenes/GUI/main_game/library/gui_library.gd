@@ -19,7 +19,7 @@ func _ready() -> void:
 	_gui_library_tabbar.all_tabs_cleared.connect(_on_all_tabs_cleared)
 	_back_button.action_evoked.connect(_on_back_button_evoked)
 	_back_button.hide()
-	animate_show(MainDatabase.plant_database.get_data_by_id("rose"))
+	#animate_show(MainDatabase.plant_database.get_data_by_id("rose"))
 
 func animate_show(data:Resource) -> void:
 	if Singletons.main_game:
