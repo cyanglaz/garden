@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://l1ppui2vcrvo" path="res://scenes/GUI/controls/buttons/gui_close_button.tscn" id="8_nv0gp"]
 
 [node name="GUILibrary" type="Control"]
+process_mode = 2
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

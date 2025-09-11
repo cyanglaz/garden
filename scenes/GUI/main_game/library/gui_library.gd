@@ -27,9 +27,10 @@ func _ready() -> void:
 	_gui_close_button.action_evoked.connect(_on_close_button_evoked)
 	_back_button.action_evoked.connect(_on_back_button_evoked)
 	_back_button.hide()
-	animate_show(MainDatabase.plant_database.get_data_by_id("rose"))
+	#animate_show(MainDatabase.plant_database.get_data_by_id("rose"))
 
 func animate_show(data:Resource) -> void:
+	PauseManager.try_pause()
 	show()
 	update_with_data(data)
 	await _play_show_animation()
@@ -99,7 +100,7 @@ func animate_hide() -> void:
 	tween.tween_property(_main_panel, "position:y", Constants.PENEL_HIDE_Y, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	await tween.finished
 	hide()
-
+	PauseManager.try_unpause()
 
 func _on_reference_button_evoked(reference_pair:Array, level:int) -> void:
 	_clear_tooltips(level + 1)

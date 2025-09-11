@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cyd2pmyuelacd"]
+[gd_scene load_steps=19 format=3 uid="uid://cyd2pmyuelacd"]
 
 [ext_resource type="Script" uid="uid://b3s0cai251tmf" path="res://scenes/GUI/main_game/gui_main_game.gd" id="1_48pcf"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_pgwuj"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://cgvd1dcwahof5" path="res://scenes/GUI/top_level_overlays/demo_end/gui_demo_end_main.tscn" id="12_bkemh"]
 [ext_resource type="PackedScene" uid="uid://3068uq3kyx0r" path="res://scenes/GUI/settings/gui_settings_main.tscn" id="12_wnks3"]
 [ext_resource type="PackedScene" uid="uid://blnntdbnqmjsp" path="res://scenes/GUI/main_game/game_over/gui_game_over_main.tscn" id="14_k6nqb"]
+[ext_resource type="PackedScene" uid="uid://s0blay2xi65f" path="res://scenes/GUI/main_game/library/gui_library.tscn" id="18_kno36"]
 
 [node name="GUIMainGame" type="CanvasLayer"]
 script = ExtResource("1_48pcf")
@@ -199,6 +200,9 @@ visible = false
 
 [node name="GUISettingsMain" parent="." instance=ExtResource("12_wnks3")]
 unique_name_in_owner = true
+visible = false
+
+[node name="GUILibrary" parent="." instance=ExtResource("18_kno36")]
 visible = false
 
 [editable path="MainContainer/GameContainer/MainMarginContainer"]

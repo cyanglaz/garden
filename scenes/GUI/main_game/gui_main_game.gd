@@ -24,8 +24,7 @@ signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantDat
 @onready var gui_game_over_main: GUIGameOverMain = %GUIGameOverMain
 @onready var gui_demo_end_main: GUIDemoEndMain = %GUIDemoEndMain
 @onready var gui_enemy: GUIEnemy = %GUIEnemy
-
-
+@onready var gui_library: GUILibrary = $GUILibrary
 
 @onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
