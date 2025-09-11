@@ -4,6 +4,7 @@ extends GUIBasicButton
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
 const PLANT_ICON_PREFIX := "res://resources/sprites/GUI/icons/plants/icon_"
 const CARD_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_card.png"
+const BOSS_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_boss.png"
 
 @onready var texture_rect: TextureRect = %TextureRect
 @onready var label: Label = %Label
@@ -41,5 +42,7 @@ func _get_reference_button_icon_path(data:ThingData) -> String:
 		return CARD_ICON_PATH
 	elif data is PlantData:
 		return str(PLANT_ICON_PREFIX, data.id, ".png")
+	elif data is LevelData:
+		return BOSS_ICON_PATH
 	assert(false, "data not implemented")
 	return ""

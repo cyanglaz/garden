@@ -15,7 +15,7 @@ const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_
 const CARD_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_card.png"
 
 func update_with_plant_data(plant_data:PlantData) -> void:
-	var plant_tooltip:GUIPlantTooltip = PLANT_TOOLTIP_SCENE.instantiate()
+	var plant_tooltip:GUIPlantTooltip = load("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn").instantiate()
 	plant_tooltip.library_mode = true
 	var tooltip_button:GUIBasicButton = _create_tooltip_button(plant_tooltip, plant_data)
 	add_child(tooltip_button)
