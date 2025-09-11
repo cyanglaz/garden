@@ -9,6 +9,7 @@ var _weak_tool_card_tooltip:WeakRef = weakref(null)
 func _ready() -> void:
 	super._ready()
 	tool_tip_shown.connect(_on_tool_tip_shown)
+	gui_tool_card_button.mouse_filter = MOUSE_FILTER_IGNORE
 
 func update_with_tool_data(tool_data:ToolData) -> void:
 	_weak_tool_data = weakref(tool_data)

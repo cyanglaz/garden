@@ -11,9 +11,9 @@ const MENU_SCENE_PATH = "res://scenes/GUI/menu/gui_main_menu.tscn"
 signal continue_button_pressed()
 signal gold_increased(gold:int)
 
-const HIDE_Y := 200
-const SHOW_ANIMATION_DURATION := 0.15
-const HIDE_ANIMATION_DURATION := 0.15
+
+
+
 const DISPLAY_ITEMS_DELAY := 0.1
 const FINAL_GOLD_INCREASE_DELAY := 0.2
 
@@ -62,9 +62,9 @@ func animate_show(days_left:int) -> void:
 	_continue_button.show()
 
 func _play_show_animation() -> void:
-	_main_panel.position.y = HIDE_Y
+	_main_panel.position.y = Constants.PENEL_HIDE_Y
 	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(_main_panel, "position:y", _display_y, SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	tween.tween_property(_main_panel, "position:y", _display_y, Constants.SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	await tween.finished
 
 func _play_earn_gold_animation() -> void:
@@ -76,7 +76,7 @@ func _play_earn_gold_animation() -> void:
 func animate_hide() -> void:
 	_continue_button.hide()
 	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(_main_panel, "position:y", HIDE_Y, HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
+	tween.tween_property(_main_panel, "position:y", Constants.PENEL_HIDE_Y, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	await tween.finished
 	hide()
 

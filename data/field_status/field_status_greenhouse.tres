@@ -11,8 +11,9 @@ single_turn = true
 reduce_stack_on_turn_end = false
 id = "greenhouse"
 display_name = "Greenhouse"
-description = "For each stack, gain {light} light when a card is used."
+description = "For each stack, gain {light} {resource:light} when a card is used."
 data = {
 "light": "1"
 }
+note = ""
 metadata/_custom_type_script = "uid://ep5ey6gqhty1"

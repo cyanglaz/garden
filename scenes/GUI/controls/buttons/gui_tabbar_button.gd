@@ -7,7 +7,6 @@ extends GUIBasicButton
 @onready var _label: Label = %Label
 @onready var _margin_container: MarginContainer = %MarginContainer
 
-
 var _label_default_position:Vector2
 
 func _ready() -> void:

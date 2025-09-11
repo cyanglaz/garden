@@ -1,0 +1,61 @@
+[gd_scene load_steps=5 format=3 uid="uid://cptk6xvoksia6"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_r3cuj"]
+[ext_resource type="Script" uid="uid://b6u8n7rcy5hky" path="res://scenes/GUI/controls/buttons/gui_library_tabbar_button.gd" id="2_6kbb2"]
+[ext_resource type="Texture2D" uid="uid://pb8c6wccssse" path="res://resources/sprites/GUI/theme/library_tabbar_button_border.png" id="3_d6xhh"]
+[ext_resource type="PackedScene" uid="uid://l1ppui2vcrvo" path="res://scenes/GUI/controls/buttons/gui_close_button.tscn" id="4_6kbb2"]
+
+[node name="GUILibraryTabbarButton" instance=ExtResource("1_r3cuj")]
+custom_minimum_size = Vector2(16, 14)
+offset_right = 25.0
+offset_bottom = 14.0
+size_flags_horizontal = 0
+script = ExtResource("2_6kbb2")
+
+[node name="Border" type="NinePatchRect" parent="." index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("3_d6xhh")
+region_rect = Rect2(0, 0, 16, 12)
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="." index="1"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" index="0"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="Spacer2" type="Control" parent="MarginContainer/HBoxContainer" index="0"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer" index="1"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(7, 7)
+layout_mode = 2
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer" index="2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD_mid"
+text = "123"
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="MarginContainer/HBoxContainer" index="3"]
+layout_mode = 2
+
+[node name="GUICloseButton" parent="MarginContainer/HBoxContainer" index="4" instance=ExtResource("4_6kbb2")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4

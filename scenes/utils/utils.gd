@@ -1,12 +1,6 @@
 class_name Util
 extends RefCounted
 
-enum ReferenceType {
-	RESOURCE,
-	OTHER,
-}
-
-
 const GUI_ALERT_POPUP_SCENE := preload("res://scenes/GUI/containers/gui_popup_alert.tscn")
 
 const GUI_BUTTON_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_button_tooltip.tscn")
@@ -20,6 +14,7 @@ const GUI_TOOL_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_tool
 const GUI_LEVEL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_level_tooltip.tscn")
 const GUI_BOSS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_boss_tooltip.tscn")
 const GUI_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_card_tooltip.tscn")
+const GUI_SHOW_LIBRARY_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_show_library_tooltip.tscn")
 
 const FIELD_STATUS_SCRIPT_PREFIX := "res://scenes/main_game/field/status/field_status_script_"
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
@@ -124,6 +119,14 @@ static func display_card_tooltip(tool_data:ToolData, on_control_node:Control, an
 	card_tooltip.update_with_tool_data(tool_data)
 	_display_tool_tip.call_deferred(card_tooltip, on_control_node, anchor_mouse, tooltip_position, false)
 	return card_tooltip
+
+static func display_show_library_tooltip(data:ThingData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition) -> GUIShowLibraryTooltip:
+	var show_library_tooltip:GUIShowLibraryTooltip = GUI_SHOW_LIBRARY_TOOLTIP_SCENE.instantiate()
+	Singletons.main_game.add_control_to_overlay(show_library_tooltip)
+	show_library_tooltip.tooltip_position = tooltip_position
+	show_library_tooltip.update_with_data(data)
+	_display_tool_tip.call_deferred(show_library_tooltip, on_control_node, anchor_mouse, tooltip_position, false)
+	return show_library_tooltip
 
 static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP, world_space:bool = false) -> void:
 	tooltip.show()
@@ -327,6 +330,13 @@ static func get_script_path_for_field_status_id(id:String) -> String:
 static func get_image_path_for_resource_id(id:String) -> String:
 	return str(RESOURCE_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
 
+static func _trim_upgrade_suffix_from_id(id:String) -> String:
+	var plus_sign_index := id.find("+")
+	if plus_sign_index == -1:
+		return id
+	id = id.substr(0, plus_sign_index)
+	return id
+
 static func get_action_id_with_action_type(action_type:ActionData.ActionType) -> String:
 	var id := ""
 	match action_type:
@@ -349,6 +359,52 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 		ActionData.ActionType.NONE:
 			pass
 	return id
+
+static func get_action_type_from_action_id(action_id:String) -> ActionData.ActionType:
+	match action_id:
+		"light":
+			return ActionData.ActionType.LIGHT
+		"water":
+			return ActionData.ActionType.WATER
+		"pest":
+			return ActionData.ActionType.PEST
+		"fungus":
+			return ActionData.ActionType.FUNGUS
+		"sunny":
+			return ActionData.ActionType.WEATHER_SUNNY
+		"rainy":
+			return ActionData.ActionType.WEATHER_RAINY
+		"draw_card":
+			return ActionData.ActionType.DRAW_CARD
+		"discard_card":
+			return ActionData.ActionType.DISCARD_CARD
+		"none":
+			return ActionData.ActionType.NONE
+	assert(false, "Invalid action id: " + action_id)
+	return ActionData.ActionType.NONE
+
+static func get_action_name_from_action_type(action_type:ActionData.ActionType) -> String:
+	var action_name := ""
+	match action_type:
+		ActionData.ActionType.LIGHT:
+			action_name = Util.get_localized_string("ACTION_NAME_LIGHT")
+		ActionData.ActionType.WATER:
+			action_name = Util.get_localized_string("ACTION_NAME_WATER")
+		ActionData.ActionType.PEST:
+			action_name = Util.get_localized_string("ACTION_NAME_PEST")
+		ActionData.ActionType.FUNGUS:
+			action_name = Util.get_localized_string("ACTION_NAME_FUNGUS")
+		ActionData.ActionType.WEATHER_SUNNY:
+			action_name = Util.get_localized_string("ACTION_NAME_WEATHER_SUNNY")
+		ActionData.ActionType.WEATHER_RAINY:
+			action_name = Util.get_localized_string("ACTION_NAME_WEATHER_RAINY")
+		ActionData.ActionType.DRAW_CARD:
+			action_name = Util.get_localized_string("ACTION_NAME_DRAW_CARD")
+		ActionData.ActionType.DISCARD_CARD:
+			action_name = Util.get_localized_string("ACTION_NAME_DISCARD_CARD")
+		ActionData.ActionType.NONE:
+			pass
+	return action_name
 
 static func get_id_for_tool_speical(special:ToolData.Special) -> String:
 	var id := ""
@@ -377,84 +433,6 @@ static func find_tool_ids_in_data(data:Dictionary) -> Array[String]:
 			tool_ids.append(tool_id)
 	return tool_ids
 
-static func format_references(formatted_description:String, data_to_format:Dictionary, highlight_description_keys:Dictionary, additional_highlight_check:Callable, ) -> String:
-	var searching_start_index := 0
-	while true:
-		var start_index := formatted_description.find("{", searching_start_index)
-		if start_index == -1:
-			break
-		var end_index := formatted_description.find("}", start_index)
-		if end_index == -1:
-			break
-		var reference_id := formatted_description.substr(start_index + 1, end_index - start_index - 1)
-		var highlight:bool = additional_highlight_check.call(reference_id)
-		var formatted_string := _format_reference(reference_id, data_to_format, highlight_description_keys, highlight)
-		formatted_description = formatted_description.substr(0, start_index) + formatted_string + formatted_description.substr(end_index + 1)
-		searching_start_index = start_index + formatted_string.length()
-	return formatted_description
-
-static func _format_reference(reference_id:String, data_to_format:Dictionary, highlight_description_keys:Dictionary, highlight:bool) -> String:
-	# Find the referenced id under the umbrella id
-	var parsed_string := ""
-	var highlight_color := Constants.COLOR_WHITE
-	if (highlight_description_keys.has(reference_id) && highlight_description_keys[reference_id] == true) || highlight:
-		highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
-	if reference_id.begins_with("icon_"):
-		parsed_string = _format_icon_reference(reference_id, highlight)
-	elif data_to_format.has(reference_id):
-		parsed_string = data_to_format[reference_id]
-		parsed_string = Util.convert_to_bbc_highlight_text(parsed_string, highlight_color)
-	elif reference_id.begins_with("bordered_text:"):
-		reference_id = reference_id.trim_prefix("bordered_text:")
-		parsed_string = Util.convert_to_bbc_highlight_text(parsed_string, highlight_color)
-	return parsed_string
-
-static func _get_level_suffix(reference_id:String) -> String:
-	var plus_sign_index := reference_id.find("+")
-	if plus_sign_index == -1:
-		return ""
-	return reference_id.substr(plus_sign_index)
-
-static func _format_icon_reference(reference_id:String, highlight:bool) -> String:
-	reference_id = reference_id.trim_prefix("icon_")
-	var icon_string := ""
-	var image_path : = ""
-	var reference_type:ReferenceType = ReferenceType.OTHER
-
-	# For each reference id, create an icon tag, append to the final string with , separated
-	if reference_id.begins_with("resource_"):
-		reference_type = ReferenceType.RESOURCE
-	
-	var level_suffix := _get_level_suffix(reference_id)
-	match reference_type:
-		ReferenceType.RESOURCE:
-			reference_id = reference_id.trim_prefix("resource_")
-			image_path = Util.get_image_path_for_resource_id(reference_id)
-	var highlight_color := Constants.COLOR_WHITE
-	if highlight:
-		highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
-	icon_string = str("[img=6x6]", image_path, "[/img]") + Util.convert_to_bbc_highlight_text(level_suffix, highlight_color)
-	return icon_string
-
-static func _highlight_string(string:String) -> String:
-	# Check if the string is already highlighted
-	var highlight_color := Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
-	if string.begins_with(str("[outline_size=1][color=", Util.get_color_hex(highlight_color), "]")) && string.ends_with("[/color][/outline_size]"):
-		return string
-	# Check if the string is already highlighted with white
-	if string.begins_with(str("[outline_size=1][color=", Util.get_color_hex(Constants.COLOR_WHITE), "]")) && string.ends_with("[/color][/outline_size]"):
-		string = string.trim_prefix(str("[outline_size=1][color=", Util.get_color_hex(Constants.COLOR_WHITE), "]"))
-		string = string.trim_suffix("[/color][/outline_size]")
-		return Util.convert_to_bbc_highlight_text(string, highlight_color)
-	assert(!string.begins_with(str("[outline_size=1]")))
-	return Util.convert_to_bbc_highlight_text(string, highlight_color)
-
-static func _trim_upgrade_suffix_from_id(id:String) -> String:
-	var plus_sign_index := id.find("+")
-	if plus_sign_index == -1:
-		return id
-	id = id.substr(0, plus_sign_index)
-	return id
 
 static func get_mutual_items_in_arrays(array1:Array, array2:Array) -> Array:
 	var result := []

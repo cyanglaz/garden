@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://t7x03xkbah7n" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.gd" id="1_a7c0j"]
 [ext_resource type="Shader" uid="uid://6cqmrfdokad8" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.gdshader" id="1_ckxcp"]
-[ext_resource type="Texture2D" uid="uid://ugtybr3upkmn" path="res://resources/sprites/GUI/icon_backgrounds/tool_card_background.png" id="2_a7c0j"]
+[ext_resource type="Texture2D" uid="uid://ugtybr3upkmn" path="res://resources/sprites/GUI/backgrounds/tool_card_background.png" id="2_a7c0j"]
 [ext_resource type="PackedScene" uid="uid://cjwhkrmueycbi" path="res://scenes/GUI/shared/descriptions/shared_description/gui_action_list.tscn" id="4_882ho"]
-[ext_resource type="Texture2D" uid="uid://cfqih7tn7gdu" path="res://resources/sprites/GUI/icon_backgrounds/tool_card_border.png" id="4_cxlev"]
+[ext_resource type="Texture2D" uid="uid://cfqih7tn7gdu" path="res://resources/sprites/GUI/backgrounds/tool_card_border.png" id="4_cxlev"]
 [ext_resource type="AudioStream" uid="uid://bgyg7vg7fsae6" path="res://resources/sounds/SFX/tool_cards/card_use.wav" id="5_a7c0j"]
 [ext_resource type="AudioStream" uid="uid://b6rsvcpwe5a2m" path="res://resources/sounds/SFX/tool_cards/card_exhaust.wav" id="7_882ho"]
 

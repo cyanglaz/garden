@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cbnnxjcpt5wyd"
+path="res://.godot/imported/reference_button_border.aseprite-be9d870861b7a219c46048c8327657b7.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/theme/reference_button_border.aseprite"
+dest_files=["res://.godot/imported/reference_button_border.aseprite-be9d870861b7a219c46048c8327657b7.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

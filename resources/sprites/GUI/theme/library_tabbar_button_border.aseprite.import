@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://clps1js8aq0b0"
+path="res://.godot/imported/library_tabbar_button_border.aseprite-83b658f4a1ccab835182518524e624ed.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/theme/library_tabbar_button_border.aseprite"
+dest_files=["res://.godot/imported/library_tabbar_button_border.aseprite-83b658f4a1ccab835182518524e624ed.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

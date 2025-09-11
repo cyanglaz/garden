@@ -1,0 +1,139 @@
+[gd_scene load_steps=9 format=3 uid="uid://s0blay2xi65f"]
+
+[ext_resource type="Script" uid="uid://d1hgyvoydof4g" path="res://scenes/GUI/main_game/library/gui_library.gd" id="1_wkd2w"]
+[ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="2_k83l7"]
+[ext_resource type="Texture2D" uid="uid://b0nsc2v1cdqqd" path="res://resources/sprites/GUI/shared/panel_background_simple.png" id="3_5ef73"]
+[ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="4_pfglm"]
+[ext_resource type="PackedScene" uid="uid://dhy32n6bqqu2l" path="res://scenes/GUI/main_game/library/gui_library_left_bar.tscn" id="5_5ef73"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="5_nv0gp"]
+[ext_resource type="PackedScene" uid="uid://dpb75hmacxebu" path="res://scenes/GUI/main_game/library/gui_library_tabbar.tscn" id="6_nv0gp"]
+[ext_resource type="Texture2D" uid="uid://bryaq8eg733mx" path="res://resources/sprites/GUI/backgrounds/library_viewer_background.png" id="7_pfglm"]
+
+[node name="GUILibrary" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wkd2w")
+
+[node name="GUIOverlayBackground" parent="." instance=ExtResource("2_k83l7")]
+layout_mode = 1
+
+[node name="MainPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 140)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -140.0
+offset_top = 6.0
+offset_right = 140.0
+offset_bottom = 155.0
+grow_horizontal = 2
+
+[node name="Background" type="NinePatchRect" parent="MainPanel"]
+self_modulate = Color(0.74902, 0.435294, 0.290196, 1)
+layout_mode = 2
+texture = ExtResource("3_5ef73")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="Border" type="NinePatchRect" parent="MainPanel"]
+self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
+layout_mode = 2
+texture = ExtResource("4_pfglm")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MainPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="TitleLabel" type="Label" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_type_variation = &"HUD"
+text = "Info"
+horizontal_alignment = 1
+
+[node name="GUILibraryLeftBar" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("5_5ef73")]
+custom_minimum_size = Vector2(36, 0)
+layout_mode = 2
+
+[node name="MainView" type="MarginContainer" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="GUILibararyTabbar" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView/VBoxContainer" instance=ExtResource("6_nv0gp")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MainViewBackground" type="NinePatchRect" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("7_pfglm")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView/VBoxContainer/MainViewBackground"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TooltipContainer" type="HBoxContainer" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView/VBoxContainer/MainViewBackground/MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="BackButton" parent="." instance=ExtResource("5_nv0gp")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = -22.0
+offset_right = 15.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 0
+localization_text_key = "BACK"

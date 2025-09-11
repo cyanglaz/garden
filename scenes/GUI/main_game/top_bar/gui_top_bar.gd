@@ -3,6 +3,7 @@ extends PanelContainer
 
 signal setting_button_evoked()
 signal full_deck_button_evoked()
+signal library_button_evoked()
 
 @onready var gui_full_deck_button: GUIDeckButton = %GUIFullDeckButton
 @onready var _gui_gold: GUIGold = %GUIGold
@@ -11,10 +12,12 @@ signal full_deck_button_evoked()
 @onready var _day_label: Label = %DayLabel
 @onready var _gui_player: GUICharacter = %GUIPlayer
 @onready var _gui_level_display: GUILevelDisplay = %GUILevelDisplay
+@onready var _gui_library_button: GUILibraryButton = %GUILibraryButton
 
 func _ready() -> void:
 	_gui_settings_button.action_evoked.connect(func() -> void: setting_button_evoked.emit())
 	gui_full_deck_button.action_evoked.connect(func() -> void: full_deck_button_evoked.emit())
+	_gui_library_button.action_evoked.connect(func() -> void: library_button_evoked.emit())
 
 func update_gold(gold:int, animated:bool) -> void:
 	await _gui_gold.update_gold(gold, GUIGold.AnimationType.FULL if animated else GUIGold.AnimationType.NONE)

@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://caiue05en2fg7" path="res://scenes/GUI/main_game/plant_cards/gui_plant_icon.tscn" id="1_nhk8m"]
 [ext_resource type="Script" uid="uid://f5luql30rcvv" path="res://scenes/GUI/main_game/plant_cards/gui_plant_card.gd" id="1_spiqi"]
 [ext_resource type="Texture2D" uid="uid://dn0npwo3e475b" path="res://resources/sprites/GUI/shared/border2_inner.png" id="2_ynchj"]
-[ext_resource type="Texture2D" uid="uid://cqi2j5skyr4cc" path="res://resources/sprites/bingo/bingo_space/background.png" id="4_i12sr"]
+[ext_resource type="Texture2D" uid="uid://cqi2j5skyr4cc" path="res://resources/sprites/GUI/backgrounds/background.png" id="4_i12sr"]
 [ext_resource type="Texture2D" uid="uid://cweckqh3abjh7" path="res://resources/sprites/GUI/icons/other_icons/checked_icon.png" id="5_j5ns6"]
 
 [node name="GUIPlantCard" type="PanelContainer"]

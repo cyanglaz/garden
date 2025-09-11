@@ -2,9 +2,9 @@ class_name GUIToolCardsViewer
 extends Control
 
 const TOOL_CARD_BUTTON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
-const HIDE_Y := 200
-const SHOW_ANIMATION_DURATION := 0.15
-const HIDE_ANIMATION_DURATION := 0.15
+
+
+
 
 @onready var _grid_container: GridContainer = %GridContainer
 @onready var _back_button: GUIRichTextButton = %BackButton
@@ -47,16 +47,16 @@ func animated_show_with_pool(pool:Array, title:String) -> void:
 	_play_show_animation()
 
 func _play_show_animation() -> void:
-	_main_container.position.y = HIDE_Y
+	_main_container.position.y = Constants.PENEL_HIDE_Y
 	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(_main_container, "position:y", _display_y, SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	tween.tween_property(_main_container, "position:y", _display_y, Constants.SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	await tween.finished
 	_back_button.show()
 
 func animate_hide() -> void:
 	_back_button.hide()
 	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(_main_container, "position:y", HIDE_Y, HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
+	tween.tween_property(_main_container, "position:y", Constants.PENEL_HIDE_Y, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	await tween.finished
 	hide()
 

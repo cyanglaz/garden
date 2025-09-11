@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cvv8ikvteqirp"
+path="res://.godot/imported/icon_boss.aseprite-4600b43de9207f2aeec0b866a83b62e1.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_boss.aseprite"
+dest_files=["res://.godot/imported/icon_boss.aseprite-4600b43de9207f2aeec0b866a83b62e1.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

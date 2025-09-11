@@ -10,7 +10,7 @@ rarity = 0
 immune_to_status = Array[String]([])
 id = "daisy"
 display_name = "Daisy"
-description = "When harvested, + {card} {icon_resource_draw_card}."
+description = "When harvested, + {card} {action:draw_card}."
 data = {
 "card": "1"
 }

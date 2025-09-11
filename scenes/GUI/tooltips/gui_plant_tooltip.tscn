@@ -13,3 +13,4 @@ unique_name_in_owner = true
 [node name="GUIPlantDescription" parent="ContentContainer" index="0" instance=ExtResource("3_ycoeg")]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 2

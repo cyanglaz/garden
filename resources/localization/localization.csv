@@ -96,8 +96,10 @@ SPECIAL_DESCRIPTION_ALL_FIELDS, "Apply to all fields"
 
 WARNING_INSUFFICIENT_ENERGY, "Not Enough Energy."
 WARNING_INSUFFICIENT_GOLD, "Not Enough Gold."
+
 SHOP_TITLE, "Shop" 
 SHOP_SUBTITLE, "Get ready for next week."
+
 WEEK_SUMMARY_TITLE, "Week Summary"
 WEEK_SUMMARY_DAYS_LEFT_TITLE, "Days Left"
 WEEK_SUMMARY_CONCLUSION_TITLE, "Conclusion"
@@ -116,3 +118,12 @@ CARD_SPECIAL_DESCRIPTION_COMPOST, "After play, this card is unavailable until th
 
 MAX_DAY_LABEL_TEXT, "Max Days: %s"
 IMMUNE_TO_STATUS_TEXT, "Immune to: %s"
+
+INFO_TITLE, "Library" 
+
+CATEGORY_BOSS, "Boss"
+CATEGORY_MISC, "Misc"
+CATEGORY_CARDS, "Card"
+CATEGORY_PLANTS, "Plant"
+
+SHOW_LIBRARY_TOOLTIP_PROMPT, "Press %s for more details about %s."

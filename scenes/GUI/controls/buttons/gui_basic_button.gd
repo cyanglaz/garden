@@ -56,7 +56,7 @@ func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 
-func _physics_process(delta: float) -> void:	
+func _physics_process(delta: float) -> void:
 	if button_state == ButtonState.DISABLED:
 		return
 	if _holding_start:

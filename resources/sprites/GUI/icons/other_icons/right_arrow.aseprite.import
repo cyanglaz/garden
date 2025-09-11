@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cuvs860whnikk"
+path="res://.godot/imported/right_arrow.aseprite-903f5e033883cbe17aedbeabd67a9d36.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/right_arrow.aseprite"
+dest_files=["res://.godot/imported/right_arrow.aseprite-903f5e033883cbe17aedbeabd67a9d36.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

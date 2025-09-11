@@ -1,7 +1,7 @@
 class_name GUISettingsButton
 extends GUIBasicButton
 
-@onready var _texture_rect: NinePatchRect = %TextureRect
+@onready var _texture_rect: NinePatchRect = %NinePatchRect
 
 func _set_button_state(val:ButtonState) -> void:
 	super._set_button_state(val)

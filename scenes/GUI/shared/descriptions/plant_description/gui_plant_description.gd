@@ -14,9 +14,9 @@ func update_with_plant_data(plant_data:PlantData) -> void:
 	if plant_data.immune_to_status.size() > 0:
 		var status_texts := ""
 		for status_id in plant_data.immune_to_status:
-			status_texts += "{icon_resource_" + status_id + "}" + ", "
+			status_texts += "{field_status:" + status_id + "}" + ", "
 		status_texts = status_texts.trim_suffix(", ")
 		var status_description := Util.get_localized_string("IMMUNE_TO_STATUS_TEXT") % status_texts
-		status_description = Util.format_references(status_description, {}, {}, func(_reference_id:String) -> bool: return false)
+		status_description = DescriptionParser.format_references(status_description, {}, {}, func(_reference_id:String) -> bool: return false)
 		plant_rich_description += "\n" + status_description
 	_rich_text_label.text = plant_rich_description
