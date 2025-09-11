@@ -19,7 +19,7 @@ func _ready() -> void:
 func _add_tab() -> void:
 	var button:GUIBasicButton = tab_options_scene.instantiate()
 	_buttons_container.add_child(button)
-	button.action_evoked.connect(_on_tab_button_action_evoked.bind(_buttons_container.get_child_count() - 1))
+	button.pressed.connect(_on_tab_button_pressed.bind(_buttons_container.get_child_count() - 1))
 
 func select_button(index:int) -> void:
 	selected_index = index
@@ -48,5 +48,5 @@ func _set_number_of_tabs(val:int) -> void:
 		for index:int in range(val):
 			_add_tab()
 
-func _on_tab_button_action_evoked(index:int) -> void:
+func _on_tab_button_pressed(index:int) -> void:
 	select_button(index)

@@ -14,7 +14,7 @@ const TOOL_CARD_BUTTON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/g
 var _display_y := 0.0
 
 func _ready() -> void:
-	_back_button.action_evoked.connect(_on_back_button_evoked)
+	_back_button.pressed.connect(_on_back_button_evoked)
 	_display_y = _main_container.position.y
 	_back_button.hide()
 

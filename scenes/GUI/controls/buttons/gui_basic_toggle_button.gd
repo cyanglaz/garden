@@ -12,7 +12,7 @@ var on:bool = false
 
 func _ready() -> void:
 	super._ready()
-	action_evoked.connect(_on_toggled)
+	pressed.connect(_on_toggled)
 	_set_localization_text_key(localization_text_key)
 
 func _set_button_state(val:ButtonState) -> void:

@@ -17,7 +17,7 @@ func _ready() -> void:
 	_title_label.text = Util.get_localized_string("INFO_TITLE")
 	_gui_library_tabbar.tab_evoked.connect(_on_tab_evoked)
 	_gui_library_tabbar.all_tabs_cleared.connect(_on_all_tabs_cleared)
-	_back_button.action_evoked.connect(_on_back_button_evoked)
+	_back_button.pressed.connect(_on_back_button_evoked)
 	_back_button.hide()
 	#animate_show(MainDatabase.plant_database.get_data_by_id("rose"))
 
@@ -31,7 +31,6 @@ func animate_show(data:Resource) -> void:
 
 func update_with_data(data:Resource) -> void:
 	_title_label.text = Util.get_localized_string("INFO_TITLE")
-	Util.remove_all_children(_tooltip_container)
 	if data == null:
 		return
 	var index:int = Util.array_find(_gui_library_tabbar.datas, func(d:ThingData): return d.id == data.id)
@@ -110,7 +109,6 @@ func _on_reference_button_evoked(reference_pair:Array, level:int) -> void:
 	update_with_data(data)
 
 func _on_tooltip_button_evoked(data:Resource) -> void:
-	Util.remove_all_children(_tooltip_container)
 	update_with_data(data)
 
 func _on_tab_evoked(data:ThingData) -> void:

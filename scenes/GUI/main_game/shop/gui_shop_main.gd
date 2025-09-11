@@ -26,7 +26,7 @@ var _weak_insufficient_gold_tooltip:WeakRef = weakref(null)
 
 func _ready() -> void:
 	_display_y = _main_panel.position.y
-	_next_level_button.action_evoked.connect(_on_next_level_button_action_evoked)
+	_next_level_button.pressed.connect(_on_next_level_button_pressed)
 	_title.text = Util.get_localized_string("SHOP_TITLE")
 	_sub_title.text = Util.get_localized_string("SHOP_SUBTITLE")
 
@@ -53,7 +53,7 @@ func _populate_tools(number_of_tools) -> void:
 		var tool_shop_button:GUIToolShopButton  = TOOL_SHOP_BUTTON_SCENE.instantiate()
 		tool_container.add_child(tool_shop_button)
 		tool_shop_button.update_with_tool_data(tool_data)
-		tool_shop_button.action_evoked.connect(_on_tool_shop_button_action_evoked.bind(tool_shop_button, tool_data))
+		tool_shop_button.pressed.connect(_on_tool_shop_button_pressed.bind(tool_shop_button, tool_data))
 		tool_shop_button.mouse_exited.connect(_on_shop_button_mouse_exited.bind())
 		tool_shop_button.mouse_entered.connect(_on_tool_shop_button_mouse_entered.bind(tool_data, tool_shop_button))
 
@@ -95,7 +95,7 @@ func _clear_insufficient_gold_tooltip() -> void:
 func _get_full_deck_button() -> GUIDeckButton:
 	return _weak_full_deck_button.get_ref()
 
-func _on_tool_shop_button_action_evoked(gui_shop_button:GUIShopButton, tool_data:ToolData) -> void:
+func _on_tool_shop_button_pressed(gui_shop_button:GUIShopButton, tool_data:ToolData) -> void:
 	_clear_insufficient_gold_tooltip()
 	if gui_shop_button.sufficient_gold:
 		tool_shop_button_pressed.emit(tool_data)
@@ -104,7 +104,7 @@ func _on_tool_shop_button_action_evoked(gui_shop_button:GUIShopButton, tool_data
 	else:
 		_weak_insufficient_gold_tooltip = weakref(Util.display_warning_tooltip(tr("WARNING_INSUFFICIENT_GOLD"), gui_shop_button, false, GUITooltip.TooltipPosition.TOP))
 
-func _on_next_level_button_action_evoked() -> void:
+func _on_next_level_button_pressed() -> void:
 	await animate_hide()
 	next_level_button_pressed.emit()
 

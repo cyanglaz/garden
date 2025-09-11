@@ -37,7 +37,7 @@ var _weak_plant_tooltip = weakref(null)
 
 func _ready() -> void:
 	_gui_field_button.state_updated.connect(_on_gui_field_button_state_updated)
-	_gui_field_button.action_evoked.connect(_on_gui_field_button_action_evoked)
+	_gui_field_button.pressed.connect(_on_gui_field_button_pressed)
 	_gui_field_button.mouse_entered.connect(_on_field_mouse_entered)
 	_gui_field_button.mouse_exited.connect(_on_field_mouse_exited)
 	_gui_field_status_container.bind_with_field_status_manager(status_manager)
@@ -247,6 +247,6 @@ func _on_field_mouse_exited() -> void:
 	if _weak_plant_tooltip.get_ref():
 		_weak_plant_tooltip.get_ref().queue_free()
 
-func _on_gui_field_button_action_evoked() -> void:
+func _on_gui_field_button_pressed() -> void:
 	if plant:
 		field_pressed.emit()

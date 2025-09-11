@@ -5,7 +5,6 @@ const SHORT_CUT_ICON_SIZE := 16
 const SOUND_HOVER := preload("res://resources/sounds/GUI/button_hover.wav")
 const SOUND_CLICK := preload("res://resources/sounds/GUI/button_click.wav")
 
-signal action_evoked()
 signal pressed()
 signal state_updated(state:ButtonState)
 
@@ -30,7 +29,6 @@ enum ButtonState {
 @export var tooltip_position:GUITooltip.TooltipPosition = GUITooltip.TooltipPosition.TOP
 
 @onready var _sound_hover := AudioStreamPlayer2D.new()
-@onready var _sound_click := AudioStreamPlayer2D.new()
 
 var mouse_in:bool
 
@@ -41,14 +39,9 @@ var _pressing := false
 
 func _ready() -> void:
 	add_child(_sound_hover, false, Node.INTERNAL_MODE_BACK)
-	add_child(_sound_click, false, Node.INTERNAL_MODE_BACK)
 	_sound_hover.bus = "SFX"
-	_sound_click.bus = "SFX"
-	_sound_click.finished.connect(_on_click_sound_finished)
 	_sound_hover.stream = _get_hover_sound()
-	_sound_click.stream = _get_click_sound()
 	_sound_hover.volume_db = -5
-	_sound_click.volume_db = -5
 	_set_short_cut(short_cut)
 	gui_input.connect(_on_gui_input)
 	_set_button_state(button_state)
@@ -64,7 +57,7 @@ func _physics_process(delta: float) -> void:
 		if _hold_time_count > hold_time:
 			_hold_time_count = 0
 			_holding_start = false
-			_press()
+			_press_up()
 
 func _on_gui_input(input_event:InputEvent) -> void:
 	if button_state == ButtonState.DISABLED:
@@ -72,9 +65,10 @@ func _on_gui_input(input_event:InputEvent) -> void:
 	if input_event.is_action("select"):
 		if input_event.is_pressed():
 			button_state = ButtonState.PRESSED
+			_press_down()
 		else:
 			button_state = ButtonState.NORMAL
-			_press()
+			_press_up()
 
 func _input(input_event:InputEvent) -> void:
 	if button_state == ButtonState.DISABLED:
@@ -89,7 +83,7 @@ func _handle_short_cut(input_event:InputEvent) -> void:
 	match action_type:
 		ActionType.PRESSED:
 			if _is_short_cut_pressed(input_event):
-				_press()
+				_press_down()
 		ActionType.HOLD:
 			if _is_short_cut_pressed(input_event):
 				_holding_start = true
@@ -135,19 +129,20 @@ func _on_mouse_exited():
 		return
 	button_state = ButtonState.NORMAL
 	
-func _press():
+func _press_down():
 	if _pressing:
 		return
-	pressed.emit()
 	_pressing = true
-	_sound_click.play()
 
-func _on_click_sound_finished() -> void:
-	_evoke_action()
+func _press_up():
+	assert(_pressing, "Button is not pressing")
+	_play_click_sound()
+	pressed.emit()
 	_pressing = false
 
-func _evoke_action() -> void:
-	action_evoked.emit()
+func _play_click_sound() -> void:
+	var stream := _get_click_sound()
+	GlobalSoundManager.play_sound(stream, "SFX", -5)
 
 #region setter/getter
 

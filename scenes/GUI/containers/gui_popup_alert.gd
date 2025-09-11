@@ -11,8 +11,8 @@ signal by_pass_button_clicked()
 @onready var by_pass_button: GUIRichTextButton = %ByPassButton
 
 func _ready() -> void:
-	close_button.action_evoked.connect(_on_button_evoked.bind(close_button))
-	by_pass_button.action_evoked.connect(_on_button_evoked.bind(by_pass_button))
+	close_button.pressed.connect(_on_button_evoked.bind(close_button))
+	by_pass_button.pressed.connect(_on_button_evoked.bind(by_pass_button))
 
 func setup(title_string:String, message_string:String, close_button_title:String, by_pass_button_title:String) -> void:
 	title.text = tr(title_string)

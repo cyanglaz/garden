@@ -17,7 +17,7 @@ var _display_y := 0.0
 
 func _ready() -> void:
 	_display_y = _main_panel.position.y
-	_continue_button.action_evoked.connect(_on_continue_button_pressed)
+	_continue_button.pressed.connect(_on_continue_button_pressed)
 	_title.text = Util.get_localized_string("GAME_OVER_TITLE")
 
 func animate_show(session_summary:SessionSummary) -> void:

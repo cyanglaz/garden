@@ -53,7 +53,7 @@ func update_with_field_status_data(field_status_data:FieldStatusData) -> void:
 func _create_tooltip_button(control:Control, data:Resource) -> GUIBasicButton:
 	control.mouse_filter = Control.MOUSE_FILTER_PASS
 	var basic_button:GUIBasicButton = GUIBasicButton.new()
-	basic_button.action_evoked.connect(func(): tooltip_button_evoked.emit(data))
+	basic_button.pressed.connect(func(): tooltip_button_evoked.emit(data))
 	basic_button.add_child(control)
 	basic_button.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	return basic_button
@@ -73,7 +73,7 @@ func _add_reference_buttons(reference_pairs:Array) -> void:
 		var icon_path:String = _get_reference_button_icon_path(category, id)
 		var display_name:String = _get_reference_name(category, id)
 		reference_button.update_with_icon(icon_path, display_name)
-		reference_button.action_evoked.connect(func(): reference_button_evoked.emit(reference_pair))
+		reference_button.pressed.connect(func(): reference_button_evoked.emit(reference_pair))
 	
 func _get_reference_button_icon_path(category:String, id:String) -> String:
 	match category:

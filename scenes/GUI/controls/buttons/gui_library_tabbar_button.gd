@@ -17,7 +17,7 @@ var _weak_data:WeakRef = weakref(null)
 
 func _ready() -> void:
 	super._ready()
-	gui_close_button.action_evoked.connect(func() -> void: close_button_evoked.emit())
+	gui_close_button.pressed.connect(func() -> void: close_button_evoked.emit())
 	
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
