@@ -10,6 +10,8 @@ offset_right = 25.0
 offset_bottom = 14.0
 size_flags_horizontal = 3
 script = ExtResource("2_lbg16")
+icon = null
+localized_text = ""
 
 [node name="Border" type="NinePatchRect" parent="." index="0"]
 unique_name_in_owner = true

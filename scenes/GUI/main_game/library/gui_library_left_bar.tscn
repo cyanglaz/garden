@@ -16,15 +16,19 @@ theme_override_constants/separation = 1
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 1
+localized_text = "CATEGORY_CARDS"
 
 [node name="PlantsButton" parent="." instance=ExtResource("1_fuyvg")]
 unique_name_in_owner = true
 layout_mode = 2
+localized_text = "CATEGORY_PLANTS"
 
 [node name="BossesButton" parent="." instance=ExtResource("1_fuyvg")]
 unique_name_in_owner = true
 layout_mode = 2
+localized_text = "CATEGORY_BOSS"
 
-[node name="FieldStatusButton" parent="." instance=ExtResource("1_fuyvg")]
+[node name="MiscButton" parent="." instance=ExtResource("1_fuyvg")]
 unique_name_in_owner = true
 layout_mode = 2
+localized_text = "CATEGORY_MISC"

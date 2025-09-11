@@ -120,3 +120,8 @@ MAX_DAY_LABEL_TEXT, "Max Days: %s"
 IMMUNE_TO_STATUS_TEXT, "Immune to: %s"
 
 INFO_TITLE, "Library" 
+
+CATEGORY_BOSS, "Boss"
+CATEGORY_MISC, "Misc"
+CATEGORY_CARDS, "Card"
+CATEGORY_PLANTS, "Plant"

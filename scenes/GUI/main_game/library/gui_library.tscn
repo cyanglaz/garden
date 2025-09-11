@@ -23,6 +23,7 @@ script = ExtResource("1_wkd2w")
 layout_mode = 1
 
 [node name="MainPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(280, 140)
 layout_mode = 1
 anchors_preset = 5
@@ -83,7 +84,7 @@ custom_minimum_size = Vector2(0, 14)
 layout_mode = 2
 
 [node name="GUILibraryLeftBar" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("5_5ef73")]
-custom_minimum_size = Vector2(42, 0)
+custom_minimum_size = Vector2(36, 0)
 layout_mode = 2
 
 [node name="MainView" type="PanelContainer" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer"]

@@ -1,9 +1,7 @@
 class_name GUIShopMain
 extends Control
 
-const HIDE_Y := 200
-const SHOW_ANIMATION_DURATION := 0.15
-const HIDE_ANIMATION_DURATION := 0.15
+
 const ADD_CARD_TO_PILE_ANIMATION_TIME := 0.3
 
 signal tool_shop_button_pressed(tool_data:ToolData)
@@ -60,9 +58,9 @@ func _populate_tools(number_of_tools) -> void:
 		tool_shop_button.mouse_entered.connect(_on_tool_shop_button_mouse_entered.bind(tool_data, tool_shop_button))
 
 func _play_show_animation() -> void:
-	_main_panel.position.y = HIDE_Y
+	_main_panel.position.y = Constants.PENEL_HIDE_Y
 	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(_main_panel, "position:y", _display_y, SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	tween.tween_property(_main_panel, "position:y", _display_y, Constants.SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	await tween.finished
 	_next_level_button.show()
 
@@ -70,7 +68,7 @@ func animate_hide() -> void:
 	_clear_insufficient_gold_tooltip()
 	_next_level_button.hide()
 	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(_main_panel, "position:y", HIDE_Y, HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
+	tween.tween_property(_main_panel, "position:y", Constants.PENEL_HIDE_Y, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	await tween.finished
 	hide()
 

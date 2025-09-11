@@ -152,6 +152,9 @@ const SHIELD_REDUCE_COLOR := Constants.COLOR_BLUE_3
 const SHIELD_RECOVER_COLOR := Constants.COLOR_BLUE_2
 
 const SECONDARY_TOOLTIP_DELAY := 0.2
+const SHOW_ANIMATION_DURATION := 0.15
+const HIDE_ANIMATION_DURATION := 0.15
+const PENEL_HIDE_Y := 200.0
 
 const DEFAULT_ORDER_INDEX := -99 # 99 is the default value, which is reserved for player controlled character
 const DEFAULT_INDICATOR_COLOR := Constants.COLOR_YELLOW1 # 99 is the default value, which is reserved for player controlled character
