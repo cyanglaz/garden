@@ -33,6 +33,11 @@ func remove_tab(index:int) -> void:
 		_on_tab_button_action_evoked(index)
 	else:
 		_on_tab_button_action_evoked(index-1)
+
+func clear_all_tabs() -> void:
+	datas.clear()
+	Util.remove_all_children(_buttons_container)
+	all_tabs_cleared.emit()
 		
 func _on_tab_button_action_evoked(index:int) -> void:
 	super._on_tab_button_action_evoked(index)

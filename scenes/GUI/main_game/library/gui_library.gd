@@ -121,3 +121,4 @@ func _on_all_tabs_cleared() -> void:
 
 func _on_back_button_evoked() -> void:
 	animate_hide()
+	_gui_library_tabbar.clear_all_tabs()
