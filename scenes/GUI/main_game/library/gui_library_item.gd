@@ -16,6 +16,7 @@ const CARD_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_card.p
 
 func update_with_plant_data(plant_data:PlantData) -> void:
 	var plant_tooltip:GUIPlantTooltip = PLANT_TOOLTIP_SCENE.instantiate()
+	plant_tooltip.library_mode = true
 	var tooltip_button:GUIBasicButton = _create_tooltip_button(plant_tooltip, plant_data)
 	add_child(tooltip_button)
 	plant_tooltip.update_with_plant_data(plant_data)
@@ -42,6 +43,7 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 
 func update_with_level_data(level_data:LevelData) -> void:
 	var boss_tooltip:GUIBossTooltip = BOSS_TOOLTIP_SCENE.instantiate()
+	boss_tooltip.library_mode = true
 	var tooltip_button:GUIBasicButton = _create_tooltip_button(boss_tooltip, level_data)
 	add_child(tooltip_button)
 	boss_tooltip.update_with_level_data(level_data)
