@@ -3,6 +3,7 @@ class_name GUILibraryTabbar
 extends GUITabControl
 
 signal tab_evoked(data:ThingData)
+signal tab_removed(id:String)
 signal all_tabs_cleared()
 
 var datas:Array[ThingData]
@@ -15,7 +16,7 @@ func add_top_bar_button(data:ThingData) -> void:
 	top_bar_button.close_button_evoked.connect(_on_close_button_evoked.bind(datas.size() - 1))
 	select_button(datas.size() - 1)
 
-func remove_tab(index:int) -> void:
+func _remove_tab(index:int) -> void:
 	datas.remove_at(index)
 	var tab_button:GUILibraryTabbarButton = _buttons_container.get_child(index)
 	_buttons_container.remove_child(_buttons_container.get_child(index))
@@ -44,4 +45,5 @@ func _on_tab_button_pressed(index:int) -> void:
 	tab_evoked.emit(datas[index])
 
 func _on_close_button_evoked(index:int) -> void:
-	remove_tab(index)
+	tab_removed.emit(datas[index].id)
+	_remove_tab(index)
