@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://dsgrc7liboqjg"
+uid="uid://573dtym8ldy3"
 path="res://.godot/imported/button_hover.wav-e544615637c3d34c8ce289a8c4240571.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

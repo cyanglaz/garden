@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dbkjn3k1kdgme" path="res://scenes/GUI/main_game/plant_cards/gui_plant_icon.gd" id="1_q7qh7"]
 [ext_resource type="Texture2D" uid="uid://ljoqftopipcr" path="res://resources/sprites/GUI/backgrounds/plant_icon_background.png" id="2_7eodn"]
 [ext_resource type="Texture2D" uid="uid://cot566voterom" path="res://resources/sprites/GUI/shared/border2.png" id="3_5linv"]
-[ext_resource type="AudioStream" uid="uid://b00jsu3na1sj0" path="res://resources/sounds/SFX/plants/plant_card_move_1.wav" id="4_q7qh7"]
+[ext_resource type="AudioStream" uid="uid://dsgrc7liboqjg" path="res://resources/sounds/SFX/plants/plant_move.wav" id="4_7eodn"]
 [ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="5_7eodn"]
 
 [node name="GUIPlantIcon" type="PanelContainer"]
@@ -42,7 +42,7 @@ patch_margin_bottom = 1
 
 [node name="MoveAudio" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("4_q7qh7")
+stream = ExtResource("4_7eodn")
 bus = &"SFX"
 
 [node name="Control" type="Control" parent="."]
