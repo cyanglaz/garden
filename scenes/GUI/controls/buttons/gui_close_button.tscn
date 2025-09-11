@@ -7,7 +7,7 @@
 [sub_resource type="AtlasTexture" id="AtlasTexture_ud8re"]
 resource_local_to_scene = true
 atlas = ExtResource("4_se1wg")
-region = Rect2(0, 0, 11, 11)
+region = Rect2(0, 0, 9, 9)
 
 [node name="GUICloseButton" instance=ExtResource("1_urfjh")]
 custom_minimum_size = Vector2(0, 0)

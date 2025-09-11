@@ -11,10 +11,10 @@ func _set_button_state(val:ButtonState) -> void:
 		ButtonState.NORMAL:
 			_texture_rect.texture.region.position = Vector2(0, 0)
 		ButtonState.PRESSED:
-			_texture_rect.texture.region.position = Vector2(11, 0)
+			_texture_rect.texture.region.position = Vector2(9, 0)
 		ButtonState.HOVERED:
-			_texture_rect.texture.region.position = Vector2(22, 0)
+			_texture_rect.texture.region.position = Vector2(18, 0)
 		ButtonState.DISABLED:
-			_texture_rect.texture.region.position = Vector2(0, 11)
+			_texture_rect.texture.region.position = Vector2(0, 9)
 		ButtonState.SELECTED:
-			_texture_rect.texture.region.position = Vector2(11, 11)		
+			_texture_rect.texture.region.position = Vector2(9, 9)		

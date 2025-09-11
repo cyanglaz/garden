@@ -19,6 +19,15 @@ func _ready() -> void:
 	super._ready()
 	gui_close_button.action_evoked.connect(func() -> void: close_button_evoked.emit())
 	
+func _physics_process(delta: float) -> void:
+	super._physics_process(delta)
+	if get_global_rect().has_point(get_global_mouse_position()) || button_state == ButtonState.SELECTED:
+		if gui_close_button.button_state == GUIBasicButton.ButtonState.DISABLED:
+			gui_close_button.button_state = GUIBasicButton.ButtonState.NORMAL
+	else:
+		if gui_close_button.button_state != GUIBasicButton.ButtonState.DISABLED:
+			gui_close_button.button_state = GUIBasicButton.ButtonState.DISABLED
+
 func update_with_data(data:ThingData) -> void:
 	_weak_data = weakref(data)
 	label.text = data.display_name
