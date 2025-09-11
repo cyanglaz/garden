@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cvm3m4w3cu5fl" path="res://resources/sprites/GUI/menu/close_button.png" id="4_se1wg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ud8re"]
+resource_local_to_scene = true
 atlas = ExtResource("4_se1wg")
 region = Rect2(0, 0, 11, 11)
 

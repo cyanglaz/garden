@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://s0blay2xi65f"]
+[gd_scene load_steps=9 format=3 uid="uid://s0blay2xi65f"]
 
 [ext_resource type="Script" uid="uid://d1hgyvoydof4g" path="res://scenes/GUI/main_game/library/gui_library.gd" id="1_wkd2w"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="2_k83l7"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="5_nv0gp"]
 [ext_resource type="PackedScene" uid="uid://dpb75hmacxebu" path="res://scenes/GUI/main_game/library/gui_library_tabbar.tscn" id="6_nv0gp"]
 [ext_resource type="Texture2D" uid="uid://bryaq8eg733mx" path="res://resources/sprites/GUI/backgrounds/library_viewer_background.png" id="7_pfglm"]
-[ext_resource type="PackedScene" uid="uid://l1ppui2vcrvo" path="res://scenes/GUI/controls/buttons/gui_close_button.tscn" id="8_nv0gp"]
 
 [node name="GUILibrary" type="Control"]
 process_mode = 3
@@ -122,27 +121,6 @@ grow_vertical = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
-
-[node name="FreeContainer" type="Control" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView/VBoxContainer/MainViewBackground"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="GUICloseButton" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView/VBoxContainer/MainViewBackground/FreeContainer" instance=ExtResource("8_nv0gp")]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -13.0
-offset_top = 1.0
-offset_right = -2.0
-offset_bottom = 12.0
-grow_horizontal = 0
 
 [node name="BackButton" parent="." instance=ExtResource("5_nv0gp")]
 unique_name_in_owner = true

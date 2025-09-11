@@ -1,6 +1,8 @@
 class_name GUILibraryTabbarButton
 extends GUIBasicButton
 
+signal close_button_evoked()
+
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
 const PLANT_ICON_PREFIX := "res://resources/sprites/GUI/icons/plants/icon_"
 const CARD_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_card.png"
@@ -9,8 +11,13 @@ const BOSS_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_boss.p
 @onready var texture_rect: TextureRect = %TextureRect
 @onready var label: Label = %Label
 @onready var border: NinePatchRect = %Border
+@onready var gui_close_button: GUICloseButton = %GUICloseButton
 
 var _weak_data:WeakRef = weakref(null)
+
+func _ready() -> void:
+	super._ready()
+	gui_close_button.action_evoked.connect(func() -> void: close_button_evoked.emit())
 	
 func update_with_data(data:ThingData) -> void:
 	_weak_data = weakref(data)

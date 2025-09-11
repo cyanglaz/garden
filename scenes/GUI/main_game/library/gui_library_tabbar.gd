@@ -12,6 +12,7 @@ func add_top_bar_button(data:ThingData) -> void:
 	_add_tab()
 	var top_bar_button:GUILibraryTabbarButton = _buttons_container.get_child(datas.size() - 1)
 	top_bar_button.update_with_data(data)
+	top_bar_button.close_button_evoked.connect(_on_close_button_evoked.bind(datas.size() - 1))
 	select_button(datas.size() - 1)
 
 func remove_tab(index:int) -> void:
@@ -23,6 +24,8 @@ func remove_tab(index:int) -> void:
 	for top_bar_button:GUILibraryTabbarButton in _buttons_container.get_children():
 		top_bar_button.action_evoked.disconnect(_on_tab_button_action_evoked)
 		top_bar_button.action_evoked.connect(_on_tab_button_action_evoked.bind(i))
+		top_bar_button.close_button_evoked.disconnect(_on_close_button_evoked)
+		top_bar_button.close_button_evoked.connect(_on_close_button_evoked.bind(i))
 		i += 1
 	if _buttons_container.get_child_count() == 0:
 		all_tabs_cleared.emit()
@@ -34,4 +37,6 @@ func remove_tab(index:int) -> void:
 func _on_tab_button_action_evoked(index:int) -> void:
 	super._on_tab_button_action_evoked(index)
 	tab_evoked.emit(datas[index])
-		
+
+func _on_close_button_evoked(index:int) -> void:
+	remove_tab(index)

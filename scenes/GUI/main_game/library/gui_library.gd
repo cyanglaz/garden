@@ -7,7 +7,6 @@ const LIBRARY_SCENE := preload("res://scenes/GUI/main_game/library/gui_library_i
 @onready var _title_label: Label = %TitleLabel
 @onready var _tooltip_container: HBoxContainer = %TooltipContainer
 @onready var _gui_library_tabbar: GUILibraryTabbar = %GUILibararyTabbar
-@onready var _gui_close_button: GUICloseButton = %GUICloseButton
 @onready var _back_button: GUIRichTextButton = %BackButton
 
 var tooltip_data_stack:Array[Resource] = []
@@ -15,17 +14,16 @@ var _display_y := 0.0
 
 func _ready() -> void:
 	_display_y = _main_panel.position.y
-	_gui_close_button.hide()
 	_title_label.text = Util.get_localized_string("INFO_TITLE")
 	_gui_library_tabbar.tab_evoked.connect(_on_tab_evoked)
 	_gui_library_tabbar.all_tabs_cleared.connect(_on_all_tabs_cleared)
-	_gui_close_button.action_evoked.connect(_on_close_button_evoked)
 	_back_button.action_evoked.connect(_on_back_button_evoked)
 	_back_button.hide()
-	#animate_show(MainDatabase.plant_database.get_data_by_id("rose"))
+	animate_show(MainDatabase.plant_database.get_data_by_id("rose"))
 
 func animate_show(data:Resource) -> void:
-	Singletons.main_game.clear_all_tooltips()
+	if Singletons.main_game:
+		Singletons.main_game.clear_all_tooltips()
 	PauseManager.try_pause()
 	show()
 	update_with_data(data)
@@ -49,7 +47,6 @@ func update_with_data(data:Resource) -> void:
 		_update_with_level_data(data)
 	elif data is FieldStatusData:
 		_update_with_field_status_data(data)
-	_gui_close_button.show()
 
 func _update_with_plant_data(plant_data:PlantData) -> void:
 	var item:GUILibraryItem = LIBRARY_SCENE.instantiate()
@@ -119,12 +116,8 @@ func _on_tooltip_button_evoked(data:Resource) -> void:
 func _on_tab_evoked(data:ThingData) -> void:
 	update_with_data(data)
 
-func _on_close_button_evoked() -> void:
-	_gui_library_tabbar.remove_tab(_gui_library_tabbar.selected_index)
-
 func _on_all_tabs_cleared() -> void:
 	Util.remove_all_children(_tooltip_container)
-	_gui_close_button.hide()
 
 func _on_back_button_evoked() -> void:
 	animate_hide()
