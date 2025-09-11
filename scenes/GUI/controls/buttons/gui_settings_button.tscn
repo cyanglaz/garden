@@ -10,7 +10,7 @@ offset_right = 11.0
 offset_bottom = 11.0
 script = ExtResource("2_ccb18")
 
-[node name="TextureRect" type="NinePatchRect" parent="." index="0"]
+[node name="NinePatchRect" type="NinePatchRect" parent="." index="0"]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("3_7pn0n")

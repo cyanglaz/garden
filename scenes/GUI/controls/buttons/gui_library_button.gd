@@ -1,4 +1,4 @@
-class_name GUISettingsButton
+class_name GUILibraryButton
 extends GUIBasicButton
 
 @onready var _texture_rect: NinePatchRect = %NinePatchRect
@@ -11,10 +11,10 @@ func _set_button_state(val:ButtonState) -> void:
 		ButtonState.NORMAL:
 			_texture_rect.region_rect.position = Vector2(0, 0)
 		ButtonState.PRESSED:
-			_texture_rect.region_rect.position = Vector2(10, 0)
+			_texture_rect.region_rect.position = Vector2(12, 0)
 		ButtonState.HOVERED:
-			_texture_rect.region_rect.position = Vector2(20, 0)
+			_texture_rect.region_rect.position = Vector2(24, 0)
 		ButtonState.DISABLED:
-			_texture_rect.region_rect.position = Vector2(0, 10)
+			_texture_rect.region_rect.position = Vector2(0, 12)
 		ButtonState.SELECTED:
-			_texture_rect.region_rect.position = Vector2(20, 10)		
+			_texture_rect.region_rect.position = Vector2(24, 12)		

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bt3hkv716ifdl"
+path="res://.godot/imported/library_button.aseprite-4702d89d0fb7fd4f4569e63d9552bac9.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/library_button.aseprite"
+dest_files=["res://.godot/imported/library_button.aseprite-4702d89d0fb7fd4f4569e63d9552bac9.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true

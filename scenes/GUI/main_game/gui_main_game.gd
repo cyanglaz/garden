@@ -40,6 +40,7 @@ func _ready() -> void:
 	_end_turn_button.action_evoked.connect(func() -> void: end_turn_button_pressed.emit())
 	gui_tool_card_container.setup(gui_draw_box_button, gui_discard_box_button)
 	gui_top_bar.setting_button_evoked.connect(_on_settings_button_evoked)
+	gui_top_bar.library_button_evoked.connect(_on_library_button_evoked)
 	gui_level_summary_main.continue_button_pressed.connect(func() -> void: level_summary_continue_button_pressed.emit())
 	gui_level_summary_main.gold_increased.connect(func(gold:int) -> void: gold_increased.emit(gold))
 	gui_plant_seed_animation_container.draw_plant_card_completed.connect(func(field_index:int, plant_data:PlantData) -> void: plant_seed_drawn_animation_completed.emit(field_index, plant_data))
@@ -185,5 +186,8 @@ func _on_deck_button_pressed(deck:Deck, title:String, type: GUIDeckButton.Type) 
 
 func _on_settings_button_evoked() -> void:
 	_gui_settings_main.animate_show()
+
+func _on_library_button_evoked() -> void:
+	gui_library.animate_show(null)
 
 #endregion

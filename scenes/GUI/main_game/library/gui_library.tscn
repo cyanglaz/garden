@@ -36,7 +36,7 @@ offset_bottom = 155.0
 grow_horizontal = 2
 
 [node name="Background" type="NinePatchRect" parent="MainPanel"]
-self_modulate = Color(0.364706, 0.172549, 0.156863, 1)
+self_modulate = Color(0.74902, 0.435294, 0.290196, 1)
 layout_mode = 2
 texture = ExtResource("3_5ef73")
 patch_margin_left = 3
