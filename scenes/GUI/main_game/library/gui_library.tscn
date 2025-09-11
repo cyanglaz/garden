@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://l1ppui2vcrvo" path="res://scenes/GUI/controls/buttons/gui_close_button.tscn" id="8_nv0gp"]
 
 [node name="GUILibrary" type="Control"]
-process_mode = 2
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,10 +30,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -110.0
+offset_left = -140.0
 offset_top = 6.0
-offset_right = 110.0
-offset_bottom = 134.0
+offset_right = 140.0
+offset_bottom = 155.0
 grow_horizontal = 2
 
 [node name="Background" type="NinePatchRect" parent="MainPanel"]
@@ -65,13 +65,6 @@ theme_override_constants/margin_bottom = 4
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="TitleLabel" type="Label" parent="MainPanel/MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"HUD"
-text = "Info"
-horizontal_alignment = 1
-
 [node name="HBoxContainer" type="HBoxContainer" parent="MainPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -80,17 +73,25 @@ size_flags_vertical = 3
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Spacer" type="Control" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 14)
+[node name="TitleLabel" type="Label" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+theme_type_variation = &"HUD"
+text = "Info"
+horizontal_alignment = 1
 
 [node name="GUILibraryLeftBar" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("5_5ef73")]
 custom_minimum_size = Vector2(36, 0)
 layout_mode = 2
 
-[node name="MainView" type="PanelContainer" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="MainView" type="MarginContainer" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView"]
 layout_mode = 2

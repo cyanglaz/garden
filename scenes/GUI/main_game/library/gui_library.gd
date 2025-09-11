@@ -1,11 +1,6 @@
 class_name GUILibrary
 extends Control
 
-const PLANT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn")
-const CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_card_tooltip.tscn")
-const TOOL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_tool_card_tooltip.tscn")
-const BOSS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_boss_tooltip.tscn")
-
 const LIBRARY_SCENE := preload("res://scenes/GUI/main_game/library/gui_library_item.tscn")
 
 @onready var _main_panel: PanelContainer = %MainPanel
@@ -30,12 +25,14 @@ func _ready() -> void:
 	#animate_show(MainDatabase.plant_database.get_data_by_id("rose"))
 
 func animate_show(data:Resource) -> void:
+	Singletons.main_game.clear_all_tooltips()
 	PauseManager.try_pause()
 	show()
 	update_with_data(data)
 	await _play_show_animation()
 
 func update_with_data(data:Resource) -> void:
+	_title_label.text = Util.get_localized_string("INFO_TITLE")
 	Util.remove_all_children(_tooltip_container)
 	if data == null:
 		return

@@ -5,12 +5,6 @@ signal reference_button_evoked(reference_pair:Array)
 signal tooltip_button_evoked(data:Resource)
 
 const REFERENCE_BUTTON_SCENE := preload("res://scenes/GUI/controls/buttons/gui_tooltip_reference_button.tscn")
-const PLANT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn")
-const CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_card_tooltip.tscn")
-const TOOL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_tool_card_tooltip.tscn")
-const BOSS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_boss_tooltip.tscn")
-const FIELD_STATUS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_field_status_tooltip.tscn")
-
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
 const CARD_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_card.png"
 
@@ -30,27 +24,27 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	var h_box_container:HBoxContainer = HBoxContainer.new()
 	h_box_container.add_theme_constant_override("separation", 1)
 	add_child(h_box_container)
-	var tool_tooltip:GUICardTooltip = CARD_TOOLTIP_SCENE.instantiate()
+	var tool_tooltip:GUICardTooltip = Util.GUI_CARD_TOOLTIP_SCENE.instantiate()
 	var tooltip_button:GUIBasicButton = _create_tooltip_button(tool_tooltip, tool_data)
 	h_box_container.add_child(tooltip_button)
 	tool_tooltip.update_with_tool_data(tool_data)
 	if !tool_data.actions.is_empty():
-		var tool_card_tooltip:GUIToolCardTooltip = TOOL_TOOLTIP_SCENE.instantiate()
+		var tool_card_tooltip:GUIToolCardTooltip = Util.GUI_TOOL_CARD_TOOLTIP_SCENE.instantiate()
 		tool_card_tooltip.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 		h_box_container.add_child(tool_card_tooltip)
 		tool_card_tooltip.update_with_tool_data(tool_data)
 	_find_reference_pairs_and_add_buttons(tool_data.description)
 
 func update_with_level_data(level_data:LevelData) -> void:
-	var boss_tooltip:GUIBossTooltip = BOSS_TOOLTIP_SCENE.instantiate()
-	boss_tooltip.library_mode = true
+	var boss_tooltip:GUIBossTooltip = Util.GUI_BOSS_TOOLTIP_SCENE.instantiate()
 	var tooltip_button:GUIBasicButton = _create_tooltip_button(boss_tooltip, level_data)
 	add_child(tooltip_button)
+	boss_tooltip.library_mode = true
 	boss_tooltip.update_with_level_data(level_data)
 	_find_reference_pairs_and_add_buttons(level_data.description)
 
 func update_with_field_status_data(field_status_data:FieldStatusData) -> void:
-	var field_status_tooltip:GUIFieldStatusTooltip = FIELD_STATUS_TOOLTIP_SCENE.instantiate()
+	var field_status_tooltip:GUIFieldStatusTooltip = Util.GUI_FIELD_STATUS_TOOLTIP_SCENE.instantiate()
 	var tooltip_button:GUIBasicButton = _create_tooltip_button(field_status_tooltip, field_status_data)
 	add_child(tooltip_button)
 	field_status_tooltip.update_with_field_status_data(field_status_data)

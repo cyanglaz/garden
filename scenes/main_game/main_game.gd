@@ -115,6 +115,9 @@ func start_day() -> void:
 func add_control_to_overlay(control:Control) -> void:
 	gui_main_game.add_control_to_overlay(control)
 
+func clear_all_tooltips() -> void:
+	gui_main_game.clear_all_tooltips()
+
 func draw_cards(count:int) -> void:
 	await tool_manager.draw_cards(count)
 	await tool_manager.apply_auto_tools(self, field_container.fields, func(tool_data:ToolData): return tool_data.specials.has(ToolData.Special.USE_ON_DRAW))

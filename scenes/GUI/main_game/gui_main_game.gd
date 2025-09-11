@@ -24,7 +24,7 @@ signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantDat
 @onready var gui_game_over_main: GUIGameOverMain = %GUIGameOverMain
 @onready var gui_demo_end_main: GUIDemoEndMain = %GUIDemoEndMain
 @onready var gui_enemy: GUIEnemy = %GUIEnemy
-@onready var gui_library: GUILibrary = $GUILibrary
+@onready var gui_library: GUILibrary = %GUILibrary
 
 @onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
@@ -161,6 +161,11 @@ func animate_show_demo_end() -> void:
 
 func add_control_to_overlay(control:Control) -> void:
 	_overlay.add_child(control)
+
+func clear_all_tooltips() -> void:
+	for child in _overlay.get_children():
+		if child is GUITooltip:
+			child.queue_free()
 
 #endregion
 

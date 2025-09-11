@@ -203,6 +203,7 @@ unique_name_in_owner = true
 visible = false
 
 [node name="GUILibrary" parent="." instance=ExtResource("18_kno36")]
+unique_name_in_owner = true
 visible = false
 
 [editable path="MainContainer/GameContainer/MainMarginContainer"]
