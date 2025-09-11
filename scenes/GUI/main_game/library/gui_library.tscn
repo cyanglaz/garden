@@ -74,7 +74,15 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="GUILibraryLeftBar" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_5ef73")]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Spacer" type="Control" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+
+[node name="GUILibraryLeftBar" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("5_5ef73")]
 custom_minimum_size = Vector2(42, 0)
 layout_mode = 2
 
@@ -89,8 +97,6 @@ theme_override_constants/separation = 0
 [node name="GUILibararyTabbar" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView/VBoxContainer" instance=ExtResource("6_nv0gp")]
 unique_name_in_owner = true
 layout_mode = 2
-number_of_tabs = 0
-tab_localization_titles = Array[String]([])
 
 [node name="MainViewBackground" type="NinePatchRect" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView/VBoxContainer"]
 layout_mode = 2
