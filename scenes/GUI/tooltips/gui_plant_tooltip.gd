@@ -3,8 +3,9 @@ extends GUITooltip
 
 @onready var _gui_plant_description: GUIPlantDescription = %GUIPlantDescription
 
-var secondary_tooltips:Array[WeakRef] = []
+var library_mode := false
 var _weak_plant_data:WeakRef = weakref(null)
+var _weak_show_library_tooltip:WeakRef = weakref(null)
 
 func _ready() -> void:
 	super._ready()
@@ -15,15 +16,13 @@ func update_with_plant_data(plant_data:PlantData) -> void:
 	_gui_plant_description.update_with_plant_data(plant_data)
 
 func _on_tooltop_shown() -> void:
+	if library_mode:
+		return
 	await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
-	var tool_ids:Array[String] = Util.find_tool_ids_in_data(_weak_plant_data.get_ref().data)
-	for tool_id:String in tool_ids:
-		var tool_data := MainDatabase.tool_database.get_data_by_id(tool_id)
-		secondary_tooltips.append(weakref(Util.display_card_tooltip(tool_data, self, false, GUITooltip.TooltipPosition.LEFT)))
+	_weak_show_library_tooltip = weakref(Util.display_show_library_tooltip(_weak_plant_data.get_ref(), self, false, GUITooltip.TooltipPosition.BOTTOM_LEFT))
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
-		for weak_secondary_tooltip in secondary_tooltips:
-			if weak_secondary_tooltip.get_ref():
-				weak_secondary_tooltip.get_ref().queue_free()
-				weak_secondary_tooltip = weakref(null)
+		if _weak_show_library_tooltip.get_ref():
+			_weak_show_library_tooltip.get_ref().queue_free()
+			_weak_show_library_tooltip = weakref(null)

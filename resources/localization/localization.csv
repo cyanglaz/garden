@@ -125,3 +125,5 @@ CATEGORY_BOSS, "Boss"
 CATEGORY_MISC, "Misc"
 CATEGORY_CARDS, "Card"
 CATEGORY_PLANTS, "Plant"
+
+SHOW_LIBRARY_TOOLTIP_PROMPT, "Press %s for more details about %s."

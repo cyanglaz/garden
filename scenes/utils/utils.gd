@@ -14,6 +14,7 @@ const GUI_TOOL_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_tool
 const GUI_LEVEL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_level_tooltip.tscn")
 const GUI_BOSS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_boss_tooltip.tscn")
 const GUI_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_card_tooltip.tscn")
+const GUI_SHOW_LIBRARY_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_show_library_tooltip.tscn")
 
 const FIELD_STATUS_SCRIPT_PREFIX := "res://scenes/main_game/field/status/field_status_script_"
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
@@ -118,6 +119,14 @@ static func display_card_tooltip(tool_data:ToolData, on_control_node:Control, an
 	card_tooltip.update_with_tool_data(tool_data)
 	_display_tool_tip.call_deferred(card_tooltip, on_control_node, anchor_mouse, tooltip_position, false)
 	return card_tooltip
+
+static func display_show_library_tooltip(data:ThingData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition) -> GUIShowLibraryTooltip:
+	var show_library_tooltip:GUIShowLibraryTooltip = GUI_SHOW_LIBRARY_TOOLTIP_SCENE.instantiate()
+	Singletons.main_game.add_control_to_overlay(show_library_tooltip)
+	show_library_tooltip.tooltip_position = tooltip_position
+	show_library_tooltip.update_with_data(data)
+	_display_tool_tip.call_deferred(show_library_tooltip, on_control_node, anchor_mouse, tooltip_position, false)
+	return show_library_tooltip
 
 static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP, world_space:bool = false) -> void:
 	tooltip.show()
