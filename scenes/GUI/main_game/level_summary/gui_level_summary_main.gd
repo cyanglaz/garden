@@ -33,7 +33,7 @@ var _days_left := 0
 
 func _ready() -> void:
 	_display_y = _main_panel.position.y
-	_continue_button.action_evoked.connect(_on_continue_button_pressed)
+	_continue_button.pressed.connect(_on_continue_button_pressed)
 	_title.text = Util.get_localized_string("WEEK_SUMMARY_TITLE")
 	_gui_gold.gold_incremented.connect(_on_gold_incremented)
 

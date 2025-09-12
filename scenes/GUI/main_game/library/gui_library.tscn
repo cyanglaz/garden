@@ -99,6 +99,8 @@ theme_override_constants/separation = 0
 [node name="GUILibararyTabbar" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView/VBoxContainer" instance=ExtResource("6_nv0gp")]
 unique_name_in_owner = true
 layout_mode = 2
+number_of_tabs = null
+tab_localization_titles = null
 
 [node name="MainViewBackground" type="NinePatchRect" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView/VBoxContainer"]
 layout_mode = 2

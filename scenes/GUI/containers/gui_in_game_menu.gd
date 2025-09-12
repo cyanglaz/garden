@@ -8,9 +8,9 @@ const MAIN_MENU_SCENE := "res://scenes/GUI/menu/gui_main_menu.tscn"
 @onready var _main_menu_button: GUIMenuButton = %MainMenuButton
 
 func _ready() -> void:
-	_continue_button.action_evoked.connect(_on_continue_button_evoked)
-	_options_button.action_evoked.connect(_on_options_button_evoked)
-	_main_menu_button.action_evoked.connect(_on_main_menu_button_evoked)
+	_continue_button.pressed.connect(_on_continue_button_evoked)
+	_options_button.pressed.connect(_on_options_button_evoked)
+	_main_menu_button.pressed.connect(_on_main_menu_button_evoked)
 
 func _on_continue_button_evoked() -> void:
 	animate_hide()

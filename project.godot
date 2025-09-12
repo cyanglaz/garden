@@ -51,6 +51,7 @@ Singletons="*res://autoloads/singletons.gd"
 TrashBin="*res://autoloads/trash_bin.gd"
 Cursors="*res://autoloads/cursors.gd"
 PauseManager="*res://autoloads/pause_manager.gd"
+GlobalSoundManager="*res://autoloads/global_sound_manager.gd"
 
 [display]
 

@@ -37,7 +37,7 @@ var _toggle_ui_semaphore := 0
 func _ready() -> void:
 	_gui_tool_cards_viewer.hide()
 	gui_tool_card_container.tool_selected.connect(func(tool_data:ToolData) -> void: tool_selected.emit(tool_data))
-	_end_turn_button.action_evoked.connect(func() -> void: end_turn_button_pressed.emit())
+	_end_turn_button.pressed.connect(func() -> void: end_turn_button_pressed.emit())
 	gui_tool_card_container.setup(gui_draw_box_button, gui_discard_box_button)
 	gui_top_bar.setting_button_evoked.connect(_on_settings_button_evoked)
 	gui_top_bar.library_button_evoked.connect(_on_library_button_evoked)
@@ -106,9 +106,9 @@ func bind_tool_deck(tool_deck:Deck) -> void:
 	gui_exhaust_box_button.bind_deck(tool_deck)
 	gui_top_bar.gui_full_deck_button.bind_deck(tool_deck)
 	gui_top_bar.full_deck_button_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("FULL_DECK_TITLE"), GUIDeckButton.Type.ALL))
-	gui_draw_box_button.action_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DRAW_POOL_TITLE"), gui_draw_box_button.type))
-	gui_discard_box_button.action_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DISCARD_POOL_TITLE"), gui_discard_box_button.type))
-	gui_exhaust_box_button.action_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_EXHAUST_POOL_TITLE"), gui_exhaust_box_button.type))
+	gui_draw_box_button.pressed.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DRAW_POOL_TITLE"), gui_draw_box_button.type))
+	gui_discard_box_button.pressed.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DISCARD_POOL_TITLE"), gui_discard_box_button.type))
+	gui_exhaust_box_button.pressed.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_EXHAUST_POOL_TITLE"), gui_exhaust_box_button.type))
 #endregion
 
 

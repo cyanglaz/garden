@@ -15,9 +15,9 @@ signal library_button_evoked()
 @onready var _gui_library_button: GUILibraryButton = %GUILibraryButton
 
 func _ready() -> void:
-	_gui_settings_button.action_evoked.connect(func() -> void: setting_button_evoked.emit())
-	gui_full_deck_button.action_evoked.connect(func() -> void: full_deck_button_evoked.emit())
-	_gui_library_button.action_evoked.connect(func() -> void: library_button_evoked.emit())
+	_gui_settings_button.pressed.connect(func() -> void: setting_button_evoked.emit())
+	gui_full_deck_button.pressed.connect(func() -> void: full_deck_button_evoked.emit())
+	_gui_library_button.pressed.connect(func() -> void: library_button_evoked.emit())
 
 func update_gold(gold:int, animated:bool) -> void:
 	await _gui_gold.update_gold(gold, GUIGold.AnimationType.FULL if animated else GUIGold.AnimationType.NONE)

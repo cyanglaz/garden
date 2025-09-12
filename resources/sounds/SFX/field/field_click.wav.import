@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://b00jsu3na1sj0"
-path="res://.godot/imported/plant_card_move_1.wav-e486bae9f1d3fc246b40f42f06310f8f.sample"
+path="res://.godot/imported/field_click.wav-158274fc16fa449e85103b58d4e253d1.sample"
 
 [deps]
 
-source_file="res://resources/sounds/SFX/plants/plant_card_move_1.wav"
-dest_files=["res://.godot/imported/plant_card_move_1.wav-e486bae9f1d3fc246b40f42f06310f8f.sample"]
+source_file="res://resources/sounds/SFX/field/field_click.wav"
+dest_files=["res://.godot/imported/field_click.wav-158274fc16fa449e85103b58d4e253d1.sample"]
 
 [params]
 

@@ -18,7 +18,7 @@ func update_with_levels(levels:Array) -> void:
 	var index := 0
 	for level_data:LevelData in levels:
 		var gui_level_button: GUILevelButton = LEVEL_BUTTON_SCENE.instantiate()
-		gui_level_button.action_evoked.connect(_on_level_button_action_evoked.bind(level_data, index))
+		gui_level_button.pressed.connect(_on_level_button_pressed.bind(level_data, index))
 		add_child(gui_level_button)
 		gui_level_button.update_with_level_data(level_data)
 		index += 1
@@ -28,7 +28,7 @@ func set_current_index(index:int) -> void:
 	var gui_level_button: GUILevelButton = get_child(index)
 	gui_level_button.icon_state = GUILevelButton.IconState.CURRENT
 
-func _on_level_button_action_evoked(level_data:LevelData, index:int) -> void:
+func _on_level_button_pressed(level_data:LevelData, index:int) -> void:
 	if _weak_level_tooltip.get_ref():
 		_weak_level_tooltip.get_ref().queue_free()
 		_weak_level_tooltip = weakref(null)
