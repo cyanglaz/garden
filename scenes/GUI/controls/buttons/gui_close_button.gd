@@ -1,7 +1,8 @@
 class_name GUICloseButton
 extends GUIBasicButton
 
-const CLICK_SOUND := preload("res://resources/sounds/GUI/close_button.wav")
+const CLICK_SOUND := preload("res://resources/sounds/GUI/close_button_click.wav")
+const HOVER_SOUND := preload("res://resources/sounds/GUI/close_button_hover.wav")
 
 @onready var _texture_rect: TextureRect = %TextureRect
 
@@ -22,7 +23,7 @@ func _set_button_state(val:ButtonState) -> void:
 			_texture_rect.texture.region.position = Vector2(9, 9)		
 
 func _get_hover_sound() -> AudioStream:
-	return null
+	return HOVER_SOUND
 
 func _get_click_sound() -> AudioStream:
 	return CLICK_SOUND

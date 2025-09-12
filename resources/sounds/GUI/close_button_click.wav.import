@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://ckebp7c0x1kgd"
-path="res://.godot/imported/close_button.wav-bf3952c9ed2922f6c45c3b4cc64c342f.sample"
+path="res://.godot/imported/close_button_click.wav-68ee9dd621622df8c34db62a9a5f1b9e.sample"
 
 [deps]
 
-source_file="res://resources/sounds/GUI/close_button.wav"
-dest_files=["res://.godot/imported/close_button.wav-bf3952c9ed2922f6c45c3b4cc64c342f.sample"]
+source_file="res://resources/sounds/GUI/close_button_click.wav"
+dest_files=["res://.godot/imported/close_button_click.wav-68ee9dd621622df8c34db62a9a5f1b9e.sample"]
 
 [params]
 

@@ -26,9 +26,11 @@ func _physics_process(delta: float) -> void:
 		if gui_close_button.button_state == GUIBasicButton.ButtonState.DISABLED:
 			gui_close_button.button_state = GUIBasicButton.ButtonState.NORMAL
 		if gui_close_button.get_global_rect().has_point(get_global_mouse_position()):
-			if gui_close_button.button_state != GUIBasicButton.ButtonState.HOVERED:
-				gui_close_button.button_state = GUIBasicButton.ButtonState.HOVERED
+			if !gui_close_button.mouse_in:
+				gui_close_button._on_mouse_entered()
 		else:
+			if gui_close_button.mouse_in:
+				gui_close_button._on_mouse_exited()
 			gui_close_button.button_state = GUIBasicButton.ButtonState.NORMAL
 	else:
 		if gui_close_button.button_state != GUIBasicButton.ButtonState.DISABLED:
