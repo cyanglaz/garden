@@ -35,7 +35,6 @@ var mouse_in:bool
 var _holding_start := false
 var _hold_time_count := 0.0
 var _weak_tooltip:WeakRef = weakref(null)
-var _pressing := false
 
 func _ready() -> void:
 	add_child(_sound_hover, false, Node.INTERNAL_MODE_BACK)
@@ -64,10 +63,8 @@ func _on_gui_input(input_event:InputEvent) -> void:
 		return
 	if input_event.is_action("select"):
 		if input_event.is_pressed():
-			button_state = ButtonState.PRESSED
 			_press_down()
 		else:
-			button_state = ButtonState.NORMAL
 			_press_up()
 
 func _input(input_event:InputEvent) -> void:
@@ -130,15 +127,12 @@ func _on_mouse_exited():
 	button_state = ButtonState.NORMAL
 	
 func _press_down():
-	if _pressing:
-		return
-	_pressing = true
+	button_state = ButtonState.PRESSED
 
 func _press_up():
-	assert(_pressing, "Button is not pressing")
+	button_state = ButtonState.NORMAL
 	_play_click_sound()
 	pressed.emit()
-	_pressing = false
 
 func _play_click_sound() -> void:
 	var stream := _get_click_sound()

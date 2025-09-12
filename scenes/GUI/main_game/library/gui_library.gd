@@ -66,28 +66,28 @@ func update_with_data(data:Resource, index_level:int) -> void:
 func _update_with_plant_data(plant_data:PlantData, level_index:int) -> void:
 	var item:GUILibraryItem = LIBRARY_SCENE.instantiate()
 	_tooltip_container.add_child(item)
-	item.update_with_plant_data(plant_data)
+	item.update_with_plant_data(plant_data, level_index)
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	item.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
 
 func _update_with_tool_data(tool_data:ToolData, level_index:int) -> void:
 	var item:GUILibraryItem = LIBRARY_SCENE.instantiate()
 	_tooltip_container.add_child(item)
-	item.update_with_tool_data(tool_data)
+	item.update_with_tool_data(tool_data, level_index)
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	item.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
 
 func _update_with_level_data(level_data:LevelData, level_index:int) -> void:
 	var item:GUILibraryItem = LIBRARY_SCENE.instantiate()
 	_tooltip_container.add_child(item)
-	item.update_with_level_data(level_data)
+	item.update_with_level_data(level_data, level_index)
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	item.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
 
 func _update_with_field_status_data(field_status_data:FieldStatusData, level_index:int) -> void:
 	var item:GUILibraryItem = LIBRARY_SCENE.instantiate()
 	_tooltip_container.add_child(item)
-	item.update_with_field_status_data(field_status_data)
+	item.update_with_field_status_data(field_status_data, level_index)
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	item.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
 

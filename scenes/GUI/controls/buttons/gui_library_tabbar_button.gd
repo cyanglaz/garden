@@ -17,12 +17,18 @@ var _weak_data:WeakRef = weakref(null)
 
 func _ready() -> void:
 	super._ready()
+	gui_close_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	gui_close_button.pressed.connect(func() -> void: close_button_evoked.emit())
 	
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	if get_global_rect().has_point(get_global_mouse_position()) || button_state == ButtonState.SELECTED:
 		if gui_close_button.button_state == GUIBasicButton.ButtonState.DISABLED:
+			gui_close_button.button_state = GUIBasicButton.ButtonState.NORMAL
+		if gui_close_button.get_global_rect().has_point(get_global_mouse_position()):
+			if gui_close_button.button_state != GUIBasicButton.ButtonState.HOVERED:
+				gui_close_button.button_state = GUIBasicButton.ButtonState.HOVERED
+		else:
 			gui_close_button.button_state = GUIBasicButton.ButtonState.NORMAL
 	else:
 		if gui_close_button.button_state != GUIBasicButton.ButtonState.DISABLED:
@@ -33,6 +39,18 @@ func update_with_data(data:ThingData) -> void:
 	label.text = data.display_name
 	var icon_path:String = _get_reference_button_icon_path(data)
 	texture_rect.texture = load(icon_path)
+
+func _press_up() -> void:
+	if gui_close_button.get_global_rect().has_point(get_global_mouse_position()):
+		gui_close_button._press_up()
+	else:
+		super._press_up()
+	
+func _press_down() -> void:
+	if gui_close_button.get_global_rect().has_point(get_global_mouse_position()):
+		gui_close_button._press_down()
+	else:
+		super._press_down()
 
 func _set_button_state(val:ButtonState) -> void:
 	super._set_button_state(val)
