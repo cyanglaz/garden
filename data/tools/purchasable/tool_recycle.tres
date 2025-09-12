@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=3 format=3 uid="uid://chcuewyamvaie"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_dyj2c"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_5u1sb"]
+
+[resource]
+script = ExtResource("2_5u1sb")
+energy_cost = 2
+actions = Array[ExtResource("1_dyj2c")]([])
+rarity = 2
+specials = Array[int]([])
+need_select_field = false
+id = "recycle"
+display_name = "Recycle"
+description = "When a drizzle is used, create a {card:recycled_water} in hand."
+data = {}
+note = ""
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"
