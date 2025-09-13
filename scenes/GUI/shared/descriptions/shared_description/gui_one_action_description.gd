@@ -52,7 +52,7 @@ func _get_action_description(action_data:ActionData) -> String:
 	match action_data.type:
 		ActionData.ActionType.LIGHT, ActionData.ActionType.WATER:
 			action_description = _get_field_action_description(action_data)
-		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.WATER_RECYCLER, ActionData.ActionType.GREENHOUSE:
+		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
 			action_description = _get_field_status_description(action_data)
 			action_description += "\n"
 			action_description += _get_field_action_description(action_data)
@@ -74,23 +74,8 @@ func _get_action_description(action_data:ActionData) -> String:
 func _get_field_action_description(action_data:ActionData) -> String:
 	var increase_description := Util.get_localized_string("ACTION_DESCRIPTION_INCREASE")
 	var decrease_description := Util.get_localized_string("ACTION_DESCRIPTION_DECREASE")
-	var action_name := ""
+	var action_name := Util.get_action_name_from_action_type(action_data.type)
 	var increase := action_data.value > 0 || action_data.value_type != ActionData.ValueType.NUMBER
-	match action_data.type:
-		ActionData.ActionType.LIGHT:
-			action_name = Util.get_localized_string("RESOURCE_NAME_LIGHT")
-		ActionData.ActionType.WATER:
-			action_name = Util.get_localized_string("RESOURCE_NAME_WATER")
-		ActionData.ActionType.PEST:
-			action_name = Util.get_localized_string("RESOURCE_NAME_PEST")
-		ActionData.ActionType.FUNGUS:
-			action_name = Util.get_localized_string("RESOURCE_NAME_FUNGUS")
-		ActionData.ActionType.WATER_RECYCLER:
-			action_name = Util.get_localized_string("RESOURCE_NAME_WATER_RECYCLER")
-		ActionData.ActionType.GREENHOUSE:
-			action_name = Util.get_localized_string("RESOURCE_NAME_GREENHOUSE")
-		_:
-			assert(false, "Invalid action type: %s" % action_data.type)
 	action_name = Util.convert_to_bbc_highlight_text(action_name, HIGHLIGHT_COLOR)
 	var main_description := ""
 	if increase:

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://o4ktxl1i0qwm"
-path="res://.godot/imported/icon_water_recycler.png-2a92c6426d265ebb0b2f88408f831b9d.ctex"
+uid="uid://c3bfsnlnu27qi"
+path="res://.godot/imported/icon_seep.png-feeb62d7ba99ef54e04ea53d2f777a17.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/GUI/icons/resources/icon_water_recycler.png"
-dest_files=["res://.godot/imported/icon_water_recycler.png-2a92c6426d265ebb0b2f88408f831b9d.ctex"]
+source_file="res://resources/sprites/GUI/icons/resources/icon_seep.png"
+dest_files=["res://.godot/imported/icon_seep.png-feeb62d7ba99ef54e04ea53d2f777a17.ctex"]
 
 [params]
 

@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="FieldStatusData" load_steps=2 format=3 uid="uid://1xsghbqaxw4s"]
 
-[ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/field_status_data.gd" id="1_khy8q"]
+[ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/field_status_data.gd" id="1_8syvd"]
 
 [resource]
-script = ExtResource("1_khy8q")
+script = ExtResource("1_8syvd")
 type = 1
 popup_message = "Water Recycled"
 stackable = true
@@ -11,9 +11,9 @@ single_turn = true
 reduce_stack_on_turn_end = false
 reduce_stack_on_trigger = false
 remove_on_trigger = true
-id = "water_recycler"
-display_name = "Water Recycler"
-description = "When add {resource:water}, shuffle a {card:recycled_water} to your hand for each stack. Removed after trigger."
+id = "recycle"
+display_name = "Recycle"
+description = "When add {resource:water}, shuffle a {card:recycled_water} to your hand for each stack. "
 data = {}
 note = ""
 metadata/_custom_type_script = "uid://ep5ey6gqhty1"

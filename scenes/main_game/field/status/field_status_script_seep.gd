@@ -1,4 +1,4 @@
-class_name FieldStatusScriptDewCollector
+class_name FieldStatusScriptSeep
 extends FieldStatusScript
 
 func _has_tool_discard_hook(_count:int, plant:Plant) -> bool:

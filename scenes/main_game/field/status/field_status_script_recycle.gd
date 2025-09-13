@@ -1,4 +1,4 @@
-class_name FieldStatusScriptWaterRecycler
+class_name FieldStatusScriptRecycle
 extends FieldStatusScript
 
 func _has_add_water_hook(plant:Plant) -> bool:

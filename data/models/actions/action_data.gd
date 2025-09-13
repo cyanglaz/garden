@@ -11,8 +11,9 @@ enum ActionType {
 	WEATHER_RAINY,
 	DRAW_CARD,
 	DISCARD_CARD,
-	WATER_RECYCLER,
+	RECYCLE,
 	GREENHOUSE,
+	SEEP,
 }
 
 enum ActionCategory {
@@ -33,7 +34,7 @@ enum Special {
 }
 
 const CARD_ACTION_TYPES := [ActionType.DRAW_CARD, ActionType.DISCARD_CARD]
-const FIELD_ACTION_TYPES := [ActionType.LIGHT, ActionType.WATER, ActionType.PEST, ActionType.FUNGUS, ActionType.WATER_RECYCLER, ActionType.GREENHOUSE]
+const FIELD_ACTION_TYPES := [ActionType.LIGHT, ActionType.WATER, ActionType.PEST, ActionType.FUNGUS, ActionType.RECYCLE, ActionType.GREENHOUSE, ActionType.SEEP]
 const WEATHER_ACTION_TYPES := [ActionType.WEATHER_SUNNY, ActionType.WEATHER_RAINY]
 
 @export var type:ActionType

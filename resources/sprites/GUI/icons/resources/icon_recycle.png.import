@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3bfsnlnu27qi"
-path="res://.godot/imported/icon_dew_collector.png-5c38ccbc94a9712c308ce9d21eea0c95.ctex"
+uid="uid://o4ktxl1i0qwm"
+path="res://.godot/imported/icon_recycle.png-05b839649a66989050c074de333bfb69.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/GUI/icons/resources/icon_dew_collector.png"
-dest_files=["res://.godot/imported/icon_dew_collector.png-5c38ccbc94a9712c308ce9d21eea0c95.ctex"]
+source_file="res://resources/sprites/GUI/icons/resources/icon_recycle.png"
+dest_files=["res://.godot/imported/icon_recycle.png-05b839649a66989050c074de333bfb69.ctex"]
 
 [params]
 

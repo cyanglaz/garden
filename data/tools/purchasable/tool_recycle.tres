@@ -27,5 +27,5 @@ id = "recycle"
 display_name = "Recycle"
 description = ""
 data = {}
-note = "+ 3 water recycler"
+note = "+ 3 water recycle"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"
