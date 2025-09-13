@@ -233,18 +233,19 @@ func _animate_add_card_to_hand(animation_item:AnimationQueueItem) -> void:
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
 	var delay_index = 0
+	var exiting_card_count := hand.size() - new_tool_datas.size()
 	for i in hand.size():
 		var display_pause_time := 0.0
 		var animating_card:GUIToolCardButton
-		if i < _tool_card_container.get_card_count():
+		if i < exiting_card_count:
 			animating_card = _tool_card_container.get_card(i)
 			assert(!new_tool_datas.has(animating_card.tool_data))
 		else:
-			animating_card = _tool_card_container.add_card(new_tool_datas[i - hand.size()])
+			animating_card = _tool_card_container.add_card(new_tool_datas[i - exiting_card_count])
 			animating_card.hide()
 			animating_card.animation_mode = true
 			animating_card.global_position = from_global_position
-			delay_index = i - hand.size() + 1
+			delay_index = i - exiting_card_count + 1
 			if pause:
 				display_pause_time = ADD_CARD_TO_PILE_PAUSE_TIME
 		animating_card.mouse_disabled = true

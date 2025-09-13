@@ -84,6 +84,7 @@ func _handle_next_harvest_gold_hook(plant:Plant) -> void:
 	var status_data := field_status_map[status_id]
 	await _send_hook_animation_signals(status_data)
 	await status_data.status_script.handle_harvest_gold_hook(plant)
+	_handle_status_on_trigger(status_data)
 	_current_harvest_gold_hook_index += 1
 	await _handle_next_harvest_gold_hook(plant)
 
@@ -102,6 +103,7 @@ func _handle_next_tool_application_hook(plant:Plant) -> void:
 	var status_data := field_status_map[status_id]
 	await _send_hook_animation_signals(status_data)
 	await status_data.status_script.handle_tool_application_hook(plant)
+	_handle_status_on_trigger(status_data)
 	_current_tool_application_hook_index += 1
 	await _handle_next_tool_application_hook(plant)
 
@@ -120,6 +122,7 @@ func _handle_next_tool_discard_hook(plant:Plant, count:int) -> void:
 	var status_data := field_status_map[status_id]
 	await _send_hook_animation_signals(status_data)
 	await status_data.status_script.handle_tool_discard_hook(plant, count)
+	_handle_status_on_trigger(status_data)
 	_current_tool_discard_hook_index += 1
 	await _handle_next_tool_discard_hook(plant, count)
 
@@ -138,6 +141,7 @@ func _handle_next_end_day_hook(main_game:MainGame, plant:Plant) -> void:
 	var status_data := field_status_map[status_id]
 	await _send_hook_animation_signals(status_data)
 	await status_data.status_script.handle_end_day_hook(main_game, plant)
+	_handle_status_on_trigger(status_data)
 	_current_end_day_hook_index += 1
 	await _handle_next_end_day_hook(main_game, plant)
 
@@ -156,6 +160,7 @@ func _handle_next_add_water_hook(plant:Plant) -> void:
 	var status_data := field_status_map[status_id]
 	await _send_hook_animation_signals(status_data)
 	await status_data.status_script.handle_add_water_hook(plant)
+	_handle_status_on_trigger(status_data)
 	_current_add_water_hook_index += 1
 	await _handle_next_add_water_hook(plant)
 
@@ -163,11 +168,12 @@ func _send_hook_animation_signals(status_data:FieldStatusData) -> void:
 	request_status_hook_animation.emit(status_data.id)
 	request_hook_message_popup.emit(status_data)
 	await Util.create_scaled_timer(Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION).timeout
-	_handle_status_on_trigger(status_data)
 
 func _handle_status_on_trigger(status_data:FieldStatusData) -> void:
 	if status_data.reduce_stack_on_trigger:
 		status_data.stack -= 1
-		if status_data.stack <= 0:
-			field_status_map.erase(status_data.id)
+	if status_data.remove_on_trigger:
+		status_data.stack = 0
+	if status_data.stack <= 0:
+		field_status_map.erase(status_data.id)
 	status_updated.emit()
