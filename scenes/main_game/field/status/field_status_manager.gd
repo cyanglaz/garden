@@ -17,6 +17,8 @@ var _tool_discard_hook_queue:Array[String] = []
 var _current_tool_discard_hook_index:int = 0
 var _end_day_hook_queue:Array[String] = []
 var _current_end_day_hook_index:int = 0
+var _add_water_hook_queue:Array[String] = []
+var _current_add_water_hook_index:int = 0
 
 func handle_status_on_turn_end() -> void:
 	for status_id in field_status_map.keys():
@@ -138,6 +140,24 @@ func _handle_next_end_day_hook(main_game:MainGame, plant:Plant) -> void:
 	await status_data.status_script.handle_end_day_hook(main_game, plant)
 	_current_end_day_hook_index += 1
 	await _handle_next_end_day_hook(main_game, plant)
+
+func handle_add_water_hook(plant:Plant) -> void:
+	var all_status_ids := field_status_map.keys()
+	_add_water_hook_queue = all_status_ids.filter(func(status_id:String) -> bool:
+		return field_status_map[status_id].status_script.has_add_water_hook(plant)
+	)
+	_current_add_water_hook_index = 0
+	await _handle_next_add_water_hook(plant)
+
+func _handle_next_add_water_hook(plant:Plant) -> void:
+	if _current_add_water_hook_index >= _add_water_hook_queue.size():
+		return
+	var status_id:String = _add_water_hook_queue[_current_add_water_hook_index]
+	var status_data := field_status_map[status_id]
+	await _send_hook_animation_signals(status_data)
+	await status_data.status_script.handle_add_water_hook(plant)
+	_current_add_water_hook_index += 1
+	await _handle_next_add_water_hook(plant)
 
 func _send_hook_animation_signals(status_data:FieldStatusData) -> void:
 	request_status_hook_animation.emit(status_data.id)

@@ -183,6 +183,7 @@ func _apply_water_action(action:ActionData) -> void:
 	await _show_popup_action_indicator(action, true_value)
 	if plant:
 		plant.water.value += true_value
+		await status_manager.handle_add_water_hook(plant)
 
 func _apply_field_status_action(action:ActionData) -> void:
 	var resource_id := Util.get_action_id_with_action_type(action.type)
