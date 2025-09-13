@@ -170,6 +170,4 @@ func _handle_status_on_trigger(status_data:FieldStatusData) -> void:
 		status_data.stack -= 1
 		if status_data.stack <= 0:
 			field_status_map.erase(status_data.id)
-		if status_data.single_turn:
-			field_status_map.erase(status_data.id)
 	status_updated.emit()
