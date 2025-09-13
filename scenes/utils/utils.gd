@@ -348,6 +348,8 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "pest"
 		ActionData.ActionType.FUNGUS:
 			id = "fungus"
+		ActionData.ActionType.WATER_RECYCLER:
+			id = "water_recycler"
 		ActionData.ActionType.DRAW_CARD:
 			id = "draw_card"
 		ActionData.ActionType.DISCARD_CARD:
@@ -370,6 +372,8 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 			return ActionData.ActionType.PEST
 		"fungus":
 			return ActionData.ActionType.FUNGUS
+		"water_recycler":
+			return ActionData.ActionType.WATER_RECYCLER
 		"sunny":
 			return ActionData.ActionType.WEATHER_SUNNY
 		"rainy":
@@ -402,6 +406,8 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 			action_name = Util.get_localized_string("ACTION_NAME_DRAW_CARD")
 		ActionData.ActionType.DISCARD_CARD:
 			action_name = Util.get_localized_string("ACTION_NAME_DISCARD_CARD")
+		ActionData.ActionType.WATER_RECYCLER:
+			action_name = Util.get_localized_string("ACTION_NAME_WATER_RECYCLER")
 		ActionData.ActionType.NONE:
 			pass
 	return action_name

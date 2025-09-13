@@ -163,7 +163,9 @@ mouse_filter = 2
 [node name="Background" type="NinePatchRect" parent="CardContainer"]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_ckxcp")
+custom_minimum_size = Vector2(38, 52)
 layout_mode = 2
+size_flags_vertical = 0
 texture = ExtResource("2_a7c0j")
 region_rect = Rect2(0, 0, 38, 52)
 patch_margin_left = 3
@@ -203,6 +205,7 @@ theme_override_constants/margin_bottom = 3
 [node name="FreeContainer" type="VBoxContainer" parent="CardContainer/CardContent/MarginContainer"]
 layout_mode = 2
 mouse_filter = 2
+theme_override_constants/separation = 1
 
 [node name="CostIcon" type="TextureRect" parent="CardContainer/CardContent/MarginContainer/FreeContainer"]
 unique_name_in_owner = true

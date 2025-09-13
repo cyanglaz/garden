@@ -112,6 +112,8 @@ func apply_actions(actions:Array[ActionData]) -> void:
 				await _apply_field_status_action(action)
 			ActionData.ActionType.FUNGUS:
 				await _apply_field_status_action(action)
+			ActionData.ActionType.WATER_RECYCLER:
+				await _apply_field_status_action(action)
 			_:
 				pass
 	action_application_completed.emit()

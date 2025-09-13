@@ -70,6 +70,10 @@ func _get_action_description(action_data:ActionData) -> String:
 			action_description = _get_draw_card_action_description(action_data)
 		ActionData.ActionType.DISCARD_CARD:
 			action_description = _get_discard_card_action_description(action_data)
+		ActionData.ActionType.WATER_RECYCLER:
+			action_description = _get_field_status_description(action_data)
+			action_description += "\n"
+			action_description += _get_field_action_description(action_data)
 		ActionData.ActionType.NONE:
 			pass
 	if action_description.contains("%s"):
@@ -93,6 +97,8 @@ func _get_field_action_description(action_data:ActionData) -> String:
 			action_name = Util.get_localized_string("RESOURCE_NAME_PEST")
 		ActionData.ActionType.FUNGUS:
 			action_name = Util.get_localized_string("RESOURCE_NAME_FUNGUS")
+		ActionData.ActionType.WATER_RECYCLER:
+			action_name = Util.get_localized_string("RESOURCE_NAME_WATER_RECYCLER")
 		_:
 			assert(false, "Invalid action type: %s" % action_data.type)
 	action_name = Util.convert_to_bbc_highlight_text(action_name, HIGHLIGHT_COLOR)
