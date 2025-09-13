@@ -11,4 +11,4 @@ func _handle_add_water_hook(plant:Plant) -> void:
 	var cards:Array[ToolData] = []
 	for i in number_of_cards:
 		cards.append(tool_data.get_duplicate())
-	await Singletons.main_game.tool_manager.add_temp_tools_to_draw_pile(cards, from_position, true, true)
+	await Singletons.main_game.tool_manager.add_temp_tools_to_hand(cards, from_position, true)

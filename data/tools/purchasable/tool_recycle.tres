@@ -6,7 +6,7 @@
 [sub_resource type="Resource" id="Resource_dyj2c"]
 script = ExtResource("1_dyj2c")
 type = 9
-value = 1
+value = 3
 value_type = 0
 specials = Array[int]([])
 id = ""
@@ -27,5 +27,5 @@ id = "recycle"
 display_name = "Recycle"
 description = ""
 data = {}
-note = "+ 1 water recycler"
+note = "+ 3 water recycler"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

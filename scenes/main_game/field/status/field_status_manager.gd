@@ -163,3 +163,13 @@ func _send_hook_animation_signals(status_data:FieldStatusData) -> void:
 	request_status_hook_animation.emit(status_data.id)
 	request_hook_message_popup.emit(status_data)
 	await Util.create_scaled_timer(Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION).timeout
+	_handle_status_on_trigger(status_data)
+
+func _handle_status_on_trigger(status_data:FieldStatusData) -> void:
+	if status_data.reduce_stack_on_trigger:
+		status_data.stack -= 1
+		if status_data.stack <= 0:
+			field_status_map.erase(status_data.id)
+		if status_data.single_turn:
+			field_status_map.erase(status_data.id)
+	status_updated.emit()

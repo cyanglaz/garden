@@ -9,6 +9,7 @@ popup_message = "Water Recycled"
 stackable = true
 single_turn = true
 reduce_stack_on_turn_end = false
+reduce_stack_on_trigger = true
 id = "water_recycler"
 display_name = "Water Recycler"
 description = "When add {resource:water}, shuffle a {card:recycled_water} to your hand."

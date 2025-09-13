@@ -120,8 +120,6 @@ func add_temp_items_to_draw_pile(items:Array, random_place:bool = true) -> void:
 func add_temp_items_to_hand(items:Array) -> void:
 	pool.append_array(items)
 	hand.append_array(items)
-	for item in items:
-		hand.append(item)
 	temp_items.append_array(items)
 	pool_updated.emit(pool)
 
