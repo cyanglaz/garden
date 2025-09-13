@@ -50,30 +50,18 @@ func _get_action_name(action_data:ActionData) -> String:
 func _get_action_description(action_data:ActionData) -> String:
 	var action_description := ""
 	match action_data.type:
-		ActionData.ActionType.LIGHT:
+		ActionData.ActionType.LIGHT, ActionData.ActionType.WATER:
 			action_description = _get_field_action_description(action_data)
-		ActionData.ActionType.WATER:
-			action_description = _get_field_action_description(action_data)
-		ActionData.ActionType.PEST:
+		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.WATER_RECYCLER, ActionData.ActionType.GREENHOUSE:
 			action_description = _get_field_status_description(action_data)
 			action_description += "\n"
 			action_description += _get_field_action_description(action_data)
-		ActionData.ActionType.FUNGUS:
-			action_description = _get_field_status_description(action_data)
-			action_description += "\n"
-			action_description += _get_field_action_description(action_data)
-		ActionData.ActionType.WEATHER_SUNNY:
-			action_description = _get_weather_action_description(action_data)
-		ActionData.ActionType.WEATHER_RAINY:
+		ActionData.ActionType.WEATHER_SUNNY, ActionData.ActionType.WEATHER_RAINY:
 			action_description = _get_weather_action_description(action_data)
 		ActionData.ActionType.DRAW_CARD:
 			action_description = _get_draw_card_action_description(action_data)
 		ActionData.ActionType.DISCARD_CARD:
 			action_description = _get_discard_card_action_description(action_data)
-		ActionData.ActionType.WATER_RECYCLER:
-			action_description = _get_field_status_description(action_data)
-			action_description += "\n"
-			action_description += _get_field_action_description(action_data)
 		ActionData.ActionType.NONE:
 			pass
 	if action_description.contains("%s"):
@@ -99,6 +87,8 @@ func _get_field_action_description(action_data:ActionData) -> String:
 			action_name = Util.get_localized_string("RESOURCE_NAME_FUNGUS")
 		ActionData.ActionType.WATER_RECYCLER:
 			action_name = Util.get_localized_string("RESOURCE_NAME_WATER_RECYCLER")
+		ActionData.ActionType.GREENHOUSE:
+			action_name = Util.get_localized_string("RESOURCE_NAME_GREENHOUSE")
 		_:
 			assert(false, "Invalid action type: %s" % action_data.type)
 	action_name = Util.convert_to_bbc_highlight_text(action_name, HIGHLIGHT_COLOR)

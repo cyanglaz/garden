@@ -108,11 +108,7 @@ func apply_actions(actions:Array[ActionData]) -> void:
 				await _apply_light_action(action)
 			ActionData.ActionType.WATER:
 				await _apply_water_action(action)
-			ActionData.ActionType.PEST:
-				await _apply_field_status_action(action)
-			ActionData.ActionType.FUNGUS:
-				await _apply_field_status_action(action)
-			ActionData.ActionType.WATER_RECYCLER:
+			ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.WATER_RECYCLER, ActionData.ActionType.GREENHOUSE:
 				await _apply_field_status_action(action)
 			_:
 				pass
