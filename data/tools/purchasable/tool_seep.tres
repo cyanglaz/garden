@@ -25,7 +25,7 @@ specials = Array[int]([])
 need_select_field = true
 id = "seep"
 display_name = "Seep"
-description = ""
+description = "+1 seep"
 data = {
 &"day": "2",
 &"water": "1"
