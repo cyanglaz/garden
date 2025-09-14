@@ -54,10 +54,10 @@ func _ready() -> void:
 
 func update_with_tool_data(td:ToolData) -> void:
 	_weak_tool_data = weakref(td)
-	if tool_data.actions.is_empty():
-		_rich_text_label.text = tool_data.get_display_description()
-	else:
+	if !tool_data.actions.is_empty():
 		_gui_action_list.update(tool_data.actions)
+	if !tool_data.get_display_description().is_empty():
+		_rich_text_label.text = tool_data.get_display_description()
 	if tool_data.energy_cost >= 0:
 		_cost_icon.texture = load(VALUE_ICON_PREFIX + str(tool_data.energy_cost) + ".png")
 	else:

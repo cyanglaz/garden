@@ -5,7 +5,7 @@ func _has_add_water_hook(plant:Plant) -> bool:
 	return plant != null
 
 func _handle_add_water_hook(plant:Plant) -> void:
-	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id("recycled_water").get_duplicate()
+	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id("graywater").get_duplicate()
 	var from_position:Vector2 = Util.get_node_ui_position(Singletons.main_game.gui_main_game.gui_tool_card_container, plant) - GUIToolCardButton.SIZE / 2
 	var number_of_cards := status_data.stack
 	var cards:Array[ToolData] = []

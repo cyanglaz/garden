@@ -25,10 +25,10 @@ specials = Array[int]([])
 need_select_field = true
 id = "seep"
 display_name = "Seep"
-description = "+1 seep"
+description = ""
 data = {
 &"day": "2",
 &"water": "1"
 }
-note = ""
+note = "+1 seep"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"
