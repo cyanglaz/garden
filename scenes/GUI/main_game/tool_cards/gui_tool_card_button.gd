@@ -2,7 +2,6 @@ class_name GUIToolCardButton
 extends GUIBasicButton
 
 signal _dissolve_finished()
-signal exhaust_sound_finished()
 
 enum CardState {
 	NORMAL,
@@ -12,6 +11,7 @@ enum CardState {
 
 const SPECIAL_ICON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_special_icon.tscn")
 const VALUE_ICON_PREFIX := "res://resources/sprites/GUI/icons/cards/values/icon_"
+const EXHAUST_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_exhaust.wav")
 
 const SIZE := Vector2(38, 52)
 const SELECTED_OFFSET := 6.0
@@ -30,7 +30,6 @@ const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_s
 @onready var _cost_icon: TextureRect = %CostIcon
 @onready var _rich_text_label: RichTextLabel = %RichTextLabel
 @onready var _use_sound: AudioStreamPlayer2D = %UseSound
-@onready var _exhaust_sound: AudioStreamPlayer2D = %ExhaustSound
 @onready var _animation_player: AnimationPlayer = %AnimationPlayer
 
 var mouse_disabled:bool = false: set = _set_mouse_disabled
@@ -87,12 +86,8 @@ func play_use_sound() -> void:
 
 func play_exhaust_animation() -> void:
 	_animation_player.play("dissolve")
+	GlobalSoundManager.play_sound(EXHAUST_SOUND)
 	await _dissolve_finished
-
-func play_exhaust_sound() -> void:
-	_exhaust_sound.play()
-	await _exhaust_sound.finished
-	exhaust_sound_finished.emit()
 
 func _update_for_energy(energy:int) -> void:
 	if !tool_data:
