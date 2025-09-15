@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://db4bfum4ni377"
-path="res://.godot/imported/icon_disabled.png-93bab0b4355ec7bd0d5bdfbe9eb9655e.ctex"
+uid="uid://e46w5fk47wgn"
+path="res://.godot/imported/icon_water_recycler.png-2a92c6426d265ebb0b2f88408f831b9d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/icons/space_effects/icon_disabled.png"
-dest_files=["res://.godot/imported/icon_disabled.png-93bab0b4355ec7bd0d5bdfbe9eb9655e.ctex"]
+source_file="res://resources/sprites/GUI/icons/resources/icon_water_recycler.png"
+dest_files=["res://.godot/imported/icon_water_recycler.png-2a92c6426d265ebb0b2f88408f831b9d.ctex"]
 
 [params]
 

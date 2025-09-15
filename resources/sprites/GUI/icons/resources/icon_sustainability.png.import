@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ddxhes73rp5d2"
-path="res://.godot/imported/icon_short_cut_1.png-2be95ab2618bbbc176466fdb99452b8a.ctex"
+uid="uid://bghb321t2ovdq"
+path="res://.godot/imported/icon_sustainability.png-3c92c06e126dca1e010063c773228366.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/icons/shortcuts/icon_short_cut_1.png"
-dest_files=["res://.godot/imported/icon_short_cut_1.png-2be95ab2618bbbc176466fdb99452b8a.ctex"]
+source_file="res://resources/sprites/GUI/icons/resources/icon_sustainability.png"
+dest_files=["res://.godot/imported/icon_sustainability.png-3c92c06e126dca1e010063c773228366.ctex"]
 
 [params]
 
