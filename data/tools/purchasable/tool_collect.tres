@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("2_61bw8")
-energy_cost = 1
+energy_cost = 0
 actions = Array[ExtResource("1_2inax")]([])
 rarity = 1
 specials = Array[int]([])

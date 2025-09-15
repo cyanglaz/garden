@@ -17,6 +17,7 @@ const GUI_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_card_tool
 const GUI_SHOW_LIBRARY_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_show_library_tooltip.tscn")
 
 const FIELD_STATUS_SCRIPT_PREFIX := "res://scenes/main_game/field/status/field_status_script_"
+const POWER_SCRIPT_PREFIX := "res://scenes/main_game/power/power_script_"
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
 const PLANT_ICON_PREFIX := "res://resources/sprites/GUI/icons/plants/icon_"
 const TOOL_ICON_PREFIX := "res://resources/sprites/GUI/icons/tool/icon_"
@@ -326,6 +327,9 @@ static func get_icon_image_path_for_weather_id(id:String) -> String:
 
 static func get_script_path_for_field_status_id(id:String) -> String:
 	return str(FIELD_STATUS_SCRIPT_PREFIX, _trim_upgrade_suffix_from_id(id), ".gd")
+
+static func get_script_path_for_power_id(id:String) -> String:
+	return str(POWER_SCRIPT_PREFIX, _trim_upgrade_suffix_from_id(id), ".gd")
 
 static func get_image_path_for_resource_id(id:String) -> String:
 	return str(RESOURCE_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
