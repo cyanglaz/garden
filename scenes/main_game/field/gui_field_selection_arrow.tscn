@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://1b050dmuhniv" path="res://resources/sprites/GUI/indicators/field_arrow.png" id="2_184wd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0h3lb"]
+resource_local_to_scene = true
 atlas = ExtResource("2_184wd")
 region = Rect2(0, 0, 16, 16)
 
@@ -12,22 +13,10 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
+tracks/0/path = NodePath("Arrow:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Line:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -41,22 +30,10 @@ loop_mode = 2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
+tracks/0/path = NodePath("Arrow:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Line:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(2.14355, 1),
 "update": 0,
@@ -70,12 +47,11 @@ _data = {
 }
 
 [node name="GUIFieldSelectionArrow" type="Control"]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_2hvy4")
 
-[node name="Line" type="TextureRect" parent="."]
+[node name="Arrow" type="TextureRect" parent="."]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 0

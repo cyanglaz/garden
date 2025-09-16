@@ -46,11 +46,11 @@ func _ready() -> void:
 	_animated_sprite_2d.play("idle")
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
-	_gui_field_selection_arrow.is_active = false
+	_gui_field_selection_arrow.indicator_state = GUIFieldSelectionArrow.IndicatorState.HIDE
 	_reset_progress_bars()
 
-func toggle_selection_indicator(on:bool) -> void:
-	_gui_field_selection_arrow.is_active = on
+func toggle_selection_indicator(indicator_state:GUIFieldSelectionArrow.IndicatorState) -> void:
+	_gui_field_selection_arrow.indicator_state = indicator_state
  
 func show_plant_preview(plant_data:PlantData) -> void:
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"

@@ -43,12 +43,6 @@ func get_duplicate() -> ToolData:
 	dup.copy(self)
 	return dup
 
-func has_action_to_all_fields() -> bool:
-	for action:ActionData in actions:
-		if action.specials.has(ActionData.Special.ALL_FIELDS):
-			return true
-	return false
-
 func _get_cost() -> int:
 	return COSTS[rarity]
 
