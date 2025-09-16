@@ -13,6 +13,8 @@ need_select_field = false
 id = "sustainability"
 display_name = "Sustainability"
 description = "{card:graywater} adds {value} more {resource:water}."
-data = {}
+data = {
+"value": "1"
+}
 note = ""
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"
