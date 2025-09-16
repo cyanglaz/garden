@@ -6,7 +6,7 @@ const GUI_ALERT_POPUP_SCENE := preload("res://scenes/GUI/containers/gui_popup_al
 const GUI_BUTTON_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_button_tooltip.tscn")
 const GUI_PLANT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn")
 const GUI_WEATHER_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_weather_tooltip.tscn")
-const GUI_FIELD_STATUS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_field_status_tooltip.tscn")
+const GUI_THING_DATA_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_thing_data_tooltip.tscn")
 const GUI_ACTIONS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_actions_tooltip.tscn")
 const GUI_WARNING_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_warning_tooltip.tscn")
 const GUI_RICH_TEXT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_rich_text_tooltip.tscn")
@@ -73,13 +73,13 @@ static func display_weather_tooltip(weather_data:WeatherData, on_control_node:Co
 	_display_tool_tip.call_deferred(weather_tooltip, on_control_node, anchor_mouse, tooltip_position)
 	return weather_tooltip
 
-static func display_field_status_tooltip(field_status_data:FieldStatusData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool) -> GUIFieldStatusTooltip:
-	var field_status_tooltip:GUIFieldStatusTooltip = GUI_FIELD_STATUS_TOOLTIP_SCENE.instantiate()
-	Singletons.main_game.add_control_to_overlay(field_status_tooltip)
-	field_status_tooltip.tooltip_position = tooltip_position
-	field_status_tooltip.update_with_field_status_data(field_status_data)
-	_display_tool_tip.call_deferred(field_status_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
-	return field_status_tooltip
+static func display_thing_data_tooltip(thing_data:ThingData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool) -> GUIThingDataTooltip:
+	var thing_data_tooltip:GUIThingDataTooltip = GUI_THING_DATA_TOOLTIP_SCENE.instantiate()
+	Singletons.main_game.add_control_to_overlay(thing_data_tooltip)
+	thing_data_tooltip.tooltip_position = tooltip_position
+	thing_data_tooltip.update_with_thing_data(thing_data)
+	_display_tool_tip.call_deferred(thing_data_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
+	return thing_data_tooltip
 
 static func display_actions_tooltip(action_datas:Array[ActionData], on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool) -> GUIActionsTooltip:
 	var actions_tooltip:GUIActionsTooltip = GUI_ACTIONS_TOOLTIP_SCENE.instantiate()
@@ -162,6 +162,8 @@ static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_m
 			y_offset = on_control_node.size.y + TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.BOTTOM_LEFT:
 			x_offset = -tooltip.size.x + on_control_node.size.x
+			y_offset = on_control_node.size.y + TOOLTIP_OFFSET
+		GUITooltip.TooltipPosition.BOTTOM_RIGHT:
 			y_offset = on_control_node.size.y + TOOLTIP_OFFSET
 	var reference_position := on_control_node.global_position
 	if world_space:

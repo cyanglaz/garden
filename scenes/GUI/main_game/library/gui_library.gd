@@ -57,8 +57,8 @@ func update_with_data(data:Resource, index_level:int) -> void:
 			_update_with_tool_data(data_to_show, i)
 		elif data_to_show is LevelData:
 			_update_with_level_data(data_to_show, i)
-		elif data_to_show is FieldStatusData:
-			_update_with_field_status_data(data_to_show, i)
+		elif data_to_show is FieldStatusData || data_to_show is PowerData:
+			_update_with_thing_data(data_to_show, i)
 	var index:int = Util.array_find(_gui_library_tabbar.datas, func(d:ThingData): return d.id == selected_id)
 	_gui_library_tabbar.select_button(index)
 
@@ -83,10 +83,10 @@ func _update_with_level_data(level_data:LevelData, level_index:int) -> void:
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	item.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
 
-func _update_with_field_status_data(field_status_data:FieldStatusData, level_index:int) -> void:
+func _update_with_thing_data(thing_data:ThingData, level_index:int) -> void:
 	var item:GUILibraryItem = LIBRARY_SCENE.instantiate()
 	_tooltip_container.add_child(item)
-	item.update_with_field_status_data(field_status_data, level_index)
+	item.update_with_thing_data(thing_data, level_index)
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	item.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
 
@@ -120,6 +120,8 @@ func _on_reference_button_evoked(reference_pair:Array, level:int) -> void:
 		data = MainDatabase.level_database.get_data_by_id(reference_pair[1])
 	elif reference_pair[0] == "field_status":
 		data = MainDatabase.field_status_database.get_data_by_id(reference_pair[1])
+	elif reference_pair[0] == "power":
+		data = MainDatabase.power_database.get_data_by_id(reference_pair[1])
 	update_with_data(data, level + 1)
 
 func _on_tooltip_button_evoked(data:Resource) -> void:

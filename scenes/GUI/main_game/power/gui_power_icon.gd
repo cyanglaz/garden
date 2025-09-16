@@ -1,6 +1,8 @@
 class_name GUIPowerIcon
 extends PanelContainer
 
+const ANIMATION_OFFSET := 3
+
 @onready var _icon: TextureRect = %Icon
 @onready var _stack: Label = %Stack
 
@@ -10,9 +12,8 @@ var _weak_tooltip:WeakRef = weakref(null)
 var _weak_power_data:WeakRef = weakref(null)
 
 func _ready() -> void:
-	pass
-	#mouse_entered.connect(_on_mouse_entered)
-	#mouse_exited.connect(_on_mouse_exited)
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
 
 func setup_with_power_data(power_data:PowerData) -> void:
 	power_id = power_data.id
@@ -24,12 +25,17 @@ func setup_with_power_data(power_data:PowerData) -> void:
 		_stack.text = ""
 
 func play_trigger_animation() -> void:
-	pass
+	var original_position:Vector2 = _icon.position
+	var tween:Tween = Util.create_scaled_tween(self)
+	for i in 2:
+		tween.tween_property(_icon, "position", _icon.position + Vector2.UP * ANIMATION_OFFSET, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(_icon, "position", original_position, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
-#func _on_mouse_entered() -> void:
-#	_weak_tooltip = weakref(Util.display_field_status_tooltip(_weak_field_status_data.get_ref(), self, false, GUITooltip.TooltipPosition.RIGHT, true))
+func _on_mouse_entered() -> void:
+	_weak_tooltip = weakref(Util.display_thing_data_tooltip(_weak_power_data.get_ref(), self, false, GUITooltip.TooltipPosition.TOP_RIGHT, true))
+	_weak_tooltip.get_ref().library_tooltip_position = GUITooltip.TooltipPosition.BOTTOM_RIGHT
 
-#func _on_mouse_exited() -> void:
-#	if _weak_tooltip:
-#		_weak_tooltip.get_ref().queue_free()
-#		_weak_tooltip = weakref(null)
+func _on_mouse_exited() -> void:
+	if _weak_tooltip.get_ref():
+		_weak_tooltip.get_ref().queue_free()
+		_weak_tooltip = weakref(null)

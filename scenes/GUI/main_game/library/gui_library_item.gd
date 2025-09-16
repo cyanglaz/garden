@@ -49,14 +49,14 @@ func update_with_level_data(level_data:LevelData, level_index:int) -> void:
 	boss_tooltip.update_with_level_data(level_data)
 	_find_reference_pairs_and_add_buttons(level_data.description)
 
-func update_with_field_status_data(field_status_data:FieldStatusData, level_index:int) -> void:
-	var field_status_tooltip:GUIFieldStatusTooltip = Util.GUI_FIELD_STATUS_TOOLTIP_SCENE.instantiate()
-	var tooltip_button:GUIBasicButton = _create_tooltip_button(field_status_tooltip, field_status_data)
+func update_with_thing_data(thing_data:ThingData, level_index:int) -> void:
+	var thing_data_tooltip:GUIThingDataTooltip = Util.GUI_THING_DATA_TOOLTIP_SCENE.instantiate()
+	var tooltip_button:GUIBasicButton = _create_tooltip_button(thing_data_tooltip, thing_data)
 	add_child(tooltip_button)
 	if level_index == 0:
 		tooltip_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	field_status_tooltip.update_with_field_status_data(field_status_data)
-	_find_reference_pairs_and_add_buttons(field_status_data.description)
+	thing_data_tooltip.update_with_thing_data(thing_data)
+	_find_reference_pairs_and_add_buttons(thing_data.description)
 
 func _create_tooltip_button(control:Control, data:Resource) -> GUIBasicButton:
 	control.mouse_filter = Control.MOUSE_FILTER_PASS

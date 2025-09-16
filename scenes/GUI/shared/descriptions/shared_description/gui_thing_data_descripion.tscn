@@ -1,12 +1,12 @@
 [gd_scene load_steps=2 format=3 uid="uid://cunawkq2qfyyh"]
 
-[ext_resource type="Script" uid="uid://dls6kv5840jkt" path="res://scenes/GUI/shared/descriptions/field_status_description/gui_field_status_description.gd" id="1_ls5yq"]
+[ext_resource type="Script" uid="uid://dls6kv5840jkt" path="res://scenes/GUI/shared/descriptions/shared_description/gui_thing_data_description.gd" id="1_8v73q"]
 
-[node name="GUIFieldStatusDescription" type="VBoxContainer"]
+[node name="GUIThingDataDescription" type="VBoxContainer"]
 offset_right = 11.0
 offset_bottom = 12.0
-theme_override_constants/separation = 0
-script = ExtResource("1_ls5yq")
+theme_override_constants/separation = 2
+script = ExtResource("1_8v73q")
 
 [node name="Title" type="HBoxContainer" parent="."]
 layout_mode = 2
