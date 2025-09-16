@@ -7,39 +7,22 @@
 script = ExtResource("1_cn5io")
 type = 3
 value = 1
-value_type = 0
 specials = Array[int]([0])
-id = ""
-display_name = ""
-description = ""
-data = {}
-note = ""
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [sub_resource type="Resource" id="Resource_oexgw"]
 script = ExtResource("1_cn5io")
 type = 1
 value = 2
-value_type = 0
 specials = Array[int]([0])
-id = ""
-display_name = ""
-description = ""
-data = {}
-note = ""
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
 script = ExtResource("2_5qo3v")
 energy_cost = 2
 actions = Array[ExtResource("1_cn5io")]([SubResource("Resource_cn5io"), SubResource("Resource_oexgw")])
-rarity = 0
-specials = Array[int]([])
-need_select_field = false
 id = "heat"
 display_name = "Heat"
-description = ""
-data = {}
 note = "+1 pest all
 +2 light all"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"
