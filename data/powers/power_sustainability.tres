@@ -6,9 +6,9 @@
 script = ExtResource("1_4l83w")
 id = "sustainability"
 display_name = "Sustainability"
-description = "{card:graywater} costs {value} energy."
+description = "{card:graywater} adds {value} more {resource:water}."
 data = {
-"value": "0"
+"value": "1"
 }
 note = ""
 metadata/_custom_type_script = "uid://chfp1x344tt3w"

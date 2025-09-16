@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("2_61bw8")
-energy_cost = 0
+energy_cost = 1
 actions = Array[ExtResource("1_2inax")]([])
 rarity = 1
 specials = Array[int]([])
@@ -16,6 +16,5 @@ description = "Set {resource:water} to 0.
 Create {card:graywater} for each {resource:water} reduced."
 data = {}
 note = "-1 water
-Shuffle
-"
+Create graywater for water reduced."
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

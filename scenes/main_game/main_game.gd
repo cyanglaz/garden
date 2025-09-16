@@ -21,6 +21,7 @@ var session_seed := 0
 var energy_tracker:ResourcePoint = ResourcePoint.new()
 var weather_manager:WeatherManager = WeatherManager.new()
 var level_manager:LevelManager = LevelManager.new()
+var power_manager:PowerManager = PowerManager.new()
 var tool_manager:ToolManager
 var plant_seed_manager:PlantSeedManager
 var max_energy := 3
@@ -76,15 +77,50 @@ func _ready() -> void:
 	
 	energy_tracker.capped = false
 	level_manager.generate_with_chapter(0)
-	start_new_level()
-	#_update_gold(50, false)
+	_start_new_level()
+	_update_gold(0, false)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("de-select"):
 		if tool_manager.selected_tool:
 			_clear_tool_selection()
 
-func start_new_level() -> void:
+#endregion
+
+#region cards
+func draw_cards(count:int) -> void:
+	var draw_results:Array = await tool_manager.draw_cards(count)
+	await power_manager.handle_card_added_to_hand_hook(draw_results)
+	await tool_manager.apply_auto_tools(self, field_container.fields, func(tool_data:ToolData): return tool_data.specials.has(ToolData.Special.USE_ON_DRAW))
+
+func discard_cards(tools:Array) -> void:
+	await tool_manager.discard_cards(tools)
+
+func add_temp_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+	await tool_manager.add_temp_tools_to_hand(tool_datas, from_global_position, pause)
+	await power_manager.handle_card_added_to_hand_hook(tool_datas)
+
+#endregion
+
+#powers
+func update_power(power_id:String, stack:int) -> void:
+	power_manager.update_power(power_id, stack)
+	await power_manager.handle_activation_hook(self)
+
+#region gui
+
+func add_control_to_overlay(control:Control) -> void:
+	gui_main_game.add_control_to_overlay(control)
+
+func clear_all_tooltips() -> void:
+	gui_main_game.clear_all_tooltips()
+
+#endregion
+
+#region private
+
+func _start_new_level() -> void:
+	power_manager.clear_powers()
 	level_manager.next_level()
 	if test_level_data:
 		level_manager.current_level = test_level_data
@@ -95,9 +131,9 @@ func start_new_level() -> void:
 	level_manager.day_manager.start_new(level_manager.current_level)
 	gui_main_game.update_with_plants(plant_seed_manager.plant_datas)
 	gui_main_game.update_levels(level_manager)
-	start_day()
+	_start_day()
 
-func start_day() -> void:
+func _start_day() -> void:
 	gui_main_game.toggle_all_ui(false)
 	energy_tracker.setup(max_energy, max_energy)
 	level_manager.next_day()
@@ -111,21 +147,6 @@ func start_day() -> void:
 		await _plant_new_seeds()
 	await draw_cards(hand_size)
 	gui_main_game.toggle_all_ui(true)
-
-func add_control_to_overlay(control:Control) -> void:
-	gui_main_game.add_control_to_overlay(control)
-
-func clear_all_tooltips() -> void:
-	gui_main_game.clear_all_tooltips()
-
-func draw_cards(count:int) -> void:
-	await tool_manager.draw_cards(count)
-	await tool_manager.apply_auto_tools(self, field_container.fields, func(tool_data:ToolData): return tool_data.specials.has(ToolData.Special.USE_ON_DRAW))
-
-func discard_cards(tools:Array) -> void:
-	await tool_manager.discard_cards(tools)
-
-#region private
 
 func _update_gold(gold:int, animated:bool) -> void:
 	_gold = gold
@@ -171,7 +192,7 @@ func _end_day() -> void:
 		else:
 			_lose()
 	else:
-		start_day()
+		_start_day()
 
 func _on_level_summary_continue_button_pressed() -> void:
 	if level_manager.is_boss_level():
@@ -288,7 +309,7 @@ func _on_weathers_updated() -> void:
 
 #region shop events
 func _on_shop_next_level_pressed() -> void:
-	start_new_level()
+	_start_new_level()
 
 func _on_tool_shop_button_pressed(tool_data:ToolData) -> void:
 	_update_gold(_gold - tool_data.cost, true)

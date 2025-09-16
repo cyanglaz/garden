@@ -1,4 +1,4 @@
-class_name ToolScriptMirrorPool
+class_name ToolScriptCollect
 extends ToolScript
 
 func apply_tool(_main_game:MainGame, fields:Array, field_index:int, _tool_data:ToolData) -> void:
@@ -15,4 +15,4 @@ func apply_tool(_main_game:MainGame, fields:Array, field_index:int, _tool_data:T
 	var cards:Array[ToolData] = []
 	for i in number_of_cards:
 		cards.append(tool_data.get_duplicate())
-	await Singletons.main_game.tool_manager.add_temp_tools_to_hand(cards, from_position, true)
+	await Singletons.main_game.add_temp_tools_to_hand(cards, from_position, true)

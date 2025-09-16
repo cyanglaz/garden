@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://umsm3c0whsu5"]
+
+[ext_resource type="Script" uid="uid://c46ktk080kcw8" path="res://scenes/GUI/main_game/power/gui_power_icon.gd" id="1_8egag"]
+[ext_resource type="Texture2D" uid="uid://dvbpesdthn3m8" path="res://resources/sprites/GUI/icons/resources/icon_fungus.png" id="2_1jcw1"]
+
+[node name="GUIPowerIcon" type="PanelContainer"]
+custom_minimum_size = Vector2(7, 7)
+offset_right = 7.0
+offset_bottom = 7.0
+script = ExtResource("1_8egag")
+
+[node name="Icon" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("2_1jcw1")
+stretch_mode = 5
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Stack" type="Label" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = -7.0
+offset_right = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_type_variation = &"HUD_small"
+text = " "
+horizontal_alignment = 2
+vertical_alignment = 2
