@@ -3,7 +3,7 @@ extends ThingData
 
 const TOOL_SCRIPT_PATH := "res://scenes/main_game/tool/tool_scripts/tool_script_%s.gd"
 
-@warning_ignore("unused_private_class_variable")
+@warning_ignore("unused_signal")
 signal request_refresh()
 
 const COSTS := {

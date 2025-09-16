@@ -78,7 +78,8 @@ func update_with_tool_data(td:ToolData) -> void:
 		var special_id := Util.get_id_for_tool_speical(special)
 		special_icon.texture = load(Util.get_image_path_for_resource_id(special_id))
 		_specials_container.add_child(special_icon)
-	td.request_refresh.connect(_on_tool_data_refresh)
+	if !td.request_refresh.is_connected(_on_tool_data_refresh):
+		td.request_refresh.connect(_on_tool_data_refresh)
 
 func play_move_sound() -> void:
 	_sound_hover.play()

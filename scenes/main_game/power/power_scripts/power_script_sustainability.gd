@@ -22,7 +22,7 @@ func _update_cards(tool_datas:Array) -> void:
 		var water_action:ActionData = gray_water_data.actions[0]
 		assert(water_action.type == ActionData.ActionType.WATER)
 		var change := new_modifier - old_modifier
-		water_action.value += change
+		water_action.modified_value = change
 		gray_water_data.request_refresh.emit()
 
 func _find_graywaters(tool_datas:Array) -> Array:

@@ -116,14 +116,19 @@ func _get_discard_card_action_description(action_data:ActionData) -> String:
 
 func _get_value_text(action_data:ActionData) -> String:
 	var value_text := ""
+	var highlight_color := HIGHLIGHT_COLOR
+	if action_data.modified_value > 0:
+		highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
+	elif action_data.modified_value < 0:
+		highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_RED
 	match action_data.value_type:
 		ActionData.ValueType.NUMBER:
-			value_text =  Util.convert_to_bbc_highlight_text(str(abs(action_data.value)), HIGHLIGHT_COLOR)
+			value_text =  Util.convert_to_bbc_highlight_text(str(abs(action_data.value)), highlight_color)
 		ActionData.ValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
-			value_text =  Util.convert_to_bbc_highlight_text(tr("ACTION_DESCRIPTION_NUMBER_OF_TOOL_CARDS_IN_HAND"), HIGHLIGHT_COLOR)
+			value_text =  Util.convert_to_bbc_highlight_text(tr("ACTION_DESCRIPTION_NUMBER_OF_TOOL_CARDS_IN_HAND"), highlight_color)
 		ActionData.ValueType.RANDOM:
 			value_text = Util.convert_to_bbc_highlight_text(str(abs(action_data.value)), HIGHLIGHT_COLOR)
-			value_text += Util.convert_to_bbc_highlight_text(Util.get_localized_string("ACTION_DESCRIPTION_RANDOM"), HIGHLIGHT_COLOR)
+			value_text += Util.convert_to_bbc_highlight_text(Util.get_localized_string("ACTION_DESCRIPTION_RANDOM"), highlight_color)
 		_:
 			assert(false, "Invalid value type: %s" % action_data.value_type)
 	return value_text

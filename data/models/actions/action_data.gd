@@ -38,11 +38,13 @@ const FIELD_ACTION_TYPES := [ActionType.LIGHT, ActionType.WATER, ActionType.PEST
 const WEATHER_ACTION_TYPES := [ActionType.WEATHER_SUNNY, ActionType.WEATHER_RAINY]
 
 @export var type:ActionType
-@export var value:int
+@export var value:int:set = _set_value, get = _get_value
 @export var value_type:ValueType = ValueType.NUMBER
 @export var specials:Array[Special]
 
 var action_category:ActionCategory: get = _get_action_category
+var modified_value:int
+var _original_value:int
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
@@ -50,6 +52,8 @@ func copy(other:ThingData) -> void:
 	value = other.value
 	value_type = other.value_type
 	specials = other.specials.duplicate()
+	modified_value = other.modified_value
+	_original_value = other._original_value
 
 func get_duplicate() -> ThingData:
 	var action_data:ActionData = ActionData.new()
@@ -64,3 +68,9 @@ func _get_action_category() -> ActionCategory:
 	elif CARD_ACTION_TYPES.has(type):
 		return ActionCategory.CARD
 	return ActionCategory.NONE
+
+func _set_value(val:int) -> void:
+	_original_value = val
+
+func _get_value() -> int:
+	return modified_value + _original_value

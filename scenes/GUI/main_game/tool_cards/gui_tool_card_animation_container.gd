@@ -154,7 +154,6 @@ func _animate_draw(animation_item:AnimationQueueItem) -> void:
 		if delay_index >= 0:
 			Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index).timeout.connect(func(): animating_card.play_move_sound())
 		var card_local_position:Vector2 = card_positions[i]
-		print("minimum size before animation ", animating_card.custom_minimum_size, animating_card.get_minimum_size())
 		var target_global_position:Vector2 = _tool_card_container.global_position + card_local_position
 		tween.tween_property(animating_card, "visible", true, 0.01).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		tween.tween_property(animating_card, "global_position", target_global_position, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
@@ -318,7 +317,6 @@ func _animate_discard_a_card(card:GUIToolCardButton, tween:Tween, delay:float) -
 	var target_size := _discard_deck_button.size
 	var target_position:Vector2 = _discard_deck_button.global_position
 	tween.set_parallel(true)
-	print(animating_card.get_minimum_size())
 	tween.tween_property(animating_card, "global_position", target_position, DISCARD_ANIMATION_TIME).set_delay(delay).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	var scale_tweener := tween.tween_property(animating_card, "size", target_size, DISCARD_ANIMATION_TIME).set_delay(delay).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	scale_tweener.finished.connect(func():
