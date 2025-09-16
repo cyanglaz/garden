@@ -80,5 +80,7 @@ func _get_reference_button_icon_path(data:ThingData) -> String:
 		return str(PLANT_ICON_PREFIX, data.id, ".png")
 	elif data is LevelData:
 		return BOSS_ICON_PATH
+	elif data is PowerData:
+		return str(RESOURCE_ICON_PREFIX, data.id, ".png")
 	assert(false, "data not implemented")
 	return ""

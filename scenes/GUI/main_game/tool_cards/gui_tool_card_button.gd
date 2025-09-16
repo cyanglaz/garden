@@ -2,7 +2,6 @@ class_name GUIToolCardButton
 extends GUIBasicButton
 
 signal _dissolve_finished()
-signal exhaust_sound_finished()
 
 enum CardState {
 	NORMAL,
@@ -12,6 +11,7 @@ enum CardState {
 
 const SPECIAL_ICON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_special_icon.tscn")
 const VALUE_ICON_PREFIX := "res://resources/sprites/GUI/icons/cards/values/icon_"
+const EXHAUST_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_exhaust.wav")
 
 const SIZE := Vector2(38, 52)
 const SELECTED_OFFSET := 6.0
@@ -30,7 +30,6 @@ const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_s
 @onready var _cost_icon: TextureRect = %CostIcon
 @onready var _rich_text_label: RichTextLabel = %RichTextLabel
 @onready var _use_sound: AudioStreamPlayer2D = %UseSound
-@onready var _exhaust_sound: AudioStreamPlayer2D = %ExhaustSound
 @onready var _animation_player: AnimationPlayer = %AnimationPlayer
 
 var mouse_disabled:bool = false: set = _set_mouse_disabled
@@ -55,10 +54,10 @@ func _ready() -> void:
 
 func update_with_tool_data(td:ToolData) -> void:
 	_weak_tool_data = weakref(td)
-	if tool_data.actions.is_empty():
-		_rich_text_label.text = tool_data.get_display_description()
-	else:
+	if !tool_data.actions.is_empty():
 		_gui_action_list.update(tool_data.actions)
+	if !tool_data.get_display_description().is_empty():
+		_rich_text_label.text = tool_data.get_display_description()
 	if tool_data.energy_cost >= 0:
 		_cost_icon.texture = load(VALUE_ICON_PREFIX + str(tool_data.energy_cost) + ".png")
 	else:
@@ -73,11 +72,14 @@ func update_with_tool_data(td:ToolData) -> void:
 			_background.region_rect.position.x = 76
 		2:
 			_background.region_rect.position.x = 114
+	Util.remove_all_children(_specials_container)
 	for special in tool_data.specials:
 		var special_icon := SPECIAL_ICON_SCENE.instantiate()
 		var special_id := Util.get_id_for_tool_speical(special)
 		special_icon.texture = load(Util.get_image_path_for_resource_id(special_id))
 		_specials_container.add_child(special_icon)
+	if !td.request_refresh.is_connected(_on_tool_data_refresh):
+		td.request_refresh.connect(_on_tool_data_refresh)
 
 func play_move_sound() -> void:
 	_sound_hover.play()
@@ -87,12 +89,8 @@ func play_use_sound() -> void:
 
 func play_exhaust_animation() -> void:
 	_animation_player.play("dissolve")
+	GlobalSoundManager.play_sound(EXHAUST_SOUND)
 	await _dissolve_finished
-
-func play_exhaust_sound() -> void:
-	_exhaust_sound.play()
-	await _exhaust_sound.finished
-	exhaust_sound_finished.emit()
 
 func _update_for_energy(energy:int) -> void:
 	if !tool_data:
@@ -196,3 +194,6 @@ func _set_resource_sufficient(value:bool) -> void:
 func _on_animation_finished(anim_name:String) -> void:
 	if anim_name == "dissolve":
 		_dissolve_finished.emit()
+
+func _on_tool_data_refresh() -> void:
+	update_with_tool_data(tool_data)

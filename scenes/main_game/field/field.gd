@@ -46,11 +46,11 @@ func _ready() -> void:
 	_animated_sprite_2d.play("idle")
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
-	_gui_field_selection_arrow.is_active = false
+	_gui_field_selection_arrow.indicator_state = GUIFieldSelectionArrow.IndicatorState.HIDE
 	_reset_progress_bars()
 
-func toggle_selection_indicator(on:bool) -> void:
-	_gui_field_selection_arrow.is_active = on
+func toggle_selection_indicator(indicator_state:GUIFieldSelectionArrow.IndicatorState) -> void:
+	_gui_field_selection_arrow.indicator_state = indicator_state
  
 func show_plant_preview(plant_data:PlantData) -> void:
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
@@ -108,9 +108,7 @@ func apply_actions(actions:Array[ActionData]) -> void:
 				await _apply_light_action(action)
 			ActionData.ActionType.WATER:
 				await _apply_water_action(action)
-			ActionData.ActionType.PEST:
-				await _apply_field_status_action(action)
-			ActionData.ActionType.FUNGUS:
+			ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
 				await _apply_field_status_action(action)
 			_:
 				pass
@@ -183,6 +181,8 @@ func _apply_water_action(action:ActionData) -> void:
 	await _show_popup_action_indicator(action, true_value)
 	if plant:
 		plant.water.value += true_value
+		if true_value > 0:
+			await status_manager.handle_add_water_hook(plant)
 
 func _apply_field_status_action(action:ActionData) -> void:
 	var resource_id := Util.get_action_id_with_action_type(action.type)

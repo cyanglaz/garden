@@ -1,8 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://cyd2pmyuelacd"]
+[gd_scene load_steps=20 format=3 uid="uid://cyd2pmyuelacd"]
 
 [ext_resource type="Script" uid="uid://b3s0cai251tmf" path="res://scenes/GUI/main_game/gui_main_game.gd" id="1_48pcf"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_pgwuj"]
 [ext_resource type="PackedScene" uid="uid://bp2sap1brkhfa" path="res://scenes/GUI/main_game/top_bar/gui_top_bar.tscn" id="2_fu4tq"]
+[ext_resource type="PackedScene" uid="uid://dknalx44eyqdt" path="res://scenes/GUI/main_game/power/gui_power_container.tscn" id="4_a45yh"]
 [ext_resource type="PackedScene" uid="uid://cb7rus2xat3us" path="res://scenes/GUI/main_game/plant_cards/gui_plant_deck_box.tscn" id="4_fu4tq"]
 [ext_resource type="PackedScene" uid="uid://dkd8risr4s2i3" path="res://scenes/GUI/main_game/characters/gui_enemy.tscn" id="5_bkemh"]
 [ext_resource type="PackedScene" uid="uid://b224jou4wqp13" path="res://scenes/GUI/main_game/weather/gui_weather_container.tscn" id="5_ho5j6"]
@@ -85,16 +86,25 @@ offset_top = -16.0
 offset_right = 36.0
 grow_vertical = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/GameContainer/MainMarginContainer/Container/BottomLeftContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/GameContainer/MainMarginContainer/Container/BottomLeftContainer"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="GUIEnergyTracker" parent="MainContainer/GameContainer/MainMarginContainer/Container/BottomLeftContainer/HBoxContainer" instance=ExtResource("8_ho5j6")]
+[node name="GUIPowerContainer" parent="MainContainer/GameContainer/MainMarginContainer/Container/BottomLeftContainer/VBoxContainer" instance=ExtResource("4_a45yh")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/GameContainer/MainMarginContainer/Container/BottomLeftContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="GUIEnergyTracker" parent="MainContainer/GameContainer/MainMarginContainer/Container/BottomLeftContainer/VBoxContainer/HBoxContainer" instance=ExtResource("8_ho5j6")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="GUIDrawBoxButton" parent="MainContainer/GameContainer/MainMarginContainer/Container/BottomLeftContainer/HBoxContainer" instance=ExtResource("9_fu4tq")]
+[node name="GUIDrawBoxButton" parent="MainContainer/GameContainer/MainMarginContainer/Container/BottomLeftContainer/VBoxContainer/HBoxContainer" instance=ExtResource("9_fu4tq")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 8

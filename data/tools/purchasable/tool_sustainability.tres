@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=3 format=3 uid="uid://pdqakkphtgxv"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_gd0c2"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_jp5gh"]
+
+[resource]
+script = ExtResource("2_jp5gh")
+energy_cost = 1
+actions = Array[ExtResource("1_gd0c2")]([])
+rarity = 2
+specials = Array[int]([1])
+need_select_field = false
+id = "sustainability"
+display_name = "Sustainability"
+description = "{card:graywater} adds {value} more {resource:water}."
+data = {
+"value": "1"
+}
+note = ""
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

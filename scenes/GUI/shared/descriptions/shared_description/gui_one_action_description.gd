@@ -50,21 +50,13 @@ func _get_action_name(action_data:ActionData) -> String:
 func _get_action_description(action_data:ActionData) -> String:
 	var action_description := ""
 	match action_data.type:
-		ActionData.ActionType.LIGHT:
+		ActionData.ActionType.LIGHT, ActionData.ActionType.WATER:
 			action_description = _get_field_action_description(action_data)
-		ActionData.ActionType.WATER:
-			action_description = _get_field_action_description(action_data)
-		ActionData.ActionType.PEST:
+		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
 			action_description = _get_field_status_description(action_data)
 			action_description += "\n"
 			action_description += _get_field_action_description(action_data)
-		ActionData.ActionType.FUNGUS:
-			action_description = _get_field_status_description(action_data)
-			action_description += "\n"
-			action_description += _get_field_action_description(action_data)
-		ActionData.ActionType.WEATHER_SUNNY:
-			action_description = _get_weather_action_description(action_data)
-		ActionData.ActionType.WEATHER_RAINY:
+		ActionData.ActionType.WEATHER_SUNNY, ActionData.ActionType.WEATHER_RAINY:
 			action_description = _get_weather_action_description(action_data)
 		ActionData.ActionType.DRAW_CARD:
 			action_description = _get_draw_card_action_description(action_data)
@@ -82,19 +74,8 @@ func _get_action_description(action_data:ActionData) -> String:
 func _get_field_action_description(action_data:ActionData) -> String:
 	var increase_description := Util.get_localized_string("ACTION_DESCRIPTION_INCREASE")
 	var decrease_description := Util.get_localized_string("ACTION_DESCRIPTION_DECREASE")
-	var action_name := ""
+	var action_name := Util.get_action_name_from_action_type(action_data.type)
 	var increase := action_data.value > 0 || action_data.value_type != ActionData.ValueType.NUMBER
-	match action_data.type:
-		ActionData.ActionType.LIGHT:
-			action_name = Util.get_localized_string("RESOURCE_NAME_LIGHT")
-		ActionData.ActionType.WATER:
-			action_name = Util.get_localized_string("RESOURCE_NAME_WATER")
-		ActionData.ActionType.PEST:
-			action_name = Util.get_localized_string("RESOURCE_NAME_PEST")
-		ActionData.ActionType.FUNGUS:
-			action_name = Util.get_localized_string("RESOURCE_NAME_FUNGUS")
-		_:
-			assert(false, "Invalid action type: %s" % action_data.type)
 	action_name = Util.convert_to_bbc_highlight_text(action_name, HIGHLIGHT_COLOR)
 	var main_description := ""
 	if increase:
@@ -135,14 +116,19 @@ func _get_discard_card_action_description(action_data:ActionData) -> String:
 
 func _get_value_text(action_data:ActionData) -> String:
 	var value_text := ""
+	var highlight_color := HIGHLIGHT_COLOR
+	if action_data.modified_value > 0:
+		highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
+	elif action_data.modified_value < 0:
+		highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_RED
 	match action_data.value_type:
 		ActionData.ValueType.NUMBER:
-			value_text =  Util.convert_to_bbc_highlight_text(str(abs(action_data.value)), HIGHLIGHT_COLOR)
+			value_text =  Util.convert_to_bbc_highlight_text(str(abs(action_data.value)), highlight_color)
 		ActionData.ValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
-			value_text =  Util.convert_to_bbc_highlight_text(tr("ACTION_DESCRIPTION_NUMBER_OF_TOOL_CARDS_IN_HAND"), HIGHLIGHT_COLOR)
+			value_text =  Util.convert_to_bbc_highlight_text(tr("ACTION_DESCRIPTION_NUMBER_OF_TOOL_CARDS_IN_HAND"), highlight_color)
 		ActionData.ValueType.RANDOM:
 			value_text = Util.convert_to_bbc_highlight_text(str(abs(action_data.value)), HIGHLIGHT_COLOR)
-			value_text += Util.convert_to_bbc_highlight_text(Util.get_localized_string("ACTION_DESCRIPTION_RANDOM"), HIGHLIGHT_COLOR)
+			value_text += Util.convert_to_bbc_highlight_text(Util.get_localized_string("ACTION_DESCRIPTION_RANDOM"), highlight_color)
 		_:
 			assert(false, "Invalid value type: %s" % action_data.value_type)
 	return value_text

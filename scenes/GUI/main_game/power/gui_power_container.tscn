@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://dknalx44eyqdt"]
+
+[ext_resource type="Script" uid="uid://0i04gy4nysor" path="res://scenes/GUI/main_game/power/gui_power_container.gd" id="1_g42pa"]
+
+[node name="GUIPowerContainer" type="GridContainer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+columns = 5
+script = ExtResource("1_g42pa")

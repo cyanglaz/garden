@@ -85,11 +85,15 @@ func animate_add_cards_to_draw_pile(tool_datas:Array[ToolData], from_global_posi
 	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_ADD_CARD_TO_DRAW_PILE, [tool_datas, from_global_position, pause])
 	await item.finished
 
+func animate_add_cards_to_hand(hand:Array, tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
+	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_ADD_CARD_TO_HAND, [hand, tool_datas, from_global_position, pause])
+	await item.finished
+
 func animate_exhaust(tool_datas:Array) -> void:
 	var in_use_card:ToolData
 	var in_hand_cards:Array = []
 	for tool_data in tool_datas:
-		if tool_data == _in_use_card.tool_data:
+		if _in_use_card && tool_data == _in_use_card.tool_data:
 			in_use_card = tool_data
 		else:
 			in_hand_cards.append(tool_data)
@@ -120,6 +124,10 @@ func _play_next_animation() -> void:
 			_animate_add_card_to_draw_pile(next_item)
 		AnimationQueueItem.AnimationType.ANIMATE_USE_CARD:
 			_animate_use_card(next_item)
+		AnimationQueueItem.AnimationType.ANIMATE_ADD_CARD_TO_HAND:
+			_animate_add_card_to_hand(next_item)
+		AnimationQueueItem.AnimationType.ANIMATE_EXHAUST:
+			_animate_exhaust(next_item)
 
 func _animate_draw(animation_item:AnimationQueueItem) -> void:
 	var draw_results:Array = animation_item.animation_args[0].duplicate()
@@ -216,6 +224,46 @@ func _animate_add_card_to_draw_pile(animation_item:AnimationQueueItem) -> void:
 		animating_card.queue_free()
 	_animation_queue_item_finished.emit(animation_item)
 
+func _animate_add_card_to_hand(animation_item:AnimationQueueItem) -> void:
+	var hand:Array = animation_item.animation_args[0].duplicate()
+	var new_tool_datas:Array = animation_item.animation_args[1].duplicate()
+	var from_global_position:Vector2 = animation_item.animation_args[2]
+	var pause:bool = animation_item.animation_args[3]
+	var card_positions:Array[Vector2] = _tool_card_container.calculate_default_positions(hand.size())
+	var tween:Tween = Util.create_scaled_tween(self)
+	tween.set_parallel(true)
+	var delay_index = 0
+	var exiting_card_count := hand.size() - new_tool_datas.size()
+	for i in hand.size():
+		var display_pause_time := 0.0
+		var animating_card:GUIToolCardButton
+		if i < exiting_card_count:
+			animating_card = _tool_card_container.get_card(i)
+			assert(!new_tool_datas.has(animating_card.tool_data))
+		else:
+			animating_card = _tool_card_container.add_card(new_tool_datas[i - exiting_card_count])
+			animating_card.hide()
+			animating_card.animation_mode = true
+			animating_card.global_position = from_global_position
+			delay_index = i - exiting_card_count + 1
+			if pause:
+				display_pause_time = ADD_CARD_TO_PILE_PAUSE_TIME
+		animating_card.mouse_disabled = true
+		if delay_index >= 0:
+			Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index + display_pause_time).timeout.connect(func(): 
+				animating_card.show()
+				await Util.create_scaled_timer(display_pause_time).timeout
+				animating_card.play_move_sound())
+		var card_local_position:Vector2 = card_positions[i]
+		var target_global_position:Vector2 = _tool_card_container.global_position + card_local_position
+		tween.tween_property(animating_card, "global_position", target_global_position, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index + display_pause_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index + display_pause_time).timeout.connect(func(): 
+			animating_card.mouse_disabled = false
+			animating_card.animation_mode = false
+		)
+	await tween.finished
+	_animation_queue_item_finished.emit(animation_item)
+
 func _animate_use_card(animation_item:AnimationQueueItem) -> void:
 	var tool_data:ToolData = animation_item.animation_args[0]
 	var card:GUIToolCardButton = _tool_card_container.find_card(tool_data)
@@ -251,12 +299,9 @@ func _animate_exhaust_in_use_card() -> void:
 	assert(_in_use_card != null)
 	var in_use_card := _in_use_card
 	_in_use_card = null
-	in_use_card.play_exhaust_sound()
-	in_use_card.exhaust_sound_finished.connect(func() -> void:in_use_card.queue_free())
 	await in_use_card.play_exhaust_animation()
 	# exhaust the card
 	_animate_reposition()
-	in_use_card.hide()
 
 func _animate_discard_a_card(card:GUIToolCardButton, tween:Tween, delay:float) -> void:
 	var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
@@ -314,6 +359,7 @@ class AnimationQueueItem:
 		ANIMATE_DRAW,
 		ANIMATE_DISCARD,
 		ANIMATE_ADD_CARD_TO_DRAW_PILE,
+		ANIMATE_ADD_CARD_TO_HAND,
 		ANIMATE_USE_CARD,
 		ANIMATE_EXHAUST,
 	}

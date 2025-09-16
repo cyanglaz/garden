@@ -15,6 +15,7 @@ enum TooltipPosition {
 	TOP,
 	BOTTOM,
 	BOTTOM_LEFT,
+	BOTTOM_RIGHT,
 	LEFT_TOP,
 	LEFT,
 }
@@ -121,6 +122,13 @@ func update_anchors() -> void:
 			anchor_bottom = 1
 			anchor_top = 1
 			grow_horizontal = Control.GROW_DIRECTION_BEGIN
+			grow_vertical = Control.GROW_DIRECTION_END
+		TooltipPosition.BOTTOM_RIGHT:
+			anchor_right = 1
+			anchor_left = 1
+			anchor_bottom = 1
+			anchor_top = 1
+			grow_horizontal = Control.GROW_DIRECTION_END
 			grow_vertical = Control.GROW_DIRECTION_END
 		# TooltipPosition.BOTTOM:
 		# 	anchor_right = 0.5

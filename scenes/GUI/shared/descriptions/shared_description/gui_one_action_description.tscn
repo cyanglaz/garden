@@ -5,7 +5,7 @@
 [node name="GUIOneActionDescription" type="VBoxContainer"]
 offset_right = 35.0
 offset_bottom = 7.0
-theme_override_constants/separation = 0
+theme_override_constants/separation = 1
 script = ExtResource("1_jri6o")
 
 [node name="Title" type="HBoxContainer" parent="."]

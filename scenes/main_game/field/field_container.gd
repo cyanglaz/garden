@@ -75,15 +75,19 @@ func trigger_tool_discard_hook(count:int) -> void:
 
 func clear_tool_indicators() -> void:
 	for field:Field in fields:
-		field.toggle_selection_indicator(false)
+		field.toggle_selection_indicator(GUIFieldSelectionArrow.IndicatorState.HIDE)
 	
-func toggle_field_selection_indicator(on:bool, tool_data:ToolData, index:int) -> void:
-	if tool_data && tool_data.has_action_to_all_fields():
-		for one_field:Field in fields:
-			one_field.toggle_selection_indicator(on)
-	else:
-		var field:Field = _container.get_child(index)
-		field.toggle_selection_indicator(on)
+func toggle_field_selection_indicator(indicator_state: GUIFieldSelectionArrow.IndicatorState, _tool_data:ToolData, index:int) -> void:
+	var field:Field = _container.get_child(index)
+	field.toggle_selection_indicator(indicator_state)
+	if indicator_state == GUIFieldSelectionArrow.IndicatorState.CURRENT:
+		for other_field:Field in fields:
+			if other_field != field:
+				other_field.toggle_selection_indicator(GUIFieldSelectionArrow.IndicatorState.HIDE)
+
+func ready_field_selection_indicators() -> void:
+	for field:Field in fields:
+		field.toggle_selection_indicator(GUIFieldSelectionArrow.IndicatorState.READY)
 
 func harvest_all_fields() -> void:
 	assert(get_harvestable_fields().size() > 0, "No harvestable fields")

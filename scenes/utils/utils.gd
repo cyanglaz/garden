@@ -6,7 +6,7 @@ const GUI_ALERT_POPUP_SCENE := preload("res://scenes/GUI/containers/gui_popup_al
 const GUI_BUTTON_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_button_tooltip.tscn")
 const GUI_PLANT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn")
 const GUI_WEATHER_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_weather_tooltip.tscn")
-const GUI_FIELD_STATUS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_field_status_tooltip.tscn")
+const GUI_THING_DATA_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_thing_data_tooltip.tscn")
 const GUI_ACTIONS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_actions_tooltip.tscn")
 const GUI_WARNING_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_warning_tooltip.tscn")
 const GUI_RICH_TEXT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_rich_text_tooltip.tscn")
@@ -17,6 +17,7 @@ const GUI_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_card_tool
 const GUI_SHOW_LIBRARY_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_show_library_tooltip.tscn")
 
 const FIELD_STATUS_SCRIPT_PREFIX := "res://scenes/main_game/field/status/field_status_script_"
+const POWER_SCRIPT_PREFIX := "res://scenes/main_game/power/power_scripts/power_script_"
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
 const PLANT_ICON_PREFIX := "res://resources/sprites/GUI/icons/plants/icon_"
 const TOOL_ICON_PREFIX := "res://resources/sprites/GUI/icons/tool/icon_"
@@ -72,13 +73,13 @@ static func display_weather_tooltip(weather_data:WeatherData, on_control_node:Co
 	_display_tool_tip.call_deferred(weather_tooltip, on_control_node, anchor_mouse, tooltip_position)
 	return weather_tooltip
 
-static func display_field_status_tooltip(field_status_data:FieldStatusData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool) -> GUIFieldStatusTooltip:
-	var field_status_tooltip:GUIFieldStatusTooltip = GUI_FIELD_STATUS_TOOLTIP_SCENE.instantiate()
-	Singletons.main_game.add_control_to_overlay(field_status_tooltip)
-	field_status_tooltip.tooltip_position = tooltip_position
-	field_status_tooltip.update_with_field_status_data(field_status_data)
-	_display_tool_tip.call_deferred(field_status_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
-	return field_status_tooltip
+static func display_thing_data_tooltip(thing_data:ThingData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool) -> GUIThingDataTooltip:
+	var thing_data_tooltip:GUIThingDataTooltip = GUI_THING_DATA_TOOLTIP_SCENE.instantiate()
+	Singletons.main_game.add_control_to_overlay(thing_data_tooltip)
+	thing_data_tooltip.tooltip_position = tooltip_position
+	thing_data_tooltip.update_with_thing_data(thing_data)
+	_display_tool_tip.call_deferred(thing_data_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
+	return thing_data_tooltip
 
 static func display_actions_tooltip(action_datas:Array[ActionData], on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool) -> GUIActionsTooltip:
 	var actions_tooltip:GUIActionsTooltip = GUI_ACTIONS_TOOLTIP_SCENE.instantiate()
@@ -161,6 +162,8 @@ static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_m
 			y_offset = on_control_node.size.y + TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.BOTTOM_LEFT:
 			x_offset = -tooltip.size.x + on_control_node.size.x
+			y_offset = on_control_node.size.y + TOOLTIP_OFFSET
+		GUITooltip.TooltipPosition.BOTTOM_RIGHT:
 			y_offset = on_control_node.size.y + TOOLTIP_OFFSET
 	var reference_position := on_control_node.global_position
 	if world_space:
@@ -327,6 +330,9 @@ static func get_icon_image_path_for_weather_id(id:String) -> String:
 static func get_script_path_for_field_status_id(id:String) -> String:
 	return str(FIELD_STATUS_SCRIPT_PREFIX, _trim_upgrade_suffix_from_id(id), ".gd")
 
+static func get_script_path_for_power_id(id:String) -> String:
+	return str(POWER_SCRIPT_PREFIX, _trim_upgrade_suffix_from_id(id), ".gd")
+
 static func get_image_path_for_resource_id(id:String) -> String:
 	return str(RESOURCE_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
 
@@ -348,6 +354,8 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "pest"
 		ActionData.ActionType.FUNGUS:
 			id = "fungus"
+		ActionData.ActionType.RECYCLE:
+			id = "recycle"
 		ActionData.ActionType.DRAW_CARD:
 			id = "draw_card"
 		ActionData.ActionType.DISCARD_CARD:
@@ -356,6 +364,10 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "sunny"
 		ActionData.ActionType.WEATHER_RAINY:
 			id = "rainy"
+		ActionData.ActionType.GREENHOUSE:
+			id = "greenhouse"
+		ActionData.ActionType.SEEP:
+			id = "seep"
 		ActionData.ActionType.NONE:
 			pass
 	return id
@@ -370,6 +382,8 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 			return ActionData.ActionType.PEST
 		"fungus":
 			return ActionData.ActionType.FUNGUS
+		"recycle":
+			return ActionData.ActionType.RECYCLE
 		"sunny":
 			return ActionData.ActionType.WEATHER_SUNNY
 		"rainy":
@@ -378,6 +392,10 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 			return ActionData.ActionType.DRAW_CARD
 		"discard_card":
 			return ActionData.ActionType.DISCARD_CARD
+		"greenhouse":
+			return ActionData.ActionType.GREENHOUSE
+		"seep":
+			return ActionData.ActionType.SEEP
 		"none":
 			return ActionData.ActionType.NONE
 	assert(false, "Invalid action id: " + action_id)
@@ -402,6 +420,12 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 			action_name = Util.get_localized_string("ACTION_NAME_DRAW_CARD")
 		ActionData.ActionType.DISCARD_CARD:
 			action_name = Util.get_localized_string("ACTION_NAME_DISCARD_CARD")
+		ActionData.ActionType.RECYCLE:
+			action_name = Util.get_localized_string("ACTION_NAME_RECYCLE")
+		ActionData.ActionType.GREENHOUSE:
+			action_name = Util.get_localized_string("ACTION_NAME_GREENHOUSE")
+		ActionData.ActionType.SEEP:
+			action_name = Util.get_localized_string("ACTION_NAME_SEEP")
 		ActionData.ActionType.NONE:
 			pass
 	return action_name

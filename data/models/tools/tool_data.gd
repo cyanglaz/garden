@@ -3,6 +3,9 @@ extends ThingData
 
 const TOOL_SCRIPT_PATH := "res://scenes/main_game/tool/tool_scripts/tool_script_%s.gd"
 
+@warning_ignore("unused_signal")
+signal request_refresh()
+
 const COSTS := {
 	0: 6,
 	1: 11,
@@ -28,7 +31,9 @@ func copy(other:ThingData) -> void:
 	super.copy(other)
 	var other_tool: ToolData = other as ToolData
 	energy_cost = other_tool.energy_cost
-	actions = other_tool.actions.duplicate()
+	actions.clear()
+	for action:ActionData in other_tool.actions:
+		actions.append(action.get_duplicate())
 	rarity = other_tool.rarity
 	specials = other_tool.specials.duplicate()
 	need_select_field = other_tool.need_select_field
@@ -37,12 +42,6 @@ func get_duplicate() -> ToolData:
 	var dup:ToolData = ToolData.new()
 	dup.copy(self)
 	return dup
-
-func has_action_to_all_fields() -> bool:
-	for action:ActionData in actions:
-		if action.specials.has(ActionData.Special.ALL_FIELDS):
-			return true
-	return false
 
 func _get_cost() -> int:
 	return COSTS[rarity]

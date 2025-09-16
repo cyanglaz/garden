@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bacvied61ghpe"]
+[gd_scene load_steps=11 format=3 uid="uid://bacvied61ghpe"]
 
 [ext_resource type="Script" uid="uid://t7x03xkbah7n" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.gd" id="1_a7c0j"]
 [ext_resource type="Shader" uid="uid://6cqmrfdokad8" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.gdshader" id="1_ckxcp"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://cjwhkrmueycbi" path="res://scenes/GUI/shared/descriptions/shared_description/gui_action_list.tscn" id="4_882ho"]
 [ext_resource type="Texture2D" uid="uid://cfqih7tn7gdu" path="res://resources/sprites/GUI/backgrounds/tool_card_border.png" id="4_cxlev"]
 [ext_resource type="AudioStream" uid="uid://bgyg7vg7fsae6" path="res://resources/sounds/SFX/tool_cards/card_use.wav" id="5_a7c0j"]
-[ext_resource type="AudioStream" uid="uid://b6rsvcpwe5a2m" path="res://resources/sounds/SFX/tool_cards/card_exhaust.wav" id="7_882ho"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ckxcp"]
 resource_local_to_scene = true
@@ -30,7 +29,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CardContainer/CardContent:visible")
+tracks/1/path = NodePath("CardContainer/FreeContainer/CardContent:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -54,7 +53,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("CardContainer/HighlightContainer:visible")
+tracks/3/path = NodePath("CardContainer/FreeContainer:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -62,18 +61,6 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("ExhaustSound:playing")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_ckxcp"]
@@ -95,7 +82,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CardContainer/CardContent:visible")
+tracks/1/path = NodePath("CardContainer/FreeContainer/CardContent:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -119,7 +106,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("CardContainer/HighlightContainer:visible")
+tracks/3/path = NodePath("CardContainer/FreeContainer:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -127,18 +114,6 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("ExhaustSound:playing")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
-"update": 1,
-"values": []
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_882ho"]
@@ -149,8 +124,8 @@ _data = {
 
 [node name="GUIToolCardButton" type="PanelContainer"]
 custom_minimum_size = Vector2(38, 52)
-offset_right = 36.0
-offset_bottom = 48.0
+offset_right = 38.0
+offset_bottom = 52.0
 size_flags_vertical = 4
 script = ExtResource("1_a7c0j")
 
@@ -171,17 +146,26 @@ patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 3
 
-[node name="CardContent" type="VBoxContainer" parent="CardContainer"]
-unique_name_in_owner = true
+[node name="FreeContainer" type="Control" parent="CardContainer"]
 layout_mode = 2
+mouse_filter = 2
+
+[node name="CardContent" type="VBoxContainer" parent="CardContainer/FreeContainer"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 0
 
-[node name="MarginContainer2" type="Control" parent="CardContainer/CardContent"]
+[node name="MarginContainer2" type="Control" parent="CardContainer/FreeContainer/CardContent"]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Title" type="Label" parent="CardContainer/CardContent/MarginContainer2"]
+[node name="Title" type="Label" parent="CardContainer/FreeContainer/CardContent/MarginContainer2"]
 unique_name_in_owner = true
 layout_mode = 1
 offset_left = 2.0
@@ -191,7 +175,7 @@ offset_bottom = 9.0
 theme_type_variation = &"HUD_small"
 horizontal_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="CardContainer/CardContent"]
+[node name="MarginContainer" type="MarginContainer" parent="CardContainer/FreeContainer/CardContent"]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
@@ -200,17 +184,18 @@ theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="FreeContainer" type="VBoxContainer" parent="CardContainer/CardContent/MarginContainer"]
+[node name="FreeContainer" type="VBoxContainer" parent="CardContainer/FreeContainer/CardContent/MarginContainer"]
 layout_mode = 2
 mouse_filter = 2
+theme_override_constants/separation = 2
 
-[node name="CostIcon" type="TextureRect" parent="CardContainer/CardContent/MarginContainer/FreeContainer"]
+[node name="CostIcon" type="TextureRect" parent="CardContainer/FreeContainer/CardContent/MarginContainer/FreeContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CardContainer/CardContent/MarginContainer/FreeContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="CardContainer/FreeContainer/CardContent/MarginContainer/FreeContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
@@ -223,13 +208,13 @@ fit_content = true
 meta_underlined = false
 hint_underlined = false
 
-[node name="GUIActionList" parent="CardContainer/CardContent/MarginContainer" instance=ExtResource("4_882ho")]
+[node name="GUIActionList" parent="CardContainer/FreeContainer/CardContent/MarginContainer" instance=ExtResource("4_882ho")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="SpecialsContainer" type="VBoxContainer" parent="CardContainer/CardContent/MarginContainer"]
+[node name="SpecialsContainer" type="VBoxContainer" parent="CardContainer/FreeContainer/CardContent/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
@@ -237,13 +222,8 @@ size_flags_vertical = 8
 theme_override_constants/separation = 1
 alignment = 2
 
-[node name="HighlightContainer" type="Control" parent="CardContainer"]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="HighlightBorder" type="NinePatchRect" parent="CardContainer/HighlightContainer"]
+[node name="HighlightBorder" type="NinePatchRect" parent="CardContainer/FreeContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(38, 0)
 layout_mode = 1
 offset_left = -1.0
 offset_top = -1.0
@@ -259,11 +239,6 @@ patch_margin_bottom = 4
 unique_name_in_owner = true
 stream = ExtResource("5_a7c0j")
 volume_db = 5.0
-bus = &"SFX"
-
-[node name="ExhaustSound" type="AudioStreamPlayer2D" parent="."]
-unique_name_in_owner = true
-stream = ExtResource("7_882ho")
 bus = &"SFX"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

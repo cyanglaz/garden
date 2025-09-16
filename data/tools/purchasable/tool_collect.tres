@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=3 format=3 uid="uid://diu82b74no5rj"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_2inax"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_61bw8"]
+
+[resource]
+script = ExtResource("2_61bw8")
+energy_cost = 1
+actions = Array[ExtResource("1_2inax")]([])
+rarity = 1
+specials = Array[int]([])
+need_select_field = true
+id = "collect"
+display_name = "Collect"
+description = "Set {resource:water} to 0.
+Create {card:graywater} for each {resource:water} reduced."
+data = {}
+note = "-1 water
+Create graywater for water reduced."
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

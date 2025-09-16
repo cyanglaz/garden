@@ -6,6 +6,7 @@ var field_status_database:FieldStatusDatabase = FieldStatusDatabase.new()
 var plant_database:PlantDatabase = PlantDatabase.new()
 var tool_database:ToolDatabase = ToolDatabase.new()
 var level_database:LevelDatabase = LevelDatabase.new()
+var power_database:PowerDatabase = PowerDatabase.new()
 
 func _ready() -> void:
 	#add_child(item_database)
@@ -14,3 +15,4 @@ func _ready() -> void:
 	add_child(plant_database)
 	add_child(tool_database)
 	add_child(level_database)
+	add_child(power_database)

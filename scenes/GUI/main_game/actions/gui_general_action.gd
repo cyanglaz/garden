@@ -42,6 +42,12 @@ func update_with_action(action_data:ActionData) -> void:
 			var icon_path := VALUE_ICON_PATH + value_id + ".png"
 			_value_icon.texture = load(icon_path)
 			_random_icon.show()
+	if action_data.modified_value > 0:
+		_value_icon.modulate = Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
+	elif action_data.modified_value < 0:
+		_value_icon.modulate = Constants.TOOLTIP_HIGHLIGHT_COLOR_RED
+	else:
+		_value_icon.modulate = Color.WHITE
 			
 	for special:ActionData.Special in action_data.specials:
 		match special:

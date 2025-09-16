@@ -41,9 +41,10 @@ func play_trigger_animation() -> void:
 		tween.tween_property(_icon, "position", original_position, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	
 func _on_mouse_entered() -> void:
-	_weak_tooltip = weakref(Util.display_field_status_tooltip(_weak_field_status_data.get_ref(), self, false, GUITooltip.TooltipPosition.RIGHT, true))
+	_weak_tooltip = weakref(Util.display_thing_data_tooltip(_weak_field_status_data.get_ref(), self, false, GUITooltip.TooltipPosition.RIGHT, true))
+	_weak_tooltip.get_ref().library_tooltip_position = GUITooltip.TooltipPosition.BOTTOM_RIGHT
 
 func _on_mouse_exited() -> void:
-	if _weak_tooltip:
+	if _weak_tooltip && _weak_tooltip.get_ref():
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)
