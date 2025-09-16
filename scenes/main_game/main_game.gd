@@ -62,6 +62,7 @@ func _ready() -> void:
 		
 	#gui main signals
 	gui_main_game.update_player(player)
+	gui_main_game.bind_power_manager(power_manager)
 	gui_main_game.bind_energy(energy_tracker)
 	gui_main_game.bind_tool_deck(tool_manager.tool_deck)
 	gui_main_game.setup_plant_seed_animation_container(field_container)
@@ -97,8 +98,8 @@ func discard_cards(tools:Array) -> void:
 	await tool_manager.discard_cards(tools)
 
 func add_temp_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
-	await tool_manager.add_temp_tools_to_hand(tool_datas, from_global_position, pause)
 	await power_manager.handle_card_added_to_hand_hook(tool_datas)
+	await tool_manager.add_temp_tools_to_hand(tool_datas, from_global_position, pause)
 
 #endregion
 

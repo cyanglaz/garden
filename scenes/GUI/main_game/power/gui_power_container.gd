@@ -1,24 +1,24 @@
 class_name GUIPowerContainer
-extends HBoxContainer
+extends GridContainer
 
 const ICON_SCENE := preload("res://scenes/GUI/main_game/power/gui_power_icon.tscn")
 
-func bind_with_power_manager(field_status_manager:FieldStatusManager) -> void:
-	field_status_manager.status_updated.connect(_on_status_updated.bind(field_status_manager))
-	field_status_manager.request_status_hook_animation.connect(_on_status_hook_animation_requested)
-	_on_status_updated(field_status_manager)
+func bind_with_power_manager(power_manager:PowerManager) -> void:
+	power_manager.power_updated.connect(_on_power_updated.bind(power_manager))
+	power_manager.request_power_hook_animation.connect(_on_power_hook_animation_requested)
+	_on_power_updated(power_manager)
 
-func _on_status_updated(field_status_manager:FieldStatusManager) -> void:
+func _on_power_updated(power_manager:PowerManager) -> void:
 	Util.remove_all_children(self)
-	for status_data:FieldStatusData in field_status_manager.get_all_statuses():
-		var status_icon: = ICON_SCENE.instantiate()
-		add_child(status_icon)
-		status_icon.setup_with_field_status_data(status_data)
+	for power_data:PowerData in power_manager.get_all_powers():
+		var power_icon: GUIPowerIcon = ICON_SCENE.instantiate()
+		add_child(power_icon)
+		power_icon.setup_with_power_data(power_data)
 	
-func _on_status_hook_animation_requested(status_id:String) -> void:
-	var animating_icon:GUIFieldStatusIcon
-	for status_icon:GUIFieldStatusIcon in get_children():
-		if status_icon.status_id == status_id:
+func _on_power_hook_animation_requested(power_id:String) -> void:
+	var animating_icon:GUIPowerIcon
+	for status_icon:GUIPowerIcon in get_children():
+		if status_icon.power_id == power_id:
 			animating_icon = status_icon
 	assert(animating_icon !=null, "Animating icon not found")
 	animating_icon.play_trigger_animation()

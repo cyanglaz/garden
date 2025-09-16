@@ -72,11 +72,13 @@ func update_with_tool_data(td:ToolData) -> void:
 			_background.region_rect.position.x = 76
 		2:
 			_background.region_rect.position.x = 114
+	Util.remove_all_children(_specials_container)
 	for special in tool_data.specials:
 		var special_icon := SPECIAL_ICON_SCENE.instantiate()
 		var special_id := Util.get_id_for_tool_speical(special)
 		special_icon.texture = load(Util.get_image_path_for_resource_id(special_id))
 		_specials_container.add_child(special_icon)
+	td.request_refresh.connect(_on_tool_data_refresh)
 
 func play_move_sound() -> void:
 	_sound_hover.play()
@@ -191,3 +193,6 @@ func _set_resource_sufficient(value:bool) -> void:
 func _on_animation_finished(anim_name:String) -> void:
 	if anim_name == "dissolve":
 		_dissolve_finished.emit()
+
+func _on_tool_data_refresh() -> void:
+	update_with_tool_data(tool_data)

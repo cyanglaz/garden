@@ -15,6 +15,7 @@ signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantDat
 @onready var gui_draw_box_button: GUIDeckButton = %GUIDrawBoxButton
 @onready var gui_discard_box_button: GUIDeckButton = %GUIDiscardBoxButton
 @onready var gui_exhaust_box_button: GUIDeckButton = %GUIExhaustBoxButton
+@onready var gui_power_container: GUIPowerContainer = %GUIPowerContainer
 
 @onready var gui_plant_deck_box: GUIPlantDeckBox = %GUIPlantDeckBox
 @onready var gui_plant_seed_animation_container: GUIPlantSeedAnimationContainer = %GUIPlantSeedAnimationContainer
@@ -52,6 +53,13 @@ func update_levels(level_manager:LevelManager) -> void:
 	gui_top_bar.update_levels(level_manager.levels)
 	gui_top_bar.update_level(level_manager.level_index)
 	gui_enemy.update_with_level_data(level_manager.current_level)
+
+#endregion
+
+#region power
+
+func bind_power_manager(power_manager:PowerManager) -> void:
+	gui_power_container.bind_with_power_manager(power_manager)
 
 #endregion
 

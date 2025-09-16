@@ -2,7 +2,7 @@ class_name PowerManager
 extends RefCounted
 
 signal power_updated()
-signal request_power_hook_animation(status_id:String)
+signal request_power_hook_animation(power_id:String)
 
 var power_map:Dictionary[String, PowerData]
 
@@ -22,6 +22,10 @@ func update_power(power_id:String, stack:int) -> void:
 		power_map[power_id] = MainDatabase.power_database.get_data_by_id(power_id, true)
 		power_map[power_id].stack = stack
 	power_updated.emit()
+
+func get_all_powers() -> Array[PowerData]:
+	return power_map.values()
+#region hooks
 
 func handle_activation_hook(main_game:MainGame) -> void:
 	var all_power_ids := power_map.keys()
@@ -61,3 +65,4 @@ func _handle_next_card_added_to_hand_hook(tool_datas:Array) -> void:
 
 func _send_hook_animation_signals(power_data:PowerData) -> void:
 	request_power_hook_animation.emit(power_data.id)
+#endregion

@@ -10,10 +10,10 @@ func has_activation_hook(main_game:MainGame) -> bool:
 func handle_activation_hook(main_game:MainGame) -> void:
 	await _handle_activation_hook(main_game)
 
-func has_card_added_to_hand_hook(tool_datas:Array[ToolData]) -> bool:
+func has_card_added_to_hand_hook(tool_datas:Array) -> bool:
 	return _has_card_added_to_hand_hook(tool_datas)
 
-func handle_card_added_to_hand_hook(tool_datas:Array[ToolData]) -> void:
+func handle_card_added_to_hand_hook(tool_datas:Array) -> void:
 	await _handle_card_added_to_hand_hook(tool_datas)
 
 #region for override
@@ -24,10 +24,10 @@ func _has_activation_hook(_main_game:MainGame) -> bool:
 func _handle_activation_hook(_main_game:MainGame) -> void:
 	await Util.await_for_tiny_time()
 
-func _has_card_added_to_hand_hook(_tool_datas:Array[ToolData]) -> bool:
+func _has_card_added_to_hand_hook(_tool_datas:Array) -> bool:
 	return false
 
-func _handle_card_added_to_hand_hook(_tool_datas:Array[ToolData]) -> void:
+func _handle_card_added_to_hand_hook(_tool_datas:Array) -> void:
 	await Util.await_for_tiny_time()
 
 #endregion
