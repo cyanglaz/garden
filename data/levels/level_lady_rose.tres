@@ -13,14 +13,12 @@ script = ExtResource("4_4rtl2")
 type = 1
 appearance = Array[String](["03"])
 plants = Array[ExtResource("1_y5skd")]([ExtResource("2_ssnrt"), ExtResource("3_xcenk"), ExtResource("2_ssnrt"), ExtResource("3_xcenk")])
-shuffle_plants = false
 weathers = Array[ExtResource("5_73edk")]([ExtResource("6_3wxg1"), ExtResource("7_y5h6k")])
 number_of_days = 7
 id = "lady_rose"
 display_name = "Lady Hawthorne"
-description = "At level start, shuffle {value} {card:thorn} into the draw pile."
+description = "At level start, shuffle {value}{card:thorn} into the draw pile."
 data = {
 &"value": "2"
 }
-note = ""
 metadata/_custom_type_script = "uid://bt7c5hiesqa06"

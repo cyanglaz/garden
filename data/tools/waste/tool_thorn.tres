@@ -8,12 +8,6 @@ script = ExtResource("1_f2rdf")
 type = 8
 value = 1
 value_type = 2
-specials = Array[int]([])
-id = ""
-display_name = ""
-description = ""
-data = {}
-note = ""
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
@@ -22,10 +16,6 @@ energy_cost = -1
 actions = Array[ExtResource("1_f2rdf")]([SubResource("Resource_oexgw")])
 rarity = -1
 specials = Array[int]([0, 1])
-need_select_field = false
 id = "thorn"
 display_name = "Thorn"
-description = ""
-data = {}
-note = ""
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

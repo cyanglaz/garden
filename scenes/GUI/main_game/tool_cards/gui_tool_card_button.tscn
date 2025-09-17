@@ -1,15 +1,16 @@
-[gd_scene load_steps=11 format=3 uid="uid://bacvied61ghpe"]
+[gd_scene load_steps=10 format=3 uid="uid://bacvied61ghpe"]
 
 [ext_resource type="Script" uid="uid://t7x03xkbah7n" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.gd" id="1_a7c0j"]
 [ext_resource type="Shader" uid="uid://6cqmrfdokad8" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.gdshader" id="1_ckxcp"]
 [ext_resource type="Texture2D" uid="uid://ugtybr3upkmn" path="res://resources/sprites/GUI/backgrounds/tool_card_background.png" id="2_a7c0j"]
 [ext_resource type="PackedScene" uid="uid://cjwhkrmueycbi" path="res://scenes/GUI/shared/descriptions/shared_description/gui_action_list.tscn" id="4_882ho"]
-[ext_resource type="Texture2D" uid="uid://cfqih7tn7gdu" path="res://resources/sprites/GUI/backgrounds/tool_card_border.png" id="4_cxlev"]
 [ext_resource type="AudioStream" uid="uid://bgyg7vg7fsae6" path="res://resources/sounds/SFX/tool_cards/card_use.wav" id="5_a7c0j"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ckxcp"]
 resource_local_to_scene = true
 shader = ExtResource("1_ckxcp")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
 shader_parameter/sensitivity = 0.0
 
 [sub_resource type="Animation" id="Animation_882ho"]
@@ -123,7 +124,7 @@ _data = {
 }
 
 [node name="GUIToolCardButton" type="PanelContainer"]
-custom_minimum_size = Vector2(38, 52)
+custom_minimum_size = Vector2(40, 54)
 offset_right = 38.0
 offset_bottom = 52.0
 size_flags_vertical = 4
@@ -140,7 +141,7 @@ unique_name_in_owner = true
 material = SubResource("ShaderMaterial_ckxcp")
 layout_mode = 2
 texture = ExtResource("2_a7c0j")
-region_rect = Rect2(0, 0, 38, 52)
+region_rect = Rect2(0, 0, 40, 54)
 patch_margin_left = 3
 patch_margin_top = 3
 patch_margin_right = 3
@@ -221,19 +222,6 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_constants/separation = 1
 alignment = 2
-
-[node name="HighlightBorder" type="NinePatchRect" parent="CardContainer/FreeContainer"]
-unique_name_in_owner = true
-layout_mode = 1
-offset_left = -1.0
-offset_top = -1.0
-offset_right = 39.0
-offset_bottom = 53.0
-texture = ExtResource("4_cxlev")
-patch_margin_left = 4
-patch_margin_top = 4
-patch_margin_right = 4
-patch_margin_bottom = 4
 
 [node name="UseSound" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true

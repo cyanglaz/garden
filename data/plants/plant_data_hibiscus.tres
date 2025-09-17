@@ -6,13 +6,10 @@
 script = ExtResource("1_tk04h")
 light = 4
 water = 2
-rarity = 0
-immune_to_status = Array[String]([])
 id = "hibiscus"
 display_name = "Hibiscus"
-description = "+ {card} {action:draw_card} on {resource:light} gain."
+description = "+ {card}{action:draw_card}on{resource:light}gain."
 data = {
 "card": "1"
 }
-note = ""
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

@@ -122,7 +122,7 @@ CARD_SPECIAL_NAME_COMPOST, "Compost"
 CARD_SPECIAL_DESCRIPTION_COMPOST, "After use, this card cannot be played this level."
 
 MAX_DAY_LABEL_TEXT, "Max Days: %s"
-IMMUNE_TO_STATUS_TEXT, "Immune to: %s"
+IMMUNE_TO_STATUS_TEXT, "Immune to:%s"
 
 INFO_TITLE, "Library" 
 

@@ -6,13 +6,10 @@
 script = ExtResource("1_ni2q2")
 light = 3
 water = 2
-rarity = 0
-immune_to_status = Array[String]([])
 id = "daisy"
 display_name = "Daisy"
-description = "When harvested, + {card} {action:draw_card}."
+description = "When harvested, + {card}{action:draw_card}."
 data = {
 "card": "1"
 }
-note = ""
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

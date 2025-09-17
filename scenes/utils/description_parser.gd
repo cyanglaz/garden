@@ -2,6 +2,7 @@ class_name DescriptionParser
 extends RefCounted
 
 const IMAGE_PATH_CARD := "res://resources/sprites/GUI/icons/resources/icon_card.png"
+const ICON_SIZE := 7
 
 static func find_all_reference_pairs(formatted_description:String) -> Array:
 	var pairs:Array = []
@@ -73,7 +74,7 @@ static func _format_icon_reference(reference_id:String, highlight:bool) -> Strin
 	var highlight_color := Constants.COLOR_WHITE
 	if highlight:
 		highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
-	icon_string = str("[img=6x6]", image_path, "[/img]") + Util.convert_to_bbc_highlight_text(level_suffix, highlight_color)
+	icon_string = str("[img=", ICON_SIZE, "x", ICON_SIZE, "]", image_path, "[/img]") + Util.convert_to_bbc_highlight_text(level_suffix, highlight_color)
 	return icon_string
 
 static func _highlight_string(string:String) -> String:
@@ -93,8 +94,8 @@ static func _format_card_reference(reference_id:String, highlight:bool) -> Strin
 	var highlight_color := Constants.COLOR_WHITE
 	if highlight:
 		highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
-	var icon_string = str("[img=6x6]", IMAGE_PATH_CARD, "[/img]")
+	var icon_string = str("[img=", ICON_SIZE, "x", ICON_SIZE, "]", IMAGE_PATH_CARD, "[/img]")
 	var card_name:String = Util.convert_to_bbc_highlight_text(MainDatabase.tool_database.get_data_by_id(reference_id).display_name, highlight_color)
-	var final_string := str(" ", icon_string, " ", card_name)
+	var final_string := str(icon_string, card_name, " ")
 	return final_string
 	

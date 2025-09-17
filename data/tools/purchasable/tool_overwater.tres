@@ -7,39 +7,21 @@
 script = ExtResource("1_m0gly")
 type = 2
 value = 3
-value_type = 0
-specials = Array[int]([])
-id = ""
-display_name = ""
-description = ""
-data = {}
-note = ""
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [sub_resource type="Resource" id="Resource_m0gly"]
 script = ExtResource("1_m0gly")
 type = 4
 value = 1
-value_type = 0
-specials = Array[int]([])
-id = ""
-display_name = ""
-description = ""
-data = {}
-note = ""
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
 script = ExtResource("2_ih1py")
 energy_cost = 2
 actions = Array[ExtResource("1_m0gly")]([SubResource("Resource_oexgw"), SubResource("Resource_m0gly")])
-rarity = 0
-specials = Array[int]([])
 need_select_field = true
 id = "overwater"
 display_name = "Overwater"
-description = ""
-data = {}
 note = "+3 water
 +1 fungus
 "

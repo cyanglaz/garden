@@ -80,6 +80,8 @@ func _ready() -> void:
 	level_manager.generate_with_chapter(0)
 	_start_new_level()
 	_update_gold(0, false)
+	
+	#gui_main_game.animate_show_shop(3, 0)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("de-select"):

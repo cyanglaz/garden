@@ -141,3 +141,4 @@ offset_top = 11.0
 offset_right = 16.0
 offset_bottom = 11.0
 grow_horizontal = 1
+theme_override_constants/separation = 0
