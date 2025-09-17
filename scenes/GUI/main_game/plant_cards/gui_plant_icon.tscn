@@ -2,12 +2,16 @@
 
 [ext_resource type="Script" uid="uid://dbkjn3k1kdgme" path="res://scenes/GUI/main_game/plant_cards/gui_plant_icon.gd" id="1_q7qh7"]
 [ext_resource type="Texture2D" uid="uid://ljoqftopipcr" path="res://resources/sprites/GUI/backgrounds/plant_icon_background.png" id="2_7eodn"]
-[ext_resource type="Texture2D" uid="uid://cot566voterom" path="res://resources/sprites/GUI/shared/border2.png" id="3_5linv"]
+[ext_resource type="Shader" uid="uid://cuss8w4l6opwk" path="res://scenes/GUI/main_game/plant_cards/gui_plant_icon.gdshader" id="2_q7qh7"]
 [ext_resource type="AudioStream" uid="uid://dsgrc7liboqjg" path="res://resources/sounds/SFX/plants/plant_move.wav" id="4_7eodn"]
-[ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="5_7eodn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7eodn"]
+shader = ExtResource("2_q7qh7")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/outline_size = 1
 
 [node name="GUIPlantIcon" type="PanelContainer"]
-custom_minimum_size = Vector2(16, 16)
+custom_minimum_size = Vector2(18, 18)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 1
@@ -15,55 +19,30 @@ script = ExtResource("1_q7qh7")
 
 [node name="Background" type="NinePatchRect" parent="."]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_7eodn")
 layout_mode = 2
 texture = ExtResource("2_7eodn")
-region_rect = Rect2(0, 0, 16, 16)
+region_rect = Rect2(0, 0, 18, 18)
 patch_margin_left = 1
 patch_margin_top = 1
 patch_margin_right = 1
 patch_margin_bottom = 1
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Border" type="NinePatchRect" parent="."]
-unique_name_in_owner = true
-modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
-layout_mode = 2
-texture = ExtResource("3_5linv")
-patch_margin_left = 1
-patch_margin_top = 1
-patch_margin_right = 1
-patch_margin_bottom = 1
-
 [node name="MoveAudio" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("4_7eodn")
 bus = &"SFX"
-
-[node name="Control" type="Control" parent="."]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="HighlightBorder" type="NinePatchRect" parent="Control"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -1.0
-offset_top = -1.0
-offset_right = 1.0
-offset_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("5_7eodn")
-patch_margin_left = 3
-patch_margin_top = 3
-patch_margin_right = 3
-patch_margin_bottom = 3

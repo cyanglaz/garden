@@ -1,7 +1,7 @@
 shader_type canvas_item;
 
 uniform vec4 outline_color:source_color;
-uniform int outline_size = 1;
+uniform int outline_size = 0;
 
 varying vec4 modulate;
 

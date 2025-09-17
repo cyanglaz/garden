@@ -12,7 +12,6 @@ enum Mode {
 
 @onready var gui_plant_icon: GUIPlantIcon = %GUIPlantIcon
 @onready var overlay: NinePatchRect = %Overlay
-@onready var highlight_border: NinePatchRect = %HighlightBorder
 
 var mode:Mode: set = _set_mode
 
@@ -27,13 +26,13 @@ func _set_mode(val:Mode) -> void:
 	mode = val
 	match mode:
 		Mode.INACTIVE:
-			highlight_border.hide()
+			gui_plant_icon.has_outline = false
 			overlay.hide()
 		Mode.ACTIVE:
-			highlight_border.show()
+			gui_plant_icon.has_outline = true
 			overlay.hide()
-			highlight_border.self_modulate = ACTIVE_BORDER_COLOR
+			gui_plant_icon.outline_color = ACTIVE_BORDER_COLOR
 		Mode.FINISHED:
-			highlight_border.show()
-			highlight_border.self_modulate = FINISHED_BORDER_COLOR
+			gui_plant_icon.has_outline = true
+			gui_plant_icon.outline_color = FINISHED_BORDER_COLOR
 			overlay.show()

@@ -508,11 +508,11 @@ static func get_plant_icon_background_region(plant_data:PlantData, highlighted:b
 			0:
 				x = 0
 			1:
-				x = 16
+				x = 18
 			2:
-				x = 32
+				x = 36
 			3:
-				x = 48
+				x = 54
 			_:
 				assert(false, "Invalid rarity: " + str(plant_data.rarity))
 	return Vector2(x, y)
