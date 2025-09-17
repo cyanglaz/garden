@@ -7,25 +7,13 @@
 script = ExtResource("1_ecsgx")
 type = 3
 value = -1
-value_type = 0
-specials = Array[int]([])
-id = ""
-display_name = ""
-description = ""
-data = {}
-note = ""
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
 script = ExtResource("2_kxdff")
-energy_cost = 1
 actions = Array[ExtResource("1_ecsgx")]([SubResource("Resource_oexgw")])
-rarity = 0
-specials = Array[int]([])
 need_select_field = true
 id = "bug_spray"
 display_name = "Bug Spray"
-description = ""
-data = {}
 note = "-1 bug"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

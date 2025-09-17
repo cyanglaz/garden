@@ -7,25 +7,14 @@
 script = ExtResource("1_dyj2c")
 type = 9
 value = 3
-value_type = 0
-specials = Array[int]([])
-id = ""
-display_name = ""
-description = ""
-data = {}
-note = ""
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
 script = ExtResource("2_5u1sb")
-energy_cost = 1
 actions = Array[ExtResource("1_dyj2c")]([SubResource("Resource_dyj2c")])
 rarity = 1
-specials = Array[int]([])
 need_select_field = true
 id = "recycle"
 display_name = "Recycle"
-description = ""
-data = {}
 note = "+ 3 water recycle"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

@@ -7,25 +7,15 @@
 script = ExtResource("1_jtep7")
 type = 10
 value = 1
-value_type = 0
-specials = Array[int]([])
-id = ""
-display_name = ""
-description = ""
-data = {}
-note = ""
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
 script = ExtResource("2_ldudj")
-energy_cost = 1
 actions = Array[ExtResource("1_jtep7")]([SubResource("Resource_1wgia")])
 rarity = 1
-specials = Array[int]([])
 need_select_field = true
 id = "greenhouse"
 display_name = "Greenhouse"
-description = ""
 data = {
 "light": "1"
 }

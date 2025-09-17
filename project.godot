@@ -26,7 +26,7 @@ resources_spreadsheet_view/freeze_first_column=true
 config/name="Rogue Garden"
 config/version="0.0.1"
 run/main_scene="uid://qy2x3blewn0"
-config/features=PackedStringArray("4.4", "Mobile")
+config/features=PackedStringArray("4.5", "Mobile")
 boot_splash/use_filter=false
 
 [aseprite]
