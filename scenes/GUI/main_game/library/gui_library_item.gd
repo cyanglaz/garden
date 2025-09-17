@@ -7,14 +7,12 @@ signal tooltip_button_evoked(data:Resource)
 const REFERENCE_BUTTON_SCENE := preload("res://scenes/GUI/controls/buttons/gui_tooltip_reference_button.tscn")
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
 const CARD_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_card.png"
+const WRAPPER_BUTTON_SCENE := preload("res://scenes/GUI/controls/buttons/gui_library_item_wrapper_button.tscn")
 
 func update_with_plant_data(plant_data:PlantData, level_index:int, next_level_id:String) -> void:
 	var plant_tooltip:GUIPlantTooltip = load("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn").instantiate()
 	plant_tooltip.library_mode = true
-	var tooltip_button:GUIBasicButton = _create_tooltip_button(plant_tooltip, plant_data)
-	add_child(tooltip_button)
-	if level_index == 0:
-		tooltip_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_add_tooltip_button(plant_tooltip, plant_data, self, level_index)
 	plant_tooltip.update_with_plant_data(plant_data)
 	_find_reference_pairs_and_add_buttons(plant_data.description, next_level_id)
 	var immune_to_status_pairs:Array = []
@@ -27,10 +25,7 @@ func update_with_tool_data(tool_data:ToolData, level_index:int, next_level_id:St
 	h_box_container.add_theme_constant_override("separation", 1)
 	add_child(h_box_container)
 	var tool_tooltip:GUICardTooltip = Util.GUI_CARD_TOOLTIP_SCENE.instantiate()
-	var tooltip_button:GUIBasicButton = _create_tooltip_button(tool_tooltip, tool_data)
-	if level_index == 0:
-		tooltip_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	h_box_container.add_child(tooltip_button)
+	_add_tooltip_button(tool_tooltip, tool_data, h_box_container, level_index)
 	tool_tooltip.update_with_tool_data(tool_data)
 	if !tool_data.actions.is_empty():
 		var tool_card_tooltip:GUIToolCardTooltip = Util.GUI_TOOL_CARD_TOOLTIP_SCENE.instantiate()
@@ -41,30 +36,26 @@ func update_with_tool_data(tool_data:ToolData, level_index:int, next_level_id:St
 
 func update_with_level_data(level_data:LevelData, level_index:int, next_level_id:String) -> void:
 	var boss_tooltip:GUIBossTooltip = Util.GUI_BOSS_TOOLTIP_SCENE.instantiate()
-	var tooltip_button:GUIBasicButton = _create_tooltip_button(boss_tooltip, level_data)
-	add_child(tooltip_button)
-	if level_index == 0:
-		tooltip_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_add_tooltip_button(boss_tooltip, level_data, self, level_index)
 	boss_tooltip.library_mode = true
 	boss_tooltip.update_with_level_data(level_data)
 	_find_reference_pairs_and_add_buttons(level_data.description, next_level_id)
 
 func update_with_thing_data(thing_data:ThingData, level_index:int, next_level_id:String) -> void:
 	var thing_data_tooltip:GUIThingDataTooltip = Util.GUI_THING_DATA_TOOLTIP_SCENE.instantiate()
-	var tooltip_button:GUIBasicButton = _create_tooltip_button(thing_data_tooltip, thing_data)
-	add_child(tooltip_button)
-	if level_index == 0:
-		tooltip_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_add_tooltip_button(thing_data_tooltip, thing_data, self, level_index)
 	thing_data_tooltip.update_with_thing_data(thing_data)
 	_find_reference_pairs_and_add_buttons(thing_data.description, next_level_id)
 
-func _create_tooltip_button(control:Control, data:Resource) -> GUIBasicButton:
+func _add_tooltip_button(control:Control, data:Resource, to_parent:Control, level_index:int) -> void:
 	control.mouse_filter = Control.MOUSE_FILTER_PASS
-	var basic_button:GUIBasicButton = GUIBasicButton.new()
+	var basic_button:GUILibraryItemWrapperButton = WRAPPER_BUTTON_SCENE.instantiate()
+	to_parent.add_child(basic_button)
+	if level_index == 0:
+		basic_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	basic_button.pressed.connect(func(): tooltip_button_evoked.emit(data))
-	basic_button.add_child(control)
+	basic_button.add_item(control)
 	basic_button.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-	return basic_button
 
 func _find_reference_pairs_and_add_buttons(description:String, highlighted_id:String) -> void:
 	var reference_pairs:Array = DescriptionParser.find_all_reference_pairs(description)

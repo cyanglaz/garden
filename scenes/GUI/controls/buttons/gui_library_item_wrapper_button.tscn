@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://hs7w6gwp2td3"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_lqpli"]
+[ext_resource type="Shader" uid="uid://cdhdp6itudr74" path="res://scenes/GUI/controls/buttons/gui_library_item_wrapper_button.gdshader" id="2_0awfx"]
+[ext_resource type="Script" uid="uid://cxyces3qaxksw" path="res://scenes/GUI/controls/buttons/gui_library_item_wrapper_button.gd" id="3_fyfee"]
+[ext_resource type="PackedScene" uid="uid://c5kwroj7rmrwx" path="res://scenes/main_game/field/gui_field_status_icon.tscn" id="4_jt3ou"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fyfee"]
+shader = ExtResource("2_0awfx")
+shader_parameter/has_outline = true
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 1.0
+
+[node name="GUILibraryItemWrapperButton" instance=ExtResource("1_lqpli")]
+material = SubResource("ShaderMaterial_fyfee")
+offset_right = 40.0
+offset_bottom = 54.0
+script = ExtResource("3_fyfee")
+
+[node name="MarginContainer" type="MarginContainer" parent="." index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="GUIFieldStatusIcon" parent="MarginContainer" index="0" instance=ExtResource("4_jt3ou")]
+layout_mode = 2
