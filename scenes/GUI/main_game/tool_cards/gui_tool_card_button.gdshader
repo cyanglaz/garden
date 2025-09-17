@@ -1,5 +1,11 @@
 shader_type canvas_item;
 
+varying vec4 modulate;
+
+void vertex() {
+	modulate = COLOR;
+}
+
 float random(vec2 uv) {
 	return fract(sin(dot(uv, vec2(12.9898, 78.233))) * 438.5453);
 }
@@ -17,5 +23,5 @@ void fragment() {
 	// Determine whether pixel should be visible or not
 	float visible = step(sensitivity, random(UVr));
 	// Draw the pixel, or not depending on if it is visible or not
-	COLOR = vec4(pixelColor.r, pixelColor.g, pixelColor.b, min(visible, pixelColor.a));
+	COLOR = vec4(pixelColor.r, pixelColor.g, pixelColor.b, min(visible, pixelColor.a)) * modulate;
 }

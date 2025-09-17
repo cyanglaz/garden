@@ -7,6 +7,7 @@ const ANIMATION_OFFSET := 3
 @onready var _stack: Label = %Stack
 
 var power_id:String = ""
+var has_outline:bool = false:set = _set_has_outline
 
 var _weak_tooltip:WeakRef = weakref(null)
 var _weak_power_data:WeakRef = weakref(null)
@@ -39,3 +40,10 @@ func _on_mouse_exited() -> void:
 	if _weak_tooltip.get_ref():
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)
+
+func _set_has_outline(val:bool) -> void:
+	has_outline = val
+	if has_outline:
+		(_icon.material as ShaderMaterial).set_shader_parameter("outline", 1)
+	else:
+		(_icon.material as ShaderMaterial).set_shader_parameter("outline", 0)

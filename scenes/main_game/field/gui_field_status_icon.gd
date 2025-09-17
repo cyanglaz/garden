@@ -10,6 +10,7 @@ const ANIMATION_OFFSET := 3
 
 var status_id:String = ""
 var status_type:FieldStatusData.Type
+var has_outline:bool = false:set = _set_has_outline
 
 var _weak_tooltip:WeakRef = weakref(null)
 var _weak_field_status_data:WeakRef = weakref(null)
@@ -48,3 +49,10 @@ func _on_mouse_exited() -> void:
 	if _weak_tooltip && _weak_tooltip.get_ref():
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)
+	
+func _set_has_outline(val:bool) -> void:
+	has_outline = val
+	if has_outline:
+		(_icon.material as ShaderMaterial).set_shader_parameter("outline", 1)
+	else:
+		(_icon.material as ShaderMaterial).set_shader_parameter("outline", 0)
