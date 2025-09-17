@@ -44,8 +44,10 @@ func play_trigger_animation() -> void:
 func _on_mouse_entered() -> void:
 	_weak_tooltip = weakref(Util.display_thing_data_tooltip(_weak_field_status_data.get_ref(), self, false, GUITooltip.TooltipPosition.RIGHT, true))
 	_weak_tooltip.get_ref().library_tooltip_position = GUITooltip.TooltipPosition.BOTTOM_RIGHT
+	has_outline = true
 
 func _on_mouse_exited() -> void:
+	has_outline = false
 	if _weak_tooltip && _weak_tooltip.get_ref():
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)
@@ -53,6 +55,6 @@ func _on_mouse_exited() -> void:
 func _set_has_outline(val:bool) -> void:
 	has_outline = val
 	if has_outline:
-		(_icon.material as ShaderMaterial).set_shader_parameter("outline", 1)
+		(_icon.material as ShaderMaterial).set_shader_parameter("outline_size", 1)
 	else:
-		(_icon.material as ShaderMaterial).set_shader_parameter("outline", 0)
+		(_icon.material as ShaderMaterial).set_shader_parameter("outline_size", 0)
