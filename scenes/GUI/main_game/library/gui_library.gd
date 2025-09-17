@@ -51,42 +51,45 @@ func update_with_data(data:Resource, index_level:int) -> void:
 		if i < index_level:
 			continue
 		var data_to_show:ThingData = stack[i]
+		var next_level_id:String = ""
+		if i + 1 < stack.size():
+			next_level_id = stack[i + 1].id
 		if data_to_show is PlantData:
-			_update_with_plant_data(data_to_show, i)
+			_update_with_plant_data(data_to_show, i, next_level_id)
 		elif data_to_show is ToolData:
-			_update_with_tool_data(data_to_show, i)
+			_update_with_tool_data(data_to_show, i, next_level_id)
 		elif data_to_show is LevelData:
-			_update_with_level_data(data_to_show, i)
+			_update_with_level_data(data_to_show, i, next_level_id)
 		elif data_to_show is FieldStatusData || data_to_show is PowerData:
-			_update_with_thing_data(data_to_show, i)
+			_update_with_thing_data(data_to_show, i, next_level_id)
 	var index:int = Util.array_find(_gui_library_tabbar.datas, func(d:ThingData): return d.id == selected_id)
 	_gui_library_tabbar.select_button(index)
 
-func _update_with_plant_data(plant_data:PlantData, level_index:int) -> void:
+func _update_with_plant_data(plant_data:PlantData, level_index:int, next_level_id:String) -> void:
 	var item:GUILibraryItem = LIBRARY_SCENE.instantiate()
 	_tooltip_container.add_child(item)
-	item.update_with_plant_data(plant_data, level_index)
+	item.update_with_plant_data(plant_data, level_index, next_level_id)
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	item.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
 
-func _update_with_tool_data(tool_data:ToolData, level_index:int) -> void:
+func _update_with_tool_data(tool_data:ToolData, level_index:int, next_level_id:String) -> void:
 	var item:GUILibraryItem = LIBRARY_SCENE.instantiate()
 	_tooltip_container.add_child(item)
-	item.update_with_tool_data(tool_data, level_index)
+	item.update_with_tool_data(tool_data, level_index, next_level_id)
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	item.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
 
-func _update_with_level_data(level_data:LevelData, level_index:int) -> void:
+func _update_with_level_data(level_data:LevelData, level_index:int, next_level_id:String) -> void:
 	var item:GUILibraryItem = LIBRARY_SCENE.instantiate()
 	_tooltip_container.add_child(item)
-	item.update_with_level_data(level_data, level_index)
+	item.update_with_level_data(level_data, level_index, next_level_id)
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	item.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
 
-func _update_with_thing_data(thing_data:ThingData, level_index:int) -> void:
+func _update_with_thing_data(thing_data:ThingData, level_index:int, next_level_id:String) -> void:
 	var item:GUILibraryItem = LIBRARY_SCENE.instantiate()
 	_tooltip_container.add_child(item)
-	item.update_with_thing_data(thing_data, level_index)
+	item.update_with_thing_data(thing_data, level_index, next_level_id)
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	item.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
 
