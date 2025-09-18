@@ -9,7 +9,7 @@
 custom_minimum_size = Vector2(42, 0)
 offset_right = 32.0
 offset_bottom = 44.0
-theme_override_constants/separation = 4
+theme_override_constants/separation = 2
 script = ExtResource("1_lgl7a")
 
 [node name="TitleContainer" type="HBoxContainer" parent="."]
