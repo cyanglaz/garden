@@ -3,7 +3,7 @@ extends PanelContainer
 
 signal tool_selected(tool_data:ToolData)
 
-const TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
+var TOOL_CARD_SCENE := load("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const DEFAULT_CARD_SPACE := 1.0
 const MAX_TOTAL_WIDTH := 200
 const REPOSITION_DURATION:float = 0.08
@@ -17,9 +17,7 @@ var _weak_insufficient_energy_tooltip:WeakRef = weakref(null)
 var _selected_index:int = -1
 
 func _ready() -> void:
-	var temp_tool_card := TOOL_CARD_SCENE.instantiate()
-	_card_size = temp_tool_card.size.x
-	temp_tool_card.queue_free()
+	_card_size = GUIToolCardButton.SIZE.x
 
 func setup(draw_box_button:GUIDeckButton, discard_box_button:GUIDeckButton) -> void:
 	_gui_tool_card_animation_container.setup(self, draw_box_button, discard_box_button)

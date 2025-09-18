@@ -25,7 +25,7 @@ func _ready() -> void:
 	_back_button.pressed.connect(_on_back_button_evoked)
 	_back_button.hide()
 	_gui_library_left_bar.button_pressed.connect(_on_left_bar_button_pressed)
-	#animate_show(MainDatabase.plant_database.get_data_by_id("rose"))
+	animate_show(MainDatabase.plant_database.get_data_by_id("rose"))
 
 func animate_show(data:Resource) -> void:
 	if Singletons.main_game:
@@ -85,6 +85,7 @@ func update_with_data(data:Resource, index_level:int) -> void:
 #region showing category
 
 func _list_items(category:String) -> void:
+	Util.remove_all_children(_browsing_container)
 	var data_list:Array = []
 	match category:
 		"card":

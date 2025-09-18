@@ -20,6 +20,8 @@ func update_with_level_data(level_data:LevelData) -> void:
 	rich_text_label.text = level_data.get_display_description()
 
 func _on_tooltop_shown() -> void:
+	if library_mode:
+		return
 	await Util.create_scaled_timer(CARD_TOOLTIP_DELAY).timeout
 	_weak_show_library_tooltip = weakref(Util.display_show_library_tooltip(_weak_level_data.get_ref(), self, false, GUITooltip.TooltipPosition.BOTTOM_LEFT))
 
