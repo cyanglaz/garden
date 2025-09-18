@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dhy32n6bqqu2l"]
+[gd_scene load_steps=3 format=3 uid="uid://dhy32n6bqqu2l"]
 
 [ext_resource type="PackedScene" uid="uid://b41xt0ohl4pej" path="res://scenes/GUI/controls/buttons/gui_library_category_button.tscn" id="1_fuyvg"]
+[ext_resource type="Script" uid="uid://ciat5a8stvdon" path="res://scenes/GUI/main_game/library/gui_library_left_bar.gd" id="1_x471c"]
 
 [node name="GUILibraryLeftBar" type="VBoxContainer"]
 anchors_preset = 15
@@ -11,6 +12,7 @@ offset_bottom = -113.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 1
+script = ExtResource("1_x471c")
 
 [node name="CardButton" parent="." instance=ExtResource("1_fuyvg")]
 unique_name_in_owner = true

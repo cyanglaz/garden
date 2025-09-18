@@ -5,9 +5,13 @@ const LIBRARY_SCENE := preload("res://scenes/GUI/main_game/library/gui_library_i
 
 @onready var _main_panel: PanelContainer = %MainPanel
 @onready var _title_label: Label = %TitleLabel
-@onready var _tooltip_container: HBoxContainer = %TooltipContainer
 @onready var _gui_library_tabbar: GUILibraryTabbar = %GUILibararyTabbar
 @onready var _back_button: GUIRichTextButton = %BackButton
+@onready var _browsing_scroll_container: ScrollContainer = %BrowsingScrollContainer
+@onready var _browsing_container: GridContainer = %BrowsingContainer
+@onready var _tooltip_scroll_container: ScrollContainer = %TooltipScrollContainer
+@onready var _tooltip_container: HBoxContainer = %TooltipContainer
+@onready var _gui_library_left_bar: GUILibraryLeftBar = %GUILibraryLeftBar
 
 var tooltip_data_stacks:Dictionary = {}
 var _display_y := 0.0
@@ -20,16 +24,29 @@ func _ready() -> void:
 	_gui_library_tabbar.tab_removed.connect(_on_tab_removed)
 	_back_button.pressed.connect(_on_back_button_evoked)
 	_back_button.hide()
+	_gui_library_left_bar.button_pressed.connect(_on_left_bar_button_pressed)
+	#animate_show(MainDatabase.plant_database.get_data_by_id("rose"))
 
 func animate_show(data:Resource) -> void:
 	if Singletons.main_game:
 		Singletons.main_game.clear_all_tooltips()
 	PauseManager.try_pause()
 	show()
-	update_with_data(data, 0)
+	_tooltip_scroll_container.hide()
+	_browsing_scroll_container.hide()
+	if data:
+		update_with_data(data, 0)
+	else:
+		update_with_category("card")
 	await _play_show_animation()
 
+func update_with_category(category:String) -> void:
+	_browsing_scroll_container.show()
+	_list_items(category)
+
 func update_with_data(data:Resource, index_level:int) -> void:
+	_tooltip_scroll_container.show()
+	_browsing_scroll_container.hide()
 	_title_label.text = Util.get_localized_string("INFO_TITLE")
 	if data == null:
 		return
@@ -65,6 +82,45 @@ func update_with_data(data:Resource, index_level:int) -> void:
 	var index:int = Util.array_find(_gui_library_tabbar.datas, func(d:ThingData): return d.id == selected_id)
 	_gui_library_tabbar.select_button(index)
 
+#region showing category
+
+func _list_items(category:String) -> void:
+	var data_list:Array = []
+	match category:
+		"card":
+			_browsing_container.columns = 4
+			data_list = MainDatabase.tool_database.get_all_datas()
+		"plant":
+			_browsing_container.columns = 4
+			data_list = MainDatabase.plant_database.get_all_datas()
+		"misc":
+			_browsing_container.columns = 6
+			data_list = MainDatabase.field_status_database.get_all_datas()
+			data_list.append_array(MainDatabase.power_database.get_all_datas())
+		"boss":
+			_browsing_container.columns = 4
+			data_list = MainDatabase.level_database.get_all_datas()
+	for data:ThingData in data_list:
+		var item:GUILibraryItem = LIBRARY_SCENE.instantiate()
+		_browsing_container.add_child(item)
+		if data is PlantData:
+			item.update_with_plant_data(data, -1, "")
+		elif data is ToolData:
+			item.update_with_tool_data(data, -1, "")
+		elif data is FieldStatusData:
+			item.update_with_field_status_data(data, -1, "")
+		elif data is PowerData:
+			item.update_with_power_data(data, -1, "")
+		elif data is LevelData:
+			item.update_with_level_data(data, -1, "")
+		elif data is ThingData:
+			item.update_with_thing_data(data, -1, "")
+
+
+#endregion
+
+#region showing items
+
 func _update_with_plant_data(plant_data:PlantData, level_index:int, next_level_id:String) -> void:
 	var item:GUILibraryItem = LIBRARY_SCENE.instantiate()
 	_tooltip_container.add_child(item)
@@ -97,6 +153,8 @@ func _clear_tooltips(from_level:int) -> void:
 	for i in _tooltip_container.get_child_count():
 		if i >= from_level:
 			_tooltip_container.get_child(i).queue_free()
+
+#endregion
 
 func _play_show_animation() -> void:
 	_main_panel.position.y = Constants.PENEL_HIDE_Y
@@ -139,6 +197,9 @@ func _on_tab_removed(id:String) -> void:
 func _on_all_tabs_cleared() -> void:
 	Util.remove_all_children(_tooltip_container)
 	tooltip_data_stacks.clear()
+
+func _on_left_bar_button_pressed(category:String) -> void:
+	update_with_category(category)
 
 func _on_back_button_evoked() -> void:
 	animate_hide()

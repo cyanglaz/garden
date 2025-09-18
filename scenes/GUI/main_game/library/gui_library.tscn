@@ -81,6 +81,7 @@ text = "Info"
 horizontal_alignment = 1
 
 [node name="GUILibraryLeftBar" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("5_5ef73")]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(36, 0)
 layout_mode = 2
 
@@ -117,7 +118,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TooltipContainer" type="HBoxContainer" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView/VBoxContainer/MainViewBackground/MarginContainer"]
+[node name="BrowsingScrollContainer" type="ScrollContainer" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView/VBoxContainer/MainViewBackground/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="BrowsingContainer" type="GridContainer" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView/VBoxContainer/MainViewBackground/MarginContainer/BrowsingScrollContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="TooltipScrollContainer" type="ScrollContainer" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView/VBoxContainer/MainViewBackground/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TooltipContainer" type="HBoxContainer" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView/VBoxContainer/MainViewBackground/MarginContainer/TooltipScrollContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2

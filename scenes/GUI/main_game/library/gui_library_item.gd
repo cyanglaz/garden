@@ -14,11 +14,12 @@ func update_with_plant_data(plant_data:PlantData, level_index:int, next_level_id
 	plant_tooltip.library_mode = true
 	_add_tooltip_button(plant_tooltip, plant_data, self, level_index)
 	plant_tooltip.update_with_plant_data(plant_data)
-	_find_reference_pairs_and_add_buttons(plant_data.description, next_level_id)
-	var immune_to_status_pairs:Array = []
-	for status_id in plant_data.immune_to_status:
-		immune_to_status_pairs.append(["field_status", status_id])
-	_add_reference_buttons(immune_to_status_pairs, next_level_id)
+	if level_index >= 0:
+		_find_reference_pairs_and_add_buttons(plant_data.description, next_level_id)
+		var immune_to_status_pairs:Array = []
+		for status_id in plant_data.immune_to_status:
+			immune_to_status_pairs.append(["field_status", status_id])
+		_add_reference_buttons(immune_to_status_pairs, next_level_id)
 
 func update_with_tool_data(tool_data:ToolData, level_index:int, next_level_id:String) -> void:
 	var h_box_container:HBoxContainer = HBoxContainer.new()
@@ -27,25 +28,28 @@ func update_with_tool_data(tool_data:ToolData, level_index:int, next_level_id:St
 	var tool_tooltip:GUICardTooltip = Util.GUI_CARD_TOOLTIP_SCENE.instantiate()
 	_add_tooltip_button(tool_tooltip, tool_data, h_box_container, level_index)
 	tool_tooltip.update_with_tool_data(tool_data)
-	if !tool_data.actions.is_empty():
-		var tool_card_tooltip:GUIToolCardTooltip = Util.GUI_TOOL_CARD_TOOLTIP_SCENE.instantiate()
-		tool_card_tooltip.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-		h_box_container.add_child(tool_card_tooltip)
-		tool_card_tooltip.update_with_tool_data(tool_data)
-	_find_reference_pairs_and_add_buttons(tool_data.description, next_level_id)
+	if level_index >= 0:
+		if !tool_data.actions.is_empty():
+			var tool_card_tooltip:GUIToolCardTooltip = Util.GUI_TOOL_CARD_TOOLTIP_SCENE.instantiate()
+			tool_card_tooltip.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+			h_box_container.add_child(tool_card_tooltip)
+			tool_card_tooltip.update_with_tool_data(tool_data)
+		_find_reference_pairs_and_add_buttons(tool_data.description, next_level_id)
 
 func update_with_level_data(level_data:LevelData, level_index:int, next_level_id:String) -> void:
 	var boss_tooltip:GUIBossTooltip = Util.GUI_BOSS_TOOLTIP_SCENE.instantiate()
 	_add_tooltip_button(boss_tooltip, level_data, self, level_index)
 	boss_tooltip.library_mode = true
 	boss_tooltip.update_with_level_data(level_data)
-	_find_reference_pairs_and_add_buttons(level_data.description, next_level_id)
+	if level_index >= 0:
+		_find_reference_pairs_and_add_buttons(level_data.description, next_level_id)
 
 func update_with_thing_data(thing_data:ThingData, level_index:int, next_level_id:String) -> void:
 	var thing_data_tooltip:GUIThingDataTooltip = Util.GUI_THING_DATA_TOOLTIP_SCENE.instantiate()
 	_add_tooltip_button(thing_data_tooltip, thing_data, self, level_index)
 	thing_data_tooltip.update_with_thing_data(thing_data)
-	_find_reference_pairs_and_add_buttons(thing_data.description, next_level_id)
+	if level_index >= 0:
+		_find_reference_pairs_and_add_buttons(thing_data.description, next_level_id)
 
 func _add_tooltip_button(control:Control, data:Resource, to_parent:Control, level_index:int) -> void:
 	control.mouse_filter = Control.MOUSE_FILTER_PASS
