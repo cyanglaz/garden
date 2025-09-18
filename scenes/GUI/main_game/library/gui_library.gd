@@ -31,7 +31,7 @@ func _ready() -> void:
 	_back_button.pressed.connect(_on_back_button_evoked)
 	_back_button.hide()
 	_gui_library_left_bar.button_pressed.connect(_on_left_bar_button_pressed)
-	animate_show(MainDatabase.plant_database.get_data_by_id("rose"))
+	#animate_show(MainDatabase.plant_database.get_data_by_id("rose"))
 
 func animate_show(data:Resource) -> void:
 	if Singletons.main_game:
