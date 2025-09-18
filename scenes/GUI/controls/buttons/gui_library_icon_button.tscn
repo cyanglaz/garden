@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://br7mo2hllr156"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_en7ct"]
+
+[node name="GUILibraryIconButton" instance=ExtResource("1_en7ct")]

@@ -1,8 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://ds1ot8wjbmotw"]
+[gd_scene load_steps=6 format=3 uid="uid://ds1ot8wjbmotw"]
 
 [ext_resource type="Script" uid="uid://d4nfk0jo0qxxf" path="res://scenes/GUI/main_game/weather/gui_weather.gd" id="1_7qekt"]
 [ext_resource type="Texture2D" uid="uid://cot566voterom" path="res://resources/sprites/GUI/shared/border2.png" id="2_vhu37"]
+[ext_resource type="Shader" uid="uid://du32cuekrdivr" path="res://scenes/GUI/main_game/weather/gui_weather.gdshader" id="3_6nxf7"]
 [ext_resource type="AudioStream" uid="uid://bs7wm2c8wghxx" path="res://resources/sounds/SFX/weather/weather_icon_flying.wav" id="3_h2v5j"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aratg"]
+resource_local_to_scene = true
+shader = ExtResource("3_6nxf7")
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
 
 [node name="GUIWeather" type="PanelContainer"]
 custom_minimum_size = Vector2(16, 16)
@@ -30,6 +37,7 @@ theme_override_constants/margin_bottom = 1
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer"]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_aratg")
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
