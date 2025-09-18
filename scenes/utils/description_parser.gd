@@ -2,7 +2,7 @@ class_name DescriptionParser
 extends RefCounted
 
 const IMAGE_PATH_CARD := "res://resources/sprites/GUI/icons/resources/icon_card.png"
-const ICON_SIZE := 7
+const ICON_SIZE := 6
 
 static func find_all_reference_pairs(formatted_description:String) -> Array:
 	var pairs:Array = []
@@ -56,7 +56,11 @@ static func _format_reference(reference_key:String, data_to_format:Dictionary, h
 		elif reference_category == "card":
 			parsed_string = _format_card_reference(reference_id, highlight)
 		elif reference_category == "bordered_text":
-			parsed_string = Util.convert_to_bbc_highlight_text(parsed_string, highlight_color)
+			parsed_string = Util.convert_to_bbc_highlight_text(reference_id, highlight_color)
+		elif reference_category == "sign":
+			parsed_string = _format_sign_reference(reference_id)
+		elif reference_category == "value":
+			parsed_string = _format_value_reference(reference_id)
 	return parsed_string
 
 static func _get_level_suffix(reference_id:String) -> String:
@@ -75,6 +79,17 @@ static func _format_icon_reference(reference_id:String, highlight:bool) -> Strin
 	if highlight:
 		highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
 	icon_string = str("[img=", ICON_SIZE, "x", ICON_SIZE, "]", image_path, "[/img]") + Util.convert_to_bbc_highlight_text(level_suffix, highlight_color)
+	return icon_string
+
+static func _format_sign_reference(reference_id:String) -> String:
+	
+	var image_path = Util.get_image_path_for_sign_id(reference_id)
+	var icon_string = str("[img=", ICON_SIZE, "x", ICON_SIZE, "]", image_path, "[/img]")
+	return icon_string
+
+static func _format_value_reference(reference_id:String) -> String:
+	var image_path = Util.get_image_path_for_value_id(reference_id)
+	var icon_string = str("[img=", ICON_SIZE, "x", ICON_SIZE, "]", image_path, "[/img]")
 	return icon_string
 
 static func _highlight_string(string:String) -> String:
@@ -96,6 +111,6 @@ static func _format_card_reference(reference_id:String, highlight:bool) -> Strin
 		highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
 	var icon_string = str("[img=", ICON_SIZE, "x", ICON_SIZE, "]", IMAGE_PATH_CARD, "[/img]")
 	var card_name:String = Util.convert_to_bbc_highlight_text(MainDatabase.tool_database.get_data_by_id(reference_id).display_name, highlight_color)
-	var final_string := str(icon_string, card_name, " ")
+	var final_string := str(icon_string, card_name)
 	return final_string
 	

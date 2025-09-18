@@ -9,7 +9,7 @@ rarity = 2
 specials = Array[int]([1])
 id = "sustainability"
 display_name = "Sustainability"
-description = "{card:graywater}adds {value} more{resource:water}."
+description = "{card:graywater} adds {value} more {resource:water}."
 data = {
 "value": "1"
 }

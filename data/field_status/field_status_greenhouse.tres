@@ -10,7 +10,7 @@ stackable = true
 single_turn = true
 id = "greenhouse"
 display_name = "Greenhouse"
-description = "For each stack, gain {light}{resource:light}when a card is used."
+description = "For each stack, gain {light} {resource:light} when a card is used."
 data = {
 "light": "1"
 }

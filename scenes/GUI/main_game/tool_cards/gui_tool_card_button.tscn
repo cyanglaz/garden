@@ -30,7 +30,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CardContainer/FreeContainer/CardContent:visible")
+tracks/1/path = NodePath(".:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -42,22 +42,10 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath(".:visible")
+tracks/2/path = NodePath("CardContainer/CardContent:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("CardContainer/FreeContainer:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -83,34 +71,22 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CardContainer/FreeContainer/CardContent:visible")
+tracks/1/path = NodePath(".:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
 }
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("CardContainer/FreeContainer:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CardContainer/CardContent:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -147,26 +123,19 @@ patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 3
 
-[node name="FreeContainer" type="Control" parent="CardContainer"]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="CardContent" type="VBoxContainer" parent="CardContainer/FreeContainer"]
+[node name="CardContent" type="Control" parent="CardContainer"]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 0
-
-[node name="MarginContainer2" type="Control" parent="CardContainer/FreeContainer/CardContent"]
-custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Title" type="Label" parent="CardContainer/FreeContainer/CardContent/MarginContainer2"]
+[node name="MarginContainer2" type="Control" parent="CardContainer/CardContent"]
+custom_minimum_size = Vector2(0, 8)
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 8.0
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="CardContainer/CardContent/MarginContainer2"]
 unique_name_in_owner = true
 layout_mode = 1
 offset_left = 3.0
@@ -176,27 +145,21 @@ offset_bottom = 9.0
 theme_type_variation = &"HUD_small"
 horizontal_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="CardContainer/FreeContainer/CardContent"]
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 3
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
-
-[node name="FreeContainer" type="VBoxContainer" parent="CardContainer/FreeContainer/CardContent/MarginContainer"]
-layout_mode = 2
-mouse_filter = 2
+[node name="CostAndDescription" type="VBoxContainer" parent="CardContainer/CardContent"]
+layout_mode = 1
+offset_left = 4.0
+offset_top = 11.0
+offset_right = 36.0
+offset_bottom = 51.0
 theme_override_constants/separation = 2
 
-[node name="CostIcon" type="TextureRect" parent="CardContainer/FreeContainer/CardContent/MarginContainer/FreeContainer"]
+[node name="CostIcon" type="TextureRect" parent="CardContainer/CardContent/CostAndDescription"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CardContainer/FreeContainer/CardContent/MarginContainer/FreeContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="CardContainer/CardContent/CostAndDescription"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
@@ -209,15 +172,30 @@ fit_content = true
 meta_underlined = false
 hint_underlined = false
 
-[node name="GUIActionList" parent="CardContainer/FreeContainer/CardContent/MarginContainer" instance=ExtResource("4_882ho")]
+[node name="GUIActionList" parent="CardContainer/CardContent" instance=ExtResource("4_882ho")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 0)
-layout_mode = 2
+layout_mode = 0
+offset_left = 4.0
+offset_top = 12.0
+offset_right = 36.0
+offset_bottom = 51.0
 mouse_filter = 2
 
-[node name="SpecialsContainer" type="VBoxContainer" parent="CardContainer/FreeContainer/CardContent/MarginContainer"]
+[node name="SpecialsContainer" type="VBoxContainer" parent="CardContainer/CardContent"]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
 size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_constants/separation = 1

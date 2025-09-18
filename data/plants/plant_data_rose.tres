@@ -10,5 +10,5 @@ rarity = 1
 immune_to_status = Array[String](["pest"])
 id = "rose"
 display_name = "Rose"
-description = "When harvested, shuffle a{card:thorn}into the draw pile."
+description = "When harvested, shuffle a {card:thorn} into the draw pile."
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

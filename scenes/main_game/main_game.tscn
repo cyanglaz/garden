@@ -7,16 +7,16 @@
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="3_mijjq"]
 [ext_resource type="Resource" uid="uid://chcuewyamvaie" path="res://data/tools/purchasable/tool_recycle.tres" id="4_i3kwu"]
-[ext_resource type="Resource" uid="uid://cd1g4filickxd" path="res://data/tools/purchasable/tool_drizzle.tres" id="5_mijjq"]
 [ext_resource type="Resource" uid="uid://r34vkggwq6bf" path="res://data/levels/test_level.tres" id="6_ldk84"]
 [ext_resource type="Resource" uid="uid://dyxnhfa0lax6i" path="res://data/tools/purchasable/tool_greenhouse.tres" id="6_r81kp"]
 [ext_resource type="Resource" uid="uid://cmn4a0qulrxit" path="res://data/tools/purchasable/tool_seep.tres" id="7_fetp2"]
 [ext_resource type="Resource" uid="uid://pdqakkphtgxv" path="res://data/tools/purchasable/tool_sustainability.tres" id="8_b4n6q"]
+[ext_resource type="Resource" uid="uid://diu82b74no5rj" path="res://data/tools/purchasable/tool_collect.tres" id="8_gl27v"]
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 player = ExtResource("2_8ywsm")
-test_tools = Array[ExtResource("3_mijjq")]([ExtResource("4_i3kwu"), ExtResource("5_mijjq"), ExtResource("6_r81kp"), ExtResource("7_fetp2"), ExtResource("8_b4n6q")])
+test_tools = Array[ExtResource("3_mijjq")]([ExtResource("4_i3kwu"), ExtResource("6_r81kp"), ExtResource("7_fetp2"), ExtResource("8_b4n6q"), ExtResource("8_gl27v")])
 test_level_data = ExtResource("6_ldk84")
 
 [node name="FieldContainer" parent="." instance=ExtResource("1_075iw")]

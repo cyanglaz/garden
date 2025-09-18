@@ -17,7 +17,7 @@ weathers = Array[ExtResource("5_73edk")]([ExtResource("6_3wxg1"), ExtResource("7
 number_of_days = 7
 id = "lady_rose"
 display_name = "Lady Hawthorne"
-description = "At level start, shuffle {value}{card:thorn} into the draw pile."
+description = "At level start, shuffle {value} {card:thorn} into the draw pile."
 data = {
 &"value": "2"
 }

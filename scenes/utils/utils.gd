@@ -19,6 +19,8 @@ const GUI_SHOW_LIBRARY_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_s
 const FIELD_STATUS_SCRIPT_PREFIX := "res://scenes/main_game/field/status/field_status_script_"
 const POWER_SCRIPT_PREFIX := "res://scenes/main_game/power/power_scripts/power_script_"
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
+const SIGN_ICON_PREFIX := "res://resources/sprites/GUI/icons/cards/signs/icon_"
+const VALUE_ICON_PREFIX := "res://resources/sprites/GUI/icons/cards/values/icon_"
 const PLANT_ICON_PREFIX := "res://resources/sprites/GUI/icons/plants/icon_"
 const TOOL_ICON_PREFIX := "res://resources/sprites/GUI/icons/tool/icon_"
 const WEATHER_ICON_PREFIX := "res://resources/sprites/GUI/icons/weathers/icon_"
@@ -335,6 +337,12 @@ static func get_script_path_for_power_id(id:String) -> String:
 
 static func get_image_path_for_resource_id(id:String) -> String:
 	return str(RESOURCE_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
+
+static func get_image_path_for_sign_id(id:String) -> String:
+	return str(SIGN_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
+
+static func get_image_path_for_value_id(id:String) -> String:
+	return str(VALUE_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
 
 static func _trim_upgrade_suffix_from_id(id:String) -> String:
 	var plus_sign_index := id.find("+")

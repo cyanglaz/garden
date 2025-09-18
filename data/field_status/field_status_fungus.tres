@@ -8,7 +8,7 @@ popup_message = "Growth Reduced."
 stackable = true
 id = "fungus"
 display_name = "Fungus"
-description = "Reduce{resource:water}by {value} at the end of the day."
+description = "Reduce {resource:water} by {value} at the end of the day."
 data = {
 &"value": "1"
 }

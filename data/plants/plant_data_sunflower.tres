@@ -8,7 +8,7 @@ light = 5
 water = 2
 id = "sunflower"
 display_name = "Sunflower"
-description = "Gain +{light}{resource:light}on sunny days."
+description = "Gain +{light} {resource:light} on sunny days."
 data = {
 "light": "1"
 }

@@ -8,7 +8,7 @@ light = 3
 water = 2
 id = "daisy"
 display_name = "Daisy"
-description = "When harvested, + {card}{action:draw_card}."
+description = "When harvested, +{card} {action:draw_card}."
 data = {
 "card": "1"
 }

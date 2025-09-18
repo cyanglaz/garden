@@ -9,8 +9,10 @@ rarity = 1
 need_select_field = true
 id = "collect"
 display_name = "Collect"
-description = "Set{resource:water}to 0.
-Create{card:graywater}for each{resource:water}reduced."
-note = "-1 water
+description = "{resource:water} {bordered_text:= 0}. Gain {gain} {card:graywater} per {resource:water} lost."
+data = {
+"gain": "1"
+}
+note = "water to 0
 Create graywater for water reduced."
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

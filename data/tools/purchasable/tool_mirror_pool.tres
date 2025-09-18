@@ -10,5 +10,5 @@ rarity = 2
 need_select_field = true
 id = "mirror_pool"
 display_name = "Mirror Pool"
-description = "Set the{resource:water}on a plant equal to its{resource:light}."
+description = "Set the {resource:water} on a plant equal to its {resource:light}."
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"
