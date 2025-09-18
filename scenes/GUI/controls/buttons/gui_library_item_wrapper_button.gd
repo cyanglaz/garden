@@ -5,3 +5,28 @@ extends GUIBasicButton
 
 func add_item(item:Control) -> void:
 	margin_container.add_child(item)
+
+func _set_button_state(val:ButtonState) -> void:
+	super._set_button_state(val)
+	var child_button := _get_child_button()
+	if child_button:
+		child_button.button_state = val
+
+func _get_hover_sound() -> AudioStream:
+	var child_button := _get_child_button()
+	if child_button:
+		return child_button._get_hover_sound()
+	return super._get_hover_sound()
+
+func _get_click_sound() -> AudioStream:
+	var child_button := _get_child_button()
+	if child_button:
+		return child_button._get_click_sound()
+	return super._get_click_sound()
+
+func _get_child_button() -> GUIBasicButton:
+	if !margin_container:
+		return null
+	if margin_container.get_child_count() == 0:
+		return null
+	return margin_container.get_child(0) as GUIBasicButton

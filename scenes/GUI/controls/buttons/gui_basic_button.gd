@@ -28,8 +28,6 @@ enum ButtonState {
 @export var tooltip_description:String
 @export var tooltip_position:GUITooltip.TooltipPosition = GUITooltip.TooltipPosition.TOP
 
-@onready var _sound_hover := AudioStreamPlayer2D.new()
-
 var mouse_in:bool
 
 var _holding_start := false
@@ -37,10 +35,6 @@ var _hold_time_count := 0.0
 var _weak_tooltip:WeakRef = weakref(null)
 
 func _ready() -> void:
-	add_child(_sound_hover, false, Node.INTERNAL_MODE_BACK)
-	_sound_hover.bus = "SFX"
-	_sound_hover.stream = _get_hover_sound()
-	_sound_hover.volume_db = -5
 	_set_short_cut(short_cut)
 	gui_input.connect(_on_gui_input)
 	_set_button_state(button_state)
@@ -115,8 +109,8 @@ func _on_mouse_entered():
 	if button_state == ButtonState.DISABLED || button_state == ButtonState.SELECTED:
 		return
 	button_state = ButtonState.HOVERED
-	_sound_hover.play()
-	
+	_play_hover_sound()
+
 func _on_mouse_exited():
 	mouse_in = false
 	if _weak_tooltip.get_ref():
@@ -136,6 +130,10 @@ func _press_up():
 
 func _play_click_sound() -> void:
 	var stream := _get_click_sound()
+	GlobalSoundManager.play_sound(stream, "SFX", -5)
+
+func _play_hover_sound() -> void:
+	var stream := _get_hover_sound()
 	GlobalSoundManager.play_sound(stream, "SFX", -5)
 
 #region setter/getter

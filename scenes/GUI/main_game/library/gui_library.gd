@@ -107,15 +107,10 @@ func _list_items(category:String) -> void:
 			item.update_with_plant_data(data, -1, "")
 		elif data is ToolData:
 			item.update_with_tool_data(data, -1, "")
-		elif data is FieldStatusData:
-			item.update_with_field_status_data(data, -1, "")
-		elif data is PowerData:
-			item.update_with_power_data(data, -1, "")
 		elif data is LevelData:
 			item.update_with_level_data(data, -1, "")
-		elif data is ThingData:
+		elif data is FieldStatusData || data is PowerData:
 			item.update_with_thing_data(data, -1, "")
-
 
 #endregion
 

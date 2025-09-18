@@ -81,7 +81,7 @@ func update_with_tool_data(td:ToolData) -> void:
 		td.request_refresh.connect(_on_tool_data_refresh)
 
 func play_move_sound() -> void:
-	_sound_hover.play()
+	_play_hover_sound()
 
 func play_use_sound() -> void:
 	_use_sound.play()

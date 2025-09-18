@@ -8,6 +8,7 @@ const REFERENCE_BUTTON_SCENE := preload("res://scenes/GUI/controls/buttons/gui_t
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
 const CARD_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_card.png"
 const WRAPPER_BUTTON_SCENE := preload("res://scenes/GUI/controls/buttons/gui_library_item_wrapper_button.tscn")
+const GUI_TOOL_CARD_BUTTON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
 func update_with_plant_data(plant_data:PlantData, level_index:int, next_level_id:String) -> void:
 	var plant_tooltip:GUIPlantTooltip = load("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn").instantiate()
@@ -25,9 +26,11 @@ func update_with_tool_data(tool_data:ToolData, level_index:int, next_level_id:St
 	var h_box_container:HBoxContainer = HBoxContainer.new()
 	h_box_container.add_theme_constant_override("separation", 1)
 	add_child(h_box_container)
-	var tool_tooltip:GUICardTooltip = Util.GUI_CARD_TOOLTIP_SCENE.instantiate()
-	_add_tooltip_button(tool_tooltip, tool_data, h_box_container, level_index)
-	tool_tooltip.update_with_tool_data(tool_data)
+	var card_button:GUIToolCardButton = GUI_TOOL_CARD_BUTTON_SCENE.instantiate()
+	_add_tooltip_button(card_button, tool_data, h_box_container, level_index)
+	card_button.display_mode = true
+	card_button.activated = true
+	card_button.update_with_tool_data(tool_data)
 	if level_index >= 0:
 		if !tool_data.actions.is_empty():
 			var tool_card_tooltip:GUIToolCardTooltip = Util.GUI_TOOL_CARD_TOOLTIP_SCENE.instantiate()
