@@ -7,7 +7,7 @@ const ANIMATION_OFFSET := 3
 @onready var _stack: Label = %Stack
 
 var power_id:String = ""
-var has_outline:bool = false:set = _set_has_outline
+var is_highlighted:bool = false:set = _set_is_highlighted
 
 var _weak_tooltip:WeakRef = weakref(null)
 var _weak_power_data:WeakRef = weakref(null)
@@ -33,19 +33,19 @@ func play_trigger_animation() -> void:
 		tween.tween_property(_icon, "position", original_position, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 func _on_mouse_entered() -> void:
-	has_outline = true
+	is_highlighted = true
 	_weak_tooltip = weakref(Util.display_thing_data_tooltip(_weak_power_data.get_ref(), self, false, GUITooltip.TooltipPosition.TOP_RIGHT, true))
 	_weak_tooltip.get_ref().library_tooltip_position = GUITooltip.TooltipPosition.BOTTOM_RIGHT
 
 func _on_mouse_exited() -> void:
-	has_outline = false
+	is_highlighted = false
 	if _weak_tooltip.get_ref():
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)
-
-func _set_has_outline(val:bool) -> void:
-	has_outline = val
-	if has_outline:
-		(_icon.material as ShaderMaterial).set_shader_parameter("outline_size", 1)
+	
+func _set_is_highlighted(val:bool) -> void:
+	is_highlighted = val
+	if is_highlighted:
+		(_icon.material as ShaderMaterial).set_shader_parameter("blend_strength", 0.2)
 	else:
-		(_icon.material as ShaderMaterial).set_shader_parameter("outline_size", 0)
+		(_icon.material as ShaderMaterial).set_shader_parameter("blend_strength", 0.0)
