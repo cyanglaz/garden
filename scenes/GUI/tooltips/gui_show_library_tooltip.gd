@@ -15,5 +15,5 @@ func update_with_data(data:ThingData) -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("library"):
-		Singletons.main_game.gui_main_game.gui_library.animate_show(_weak_data.get_ref())
+		Singletons.main_game.gui_main_game.gui_thing_info_view.show_with_data(_weak_data.get_ref())
 		

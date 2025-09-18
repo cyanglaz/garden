@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://s0blay2xi65f"]
+[gd_scene load_steps=8 format=3 uid="uid://s0blay2xi65f"]
 
 [ext_resource type="Script" uid="uid://d1hgyvoydof4g" path="res://scenes/GUI/main_game/library/gui_library.gd" id="1_wkd2w"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="2_k83l7"]
@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="4_pfglm"]
 [ext_resource type="PackedScene" uid="uid://dhy32n6bqqu2l" path="res://scenes/GUI/main_game/library/gui_library_left_bar.tscn" id="5_5ef73"]
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="5_nv0gp"]
-[ext_resource type="PackedScene" uid="uid://dpb75hmacxebu" path="res://scenes/GUI/main_game/library/gui_library_tabbar.tscn" id="6_nv0gp"]
 [ext_resource type="Texture2D" uid="uid://bryaq8eg733mx" path="res://resources/sprites/GUI/backgrounds/library_viewer_background.png" id="7_pfglm"]
 
 [node name="GUILibrary" type="Control"]
@@ -97,10 +96,6 @@ theme_override_constants/margin_bottom = 4
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="GUILibararyTabbar" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView/VBoxContainer" instance=ExtResource("6_nv0gp")]
-unique_name_in_owner = true
-layout_mode = 2
-
 [node name="MainViewBackground" type="NinePatchRect" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -127,15 +122,6 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="TooltipScrollContainer" type="ScrollContainer" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView/VBoxContainer/MainViewBackground/MarginContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="TooltipContainer" type="HBoxContainer" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer/MainView/VBoxContainer/MainViewBackground/MarginContainer/TooltipScrollContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 12)
-layout_mode = 2
 
 [node name="BackButton" parent="." instance=ExtResource("5_nv0gp")]
 unique_name_in_owner = true

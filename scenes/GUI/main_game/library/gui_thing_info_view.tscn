@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3 uid="uid://d2tcfmwnpscj8"]
+
+[ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="1_3xrg8"]
+[ext_resource type="Script" uid="uid://vqunwllnwfxe" path="res://scenes/GUI/main_game/library/gui_thing_info_view.gd" id="1_a6da4"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="2_vgvur"]
+
+[node name="GUIThingInfoView" type="Control"]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_a6da4")
+
+[node name="GUIOverlayBackground" parent="." instance=ExtResource("1_3xrg8")]
+layout_mode = 1
+color = Color(0, 0, 0, 0.8627451)
+
+[node name="TooltipContainer" type="Control" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -29.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackButton" parent="." instance=ExtResource("2_vgvur")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = -22.0
+offset_right = 15.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 0
+localization_text_key = "BACK"
