@@ -12,7 +12,7 @@ const TOOL_SELECTED_OFFSET := -6.0
 @onready var _container: Control = %Container
 @onready var _gui_tool_card_animation_container: GUIToolCardAnimationContainer = %GUIToolCardAnimationContainer
 
-var _card_size:int
+var _card_size:float
 var _weak_insufficient_energy_tooltip:WeakRef = weakref(null)
 var _selected_index:int = -1
 

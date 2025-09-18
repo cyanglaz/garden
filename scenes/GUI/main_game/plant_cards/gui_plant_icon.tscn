@@ -6,9 +6,10 @@
 [ext_resource type="AudioStream" uid="uid://dsgrc7liboqjg" path="res://resources/sounds/SFX/plants/plant_move.wav" id="4_7eodn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7eodn"]
+resource_local_to_scene = true
 shader = ExtResource("2_q7qh7")
-shader_parameter/outline_color = Color(0, 0, 0, 1)
-shader_parameter/outline_size = 1
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
 
 [node name="GUIPlantIcon" type="PanelContainer"]
 custom_minimum_size = Vector2(18, 18)

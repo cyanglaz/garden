@@ -55,7 +55,7 @@ func _animate_level_icon_move(main_game:MainGame, level_data:LevelData) -> void:
 	gui_enemy.global_position = main_game.gui_main_game.gui_enemy.global_position
 	gui_enemy.update_with_level_data(level_data)
 	gui_enemy.play_flying_sound()
-	gui_enemy.animation_mode = true
+	gui_enemy.display_mode = true
 	var tween:Tween = Util.create_scaled_tween(gui_enemy)
 	var game_container := Singletons.main_game.gui_main_game.game_container
 	var target_position:Vector2 = game_container.global_position + Vector2(game_container.size.x/2 - gui_enemy.size.x/2, LEVEL_ICON_MOVE_Y_OFFSET)

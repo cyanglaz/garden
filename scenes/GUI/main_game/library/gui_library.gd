@@ -1,7 +1,13 @@
 class_name GUILibrary
 extends Control
 
-const LIBRARY_SCENE := preload("res://scenes/GUI/main_game/library/gui_library_item.tscn")
+const LIBRARY_ITEM_SCENE := preload("res://scenes/GUI/main_game/library/gui_library_item.tscn")
+const LIBRARY_ICON_SCENE := preload("res://scenes/GUI/main_game/library/gui_library_icon.tscn")
+
+const CARD_PER_ROW := 4
+const PLANT_PER_ROW := 8
+const MISC_PER_ROW := 12
+const BOSS_PER_ROW := 8
 
 @onready var _main_panel: PanelContainer = %MainPanel
 @onready var _title_label: Label = %TitleLabel
@@ -32,8 +38,6 @@ func animate_show(data:Resource) -> void:
 		Singletons.main_game.clear_all_tooltips()
 	PauseManager.try_pause()
 	show()
-	_tooltip_scroll_container.hide()
-	_browsing_scroll_container.hide()
 	if data:
 		update_with_data(data, 0)
 	else:
@@ -41,6 +45,7 @@ func animate_show(data:Resource) -> void:
 	await _play_show_animation()
 
 func update_with_category(category:String) -> void:
+	_tooltip_scroll_container.hide()
 	_browsing_scroll_container.show()
 	_list_items(category)
 
@@ -76,6 +81,7 @@ func update_with_data(data:Resource, index_level:int) -> void:
 		elif data_to_show is ToolData:
 			_update_with_tool_data(data_to_show, i, next_level_id)
 		elif data_to_show is LevelData:
+			assert(data_to_show.type == LevelData.Type.BOSS)
 			_update_with_level_data(data_to_show, i, next_level_id)
 		elif data_to_show is FieldStatusData || data_to_show is PowerData:
 			_update_with_thing_data(data_to_show, i, next_level_id)
@@ -85,61 +91,67 @@ func update_with_data(data:Resource, index_level:int) -> void:
 #region showing category
 
 func _list_items(category:String) -> void:
+	_gui_library_tabbar.clear_all_tabs()
 	Util.remove_all_children(_browsing_container)
 	var data_list:Array = []
 	match category:
 		"card":
-			_browsing_container.columns = 4
+			_browsing_container.columns = CARD_PER_ROW
 			data_list = MainDatabase.tool_database.get_all_datas()
 		"plant":
-			_browsing_container.columns = 4
+			_browsing_container.columns = PLANT_PER_ROW
 			data_list = MainDatabase.plant_database.get_all_datas()
 		"misc":
-			_browsing_container.columns = 6
+			_browsing_container.columns = MISC_PER_ROW
 			data_list = MainDatabase.field_status_database.get_all_datas()
 			data_list.append_array(MainDatabase.power_database.get_all_datas())
 		"boss":
-			_browsing_container.columns = 4
+			_browsing_container.columns = BOSS_PER_ROW
 			data_list = MainDatabase.level_database.get_all_datas()
 	for data:ThingData in data_list:
-		var item:GUILibraryItem = LIBRARY_SCENE.instantiate()
-		_browsing_container.add_child(item)
+		if data is LevelData && data.type != LevelData.Type.BOSS:
+			continue
+		var icon:GUILibraryIcon = LIBRARY_ICON_SCENE.instantiate()
+		_browsing_container.add_child(icon)
 		if data is PlantData:
-			item.update_with_plant_data(data, -1, "")
+			icon.update_with_plant_data(data)
 		elif data is ToolData:
-			item.update_with_tool_data(data, -1, "")
+			icon.update_with_tool_data(data)
 		elif data is LevelData:
-			item.update_with_level_data(data, -1, "")
-		elif data is FieldStatusData || data is PowerData:
-			item.update_with_thing_data(data, -1, "")
+			icon.update_with_level_data(data)
+		elif data is FieldStatusData:
+			icon.update_with_field_status_data(data)
+		elif data is PowerData:
+			icon.update_with_power_data(data)
+		icon.button_evoked.connect(_on_icon_button_evoked)
 
 #endregion
 
 #region showing items
 
 func _update_with_plant_data(plant_data:PlantData, level_index:int, next_level_id:String) -> void:
-	var item:GUILibraryItem = LIBRARY_SCENE.instantiate()
+	var item:GUILibraryItem = LIBRARY_ITEM_SCENE.instantiate()
 	_tooltip_container.add_child(item)
 	item.update_with_plant_data(plant_data, level_index, next_level_id)
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	item.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
 
 func _update_with_tool_data(tool_data:ToolData, level_index:int, next_level_id:String) -> void:
-	var item:GUILibraryItem = LIBRARY_SCENE.instantiate()
+	var item:GUILibraryItem = LIBRARY_ITEM_SCENE.instantiate()
 	_tooltip_container.add_child(item)
 	item.update_with_tool_data(tool_data, level_index, next_level_id)
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	item.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
 
 func _update_with_level_data(level_data:LevelData, level_index:int, next_level_id:String) -> void:
-	var item:GUILibraryItem = LIBRARY_SCENE.instantiate()
+	var item:GUILibraryItem = LIBRARY_ITEM_SCENE.instantiate()
 	_tooltip_container.add_child(item)
 	item.update_with_level_data(level_data, level_index, next_level_id)
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	item.tooltip_button_evoked.connect(_on_tooltip_button_evoked)
 
 func _update_with_thing_data(thing_data:ThingData, level_index:int, next_level_id:String) -> void:
-	var item:GUILibraryItem = LIBRARY_SCENE.instantiate()
+	var item:GUILibraryItem = LIBRARY_ITEM_SCENE.instantiate()
 	_tooltip_container.add_child(item)
 	item.update_with_thing_data(thing_data, level_index, next_level_id)
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
@@ -196,6 +208,9 @@ func _on_all_tabs_cleared() -> void:
 
 func _on_left_bar_button_pressed(category:String) -> void:
 	update_with_category(category)
+
+func _on_icon_button_evoked(data:Resource) -> void:
+	update_with_data(data, 0)
 
 func _on_back_button_evoked() -> void:
 	animate_hide()

@@ -11,6 +11,7 @@ const ANIMATION_OFFSET := 3
 var status_id:String = ""
 var status_type:FieldStatusData.Type
 var is_highlighted:bool = false:set = _set_is_highlighted
+var display_mode := false: set = _set_display_mode
 
 var _weak_tooltip:WeakRef = weakref(null)
 var _weak_field_status_data:WeakRef = weakref(null)
@@ -42,12 +43,16 @@ func play_trigger_animation() -> void:
 		tween.tween_property(_icon, "position", original_position, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	
 func _on_mouse_entered() -> void:
+	is_highlighted = true
+	if display_mode:
+		return
 	_weak_tooltip = weakref(Util.display_thing_data_tooltip(_weak_field_status_data.get_ref(), self, false, GUITooltip.TooltipPosition.RIGHT, true))
 	_weak_tooltip.get_ref().library_tooltip_position = GUITooltip.TooltipPosition.BOTTOM_RIGHT
-	is_highlighted = true
 
 func _on_mouse_exited() -> void:
 	is_highlighted = false
+	if display_mode:
+		return
 	if _weak_tooltip && _weak_tooltip.get_ref():
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)
@@ -58,3 +63,7 @@ func _set_is_highlighted(val:bool) -> void:
 		(_icon.material as ShaderMaterial).set_shader_parameter("blend_strength", 0.2)
 	else:
 		(_icon.material as ShaderMaterial).set_shader_parameter("blend_strength", 0.0)
+
+func _set_display_mode(val:bool) -> void:
+	display_mode = val
+	_stack.visible = !val

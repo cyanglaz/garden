@@ -5,7 +5,7 @@ extends PanelContainer
 @onready var audio_stream_player_2d: AudioStreamPlayer2D = %AudioStreamPlayer2D
 
 var _weak_tooltip:WeakRef = weakref(null)
-var animation_mode := false
+var display_mode := false
 var is_highlighted:bool = false:set = _set_is_highlighted
 
 func update_with_level_data(level_data:LevelData) -> void:
@@ -22,7 +22,7 @@ func play_flying_sound() -> void:
 
 func _on_mouse_entered(level_data:LevelData) -> void:
 	is_highlighted = true
-	if !animation_mode:
+	if !display_mode:
 		_weak_tooltip = weakref(Util.display_boss_tooltip(level_data, self, false, GUITooltip.TooltipPosition.LEFT))
 
 func _on_mouse_exited() -> void:

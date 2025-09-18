@@ -10,6 +10,9 @@ const GUI_ENEMY_SCENE := preload("res://scenes/GUI/main_game/characters/gui_enem
 const GUI_FIELD_STATUS_ICON_SCENE := preload("res://scenes/main_game/field/gui_field_status_icon.tscn")
 const GUI_POWER_ICON_SCENE := preload("res://scenes/GUI/main_game/power/gui_power_icon.tscn")
 
+func _ready() -> void:
+	size_flags_horizontal = Control.SIZE_EXPAND
+
 func update_with_plant_data(plant_data:PlantData) -> void:
 	var wrapper_button:GUILibraryItemWrapperButton = WRAPPER_BUTTON_SCENE.instantiate()
 	add_child(wrapper_button)
@@ -17,6 +20,7 @@ func update_with_plant_data(plant_data:PlantData) -> void:
 	var plant_icon:GUIPlantIcon = PLANT_ICON_SCENE.instantiate()
 	wrapper_button.add_item(plant_icon)
 	plant_icon.update_with_plant_data(plant_data)
+	plant_icon.mouse_behavior_recursive = Control.MOUSE_BEHAVIOR_DISABLED
 	wrapper_button.mouse_entered.connect(func() -> void: plant_icon.has_outline = true)
 	wrapper_button.mouse_exited.connect(func() -> void: plant_icon.has_outline = false)
 
@@ -25,8 +29,10 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	add_child(wrapper_button)
 	wrapper_button.pressed.connect(func() -> void: button_evoked.emit(tool_data))
 	var tool_card_button:GUIToolCardButton = GUI_TOOL_CARD_BUTTON_SCENE.instantiate()
+	tool_card_button.display_mode = true
 	wrapper_button.add_item(tool_card_button)
 	tool_card_button.update_with_tool_data(tool_data)
+	tool_card_button.mouse_behavior_recursive = Control.MOUSE_BEHAVIOR_DISABLED
 	wrapper_button.mouse_entered.connect(func() -> void: tool_card_button.button_state = GUIBasicButton.ButtonState.HOVERED)
 	wrapper_button.mouse_exited.connect(func() -> void: tool_card_button.button_state = GUIBasicButton.ButtonState.NORMAL)
 
@@ -35,10 +41,12 @@ func update_with_level_data(level_data:LevelData) -> void:
 	add_child(wrapper_button)
 	wrapper_button.pressed.connect(func() -> void: button_evoked.emit(level_data))
 	var enemy:GUIEnemy = GUI_ENEMY_SCENE.instantiate()
+	enemy.display_mode = true
 	wrapper_button.add_item(enemy)
 	enemy.update_with_level_data(level_data)
-	wrapper_button.mouse_entered.connect(func() -> void: enemy.has_outline = true)
-	wrapper_button.mouse_exited.connect(func() -> void: enemy.has_outline = false)
+	enemy.mouse_behavior_recursive = Control.MOUSE_BEHAVIOR_DISABLED
+	wrapper_button.mouse_entered.connect(func() -> void: enemy.is_highlighted = true)
+	wrapper_button.mouse_exited.connect(func() -> void: enemy.is_highlighted = false)
 
 func update_with_field_status_data(field_status_data:FieldStatusData) -> void:
 	var wrapper_button:GUILibraryItemWrapperButton = WRAPPER_BUTTON_SCENE.instantiate()
@@ -46,7 +54,9 @@ func update_with_field_status_data(field_status_data:FieldStatusData) -> void:
 	wrapper_button.pressed.connect(func() -> void: button_evoked.emit(field_status_data))
 	var field_status_icon:GUIFieldStatusIcon = GUI_FIELD_STATUS_ICON_SCENE.instantiate()
 	wrapper_button.add_item(field_status_icon)
-	field_status_icon.update_with_field_status_data(field_status_data)
+	field_status_icon.setup_with_field_status_data(field_status_data)
+	field_status_icon.display_mode = true
+	field_status_icon.mouse_behavior_recursive = Control.MOUSE_BEHAVIOR_DISABLED
 	wrapper_button.mouse_entered.connect(func() -> void: field_status_icon.is_highlighted = true)
 	wrapper_button.mouse_exited.connect(func() -> void: field_status_icon.is_highlighted = false)
 
@@ -56,6 +66,8 @@ func update_with_power_data(power_data:PowerData) -> void:
 	wrapper_button.pressed.connect(func() -> void: button_evoked.emit(power_data))
 	var power_icon:GUIPowerIcon = GUI_POWER_ICON_SCENE.instantiate()
 	wrapper_button.add_item(power_icon)
-	power_icon.update_with_power_data(power_data)
+	power_icon.display_mode = true
+	power_icon.setup_with_power_data(power_data)
+	power_icon.mouse_behavior_recursive = Control.MOUSE_BEHAVIOR_DISABLED
 	wrapper_button.mouse_entered.connect(func() -> void: power_icon.is_highlighted = true)
 	wrapper_button.mouse_exited.connect(func() -> void: power_icon.is_highlighted = false)
