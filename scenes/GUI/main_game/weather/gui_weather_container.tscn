@@ -12,7 +12,7 @@ script = ExtResource("1_xcomh")
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ForcastContainer" type="HBoxContainer" parent="."]
+[node name="ForcastContainer" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8

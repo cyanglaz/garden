@@ -125,11 +125,14 @@ func update_power(power_id:String, stack:int) -> void:
 
 #region rating
 
-func update_rating(val:int) -> void:
+func update_rating(val:int) -> bool:
 	rating.value += val
 	await gui_main_game.rating_update_finished
 	if rating.value == 0:
 		_lose()
+		return true
+	else:
+		return false
 
 #endregion
 #region gui
@@ -161,7 +164,6 @@ func _start_new_level() -> void:
 	plant_seed_manager = PlantSeedManager.new(level_manager.current_level.plants, level_manager.current_level.shuffle_plants)
 	tool_manager.refresh_deck()
 	session_summary.level = level_manager.level_index
-	weather_manager.generate_weathers(level_manager.current_level)
 	level_manager.day_manager.start_new(level_manager.current_level)
 	gui_main_game.update_with_plants(plant_seed_manager.plant_datas)
 	gui_main_game.update_levels(level_manager)
@@ -171,7 +173,7 @@ func _start_day() -> void:
 	gui_main_game.toggle_all_ui(false)
 	energy_tracker.setup(max_energy, max_energy)
 	level_manager.next_day()
-	weather_manager.day = level_manager.get_day()
+	weather_manager.generate_next_weathers(level_manager)
 	gui_main_game.update_day_left(level_manager.get_day_left())
 	gui_main_game.clear_tool_selection()
 	await Util.await_for_tiny_time()
@@ -221,9 +223,10 @@ func _end_day() -> void:
 	if won:
 		return #Harvest won the game, no need to discard tools or end the day
 	field_container.handle_turn_end()
-	if level_manager.day_manager.get_day_left() == 0:
-		await update_rating(-1)
-		_start_day()
+	if level_manager.day_manager.get_day_left() <= 0:
+		var game_over := await update_rating(-50)
+		if !game_over:
+			_start_day()
 
 func _on_level_summary_continue_button_pressed() -> void:
 	if level_manager.is_boss_level():
