@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://ps5vjsn1nr2c"]
+
+[ext_resource type="Script" uid="uid://d2wx3xn5vkqcm" path="res://scenes/GUI/main_game/top_bar/gui_rating.gd" id="1_2kdio"]
+[ext_resource type="Texture2D" uid="uid://bhqydxgtda0mu" path="res://resources/sprites/GUI/icons/resources/icon_rating.png" id="1_3v54s"]
+[ext_resource type="PackedScene" uid="uid://drfnshalrvcp5" path="res://scenes/GUI/utils/progress_bar/gui_bordered_progress_bar.tscn" id="2_t87nv"]
+
+[node name="GUIRating" type="HBoxContainer"]
+offset_right = 44.0
+offset_bottom = 11.0
+theme_override_constants/separation = 1
+script = ExtResource("1_2kdio")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_3v54s")
+stretch_mode = 5
+
+[node name="GUIBorderedProgressBar" parent="." instance=ExtResource("2_t87nv")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 7)
+layout_mode = 2
+size_flags_vertical = 4
+tint_progress = Color(1, 0.78431374, 0.14509805, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+theme_type_variation = &"RichTextButton"
+theme_override_colors/default_color = Color(1, 0.92156863, 0.34117648, 1)
+theme_override_colors/font_outline_color = Color(0.07450981, 0.07450981, 0.07450981, 1)
+theme_override_constants/outline_size = 1
+bbcode_enabled = true
+text = "100/100"
+fit_content = true
+scroll_active = false
+vertical_alignment = 1

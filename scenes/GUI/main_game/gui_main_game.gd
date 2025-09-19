@@ -6,6 +6,7 @@ signal tool_selected(tool_data:ToolData)
 signal level_summary_continue_button_pressed()
 signal gold_increased(gold:int)
 signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData)
+signal rating_update_finished(value:int)
 
 @onready var gui_top_bar: GUITopBar = %GUITopBar
 @onready var game_container: PanelContainer = %GameContainer
@@ -44,6 +45,7 @@ func _ready() -> void:
 	gui_tool_card_container.setup(gui_draw_box_button, gui_discard_box_button)
 	gui_top_bar.setting_button_evoked.connect(_on_settings_button_evoked)
 	gui_top_bar.library_button_evoked.connect(_on_library_button_evoked)
+	gui_top_bar.rating_update_finished.connect(func(value:int) -> void: rating_update_finished.emit(value))
 	gui_level_summary_main.continue_button_pressed.connect(func() -> void: level_summary_continue_button_pressed.emit())
 	gui_level_summary_main.gold_increased.connect(func(gold:int) -> void: gold_increased.emit(gold))
 	gui_plant_seed_animation_container.draw_plant_card_completed.connect(func(field_index:int, plant_data:PlantData) -> void: plant_seed_drawn_animation_completed.emit(field_index, plant_data))
@@ -97,6 +99,9 @@ func update_level(level:int) -> void:
 
 func update_gold(gold:int, animated:bool) -> void:
 	await gui_top_bar.update_gold(gold, animated)
+
+func bind_with_rating(rating:ResourcePoint) -> void:
+	gui_top_bar.bind_with_rating(rating)
 
 #region characters
 

@@ -8,6 +8,8 @@ const DAYS_TO_WEEK := 7
 const WIN_PAUSE_TIME := 0.4
 const INSTANT_CARD_USE_DELAY := 0.3
 const DETAIL_TOOLTIP_DELAY := 0.8
+const INITIAL_RATING_VALUE := 100
+const INITIAL_RATING_MAX_VALUE := 100
 
 @export var player:PlayerData
 @export var test_tools:Array[ToolData]
@@ -28,6 +30,7 @@ var plant_seed_manager:PlantSeedManager
 var max_energy := 3
 var session_summary:SessionSummary
 var hovered_data:ThingData: set = _set_hovered_data
+var rating:ResourcePoint = ResourcePoint.new()
 var _gold := 0: set = _set_gold
 
 var _harvesting_fields:Array = []
@@ -36,6 +39,7 @@ func _ready() -> void:
 	Singletons.main_game = self
 	
 	session_summary = SessionSummary.new()
+	rating.setup(INITIAL_RATING_VALUE, INITIAL_RATING_MAX_VALUE)
 	
 	#field signals
 	if test_number_of_fields > 0:
@@ -61,13 +65,14 @@ func _ready() -> void:
 		
 	tool_manager.tool_application_started.connect(_on_tool_application_started)
 	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
-		
+
 	#gui main signals
 	gui_main_game.update_player(player)
 	gui_main_game.bind_power_manager(power_manager)
 	gui_main_game.bind_energy(energy_tracker)
 	gui_main_game.bind_tool_deck(tool_manager.tool_deck)
 	gui_main_game.setup_plant_seed_animation_container(field_container)
+	gui_main_game.bind_with_rating(rating)
 	gui_main_game.end_turn_button_pressed.connect(_on_end_turn_button_pressed)
 	gui_main_game.tool_selected.connect(_on_tool_selected)
 	gui_main_game.level_summary_continue_button_pressed.connect(_on_level_summary_continue_button_pressed)
@@ -116,6 +121,17 @@ func update_power(power_id:String, stack:int) -> void:
 	power_manager.update_power(power_id, stack)
 	await power_manager.handle_activation_hook(self)
 
+#endregion
+
+#region rating
+
+func update_rating(val:int) -> void:
+	rating.value += val
+	await gui_main_game.rating_update_finished
+	if rating.value == 0:
+		_lose()
+
+#endregion
 #region gui
 
 func add_control_to_overlay(control:Control) -> void:
@@ -206,11 +222,7 @@ func _end_day() -> void:
 		return #Harvest won the game, no need to discard tools or end the day
 	field_container.handle_turn_end()
 	if level_manager.day_manager.get_day_left() == 0:
-		if _met_win_condition():	
-			return #Win condition has been met at the end of the day, _harvest will take care of win
-		else:
-			_lose()
-	else:
+		await update_rating(-1)
 		_start_day()
 
 func _on_level_summary_continue_button_pressed() -> void:
