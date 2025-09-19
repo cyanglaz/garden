@@ -195,6 +195,7 @@ func _lose() -> void:
 
 func _end_day() -> void:
 	gui_main_game.toggle_all_ui(false)
+	_clear_tool_selection()
 	await _discard_all_tools()
 	await field_container.trigger_end_day_hook(self)
 	await field_container.trigger_end_day_ability(self)
@@ -316,7 +317,7 @@ func _on_field_hovered(hovered:bool, index:int) -> void:
 			field_container.ready_field_selection_indicators()
 
 func _on_field_pressed(index:int) -> void:
-	if !tool_manager.selected_tool:
+	if !tool_manager.selected_tool || !tool_manager.selected_tool.need_select_field:
 		return
 	tool_manager.apply_tool(self, field_container.fields, index)
 
