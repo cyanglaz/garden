@@ -194,6 +194,18 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
+[node name="Overlay" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
 [node name="GUIToolCardsViewer" parent="." instance=ExtResource("11_648op")]
 unique_name_in_owner = true
 visible = false
@@ -210,7 +222,7 @@ visible = false
 unique_name_in_owner = true
 visible = false
 
-[node name="Overlay" type="Control" parent="."]
+[node name="DialogueOverlay" type="Control" parent="."]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
@@ -222,7 +234,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="GUIDialogueWindow" parent="Overlay" instance=ExtResource("13_di7a2")]
+[node name="GUIDialogueWindow" parent="DialogueOverlay" instance=ExtResource("13_di7a2")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 0

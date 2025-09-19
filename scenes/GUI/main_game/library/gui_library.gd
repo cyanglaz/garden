@@ -86,6 +86,7 @@ func animate_hide() -> void:
 	tween.tween_property(_main_panel, "position:y", Constants.PENEL_HIDE_Y, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	await tween.finished
 	hide()
+	Util.remove_all_children(_browsing_container)
 	PauseManager.try_unpause()
 
 func _on_left_bar_button_pressed(category:String) -> void:
