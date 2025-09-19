@@ -16,7 +16,6 @@ func _ready() -> void:
 
 func update_with_level_data(level_data:LevelData) -> void:
 	_weak_level_data = weakref(level_data)
-	assert(level_data.type == LevelData.Type.BOSS)
 	if level_data.type == LevelData.Type.BOSS:
 		show()
 		texture_rect.texture = level_data.portrait_icon

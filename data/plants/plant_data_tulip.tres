@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="PlantData" load_steps=2 format=3 uid="uid://b457eg2twkey4"]
+
+[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_ov6a6"]
+
+[resource]
+script = ExtResource("1_ov6a6")
+light = 2
+water = 3
+id = "tulip"
+display_name = "Tulip"
+description = "When harvested, shuffle a {card:water_cache} into your hand."
+data = {
+"card": "1"
+}
+metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

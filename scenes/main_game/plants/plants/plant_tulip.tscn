@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://bgwmha1hb5vio"]
+
+[ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plant.tscn" id="1_0mbok"]
+[ext_resource type="Script" uid="uid://dr6nio618sf5m" path="res://scenes/main_game/plants/plants/plant_tulip.gd" id="2_0mbok"]
+[ext_resource type="Texture2D" uid="uid://did42wejl07eb" path="res://resources/sprites/plants/plant_tulip.png" id="3_0mbok"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0mbok"]
+atlas = ExtResource("3_0mbok")
+region = Rect2(0, 0, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icepj"]
+atlas = ExtResource("3_0mbok")
+region = Rect2(36, 0, 36, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_iebg0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0mbok")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_icepj")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}]
+
+[node name="PlantTulip" instance=ExtResource("1_0mbok")]
+script = ExtResource("2_0mbok")
+
+[node name="PlantSprite" parent="." index="0"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_iebg0")
+animation = &"idle"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": false,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/plants/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/plants/plant_tulip.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "3ced73f38cdc25da13363df53f0409ec"
