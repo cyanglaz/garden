@@ -9,6 +9,7 @@ const ANIMATION_OFFSET := 3
 var power_id:String = ""
 var is_highlighted:bool = false:set = _set_is_highlighted
 var display_mode := false: set = _set_display_mode
+var library_mode := false
 
 var _weak_tooltip:WeakRef = weakref(null)
 var _weak_power_data:WeakRef = weakref(null)
@@ -35,6 +36,8 @@ func play_trigger_animation() -> void:
 
 func _on_mouse_entered() -> void:
 	is_highlighted = true
+	if !library_mode:
+		Singletons.main_game.hovered_data = _weak_power_data.get_ref()
 	if display_mode:
 		return
 	_weak_tooltip = weakref(Util.display_thing_data_tooltip(_weak_power_data.get_ref(), self, false, GUITooltip.TooltipPosition.TOP_RIGHT, true))
@@ -42,6 +45,8 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	is_highlighted = false
+	if !library_mode:
+		Singletons.main_game.hovered_data = null
 	if display_mode:
 		return
 	if _weak_tooltip.get_ref():

@@ -23,6 +23,7 @@ func update_with_plant_data(plant_data:PlantData) -> void:
 func update_with_tool_data(tool_data:ToolData) -> void:
 	var card_button:GUIToolCardButton = GUI_TOOL_CARD_BUTTON_SCENE.instantiate()
 	add_child(card_button)
+	card_button.library_mode = true
 	card_button.display_mode = true
 	card_button.activated = true
 	card_button.mouse_disabled = false

@@ -7,6 +7,7 @@ var hand_size := 5
 const DAYS_TO_WEEK := 7
 const WIN_PAUSE_TIME := 0.4
 const INSTANT_CARD_USE_DELAY := 0.3
+const DETAIL_TOOLTIP_DELAY := 0.8
 
 @export var player:PlayerData
 @export var test_tools:Array[ToolData]
@@ -26,6 +27,7 @@ var tool_manager:ToolManager
 var plant_seed_manager:PlantSeedManager
 var max_energy := 3
 var session_summary:SessionSummary
+var hovered_data:ThingData: set = _set_hovered_data
 var _gold := 0: set = _set_gold
 
 var _harvesting_fields:Array = []
@@ -87,6 +89,10 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("de-select"):
 		if tool_manager.selected_tool:
 			_clear_tool_selection()
+	elif event.is_action_pressed("view_detail"):
+		if hovered_data:
+			show_thing_info_view(hovered_data)
+			hovered_data = null
 
 #endregion
 
@@ -336,5 +342,13 @@ func _on_level_summary_gold_increased(gold:int) -> void:
 func _set_gold(val:int) -> void:
 	_gold = val
 	gui_main_game.gui_shop_main.update_for_gold(_gold)
+
+func _set_hovered_data(val:ThingData) -> void:
+	hovered_data = val
+	if hovered_data:
+		await Util.create_scaled_timer(DETAIL_TOOLTIP_DELAY).timeout
+		gui_main_game.toggle_detail_tooltip(hovered_data)
+	else:
+		gui_main_game.toggle_detail_tooltip(null)
 
 #endregion

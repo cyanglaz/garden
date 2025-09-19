@@ -1,7 +1,7 @@
-class_name GUIShowLibraryTooltip
+class_name GUIShowDetailTooltip
 extends GUITooltip
 
-const INPUT_ICON_PATH := "res://resources/sprites/GUI/icons/inputs/input_l.png"
+const INPUT_ICON_PATH := "res://resources/sprites/GUI/icons/inputs/input_v.png"
 
 @onready var description: RichTextLabel = %Description
 

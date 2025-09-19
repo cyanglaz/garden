@@ -37,6 +37,7 @@ var card_state:CardState = CardState.NORMAL: set = _set_card_state
 var resource_sufficient := false: set = _set_resource_sufficient
 var animation_mode := false : set = _set_animation_mode
 var display_mode := false
+var library_mode := false
 var outline_color:Color = Constants.RESOURCE_SUFFICIENT_COLOR: set = _set_outline_color
 var has_outline:bool = false: set = _set_has_outline
 var tool_data:ToolData: get = _get_tool_data
@@ -104,6 +105,8 @@ func _update_for_energy(energy:int) -> void:
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	if activated:
+		if !library_mode:
+			Singletons.main_game.hovered_data = tool_data
 		await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
 		if mouse_in && !tool_data.actions.is_empty():
 			if _weak_actions_tooltip.get_ref():
@@ -112,6 +115,7 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
+	Singletons.main_game.hovered_data = null
 	if _weak_actions_tooltip.get_ref():
 		_weak_actions_tooltip.get_ref().queue_free()
 		_weak_actions_tooltip = weakref(null)

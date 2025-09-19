@@ -6,6 +6,7 @@ extends PanelContainer
 
 var _weak_tooltip:WeakRef = weakref(null)
 var display_mode := false
+var library_mode := false
 var is_highlighted:bool = false:set = _set_is_highlighted
 
 func update_with_level_data(level_data:LevelData) -> void:
@@ -23,10 +24,13 @@ func play_flying_sound() -> void:
 func _on_mouse_entered(level_data:LevelData) -> void:
 	is_highlighted = true
 	if !display_mode:
+		Singletons.main_game.hovered_data = level_data
 		_weak_tooltip = weakref(Util.display_boss_tooltip(level_data, self, false, GUITooltip.TooltipPosition.LEFT))
 
 func _on_mouse_exited() -> void:
 	is_highlighted = false
+	if !library_mode:
+		Singletons.main_game.hovered_data = null
 	if _weak_tooltip.get_ref():
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)

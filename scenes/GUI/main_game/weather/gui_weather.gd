@@ -32,6 +32,7 @@ func play_flying_sound() -> void:
 func _on_mouse_entered() -> void:
 	if !has_tooltip:
 		return
+	Singletons.main_game.hovered_data = _weak_weather_data.get_ref()
 	is_highlighted = true
 	var anchor = tooltip_anchor if tooltip_anchor else self
 	_weak_weather_tooltip = weakref(Util.display_weather_tooltip(_weak_weather_data.get_ref(), anchor, false, GUITooltip.TooltipPosition.LEFT))
@@ -39,6 +40,7 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	is_highlighted = false
+	Singletons.main_game.hovered_data = null
 	if _weak_weather_tooltip.get_ref():
 		_weak_weather_tooltip.get_ref().queue_free()
 		_weak_weather_tooltip = weakref(null)
