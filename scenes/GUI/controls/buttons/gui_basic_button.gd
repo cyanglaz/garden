@@ -132,11 +132,11 @@ func _press_up():
 
 func _play_click_sound() -> void:
 	var stream := _get_click_sound()
-	GlobalSoundManager.play_sound(stream, "SFX", -5)
+	GlobalSoundManager.play_sound(stream, "SFX", 0)
 
 func _play_hover_sound() -> void:
 	var stream := _get_hover_sound()
-	GlobalSoundManager.play_sound(stream, "SFX", -5)
+	GlobalSoundManager.play_sound(stream, "SFX", 0)
 
 #region setter/getter
 
