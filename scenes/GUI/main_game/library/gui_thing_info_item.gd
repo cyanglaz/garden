@@ -1,4 +1,4 @@
-class_name GUILibraryItem
+class_name GUIThingInfoItem
 extends VBoxContainer
 
 signal reference_button_evoked(reference_pair:Array)

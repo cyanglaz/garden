@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://c8kiyq8fg5v38"]
-
-[ext_resource type="Script" uid="uid://cy8dnsts00h6l" path="res://scenes/GUI/main_game/library/gui_library_item.gd" id="1_ouknn"]
-
-[node name="GUILibraryItem" type="VBoxContainer"]
-theme_override_constants/separation = 1
-script = ExtResource("1_ouknn")

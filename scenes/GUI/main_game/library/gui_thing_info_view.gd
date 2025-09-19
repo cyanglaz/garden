@@ -1,7 +1,7 @@
 class_name GUIThingInfoView
 extends Control
 
-const LIBRARY_ITEM_SCENE := preload("res://scenes/GUI/main_game/library/gui_library_item.tscn")
+const INFO_ITEM_SCENE := preload("res://scenes/GUI/main_game/library/gui_thing_info_item.tscn")
 const PADDING := 4
 
 @onready var _tooltip_container: Control = %TooltipContainer
@@ -40,48 +40,46 @@ func update_with_data(data:Resource, index_level:int) -> void:
 			_update_with_thing_data(data_to_show, i)
 
 func _update_with_plant_data(plant_data:PlantData, level_index:int) -> void:
-	var item:GUILibraryItem = LIBRARY_ITEM_SCENE.instantiate()
+	var item:GUIThingInfoItem = INFO_ITEM_SCENE.instantiate()
 	_tooltip_container.add_child(item)
 	item.update_with_plant_data(plant_data)
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	_set_item_position.call_deferred(item)
 
 func _update_with_tool_data(tool_data:ToolData, level_index:int) -> void:
-	var item:GUILibraryItem = LIBRARY_ITEM_SCENE.instantiate()
+	var item:GUIThingInfoItem = INFO_ITEM_SCENE.instantiate()
 	_tooltip_container.add_child(item)
 	item.update_with_tool_data(tool_data)
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	_set_item_position.call_deferred(item)
 
 func _update_with_level_data(level_data:LevelData, level_index:int) -> void:
-	var item:GUILibraryItem = LIBRARY_ITEM_SCENE.instantiate()
+	var item:GUIThingInfoItem = INFO_ITEM_SCENE.instantiate()
 	_tooltip_container.add_child(item)
 	item.update_with_level_data(level_data)
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	_set_item_position.call_deferred(item)
 
 func _update_with_thing_data(thing_data:ThingData, level_index:int) -> void:
-	var item:GUILibraryItem = LIBRARY_ITEM_SCENE.instantiate()
+	var item:GUIThingInfoItem = INFO_ITEM_SCENE.instantiate()
 	_tooltip_container.add_child(item)
 	item.update_with_thing_data(thing_data)
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	_set_item_position.call_deferred(item)
 
-func _set_item_position(item:GUILibraryItem) -> void:
+func _set_item_position(item:GUIThingInfoItem) -> void:
 	if _tooltip_container.get_child_count() == 1:
-		print(item.size)
-		print(_tooltip_container.size)
 		item.position = _tooltip_container.size/2 - item.size/2
 		_item_y_position = item.position.y
 	else:
-		var last_item:GUILibraryItem = _tooltip_container.get_child(_tooltip_container.get_child_count() - 2)
+		var last_item:GUIThingInfoItem = _tooltip_container.get_child(_tooltip_container.get_child_count() - 2)
 		var last_item_position:Vector2 = last_item.position
 		item.position = Vector2(last_item_position.x + last_item.size.x + PADDING, _item_y_position)
 
 func _clear_tooltips(from_level:int) -> void:
 	while _tooltip_container.get_child_count() > from_level:
 		var last_index := _tooltip_container.get_child_count()-1
-		var child:GUILibraryItem = _tooltip_container.get_child(last_index)
+		var child:GUIThingInfoItem = _tooltip_container.get_child(last_index)
 		_tooltip_container.remove_child(child)
 		child.queue_free()
 	while stack.size() > from_level:
