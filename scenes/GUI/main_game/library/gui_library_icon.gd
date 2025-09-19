@@ -33,8 +33,10 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	wrapper_button.add_child(tool_card_button)
 	tool_card_button.update_with_tool_data(tool_data)
 	tool_card_button.mouse_behavior_recursive = Control.MOUSE_BEHAVIOR_DISABLED
-	wrapper_button.mouse_entered.connect(func() -> void: tool_card_button.button_state = GUIBasicButton.ButtonState.HOVERED)
-	wrapper_button.mouse_exited.connect(func() -> void: tool_card_button.button_state = GUIBasicButton.ButtonState.NORMAL)
+	wrapper_button.hover_sound = tool_card_button.hover_sound
+	wrapper_button.click_sound = tool_card_button.click_sound
+	wrapper_button.mouse_entered.connect(func() -> void: tool_card_button.card_state = GUIToolCardButton.CardState.HIGHLIGHTED)
+	wrapper_button.mouse_exited.connect(func() -> void: tool_card_button.card_state = GUIToolCardButton.CardState.NORMAL)
 
 func update_with_level_data(level_data:LevelData) -> void:
 	var wrapper_button:GUIBasicButton = GUIBasicButton.new()

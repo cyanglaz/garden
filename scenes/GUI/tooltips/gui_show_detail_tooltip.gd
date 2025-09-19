@@ -11,8 +11,3 @@ func update_with_data(data:ThingData) -> void:
 	_weak_data = weakref(data)
 	var input_icon_string := str("[img=6x6]", INPUT_ICON_PATH, "[/img]")
 	description.text = Util.get_localized_string("SHOW_LIBRARY_TOOLTIP_PROMPT") % [input_icon_string]
-
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("library"):
-		Singletons.main_game.show_thing_info_view(_weak_data.get_ref())
-		

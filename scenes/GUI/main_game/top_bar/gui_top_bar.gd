@@ -1,6 +1,8 @@
 class_name GUITopBar
 extends PanelContainer
 
+const DETAIL_TOOLTIP_ICON_PATH := "res://resources/sprites/GUI/icons/inputs/input_v.png"
+
 signal setting_button_evoked()
 signal full_deck_button_evoked()
 signal library_button_evoked()
@@ -13,11 +15,20 @@ signal library_button_evoked()
 @onready var _gui_player: GUICharacter = %GUIPlayer
 @onready var _gui_level_display: GUILevelDisplay = %GUILevelDisplay
 @onready var _gui_library_button: GUILibraryButton = %GUILibraryButton
+@onready var _show_detail_tooltip: RichTextLabel = %ShowDetailTooltip
 
 func _ready() -> void:
 	_gui_settings_button.pressed.connect(func() -> void: setting_button_evoked.emit())
 	gui_full_deck_button.pressed.connect(func() -> void: full_deck_button_evoked.emit())
 	_gui_library_button.pressed.connect(func() -> void: library_button_evoked.emit())
+
+func toggle_detail_tooltip(data:ThingData) -> void:
+	if data:
+		var input_icon_string := str("[img=6x6]", DETAIL_TOOLTIP_ICON_PATH, "[/img]")
+		_show_detail_tooltip.text = Util.get_localized_string("SHOW_LIBRARY_TOOLTIP_PROMPT") % [input_icon_string]
+		_show_detail_tooltip.show()
+	else:
+		_show_detail_tooltip.hide()
 
 func update_gold(gold:int, animated:bool) -> void:
 	await _gui_gold.update_gold(gold, GUIGold.AnimationType.FULL if animated else GUIGold.AnimationType.NONE)

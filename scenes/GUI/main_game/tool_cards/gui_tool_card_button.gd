@@ -17,8 +17,6 @@ const SIZE := Vector2(40, 54)
 const SELECTED_OFFSET := 6.0
 const IN_USE_OFFSET := 10.0
 const HIGHLIGHTED_OFFSET := 1.0
-const CARD_HOVER_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_hover.wav")
-const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_select.wav")
 
 @onready var _gui_action_list: GUIActionList = %GUIActionList
 @onready var _card_container: Control = %CardContainer
@@ -171,12 +169,6 @@ func _set_card_state(value:CardState) -> void:
 func _set_container_offset(offset:float) -> void:
 	_container_offset = offset
 	_card_container.position.y = -offset
-
-func _get_hover_sound() -> AudioStream:
-	return CARD_HOVER_SOUND
-
-func _get_click_sound() -> AudioStream:
-	return CARD_SELECT_SOUND
 
 func _set_resource_sufficient(value:bool) -> void:
 	resource_sufficient = value

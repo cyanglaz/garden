@@ -33,7 +33,6 @@ signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantDat
 @onready var _overlay: Control = %Overlay
 @onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
 @onready var _gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
-@onready var _gui_show_detail_tooltip: GUIShowDetailTooltip = %GUIShowDetailTooltip
 
 var _toggle_ui_semaphore := 0
 
@@ -183,11 +182,7 @@ func clear_all_tooltips() -> void:
 #region miscs
 
 func toggle_detail_tooltip(data:ThingData) -> void:
-	if data:
-		_gui_show_detail_tooltip.update_with_data(data)
-		_gui_show_detail_tooltip.show()
-	else:
-		_gui_show_detail_tooltip.hide()
+	gui_top_bar.toggle_detail_tooltip(data)
 
 #endregion
 

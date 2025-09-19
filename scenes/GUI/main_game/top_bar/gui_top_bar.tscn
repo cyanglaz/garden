@@ -41,7 +41,7 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_top = -6.0
-offset_right = 74.0
+offset_right = 104.0
 offset_bottom = 6.0
 grow_vertical = 2
 theme_override_constants/separation = 6
@@ -53,6 +53,18 @@ layout_mode = 2
 [node name="GUIGold" parent="MarginContainer/Container/LeftContainer" instance=ExtResource("2_mmkmm")]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="ShowDetailTooltip" type="RichTextLabel" parent="MarginContainer/Container/LeftContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"RichTextControlTip"
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+vertical_alignment = 1
 
 [node name="CenterContainer" type="HBoxContainer" parent="MarginContainer/Container"]
 layout_mode = 1

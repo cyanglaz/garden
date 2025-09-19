@@ -27,6 +27,8 @@ enum ButtonState {
 @export var button_state:ButtonState = ButtonState.NORMAL: set = _set_button_state
 @export var tooltip_description:String
 @export var tooltip_position:GUITooltip.TooltipPosition = GUITooltip.TooltipPosition.TOP
+@export var hover_sound:AudioStream = SOUND_HOVER
+@export var click_sound:AudioStream = SOUND_CLICK
 
 var mouse_in:bool
 
@@ -150,9 +152,9 @@ func _set_button_state(val:ButtonState) -> void:
 	state_updated.emit(button_state)
 
 func _get_hover_sound() -> AudioStream:
-	return SOUND_HOVER
+	return hover_sound
 
 func _get_click_sound() -> AudioStream:
-	return SOUND_CLICK
+	return click_sound
 
 #endregion
