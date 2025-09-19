@@ -6,10 +6,11 @@ signal reference_button_evoked(reference_pair:Array)
 const REFERENCE_BUTTON_SCENE := preload("res://scenes/GUI/controls/buttons/gui_tooltip_reference_button.tscn")
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
 const CARD_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_card.png"
-const GUI_TOOL_CARD_BUTTON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
+var GUI_TOOL_CARD_BUTTON_SCENE := load("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
+var GUI_PLANT_TOOLTIP_SCENE := load("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn")
 
 func update_with_plant_data(plant_data:PlantData) -> void:
-	var plant_tooltip:GUIPlantTooltip = load("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn").instantiate()
+	var plant_tooltip:GUIPlantTooltip = GUI_PLANT_TOOLTIP_SCENE.instantiate()
 	plant_tooltip.library_mode = true
 	add_child(plant_tooltip)
 	plant_tooltip.update_with_plant_data(plant_data)

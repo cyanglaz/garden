@@ -73,7 +73,6 @@ func _set_item_position(item:GUILibraryItem) -> void:
 	else:
 		var last_item:GUILibraryItem = _tooltip_container.get_child(_tooltip_container.get_child_count() - 2)
 		var last_item_position:Vector2 = last_item.position
-		print(last_item.size.x)
 		item.position = Vector2(last_item_position.x + last_item.size.x + PADDING, ITEM_Y_POSITION)
 
 func _clear_tooltips(from_level:int) -> void:
