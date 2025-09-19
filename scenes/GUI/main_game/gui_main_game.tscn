@@ -236,6 +236,8 @@ mouse_filter = 2
 
 [node name="GUIDialogueWindow" parent="DialogueOverlay" instance=ExtResource("13_di7a2")]
 unique_name_in_owner = true
+z_index = 101
+z_as_relative = false
 layout_mode = 1
 anchors_preset = 0
 anchor_right = 0.0

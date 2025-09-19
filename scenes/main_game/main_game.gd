@@ -25,7 +25,7 @@ var level_manager:LevelManager = LevelManager.new()
 var power_manager:PowerManager = PowerManager.new()
 var tool_manager:ToolManager
 var plant_seed_manager:PlantSeedManager
-var max_energy := 0
+var max_energy := 3
 var session_summary:SessionSummary
 var hovered_data:ThingData: set = _set_hovered_data
 var _gold := 0: set = _set_gold
