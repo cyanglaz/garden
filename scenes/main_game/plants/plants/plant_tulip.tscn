@@ -1,0 +1,69 @@
+[gd_scene load_steps=9 format=3 uid="uid://bgwmha1hb5vio"]
+
+[ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plant.tscn" id="1_0mbok"]
+[ext_resource type="Script" uid="uid://dr6nio618sf5m" path="res://scenes/main_game/plants/plants/plant_tulip.gd" id="2_0mbok"]
+[ext_resource type="Texture2D" uid="uid://7gqyuswfxeyt" path="res://resources/sprites/plants/plant_hibiscus.png" id="3_iebg0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tg6ac"]
+atlas = ExtResource("3_iebg0")
+region = Rect2(0, 0, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s1xkj"]
+atlas = ExtResource("3_iebg0")
+region = Rect2(36, 0, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wu5np"]
+atlas = ExtResource("3_iebg0")
+region = Rect2(0, 36, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e0bbd"]
+atlas = ExtResource("3_iebg0")
+region = Rect2(36, 36, 36, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_msmin"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tg6ac")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s1xkj")
+}],
+"loop": true,
+"name": &"idle_1",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wu5np")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e0bbd")
+}],
+"loop": true,
+"name": &"idle_2",
+"speed": 3.0
+}]
+
+[node name="PlantTulip" instance=ExtResource("1_0mbok")]
+script = ExtResource("2_0mbok")
+
+[node name="PlantSprite" parent="." index="0"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_msmin")
+animation = &"idle_1"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/plants/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/plants/plant_hibiscus.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "1f881d9673ec7cc5fdf9525aca5ed5f3"

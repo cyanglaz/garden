@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bvm5vq6v68oph"
+path="res://.godot/imported/icon_tulip.aseprite-0c46d755d2873b75ae49c79b34566cba.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/plants/icon_tulip.aseprite"
+dest_files=["res://.godot/imported/icon_tulip.aseprite-0c46d755d2873b75ae49c79b34566cba.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
