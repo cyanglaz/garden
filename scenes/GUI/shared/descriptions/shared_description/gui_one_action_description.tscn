@@ -14,7 +14,7 @@ theme_override_constants/separation = 1
 
 [node name="TextureRect" type="TextureRect" parent="Title"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(6, 6)
+custom_minimum_size = Vector2(7, 7)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5

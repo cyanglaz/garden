@@ -1,6 +1,8 @@
 class_name GUITopBar
 extends PanelContainer
 
+const DETAIL_TOOLTIP_ICON_PATH := "res://resources/sprites/GUI/icons/inputs/input_v.png"
+
 signal setting_button_evoked()
 signal full_deck_button_evoked()
 signal library_button_evoked()

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bnbs6tpiknc01"
+path="res://.godot/imported/dialogue_item_background.aseprite-6b52733368ec3b1706c901b554c81fda.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/backgrounds/dialogue_item_background.aseprite"
+dest_files=["res://.godot/imported/dialogue_item_background.aseprite-6b52733368ec3b1706c901b554c81fda.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

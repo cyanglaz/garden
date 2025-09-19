@@ -1,18 +1,25 @@
-[gd_scene load_steps=5 format=3 uid="uid://c5kwroj7rmrwx"]
+[gd_scene load_steps=7 format=3 uid="uid://c5kwroj7rmrwx"]
 
 [ext_resource type="Script" uid="uid://b4g124av5vv3e" path="res://scenes/main_game/field/gui_field_status_icon.gd" id="1_pbsdm"]
 [ext_resource type="Texture2D" uid="uid://dvbpesdthn3m8" path="res://resources/sprites/GUI/icons/resources/icon_fungus.png" id="2_6eivf"]
+[ext_resource type="Shader" uid="uid://iqkkpijwvywj" path="res://scenes/main_game/field/gui_field_status_icon.gdshader" id="2_q6jrv"]
 [ext_resource type="AudioStream" uid="uid://doilouvmfbgsc" path="res://resources/sounds/SFX/field/field_status_good.wav" id="3_6eivf"]
 [ext_resource type="AudioStream" uid="uid://dgbyahxwlc0ak" path="res://resources/sounds/SFX/field/field_status_bad.wav" id="3_j4505"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_prxxg"]
+resource_local_to_scene = true
+shader = ExtResource("2_q6jrv")
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
+
 [node name="GUIFieldStatusIcon" type="PanelContainer"]
-custom_minimum_size = Vector2(7, 7)
 offset_right = 7.0
 offset_bottom = 7.0
 script = ExtResource("1_pbsdm")
 
 [node name="Icon" type="TextureRect" parent="."]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_prxxg")
 layout_mode = 2
 texture = ExtResource("2_6eivf")
 stretch_mode = 5

@@ -21,12 +21,12 @@ func _set_cost(val:int) -> void:
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	highlighted = true
-	gui_shop_gold_icon.highlighted = true
+	gui_shop_gold_icon.has_outline = true
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
 	highlighted = false
-	gui_shop_gold_icon.highlighted = false
+	gui_shop_gold_icon.has_outline = false
 
 func _set_sufficient_gold(val:bool) -> void:
 	sufficient_gold = val

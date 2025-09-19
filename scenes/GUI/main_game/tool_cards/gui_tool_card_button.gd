@@ -13,19 +13,16 @@ const SPECIAL_ICON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_t
 const VALUE_ICON_PREFIX := "res://resources/sprites/GUI/icons/cards/values/icon_"
 const EXHAUST_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_exhaust.wav")
 
-const SIZE := Vector2(38, 52)
+const SIZE := Vector2(40, 54)
 const SELECTED_OFFSET := 6.0
 const IN_USE_OFFSET := 10.0
 const HIGHLIGHTED_OFFSET := 1.0
-const CARD_HOVER_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_hover.wav")
-const CARD_SELECT_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_select.wav")
 
 @onready var _gui_action_list: GUIActionList = %GUIActionList
 @onready var _card_container: Control = %CardContainer
 @onready var _background: NinePatchRect = %Background
 @onready var _title: Label = %Title
-@onready var _highlight_border: NinePatchRect = %HighlightBorder
-@onready var _card_content: VBoxContainer = %CardContent
+@onready var _card_content: Control = %CardContent
 @onready var _specials_container: VBoxContainer = %SpecialsContainer
 @onready var _cost_icon: TextureRect = %CostIcon
 @onready var _rich_text_label: RichTextLabel = %RichTextLabel
@@ -38,6 +35,9 @@ var card_state:CardState = CardState.NORMAL: set = _set_card_state
 var resource_sufficient := false: set = _set_resource_sufficient
 var animation_mode := false : set = _set_animation_mode
 var display_mode := false
+var library_mode := false
+var outline_color:Color = Constants.RESOURCE_SUFFICIENT_COLOR: set = _set_outline_color
+var has_outline:bool = false: set = _set_has_outline
 var tool_data:ToolData: get = _get_tool_data
 var _weak_tool_data:WeakRef = weakref(null)
 var _container_offset:float = 0.0: set = _set_container_offset
@@ -48,8 +48,6 @@ func _ready() -> void:
 	super._ready()
 	mouse_filter = MOUSE_FILTER_IGNORE
 	assert(size == SIZE, "size not match")
-	_highlight_border.hide()
-	_highlight_border.self_modulate = Constants.RESOURCE_SUFFICIENT_COLOR
 	_animation_player.animation_finished.connect(_on_animation_finished)
 
 func update_with_tool_data(td:ToolData) -> void:
@@ -67,11 +65,11 @@ func update_with_tool_data(td:ToolData) -> void:
 		-1:
 			_background.region_rect.position.x = 0
 		0:
-			_background.region_rect.position.x = 38	
+			_background.region_rect.position.x = 40
 		1:
-			_background.region_rect.position.x = 76
+			_background.region_rect.position.x = 80	
 		2:
-			_background.region_rect.position.x = 114
+			_background.region_rect.position.x = 120
 	Util.remove_all_children(_specials_container)
 	for special in tool_data.specials:
 		var special_icon := SPECIAL_ICON_SCENE.instantiate()
@@ -82,7 +80,7 @@ func update_with_tool_data(td:ToolData) -> void:
 		td.request_refresh.connect(_on_tool_data_refresh)
 
 func play_move_sound() -> void:
-	_sound_hover.play()
+	_play_hover_sound()
 
 func play_use_sound() -> void:
 	_use_sound.play()
@@ -105,6 +103,8 @@ func _update_for_energy(energy:int) -> void:
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	if activated:
+		if !library_mode:
+			Singletons.main_game.hovered_data = tool_data
 		await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
 		if mouse_in && !tool_data.actions.is_empty():
 			if _weak_actions_tooltip.get_ref():
@@ -113,6 +113,7 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
+	Singletons.main_game.hovered_data = null
 	if _weak_actions_tooltip.get_ref():
 		_weak_actions_tooltip.get_ref().queue_free()
 		_weak_actions_tooltip = weakref(null)
@@ -157,40 +158,43 @@ func _set_card_state(value:CardState) -> void:
 	match value:
 		CardState.NORMAL:
 			_container_offset = 0.0
-			_highlight_border.hide()
+			has_outline = false
 		CardState.SELECTED:
 			_container_offset = SELECTED_OFFSET
-			_highlight_border.show()
+			has_outline = true
 		CardState.HIGHLIGHTED:
 			_container_offset = HIGHLIGHTED_OFFSET
-			_highlight_border.show()
+			has_outline = true
 
 func _set_container_offset(offset:float) -> void:
 	_container_offset = offset
 	_card_container.position.y = -offset
 
-func _get_hover_sound() -> AudioStream:
-	if display_mode:
-		return super._get_hover_sound()
-	return CARD_HOVER_SOUND
-
-func _get_click_sound() -> AudioStream:
-	if display_mode:
-		return super._get_click_sound()
-	return CARD_SELECT_SOUND
-
 func _set_resource_sufficient(value:bool) -> void:
 	resource_sufficient = value
 	if value:
 		_cost_icon.modulate = Constants.RESOURCE_SUFFICIENT_COLOR
-		_highlight_border.modulate = Constants.RESOURCE_SUFFICIENT_COLOR
+		outline_color = Constants.RESOURCE_SUFFICIENT_COLOR
 	else:
 		if display_mode:
 			_cost_icon.modulate = Constants.RESOURCE_SUFFICIENT_COLOR
 		else:
 			_cost_icon.modulate = Constants.RESOURCE_INSUFFICIENT_COLOR
-		_highlight_border.modulate = Constants.RESOURCE_INSUFFICIENT_COLOR
+		outline_color = Constants.RESOURCE_INSUFFICIENT_COLOR
 	
+func _set_outline_color(value:Color) -> void:
+	outline_color = value
+	if _background:
+		_background.material.set_shader_parameter("outline_color", value)
+
+func _set_has_outline(val:bool) -> void:
+	has_outline = val
+	if has_outline:
+		_background.material.set_shader_parameter("outline_color", outline_color)
+		_background.material.set_shader_parameter("outline_size", 1)
+	else:
+		_background.material.set_shader_parameter("outline_size", 0)
+
 func _on_animation_finished(anim_name:String) -> void:
 	if anim_name == "dissolve":
 		_dissolve_finished.emit()

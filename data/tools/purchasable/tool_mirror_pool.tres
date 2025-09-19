@@ -6,13 +6,9 @@
 [resource]
 script = ExtResource("2_28b6n")
 energy_cost = 2
-actions = Array[ExtResource("1_o6ad8")]([])
 rarity = 2
-specials = Array[int]([])
 need_select_field = true
 id = "mirror_pool"
 display_name = "Mirror Pool"
 description = "Set the {resource:water} on a plant equal to its {resource:light}."
-data = {}
-note = ""
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

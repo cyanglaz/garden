@@ -26,12 +26,14 @@ signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantDat
 @onready var gui_demo_end_main: GUIDemoEndMain = %GUIDemoEndMain
 @onready var gui_enemy: GUIEnemy = %GUIEnemy
 @onready var gui_library: GUILibrary = %GUILibrary
+@onready var gui_thing_info_view: GUIThingInfoView = %GUIThingInfoView
 
 @onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
 @onready var _overlay: Control = %Overlay
 @onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
 @onready var _gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
+@onready var _gui_dialogue_window: GUIDialogueWindow = %GUIDialogueWindow
 
 var _toggle_ui_semaphore := 0
 
@@ -178,6 +180,15 @@ func clear_all_tooltips() -> void:
 
 #endregion
 
+#region dialog
+
+func show_dialogue(type:GUIDialogueItem.DialogueType) -> void:
+	_gui_dialogue_window.show_with_type(type)
+	
+func hide_dialogue(type:GUIDialogueItem.DialogueType) -> void:
+	_gui_dialogue_window.hide_type(type)
+	
+#endregion
 
 #region events
 
@@ -196,6 +207,6 @@ func _on_settings_button_evoked() -> void:
 	_gui_settings_main.animate_show()
 
 func _on_library_button_evoked() -> void:
-	gui_library.animate_show(null)
+	gui_library.animate_show()
 
 #endregion

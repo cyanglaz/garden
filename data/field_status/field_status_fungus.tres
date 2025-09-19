@@ -4,16 +4,12 @@
 
 [resource]
 script = ExtResource("1_7d8cy")
-type = 0
 popup_message = "Growth Reduced."
 stackable = true
-single_turn = false
-reduce_stack_on_turn_end = false
 id = "fungus"
 display_name = "Fungus"
 description = "Reduce {resource:water} by {value} at the end of the day."
 data = {
 &"value": "1"
 }
-note = ""
 metadata/_custom_type_script = "uid://ep5ey6gqhty1"

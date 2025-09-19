@@ -15,6 +15,7 @@ actions = Array[ExtResource("1_oexgw")]([SubResource("Resource_oexgw")])
 need_select_field = true
 id = "drizzle"
 display_name = "Drizzle"
+description = "s"
 note = "+1 water
 "
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

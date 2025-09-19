@@ -13,12 +13,13 @@ const GUI_RICH_TEXT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_rich
 const GUI_TOOL_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_tool_card_tooltip.tscn")
 const GUI_LEVEL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_level_tooltip.tscn")
 const GUI_BOSS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_boss_tooltip.tscn")
-const GUI_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_card_tooltip.tscn")
-const GUI_SHOW_LIBRARY_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_show_library_tooltip.tscn")
+const GUI_SHOW_DETAIL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_show_detail_tooltip.tscn")
 
 const FIELD_STATUS_SCRIPT_PREFIX := "res://scenes/main_game/field/status/field_status_script_"
 const POWER_SCRIPT_PREFIX := "res://scenes/main_game/power/power_scripts/power_script_"
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
+const SIGN_ICON_PREFIX := "res://resources/sprites/GUI/icons/cards/signs/icon_"
+const VALUE_ICON_PREFIX := "res://resources/sprites/GUI/icons/cards/values/icon_"
 const PLANT_ICON_PREFIX := "res://resources/sprites/GUI/icons/plants/icon_"
 const TOOL_ICON_PREFIX := "res://resources/sprites/GUI/icons/tool/icon_"
 const WEATHER_ICON_PREFIX := "res://resources/sprites/GUI/icons/weathers/icon_"
@@ -113,16 +114,8 @@ static func display_boss_tooltip(level_data:LevelData, on_control_node:Control, 
 	_display_tool_tip.call_deferred(boss_tooltip, on_control_node, anchor_mouse, tooltip_position, false)
 	return boss_tooltip
 
-static func display_card_tooltip(tool_data:ToolData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition) -> GUICardTooltip:
-	var card_tooltip:GUICardTooltip = GUI_CARD_TOOLTIP_SCENE.instantiate()
-	Singletons.main_game.add_control_to_overlay(card_tooltip)
-	card_tooltip.tooltip_position = tooltip_position
-	card_tooltip.update_with_tool_data(tool_data)
-	_display_tool_tip.call_deferred(card_tooltip, on_control_node, anchor_mouse, tooltip_position, false)
-	return card_tooltip
-
-static func display_show_library_tooltip(data:ThingData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition) -> GUIShowLibraryTooltip:
-	var show_library_tooltip:GUIShowLibraryTooltip = GUI_SHOW_LIBRARY_TOOLTIP_SCENE.instantiate()
+static func display_show_detail_tooltip(data:ThingData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition) -> GUIShowDetailTooltip:
+	var show_library_tooltip:GUIShowDetailTooltip = GUI_SHOW_DETAIL_TOOLTIP_SCENE.instantiate()
 	Singletons.main_game.add_control_to_overlay(show_library_tooltip)
 	show_library_tooltip.tooltip_position = tooltip_position
 	show_library_tooltip.update_with_data(data)
@@ -336,6 +329,12 @@ static func get_script_path_for_power_id(id:String) -> String:
 static func get_image_path_for_resource_id(id:String) -> String:
 	return str(RESOURCE_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
 
+static func get_image_path_for_sign_id(id:String) -> String:
+	return str(SIGN_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
+
+static func get_image_path_for_value_id(id:String) -> String:
+	return str(VALUE_ICON_PREFIX, _trim_upgrade_suffix_from_id(id), ".png")
+
 static func _trim_upgrade_suffix_from_id(id:String) -> String:
 	var plus_sign_index := id.find("+")
 	if plus_sign_index == -1:
@@ -508,11 +507,11 @@ static func get_plant_icon_background_region(plant_data:PlantData, highlighted:b
 			0:
 				x = 0
 			1:
-				x = 16
+				x = 18
 			2:
-				x = 32
+				x = 36
 			3:
-				x = 48
+				x = 54
 			_:
 				assert(false, "Invalid rarity: " + str(plant_data.rarity))
 	return Vector2(x, y)

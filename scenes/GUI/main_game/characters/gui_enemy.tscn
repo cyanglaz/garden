@@ -1,7 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://dkd8risr4s2i3"]
+[gd_scene load_steps=5 format=3 uid="uid://dkd8risr4s2i3"]
 
 [ext_resource type="Script" uid="uid://dif8s871cnsv2" path="res://scenes/GUI/main_game/characters/gui_enemy.gd" id="1_duy6r"]
 [ext_resource type="AudioStream" uid="uid://bs7wm2c8wghxx" path="res://resources/sounds/SFX/weather/weather_icon_flying.wav" id="2_hspnr"]
+[ext_resource type="Shader" uid="uid://bipfs5s1fjq0x" path="res://scenes/GUI/main_game/characters/gui_enemy.gdshader" id="2_yrnlf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yl8mv"]
+resource_local_to_scene = true
+shader = ExtResource("2_yrnlf")
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
 
 [node name="GUIEnemy" type="PanelContainer"]
 offset_right = 18.0
@@ -10,6 +17,7 @@ script = ExtResource("1_duy6r")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_yl8mv")
 layout_mode = 2
 stretch_mode = 5
 
