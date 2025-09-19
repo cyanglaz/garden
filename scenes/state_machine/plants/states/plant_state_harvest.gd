@@ -16,4 +16,4 @@ func _handle_ability() -> void:
 	await plant.trigger_ability(Plant.AbilityType.HARVEST, Singletons.main_game)
 
 func _get_animation_name() -> String:
-	return "idle" + str("_", plant.stage)
+	return "idle"

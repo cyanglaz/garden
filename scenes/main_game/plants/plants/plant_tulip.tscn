@@ -1,47 +1,28 @@
-[gd_scene load_steps=9 format=3 uid="uid://bgwmha1hb5vio"]
+[gd_scene load_steps=7 format=3 uid="uid://bgwmha1hb5vio"]
 
 [ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plant.tscn" id="1_0mbok"]
 [ext_resource type="Script" uid="uid://dr6nio618sf5m" path="res://scenes/main_game/plants/plants/plant_tulip.gd" id="2_0mbok"]
 [ext_resource type="Texture2D" uid="uid://did42wejl07eb" path="res://resources/sprites/plants/plant_tulip.png" id="3_0mbok"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_icepj"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0mbok"]
 atlas = ExtResource("3_0mbok")
 region = Rect2(0, 0, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_iebg0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_icepj"]
 atlas = ExtResource("3_0mbok")
 region = Rect2(36, 0, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_eqjq0"]
-atlas = ExtResource("3_0mbok")
-region = Rect2(0, 36, 36, 36)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cccxw"]
-atlas = ExtResource("3_0mbok")
-region = Rect2(36, 36, 36, 36)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_d7u01"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_iebg0"]
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_0mbok")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_icepj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_iebg0")
 }],
 "loop": true,
-"name": &"idle_1",
-"speed": 3.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_eqjq0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cccxw")
-}],
-"loop": true,
-"name": &"idle_2",
+"name": &"idle",
 "speed": 3.0
 }]
 
@@ -50,8 +31,8 @@ script = ExtResource("2_0mbok")
 
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_d7u01")
-animation = &"idle_1"
+sprite_frames = SubResource("SpriteFrames_iebg0")
+animation = &"idle"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": false,
 "pending_changes": {}
@@ -66,4 +47,4 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/plants/plant_tulip.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "a8c21da7bdab56ffbdbb77f5be40d650"
+metadata/_aseprite_wizard_source_file_hash_ = "3ced73f38cdc25da13363df53f0409ec"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://ccx680r0jdqyl"]
+[gd_scene load_steps=7 format=3 uid="uid://ccx680r0jdqyl"]
 
 [ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plant.tscn" id="1_bsgs4"]
 [ext_resource type="Script" uid="uid://jbdw6vvbivu0" path="res://scenes/main_game/plants/plants/plant_rose.gd" id="2_bsgs4"]
@@ -12,15 +12,7 @@ region = Rect2(0, 0, 36, 36)
 atlas = ExtResource("3_bsgs4")
 region = Rect2(36, 0, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_esugy"]
-atlas = ExtResource("3_bsgs4")
-region = Rect2(0, 36, 36, 36)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_icw6i"]
-atlas = ExtResource("3_bsgs4")
-region = Rect2(36, 36, 36, 36)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_hewkr"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_esugy"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -30,18 +22,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_ifmde")
 }],
 "loop": true,
-"name": &"idle_1",
-"speed": 3.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_esugy")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_icw6i")
-}],
-"loop": true,
-"name": &"idle_2",
+"name": &"idle",
 "speed": 3.0
 }]
 
@@ -50,8 +31,8 @@ script = ExtResource("2_bsgs4")
 
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_hewkr")
-animation = &"idle_2"
+sprite_frames = SubResource("SpriteFrames_esugy")
+animation = &"idle"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
 "pending_changes": {}
@@ -66,4 +47,4 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/plants/plant_rose.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "20e12bed5537840017159abe844043e6"
+metadata/_aseprite_wizard_source_file_hash_ = "ab945bf2f51efc604a9dff8471148dca"
