@@ -45,7 +45,7 @@ offset_top = -6.0
 offset_right = 104.0
 offset_bottom = 6.0
 grow_vertical = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 6
 
 [node name="GUIPlayer" parent="MarginContainer/Container/LeftContainer" instance=ExtResource("4_mmkmm")]
 unique_name_in_owner = true
