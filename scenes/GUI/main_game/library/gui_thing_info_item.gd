@@ -6,10 +6,18 @@ signal reference_button_evoked(reference_pair:Array)
 const REFERENCE_BUTTON_SCENE := preload("res://scenes/GUI/controls/buttons/gui_tooltip_reference_button.tscn")
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
 const CARD_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_card.png"
+const GUI_PLANT_ICON_SCENE := preload("res://scenes/GUI/main_game/plant_cards/gui_plant_icon.tscn")
+const GUI_ENEMY_SCENE := preload("res://scenes/GUI/main_game/characters/gui_enemy.tscn")
 var GUI_TOOL_CARD_BUTTON_SCENE := load("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 var GUI_PLANT_TOOLTIP_SCENE := load("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn")
 
+var content_position_y := 0.0
+
 func update_with_plant_data(plant_data:PlantData) -> void:
+	var plant_icon:GUIPlantIcon = GUI_PLANT_ICON_SCENE.instantiate()
+	add_child(plant_icon)
+	plant_icon.update_with_plant_data(plant_data)
+	set_deferred("content_position_y", plant_icon.position.y + plant_icon.size.y + get_theme_constant("separation"))
 	var plant_tooltip:GUIPlantTooltip = GUI_PLANT_TOOLTIP_SCENE.instantiate()
 	plant_tooltip.library_mode = true
 	add_child(plant_tooltip)
@@ -33,6 +41,10 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	_find_reference_pairs_and_add_buttons(tool_data.description)
 
 func update_with_level_data(level_data:LevelData) -> void:
+	var enemy:GUIEnemy = GUI_ENEMY_SCENE.instantiate()
+	add_child(enemy)
+	enemy.update_with_level_data(level_data)
+	set_deferred("content_position_y", enemy.position.y + enemy.size.y + get_theme_constant("separation"))
 	var boss_tooltip:GUIBossTooltip = Util.GUI_BOSS_TOOLTIP_SCENE.instantiate()
 	add_child(boss_tooltip)
 	boss_tooltip.library_mode = true
@@ -40,6 +52,12 @@ func update_with_level_data(level_data:LevelData) -> void:
 	_find_reference_pairs_and_add_buttons(level_data.description)
 
 func update_with_thing_data(thing_data:ThingData) -> void:
+	var texture_rect:TextureRect = TextureRect.new()
+	texture_rect.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	add_child(texture_rect)
+	texture_rect.texture = load(Util.get_image_path_for_resource_id(thing_data.id))
+	set_deferred("content_position_y", texture_rect.position.y + texture_rect.texture.get_height() + get_theme_constant("separation"))
 	var thing_data_tooltip:GUIThingDataTooltip = Util.GUI_THING_DATA_TOOLTIP_SCENE.instantiate()
 	add_child(thing_data_tooltip)
 	thing_data_tooltip.update_with_thing_data(thing_data)

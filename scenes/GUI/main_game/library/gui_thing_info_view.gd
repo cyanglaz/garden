@@ -12,6 +12,8 @@ var _item_y_position := 0.0
 
 func _ready() -> void:
 	_back_button.pressed.connect(_on_back_button_evoked)
+	
+	show_with_data(MainDatabase.plant_database.get_data_by_id("rose"))
 
 func show_with_data(data:Resource) -> void:
 	update_with_data(data, 0)
@@ -70,11 +72,11 @@ func _update_with_thing_data(thing_data:ThingData, level_index:int) -> void:
 func _set_item_position(item:GUIThingInfoItem) -> void:
 	if _tooltip_container.get_child_count() == 1:
 		item.position = _tooltip_container.size/2 - item.size/2
-		_item_y_position = item.position.y
+		_item_y_position = item.position.y + item.content_position_y
 	else:
 		var last_item:GUIThingInfoItem = _tooltip_container.get_child(_tooltip_container.get_child_count() - 2)
-		var last_item_position:Vector2 = last_item.position
-		item.position = Vector2(last_item_position.x + last_item.size.x + PADDING, _item_y_position)
+		var last_item_position:Vector2 = last_item.position + Vector2(0, last_item.content_position_y)
+		item.position = Vector2(last_item_position.x + last_item.size.x + PADDING, _item_y_position - item.content_position_y)
 
 func _clear_tooltips(from_level:int) -> void:
 	while _tooltip_container.get_child_count() > from_level:
