@@ -69,6 +69,7 @@ func _list_items(category:String) -> void:
 			icon.update_with_field_status_data(data)
 		elif data is PowerData:
 			icon.update_with_power_data(data)
+		icon.button_evoked.connect(_on_icon_button_evoked)
 
 #endregion
 
@@ -92,3 +93,6 @@ func _on_left_bar_button_pressed(category:String) -> void:
 
 func _on_back_button_evoked() -> void:
 	animate_hide()
+
+func _on_icon_button_evoked(data:Resource) -> void:
+	Singletons.main_game.show_thing_info_view(data)

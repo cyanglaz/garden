@@ -3,12 +3,12 @@ extends Control
 
 const LIBRARY_ITEM_SCENE := preload("res://scenes/GUI/main_game/library/gui_library_item.tscn")
 const PADDING := 4
-const ITEM_Y_POSITION := 32
 
 @onready var _tooltip_container: Control = %TooltipContainer
 @onready var _back_button: GUIRichTextButton = %BackButton
 
 var stack:Array = []
+var _item_y_position := 0.0
 
 func _ready() -> void:
 	_back_button.pressed.connect(_on_back_button_evoked)
@@ -69,18 +69,21 @@ func _update_with_thing_data(thing_data:ThingData, level_index:int) -> void:
 
 func _set_item_position(item:GUILibraryItem) -> void:
 	if _tooltip_container.get_child_count() == 1:
-		item.position = Vector2(_tooltip_container.size.x / 2 - item.size.x / 2, ITEM_Y_POSITION)
+		print(item.size)
+		print(_tooltip_container.size)
+		item.position = _tooltip_container.size/2 - item.size/2
+		_item_y_position = item.position.y
 	else:
 		var last_item:GUILibraryItem = _tooltip_container.get_child(_tooltip_container.get_child_count() - 2)
 		var last_item_position:Vector2 = last_item.position
-		item.position = Vector2(last_item_position.x + last_item.size.x + PADDING, ITEM_Y_POSITION)
+		item.position = Vector2(last_item_position.x + last_item.size.x + PADDING, _item_y_position)
 
 func _clear_tooltips(from_level:int) -> void:
-	for i in _tooltip_container.get_child_count():
-		if i >= from_level:
-			var child:GUILibraryItem = _tooltip_container.get_child(i)
-			_tooltip_container.remove_child(child)
-			child.queue_free()
+	while _tooltip_container.get_child_count() > from_level:
+		var last_index := _tooltip_container.get_child_count()-1
+		var child:GUILibraryItem = _tooltip_container.get_child(last_index)
+		_tooltip_container.remove_child(child)
+		child.queue_free()
 	while stack.size() > from_level:
 		stack.pop_back()
 

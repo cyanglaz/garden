@@ -118,6 +118,9 @@ func add_control_to_overlay(control:Control) -> void:
 func clear_all_tooltips() -> void:
 	gui_main_game.clear_all_tooltips()
 
+func show_thing_info_view(data:Resource) -> void:
+	gui_main_game.gui_thing_info_view.show_with_data(data)
+
 #endregion
 
 #region private
