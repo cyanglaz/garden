@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c2ttrcf1bo4ju"]
+[gd_scene load_steps=3 format=3 uid="uid://c2ttrcf1bo4ju"]
 
 [ext_resource type="Script" uid="uid://b5kd4bv11nx2p" path="res://scenes/GUI/main_game/characters/gui_player.gd" id="1_1xntm"]
+[ext_resource type="Texture2D" uid="uid://dm7iy68884boa" path="res://resources/sprites/icons/characters/icon_apprentice.png" id="2_1xntm"]
 
 [node name="GUIPlayer" type="PanelContainer"]
 offset_right = 2.0
@@ -10,4 +11,5 @@ script = ExtResource("1_1xntm")
 [node name="TextureRect" type="TextureRect" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
+texture = ExtResource("2_1xntm")
 stretch_mode = 5

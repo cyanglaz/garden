@@ -13,7 +13,6 @@ const TOOL_SELECTED_OFFSET := -6.0
 @onready var _gui_tool_card_animation_container: GUIToolCardAnimationContainer = %GUIToolCardAnimationContainer
 
 var _card_size:float
-var _weak_insufficient_energy_tooltip:WeakRef = weakref(null)
 var _selected_index:int = -1
 
 func _ready() -> void:
@@ -32,7 +31,7 @@ func clear() -> void:
 		return
 	for child:GUIToolCardButton in _container.get_children():
 		child.queue_free()
-	_clear_warning_tooltip()
+	Singletons.main_game.hide_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_ENERGY)
 
 func clear_selection() -> void:
 	for i in _container.get_children().size():
@@ -40,7 +39,7 @@ func clear_selection() -> void:
 		gui_card.mouse_disabled = false
 		gui_card.card_state = GUIToolCardButton.CardState.NORMAL
 	_selected_index = -1
-	_clear_warning_tooltip()
+	Singletons.main_game.hide_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_ENERGY)
 
 func add_card(tool_data:ToolData) -> GUIToolCardButton:
 	var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
@@ -149,17 +148,12 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 
 #region private
 
-func _clear_warning_tooltip() -> void:
-	if _weak_insufficient_energy_tooltip.get_ref():
-		_weak_insufficient_energy_tooltip.get_ref().queue_free()
-		_weak_insufficient_energy_tooltip = weakref(null)
-
 #endregion
 
 #region events
 
 func _on_tool_card_pressed(index:int) -> void:
-	_clear_warning_tooltip()
+	Singletons.main_game.hide_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_ENERGY)
 	var selected_card:GUIToolCardButton = _container.get_child(index)
 	_selected_index = index
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
@@ -176,10 +170,10 @@ func _on_tool_card_pressed(index:int) -> void:
 			else:
 				gui_card.card_state = GUIToolCardButton.CardState.NORMAL
 	else:
-		_weak_insufficient_energy_tooltip = weakref(Util.display_warning_tooltip(tr("WARNING_INSUFFICIENT_ENERGY"), selected_card, false, GUITooltip.TooltipPosition.TOP))
+		Singletons.main_game.show_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_ENERGY)
 
 func _on_tool_card_mouse_entered(index:int) -> void:
-	_clear_warning_tooltip()
+	Singletons.main_game.hide_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_ENERGY)
 	var mouse_over_card = _container.get_child(index)
 	if !is_instance_valid(mouse_over_card):
 		return
@@ -212,7 +206,7 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 		tween.kill()
 
 func _on_tool_card_mouse_exited(index:int) -> void:
-	_clear_warning_tooltip()
+	Singletons.main_game.hide_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_ENERGY)
 	var mouse_exit_card = _container.get_child(index)
 	if !is_instance_valid(mouse_exit_card):
 		return

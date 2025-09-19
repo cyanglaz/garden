@@ -22,7 +22,6 @@ var _full_deck_button:GUIDeckButton: get = _get_full_deck_button
 var _weak_full_deck_button:WeakRef = weakref(null)
 
 var _display_y := 0.0
-var _weak_insufficient_gold_tooltip:WeakRef = weakref(null)
 
 func _ready() -> void:
 	_display_y = _main_panel.position.y
@@ -65,7 +64,7 @@ func _play_show_animation() -> void:
 	_next_level_button.show()
 
 func animate_hide() -> void:
-	_clear_insufficient_gold_tooltip()
+	Singletons.main_game.hide_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_GOLD)
 	_next_level_button.hide()
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(_main_panel, "position:y", Constants.PENEL_HIDE_Y, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
@@ -87,29 +86,24 @@ func _animate_add_card_to_deck(gui_shop_button:GUIShopButton, tool_data:ToolData
 	await tween.finished
 	animating_card.queue_free()
 
-func _clear_insufficient_gold_tooltip() -> void:
-	if _weak_insufficient_gold_tooltip.get_ref():
-		_weak_insufficient_gold_tooltip.get_ref().queue_free()
-		_weak_insufficient_gold_tooltip = weakref(null)
-
 func _get_full_deck_button() -> GUIDeckButton:
 	return _weak_full_deck_button.get_ref()
 
 func _on_tool_shop_button_pressed(gui_shop_button:GUIShopButton, tool_data:ToolData) -> void:
-	_clear_insufficient_gold_tooltip()
+	Singletons.main_game.hide_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_GOLD)
 	if gui_shop_button.sufficient_gold:
 		tool_shop_button_pressed.emit(tool_data)
 		_animate_add_card_to_deck(gui_shop_button, tool_data)
 		gui_shop_button.queue_free()
 	else:
-		_weak_insufficient_gold_tooltip = weakref(Util.display_warning_tooltip(tr("WARNING_INSUFFICIENT_GOLD"), gui_shop_button, false, GUITooltip.TooltipPosition.TOP))
+		Singletons.main_game.show_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_GOLD)
 
 func _on_next_level_button_pressed() -> void:
 	await animate_hide()
 	next_level_button_pressed.emit()
 
 func _on_shop_button_mouse_exited() -> void:
-	_clear_insufficient_gold_tooltip()
+	Singletons.main_game.hide_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_GOLD)
 	if _weak_tooltip.get_ref():
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)

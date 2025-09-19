@@ -13,7 +13,7 @@ var _item_y_position := 0.0
 func _ready() -> void:
 	_back_button.pressed.connect(_on_back_button_evoked)
 	
-	show_with_data(MainDatabase.plant_database.get_data_by_id("rose"))
+	#show_with_data(MainDatabase.plant_database.get_data_by_id("rose"))
 
 func show_with_data(data:Resource) -> void:
 	update_with_data(data, 0)

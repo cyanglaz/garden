@@ -25,7 +25,7 @@ var level_manager:LevelManager = LevelManager.new()
 var power_manager:PowerManager = PowerManager.new()
 var tool_manager:ToolManager
 var plant_seed_manager:PlantSeedManager
-var max_energy := 3
+var max_energy := 0
 var session_summary:SessionSummary
 var hovered_data:ThingData: set = _set_hovered_data
 var _gold := 0: set = _set_gold
@@ -126,6 +126,12 @@ func clear_all_tooltips() -> void:
 
 func show_thing_info_view(data:Resource) -> void:
 	gui_main_game.gui_thing_info_view.show_with_data(data)
+
+func show_dialogue(type:GUIDialogueItem.DialogueType) -> void:
+	gui_main_game.show_dialogue(type)
+	
+func hide_dialogue(type:GUIDialogueItem.DialogueType) -> void:
+	gui_main_game.hide_dialogue(type)
 
 #endregion
 
@@ -347,8 +353,9 @@ func _set_hovered_data(val:ThingData) -> void:
 	hovered_data = val
 	if hovered_data:
 		await Util.create_scaled_timer(DETAIL_TOOLTIP_DELAY).timeout
-		gui_main_game.toggle_detail_tooltip(hovered_data)
+		if hovered_data:
+			show_dialogue(GUIDialogueItem.DialogueType.THING_DETAIL)
 	else:
-		gui_main_game.toggle_detail_tooltip(null)
+		hide_dialogue(GUIDialogueItem.DialogueType.THING_DETAIL)
 
 #endregion

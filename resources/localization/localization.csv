@@ -100,7 +100,7 @@ SPECIAL_NAME_ALL_FIELDS, "All Fields"
 SPECIAL_DESCRIPTION_ALL_FIELDS, "Apply to all fields"
 
 WARNING_INSUFFICIENT_ENERGY, "Not Enough Energy."
-WARNING_INSUFFICIENT_GOLD, "Not Enough Gold."
+WARNING_INSUFFICIENT_GOLD, "Not Enough %s."
 
 SHOP_TITLE, "Shop" 
 SHOP_SUBTITLE, "Get ready for next week."
