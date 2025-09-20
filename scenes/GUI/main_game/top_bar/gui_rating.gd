@@ -15,9 +15,14 @@ const RATING_MODERATE_PERCENTAGE := 0.6
 const RATING_DANGER_PERCENTAGE := 0.2
 const POPUP_SHOW_TIME := 0.5
 const POPUP_DESTROY_TIME := 0.5
+const SHAKE_TIMES := 2
+const TEXTURE_SHAKE_DISTANCE := 1
 
 @onready var gui_bordered_progress_bar: GUIProgressBar = %GUIBorderedProgressBar
 @onready var rich_text_label: RichTextLabel = %RichTextLabel
+@onready var _texture_rect: TextureRect = %TextureRect
+@onready var _drop_sound: AudioStreamPlayer2D = %DropSound
+@onready var _up_sound: AudioStreamPlayer2D = %UpSound
 
 var _current_value:int = -1
 
@@ -58,6 +63,39 @@ func _play_animation(diff:int) -> void:
 	var color:Color
 	if diff > 0:
 		color = RATING_SAFE_COLOR
+		_play_rating_increase_animation()
 	elif diff < 0:
+		_play_rating_drop_animation()
 		color = RATING_DANGER_COLOR
 	await popup.animate_show_label_and_destroy(str(diff), -10, 10, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, color)
+
+func _play_rating_drop_animation() -> void:
+	_drop_sound.play()
+	var tween:Tween = Util.create_scaled_tween(self)
+	var texture_rect_position:Vector2 = _texture_rect.position
+	var label_position:Vector2 = rich_text_label.position
+	for i in SHAKE_TIMES:
+		tween.tween_property(_texture_rect, "position", texture_rect_position + Vector2.RIGHT * TEXTURE_SHAKE_DISTANCE, 0.05).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
+		tween.tween_property(rich_text_label, "position", label_position + Vector2.RIGHT * TEXTURE_SHAKE_DISTANCE, 0.05).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
+		var shake_left_position:Vector2 = texture_rect_position + Vector2.LEFT * TEXTURE_SHAKE_DISTANCE
+		var shake_left_label_position:Vector2 = label_position + Vector2.LEFT * TEXTURE_SHAKE_DISTANCE
+		if i < SHAKE_TIMES - 1:
+			shake_left_position = texture_rect_position
+			shake_left_label_position = label_position
+		tween.tween_property(_texture_rect, "position", shake_left_position, 0.05).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
+		tween.tween_property(rich_text_label, "position", shake_left_label_position, 0.05).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
+	await tween.finished
+	_texture_rect.position = texture_rect_position
+	rich_text_label.position = label_position
+
+func _play_rating_increase_animation() -> void:
+	_up_sound.play()
+	_texture_rect.pivot_offset = _texture_rect.size/2
+	var _texture_rect_position:Vector2 = _texture_rect.position
+	var tween:Tween = Util.create_scaled_tween(self)
+	tween.set_parallel(true)
+	tween.tween_property(_texture_rect, "scale", Vector2.ONE * 1.5, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	tween.tween_property(_texture_rect, "position", _texture_rect_position + Vector2.UP, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	tween.tween_property(_texture_rect, "scale", Vector2.ONE, 0.1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN).set_delay(0.2)
+	tween.tween_property(_texture_rect, "position", _texture_rect_position, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN).set_delay(0.2)
+	await tween.finished
