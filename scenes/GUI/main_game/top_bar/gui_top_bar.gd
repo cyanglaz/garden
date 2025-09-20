@@ -6,26 +6,30 @@ const DETAIL_TOOLTIP_ICON_PATH := "res://resources/sprites/GUI/icons/inputs/inpu
 signal setting_button_evoked()
 signal full_deck_button_evoked()
 signal library_button_evoked()
+signal rating_update_finished(value:int)
 
 @onready var gui_full_deck_button: GUIDeckButton = %GUIFullDeckButton
 @onready var _gui_gold: GUIGold = %GUIGold
-@onready var _level_label: Label = %LevelLabel
 @onready var _gui_settings_button: GUISettingsButton = %GUISettingsButton
 @onready var _day_label: Label = %DayLabel
 @onready var _gui_player: GUICharacter = %GUIPlayer
 @onready var _gui_level_display: GUILevelDisplay = %GUILevelDisplay
 @onready var _gui_library_button: GUILibraryButton = %GUILibraryButton
+@onready var _gui_rating: GUIRating = %GUIRating
 
 func _ready() -> void:
 	_gui_settings_button.pressed.connect(func() -> void: setting_button_evoked.emit())
 	gui_full_deck_button.pressed.connect(func() -> void: full_deck_button_evoked.emit())
 	_gui_library_button.pressed.connect(func() -> void: library_button_evoked.emit())
+	_gui_rating.rating_update_finished.connect(func(value:int) -> void: rating_update_finished.emit(value))
+
+func bind_with_rating(rating:ResourcePoint) -> void:
+	_gui_rating.bind_with_rating(rating)
 
 func update_gold(gold:int, animated:bool) -> void:
 	await _gui_gold.update_gold(gold, GUIGold.AnimationType.FULL if animated else GUIGold.AnimationType.NONE)
 
 func update_level(level:int) -> void:
-	_level_label.text = Util.get_localized_string("WEEK_LABEL_TEXT") % (level + 1)
 	_gui_level_display.set_current_index(level)
 
 func update_day_left(day_left:int) -> void:

@@ -6,7 +6,7 @@ const FORECAST_SIZE_SCALE := 0.7
 const GUI_WEATHER_SCENE := preload("res://scenes/GUI/main_game/weather/gui_weather.tscn")
 
 @onready var _today_weather_icon: GUIWeather = %TodayWeatherIcon
-@onready var _forecast_container: HBoxContainer = %ForcastContainer
+@onready var _forecast_container: VBoxContainer = %ForcastContainer
 
 func update_with_weather_manager(weather_manager:WeatherManager) -> void:
 	Util.remove_all_children(_forecast_container)

@@ -24,6 +24,8 @@ func update_with_weather_data(weather_data:WeatherData) -> void:
 
 func _on_tooltop_shown() -> void:
 	await Util.create_scaled_timer(ACTION_TOOLTIP_DELAY).timeout
+	if _weak_weather_data.get_ref().actions.is_empty():
+		return
 	_weak_actions_tooltip = weakref(Util.display_actions_tooltip(_weak_weather_data.get_ref().actions, self, false, self.tooltip_position, false))
 
 func _notification(what: int) -> void:

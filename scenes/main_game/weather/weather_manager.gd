@@ -15,13 +15,14 @@ const GUI_WEATHER_SCENE := preload("res://scenes/GUI/main_game/weather/gui_weath
 
 #var level:int
 var weathers:Array[WeatherData]
-var forecast_days := 1
-var day:int = 0: set = _set_day
+var forecast_days := 3
+var day:int = 0
 
-func generate_weathers(level_data:LevelData) -> void:
-	weathers.clear()
-	for i in level_data.number_of_days:	
-		weathers.append(Util.unweighted_roll(level_data.weathers).front().get_duplicate())
+func generate_next_weathers(level_manager:LevelManager) -> void:
+	day = level_manager.day_manager.day
+	for i in day + forecast_days + 1:
+		if i >= weathers.size():
+			weathers.append(Util.unweighted_roll(level_manager.current_level.weathers).front().get_duplicate())
 	weathers_updated.emit()
 
 func get_current_weather() -> WeatherData:
@@ -104,7 +105,3 @@ func _should_weather_be_applied(weather_data:WeatherData, field:Field) -> bool:
 		if field.is_action_applicable(action):
 			return true
 	return false
-
-func _set_day(value:int) -> void:
-	day = value
-	weathers_updated.emit()

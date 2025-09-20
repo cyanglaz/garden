@@ -8,6 +8,8 @@ const DAYS_TO_WEEK := 7
 const WIN_PAUSE_TIME := 0.4
 const INSTANT_CARD_USE_DELAY := 0.3
 const DETAIL_TOOLTIP_DELAY := 0.8
+const INITIAL_RATING_VALUE := 100
+const INITIAL_RATING_MAX_VALUE := 100
 
 @export var player:PlayerData
 @export var test_tools:Array[ToolData]
@@ -28,6 +30,7 @@ var plant_seed_manager:PlantSeedManager
 var max_energy := 3
 var session_summary:SessionSummary
 var hovered_data:ThingData: set = _set_hovered_data
+var rating:ResourcePoint = ResourcePoint.new()
 var _gold := 0: set = _set_gold
 
 var _harvesting_fields:Array = []
@@ -36,6 +39,7 @@ func _ready() -> void:
 	Singletons.main_game = self
 	
 	session_summary = SessionSummary.new()
+	rating.setup(INITIAL_RATING_VALUE, INITIAL_RATING_MAX_VALUE)
 	
 	#field signals
 	if test_number_of_fields > 0:
@@ -61,13 +65,14 @@ func _ready() -> void:
 		
 	tool_manager.tool_application_started.connect(_on_tool_application_started)
 	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
-		
+
 	#gui main signals
 	gui_main_game.update_player(player)
 	gui_main_game.bind_power_manager(power_manager)
 	gui_main_game.bind_energy(energy_tracker)
 	gui_main_game.bind_tool_deck(tool_manager.tool_deck)
 	gui_main_game.setup_plant_seed_animation_container(field_container)
+	gui_main_game.bind_with_rating(rating)
 	gui_main_game.end_turn_button_pressed.connect(_on_end_turn_button_pressed)
 	gui_main_game.tool_selected.connect(_on_tool_selected)
 	gui_main_game.level_summary_continue_button_pressed.connect(_on_level_summary_continue_button_pressed)
@@ -116,6 +121,20 @@ func update_power(power_id:String, stack:int) -> void:
 	power_manager.update_power(power_id, stack)
 	await power_manager.handle_activation_hook(self)
 
+#endregion
+
+#region rating
+
+func update_rating(val:int) -> bool:
+	rating.value += val
+	await gui_main_game.rating_update_finished
+	if rating.value == 0:
+		_lose()
+		return true
+	else:
+		return false
+
+#endregion
 #region gui
 
 func add_control_to_overlay(control:Control) -> void:
@@ -145,7 +164,6 @@ func _start_new_level() -> void:
 	plant_seed_manager = PlantSeedManager.new(level_manager.current_level.plants, level_manager.current_level.shuffle_plants)
 	tool_manager.refresh_deck()
 	session_summary.level = level_manager.level_index
-	weather_manager.generate_weathers(level_manager.current_level)
 	level_manager.day_manager.start_new(level_manager.current_level)
 	gui_main_game.update_with_plants(plant_seed_manager.plant_datas)
 	gui_main_game.update_levels(level_manager)
@@ -155,7 +173,7 @@ func _start_day() -> void:
 	gui_main_game.toggle_all_ui(false)
 	energy_tracker.setup(max_energy, max_energy)
 	level_manager.next_day()
-	weather_manager.day = level_manager.get_day()
+	weather_manager.generate_next_weathers(level_manager)
 	gui_main_game.update_day_left(level_manager.get_day_left())
 	gui_main_game.clear_tool_selection()
 	await Util.await_for_tiny_time()
@@ -205,13 +223,10 @@ func _end_day() -> void:
 	if won:
 		return #Harvest won the game, no need to discard tools or end the day
 	field_container.handle_turn_end()
-	if level_manager.day_manager.get_day_left() == 0:
-		if _met_win_condition():	
-			return #Win condition has been met at the end of the day, _harvest will take care of win
-		else:
-			_lose()
-	else:
-		_start_day()
+	if level_manager.day_manager.get_day_left() <= 0:
+		var game_over := await update_rating(-50)
+		if !game_over:
+			_start_day()
 
 func _on_level_summary_continue_button_pressed() -> void:
 	if level_manager.is_boss_level():
