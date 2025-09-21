@@ -503,7 +503,7 @@ static func get_plant_icon_background_region(plant_data:PlantData, highlighted:b
 	if highlighted:
 		y = 16
 	if plant_data:
-		match plant_data.rarity:
+		match plant_data.difficulty:
 			0:
 				x = 0
 			1:
@@ -513,7 +513,7 @@ static func get_plant_icon_background_region(plant_data:PlantData, highlighted:b
 			3:
 				x = 54
 			_:
-				assert(false, "Invalid rarity: " + str(plant_data.rarity))
+				assert(false, "Invalid rarity: " + str(plant_data.difficulty))
 	return Vector2(x, y)
 
 static func create_scaled_tween(binding_node:Node) -> Tween:

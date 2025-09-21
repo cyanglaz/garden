@@ -3,32 +3,21 @@ extends ThingData
 
 const PLANT_SCENE_PATH_PREFIX:String = "res://scenes/main_game/plants/plant_"
 
-const COSTS := {
-	0: 12,
-	1: 18,
-	2: 24
-}
-
 @export var light:int
 @export var water:int
-@export var rarity:int
 @export var immune_to_status:Array[String]
-
-var cost:int: get = _get_cost
+@export var difficulty:int
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
 	var other_plant: PlantData = other as PlantData
 	light = other_plant.light
 	water = other_plant.water
-	rarity = other_plant.rarity
 	immune_to_status = other_plant.immune_to_status.duplicate()
+	difficulty = other_plant.difficulty
 
 func get_duplicate() -> PlantData:
 	var dup:PlantData = PlantData.new()
 	dup.copy(self)
 	return dup
 
-func _get_cost() -> int:
-	return COSTS[rarity]
-			

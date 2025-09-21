@@ -5,10 +5,10 @@ const TOTAL_COMMON_CONTRACTS_TO_GENERATE_PER_CHAPTER := 8
 const TOTAL_ELITE_CONTRACTS_TO_GENERATE_PER_CHAPTER := 4
 const TOTAL_BOSS_CONTRACTS_TO_GENERATE_PER_CHAPTER := 3
 
-const PLANT_DIFFICULTY_FOR_TYPE := {
-	ContractData.ContractType.COMMON: 0,
-	ContractData.ContractType.ELITE: 1,
-	ContractData.ContractType.BOSS: 2,
+const BASE_PLANT_DIFFICULTY_FOR_TYPE := {
+	ContractData.ContractType.COMMON: 1,
+	ContractData.ContractType.ELITE: 2,
+	ContractData.ContractType.BOSS: 3,
 }
 
 const BASE_REWARD_VALUE_FOR_TYPE := {
@@ -53,7 +53,7 @@ func _generate_contracts(chapter:int, type:ContractData.ContractType, count:int)
 		contract.penalty_rate = BASE_PENALTY_RATE_FOR_TYPE[type] + chapter
 
 		# Plants
-
+		var plant_difficulty = BASE_PLANT_DIFFICULTY_FOR_TYPE[type] + chapter
 
 		# Gold and rating rewards
 		var reward_value = BASE_REWARD_VALUE_FOR_TYPE[type] + chapter * REWARD_VALUE_CHAPTER_MULTIPLIER
