@@ -126,14 +126,11 @@ func update_power(power_id:String, stack:int) -> void:
 
 #region rating
 
-func update_rating(val:int) -> bool:
+func update_rating(val:int) -> void:
 	rating.value += val
 	await gui_main_game.rating_update_finished
 	if rating.value == 0:
 		_lose()
-		return true
-	else:
-		return false
 
 #endregion
 
@@ -230,9 +227,8 @@ func _end_day() -> void:
 		return #Harvest won the game, no need to discard tools or end the day
 	field_container.handle_turn_end()
 	if level_manager.day_manager.get_day_left() <= 0:
-		var game_over := await update_rating(-50)
-		if !game_over:
-			_start_day()
+		await update_rating(-50)
+		_start_day()
 
 func _on_level_summary_continue_button_pressed() -> void:
 	if level_manager.is_boss_level():
