@@ -86,7 +86,7 @@ func _ready() -> void:
 	energy_tracker.capped = false
 	level_manager.generate_with_chapter(0)
 	_start_new_level()
-	_update_gold(0, false)
+	update_gold(0, false)
 	
 	#gui_main_game.animate_show_shop(3, 0)
 
@@ -135,6 +135,15 @@ func update_rating(val:int) -> bool:
 		return false
 
 #endregion
+
+#region gold
+
+func update_gold(gold:int, animated:bool) -> void:
+	_gold = gold
+	await gui_main_game.update_gold(_gold, animated)
+
+#endregion
+
 #region gui
 
 func add_control_to_overlay(control:Control) -> void:
@@ -183,10 +192,6 @@ func _start_day() -> void:
 		await _plant_new_seeds()
 	await draw_cards(hand_size)
 	gui_main_game.toggle_all_ui(true)
-
-func _update_gold(gold:int, animated:bool) -> void:
-	_gold = gold
-	await gui_main_game.update_gold(_gold, animated)
 
 func _met_win_condition() -> bool:
 	return !field_container.has_plants() && !plant_seed_manager.has_more_plants()
@@ -348,12 +353,12 @@ func _on_shop_next_level_pressed() -> void:
 	_start_new_level()
 
 func _on_tool_shop_button_pressed(tool_data:ToolData) -> void:
-	_update_gold(_gold - tool_data.cost, true)
+	update_gold(_gold - tool_data.cost, true)
 	tool_manager.add_tool_to_deck(tool_data)
 
 #region level summary events
 func _on_level_summary_gold_increased(gold:int) -> void:
-	_update_gold(_gold + gold, true)
+	update_gold(_gold + gold, true)
 	session_summary.total_gold_earned += gold
 #endregion
 

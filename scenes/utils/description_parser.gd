@@ -51,7 +51,7 @@ static func _format_reference(reference_key:String, data_to_format:Dictionary, h
 		var reference_id:String = reference_parts[1]
 		if (highlight_description_keys.has(reference_id) && highlight_description_keys[reference_id] == true) || highlight:
 			highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
-		if reference_category == "field_status" || reference_category == "resource" || reference_category == "action":
+		if reference_category == "field_status" || reference_category == "resource" || reference_category == "action" || reference_category == "power":
 			parsed_string = _format_icon_reference(reference_id, highlight)
 		elif reference_category == "card":
 			parsed_string = _format_card_reference(reference_id, highlight)
