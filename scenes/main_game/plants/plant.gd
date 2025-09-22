@@ -40,11 +40,7 @@ func harvest() -> void:
 
 func trigger_ability(ability_type:AbilityType, main_game:MainGame) -> void:
 	if _has_ability(ability_type):
-		var hook_result := await field.status_manager.handle_ability_hook(ability_type, self)
-		if hook_result == FieldStatusScript.HookResultType.ABORT:
-			await Util.await_for_tiny_time()
-			ability_triggered.emit(ability_type)
-			return
+		await field.status_manager.handle_ability_hook(ability_type, self)
 		await _trigger_ability(ability_type, main_game)
 	else:
 		await Util.await_for_tiny_time()
@@ -53,7 +49,6 @@ func trigger_ability(ability_type:AbilityType, main_game:MainGame) -> void:
 #region ability overrides
 
 func _trigger_ability(ability_type:AbilityType, _main_game:MainGame) -> void:
-	assert(false, "Ability not implemented")
 	await Util.await_for_tiny_time()
 	ability_triggered.emit(ability_type)
 

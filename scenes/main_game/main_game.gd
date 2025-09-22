@@ -211,6 +211,7 @@ func _win() -> void:
 	level_manager.levels[level_manager.level].is_finished = true
 
 func _lose() -> void:
+	PauseManager.try_pause()
 	gui_main_game.toggle_all_ui(false)
 	await Util.create_scaled_timer(WIN_PAUSE_TIME).timeout
 	gui_main_game.animate_show_game_over(session_summary)

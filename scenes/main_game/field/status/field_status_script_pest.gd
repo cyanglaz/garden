@@ -1,8 +1,8 @@
 class_name FieldStatusScriptPest
 extends FieldStatusScript
 
-func _has_ability_hook(_ability_type:Plant.AbilityType, plant:Plant) -> bool:
+func _has_harvest_hook(plant:Plant) -> bool:
 	return plant != null
 
-func _handle_ability_hook(_ability_type:Plant.AbilityType, _plant:Plant) -> HookResultType:
-	return HookResultType.ABORT
+func _handle_harvest_hook(_plant:Plant) -> void:
+	await Singletons.main_game.update_rating(-(status_data.data["value"] as int))
