@@ -10,4 +10,7 @@ remove_on_trigger = true
 id = "pest"
 display_name = "Pest"
 description = "On harvest, -{value} {resource:rating} for each stack."
+data = {
+"value": "1"
+}
 metadata/_custom_type_script = "uid://ep5ey6gqhty1"
