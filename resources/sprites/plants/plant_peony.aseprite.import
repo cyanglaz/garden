@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c8g1wgb18p83q"
+path="res://.godot/imported/plant_peony.aseprite-acb96ac7e4016c04b74d2145b70fa9df.res"
+
+[deps]
+
+source_file="res://resources/sprites/plants/plant_peony.aseprite"
+dest_files=["res://.godot/imported/plant_peony.aseprite-acb96ac7e4016c04b74d2145b70fa9df.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
