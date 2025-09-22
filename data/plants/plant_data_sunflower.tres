@@ -4,8 +4,9 @@
 
 [resource]
 script = ExtResource("1_r6f3l")
-light = 5
+light = 4
 water = 2
+chapters = Array[int]([0])
 id = "sunflower"
 display_name = "Sunflower"
 description = "Gain +{light} {resource:light} on sunny days."

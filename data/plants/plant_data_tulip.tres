@@ -5,7 +5,8 @@
 [resource]
 script = ExtResource("1_ov6a6")
 light = 2
-water = 3
+water = 4
+chapters = Array[int]([0])
 id = "tulip"
 display_name = "Tulip"
 description = "When harvested, shuffle a {card:water_cache} into your hand."

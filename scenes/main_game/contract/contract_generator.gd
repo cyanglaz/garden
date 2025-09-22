@@ -21,9 +21,9 @@ const NUMBER_OF_PLANTS_TYPE_DICE := {
 
 
 const TOP_PLANT_DIFFICULTY_FOR_TYPE := {
-	ContractData.ContractType.COMMON: 1,
-	ContractData.ContractType.ELITE: 2,
-	ContractData.ContractType.BOSS: 3,
+	ContractData.ContractType.COMMON: 0,
+	ContractData.ContractType.ELITE: 1,
+	ContractData.ContractType.BOSS: 2,
 }
 
 const BASE_REWARD_VALUE_FOR_TYPE := {

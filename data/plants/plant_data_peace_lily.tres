@@ -5,10 +5,7 @@
 [resource]
 script = ExtResource("1_x380q")
 light = 2
-water = 3
-rarity = 0
+water = 4
 id = "peace_lily"
 display_name = "Peace Lily"
-description = ""
-data = {}
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"
