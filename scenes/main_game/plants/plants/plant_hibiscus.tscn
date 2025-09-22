@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://rcjpph7g8y8t"]
 
-[ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plant.tscn" id="1_tg6ac"]
+[ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plants/plant.tscn" id="1_tg6ac"]
 [ext_resource type="Script" uid="uid://dmpfnnn2kd2ph" path="res://scenes/main_game/plants/plants/plant_hibiscus.gd" id="2_tg6ac"]
 [ext_resource type="Texture2D" uid="uid://7gqyuswfxeyt" path="res://resources/sprites/plants/plant_hibiscus.png" id="3_tg6ac"]
 

@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://2c4u5ko3vobo"]
+
+[ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plants/plant.tscn" id="1_0wgko"]
+[ext_resource type="Texture2D" uid="uid://c2x6kkr8kyy8f" path="res://resources/sprites/plants/plant_primrose.png" id="2_0wgko"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0wgko"]
+atlas = ExtResource("2_0wgko")
+region = Rect2(0, 0, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_och2t"]
+atlas = ExtResource("2_0wgko")
+region = Rect2(36, 0, 36, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ss7qg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0wgko")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_och2t")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}]
+
+[node name="PlantPrimrose" instance=ExtResource("1_0wgko")]
+
+[node name="PlantSprite" parent="." index="0"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_ss7qg")
+animation = &"idle"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/plants/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/plants/plant_primrose.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "f8860cba7be785bdd44ff6d44161dc2f"

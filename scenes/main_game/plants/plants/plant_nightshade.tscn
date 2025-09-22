@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cpworapnddk3i"]
 
-[ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plant.tscn" id="1_nxqpn"]
+[ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plants/plant.tscn" id="1_nxqpn"]
 [ext_resource type="Script" uid="uid://dbq620ta86csr" path="res://scenes/main_game/plants/plants/plant_nightshade.gd" id="2_nxqpn"]
 [ext_resource type="Texture2D" uid="uid://ch27gjpu3t6oo" path="res://resources/sprites/plants/plant_nightshade.png" id="3_nxqpn"]
 

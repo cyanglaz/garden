@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="PlantData" load_steps=2 format=3 uid="uid://bjjkiy7ngio0e"]
+
+[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_y5ah4"]
+
+[resource]
+script = ExtResource("1_y5ah4")
+light = 1
+water = 5
+chapters = Array[int]([0])
+id = "primrose"
+display_name = "Primrose"
+metadata/_custom_type_script = "uid://c6qubfqdqqjrs"
