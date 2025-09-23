@@ -37,3 +37,15 @@ func get_duplicate() -> ContractData:
 	var dup:ContractData = ContractData.new()
 	dup.copy(self)
 	return dup
+
+func log() -> void:
+	print("contract =================================================")
+	print("contract_type: ", ContractType.keys()[contract_type])
+	for plant in plants:
+		print("plant: ", plant.id)
+	print("grace_period: ", grace_period)
+	print("penalty_rate: ", penalty_rate)
+	print("reward_gold: ", reward_gold)
+	print("reward_rating: ", reward_rating)
+	print("reward_booster_pack_type: ", BoosterPackType.keys()[reward_booster_pack_type])
+	print("==========================================================")
