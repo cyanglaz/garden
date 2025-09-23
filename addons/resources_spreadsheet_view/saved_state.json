@@ -220,7 +220,7 @@
   ],
   "table_functions": {
     "filter": [
-      "return true"
+      "return res.chapters.has(0)"
     ],
     "process": [
       "return value"
