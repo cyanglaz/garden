@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://b4wo0b2h4sbig"
+path="res://.godot/imported/icon_lily_of_the_valley.aseprite-1bddb52e5931452d98cdb0d843dc2af9.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/plants/icon_lily_of_the_valley.aseprite"
+dest_files=["res://.godot/imported/icon_lily_of_the_valley.aseprite-1bddb52e5931452d98cdb0d843dc2af9.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
