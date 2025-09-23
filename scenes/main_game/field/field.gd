@@ -42,7 +42,7 @@ func _ready() -> void:
 	_gui_field_button.mouse_exited.connect(_on_field_mouse_exited)
 	_gui_field_status_container.bind_with_field_status_manager(status_manager)
 	status_manager.request_hook_message_popup.connect(_on_request_hook_message_popup)
-	#status_manager.update_status("fungus", 2)
+	status_manager.update_status("pest", 1)
 	_animated_sprite_2d.play("idle")
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
@@ -222,6 +222,7 @@ func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> vo
 			_animated_sprite_2d.play("pressed")
 
 func _on_plant_harvest_completed() -> void:
+	await status_manager.handle_harvest_hook(plant)
 	_reset_progress_bars()
 	plant_harvest_completed.emit()
 

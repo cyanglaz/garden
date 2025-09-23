@@ -21,6 +21,7 @@ func _ready() -> void:
 	_title.text = Util.get_localized_string("GAME_OVER_TITLE")
 
 func animate_show(session_summary:SessionSummary) -> void:
+	PauseManager.try_pause()
 	_continue_button.hide()
 	show()
 	_level_label.value_text = str(session_summary.level + 1)
@@ -42,6 +43,7 @@ func animate_hide() -> void:
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(_main_panel, "position:y", Constants.PENEL_HIDE_Y, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	await tween.finished
+	PauseManager.try_unpause()
 	hide()
 
 func _on_continue_button_pressed() -> void:

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PlantData" load_steps=2 format=3 uid="uid://ba4vgijurx053"]
+
+[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_rihwm"]
+
+[resource]
+script = ExtResource("1_rihwm")
+light = 5
+water = 2
+difficulty = 1
+chapters = Array[int]([0])
+id = "peony"
+display_name = "Peony"
+metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

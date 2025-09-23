@@ -37,6 +37,7 @@ var _harvesting_fields:Array = []
 
 func _ready() -> void:
 	Singletons.main_game = self
+	PopupThing.clear_popup_things()
 	
 	session_summary = SessionSummary.new()
 	rating.setup(INITIAL_RATING_VALUE, INITIAL_RATING_MAX_VALUE)
@@ -86,7 +87,7 @@ func _ready() -> void:
 	energy_tracker.capped = false
 	level_manager.generate_with_chapter(0)
 	_start_new_level()
-	_update_gold(0, false)
+	update_gold(0, false)
 	
 	#gui_main_game.animate_show_shop(3, 0)
 
@@ -125,16 +126,22 @@ func update_power(power_id:String, stack:int) -> void:
 
 #region rating
 
-func update_rating(val:int) -> bool:
+func update_rating(val:int) -> void:
 	rating.value += val
 	await gui_main_game.rating_update_finished
 	if rating.value == 0:
 		_lose()
-		return true
-	else:
-		return false
 
 #endregion
+
+#region gold
+
+func update_gold(gold:int, animated:bool) -> void:
+	_gold = gold
+	await gui_main_game.update_gold(_gold, animated)
+
+#endregion
+
 #region gui
 
 func add_control_to_overlay(control:Control) -> void:
@@ -184,10 +191,6 @@ func _start_day() -> void:
 	await draw_cards(hand_size)
 	gui_main_game.toggle_all_ui(true)
 
-func _update_gold(gold:int, animated:bool) -> void:
-	_gold = gold
-	await gui_main_game.update_gold(_gold, animated)
-
 func _met_win_condition() -> bool:
 	return !field_container.has_plants() && !plant_seed_manager.has_more_plants()
 	
@@ -224,9 +227,8 @@ func _end_day() -> void:
 		return #Harvest won the game, no need to discard tools or end the day
 	field_container.handle_turn_end()
 	if level_manager.day_manager.get_day_left() <= 0:
-		var game_over := await update_rating(-50)
-		if !game_over:
-			_start_day()
+		await update_rating(-50)
+		_start_day()
 
 func _on_level_summary_continue_button_pressed() -> void:
 	if level_manager.is_boss_level():
@@ -348,12 +350,12 @@ func _on_shop_next_level_pressed() -> void:
 	_start_new_level()
 
 func _on_tool_shop_button_pressed(tool_data:ToolData) -> void:
-	_update_gold(_gold - tool_data.cost, true)
+	update_gold(_gold - tool_data.cost, true)
 	tool_manager.add_tool_to_deck(tool_data)
 
 #region level summary events
 func _on_level_summary_gold_increased(gold:int) -> void:
-	_update_gold(_gold + gold, true)
+	update_gold(_gold + gold, true)
 	session_summary.total_gold_earned += gold
 #endregion
 

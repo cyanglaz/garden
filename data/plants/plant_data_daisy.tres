@@ -9,8 +9,4 @@ water = 2
 chapters = Array[int]([0])
 id = "daisy"
 display_name = "Daisy"
-description = "When harvested, +{card} {action:draw_card}."
-data = {
-"card": "1"
-}
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cekc8x61xwq1h"
+path="res://.godot/imported/icon_daffodil.aseprite-5856b7a9a337f50c4d88c0c833934ef8.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/plants/icon_daffodil.aseprite"
+dest_files=["res://.godot/imported/icon_daffodil.aseprite-5856b7a9a337f50c4d88c0c833934ef8.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

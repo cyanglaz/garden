@@ -281,7 +281,7 @@ static func split_with_delimiters(string:String, delimiters:PackedStringArray) -
 		result_queue.append_array(temp_queue)
 	return result_queue
 
-static func weighted_roll(choices:Array, weights:Array) -> int:
+static func weighted_roll(choices:Array, weights:Array) -> Variant:
 	assert(choices.size() == weights.size())
 	var sum_of_weight = 0
 	for weight in weights:
@@ -290,10 +290,10 @@ static func weighted_roll(choices:Array, weights:Array) -> int:
 	var rand = randi_range(0, sum_of_weight-1)
 	for i in weights.size():
 		if rand < weights[i]:
-			return i
+			return choices[i]
 		rand -= weights[i]
 	assert(false, "should never get here");
-	return -1
+	return null
 
 static func get_all_file_paths(path: String, recursive:bool = true) -> Array[String]:  
 	var file_paths: Array[String] = []  

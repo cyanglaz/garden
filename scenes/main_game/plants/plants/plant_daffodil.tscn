@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://j6fy14x11gru"]
+
+[ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plants/plant.tscn" id="1_22f7b"]
+[ext_resource type="Texture2D" uid="uid://bcpc5hcygcg5o" path="res://resources/sprites/plants/plant_daffodil.png" id="2_22f7b"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_22f7b"]
+atlas = ExtResource("2_22f7b")
+region = Rect2(0, 0, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ey25"]
+atlas = ExtResource("2_22f7b")
+region = Rect2(36, 0, 36, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ehh0f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_22f7b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ey25")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}]
+
+[node name="PlantDaffodil" instance=ExtResource("1_22f7b")]
+
+[node name="PlantSprite" parent="." index="0"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_ehh0f")
+animation = &"idle"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/plants/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/plants/plant_daffodil.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "92458c9795e23a3a3cd3af638c7694b0"

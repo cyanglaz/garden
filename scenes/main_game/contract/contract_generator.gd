@@ -7,16 +7,16 @@ const TOTAL_ELITE_CONTRACTS_TO_GENERATE_PER_CHAPTER := 2
 const TOTAL_BOSS_CONTRACTS_TO_GENERATE_PER_CHAPTER := 1
 
 const BASE_NUMBER_OF_PLANTS_DICE := {
-	3: 0.15,
-	4: 0.35,
-	5: 0.35,
-	6: 0.15,
+	3: 5,
+	4: 60,
+	5: 30,
+	6: 5,
 }
 
 const NUMBER_OF_PLANTS_TYPE_DICE := {
-	1: 0.15,
-	2: 0.7,
-	3: 0.15
+	1: 15,
+	2: 70,
+	3: 15
 }
 
 
@@ -26,10 +26,10 @@ const TOP_PLANT_DIFFICULTY_FOR_TYPE := {
 	ContractData.ContractType.BOSS: 2,
 }
 
-const BASE_REWARD_VALUE_FOR_TYPE := {
-	ContractData.ContractType.COMMON: 6,
-	ContractData.ContractType.ELITE: 12,
-	ContractData.ContractType.BOSS: 26,
+const BASE_REWARD_VALUE_FOR_EACH_PLANT_DIFFICULTY_TYPE := {
+	0: 2,
+	1: 4,
+	2: 6,
 }
 
 const BASE_BOOSTER_PACK_TYPE_FOR_TYPE := {
@@ -38,7 +38,7 @@ const BASE_BOOSTER_PACK_TYPE_FOR_TYPE := {
 	ContractData.ContractType.BOSS: ContractData.BoosterPackType.EPIC,
 }
 
-const REWARD_VALUE_CHAPTER_MULTIPLIER := 2
+const REWARD_VALUE_CHAPTER_MULTIPLIER := 3
 const RATING_REWARD_CHANCE := 0.1
 const RATING_REWARD_RATE := 0.3
 
@@ -49,16 +49,18 @@ const BASE_PENALTY_RATE_FOR_TYPE := {
 	ContractData.ContractType.BOSS: 2,
 }
 
-var _common_contracts:Array[ContractData] = []
-var _elite_contracts:Array[ContractData] = []
-var _boss_contract:ContractData = null
-var _all_available_plants:Array[PlantData] = []
+var common_contracts:Array[ContractData] = []
+var elite_contracts:Array[ContractData] = []
+var boss_contracts:Array[ContractData] = []
+
+var _all_available_plants:Array = []
 
 func generate_contracts(chapter:int) -> void:
-	_all_available_plants = MainDatabase.plants_database.get_all_datas().filter(func(plant:PlantData) -> bool: return plant.chapters.has(chapter))
-	_common_contracts = _generate_contracts(chapter, ContractData.ContractType.COMMON, TOTAL_COMMON_CONTRACTS_TO_GENERATE_PER_CHAPTER)
-	_elite_contracts = _generate_contracts(chapter, ContractData.ContractType.ELITE, TOTAL_ELITE_CONTRACTS_TO_GENERATE_PER_CHAPTER)
-	_boss_contract = _generate_contracts(chapter, ContractData.ContractType.BOSS, 1).front()
+	_all_available_plants = MainDatabase.plant_database.get_all_datas().filter(func(plant:PlantData) -> bool: return plant.chapters.has(chapter))
+	common_contracts = _generate_contracts(chapter, ContractData.ContractType.COMMON, TOTAL_COMMON_CONTRACTS_TO_GENERATE_PER_CHAPTER)
+	elite_contracts = _generate_contracts(chapter, ContractData.ContractType.ELITE, TOTAL_ELITE_CONTRACTS_TO_GENERATE_PER_CHAPTER)
+	boss_contracts = _generate_contracts(chapter, ContractData.ContractType.BOSS, 1)
+	_log_contracts(chapter)
 
 func _generate_contracts(chapter:int, contract_type:ContractData.ContractType, count:int) -> Array[ContractData]:
 	var contracts:Array[ContractData] = []
@@ -69,16 +71,10 @@ func _generate_contracts(chapter:int, contract_type:ContractData.ContractType, c
 		contract.penalty_rate = BASE_PENALTY_RATE_FOR_TYPE[contract_type] + chapter
 
 		# Plants
-		contract.plants = _roll_plants(chapter, contract_type)
+		contract.plants = _roll_plants(chapter, contract_type, contracts)
 
 		# Gold and rating rewards
-		var reward_value = BASE_REWARD_VALUE_FOR_TYPE[contract_type] + chapter * REWARD_VALUE_CHAPTER_MULTIPLIER
-		var has_rating_reward = randf() < RATING_REWARD_CHANCE
-		if has_rating_reward:
-			contract.reward_rating = ceili((reward_value/2) * RATING_REWARD_RATE)
-			contract.reward_gold = floori(reward_value/2)
-		else:
-			contract.reward_gold = reward_value
+		_roll_reward_values(contract, chapter)
 
 		# Booster pack rewards
 		contract.reward_booster_pack_type = BASE_BOOSTER_PACK_TYPE_FOR_TYPE[contract_type]
@@ -96,24 +92,15 @@ func _roll_number_of_plants_type(chapter:int) -> int:
 	var weights := NUMBER_OF_PLANTS_TYPE_DICE.values()
 	return Util.weighted_roll(values, weights) + chapter
 
-func _roll_plants(chapter:int, contract_type:ContractData.ContractType) -> Array[PlantData]:
+func _roll_plants(chapter:int, contract_type:ContractData.ContractType, contracts:Array[ContractData]) -> Array[PlantData]:
 	var top_plant_difficulty:int = TOP_PLANT_DIFFICULTY_FOR_TYPE[contract_type] + chapter
 	var pick_result:Array[PlantData] = []
 	for i in MAX_REROLL_PLANTS_COUNT:
 		var roll_once_result := _roll_plants_once(chapter, top_plant_difficulty)
-		# Ensure the plant combinations are unique in the same contract type
-		var list_to_check:Array[ContractData]
-		match contract_type:
-			ContractData.ContractType.COMMON:
-				list_to_check = _common_contracts.duplicate()
-			ContractData.ContractType.ELITE:
-				list_to_check = _elite_contracts.duplicate()
-			ContractData.ContractType.BOSS:
-				list_to_check = []
-
+		# Ensure the plant combinations are unique
 		pick_result = roll_once_result
-		for contract:ContractData in list_to_check:
-			if !contract.has_same_plant_types(roll_once_result):
+		for contract:ContractData in contracts:
+			if !_contract_has_same_plant_types(contract, roll_once_result):
 				break
 	return pick_result
 
@@ -122,11 +109,11 @@ func _roll_plants_once(chapter:int, top_plant_difficulty:int) -> Array[PlantData
 	var number_of_plants_type := _roll_number_of_plants_type(chapter)
 
 	# Find the plants match the top plant difficulty
-	var primary_plants:Array[PlantData] = _all_available_plants.filter(
+	var primary_plants:Array = _all_available_plants.filter(
 		func(plant:PlantData) -> bool: return plant.difficulty == top_plant_difficulty
 	)
 	# Find the plants match the second top plant difficulty
-	var secondary_plants:Array[PlantData] = _all_available_plants.filter(
+	var secondary_plants:Array = _all_available_plants.filter(
 		func(plant:PlantData) -> bool: return plant.difficulty == top_plant_difficulty - 1
 	)
 
@@ -134,15 +121,14 @@ func _roll_plants_once(chapter:int, top_plant_difficulty:int) -> Array[PlantData
 
 	# Pick the primary plant
 	var primary_pick:PlantData = primary_plants.pick_random()
+	selected_plant_types.append(primary_pick)
 	primary_plants.erase(primary_pick)
-	var rest_available_plants:Array[PlantData] = primary_plants + secondary_plants
+	var rest_available_plants:Array = primary_plants + secondary_plants
+	assert(rest_available_plants.size() > number_of_plants_type - 1)
 	for i in number_of_plants_type - 1:
 		var pick:PlantData = rest_available_plants.pick_random()
-		rest_available_plants.erase(pick)
 		selected_plant_types.append(pick)
-
-	for plant_data:PlantData in selected_plant_types:
-		_all_available_plants.erase(plant_data)
+		rest_available_plants.erase(pick)
 
 	var result:Array[PlantData] = []
 	# Pick each selection at least once
@@ -151,8 +137,9 @@ func _roll_plants_once(chapter:int, top_plant_difficulty:int) -> Array[PlantData
 
 	# Pick the rest of the plants
 	for i in number_of_plants - result.size():
-		var pick:PlantData = _all_available_plants.pick_random()
+		var pick:PlantData = selected_plant_types.pick_random()
 		result.append(pick.get_duplicate())
+	result.shuffle()
 
 	return result
 
@@ -167,3 +154,29 @@ func _contract_has_same_plant_types(contract:ContractData, plant_types:Array[Pla
 		if !unique_plants_in_contract.has(plant):
 			return false
 	return true
+
+func _roll_reward_values(contract:ContractData, chapter:int) -> void:
+	var reward_value := 0
+	for plant:PlantData in contract.plants:
+		reward_value += BASE_REWARD_VALUE_FOR_EACH_PLANT_DIFFICULTY_TYPE[plant.difficulty]
+	reward_value += chapter * REWARD_VALUE_CHAPTER_MULTIPLIER
+	var has_rating_reward = randf() < RATING_REWARD_CHANCE
+	if has_rating_reward:
+		@warning_ignore("integer_division")
+		contract.reward_rating = ceili((reward_value/2) * RATING_REWARD_RATE)
+		@warning_ignore("integer_division")
+		contract.reward_gold = floori(reward_value/2)
+	else:
+		contract.reward_gold = reward_value
+
+func _log_contracts(chapter:int) -> void:
+	print("chapter: ", chapter)
+	print("common_contracts:")
+	for contract in common_contracts:
+		contract.log()
+	print("elite_contracts:")
+	for contract in elite_contracts:
+		contract.log()
+	print("boss_contract:")
+	for contract in boss_contracts:
+		contract.log()

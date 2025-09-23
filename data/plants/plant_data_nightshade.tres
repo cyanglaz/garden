@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="PlantData" load_steps=2 format=3 uid="uid://c66ns03qptwt6"]
+
+[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_1q5i1"]
+
+[resource]
+script = ExtResource("1_1q5i1")
+light = 4
+water = 6
+difficulty = 1
+chapters = Array[int]([1])
+id = "nightshade"
+display_name = "Nightshade"
+description = "On harvest, +{value}{resource:gold} for each stack of {field_status:pest} on adjacent fields."
+data = {
+"value": "1"
+}
+metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bk0fdgrgfk27a"
+path="res://.godot/imported/plant_nightshade.aseprite-36447396944c0a2938d94458f80d7663.res"
+
+[deps]
+
+source_file="res://resources/sprites/plants/plant_nightshade.aseprite"
+dest_files=["res://.godot/imported/plant_nightshade.aseprite-36447396944c0a2938d94458f80d7663.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

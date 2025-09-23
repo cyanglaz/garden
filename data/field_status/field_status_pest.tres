@@ -4,13 +4,13 @@
 
 [resource]
 script = ExtResource("1_hiam4")
-type = 0
-popup_message = "Ability Disabled"
+popup_message = "Rating Reduced"
 stackable = true
-single_turn = false
-reduce_stack_on_turn_end = false
+remove_on_trigger = true
 id = "pest"
 display_name = "Pest"
-description = "Disable plant's ability."
-data = {}
+description = "On harvest, -{value} {resource:rating} for each stack."
+data = {
+"value": "1"
+}
 metadata/_custom_type_script = "uid://ep5ey6gqhty1"

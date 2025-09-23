@@ -110,7 +110,9 @@ func _create_new_settings_file(textfile_path : String):
 	import_data.script_classname = classname_field.text
 	if script_path_field.text:
 		var existing_resource : Resource = load(script_path_field.text).new()
-		import_data.prop_types = ResourceTablesImport.get_resource_property_types(existing_resource, import_data.prop_names)
+		var uniques := {}
+		import_data.prop_types = ResourceTablesImport.get_resource_property_types(existing_resource, import_data.prop_names, uniques)
+		import_data.uniques = uniques
 
 	else:
 		import_data.load_property_names_from_textfile(textfile_path, entries)
@@ -188,8 +190,10 @@ func _on_import_edit_pressed():
 func _on_export_csv_pressed():
 	var exported_cols : Array = editor_view.columns.duplicate()
 	exported_cols.erase(&"resource_local_to_scene")
-	for x in editor_view.node_columns.hidden_columns[editor_view.current_path].keys():
-		exported_cols.erase(x)
+	var column_properties : Dictionary = editor_view.node_columns.column_properties[editor_view.current_path]
+	for k in column_properties:
+		if column_properties[k].get(&"visibility", 1.0) == 0.0:
+			exported_cols.erase(k)
 
 	ResourceTablesExportFormatCsv.export_to_file(editor_view.rows, exported_cols, import_data.edited_path, import_data)
 	await get_tree().process_frame

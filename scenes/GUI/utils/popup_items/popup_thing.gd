@@ -72,3 +72,6 @@ func bump_up_overlapping_popup_things() -> void:
 	for overlapped_popup_thing:PopupThing in overlapping_popup_things:
 		var bump_up_height := overlapped_popup_thing.end_position.y - end_position.y + overlapped_popup_thing.size.y + BUMP_UP_DISTANCE
 		overlapped_popup_thing.bump_up(bump_up_height)
+
+static func clear_popup_things() -> void:
+	_all_popup_things.clear()
