@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_y8kyj"]
 [ext_resource type="Resource" uid="uid://0avopik8d762" path="res://data/plants/plant_data_sunflower.tres" id="2_mtv0x"]
-[ext_resource type="Resource" uid="uid://cf678cnphhouf" path="res://data/plants/plant_data_daisy.tres" id="3_mtv0x"]
+[ext_resource type="Resource" uid="uid://cf678cnphhouf" path="res://data/plants/chapter0/plant_data_daisy.tres" id="3_mtv0x"]
 [ext_resource type="Script" uid="uid://bt7c5hiesqa06" path="res://data/models/level/level_data.gd" id="3_sbfa0"]
 [ext_resource type="Script" uid="uid://g4t52w546b5k" path="res://data/models/weather/weather_data.gd" id="4_6vmld"]
-[ext_resource type="Resource" uid="uid://cbvas0c5a6cc7" path="res://data/weathers/weather_sunny.tres" id="5_l84wb"]
+[ext_resource type="Resource" uid="uid://cbvas0c5a6cc7" path="res://data/weathers/all_chapters/weather_sunny.tres" id="5_l84wb"]
 
 [resource]
 script = ExtResource("3_sbfa0")

@@ -56,7 +56,7 @@ var boss_contracts:Array[ContractData] = []
 var _all_available_plants:Array = []
 
 func generate_contracts(chapter:int) -> void:
-	_all_available_plants = MainDatabase.plant_database.get_all_datas().filter(func(plant:PlantData) -> bool: return plant.chapters.has(chapter))
+	_all_available_plants = MainDatabase.plant_database.get_plants_by_chapter(chapter)
 	common_contracts = _generate_contracts(chapter, ContractData.ContractType.COMMON, TOTAL_COMMON_CONTRACTS_TO_GENERATE_PER_CHAPTER)
 	elite_contracts = _generate_contracts(chapter, ContractData.ContractType.ELITE, TOTAL_ELITE_CONTRACTS_TO_GENERATE_PER_CHAPTER)
 	boss_contracts = _generate_contracts(chapter, ContractData.ContractType.BOSS, 1)

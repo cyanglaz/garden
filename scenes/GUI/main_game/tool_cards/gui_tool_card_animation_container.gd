@@ -51,11 +51,15 @@ func animate_shuffle(number_of_cards:int) -> void:
 		var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
 		add_child(animating_card)
 		animating_card.mouse_disabled = true
+		animating_card.hide()
 		animating_card.animation_mode = true
 		animating_card.size = _draw_deck_button.size
 		animating_card.global_position = _discard_deck_button.global_position
 		var target_position := _draw_deck_button.global_position
-		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * index - 0.01).timeout.connect(func(): animating_card.play_move_sound())
+		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * index - 0.01).timeout.connect(func(): 
+			animating_card.show()
+			animating_card.play_move_sound()
+		)
 		var tweener := tween.tween_property(animating_card, "global_position", target_position, SHUFFLE_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * index)
 		tweener.finished.connect(func():
 			animating_card.queue_free()

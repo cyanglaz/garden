@@ -25,7 +25,6 @@ signal rating_update_finished(value:int)
 @onready var gui_level_summary_main: GUILevelSummaryMain = %GUILevelSummaryMain
 @onready var gui_game_over_main: GUIGameOverMain = %GUIGameOverMain
 @onready var gui_demo_end_main: GUIDemoEndMain = %GUIDemoEndMain
-@onready var gui_enemy: GUIEnemy = %GUIEnemy
 @onready var gui_library: GUILibrary = %GUILibrary
 @onready var gui_thing_info_view: GUIThingInfoView = %GUIThingInfoView
 
@@ -50,15 +49,6 @@ func _ready() -> void:
 	gui_level_summary_main.gold_increased.connect(func(gold:int) -> void: gold_increased.emit(gold))
 	gui_plant_seed_animation_container.draw_plant_card_completed.connect(func(field_index:int, plant_data:PlantData) -> void: plant_seed_drawn_animation_completed.emit(field_index, plant_data))
 	gui_shop_main.setup(gui_top_bar.gui_full_deck_button)
-
-#region level
-
-func update_levels(level_manager:LevelManager) -> void:
-	gui_top_bar.update_levels(level_manager.levels)
-	gui_top_bar.update_level(level_manager.level_index)
-	gui_enemy.update_with_level_data(level_manager.current_level)
-
-#endregion
 
 #region power
 
@@ -134,8 +124,8 @@ func setup_plant_seed_animation_container(field_container:FieldContainer) -> voi
 #endregion
 
 #region days
-func update_day_left(day_left:int) -> void:
-	gui_top_bar.update_day_left(day_left)
+func update_day_left(day_left:int, penalty_per_day:int) -> void:
+	gui_top_bar.update_day_left(day_left, penalty_per_day)
 
 func bind_energy(resource_point:ResourcePoint) -> void:
 	_gui_energy_tracker.bind_with_resource_point(resource_point)

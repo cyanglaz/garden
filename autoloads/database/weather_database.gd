@@ -3,11 +3,12 @@ extends Database
 
 const DIR = "res://data/weathers"
 
-func roll_weathers(number_of_weathers:int, _level:int) -> Array[WeatherData]:
-	var available_weathers:Array = _get_all_resources(_datas, "").values()
+func get_weathers_by_chapter(chapter:int) -> Array[WeatherData]:
+	var chapter_weathers := _get_all_resources(_datas, str("chapter", chapter)).values()
+	var all_chapter_weathers := _get_all_resources(_datas, "all_chapters").values()
 	var result:Array[WeatherData] = []
-	for i in number_of_weathers:
-		result.append(available_weathers.pick_random().get_duplicate())
+	for weather_data in chapter_weathers + all_chapter_weathers:
+		result.append(weather_data.get_duplicate())
 	return result
 
 func _get_data_dir() -> String:

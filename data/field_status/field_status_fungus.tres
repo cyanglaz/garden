@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_7d8cy")
-popup_message = "Growth Reduced."
+popup_message = "Water Reduced."
 stackable = true
 id = "fungus"
 display_name = "Fungus"

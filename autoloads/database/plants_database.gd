@@ -3,13 +3,12 @@ extends Database
 
 const DIR = "res://data/plants"
 
-func roll_plants(number_of_plants:int) -> Array[PlantData]:
-	var available_plants:Array = _get_all_resources(_datas, "").values().duplicate()
+func get_plants_by_chapter(chapter:int) -> Array[PlantData]:
+	var chapter_plants := _get_all_resources(_datas, str("chapter", chapter)).values()
+	var all_chapter_plants := _get_all_resources(_datas, "all_chapters").values()
 	var result:Array[PlantData] = []
-	for i in number_of_plants:
-		var plant_data:PlantData = available_plants.pick_random()
+	for plant_data in chapter_plants + all_chapter_plants:
 		result.append(plant_data.get_duplicate())
-		available_plants.erase(plant_data)
 	return result
 
 func _get_data_dir() -> String:

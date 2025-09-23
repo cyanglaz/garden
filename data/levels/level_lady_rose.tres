@@ -1,12 +1,12 @@
 [gd_resource type="Resource" script_class="LevelData" load_steps=8 format=3 uid="uid://beaehexsm0mll"]
 
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_y5skd"]
-[ext_resource type="Resource" uid="uid://hsjy22n36v8s" path="res://data/plants/plant_data_rose.tres" id="2_ssnrt"]
-[ext_resource type="Resource" uid="uid://cf678cnphhouf" path="res://data/plants/plant_data_daisy.tres" id="3_xcenk"]
+[ext_resource type="Resource" uid="uid://hsjy22n36v8s" path="res://data/plants/chapter0/plant_data_rose.tres" id="2_ssnrt"]
+[ext_resource type="Resource" uid="uid://cf678cnphhouf" path="res://data/plants/chapter0/plant_data_daisy.tres" id="3_xcenk"]
 [ext_resource type="Script" uid="uid://bt7c5hiesqa06" path="res://data/models/level/level_data.gd" id="4_4rtl2"]
 [ext_resource type="Script" uid="uid://g4t52w546b5k" path="res://data/models/weather/weather_data.gd" id="5_73edk"]
-[ext_resource type="Resource" uid="uid://cytu2rr2gw3mi" path="res://data/weathers/weather_rainy.tres" id="6_3wxg1"]
-[ext_resource type="Resource" uid="uid://c3mns7h5t7dh" path="res://data/weathers/weather_shower.tres" id="7_y5h6k"]
+[ext_resource type="Resource" uid="uid://cytu2rr2gw3mi" path="res://data/weathers/all_chapters/weather_rainy.tres" id="6_3wxg1"]
+[ext_resource type="Resource" uid="uid://c3mns7h5t7dh" path="res://data/weathers/all_chapters/weather_shower.tres" id="7_y5h6k"]
 
 [resource]
 script = ExtResource("4_4rtl2")

@@ -1,11 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://bp2sap1brkhfa"]
+[gd_scene load_steps=9 format=3 uid="uid://bp2sap1brkhfa"]
 
 [ext_resource type="Texture2D" uid="uid://0weng6gyg3pu" path="res://resources/sprites/GUI/menu/top_bar_background.png" id="1_8mpe6"]
 [ext_resource type="Script" uid="uid://bm2lnsffltmvn" path="res://scenes/GUI/main_game/top_bar/gui_top_bar.gd" id="1_om12v"]
 [ext_resource type="PackedScene" uid="uid://dm1jpn72n0ue7" path="res://scenes/GUI/main_game/top_bar/gui_gold.tscn" id="2_mmkmm"]
 [ext_resource type="PackedScene" uid="uid://c2ttrcf1bo4ju" path="res://scenes/GUI/main_game/characters/gui_player.tscn" id="4_mmkmm"]
 [ext_resource type="PackedScene" uid="uid://ps5vjsn1nr2c" path="res://scenes/GUI/main_game/top_bar/gui_rating.tscn" id="5_8mpe6"]
-[ext_resource type="PackedScene" uid="uid://dh754pccgiguh" path="res://scenes/GUI/main_game/top_bar/level_display/gui_level_display.tscn" id="5_l1e60"]
 [ext_resource type="PackedScene" uid="uid://ct8p64yajr0fh" path="res://scenes/GUI/controls/buttons/gui_full_deck_button.tscn" id="6_mmkmm"]
 [ext_resource type="PackedScene" uid="uid://c6xeh4cid7k8w" path="res://scenes/GUI/controls/buttons/gui_library_button.tscn" id="7_ey64j"]
 [ext_resource type="PackedScene" uid="uid://bv0vcudygflck" path="res://scenes/GUI/controls/buttons/gui_settings_button.tscn" id="9_j76ip"]
@@ -79,7 +78,6 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"HUD"
-theme_override_colors/font_color = Color(0.580392, 0.992157, 1, 1)
 text = "level 0"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -98,10 +96,6 @@ grow_horizontal = 0
 grow_vertical = 2
 theme_override_constants/separation = 6
 alignment = 2
-
-[node name="GUILevelDisplay" parent="MarginContainer/Container/RightContainer" instance=ExtResource("5_l1e60")]
-unique_name_in_owner = true
-layout_mode = 2
 
 [node name="GUIFullDeckButton" parent="MarginContainer/Container/RightContainer" instance=ExtResource("6_mmkmm")]
 unique_name_in_owner = true

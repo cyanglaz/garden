@@ -4,11 +4,9 @@ extends RefCounted
 var plant_datas:Array[PlantData]
 var _current_index := 0
 
-func _init(datas:Array[PlantData], shuffle:bool) -> void:
+func _init(datas:Array[PlantData]) -> void:
 	for plant_data in datas:
 		plant_datas.append(plant_data.get_duplicate())
-	if shuffle:
-		plant_datas.shuffle()
 	_current_index = 0
 
 func has_more_plants() -> bool:
