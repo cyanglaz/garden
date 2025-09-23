@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_1j250"]
 [ext_resource type="Resource" uid="uid://b457eg2twkey4" path="res://data/plants/plant_data_tulip.tres" id="2_mh4wk"]
 [ext_resource type="Script" uid="uid://bt7c5hiesqa06" path="res://data/models/level/level_data.gd" id="2_tkee1"]
-[ext_resource type="Resource" uid="uid://bjrbfog5cnb6a" path="res://data/plants/plant_data_daffodil.tres" id="3_blhl6"]
+[ext_resource type="Resource" uid="uid://ba4vgijurx053" path="res://data/plants/plant_data_peony.tres" id="3_blhl6"]
 [ext_resource type="Script" uid="uid://g4t52w546b5k" path="res://data/models/weather/weather_data.gd" id="3_mh4wk"]
 [ext_resource type="Resource" uid="uid://cytu2rr2gw3mi" path="res://data/weathers/weather_rainy.tres" id="5_mh4wk"]
 [ext_resource type="Resource" uid="uid://dtrokmm2grp4i" path="res://data/weathers/weather_cloudy.tres" id="6_blhl6"]

@@ -1,24 +1,24 @@
 [gd_scene load_steps=6 format=3 uid="uid://dkoxqo4hanx2l"]
 
 [ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plants/plant.tscn" id="1_intk5"]
-[ext_resource type="Texture2D" uid="uid://bcpc5hcygcg5o" path="res://resources/sprites/plants/plant_daffodil.png" id="2_syrty"]
+[ext_resource type="Texture2D" uid="uid://brux0yec1r7r3" path="res://resources/sprites/plants/plant_peony.png" id="2_intk5"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_22f7b"]
-atlas = ExtResource("2_syrty")
+[sub_resource type="AtlasTexture" id="AtlasTexture_syrty"]
+atlas = ExtResource("2_intk5")
 region = Rect2(0, 0, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_4ey25"]
-atlas = ExtResource("2_syrty")
+[sub_resource type="AtlasTexture" id="AtlasTexture_fcsay"]
+atlas = ExtResource("2_intk5")
 region = Rect2(36, 0, 36, 36)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_ehh0f"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_xrisi"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_22f7b")
+"texture": SubResource("AtlasTexture_syrty")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_4ey25")
+"texture": SubResource("AtlasTexture_fcsay")
 }],
 "loop": true,
 "name": &"idle",
@@ -29,7 +29,7 @@ animations = [{
 
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_ehh0f")
+sprite_frames = SubResource("SpriteFrames_xrisi")
 animation = &"idle"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
@@ -43,6 +43,6 @@ metadata/_aseprite_wizard_config_ = {
 "only_visible": true,
 "should_round_fps": true,
 "slice": "",
-"source": "res://resources/sprites/plants/plant_daffodil.aseprite"
+"source": "res://resources/sprites/plants/plant_peony.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "92458c9795e23a3a3cd3af638c7694b0"
+metadata/_aseprite_wizard_source_file_hash_ = "c2b513abe9996ddd6f67026e1eef0e04"
