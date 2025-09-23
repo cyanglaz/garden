@@ -49,16 +49,17 @@ const BASE_PENALTY_RATE_FOR_TYPE := {
 	ContractData.ContractType.BOSS: 2,
 }
 
-var _common_contracts:Array[ContractData] = []
-var _elite_contracts:Array[ContractData] = []
-var _boss_contract:ContractData = null
+var common_contracts:Array[ContractData] = []
+var elite_contracts:Array[ContractData] = []
+var boss_contract:ContractData = null
+
 var _all_available_plants:Array[PlantData] = []
 
 func generate_contracts(chapter:int) -> void:
 	_all_available_plants = MainDatabase.plants_database.get_all_datas().filter(func(plant:PlantData) -> bool: return plant.chapters.has(chapter))
-	_common_contracts = _generate_contracts(chapter, ContractData.ContractType.COMMON, TOTAL_COMMON_CONTRACTS_TO_GENERATE_PER_CHAPTER)
-	_elite_contracts = _generate_contracts(chapter, ContractData.ContractType.ELITE, TOTAL_ELITE_CONTRACTS_TO_GENERATE_PER_CHAPTER)
-	_boss_contract = _generate_contracts(chapter, ContractData.ContractType.BOSS, 1).front()
+	common_contracts = _generate_contracts(chapter, ContractData.ContractType.COMMON, TOTAL_COMMON_CONTRACTS_TO_GENERATE_PER_CHAPTER)
+	elite_contracts = _generate_contracts(chapter, ContractData.ContractType.ELITE, TOTAL_ELITE_CONTRACTS_TO_GENERATE_PER_CHAPTER)
+	boss_contract = _generate_contracts(chapter, ContractData.ContractType.BOSS, 1).front()
 
 func _generate_contracts(chapter:int, contract_type:ContractData.ContractType, count:int) -> Array[ContractData]:
 	var contracts:Array[ContractData] = []
@@ -105,9 +106,9 @@ func _roll_plants(chapter:int, contract_type:ContractData.ContractType) -> Array
 		var list_to_check:Array[ContractData]
 		match contract_type:
 			ContractData.ContractType.COMMON:
-				list_to_check = _common_contracts.duplicate()
+				list_to_check = common_contracts.duplicate()
 			ContractData.ContractType.ELITE:
-				list_to_check = _elite_contracts.duplicate()
+				list_to_check = elite_contracts.duplicate()
 			ContractData.ContractType.BOSS:
 				list_to_check = []
 
