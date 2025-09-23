@@ -1,16 +1,15 @@
-[gd_resource type="Resource" script_class="LevelData" load_steps=8 format=3 uid="uid://r34vkggwq6bf"]
+[gd_resource type="Resource" script_class="LevelData" load_steps=7 format=3 uid="uid://r34vkggwq6bf"]
 
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_1j250"]
 [ext_resource type="Resource" uid="uid://cqxom50e8wuof" path="res://data/plants/plant_data_lily_of_the_valley.tres" id="2_blhl6"]
 [ext_resource type="Script" uid="uid://bt7c5hiesqa06" path="res://data/models/level/level_data.gd" id="2_tkee1"]
-[ext_resource type="Resource" uid="uid://ba4vgijurx053" path="res://data/plants/plant_data_peony.tres" id="3_blhl6"]
 [ext_resource type="Script" uid="uid://g4t52w546b5k" path="res://data/models/weather/weather_data.gd" id="3_mh4wk"]
 [ext_resource type="Resource" uid="uid://cytu2rr2gw3mi" path="res://data/weathers/weather_rainy.tres" id="5_mh4wk"]
 [ext_resource type="Resource" uid="uid://dtrokmm2grp4i" path="res://data/weathers/weather_cloudy.tres" id="6_blhl6"]
 
 [resource]
 script = ExtResource("2_tkee1")
-plants = Array[ExtResource("1_1j250")]([ExtResource("2_blhl6"), ExtResource("3_blhl6")])
+plants = Array[ExtResource("1_1j250")]([ExtResource("2_blhl6"), ExtResource("2_blhl6")])
 weathers = Array[ExtResource("3_mh4wk")]([ExtResource("5_mh4wk"), ExtResource("6_blhl6"), ExtResource("5_mh4wk")])
 number_of_days = 1
 id = "test"

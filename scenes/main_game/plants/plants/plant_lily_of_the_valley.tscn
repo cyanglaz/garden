@@ -1,35 +1,35 @@
 [gd_scene load_steps=6 format=3 uid="uid://hsuu8fkqji1d"]
 
 [ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plants/plant.tscn" id="1_f68xb"]
-[ext_resource type="Texture2D" uid="uid://brux0yec1r7r3" path="res://resources/sprites/plants/plant_peony.png" id="2_bck8e"]
+[ext_resource type="Texture2D" uid="uid://b2xxwnfxagg5s" path="res://resources/sprites/plants/plant_lily_of_the_valley.png" id="2_yuei4"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_syrty"]
-atlas = ExtResource("2_bck8e")
+[sub_resource type="AtlasTexture" id="AtlasTexture_ul4wl"]
+atlas = ExtResource("2_yuei4")
 region = Rect2(0, 0, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fcsay"]
-atlas = ExtResource("2_bck8e")
+[sub_resource type="AtlasTexture" id="AtlasTexture_oj6rk"]
+atlas = ExtResource("2_yuei4")
 region = Rect2(36, 0, 36, 36)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_xrisi"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_mj418"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_syrty")
+"texture": SubResource("AtlasTexture_ul4wl")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fcsay")
+"texture": SubResource("AtlasTexture_oj6rk")
 }],
 "loop": true,
 "name": &"idle",
 "speed": 3.0
 }]
 
-[node name="PlantPrimrose" instance=ExtResource("1_f68xb")]
+[node name="PlantlilyOfTheValley" instance=ExtResource("1_f68xb")]
 
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_xrisi")
+sprite_frames = SubResource("SpriteFrames_mj418")
 animation = &"idle"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
@@ -43,6 +43,6 @@ metadata/_aseprite_wizard_config_ = {
 "only_visible": true,
 "should_round_fps": true,
 "slice": "",
-"source": "res://resources/sprites/plants/plant_peony.aseprite"
+"source": "res://resources/sprites/plants/plant_lily_of_the_valley.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "c2b513abe9996ddd6f67026e1eef0e04"
+metadata/_aseprite_wizard_source_file_hash_ = "ca93272b22318783ab73b243c8711c26"
