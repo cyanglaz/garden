@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6obg3hop3pr0"]
+
+[ext_resource type="Script" uid="uid://dkaxg5wc0utiy" path="res://scenes/GUI/main_game/contract_selection/gui_contract.gd" id="1_7v566"]
+[ext_resource type="Texture2D" uid="uid://pjdyj2bfffr6" path="res://resources/sprites/GUI/theme/contract_background.png" id="2_32xe8"]
+
+[node name="GUIContract" type="PanelContainer"]
+custom_minimum_size = Vector2(78, 96)
+script = ExtResource("1_7v566")
+
+[node name="Background" type="NinePatchRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_32xe8")
+region_rect = Rect2(0, 0, 16, 16)
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1

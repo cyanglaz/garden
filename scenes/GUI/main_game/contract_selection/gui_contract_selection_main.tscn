@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7d00expmt8m"]
+
+[ext_resource type="Texture2D" uid="uid://tvbkpdpoekuv" path="res://resources/sprites/white_pixel.png" id="1_868lo"]
+[ext_resource type="PackedScene" uid="uid://b6obg3hop3pr0" path="res://scenes/GUI/main_game/contract_selection/gui_contract.tscn" id="2_18s8f"]
+
+[node name="GUIContractSelectionMain" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="."]
+self_modulate = Color(0.9647059, 0.7921569, 0.62352943, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_868lo")
+
+[node name="ContractContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="GUIContract" parent="ContractContainer" instance=ExtResource("2_18s8f")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="GUIContract2" parent="ContractContainer" instance=ExtResource("2_18s8f")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="GUIContract3" parent="ContractContainer" instance=ExtResource("2_18s8f")]
+layout_mode = 2
+size_flags_vertical = 4
