@@ -7,27 +7,35 @@ const BOOSTER_PACK_ICON_MAP := {
 	ContractData.BoosterPackType.LEGENDARY: "res://resources/sprites/GUI/icons/booster_packs/icon_booster_pack_legendary.png",
 }
 
-const GUI_PLANT_ICON_SCENE := preload("res://scenes/GUI/main_game/plant_cards/gui_plant_icon.tscn")
+const GUI_CONTRACT_PLANT_ICON_SCENE := preload("res://scenes/GUI/main_game/contracts/gui_contract_plant_icon.tscn")
 
-@onready var plant_container: GridContainer = %PlantContainer
+@onready var plant_container: HBoxContainer = %PlantContainer
 @onready var grace_period_label: Label = %GracePeriodLabel
 @onready var penalty_rate_label: Label = %PenaltyRateLabel
 @onready var gui_reward_gold: GUIRewardGold = %GUIRewardGold
 @onready var gui_reward_rating: GUIRewardRating = %GUIRewardRating
 @onready var gui_reward_booster_pack: GUIOutlineIcon = %GUIRewardBoosterPack
+@onready var gui_contract_total_resources: GUIContractTotalResources = %GUIContractTotalResources
 
 var _weak_tooltip:WeakRef = weakref(null)
 
 func update_with_contract_data(contract:ContractData) -> void:
 	Util.remove_all_children(plant_container)
 	var index := 0
-	for plant_data in contract.plants:
-		var gui_plant_icon:GUIPlantIcon = GUI_PLANT_ICON_SCENE.instantiate()
+	var total_light := 0
+	var total_water := 0
+	var plant_data_map := _combine_plant_datas(contract.plants)
+	for plant_id:String in plant_data_map.keys():
+		var gui_plant_icon:GUIContractPlaintIcon = GUI_CONTRACT_PLANT_ICON_SCENE.instantiate()
 		plant_container.add_child(gui_plant_icon)
-		gui_plant_icon.update_with_plant_data(plant_data)
+		var plant_data:PlantData = MainDatabase.plant_database.get_data_by_id(plant_id, true)
+		gui_plant_icon.update_with_plant_data(plant_data, plant_data_map[plant_id])
 		gui_plant_icon.mouse_entered.connect(_on_mouse_entered_plant_icon.bind(index, plant_data))
 		gui_plant_icon.mouse_exited.connect(_on_mouse_exited_plant_icon.bind(index))
 		index += 1
+		total_light += plant_data.light
+		total_water += plant_data.water
+	gui_contract_total_resources.update(total_light, total_water)
 	grace_period_label.text = Util.get_localized_string("CONTRACT_GRACE_PERIOD_LABEL_TEXT")% contract.grace_period
 	grace_period_label.mouse_entered.connect(_on_mouse_entered_grace_period_label)
 	grace_period_label.mouse_exited.connect(_on_mouse_exited_grace_period_label)
@@ -38,14 +46,26 @@ func update_with_contract_data(contract:ContractData) -> void:
 	gui_reward_rating.update_with_value(contract.reward_rating)
 	gui_reward_booster_pack.texture = load(BOOSTER_PACK_ICON_MAP[contract.reward_booster_pack_type])
 
+func _combine_plant_datas(plant_datas:Array[PlantData]) -> Dictionary:
+	var checking_array := plant_datas.duplicate()
+	var result := {}
+	while checking_array.size() > 0:
+		var plant_data:PlantData = checking_array.pop_front()
+		if result.has(plant_data.id):
+			result[plant_data.id] += 1
+		else:
+			result[plant_data.id] = 1
+	return result
+
+
 func _on_mouse_entered_plant_icon(index:int, plant_data:PlantData) -> void:
-	var gui_plant_icon:GUIPlantIcon = plant_container.get_child(index)
-	gui_plant_icon.has_outline = true
-	_weak_tooltip = weakref(Util.display_plant_tooltip(plant_data, gui_plant_icon, false, GUITooltip.TooltipPosition.LEFT))
+	var gui_contract_plant_icon:GUIContractPlaintIcon = plant_container.get_child(index)
+	gui_contract_plant_icon.gui_plant_icon.has_outline = true
+	_weak_tooltip = weakref(Util.display_plant_tooltip(plant_data, gui_contract_plant_icon, false, GUITooltip.TooltipPosition.LEFT))
 
 func _on_mouse_exited_plant_icon(index:int) -> void:
-	var gui_plant_icon:GUIPlantIcon = plant_container.get_child(index)
-	gui_plant_icon.has_outline = false
+	var gui_contract_plant_icon:GUIContractPlaintIcon = plant_container.get_child(index)
+	gui_contract_plant_icon.gui_plant_icon.has_outline = false
 	if _weak_tooltip.get_ref():
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)

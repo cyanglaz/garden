@@ -140,3 +140,4 @@ CONTRACT_GRACE_PERIOD_TOOL_TIP_TEXT, "The number of days left before the rating 
 CONTRACT_PENALTY_RATE_TOOL_TIP_TEXT, "The amount of rating reduced every day."
 CONTRACT_SELECTION_BUTTON_TEXT, "Accept"
 CONTRACT_SELECTION_TITLE_TEXT, "Choose A Contract"
+CONTRACT_TOTAL_RESOURCES_TITLE_TEXT, "Total Resources:"

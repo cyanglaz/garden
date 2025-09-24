@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://b6obg3hop3pr0"]
+[gd_scene load_steps=11 format=3 uid="uid://b6obg3hop3pr0"]
 
 [ext_resource type="Script" uid="uid://dkaxg5wc0utiy" path="res://scenes/GUI/main_game/contracts/gui_contract.gd" id="1_7v566"]
 [ext_resource type="Texture2D" uid="uid://pjdyj2bfffr6" path="res://resources/sprites/GUI/theme/contract_background.png" id="2_32xe8"]
-[ext_resource type="PackedScene" uid="uid://caiue05en2fg7" path="res://scenes/GUI/main_game/plant_cards/gui_plant_icon.tscn" id="3_b2vy4"]
+[ext_resource type="PackedScene" uid="uid://bcy1uounmn85m" path="res://scenes/GUI/main_game/contracts/gui_contract_plant_icon.tscn" id="3_ry6cy"]
 [ext_resource type="PackedScene" uid="uid://cx7x10rh7aiw2" path="res://scenes/GUI/main_game/contracts/gui_reward_gold.tscn" id="4_hxrax"]
+[ext_resource type="PackedScene" uid="uid://cir3rkyftmxlb" path="res://scenes/GUI/main_game/contracts/gui_contract_total_resources.tscn" id="4_ry6cy"]
 [ext_resource type="PackedScene" uid="uid://priw672helay" path="res://scenes/GUI/main_game/contracts/gui_reward_rating.tscn" id="5_dh2kh"]
 [ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_outline_icon.tscn" id="6_fxvfg"]
 [ext_resource type="Shader" path="res://scenes/GUI/utils/gui_outline_icon.gdshader" id="7_syms5"]
@@ -16,7 +17,9 @@ shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 
 [node name="GUIContract" type="PanelContainer"]
-custom_minimum_size = Vector2(78, 96)
+custom_minimum_size = Vector2(118, 0)
+offset_right = 118.0
+offset_bottom = 106.0
 script = ExtResource("1_7v566")
 
 [node name="Background" type="NinePatchRect" parent="."]
@@ -34,26 +37,28 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="PlantContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
+[node name="PlantContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 41)
 layout_mode = 2
-theme_override_constants/h_separation = 1
-theme_override_constants/v_separation = 1
-columns = 3
+theme_override_constants/separation = 4
 
-[node name="GUIPlantIcon" parent="MarginContainer/VBoxContainer/PlantContainer" instance=ExtResource("3_b2vy4")]
+[node name="GUIContractPlaintIcon" parent="MarginContainer/VBoxContainer/PlantContainer" instance=ExtResource("3_ry6cy")]
 layout_mode = 2
 
-[node name="GUIPlantIcon2" parent="MarginContainer/VBoxContainer/PlantContainer" instance=ExtResource("3_b2vy4")]
+[node name="GUIContractPlaintIcon2" parent="MarginContainer/VBoxContainer/PlantContainer" instance=ExtResource("3_ry6cy")]
 layout_mode = 2
 
-[node name="GUIPlantIcon3" parent="MarginContainer/VBoxContainer/PlantContainer" instance=ExtResource("3_b2vy4")]
+[node name="GUIContractPlaintIcon3" parent="MarginContainer/VBoxContainer/PlantContainer" instance=ExtResource("3_ry6cy")]
+layout_mode = 2
+
+[node name="GUIContractTotalResources" parent="MarginContainer/VBoxContainer" instance=ExtResource("4_ry6cy")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="GracePeriodLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 0
 mouse_filter = 0
 theme_type_variation = &"HUD_mid"
 text = "Grace Period: 3 days"
@@ -61,6 +66,7 @@ text = "Grace Period: 3 days"
 [node name="PenaltyRateLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 0
 mouse_filter = 0
 theme_type_variation = &"HUD_mid"
 text = "Penalty Rate: 1"

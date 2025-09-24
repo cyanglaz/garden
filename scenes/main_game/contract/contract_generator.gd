@@ -10,7 +10,7 @@ const BASE_NUMBER_OF_PLANTS_DICE := {
 	3: 5,
 	4: 60,
 	5: 30,
-	6: 5,
+	6: 50000,
 }
 
 const NUMBER_OF_PLANTS_TYPE_DICE := {
