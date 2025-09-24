@@ -82,6 +82,7 @@ func _ready() -> void:
 	gui_main_game.level_summary_continue_button_pressed.connect(_on_level_summary_continue_button_pressed)
 	gui_main_game.gold_increased.connect(_on_level_summary_gold_increased)
 	gui_main_game.plant_seed_drawn_animation_completed.connect(_on_plant_seed_drawn_animation_completed)
+	gui_main_game.contract_selected.connect(_on_contract_selected)
 	
 	#shop signals
 	gui_main_game.gui_shop_main.next_level_button_pressed.connect(_on_shop_next_level_pressed)
@@ -171,8 +172,8 @@ func _start_new_chapter() -> void:
 	_select_contract()
 
 func _select_contract() -> void:
-	_selected_contract = contract_generator.common_contracts.pick_random()
-	_start_new_level()
+	var picked_contracts := contract_generator.pick_contracts(2)
+	gui_main_game.animate_show_contract_selection(picked_contracts)
 
 func _start_new_level() -> void:
 	power_manager.clear_powers()
@@ -365,6 +366,11 @@ func _on_tool_shop_button_pressed(tool_data:ToolData) -> void:
 func _on_level_summary_gold_increased(gold:int) -> void:
 	update_gold(_gold + gold, true)
 	session_summary.total_gold_earned += gold
+#endregion
+#region contract selection events
+func _on_contract_selected(contract_data:ContractData) -> void:
+	_selected_contract = contract_data
+	_start_new_level()
 #endregion
 
 #endregion

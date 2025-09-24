@@ -7,6 +7,7 @@ signal level_summary_continue_button_pressed()
 signal gold_increased(gold:int)
 signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData)
 signal rating_update_finished(value:int)
+signal contract_selected(contract_data:ContractData)
 
 @onready var gui_top_bar: GUITopBar = %GUITopBar
 @onready var game_container: PanelContainer = %GameContainer
@@ -27,6 +28,7 @@ signal rating_update_finished(value:int)
 @onready var gui_demo_end_main: GUIDemoEndMain = %GUIDemoEndMain
 @onready var gui_library: GUILibrary = %GUILibrary
 @onready var gui_thing_info_view: GUIThingInfoView = %GUIThingInfoView
+@onready var gui_contract_selection_main: GUIContractSelectionMain = %GUIContractSelectionMain
 
 @onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
@@ -49,6 +51,7 @@ func _ready() -> void:
 	gui_level_summary_main.gold_increased.connect(func(gold:int) -> void: gold_increased.emit(gold))
 	gui_plant_seed_animation_container.draw_plant_card_completed.connect(func(field_index:int, plant_data:PlantData) -> void: plant_seed_drawn_animation_completed.emit(field_index, plant_data))
 	gui_shop_main.setup(gui_top_bar.gui_full_deck_button)
+	gui_contract_selection_main.contract_selected.connect(func(contract_data:ContractData) -> void: contract_selected.emit(contract_data))
 
 #region power
 
@@ -133,6 +136,13 @@ func bind_energy(resource_point:ResourcePoint) -> void:
 #region weathers
 func update_weathers(weather_manager:WeatherManager) -> void:
 	gui_weather_container.update_with_weather_manager(weather_manager)
+
+#endregion
+
+#region contract selection
+
+func animate_show_contract_selection(contracts:Array) -> void:
+	gui_contract_selection_main.animate_show_with_contracts(contracts)
 
 #endregion
 

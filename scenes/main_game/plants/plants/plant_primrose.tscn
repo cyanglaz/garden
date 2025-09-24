@@ -3,22 +3,22 @@
 [ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plants/plant.tscn" id="1_0wgko"]
 [ext_resource type="Texture2D" uid="uid://c2x6kkr8kyy8f" path="res://resources/sprites/plants/plant_primrose.png" id="2_0wgko"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0wgko"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_5688q"]
 atlas = ExtResource("2_0wgko")
 region = Rect2(0, 0, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_och2t"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_btqx1"]
 atlas = ExtResource("2_0wgko")
 region = Rect2(36, 0, 36, 36)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_ss7qg"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_q1t0g"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0wgko")
+"texture": SubResource("AtlasTexture_5688q")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_och2t")
+"texture": SubResource("AtlasTexture_btqx1")
 }],
 "loop": true,
 "name": &"idle",
@@ -29,7 +29,7 @@ animations = [{
 
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_ss7qg")
+sprite_frames = SubResource("SpriteFrames_q1t0g")
 animation = &"idle"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,

@@ -133,3 +133,10 @@ CATEGORY_CARDS, "Card"
 CATEGORY_PLANTS, "Plant"
 
 SHOW_LIBRARY_TOOLTIP_PROMPT, "Press %s to view details."
+
+CONTRACT_GRACE_PERIOD_LABEL_TEXT, "Grace Period: %s"
+CONTRACT_PENALTY_RATE_LABEL_TEXT, "Penalty Rate: %s"
+CONTRACT_GRACE_PERIOD_TOOL_TIP_TEXT, "The number of days left before the rating is reduced every day."
+CONTRACT_PENALTY_RATE_TOOL_TIP_TEXT, "The amount of rating reduced every day."
+CONTRACT_SELECTION_BUTTON_TEXT, "Accept"
+CONTRACT_SELECTION_TITLE_TEXT, "Choose A Contract"

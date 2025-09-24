@@ -62,6 +62,17 @@ func generate_contracts(chapter:int) -> void:
 	boss_contracts = _generate_contracts(chapter, ContractData.ContractType.BOSS, 1)
 	_log_contracts(chapter)
 
+func pick_contracts(number_of_contracts:int) -> Array:
+	var picks := Util.unweighted_roll(common_contracts + elite_contracts, number_of_contracts)
+	for pick in picks:
+		if common_contracts.has(pick):
+			common_contracts.erase(pick)
+		elif elite_contracts.has(pick):
+			elite_contracts.erase(pick)
+		elif boss_contracts.has(pick):
+			boss_contracts.erase(pick)
+	return picks
+
 func _generate_contracts(chapter:int, contract_type:ContractData.ContractType, count:int) -> Array[ContractData]:
 	var contracts:Array[ContractData] = []
 	for i in count:

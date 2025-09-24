@@ -50,7 +50,7 @@ static func display_warning_tooltip(message:String, on_control_node:Control, anc
 
 static func display_rich_text_tooltip(description:String, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIRichTextTooltip:
 	var rich_text_tooltip:GUIRichTextTooltip = GUI_RICH_TEXT_TOOLTIP_SCENE.instantiate()
-	Singletons.game_main.add_view_to_top_container(rich_text_tooltip)
+	Singletons.main_game.add_control_to_overlay(rich_text_tooltip)
 	# tooltip position needs to be set before binding data	
 	rich_text_tooltip.tooltip_position = tooltip_position
 	rich_text_tooltip.setup(description)

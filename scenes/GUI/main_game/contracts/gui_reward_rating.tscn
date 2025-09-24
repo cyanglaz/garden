@@ -1,7 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://priw672helay"]
+[gd_scene load_steps=5 format=3 uid="uid://priw672helay"]
 
 [ext_resource type="Script" uid="uid://cv2rx4qd6io1f" path="res://scenes/GUI/main_game/contracts/gui_reward_rating.gd" id="1_1irg6"]
 [ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_outline_icon.tscn" id="2_1irg6"]
+[ext_resource type="Shader" path="res://scenes/GUI/utils/gui_outline_icon.gdshader" id="3_1irg6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bx0mg"]
+resource_local_to_scene = true
+shader = ExtResource("3_1irg6")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
 
 [node name="GUIRewardRating" type="HBoxContainer"]
 mouse_filter = 0
@@ -10,12 +17,13 @@ script = ExtResource("1_1irg6")
 
 [node name="GUIOutlineIcon" parent="." instance=ExtResource("2_1irg6")]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_bx0mg")
 layout_mode = 2
 
 [node name="Label" type="Label" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 8
-theme_type_variation = &"HUD_small"
+theme_type_variation = &"HUD_mid"
 text = "16"
 vertical_alignment = 2

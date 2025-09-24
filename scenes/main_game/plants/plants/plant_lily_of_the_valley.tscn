@@ -3,22 +3,22 @@
 [ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plants/plant.tscn" id="1_f68xb"]
 [ext_resource type="Texture2D" uid="uid://b2xxwnfxagg5s" path="res://resources/sprites/plants/plant_lily_of_the_valley.png" id="2_yuei4"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ul4wl"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_yuei4"]
 atlas = ExtResource("2_yuei4")
 region = Rect2(0, 0, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_oj6rk"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ul4wl"]
 atlas = ExtResource("2_yuei4")
 region = Rect2(36, 0, 36, 36)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_mj418"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_oj6rk"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ul4wl")
+"texture": SubResource("AtlasTexture_yuei4")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_oj6rk")
+"texture": SubResource("AtlasTexture_ul4wl")
 }],
 "loop": true,
 "name": &"idle",
@@ -29,7 +29,7 @@ animations = [{
 
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_mj418")
+sprite_frames = SubResource("SpriteFrames_oj6rk")
 animation = &"idle"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
