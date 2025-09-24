@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://txrslj0jtryt"]
+
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_outline_icon.gdshader" id="1_gxp6j"]
+[ext_resource type="Texture2D" uid="uid://bhqydxgtda0mu" path="res://resources/sprites/GUI/icons/resources/icon_rating.png" id="2_85j5w"]
+[ext_resource type="Script" uid="uid://cw17n3ala1r0x" path="res://scenes/GUI/utils/gui_outline_icon.gd" id="3_gxp6j"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_so68i"]
+resource_local_to_scene = true
+shader = ExtResource("1_gxp6j")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+
+[node name="GUIOutlineIcon" type="TextureRect"]
+material = SubResource("ShaderMaterial_so68i")
+offset_right = 13.0
+offset_bottom = 11.0
+texture = ExtResource("2_85j5w")
+stretch_mode = 5
+script = ExtResource("3_gxp6j")

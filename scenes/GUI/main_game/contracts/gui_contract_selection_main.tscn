@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b7d00expmt8m"]
 
 [ext_resource type="Texture2D" uid="uid://tvbkpdpoekuv" path="res://resources/sprites/white_pixel.png" id="1_868lo"]
-[ext_resource type="PackedScene" uid="uid://b6obg3hop3pr0" path="res://scenes/GUI/main_game/contract_selection/gui_contract.tscn" id="2_18s8f"]
+[ext_resource type="PackedScene" uid="uid://b6obg3hop3pr0" path="res://scenes/GUI/main_game/contracts/gui_contract.tscn" id="2_18s8f"]
 
 [node name="GUIContractSelectionMain" type="Control"]
 layout_mode = 3

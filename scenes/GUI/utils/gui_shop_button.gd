@@ -5,7 +5,7 @@ const SUFFICIENT_GOLD_COLOR := Constants.COLOR_WHITE
 const INSUFFICIENT_GOLD_COLOR := Constants.COLOR_GRAY3
 
 @onready var cost_label: Label = %CostLabel
-@onready var gui_shop_gold_icon: GUIShopGoldIcon = %GUIShopGoldIcon
+@onready var gold_icon: GUIOutlineIcon = %GoldIcon
 
 var cost:int:set = _set_cost
 var sufficient_gold := false: set = _set_sufficient_gold
@@ -21,12 +21,12 @@ func _set_cost(val:int) -> void:
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	highlighted = true
-	gui_shop_gold_icon.has_outline = true
+	gold_icon.has_outline = true
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
 	highlighted = false
-	gui_shop_gold_icon.has_outline = false
+	gui_small_gold_icon.has_outline = false
 
 func _set_sufficient_gold(val:bool) -> void:
 	sufficient_gold = val
