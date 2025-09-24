@@ -38,7 +38,3 @@ size_flags_vertical = 4
 [node name="GUIContract2" parent="ContractContainer" instance=ExtResource("2_18s8f")]
 layout_mode = 2
 size_flags_vertical = 4
-
-[node name="GUIContract3" parent="ContractContainer" instance=ExtResource("2_18s8f")]
-layout_mode = 2
-size_flags_vertical = 4

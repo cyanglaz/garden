@@ -38,7 +38,7 @@ func get_duplicate() -> ContractData:
 	dup.copy(self)
 	return dup
 
-func apply_contract_actions(main_game:MainGame) -> void:
+func apply_contract_actions(_main_game:MainGame) -> void:
 	await Util.await_for_tiny_time()
 
 func log() -> void:
