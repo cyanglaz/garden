@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b6obg3hop3pr0"]
+[gd_scene load_steps=8 format=3 uid="uid://b6obg3hop3pr0"]
 
 [ext_resource type="Script" uid="uid://dkaxg5wc0utiy" path="res://scenes/GUI/main_game/contracts/gui_contract.gd" id="1_7v566"]
 [ext_resource type="Texture2D" uid="uid://pjdyj2bfffr6" path="res://resources/sprites/GUI/theme/contract_background.png" id="2_32xe8"]
@@ -6,14 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cx7x10rh7aiw2" path="res://scenes/GUI/main_game/contracts/gui_reward_gold.tscn" id="4_hxrax"]
 [ext_resource type="PackedScene" uid="uid://priw672helay" path="res://scenes/GUI/main_game/contracts/gui_reward_rating.tscn" id="5_dh2kh"]
 [ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_outline_icon.tscn" id="6_fxvfg"]
-[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_outline_icon.gdshader" id="7_syms5"]
 [ext_resource type="Texture2D" uid="uid://b2guebaf423cn" path="res://resources/sprites/GUI/icons/booster_packs/icon_booster_pack_common.png" id="8_syms5"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ry6cy"]
-resource_local_to_scene = true
-shader = ExtResource("7_syms5")
-shader_parameter/outline_color = Color(1, 1, 1, 1)
-shader_parameter/outline_size = 0
 
 [node name="GUIContract" type="PanelContainer"]
 custom_minimum_size = Vector2(78, 96)
@@ -91,6 +84,6 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="GUIRewardBoosterPack" parent="MarginContainer/VBoxContainer/RewardContainer" instance=ExtResource("6_fxvfg")]
-material = SubResource("ShaderMaterial_ry6cy")
+unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("8_syms5")

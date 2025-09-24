@@ -26,7 +26,7 @@ func _on_mouse_entered() -> void:
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
 	highlighted = false
-	gui_small_gold_icon.has_outline = false
+	gold_icon.has_outline = false
 
 func _set_sufficient_gold(val:bool) -> void:
 	sufficient_gold = val
