@@ -35,7 +35,7 @@ const BASE_REWARD_VALUE_FOR_EACH_PLANT_DIFFICULTY_TYPE := {
 const BASE_BOOSTER_PACK_TYPE_FOR_TYPE := {
 	ContractData.ContractType.COMMON: ContractData.BoosterPackType.COMMON,
 	ContractData.ContractType.ELITE: ContractData.BoosterPackType.RARE,
-	ContractData.ContractType.BOSS: ContractData.BoosterPackType.EPIC,
+	ContractData.ContractType.BOSS: ContractData.BoosterPackType.LEGENDARY,
 }
 
 const REWARD_VALUE_CHAPTER_MULTIPLIER := 3

@@ -11,7 +11,7 @@ enum BoosterPackType {
 	NONE,
 	COMMON,
 	RARE,
-	EPIC,
+	LEGENDARY,
 }
 
 @export var contract_type:ContractType
