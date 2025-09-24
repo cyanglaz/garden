@@ -11,6 +11,7 @@ theme_override_constants/separation = 1
 script = ExtResource("1_gi8eq")
 max_value = 3
 current_value = 2
+segment_color = Color(1, 0.78431374, 0.14509805, 1)
 icon_texture = ExtResource("2_ol5lb")
 
 [node name="Icon" type="TextureRect" parent="."]
@@ -50,7 +51,7 @@ theme_override_constants/margin_bottom = 1
 
 [node name="Background" type="ColorRect" parent="HBoxContainer/GUISegmentedProgressBar/MarginContainer2/MarginContainer"]
 unique_name_in_owner = true
-self_modulate = Color(0.105882, 0.105882, 0.105882, 1)
+self_modulate = Color(0.105882354, 0.105882354, 0.105882354, 1)
 layout_mode = 2
 
 [node name="SegmentContainer" type="Control" parent="HBoxContainer/GUISegmentedProgressBar/MarginContainer2/MarginContainer"]
@@ -59,7 +60,7 @@ layout_mode = 2
 
 [node name="Border" type="NinePatchRect" parent="HBoxContainer/GUISegmentedProgressBar/MarginContainer2"]
 unique_name_in_owner = true
-self_modulate = Color(0.105882, 0.105882, 0.105882, 1)
+self_modulate = Color(0.105882354, 0.105882354, 0.105882354, 1)
 layout_mode = 2
 texture = ExtResource("3_ol5lb")
 patch_margin_left = 1

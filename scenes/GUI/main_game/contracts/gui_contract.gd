@@ -26,15 +26,16 @@ func update_with_contract_data(contract:ContractData) -> void:
 	var total_water := 0
 	var plant_data_map := _combine_plant_datas(contract.plants)
 	for plant_id:String in plant_data_map.keys():
+		var count := plant_data_map[plant_id] as int
 		var gui_plant_icon:GUIContractPlaintIcon = GUI_CONTRACT_PLANT_ICON_SCENE.instantiate()
 		plant_container.add_child(gui_plant_icon)
 		var plant_data:PlantData = MainDatabase.plant_database.get_data_by_id(plant_id, true)
-		gui_plant_icon.update_with_plant_data(plant_data, plant_data_map[plant_id])
+		gui_plant_icon.update_with_plant_data(plant_data, count)
 		gui_plant_icon.mouse_entered.connect(_on_mouse_entered_plant_icon.bind(index, plant_data))
 		gui_plant_icon.mouse_exited.connect(_on_mouse_exited_plant_icon.bind(index))
 		index += 1
-		total_light += plant_data.light
-		total_water += plant_data.water
+		total_light += plant_data.light * count
+		total_water += plant_data.water * count
 	gui_contract_total_resources.update(total_light, total_water)
 	grace_period_label.text = Util.get_localized_string("CONTRACT_GRACE_PERIOD_LABEL_TEXT")% contract.grace_period
 	grace_period_label.mouse_entered.connect(_on_mouse_entered_grace_period_label)
