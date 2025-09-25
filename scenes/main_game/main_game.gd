@@ -168,6 +168,7 @@ func hide_dialogue(type:GUIDialogueItem.DialogueType) -> void:
 
 func _start_new_chapter() -> void:
 	chapter_manager.next_chapter()
+	weather_manager.generate_next_weathers(chapter_manager.current_chapter)
 	contract_generator.generate_contracts(chapter_manager.current_chapter)
 	_select_contract()
 
@@ -224,6 +225,7 @@ func _lose() -> void:
 	gui_main_game.toggle_all_ui(true)
 
 func _end_day() -> void:
+	weather_manager.pass_day()
 	gui_main_game.toggle_all_ui(false)
 	_clear_tool_selection()
 	await _discard_all_tools()

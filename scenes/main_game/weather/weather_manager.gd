@@ -18,10 +18,12 @@ var weathers:Array[WeatherData]
 var forecast_days := 4
 
 func generate_next_weathers(chapter:int) -> void:
-	if !weathers.is_empty():
-		weathers.pop_front()
 	for _day in forecast_days - weathers.size():
 		_generate_next_weather(chapter)
+	weathers_updated.emit()
+
+func pass_day() -> void:
+	weathers.pop_front()
 	weathers_updated.emit()
 
 func get_current_weather() -> WeatherData:
