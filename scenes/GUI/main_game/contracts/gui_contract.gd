@@ -46,7 +46,10 @@ func update_with_contract_data(contract:ContractData) -> void:
 	penalty_rate_label.mouse_entered.connect(_on_mouse_entered_penalty_rate_label)
 	penalty_rate_label.mouse_exited.connect(_on_mouse_exited_penalty_rate_label)
 	gui_reward_gold.update_with_value(contract.reward_gold)
-	gui_reward_rating.update_with_value(contract.reward_rating)
+	if contract.reward_rating > 0:
+		gui_reward_rating.update_with_value(contract.reward_rating)
+	else:
+		gui_reward_rating.hide()
 	gui_reward_booster_pack.texture = load(BOOSTER_PACK_ICON_MAP[contract.reward_booster_pack_type])
 
 func _combine_plant_datas(plant_datas:Array[PlantData]) -> Dictionary:
