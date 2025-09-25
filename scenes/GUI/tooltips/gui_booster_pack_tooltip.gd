@@ -4,13 +4,7 @@ extends GUITooltip
 const TYPE_COLORS := {
 	ContractData.BoosterPackType.COMMON: Constants.COLOR_GREEN2,
 	ContractData.BoosterPackType.RARE: Constants.COLOR_BLUE_3,
-	ContractData.BoosterPackType.LEGENDARY: Constants.COLOR_RED_PURPLE1,
-}
-
-const CHANCE_COLORS := {
-	50: Constants.COLOR_GREEN2,
-	10: Constants.COLOR_BLUE_3,
-	1: Constants.COLOR_RED_PURPLE1,
+	ContractData.BoosterPackType.LEGENDARY: Constants.COLOR_PURPLE1,
 }
 
 @onready var title_label: RichTextLabel = %TitleLabel
@@ -36,8 +30,8 @@ func update_with_booster_pack_type(booster_pack_type:ContractData.BoosterPackTyp
 	if common_chance > 0:
 		common_card_chance_label.show()
 		var common_chance_text := str(common_chance) + "%"
-		var common_chance_color := _get_chance_color(common_chance)
-		common_chance_text = Util.convert_to_bbc_highlight_text(common_chance_text, common_chance_color)
+		var chance_color := TYPE_COLORS[ContractData.BoosterPackType.COMMON] as Color
+		common_chance_text = Util.convert_to_bbc_highlight_text(common_chance_text, chance_color)
 		common_card_chance_label.text = Util.get_localized_string("BOOSTER_PACK_COMMON_CARD_CHANCE_TEXT")% common_chance_text
 	else:
 		common_card_chance_label.hide()
@@ -45,8 +39,8 @@ func update_with_booster_pack_type(booster_pack_type:ContractData.BoosterPackTyp
 	if rare_chance > 0:
 		rare_card_chance_label.show()
 		var rare_chance_text := str(rare_chance) + "%"
-		var rare_chance_color := _get_chance_color(rare_chance)
-		rare_chance_text = Util.convert_to_bbc_highlight_text(rare_chance_text, rare_chance_color)
+		var chance_color := TYPE_COLORS[ContractData.BoosterPackType.RARE] as Color
+		rare_chance_text = Util.convert_to_bbc_highlight_text(rare_chance_text, chance_color)
 		rare_card_chance_label.text = Util.get_localized_string("BOOSTER_PACK_RARE_CARD_CHANCE_TEXT")% rare_chance_text
 	else:
 		rare_card_chance_label.hide()
@@ -54,21 +48,8 @@ func update_with_booster_pack_type(booster_pack_type:ContractData.BoosterPackTyp
 	if legendary_chance > 0:
 		legendary_card_chance_label.show()
 		var legendary_chance_text := str(legendary_chance) + "%"
-		var legendary_chance_color := _get_chance_color(legendary_chance)
-		legendary_chance_text = Util.convert_to_bbc_highlight_text(legendary_chance_text, legendary_chance_color)
+		var chance_color := TYPE_COLORS[ContractData.BoosterPackType.LEGENDARY] as Color
+		legendary_chance_text = Util.convert_to_bbc_highlight_text(legendary_chance_text, chance_color)
 		legendary_card_chance_label.text = Util.get_localized_string("BOOSTER_PACK_LEGENDARY_CARD_CHANCE_TEXT")% legendary_chance_text
 	else:
 		legendary_card_chance_label.hide()
-
-	var rare_card_base_count := ContractData.BOOSTER_PACK_CARD_BASE_COUNTS[booster_pack_type][1] as int
-	if rare_card_base_count > 0:
-		rare_card_base_count_label.show()
-		rare_card_base_count_label.text = Util.get_localized_string("BOOSTER_PACK_RARE_CARD_BASE_COUNT_TEXT")% rare_card_base_count
-	else:
-		rare_card_base_count_label.hide()
-
-func _get_chance_color(chance:int) -> Color:
-	for key in CHANCE_COLORS.keys():
-		if chance >= key:
-			return CHANCE_COLORS[key]
-	return Constants.COLOR_WHITE
