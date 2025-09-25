@@ -33,8 +33,8 @@ func update_with_contract_data(contract:ContractData) -> void:
 		plant_container.add_child(gui_plant_icon)
 		var plant_data:PlantData = MainDatabase.plant_database.get_data_by_id(plant_id, true)
 		gui_plant_icon.update_with_plant_data(plant_data, count)
-		gui_plant_icon.mouse_entered.connect(_on_mouse_entered_plant_icon.bind(index, plant_data))
-		gui_plant_icon.mouse_exited.connect(_on_mouse_exited_plant_icon.bind(index))
+		gui_plant_icon.gui_plant_icon.mouse_entered.connect(_on_mouse_entered_plant_icon.bind(index, plant_data))
+		gui_plant_icon.gui_plant_icon.mouse_exited.connect(_on_mouse_exited_plant_icon.bind(index))
 		index += 1
 		total_light += plant_data.light * count
 		total_water += plant_data.water * count
@@ -67,7 +67,7 @@ func _combine_plant_datas(plant_datas:Array[PlantData]) -> Dictionary:
 func _on_mouse_entered_plant_icon(index:int, plant_data:PlantData) -> void:
 	var gui_contract_plant_icon:GUIContractPlaintIcon = plant_container.get_child(index)
 	gui_contract_plant_icon.gui_plant_icon.has_outline = true
-	_weak_tooltip = weakref(Util.display_plant_tooltip(plant_data, gui_contract_plant_icon, false, GUITooltip.TooltipPosition.LEFT))
+	_weak_tooltip = weakref(Util.display_plant_tooltip(plant_data, gui_contract_plant_icon.gui_plant_icon, false, GUITooltip.TooltipPosition.BOTTOM_RIGHT))
 
 func _on_mouse_exited_plant_icon(index:int) -> void:
 	var gui_contract_plant_icon:GUIContractPlaintIcon = plant_container.get_child(index)
@@ -77,7 +77,7 @@ func _on_mouse_exited_plant_icon(index:int) -> void:
 		_weak_tooltip = weakref(null)
 
 func _on_mouse_entered_grace_period_label() -> void:
-	_weak_tooltip = weakref(Util.display_rich_text_tooltip(Util.get_localized_string("CONTRACT_GRACE_PERIOD_TOOL_TIP_TEXT"), grace_period_label, false, GUITooltip.TooltipPosition.LEFT))
+	_weak_tooltip = weakref(Util.display_rich_text_tooltip(Util.get_localized_string("CONTRACT_GRACE_PERIOD_TOOL_TIP_TEXT"), grace_period_label, false, GUITooltip.TooltipPosition.BOTTOM_RIGHT))
 
 func _on_mouse_exited_grace_period_label() -> void:
 	if _weak_tooltip.get_ref():
@@ -85,7 +85,7 @@ func _on_mouse_exited_grace_period_label() -> void:
 		_weak_tooltip = weakref(null)
 
 func _on_mouse_entered_penalty_rate_label() -> void:
-	_weak_tooltip = weakref(Util.display_rich_text_tooltip(Util.get_localized_string("CONTRACT_PENALTY_RATE_TOOL_TIP_TEXT"), penalty_rate_label, false, GUITooltip.TooltipPosition.LEFT))
+	_weak_tooltip = weakref(Util.display_rich_text_tooltip(Util.get_localized_string("CONTRACT_PENALTY_RATE_TOOL_TIP_TEXT"), penalty_rate_label, false, GUITooltip.TooltipPosition.BOTTOM_RIGHT))
 
 func _on_mouse_exited_penalty_rate_label() -> void:
 	if _weak_tooltip.get_ref():

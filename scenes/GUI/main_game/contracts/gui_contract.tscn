@@ -24,8 +24,8 @@ shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 
 [node name="GUIContract" type="PanelContainer"]
-custom_minimum_size = Vector2(120, 0)
-offset_right = 120.0
+custom_minimum_size = Vector2(93, 0)
+offset_right = 93.0
 offset_bottom = 99.0
 script = ExtResource("1_7v566")
 

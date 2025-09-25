@@ -10,6 +10,7 @@ const INSTANT_CARD_USE_DELAY := 0.3
 const DETAIL_TOOLTIP_DELAY := 0.8
 const INITIAL_RATING_VALUE := 100
 const INITIAL_RATING_MAX_VALUE := 100
+const CONTRACT_COUNT := 2
 
 @export var player:PlayerData
 @export var test_tools:Array[ToolData]
@@ -35,6 +36,7 @@ var hovered_data:ThingData: set = _set_hovered_data
 var rating:ResourcePoint = ResourcePoint.new()
 var _gold := 0: set = _set_gold
 var _selected_contract:ContractData
+var _level:int = 0
 
 var _harvesting_fields:Array = []
 
@@ -167,13 +169,14 @@ func hide_dialogue(type:GUIDialogueItem.DialogueType) -> void:
 #region private
 
 func _start_new_chapter() -> void:
+	_level = 0
 	chapter_manager.next_chapter()
 	weather_manager.generate_next_weathers(chapter_manager.current_chapter)
 	contract_generator.generate_contracts(chapter_manager.current_chapter)
 	_select_contract()
 
 func _select_contract() -> void:
-	var picked_contracts := contract_generator.pick_contracts(2)
+	var picked_contracts := contract_generator.pick_contracts(CONTRACT_COUNT, _level)
 	gui_main_game.animate_show_contract_selection(picked_contracts)
 
 func _start_new_level() -> void:
@@ -217,6 +220,7 @@ func _win() -> void:
 	session_summary.total_days_skipped += day_manager.get_grace_period_day_left()
 	gui_main_game.animate_show_level_summary(day_manager.get_grace_period_day_left())
 	gui_main_game.toggle_all_ui(true)
+	_level += 1
 
 func _lose() -> void:
 	gui_main_game.toggle_all_ui(false)
