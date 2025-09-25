@@ -16,8 +16,10 @@ const GUI_CONTRACT_PLANT_ICON_SCENE := preload("res://scenes/GUI/main_game/contr
 @onready var gui_reward_rating: GUIRewardRating = %GUIRewardRating
 @onready var gui_reward_booster_pack: GUIOutlineIcon = %GUIRewardBoosterPack
 @onready var gui_contract_total_resources: GUIContractTotalResources = %GUIContractTotalResources
+@onready var background: NinePatchRect = %Background
 
 var _weak_tooltip:WeakRef = weakref(null)
+var has_outline:bool = false:set = _set_has_outline
 
 func update_with_contract_data(contract:ContractData) -> void:
 	Util.remove_all_children(plant_container)
@@ -86,3 +88,11 @@ func _on_mouse_exited_penalty_rate_label() -> void:
 	if _weak_tooltip.get_ref():
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)
+
+func _set_has_outline(val:bool) -> void:
+	has_outline = val
+	if background:
+		if has_outline:
+			background.material.set_shader_parameter("outline_size", 1)
+		else:
+			background.material.set_shader_parameter("outline_size", 0)

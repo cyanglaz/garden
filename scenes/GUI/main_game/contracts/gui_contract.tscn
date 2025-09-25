@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://b6obg3hop3pr0"]
+[gd_scene load_steps=13 format=3 uid="uid://b6obg3hop3pr0"]
 
 [ext_resource type="Script" uid="uid://dkaxg5wc0utiy" path="res://scenes/GUI/main_game/contracts/gui_contract.gd" id="1_7v566"]
 [ext_resource type="Texture2D" uid="uid://pjdyj2bfffr6" path="res://resources/sprites/GUI/theme/contract_background.png" id="2_32xe8"]
+[ext_resource type="Shader" uid="uid://o2rtc2c5l2wv" path="res://scenes/GUI/main_game/contracts/gui_contract.gdshader" id="2_j8mo5"]
 [ext_resource type="PackedScene" uid="uid://bcy1uounmn85m" path="res://scenes/GUI/main_game/contracts/gui_contract_plant_icon.tscn" id="3_ry6cy"]
 [ext_resource type="PackedScene" uid="uid://cx7x10rh7aiw2" path="res://scenes/GUI/main_game/contracts/gui_reward_gold.tscn" id="4_hxrax"]
 [ext_resource type="PackedScene" uid="uid://cir3rkyftmxlb" path="res://scenes/GUI/main_game/contracts/gui_contract_total_resources.tscn" id="4_ry6cy"]
@@ -10,6 +11,12 @@
 [ext_resource type="Shader" path="res://scenes/GUI/utils/gui_outline_icon.gdshader" id="7_syms5"]
 [ext_resource type="Texture2D" uid="uid://b2guebaf423cn" path="res://resources/sprites/GUI/icons/booster_packs/icon_booster_pack_common.png" id="8_syms5"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bi1fw"]
+resource_local_to_scene = true
+shader = ExtResource("2_j8mo5")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ry6cy"]
 resource_local_to_scene = true
 shader = ExtResource("7_syms5")
@@ -17,22 +24,28 @@ shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 
 [node name="GUIContract" type="PanelContainer"]
-custom_minimum_size = Vector2(118, 0)
-offset_right = 118.0
-offset_bottom = 106.0
+custom_minimum_size = Vector2(120, 0)
+offset_right = 120.0
+offset_bottom = 99.0
 script = ExtResource("1_7v566")
 
 [node name="Background" type="NinePatchRect" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_bi1fw")
 layout_mode = 2
 texture = ExtResource("2_32xe8")
 region_rect = Rect2(0, 0, 16, 16)
-patch_margin_left = 1
-patch_margin_top = 1
-patch_margin_right = 1
-patch_margin_bottom = 1
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
