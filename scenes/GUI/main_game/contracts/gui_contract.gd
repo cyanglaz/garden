@@ -51,6 +51,8 @@ func update_with_contract_data(contract:ContractData) -> void:
 	else:
 		gui_reward_rating.hide()
 	gui_reward_booster_pack.texture = load(BOOSTER_PACK_ICON_MAP[contract.reward_booster_pack_type])
+	gui_reward_booster_pack.mouse_entered.connect(_on_mouse_entered_booster_pack)
+	gui_reward_booster_pack.mouse_exited.connect(_on_mouse_exited_booster_pack)
 
 func _combine_plant_datas(plant_datas:Array[PlantData]) -> Dictionary:
 	var checking_array := plant_datas.duplicate()
@@ -88,6 +90,16 @@ func _on_mouse_entered_penalty_rate_label() -> void:
 	_weak_tooltip = weakref(Util.display_rich_text_tooltip(Util.get_localized_string("CONTRACT_PENALTY_RATE_TOOL_TIP_TEXT"), penalty_rate_label, false, GUITooltip.TooltipPosition.BOTTOM_RIGHT))
 
 func _on_mouse_exited_penalty_rate_label() -> void:
+	if _weak_tooltip.get_ref():
+		_weak_tooltip.get_ref().queue_free()
+		_weak_tooltip = weakref(null)
+
+func _on_mouse_entered_booster_pack() -> void:
+	gui_reward_booster_pack.has_outline = true
+	_weak_tooltip = weakref(Util.display_booster_pack_tooltip(ContractData.BoosterPackType.COMMON, gui_reward_booster_pack, false, GUITooltip.TooltipPosition.LEFT))
+
+func _on_mouse_exited_booster_pack() -> void:
+	gui_reward_booster_pack.has_outline = false
 	if _weak_tooltip.get_ref():
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)

@@ -14,6 +14,20 @@ enum BoosterPackType {
 	LEGENDARY,
 }
 
+const BOOSTER_PACK_CARD_CHANCES := {
+	BoosterPackType.COMMON: [70, 29, 1],
+	BoosterPackType.RARE: [20, 70, 10],
+	BoosterPackType.LEGENDARY: [0, 0, 100],
+}
+
+const BOOSTER_PACK_CARD_BASE_COUNTS := {
+	BoosterPackType.COMMON: [0, 0 , 0],
+	BoosterPackType.RARE: [ 0, 1, 0],
+	BoosterPackType.LEGENDARY: [0, 0, 0],
+}
+
+const NUMBER_OF_CARDS_IN_BOOSTER_PACK := 3
+
 @export var contract_type:ContractType
 @export var plants:Array[PlantData]
 @export var grace_period:int
@@ -52,3 +66,13 @@ func log() -> void:
 	print("reward_rating: ", reward_rating)
 	print("reward_booster_pack_type: ", BoosterPackType.keys()[reward_booster_pack_type])
 	print("==========================================================")
+
+static func get_booster_pack_name(booster_pack_type:BoosterPackType) -> String:
+	match booster_pack_type:
+		BoosterPackType.COMMON:
+			return Util.get_localized_string("BOOSTER_PACK_NAME_COMMON")
+		BoosterPackType.RARE:
+			return Util.get_localized_string("BOOSTER_PACK_NAME_RARE")
+		BoosterPackType.LEGENDARY:
+			return Util.get_localized_string("BOOSTER_PACK_NAME_LEGENDARY")
+	return ""
