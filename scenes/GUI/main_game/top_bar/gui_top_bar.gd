@@ -25,8 +25,8 @@ func _ready() -> void:
 func bind_with_rating(rating:ResourcePoint) -> void:
 	_gui_rating.bind_with_rating(rating)
 
-func update_gold(gold:int, animated:bool) -> void:
-	await _gui_gold.update_gold(gold, GUIGold.AnimationType.FULL if animated else GUIGold.AnimationType.NONE)
+func update_gold(gold_diff:int, animated:bool) -> void:
+	await _gui_gold.update_gold(gold_diff, GUIGold.AnimationType.FULL if animated else GUIGold.AnimationType.NONE)
 
 func update_day_left(day_left:int, penalty_per_day:int) -> void:
 	if day_left >= 0:

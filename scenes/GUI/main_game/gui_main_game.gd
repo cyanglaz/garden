@@ -88,8 +88,8 @@ func toggle_all_ui(on:bool) -> void:
 func update_level(level:int) -> void:
 	gui_top_bar.update_level(level)
 
-func update_gold(gold:int, animated:bool) -> void:
-	await gui_top_bar.update_gold(gold, animated)
+func update_gold(gold_diff:int, animated:bool) -> void:
+	await gui_top_bar.update_gold(gold_diff, animated)
 
 func bind_with_rating(rating:ResourcePoint) -> void:
 	gui_top_bar.bind_with_rating(rating)

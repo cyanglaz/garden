@@ -65,7 +65,6 @@ func _combine_plant_datas(plant_datas:Array[PlantData]) -> Dictionary:
 			result[plant_data.id] = 1
 	return result
 
-
 func _on_mouse_entered_plant_icon(index:int, plant_data:PlantData) -> void:
 	var gui_contract_plant_icon:GUIContractPlaintIcon = plant_container.get_child(index)
 	gui_contract_plant_icon.gui_plant_icon.has_outline = true
