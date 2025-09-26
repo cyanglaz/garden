@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_sso3n"]
 [ext_resource type="Script" uid="uid://bsc770vvxl30i" path="res://scenes/GUI/utils/gui_shop_button.gd" id="2_lf77y"]
 [ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_outline_icon.tscn" id="3_kb1gh"]
-[ext_resource type="Texture2D" uid="uid://d1hlhkeceq461" path="res://resources/sprites/GUI/icons/resources/icon_gold_small.png" id="5_k6o8u"]
+[ext_resource type="Texture2D" uid="uid://d1hlhkeceq461" path="res://resources/sprites/GUI/icons/resources/icon_gold.png" id="5_k6o8u"]
 
 [node name="GUIShopButton" instance=ExtResource("1_sso3n")]
 offset_right = 16.0

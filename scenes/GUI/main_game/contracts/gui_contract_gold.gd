@@ -1,4 +1,4 @@
-class_name GUIRewardGold
+class_name GUIContractGold
 extends HBoxContainer
 
 @onready var gui_outline_icon: GUIOutlineIcon = %GUIOutlineIcon

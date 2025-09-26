@@ -1,21 +1,21 @@
 [gd_scene load_steps=5 format=3 uid="uid://priw672helay"]
 
-[ext_resource type="Script" uid="uid://cv2rx4qd6io1f" path="res://scenes/GUI/main_game/contracts/gui_reward_rating.gd" id="1_1irg6"]
-[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_outline_icon.tscn" id="2_1irg6"]
-[ext_resource type="Shader" path="res://scenes/GUI/utils/gui_outline_icon.gdshader" id="3_1irg6"]
+[ext_resource type="Script" uid="uid://cv2rx4qd6io1f" path="res://scenes/GUI/main_game/contracts/gui_contract_rating.gd" id="1_vfb8i"]
+[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_outline_icon.tscn" id="2_wja5r"]
+[ext_resource type="Shader" path="res://scenes/GUI/utils/gui_outline_icon.gdshader" id="3_fksbn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bx0mg"]
 resource_local_to_scene = true
-shader = ExtResource("3_1irg6")
+shader = ExtResource("3_fksbn")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 
-[node name="GUIRewardRating" type="HBoxContainer"]
+[node name="GUIContractRating" type="HBoxContainer"]
 mouse_filter = 0
 theme_override_constants/separation = 0
-script = ExtResource("1_1irg6")
+script = ExtResource("1_vfb8i")
 
-[node name="GUIOutlineIcon" parent="." instance=ExtResource("2_1irg6")]
+[node name="GUIOutlineIcon" parent="." instance=ExtResource("2_wja5r")]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_bx0mg")
 layout_mode = 2

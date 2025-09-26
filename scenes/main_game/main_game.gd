@@ -81,10 +81,9 @@ func _ready() -> void:
 	gui_main_game.bind_with_rating(rating)
 	gui_main_game.end_turn_button_pressed.connect(_on_end_turn_button_pressed)
 	gui_main_game.tool_selected.connect(_on_tool_selected)
-	gui_main_game.level_summary_continue_button_pressed.connect(_on_level_summary_continue_button_pressed)
-	gui_main_game.gold_increased.connect(_on_level_summary_gold_increased)
 	gui_main_game.plant_seed_drawn_animation_completed.connect(_on_plant_seed_drawn_animation_completed)
 	gui_main_game.contract_selected.connect(_on_contract_selected)
+	gui_main_game.reward_finished.connect(_on_reward_finished)
 	
 	#shop signals
 	gui_main_game.gui_shop_main.next_level_button_pressed.connect(_on_shop_next_level_pressed)
@@ -141,9 +140,11 @@ func update_rating(val:int) -> void:
 
 #region gold
 
-func update_gold(gold:int, animated:bool) -> void:
-	_gold = gold
-	await gui_main_game.update_gold(_gold, animated)
+func update_gold(gold_diff:int, animated:bool) -> void:
+	_gold += gold_diff
+	if gold_diff > 0:
+		session_summary.total_gold_earned += gold_diff
+	await gui_main_game.update_gold(gold_diff, animated)
 
 #endregion
 
@@ -204,6 +205,7 @@ func _start_day() -> void:
 		await _plant_new_seeds()
 	await draw_cards(hand_size)
 	gui_main_game.toggle_all_ui(true)
+	_win()
 
 func _met_win_condition() -> bool:
 	return !field_container.has_plants() && !plant_seed_manager.has_more_plants()
@@ -218,7 +220,7 @@ func _win() -> void:
 	field_container.clear_all_statuses()
 	_harvesting_fields.clear()
 	session_summary.total_days_skipped += day_manager.get_grace_period_day_left()
-	gui_main_game.animate_show_level_summary(day_manager.get_grace_period_day_left())
+	gui_main_game.animate_show_reward_main(_selected_contract)
 	gui_main_game.toggle_all_ui(true)
 	_level += 1
 
@@ -245,11 +247,11 @@ func _end_day() -> void:
 		await update_rating( -_selected_contract.penalty_rate)
 	_start_day()
 
-func _on_level_summary_continue_button_pressed() -> void:
+func _on_reward_finished() -> void:
 	if _selected_contract.contract_type == ContractData.ContractType.BOSS:
 		gui_main_game.animate_show_demo_end()
 	else:
-		gui_main_game.animate_show_shop(3, _gold)
+		_select_contract()
 	
 func _discard_all_tools() -> void:
 	if tool_manager.tool_deck.hand.is_empty():
@@ -362,17 +364,12 @@ func _on_weathers_updated() -> void:
 
 #region shop events
 func _on_shop_next_level_pressed() -> void:
-	_start_new_level()
+	_select_contract()
 
 func _on_tool_shop_button_pressed(tool_data:ToolData) -> void:
 	update_gold(_gold - tool_data.cost, true)
 	tool_manager.add_tool_to_deck(tool_data)
 
-#region level summary events
-func _on_level_summary_gold_increased(gold:int) -> void:
-	update_gold(_gold + gold, true)
-	session_summary.total_gold_earned += gold
-#endregion
 #region contract selection events
 func _on_contract_selected(contract_data:ContractData) -> void:
 	_selected_contract = contract_data

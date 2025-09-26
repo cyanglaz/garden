@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1hlhkeceq461"
-path="res://.godot/imported/icon_gold_small.png-ca13a82266831d242cbf556c6470e249.ctex"
+uid="uid://crtk2mc0npon8"
+path="res://.godot/imported/icon_booster_pack_legendary.png-5cceea1ed39b16c14017479981a93e8c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/GUI/icons/resources/icon_gold_small.png"
-dest_files=["res://.godot/imported/icon_gold_small.png-ca13a82266831d242cbf556c6470e249.ctex"]
+source_file="res://resources/sprites/GUI/icons/booster_packs/icon_booster_pack_legendary.png"
+dest_files=["res://.godot/imported/icon_booster_pack_legendary.png-5cceea1ed39b16c14017479981a93e8c.ctex"]
 
 [params]
 

@@ -1,4 +1,4 @@
-class_name GUIRewardRating
+class_name GUIContractRating
 extends HBoxContainer
 
 @onready var gui_outline_icon: GUIOutlineIcon = %GUIOutlineIcon
