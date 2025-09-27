@@ -29,7 +29,7 @@ const HIGHLIGHTED_OFFSET := 1.0
 @onready var _use_sound: AudioStreamPlayer2D = %UseSound
 @onready var _animation_player: AnimationPlayer = %AnimationPlayer
 
-var mouse_disabled:bool = false: set = _set_mouse_disabled
+var mouse_disabled:bool = true: set = _set_mouse_disabled
 var activated := false: set = _set_activated
 var card_state:CardState = CardState.NORMAL: set = _set_card_state
 var resource_sufficient := false: set = _set_resource_sufficient

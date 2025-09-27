@@ -14,6 +14,8 @@ signal reward_finished()
 @onready var gui_reward_rating: GUIRewardRating = %GUIRewardRating
 @onready var reward_showing_audio: AudioStreamPlayer2D = %RewardShowingAudio
 @onready var gui_booster_pack_button: GUIBoosterPackButton = %GUIBoosterPackButton
+@onready var margin_container: MarginContainer = %MarginContainer
+@onready var gui_reward_cards_main: GUIRewardCardsMain = $GUIRewardCardsMain
 
 var _reward_sound_index := 0
 var _booster_pack_type:ContractData.BoosterPackType
@@ -69,14 +71,6 @@ func _play_next_reward_sound() -> void:
 	reward_showing_audio.play()
 	_reward_sound_index += 1
 
-func _player_booster_pack_transition() -> void:
-	title_label.hide()
-	gui_reward_gold.hide()
-	gui_reward_rating.hide()
-	gui_booster_pack_button.pivot_offset = gui_booster_pack_button.size/2
-	var tween = create_tween()
-	tween.tween_property(gui_booster_pack_button, "scale", Vector2(1.5, 1.5), 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	await tween.finished
-
 func _booster_pack_button_pressed() -> void:
-	_player_booster_pack_transition()
+	margin_container.hide()
+	gui_reward_cards_main.spawn_cards_with_pack_type(_booster_pack_type, gui_booster_pack_button.global_position)

@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://d07xoskgg1bxi"]
+
+[ext_resource type="Script" uid="uid://7jgkjfb71q24" path="res://scenes/GUI/main_game/reward/gui_reward_cards_main.gd" id="1_drca4"]
+[ext_resource type="PackedScene" uid="uid://cp4hifbli0slg" path="res://scenes/GUI/main_game/reward/gui_booster_pack_icon.tscn" id="2_q8fh0"]
+
+[node name="GUIRewardCardsMain" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_drca4")
+
+[node name="CardsContainer" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="GUIBoosterPackIcon" parent="." instance=ExtResource("2_q8fh0")]
+unique_name_in_owner = true
+layout_mode = 0
