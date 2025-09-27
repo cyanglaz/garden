@@ -8,7 +8,6 @@ enum ContractType {
 }
 
 enum BoosterPackType {
-	NONE,
 	COMMON,
 	RARE,
 	LEGENDARY,

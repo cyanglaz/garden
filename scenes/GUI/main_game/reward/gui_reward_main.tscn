@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://3rrhwgyv2qp3"]
+[gd_scene load_steps=7 format=3 uid="uid://3rrhwgyv2qp3"]
 
 [ext_resource type="Script" uid="uid://ciockqmeym3li" path="res://scenes/GUI/main_game/reward/gui_reward_main.gd" id="1_axy1y"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="1_xloug"]
 [ext_resource type="PackedScene" uid="uid://dxtmp0p8vtdn6" path="res://scenes/GUI/main_game/reward/gui_reward_rating.tscn" id="2_qkwju"]
 [ext_resource type="PackedScene" uid="uid://c00mbn24rioim" path="res://scenes/GUI/main_game/reward/gui_reward_gold.tscn" id="3_axy1y"]
 [ext_resource type="AudioStream" uid="uid://di7p6vsbc3bl0" path="res://resources/sounds/SFX/summary/reward_1.wav" id="5_fcj0v"]
+[ext_resource type="PackedScene" uid="uid://ctjggegiourgw" path="res://scenes/GUI/controls/buttons/gui_booster_pack_button.tscn" id="5_rqta2"]
 
 [node name="GUIRewardMain" type="Control"]
 layout_mode = 3
@@ -22,9 +23,12 @@ grow_vertical = 1
 color = Color(0, 0.4117647, 0.6666667, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 0
-offset_right = 320.0
-offset_bottom = 25.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
@@ -51,6 +55,11 @@ layout_mode = 2
 size_flags_horizontal = 4
 
 [node name="GUIRewardRating" parent="MarginContainer/VBoxContainer/RewardsContainer" instance=ExtResource("2_qkwju")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="GUIBoosterPackButton" parent="MarginContainer/VBoxContainer/RewardsContainer" instance=ExtResource("5_rqta2")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4

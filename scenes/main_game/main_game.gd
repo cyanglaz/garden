@@ -19,6 +19,7 @@ const CONTRACT_COUNT := 2
 
 @onready var gui_main_game: GUIMainGame = %GUIGameSession
 @onready var field_container: FieldContainer = %FieldContainer
+@onready var feedback_camera_2d: FeedbackCamera2D = %FeedbackCamera2D
 
 var session_seed := 0
 
@@ -174,7 +175,9 @@ func _start_new_chapter() -> void:
 	chapter_manager.next_chapter()
 	weather_manager.generate_next_weathers(chapter_manager.current_chapter)
 	contract_generator.generate_contracts(chapter_manager.current_chapter)
-	_select_contract()
+	_selected_contract = contract_generator.pick_contracts(CONTRACT_COUNT, _level)[0]
+	gui_main_game.animate_show_reward_main(_selected_contract)
+	#_select_contract()
 
 func _select_contract() -> void:
 	var picked_contracts := contract_generator.pick_contracts(CONTRACT_COUNT, _level)
@@ -205,7 +208,6 @@ func _start_day() -> void:
 		await _plant_new_seeds()
 	await draw_cards(hand_size)
 	gui_main_game.toggle_all_ui(true)
-	_win()
 
 func _met_win_condition() -> bool:
 	return !field_container.has_plants() && !plant_seed_manager.has_more_plants()

@@ -12,7 +12,6 @@ const TYPE_COLORS := {
 @onready var common_card_chance_label: RichTextLabel = %CommonCardChanceLabel
 @onready var rare_card_chance_label: RichTextLabel = %RareCardChanceLabel
 @onready var legendary_card_chance_label: RichTextLabel = %LegendaryCardChanceLabel
-@onready var rare_card_base_count_label: RichTextLabel = %RareCardBaseCountLabel
 
 func update_with_booster_pack_type(booster_pack_type:ContractData.BoosterPackType) -> void:
 
