@@ -14,6 +14,7 @@ const GUI_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_
 var _picks:Array[ToolData] = []
 
 func spawn_cards_with_pack_type(booster_pack_type:ContractData.BoosterPackType, pack_button_g_position:Vector2) -> void:
+	show()
 	_picks = _pick_card_datas(booster_pack_type)
 	Util.remove_all_children(cards_container)
 	for pick in _picks:
@@ -21,6 +22,7 @@ func spawn_cards_with_pack_type(booster_pack_type:ContractData.BoosterPackType, 
 		gui_tool_card_button.mouse_entered.connect(_on_mouse_entered.bind(gui_tool_card_button))
 		gui_tool_card_button.mouse_exited.connect(_on_mouse_exited.bind(gui_tool_card_button))
 		cards_container.add_child(gui_tool_card_button)
+		gui_tool_card_button.hide()
 		gui_tool_card_button.update_with_tool_data(pick)
 	await _animate_pack_open(booster_pack_type, pack_button_g_position)
 	await _animate_card_fly_up()
@@ -89,7 +91,6 @@ func _animate_pack_open(booster_pack_type:ContractData.BoosterPackType, g_positi
 	gui_booster_pack_icon.pivot_offset = gui_booster_pack_icon.size/2
 	gui_booster_pack_icon.has_outline = true
 	var tween := Util.create_scaled_tween(self)
-	# tween.tween_property(gui_booster_pack_icon, "global_position", g_position + Vector2(0, -gui_booster_pack_icon.size.y/2), 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.tween_property(gui_booster_pack_icon, "scale", Vector2.ONE * SCALE_FACTOR, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await tween.finished
 
@@ -102,6 +103,8 @@ func _animate_card_fly_up() -> void:
 		var target_position := Vector2(self.size.x/2 - child.size.x/2, 0 - child.size.y)
 		child.global_position = initial_positions
 		child.scale = Vector2.ONE * GUI_TOOL_CARD_SCALE
+		child.pivot_offset = child.size/2
+		Util.create_scaled_timer(CARD_DROP_DELAY * i).timeout.connect(func() -> void: child.visible = true)
 		tween.tween_property(child, "global_position", target_position, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(CARD_DROP_DELAY * i)
 		tween.tween_property(child, "scale", Vector2.ONE, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(CARD_DROP_DELAY * i)
 	await tween.finished
