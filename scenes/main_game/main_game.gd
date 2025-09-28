@@ -11,6 +11,7 @@ const DETAIL_TOOLTIP_DELAY := 0.8
 const INITIAL_RATING_VALUE := 100
 const INITIAL_RATING_MAX_VALUE := 100
 const CONTRACT_COUNT := 2
+const NEW_CONTRACT_PAUSE_TIME := 0.3
 
 @export var player:PlayerData
 @export var test_tools:Array[ToolData]
@@ -119,6 +120,9 @@ func discard_cards(tools:Array) -> void:
 func add_temp_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
 	await power_manager.handle_card_added_to_hand_hook(tool_datas)
 	await tool_manager.add_temp_tools_to_hand(tool_datas, from_global_position, pause)
+
+func add_card_to_deck(tool_data:ToolData) -> void:
+	tool_manager.add_tool_to_deck(tool_data)
 
 #endregion
 
@@ -249,10 +253,13 @@ func _end_day() -> void:
 		await update_rating( -_selected_contract.penalty_rate)
 	_start_day()
 
-func _on_reward_finished() -> void:
+func _on_reward_finished(tool_data:ToolData) -> void:
 	if _selected_contract.contract_type == ContractData.ContractType.BOSS:
 		gui_main_game.animate_show_demo_end()
 	else:
+		if tool_data:
+			tool_manager.add_tool_to_deck(tool_data)
+			await Util.create_scaled_timer(NEW_CONTRACT_PAUSE_TIME).timeout
 		_select_contract()
 	
 func _discard_all_tools() -> void:

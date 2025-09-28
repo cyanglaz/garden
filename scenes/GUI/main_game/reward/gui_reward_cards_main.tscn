@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://d07xoskgg1bxi"]
+[gd_scene load_steps=4 format=3 uid="uid://d07xoskgg1bxi"]
 
 [ext_resource type="Script" uid="uid://7jgkjfb71q24" path="res://scenes/GUI/main_game/reward/gui_reward_cards_main.gd" id="1_drca4"]
 [ext_resource type="PackedScene" uid="uid://cp4hifbli0slg" path="res://scenes/GUI/main_game/reward/gui_booster_pack_icon.tscn" id="2_q8fh0"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="3_57bew"]
 
 [node name="GUIRewardCardsMain" type="Control"]
 layout_mode = 3
@@ -11,6 +12,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_drca4")
+
+[node name="ChooseCardTitle" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 8.0
+offset_right = 20.0
+offset_bottom = 22.0
+grow_horizontal = 2
+theme_type_variation = &"HeaderMedium"
+text = " "
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="CardsContainer" type="Control" parent="."]
 unique_name_in_owner = true
@@ -25,3 +42,19 @@ mouse_filter = 2
 [node name="GUIBoosterPackIcon" parent="." instance=ExtResource("2_q8fh0")]
 unique_name_in_owner = true
 layout_mode = 0
+
+[node name="SkipCardButton" parent="." instance=ExtResource("3_57bew")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = -32.0
+offset_right = 15.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+localization_text_key = "ACTION_SKIP"

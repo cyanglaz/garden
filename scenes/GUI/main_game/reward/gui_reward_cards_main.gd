@@ -8,12 +8,22 @@ const CARD_DROP_DELAY := 0.05
 
 const GUI_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
+signal card_selected(tool_data:ToolData, from_global_position:Vector2)
+
 @onready var cards_container: Control = %CardsContainer
 @onready var gui_booster_pack_icon: GUIBoosterPackIcon = %GUIBoosterPackIcon
+@onready var choose_card_title: Label = %ChooseCardTitle
+@onready var skip_card_button: GUIRichTextButton = %SkipCardButton
 
 var _picks:Array[ToolData] = []
 
+func _ready() -> void:
+	choose_card_title.text = Util.get_localized_string("REWARD_CARDS_MAIN_CHOOSE_CARD_TITLE_TEXT")
+	skip_card_button.pressed.connect(_on_skip_card_button_pressed)
+
 func spawn_cards_with_pack_type(booster_pack_type:ContractData.BoosterPackType, pack_button_g_position:Vector2) -> void:
+	choose_card_title.hide()
+	skip_card_button.hide()
 	show()
 	_picks = _pick_card_datas(booster_pack_type)
 	Util.remove_all_children(cards_container)
@@ -21,6 +31,7 @@ func spawn_cards_with_pack_type(booster_pack_type:ContractData.BoosterPackType, 
 		var gui_tool_card_button: GUIToolCardButton = GUI_TOOL_CARD_SCENE.instantiate()
 		gui_tool_card_button.mouse_entered.connect(_on_mouse_entered.bind(gui_tool_card_button))
 		gui_tool_card_button.mouse_exited.connect(_on_mouse_exited.bind(gui_tool_card_button))
+		gui_tool_card_button.pressed.connect(_on_card_selected.bind(pick, gui_tool_card_button))
 		cards_container.add_child(gui_tool_card_button)
 		gui_tool_card_button.hide()
 		gui_tool_card_button.update_with_tool_data(pick)
@@ -125,9 +136,24 @@ func _animate_card_drop() -> void:
 		child.activated = true
 		child.mouse_disabled = false
 	await tween.finished
+	choose_card_title.show()
+	skip_card_button.show()
+
+func _handle_card_selection_ended(tool_data:ToolData, from_global_position:Vector2) -> void:
+	choose_card_title.hide()
+	skip_card_button.hide()
+	Util.remove_all_children(cards_container)
+	card_selected.emit(tool_data, from_global_position)
 
 func _on_mouse_entered(gui_tool_card_button:GUIToolCardButton) -> void:
 	gui_tool_card_button.card_state = GUIToolCardButton.CardState.HIGHLIGHTED
 
 func _on_mouse_exited(gui_tool_card_button:GUIToolCardButton) -> void:
 	gui_tool_card_button.card_state = GUIToolCardButton.CardState.NORMAL
+
+func _on_card_selected(tool_data:ToolData, gui_tool_card_button:GUIToolCardButton) -> void:
+	var from_global_position:Vector2 = gui_tool_card_button.global_position
+	_handle_card_selection_ended(tool_data, from_global_position)
+
+func _on_skip_card_button_pressed() -> void:
+	_handle_card_selection_ended(null, Vector2.ZERO)

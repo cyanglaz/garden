@@ -7,7 +7,7 @@ const REWARD_SOUND_3 := preload("res://resources/sounds/SFX/summary/reward_3.wav
 const PAUSE_TIME_BETWEEN_REWARDS := 0.6
 const PAUSE_BEFORE_REWARD_ANIMATION := 0.4
 
-signal reward_finished()
+signal reward_finished(tool_data:ToolData)
 
 @onready var title_label: Label = %TitleLabel
 @onready var gui_reward_gold: GUIRewardGold = %GUIRewardGold
@@ -23,6 +23,7 @@ var _booster_pack_type:ContractData.BoosterPackType
 func _ready() -> void:
 	title_label.text = Util.get_localized_string("REWARD_MAIN_TITLE_TEXT")
 	gui_booster_pack_button.pressed.connect(_booster_pack_button_pressed)
+	gui_reward_cards_main.card_selected.connect(_on_card_selected)
 
 func show_with_contract_data(contract_data:ContractData) -> void:
 	title_label.show()
@@ -74,3 +75,9 @@ func _play_next_reward_sound() -> void:
 func _booster_pack_button_pressed() -> void:
 	margin_container.hide()
 	gui_reward_cards_main.spawn_cards_with_pack_type(_booster_pack_type, gui_booster_pack_button.global_position)
+
+func _on_card_selected(tool_data:ToolData, from_global_position:Vector2) -> void:
+	if tool_data:
+		await Singletons.main_game.gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
+	hide()
+	reward_finished.emit(tool_data)
