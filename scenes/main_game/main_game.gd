@@ -179,8 +179,8 @@ func _start_new_chapter() -> void:
 	chapter_manager.next_chapter()
 	weather_manager.generate_next_weathers(chapter_manager.current_chapter)
 	contract_generator.generate_contracts(chapter_manager.current_chapter)
-	_selected_contract = contract_generator.pick_contracts(CONTRACT_COUNT, _level)[0]
-	gui_main_game.animate_show_reward_main(_selected_contract)
+	#_selected_contract = contract_generator.pick_contracts(CONTRACT_COUNT, _level)[0]
+	#gui_main_game.animate_show_reward_main(_selected_contract)
 	#_select_contract()
 
 func _select_contract() -> void:
