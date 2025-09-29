@@ -46,15 +46,18 @@ func copy(other:ThingData) -> void:
 	reward_gold = other_contract.reward_gold
 	reward_rating = other_contract.reward_rating
 	reward_booster_pack_type = other_contract.reward_booster_pack_type
-	boss_data = other_contract.boss_data
+	boss_data = other_contract.boss_data.get_duplicate()
 
 func get_duplicate() -> ContractData:
 	var dup:ContractData = ContractData.new()
 	dup.copy(self)
 	return dup
 
-func apply_contract_actions(_main_game:MainGame) -> void:
-	await Util.await_for_tiny_time()
+func apply_boss_actions(main_game:MainGame, hook_type:BossScript.HookType) -> void:
+	if contract_type != ContractType.BOSS:
+		return
+	if boss_data.boss_script.has_hook(hook_type):
+		await boss_data.boss_script.handle_hook(hook_type, main_game)	
 
 func log() -> void:
 	print("contract =================================================")

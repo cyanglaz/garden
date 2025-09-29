@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b6obg3hop3pr0"]
+[gd_scene load_steps=14 format=3 uid="uid://b6obg3hop3pr0"]
 
 [ext_resource type="Script" uid="uid://dkaxg5wc0utiy" path="res://scenes/GUI/main_game/contracts/gui_contract.gd" id="1_7v566"]
 [ext_resource type="Texture2D" uid="uid://pjdyj2bfffr6" path="res://resources/sprites/GUI/theme/contract_background.png" id="2_32xe8"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_outline_icon.tscn" id="6_fxvfg"]
 [ext_resource type="Shader" path="res://scenes/GUI/utils/gui_outline_icon.gdshader" id="7_syms5"]
 [ext_resource type="Texture2D" uid="uid://b2guebaf423cn" path="res://resources/sprites/GUI/icons/booster_packs/icon_booster_pack_common.png" id="8_syms5"]
+[ext_resource type="PackedScene" uid="uid://b23u2towqv8oa" path="res://scenes/GUI/main_game/contracts/gui_boss.tscn" id="11_bi1fw"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bi1fw"]
 resource_local_to_scene = true
@@ -24,12 +25,19 @@ shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 
 [node name="GUIContract" type="PanelContainer"]
-custom_minimum_size = Vector2(93, 0)
 offset_right = 93.0
 offset_bottom = 99.0
 script = ExtResource("1_7v566")
 
-[node name="Background" type="NinePatchRect" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="ContractMain" type="PanelContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(93, 0)
+layout_mode = 2
+
+[node name="Background" type="NinePatchRect" parent="HBoxContainer/ContractMain"]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_bi1fw")
 layout_mode = 2
@@ -40,53 +48,35 @@ patch_margin_top = 2
 patch_margin_right = 2
 patch_margin_bottom = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/ContractMain"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ContractMain/MarginContainer"]
 layout_mode = 2
 
-[node name="BossContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="BossTitle" type="Label" parent="MarginContainer/VBoxContainer/BossContainer"]
-unique_name_in_owner = true
-self_modulate = Color(1, 0.92156863, 0.34117648, 1)
-layout_mode = 2
-theme_type_variation = &"HUD_mid"
-
-[node name="BossDescription" type="RichTextLabel" parent="MarginContainer/VBoxContainer/BossContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"RichTextControlTip"
-bbcode_enabled = true
-fit_content = true
-scroll_active = false
-
-[node name="PlantContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="PlantContainer" type="HBoxContainer" parent="HBoxContainer/ContractMain/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="GUIContractPlaintIcon" parent="MarginContainer/VBoxContainer/PlantContainer" instance=ExtResource("3_ry6cy")]
+[node name="GUIContractPlaintIcon" parent="HBoxContainer/ContractMain/MarginContainer/VBoxContainer/PlantContainer" instance=ExtResource("3_ry6cy")]
 layout_mode = 2
 
-[node name="GUIContractPlaintIcon2" parent="MarginContainer/VBoxContainer/PlantContainer" instance=ExtResource("3_ry6cy")]
+[node name="GUIContractPlaintIcon2" parent="HBoxContainer/ContractMain/MarginContainer/VBoxContainer/PlantContainer" instance=ExtResource("3_ry6cy")]
 layout_mode = 2
 
-[node name="GUIContractPlaintIcon3" parent="MarginContainer/VBoxContainer/PlantContainer" instance=ExtResource("3_ry6cy")]
+[node name="GUIContractPlaintIcon3" parent="HBoxContainer/ContractMain/MarginContainer/VBoxContainer/PlantContainer" instance=ExtResource("3_ry6cy")]
 layout_mode = 2
 
-[node name="GUIContractTotalResources" parent="MarginContainer/VBoxContainer" instance=ExtResource("4_ry6cy")]
+[node name="GUIContractTotalResources" parent="HBoxContainer/ContractMain/MarginContainer/VBoxContainer" instance=ExtResource("4_ry6cy")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="GracePeriodLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="GracePeriodLabel" type="Label" parent="HBoxContainer/ContractMain/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
@@ -94,7 +84,7 @@ mouse_filter = 0
 theme_type_variation = &"HUD_mid"
 text = "Grace Period: 3 days"
 
-[node name="PenaltyRateLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="PenaltyRateLabel" type="Label" parent="HBoxContainer/ContractMain/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
@@ -102,27 +92,31 @@ mouse_filter = 0
 theme_type_variation = &"HUD_mid"
 text = "Penalty Rate: 1"
 
-[node name="RewardContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="RewardContainer" type="HBoxContainer" parent="HBoxContainer/ContractMain/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 10
 theme_override_constants/separation = 1
 
-[node name="RewardTitleLabel" type="Label" parent="MarginContainer/VBoxContainer/RewardContainer"]
+[node name="RewardTitleLabel" type="Label" parent="HBoxContainer/ContractMain/MarginContainer/VBoxContainer/RewardContainer"]
 layout_mode = 2
 theme_type_variation = &"HUD_mid"
 text = "Rewards:"
 vertical_alignment = 1
 
-[node name="GUIContractGold" parent="MarginContainer/VBoxContainer/RewardContainer" instance=ExtResource("4_hxrax")]
+[node name="GUIContractGold" parent="HBoxContainer/ContractMain/MarginContainer/VBoxContainer/RewardContainer" instance=ExtResource("4_hxrax")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="GUIContractRating" parent="MarginContainer/VBoxContainer/RewardContainer" instance=ExtResource("5_dh2kh")]
+[node name="GUIContractRating" parent="HBoxContainer/ContractMain/MarginContainer/VBoxContainer/RewardContainer" instance=ExtResource("5_dh2kh")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="GUIRewardBoosterPack" parent="MarginContainer/VBoxContainer/RewardContainer" instance=ExtResource("6_fxvfg")]
+[node name="GUIRewardBoosterPack" parent="HBoxContainer/ContractMain/MarginContainer/VBoxContainer/RewardContainer" instance=ExtResource("6_fxvfg")]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_ry6cy")
 layout_mode = 2
 texture = ExtResource("8_syms5")
+
+[node name="GUIBoss" parent="HBoxContainer" instance=ExtResource("11_bi1fw")]
+unique_name_in_owner = true
+layout_mode = 2

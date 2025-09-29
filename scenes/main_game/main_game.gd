@@ -92,6 +92,7 @@ func _ready() -> void:
 	gui_main_game.gui_shop_main.tool_shop_button_pressed.connect(_on_tool_shop_button_pressed)
 	
 	energy_tracker.capped = false
+	contract_generator.generate_bosses(1)
 	_start_new_chapter()
 	update_gold(0, false)
 	
@@ -175,7 +176,7 @@ func hide_dialogue(type:GUIDialogueItem.DialogueType) -> void:
 #region private
 
 func _start_new_chapter() -> void:
-	_level = 0
+	_level = 3
 	chapter_manager.next_chapter()
 	weather_manager.generate_next_weathers(chapter_manager.current_chapter)
 	contract_generator.generate_contracts(chapter_manager.current_chapter)
@@ -196,6 +197,7 @@ func _start_new_level() -> void:
 	session_summary.contract = _selected_contract
 	day_manager.start_new(_selected_contract)
 	gui_main_game.update_with_plants(plant_seed_manager.plant_datas)
+
 	_start_day()
 
 func _start_day() -> void:
@@ -207,9 +209,10 @@ func _start_day() -> void:
 	gui_main_game.clear_tool_selection()
 	await Util.await_for_tiny_time()
 	if day_manager.day == 0:
-		await _selected_contract.apply_contract_actions(self)
+		await _selected_contract.apply_boss_actions(self, BossScript.HookType.LEVEL_START)
 		await Util.create_scaled_timer(0.2).timeout
 		await _plant_new_seeds()
+	await _selected_contract.apply_boss_actions(self, BossScript.HookType.TURN_START)
 	await draw_cards(hand_size)
 	gui_main_game.toggle_all_ui(true)
 

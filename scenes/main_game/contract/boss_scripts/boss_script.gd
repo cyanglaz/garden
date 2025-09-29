@@ -1,8 +1,6 @@
 class_name BossScript
 extends RefCounted
 
-signal level_hook_complicated()
-
 enum HookType {
 	LEVEL_START,
 	TURN_START,
@@ -12,38 +10,24 @@ enum HookType {
 var boss_data:BossData: set = _set_boss_data, get = _get_boss_data
 var _weak_boss_data:WeakRef = weakref(null)
 
-func has_level_start_hook() -> bool:
-	return _has_level_start_hook()
+func has_hook(hook_type:HookType) -> bool:
+	return _has_hook(hook_type)
 
-func has_turn_start_hook() -> bool:
-	return _has_turn_start_hook()
-
-func handle_turn_start_hook(main_game:MainGame) -> void:
-	await _handle_turn_start_hook(main_game)
-
-func handle_level_start_hook(main_game:MainGame) -> void:
-	await _handle_level_start_hook(main_game)
+func handle_hook(hook_type:HookType, main_game:MainGame) -> void:
+	await _handle_hook(hook_type, main_game)
 
 #region for override
 
-func _has_level_start_hook() -> bool:
+func _has_hook(_hook_type:HookType) -> bool:
 	return false
 
-func _has_turn_start_hook() -> bool:
-	return false
-
-func _handle_turn_start_hook(_main_game:MainGame) -> void:
+func _handle_hook(_hook_type:HookType, _main_game:MainGame) -> void:
 	await Util.await_for_tiny_time()
-	level_hook_complicated.emit()
 
-func _handle_level_start_hook(_main_game:MainGame) -> void:
-	await Util.await_for_tiny_time()
-	level_hook_complicated.emit()
+#endregion
 
 func _set_boss_data(value:BossData) -> void:
-	_weak_boss_data = weakref(value)			
+	_weak_boss_data = weakref(value)
 
 func _get_boss_data() -> BossData:
 	return _weak_boss_data.get_ref()
-
-#endregion

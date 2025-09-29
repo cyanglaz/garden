@@ -36,6 +36,7 @@ signal contract_selected(contract_data:ContractData)
 @onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
 @onready var _gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
 @onready var _gui_dialogue_window: GUIDialogueWindow = %GUIDialogueWindow
+@onready var _main_container: VBoxContainer = %MainContainer
 
 var _toggle_ui_semaphore := 0
 
@@ -85,6 +86,9 @@ func toggle_all_ui(on:bool) -> void:
 		_end_turn_button.button_state = GUIBasicButton.ButtonState.NORMAL
 	else:
 		_end_turn_button.button_state = GUIBasicButton.ButtonState.DISABLED
+
+func get_main_size() -> Vector2:
+	return _main_container.size
 
 #region topbar
 func update_level(level:int) -> void:

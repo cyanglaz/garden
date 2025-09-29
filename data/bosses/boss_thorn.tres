@@ -5,6 +5,6 @@
 [resource]
 script = ExtResource("1_0i3ae")
 id = "thorn"
-display_name = "The Thorn"
+display_name = "Thorn"
 description = "Shuffle {card:thorn} into your draw pile at the start of each day."
 metadata/_custom_type_script = "uid://bt7c5hiesqa06"

@@ -126,7 +126,11 @@ func _generate_contracts(chapter:int, contract_type:ContractData.ContractType, c
 		# Booster pack rewards
 		contract.reward_booster_pack_type = BASE_BOOSTER_PACK_TYPE_FOR_TYPE[contract_type]
 
-		contract.boss_data = bosses.pop_back()
+		if contract_type == ContractData.ContractType.BOSS:
+			assert(bosses.size() > 0)
+			contract.boss_data = bosses.pop_back()
+		else:
+			contract.boss_data = null
 
 		contracts.append(contract)
 	return contracts
