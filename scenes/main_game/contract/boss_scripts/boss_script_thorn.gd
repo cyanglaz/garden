@@ -1,4 +1,4 @@
-class_name LevelScriptLadyRose
+class_name BossScriptRose
 extends LevelScript
 
 const DELAY := 0.1

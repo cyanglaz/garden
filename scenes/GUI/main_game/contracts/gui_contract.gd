@@ -17,11 +17,21 @@ const GUI_CONTRACT_PLANT_ICON_SCENE := preload("res://scenes/GUI/main_game/contr
 @onready var gui_reward_booster_pack: GUIOutlineIcon = %GUIRewardBoosterPack
 @onready var gui_contract_total_resources: GUIContractTotalResources = %GUIContractTotalResources
 @onready var background: NinePatchRect = %Background
+@onready var boss_container: VBoxContainer = %BossContainer
+@onready var boss_title: Label = %BossTitle
+@onready var boss_description: RichTextLabel = %BossDescription
 
 var _weak_tooltip:WeakRef = weakref(null)
 var has_outline:bool = false:set = _set_has_outline
 
 func update_with_contract_data(contract:ContractData) -> void:
+	if contract.contract_type == ContractData.ContractType.BOSS:
+		boss_container.show()
+		boss_title.text = contract.boss_data.display_name
+		boss_description.text = contract.boss_data.get_display_description()
+	else:
+		boss_container.hide()
+	
 	Util.remove_all_children(plant_container)
 	var index := 0
 	var total_light := 0

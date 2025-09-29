@@ -23,7 +23,6 @@ const NUMBER_OF_PLANTS_TYPE_DICE := {
 	3: 15
 }
 
-
 const TOP_PLANT_DIFFICULTY_FOR_TYPE := {
 	ContractData.ContractType.COMMON: 0,
 	ContractData.ContractType.ELITE: 1,
@@ -49,11 +48,16 @@ const BASE_PENALTY_RATE_FOR_TYPE := {
 	ContractData.ContractType.BOSS: 2,
 }
 
+var bosses:Array[BossData] = []
+
 var common_contracts:Array[ContractData] = []
 var elite_contracts:Array[ContractData] = []
 var boss_contracts:Array[ContractData] = []
 
 var _all_available_plants:Array = []
+
+func generate_bosses(number_of_bosses:int) -> void:
+	bosses = MainDatabase.boss_database.roll_bosses(number_of_bosses)
 
 func generate_contracts(chapter:int) -> void:
 	_all_available_plants = MainDatabase.plant_database.get_plants_by_chapter(chapter)
@@ -121,6 +125,8 @@ func _generate_contracts(chapter:int, contract_type:ContractData.ContractType, c
 
 		# Booster pack rewards
 		contract.reward_booster_pack_type = BASE_BOOSTER_PACK_TYPE_FOR_TYPE[contract_type]
+
+		contract.boss_data = bosses.pop_back()
 
 		contracts.append(contract)
 	return contracts

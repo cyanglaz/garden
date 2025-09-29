@@ -40,16 +40,16 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	card_button.mouse_exited.connect(func() -> void: card_button.card_state = GUIToolCardButton.CardState.NORMAL)
 	_find_reference_pairs_and_add_buttons(tool_data.description)
 
-func update_with_level_data(level_data:LevelData) -> void:
-	var enemy:GUIEnemy = GUI_ENEMY_SCENE.instantiate()
-	add_child(enemy)
-	enemy.update_with_level_data(level_data)
-	set_deferred("content_position_y", enemy.position.y + enemy.size.y + get_theme_constant("separation"))
-	var boss_tooltip:GUIBossTooltip = Util.GUI_BOSS_TOOLTIP_SCENE.instantiate()
-	add_child(boss_tooltip)
-	boss_tooltip.library_mode = true
-	boss_tooltip.update_with_level_data(level_data)
-	_find_reference_pairs_and_add_buttons(level_data.description)
+#func update_with_level_data(level_data:LevelData) -> void:
+	#var enemy:GUIEnemy = GUI_ENEMY_SCENE.instantiate()
+	#add_child(enemy)
+	#enemy.update_with_level_data(level_data)
+	#set_deferred("content_position_y", enemy.position.y + enemy.size.y + get_theme_constant("separation"))
+	#var boss_tooltip:GUIBossTooltip = Util.GUI_BOSS_TOOLTIP_SCENE.instantiate()
+	#add_child(boss_tooltip)
+	#boss_tooltip.library_mode = true
+	#boss_tooltip.update_with_level_data(level_data)
+	#_find_reference_pairs_and_add_buttons(level_data.description)
 
 func update_with_thing_data(thing_data:ThingData) -> void:
 	var texture_rect:TextureRect = TextureRect.new()

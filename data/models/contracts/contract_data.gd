@@ -34,6 +34,7 @@ const NUMBER_OF_CARDS_IN_BOOSTER_PACK := 3
 @export var reward_gold:int
 @export var reward_rating:int
 @export var reward_booster_pack_type:BoosterPackType
+@export var boss_data:BossData
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
@@ -45,6 +46,7 @@ func copy(other:ThingData) -> void:
 	reward_gold = other_contract.reward_gold
 	reward_rating = other_contract.reward_rating
 	reward_booster_pack_type = other_contract.reward_booster_pack_type
+	boss_data = other_contract.boss_data
 
 func get_duplicate() -> ContractData:
 	var dup:ContractData = ContractData.new()
