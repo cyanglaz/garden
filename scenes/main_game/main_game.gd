@@ -347,7 +347,7 @@ func _on_tool_application_completed() -> void:
 #region gui main events
 func _on_end_turn_button_pressed() -> void:
 	_end_day()
-	
+
 #region field events
 func _on_field_harvest_started() -> void:
 	pass

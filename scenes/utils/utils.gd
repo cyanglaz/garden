@@ -14,6 +14,7 @@ const GUI_TOOL_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_tool
 const GUI_SHOW_DETAIL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_show_detail_tooltip.tscn")
 const GUI_BOOSTER_PACK_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_booster_pack_tooltip.tscn")
 const GUI_BOSS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_boss_tooltip.tscn")
+const GUI_CONTRACT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_contract_tooltip.tscn")
 
 const FIELD_STATUS_SCRIPT_PREFIX := "res://scenes/main_game/field/status/field_status_script_"
 const POWER_SCRIPT_PREFIX := "res://scenes/main_game/power/power_scripts/power_script_"
@@ -121,6 +122,14 @@ static func display_boss_tooltip(boss_data:BossData, on_control_node:Control, an
 	boss_tooltip.update_with_boss_data(boss_data)
 	_display_tool_tip.call_deferred(boss_tooltip, on_control_node, anchor_mouse, tooltip_position, false)
 	return boss_tooltip
+
+static func display_contract_tooltip(contract_data:ContractData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition) -> GUIContractTooltip:
+	var contract_tooltip:GUIContractTooltip = GUI_CONTRACT_TOOLTIP_SCENE.instantiate()
+	Singletons.main_game.add_control_to_overlay(contract_tooltip)
+	contract_tooltip.tooltip_position = tooltip_position
+	contract_tooltip.update_with_contract_data(contract_data)
+	_display_tool_tip.call_deferred(contract_tooltip, on_control_node, anchor_mouse, tooltip_position, false)
+	return contract_tooltip
 
 static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP, world_space:bool = false) -> void:
 	tooltip.show()

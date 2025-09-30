@@ -32,8 +32,8 @@ func hide_boss_icon() -> void:
 	_gui_boss_icon.hide()
 
 func show_current_contract(contract_data:ContractData) -> void:
-	_gui_current_contract_button.show()
 	_gui_current_contract_button.update_with_contract_data(contract_data)
+	_gui_current_contract_button.show()
 
 func hide_current_contract() -> void:
 	_gui_current_contract_button.hide()
