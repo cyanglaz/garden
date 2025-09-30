@@ -51,9 +51,6 @@ func _list_items(category:String) -> void:
 			_browsing_container.columns = MISC_PER_ROW
 			data_list = MainDatabase.field_status_database.get_all_datas()
 			data_list.append_array(MainDatabase.power_database.get_all_datas())
-		"boss":
-			_browsing_container.columns = BOSS_PER_ROW
-			data_list = MainDatabase.level_database.get_all_datas()
 	for data:ThingData in data_list:
 		var icon:GUILibraryIcon = LIBRARY_ICON_SCENE.instantiate()
 		_browsing_container.add_child(icon)
@@ -61,8 +58,6 @@ func _list_items(category:String) -> void:
 			icon.update_with_plant_data(data)
 		elif data is ToolData:
 			icon.update_with_tool_data(data)
-		#elif data is LevelData:
-			#icon.update_with_level_data(data)
 		elif data is FieldStatusData:
 			icon.update_with_field_status_data(data)
 		elif data is PowerData:

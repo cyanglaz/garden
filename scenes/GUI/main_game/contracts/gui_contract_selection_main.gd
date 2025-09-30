@@ -25,4 +25,5 @@ func _update_with_contracts(contracts:Array) -> void:
 
 func _on_contract_selected(contract:ContractData) -> void:
 	hide()
+	Util.remove_all_children(_contract_container)
 	contract_selected.emit(contract)

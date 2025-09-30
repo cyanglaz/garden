@@ -16,7 +16,7 @@ script = ExtResource("1_a6da4")
 
 [node name="GUIOverlayBackground" parent="." instance=ExtResource("1_3xrg8")]
 layout_mode = 1
-color = Color(0, 0.22352941, 0.42745098, 0.98039216)
+color = Color(0.52156866, 0.52156866, 0.52156866, 0.9411765)
 
 [node name="TooltipContainer" type="Control" parent="."]
 unique_name_in_owner = true

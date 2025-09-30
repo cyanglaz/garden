@@ -17,17 +17,17 @@ const GUI_CONTRACT_PLANT_ICON_SCENE := preload("res://scenes/GUI/main_game/contr
 @onready var gui_reward_booster_pack: GUIOutlineIcon = %GUIRewardBoosterPack
 @onready var gui_contract_total_resources: GUIContractTotalResources = %GUIContractTotalResources
 @onready var background: NinePatchRect = %Background
-@onready var gui_boss: GUIBoss = %GUIBoss
+@onready var gui_boss_tooltip: GUIBossTooltip = %GUIBossTooltip
 
 var _weak_tooltip:WeakRef = weakref(null)
 var has_outline:bool = false:set = _set_has_outline
 
 func update_with_contract_data(contract:ContractData) -> void:
 	if contract.contract_type == ContractData.ContractType.BOSS:
-		gui_boss.show()
-		gui_boss.update_with_boss_data(contract.boss_data)
+		gui_boss_tooltip.show()
+		gui_boss_tooltip.update_with_boss_data(contract.boss_data)
 	else:
-		gui_boss.hide()
+		gui_boss_tooltip.hide()
 	
 	Util.remove_all_children(plant_container)
 	var index := 0
@@ -117,3 +117,9 @@ func _set_has_outline(val:bool) -> void:
 			background.material.set_shader_parameter("outline_size", 1)
 		else:
 			background.material.set_shader_parameter("outline_size", 0)
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		if _weak_tooltip.get_ref():
+			_weak_tooltip.get_ref().queue_free()
+			_weak_tooltip = weakref(null)
