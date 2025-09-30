@@ -18,8 +18,8 @@ const BASE_NUMBER_OF_PLANTS_DICE := {
 }
 
 const NUMBER_OF_PLANTS_TYPE_DICE := {
-	1: 15,
-	2: 70,
+	1: 5,
+	2: 80,
 	3: 15
 }
 
