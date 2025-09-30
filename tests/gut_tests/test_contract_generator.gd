@@ -4,6 +4,7 @@ var generator:ContractGenerator
 
 func before_each():
 	generator = ContractGenerator.new()
+	generator.generate_bosses(1)
 
 func test_generate_level0() -> void:
 	generator.generate_contracts(0)

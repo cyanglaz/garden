@@ -63,7 +63,7 @@ func generate_contracts(chapter:int) -> void:
 	_all_available_plants = MainDatabase.plant_database.get_plants_by_chapter(chapter)
 	common_contracts = _generate_contracts(chapter, ContractData.ContractType.COMMON, TOTAL_COMMON_CONTRACTS_TO_GENERATE_PER_CHAPTER)
 	elite_contracts = _generate_contracts(chapter, ContractData.ContractType.ELITE, TOTAL_ELITE_CONTRACTS_TO_GENERATE_PER_CHAPTER)
-	boss_contracts = _generate_contracts(chapter, ContractData.ContractType.BOSS, 1)
+	boss_contracts = _generate_contracts(chapter, ContractData.ContractType.BOSS, TOTAL_BOSS_CONTRACTS_TO_GENERATE_PER_CHAPTER)
 	_log_contracts(chapter)
 
 func pick_contracts(number_of_contracts:int, level:int) -> Array:
