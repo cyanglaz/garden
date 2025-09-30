@@ -186,10 +186,12 @@ func _start_new_chapter() -> void:
 	_select_contract()
 
 func _select_contract() -> void:
+	gui_main_game.hide_current_contract()
 	var picked_contracts := contract_generator.pick_contracts(CONTRACT_COUNT, _level)
 	gui_main_game.animate_show_contract_selection(picked_contracts)
   
 func _start_new_level() -> void:
+	gui_main_game.show_current_contract(_selected_contract)
 	power_manager.clear_powers()
 	if test_contract:
 		_selected_contract = test_contract

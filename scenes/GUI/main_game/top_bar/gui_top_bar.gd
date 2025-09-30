@@ -16,6 +16,7 @@ signal rating_update_finished(value:int)
 @onready var _gui_library_button: GUILibraryButton = %GUILibraryButton
 @onready var _gui_rating: GUIRating = %GUIRating
 @onready var _gui_boss_icon: GUIBossIcon = %GUIBossIcon
+@onready var _gui_current_contract_button: GUICurrentContractButton = %GUICurrentContractButton
 
 func _ready() -> void:
 	_gui_settings_button.pressed.connect(func() -> void: setting_button_evoked.emit())
@@ -29,6 +30,13 @@ func show_boss_icon(boss_data:BossData) -> void:
 
 func hide_boss_icon() -> void:
 	_gui_boss_icon.hide()
+
+func show_current_contract(contract_data:ContractData) -> void:
+	_gui_current_contract_button.show()
+	_gui_current_contract_button.update_with_contract_data(contract_data)
+
+func hide_current_contract() -> void:
+	_gui_current_contract_button.hide()
 
 func bind_with_rating(rating:ResourcePoint) -> void:
 	_gui_rating.bind_with_rating(rating)

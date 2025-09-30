@@ -105,6 +105,13 @@ func show_boss_icon(boss_data:BossData) -> void:
 
 func hide_boss_icon() -> void:
 	gui_top_bar.hide_boss_icon()
+
+func show_current_contract(contract_data:ContractData) -> void:
+	gui_top_bar.show_current_contract(contract_data)
+
+func hide_current_contract() -> void:
+	gui_top_bar.hide_current_contract()
+
 #region characters
 
 func update_player(player_data:PlayerData) -> void:
