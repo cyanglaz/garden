@@ -12,10 +12,9 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
 script = ExtResource("2_o6hlj")
-energy_cost = -1
 actions = Array[ExtResource("1_f2rdf")]([SubResource("Resource_oexgw")])
 rarity = -1
-specials = Array[int]([0, 1])
+specials = Array[int]([1])
 id = "thorn"
 display_name = "Thorn"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

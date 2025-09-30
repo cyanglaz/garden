@@ -5,6 +5,7 @@ enum DialogueType {
 	THING_DETAIL,
 	INSUFFICIENT_ENERGY,
 	INSUFFICIENT_GOLD,
+	CANNOT_USE_CARD,
 }
 
 const THING_DETAIL_INPUT_ICON_PATH := "res://resources/sprites/GUI/icons/inputs/input_v.png"
@@ -32,6 +33,8 @@ func _update_text() -> void:
 		DialogueType.INSUFFICIENT_GOLD:
 			var gold_icon_string := str("[img=6x6]", GOLD_ICON_PATH, "[/img]")
 			description.text = Util.get_localized_string("WARNING_INSUFFICIENT_GOLD") % [gold_icon_string]
+		DialogueType.CANNOT_USE_CARD:
+			description.text = Util.get_localized_string("WARNING_CANNOT_USE_CARD")
 
 func _set_is_top_item(val:bool) -> void:
 	is_top_item = val

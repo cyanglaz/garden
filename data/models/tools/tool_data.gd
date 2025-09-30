@@ -15,6 +15,7 @@ const COSTS := {
 enum Special {
 	USE_ON_DRAW,
 	COMPOST,
+	WITHER,
 }
 
 

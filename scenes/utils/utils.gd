@@ -427,6 +427,8 @@ static func get_id_for_tool_speical(special:ToolData.Special) -> String:
 			id = "use_on_draw"
 		ToolData.Special.COMPOST:
 			id = "compost"
+		ToolData.Special.WITHER:
+			id = "wither"
 		_:
 			assert(false, "special id not implemented")
 	return id

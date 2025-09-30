@@ -240,13 +240,14 @@ func _lose() -> void:
 	gui_main_game.toggle_all_ui(true)
 
 func _end_day() -> void:
-	weather_manager.pass_day()
 	gui_main_game.toggle_all_ui(false)
 	_clear_tool_selection()
+	await tool_manager.apply_auto_tools(self, field_container.fields, func(tool_data:ToolData): return tool_data.specials.has(ToolData.Special.WITHER))
 	await _discard_all_tools()
 	await field_container.trigger_end_day_hook(self)
 	await field_container.trigger_end_day_ability(self)
 	await weather_manager.apply_weather_actions(field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
+	weather_manager.pass_day()
 	var won := await _harvest()
 	gui_main_game.toggle_all_ui(true)
 	if won:

@@ -155,6 +155,9 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 func _on_tool_card_pressed(index:int) -> void:
 	Singletons.main_game.hide_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_ENERGY)
 	var selected_card:GUIToolCardButton = _container.get_child(index)
+	if selected_card.tool_data.energy_cost < 0:
+		Singletons.main_game.show_dialogue(GUIDialogueItem.DialogueType.CANNOT_USE_CARD)
+		return
 	_selected_index = index
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	for i in _container.get_children().size():

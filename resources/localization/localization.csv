@@ -102,6 +102,7 @@ SPECIAL_DESCRIPTION_ALL_FIELDS, "Apply to all fields"
 
 WARNING_INSUFFICIENT_ENERGY, "Not Enough Energy."
 WARNING_INSUFFICIENT_GOLD, "Not Enough %s."
+WARNING_CANNOT_USE_CARD, "Cannot Use This Card."
 
 SHOP_TITLE, "Shop" 
 SHOP_SUBTITLE, "Get ready for next week."
@@ -121,6 +122,8 @@ CARD_SPECIAL_NAME_ON_DRAW, "On Draw"
 CARD_SPECIAL_DESCRIPTION_ON_DRAW, "This card is automatically used when drawn."
 CARD_SPECIAL_NAME_COMPOST, "Compost"
 CARD_SPECIAL_DESCRIPTION_COMPOST, "After use, this card cannot be played this level."
+CARD_SPECIAL_NAME_WITHER, "Wither"
+CARD_SPECIAL_DESCRIPTION_WITHER, "This card is automatically used at the end of the turn."
 
 MAX_DAY_LABEL_TEXT, "Max Days: %s"
 IMMUNE_TO_STATUS_TEXT, "Immune to: %s"
