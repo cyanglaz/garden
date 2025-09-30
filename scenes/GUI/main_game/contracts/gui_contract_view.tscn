@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://fddpvxku2fs3"]
+
+[ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="1_bho25"]
+[ext_resource type="Script" uid="uid://doh8j4w32mib1" path="res://scenes/GUI/main_game/contracts/gui_contract_view.gd" id="1_feuhg"]
+[ext_resource type="PackedScene" uid="uid://b6obg3hop3pr0" path="res://scenes/GUI/main_game/contracts/gui_contract.tscn" id="2_feuhg"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="2_ovdv0"]
+
+[node name="GUIContractView" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_feuhg")
+
+[node name="GUIOverlayBackground" parent="." instance=ExtResource("1_bho25")]
+layout_mode = 1
+color = Color(0.52156866, 0.52156866, 0.52156866, 0.9411765)
+
+[node name="GUIContract" parent="." instance=ExtResource("2_feuhg")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -46.5
+offset_top = 16.0
+offset_right = 46.5
+offset_bottom = 115.0
+grow_horizontal = 2
+
+[node name="BackButton" parent="." instance=ExtResource("2_ovdv0")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = -22.0
+offset_right = 15.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 0
+localization_text_key = "BACK"

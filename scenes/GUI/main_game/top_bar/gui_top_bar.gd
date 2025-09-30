@@ -7,6 +7,7 @@ signal setting_button_evoked()
 signal full_deck_button_evoked()
 signal library_button_evoked()
 signal rating_update_finished(value:int)
+signal contract_button_evoked(contract_data:ContractData)
 
 @onready var gui_full_deck_button: GUIDeckButton = %GUIFullDeckButton
 @onready var _gui_gold: GUIGold = %GUIGold
@@ -18,11 +19,14 @@ signal rating_update_finished(value:int)
 @onready var _gui_boss_icon: GUIBossIcon = %GUIBossIcon
 @onready var _gui_current_contract_button: GUICurrentContractButton = %GUICurrentContractButton
 
+var _weak_contract_data:WeakRef = weakref(null)
+
 func _ready() -> void:
 	_gui_settings_button.pressed.connect(func() -> void: setting_button_evoked.emit())
 	gui_full_deck_button.pressed.connect(func() -> void: full_deck_button_evoked.emit())
 	_gui_library_button.pressed.connect(func() -> void: library_button_evoked.emit())
 	_gui_rating.rating_update_finished.connect(func(value:int) -> void: rating_update_finished.emit(value))
+	_gui_current_contract_button.pressed.connect(func() -> void: contract_button_evoked.emit(_weak_contract_data.get_ref()))
 
 func show_boss_icon(boss_data:BossData) -> void:
 	_gui_boss_icon.show()
@@ -32,7 +36,7 @@ func hide_boss_icon() -> void:
 	_gui_boss_icon.hide()
 
 func show_current_contract(contract_data:ContractData) -> void:
-	_gui_current_contract_button.update_with_contract_data(contract_data)
+	_weak_contract_data = weakref(contract_data)
 	_gui_current_contract_button.show()
 
 func hide_current_contract() -> void:

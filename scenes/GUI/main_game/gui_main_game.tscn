@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cyd2pmyuelacd"]
+[gd_scene load_steps=25 format=3 uid="uid://cyd2pmyuelacd"]
 
 [ext_resource type="Script" uid="uid://b3s0cai251tmf" path="res://scenes/GUI/main_game/gui_main_game.gd" id="1_48pcf"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_pgwuj"]
@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://blnntdbnqmjsp" path="res://scenes/GUI/main_game/game_over/gui_game_over_main.tscn" id="14_k6nqb"]
 [ext_resource type="PackedScene" uid="uid://b7d00expmt8m" path="res://scenes/GUI/main_game/contracts/gui_contract_selection_main.tscn" id="16_di7a2"]
 [ext_resource type="PackedScene" uid="uid://3rrhwgyv2qp3" path="res://scenes/GUI/main_game/reward/gui_reward_main.tscn" id="17_7ewl2"]
+[ext_resource type="PackedScene" uid="uid://fddpvxku2fs3" path="res://scenes/GUI/main_game/contracts/gui_contract_view.tscn" id="18_1xlcy"]
 [ext_resource type="PackedScene" uid="uid://s0blay2xi65f" path="res://scenes/GUI/main_game/library/gui_library.tscn" id="18_kno36"]
 [ext_resource type="PackedScene" uid="uid://d2tcfmwnpscj8" path="res://scenes/GUI/main_game/library/gui_thing_info_view.tscn" id="20_7fnwq"]
 [ext_resource type="PackedScene" uid="uid://gi0c6au5p0sr" path="res://scenes/GUI/main_game/animation/gui_top_animation_overlay.tscn" id="23_32sqg"]
@@ -174,6 +175,11 @@ visible = false
 layout_mode = 2
 
 [node name="GUIContractSelectionMain" parent="MainContainer/GameContainer" instance=ExtResource("16_di7a2")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="GUIContractView" parent="MainContainer/GameContainer" instance=ExtResource("18_1xlcy")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2

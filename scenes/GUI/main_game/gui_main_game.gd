@@ -37,6 +37,7 @@ signal contract_selected(contract_data:ContractData)
 @onready var _gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
 @onready var _gui_dialogue_window: GUIDialogueWindow = %GUIDialogueWindow
 @onready var _main_container: VBoxContainer = %MainContainer
+@onready var _gui_contract_view: GUIContractView = %GUIContractView
 
 var _toggle_ui_semaphore := 0
 
@@ -48,6 +49,7 @@ func _ready() -> void:
 	gui_top_bar.setting_button_evoked.connect(_on_settings_button_evoked)
 	gui_top_bar.library_button_evoked.connect(_on_library_button_evoked)
 	gui_top_bar.rating_update_finished.connect(func(value:int) -> void: rating_update_finished.emit(value))
+	gui_top_bar.contract_button_evoked.connect(_on_contract_button_evoked)
 	gui_reward_main.reward_finished.connect(func(tool_data:ToolData) -> void: reward_finished.emit(tool_data))
 	gui_plant_seed_animation_container.draw_plant_card_completed.connect(func(field_index:int, plant_data:PlantData) -> void: plant_seed_drawn_animation_completed.emit(field_index, plant_data))
 	gui_shop_main.setup(gui_top_bar.gui_full_deck_button)
@@ -229,5 +231,8 @@ func _on_settings_button_evoked() -> void:
 
 func _on_library_button_evoked() -> void:
 	gui_library.animate_show()
+
+func _on_contract_button_evoked(contract_data:ContractData) -> void:
+	_gui_contract_view.show_with_contract_data(contract_data)
 
 #endregion

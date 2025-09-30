@@ -20,9 +20,19 @@ const GUI_CONTRACT_PLANT_ICON_SCENE := preload("res://scenes/GUI/main_game/contr
 @onready var gui_boss_tooltip: GUIBossTooltip = %GUIBossTooltip
 
 var _weak_tooltip:WeakRef = weakref(null)
+var _weak_contract_data:WeakRef = weakref(null)
 var has_outline:bool = false:set = _set_has_outline
 
+func _ready() -> void:
+	grace_period_label.mouse_entered.connect(_on_mouse_entered_grace_period_label)
+	grace_period_label.mouse_exited.connect(_on_mouse_exited_grace_period_label)
+	penalty_rate_label.mouse_entered.connect(_on_mouse_entered_penalty_rate_label)
+	penalty_rate_label.mouse_exited.connect(_on_mouse_exited_penalty_rate_label)
+	gui_reward_booster_pack.mouse_entered.connect(_on_mouse_entered_booster_pack)
+	gui_reward_booster_pack.mouse_exited.connect(_on_mouse_exited_booster_pack)
+
 func update_with_contract_data(contract:ContractData) -> void:
+	_weak_contract_data = weakref(contract)
 	if contract.contract_type == ContractData.ContractType.BOSS:
 		gui_boss_tooltip.show()
 		gui_boss_tooltip.update_with_boss_data(contract.boss_data)
@@ -47,19 +57,13 @@ func update_with_contract_data(contract:ContractData) -> void:
 		total_water += plant_data.water * count
 	gui_contract_total_resources.update(total_light, total_water)
 	grace_period_label.text = Util.get_localized_string("CONTRACT_GRACE_PERIOD_LABEL_TEXT")% contract.grace_period
-	grace_period_label.mouse_entered.connect(_on_mouse_entered_grace_period_label)
-	grace_period_label.mouse_exited.connect(_on_mouse_exited_grace_period_label)
 	penalty_rate_label.text = Util.get_localized_string("CONTRACT_PENALTY_RATE_LABEL_TEXT")% contract.penalty_rate
-	penalty_rate_label.mouse_entered.connect(_on_mouse_entered_penalty_rate_label)
-	penalty_rate_label.mouse_exited.connect(_on_mouse_exited_penalty_rate_label)
 	gui_reward_gold.update_with_value(contract.reward_gold)
 	if contract.reward_rating > 0:
 		gui_reward_rating.update_with_value(contract.reward_rating)
 	else:
 		gui_reward_rating.hide()
 	gui_reward_booster_pack.texture = load(BOOSTER_PACK_ICON_MAP[contract.reward_booster_pack_type])
-	gui_reward_booster_pack.mouse_entered.connect(_on_mouse_entered_booster_pack.bind(contract.reward_booster_pack_type))
-	gui_reward_booster_pack.mouse_exited.connect(_on_mouse_exited_booster_pack)
 
 func _combine_plant_datas(plant_datas:Array[PlantData]) -> Dictionary:
 	var checking_array := plant_datas.duplicate()
@@ -100,9 +104,9 @@ func _on_mouse_exited_penalty_rate_label() -> void:
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)
 
-func _on_mouse_entered_booster_pack(type:ContractData.BoosterPackType) -> void:
+func _on_mouse_entered_booster_pack() -> void:
 	gui_reward_booster_pack.has_outline = true
-	_weak_tooltip = weakref(Util.display_booster_pack_tooltip(type, gui_reward_booster_pack, false, GUITooltip.TooltipPosition.LEFT))
+	_weak_tooltip = weakref(Util.display_booster_pack_tooltip(_weak_contract_data.get_ref().reward_booster_pack_type, gui_reward_booster_pack, false, GUITooltip.TooltipPosition.LEFT))
 
 func _on_mouse_exited_booster_pack() -> void:
 	gui_reward_booster_pack.has_outline = false
