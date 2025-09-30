@@ -524,8 +524,20 @@ static func get_plant_icon_background_region(plant_data:PlantData, highlighted:b
 			3:
 				x = 54
 			_:
-				assert(false, "Invalid rarity: " + str(plant_data.difficulty))
+				assert(false, "Invalid difficulty: " + str(plant_data.difficulty))
 	return Vector2(x, y)
+
+static func get_plant_name_color(plant_data:PlantData) -> Color:
+	match plant_data.difficulty:
+		0:
+			return Constants.COLOR_GREEN3
+		1:
+			return Constants.COLOR_BLUE_3
+		2:
+			return Constants.COLOR_RED1
+		_:
+			assert(false, "Invalid difficulty: " + str(plant_data.difficulty))
+	return Constants.COLOR_WHITE
 
 static func create_scaled_tween(binding_node:Node) -> Tween:
 	var tween:Tween = binding_node.create_tween()
