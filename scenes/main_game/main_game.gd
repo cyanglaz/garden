@@ -180,6 +180,7 @@ func _start_new_chapter() -> void:
 	chapter_manager.next_chapter()
 	weather_manager.generate_next_weathers(chapter_manager.current_chapter)
 	contract_generator.generate_contracts(chapter_manager.current_chapter)
+	gui_main_game.show_boss_icon(contract_generator.boss_contracts[0].boss_data)
 	#_selected_contract = contract_generator.pick_contracts(CONTRACT_COUNT, _level)[0]
 	#gui_main_game.animate_show_reward_main(_selected_contract)
 	_select_contract()
@@ -259,6 +260,7 @@ func _end_day() -> void:
 
 func _on_reward_finished(tool_data:ToolData) -> void:
 	if _selected_contract.contract_type == ContractData.ContractType.BOSS:
+		gui_main_game.hide_boss_icon()
 		gui_main_game.animate_show_demo_end()
 	else:
 		if tool_data:

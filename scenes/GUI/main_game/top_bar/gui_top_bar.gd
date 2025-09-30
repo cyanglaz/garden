@@ -15,12 +15,20 @@ signal rating_update_finished(value:int)
 @onready var _gui_player: GUICharacter = %GUIPlayer
 @onready var _gui_library_button: GUILibraryButton = %GUILibraryButton
 @onready var _gui_rating: GUIRating = %GUIRating
+@onready var _gui_boss_icon: GUIBossIcon = %GUIBossIcon
 
 func _ready() -> void:
 	_gui_settings_button.pressed.connect(func() -> void: setting_button_evoked.emit())
 	gui_full_deck_button.pressed.connect(func() -> void: full_deck_button_evoked.emit())
 	_gui_library_button.pressed.connect(func() -> void: library_button_evoked.emit())
 	_gui_rating.rating_update_finished.connect(func(value:int) -> void: rating_update_finished.emit(value))
+
+func show_boss_icon(boss_data:BossData) -> void:
+	_gui_boss_icon.show()
+	_gui_boss_icon.update_with_boss_data(boss_data)
+
+func hide_boss_icon() -> void:
+	_gui_boss_icon.hide()
 
 func bind_with_rating(rating:ResourcePoint) -> void:
 	_gui_rating.bind_with_rating(rating)

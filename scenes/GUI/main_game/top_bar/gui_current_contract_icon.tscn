@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3 uid="uid://r53ldp7rxj0n"]
+
+[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_outline_icon.tscn" id="1_x6y8a"]
+[ext_resource type="Shader" path="res://scenes/GUI/utils/gui_outline_icon.gdshader" id="2_38obo"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x7r3r"]
+resource_local_to_scene = true
+shader = ExtResource("2_38obo")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fxx1m"]
+load_path = "res://.godot/imported/icon_current_contract.png-bfe6bf4e540b5b93782421d5479db0a2.ctex"
+
+[node name="GUICurrentContractIcon" instance=ExtResource("1_x6y8a")]
+material = SubResource("ShaderMaterial_x7r3r")
+texture = SubResource("CompressedTexture2D_fxx1m")

@@ -100,6 +100,11 @@ func update_gold(gold_diff:int, animated:bool) -> void:
 func bind_with_rating(rating:ResourcePoint) -> void:
 	gui_top_bar.bind_with_rating(rating)
 
+func show_boss_icon(boss_data:BossData) -> void:	
+	gui_top_bar.show_boss_icon(boss_data)
+
+func hide_boss_icon() -> void:
+	gui_top_bar.hide_boss_icon()
 #region characters
 
 func update_player(player_data:PlayerData) -> void:

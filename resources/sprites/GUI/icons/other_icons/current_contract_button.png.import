@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xmnqae4k5fu8"
-path="res://.godot/imported/icon_enemy_process.png-4ad8d0fabec802ecc600c2f921c4c88c.ctex"
+uid="uid://bbfdftm20x8el"
+path="res://.godot/imported/current_contract_button.png-73595754d9ce94aa3d43fe30615ed592.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/icons/other/icon_enemy_process.png"
-dest_files=["res://.godot/imported/icon_enemy_process.png-4ad8d0fabec802ecc600c2f921c4c88c.ctex"]
+source_file="res://resources/sprites/GUI/icons/other_icons/current_contract_button.png"
+dest_files=["res://.godot/imported/current_contract_button.png-73595754d9ce94aa3d43fe30615ed592.ctex"]
 
 [params]
 

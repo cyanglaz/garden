@@ -13,6 +13,10 @@ func _ready() -> void:
 
 func animate_show_with_contracts(contracts:Array) -> void:
 	_update_with_contracts(contracts)
+	if contracts[0].contract_type == ContractData.ContractType.BOSS:
+		_title_label.text = Util.get_localized_string("CONTRACT_SELECTION_BOSS_TITLE_TEXT")
+	else:
+		_title_label.text = Util.get_localized_string("CONTRACT_SELECTION_TITLE_TEXT")
 	show()
 
 func _update_with_contracts(contracts:Array) -> void:
