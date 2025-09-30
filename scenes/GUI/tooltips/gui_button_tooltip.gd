@@ -1,7 +1,7 @@
 class_name GUIButtonTooltip
 extends GUITooltip
 
-@onready var _description: RichTextLabel = %Description
+@onready var _description: Label = %Description
 @onready var _shortcut_label: RichTextLabel = %ShortcutLabel
 
 func setup(description:String, shortcut:String) -> void:

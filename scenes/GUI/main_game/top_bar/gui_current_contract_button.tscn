@@ -13,6 +13,7 @@ custom_minimum_size = Vector2(0, 0)
 offset_right = 11.0
 offset_bottom = 13.0
 script = ExtResource("2_st2oq")
+tool_tip_localized_string = "BUTTON_TOOLTIP_SHOW_CONTRACT"
 
 [node name="TextureRect" type="TextureRect" parent="." index="0"]
 unique_name_in_owner = true

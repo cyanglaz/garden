@@ -37,7 +37,7 @@ static func show_alert(title:String, message:String, close_button_title:String, 
 	
 static func display_button_tooltip(description:String, shortcut:String, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIButtonTooltip:
 	var button_tooltip:GUIButtonTooltip = GUI_BUTTON_TOOLTIP_SCENE.instantiate()
-	Singletons.game_main.add_view_to_top_container(button_tooltip)
+	Singletons.main_game.add_control_to_overlay(button_tooltip)
 	button_tooltip.setup(description, shortcut)
 	_display_tool_tip.call_deferred(button_tooltip, on_control_node, anchor_mouse, tooltip_position)
 	return button_tooltip

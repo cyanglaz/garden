@@ -25,7 +25,7 @@ enum ButtonState {
 @export var action_type:ActionType = ActionType.PRESSED
 @export var hold_time := 0.0
 @export var button_state:ButtonState = ButtonState.NORMAL: set = _set_button_state
-@export var tooltip_description:String
+@export var tool_tip_localized_string:String
 @export var tooltip_position:GUITooltip.TooltipPosition = GUITooltip.TooltipPosition.TOP
 @export var hover_sound:AudioStream = SOUND_HOVER
 @export var click_sound:AudioStream = SOUND_CLICK
@@ -84,14 +84,6 @@ func _handle_short_cut(input_event:InputEvent) -> void:
 				_holding_start = false
 				_hold_time_count = 0
 
-func _setup_tooltip() -> void:
-	if !tooltip_description.is_empty():
-		var shortcut_string := ""
-		if !short_cut.is_empty():
-			var action_events := InputMap.action_get_events(short_cut)
-			shortcut_string = action_events.front().as_text()
-		_weak_tooltip = weakref(Util.display_button_tooltip(tooltip_description, shortcut_string, self, false, tooltip_position))
-
 func _is_short_cut_pressed(input_event:InputEvent) -> bool:
 	if _holding_start:
 		return false
@@ -106,8 +98,8 @@ func _is_short_cut_released(input_event:InputEvent) -> bool:
 
 func _on_mouse_entered():
 	mouse_in = true
-	if !tooltip_description.is_empty():
-		_weak_tooltip = weakref(Util.display_button_tooltip(tooltip_description, short_cut, self, false, tooltip_position))
+	if !tool_tip_localized_string.is_empty():
+		_weak_tooltip = weakref(Util.display_button_tooltip(Util.get_localized_string(tool_tip_localized_string), short_cut, self, false, tooltip_position))
 	if button_state == ButtonState.DISABLED || button_state == ButtonState.SELECTED:
 		return
 	button_state = ButtonState.HOVERED
