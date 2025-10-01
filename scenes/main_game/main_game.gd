@@ -176,7 +176,7 @@ func hide_dialogue(type:GUIDialogueItem.DialogueType) -> void:
 #region private
 
 func _start_new_chapter() -> void:
-	_level = 0
+	_level = 3
 	chapter_manager.next_chapter()
 	weather_manager.generate_next_weathers(chapter_manager.current_chapter)
 	contract_generator.generate_contracts(chapter_manager.current_chapter)

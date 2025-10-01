@@ -8,6 +8,7 @@ const PLANT_SCENE_PATH_PREFIX:String = "res://scenes/main_game/plants/plant_"
 @export var immune_to_status:Array[String]
 @export var difficulty:int
 @export var chapters:Array[int]
+@export var abilities:Array[String]
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
@@ -17,6 +18,7 @@ func copy(other:ThingData) -> void:
 	immune_to_status = other_plant.immune_to_status.duplicate()
 	difficulty = other_plant.difficulty
 	chapters = other_plant.chapters.duplicate()
+	abilities = other_plant.abilities.duplicate()
 
 func get_duplicate() -> PlantData:
 	var dup:PlantData = PlantData.new()

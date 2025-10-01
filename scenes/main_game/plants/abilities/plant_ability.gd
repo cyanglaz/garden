@@ -1,0 +1,2 @@
+class_name PlantAbility
+extends Node2D

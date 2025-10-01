@@ -68,8 +68,8 @@ func plant_seed(plant_data:PlantData) -> void:
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
 	var scene := load(plant_scene_path)
 	plant = scene.instantiate()
-	plant.data = plant_data
 	_plant_container.add_child(plant)
+	plant.data = plant_data
 	_show_progress_bars(plant)
 	plant.harvest_started.connect(func(): plant_harvest_started.emit())
 	plant.harvest_completed.connect(_on_plant_harvest_completed)

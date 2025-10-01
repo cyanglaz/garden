@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://ckugo4tqv16qp"
+path="res://.godot/imported/icon_thorn.aseprite-facf84e566da03e88314d55106d56254.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/plant_abilities/icon_thorn.aseprite"
+dest_files=["res://.godot/imported/icon_thorn.aseprite-facf84e566da03e88314d55106d56254.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

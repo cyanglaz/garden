@@ -18,12 +18,14 @@ signal ability_triggered(ability_type:AbilityType)
 
 @onready var plant_sprite: AnimatedSprite2D = %PlantSprite
 @onready var fsm: PlantStateMachine = %PlantStateMachine
+@onready var plant_ability_container: PlantAbilityContainer = %PlantAbilityContainer
 
 var light:ResourcePoint = ResourcePoint.new()
 var water:ResourcePoint = ResourcePoint.new()
 
 var data:PlantData:set = _set_data
 var field:Field: set = _set_field, get = _get_field
+var abilities:Array[PlantAbilityData]
 var _weak_field:WeakRef = weakref(null)
 
 func _ready() -> void:
@@ -61,6 +63,7 @@ func _set_data(value:PlantData) -> void:
 	data = value
 	light.setup(0, data.light)
 	water.setup(0, data.water)
+	plant_ability_container.setup_with_plant_data(data)
 
 func _set_field(value:Field) -> void:
 	_weak_field = weakref(value)
