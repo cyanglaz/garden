@@ -4,13 +4,11 @@
 
 [resource]
 script = ExtResource("1_6715y")
-light = 4
-water = 5
+light = 1
 immune_to_status = Array[String](["pest"])
 difficulty = 2
 chapters = Array[int]([0])
 abilities = Array[String](["thorn"])
 id = "rose"
 display_name = "Rose"
-description = "When harvested, shuffle a {card:thorn} into the draw pile."
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"
