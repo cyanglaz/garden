@@ -8,6 +8,7 @@ extends VBoxContainer
 
 func update_with_plant_data(plant_data:PlantData) -> void:
 	_name_label.text = plant_data.display_name
+	_name_label.add_theme_color_override("font_color", Util.get_plant_name_color(plant_data))
 	_light_requirement_label.text = str(plant_data.light)
 	_water_requirement_label.text = str(plant_data.water)
 	var plant_rich_description := plant_data.get_display_description()

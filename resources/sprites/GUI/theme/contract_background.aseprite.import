@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://5akr1c5ib1al"
+path="res://.godot/imported/contract_background.aseprite-ce4c45e053f25ada7edbaa934b919670.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/theme/contract_background.aseprite"
+dest_files=["res://.godot/imported/contract_background.aseprite-ce4c45e053f25ada7edbaa934b919670.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

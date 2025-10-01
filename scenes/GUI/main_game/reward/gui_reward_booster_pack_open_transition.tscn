@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://cw5lwgd18axsk"]
+
+[ext_resource type="Script" uid="uid://b2ufbubtcv1mv" path="res://scenes/GUI/main_game/reward/gui_reward_booster_pack_open_transition.gd" id="1_lqipx"]
+[ext_resource type="PackedScene" uid="uid://cp4hifbli0slg" path="res://scenes/GUI/main_game/reward/gui_booster_pack_icon.tscn" id="2_lqipx"]
+
+[node name="GUIRewardBoosterPackOpenTransition" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lqipx")
+
+[node name="GUIBoosterPackIcon" parent="." instance=ExtResource("2_lqipx")]
+layout_mode = 0

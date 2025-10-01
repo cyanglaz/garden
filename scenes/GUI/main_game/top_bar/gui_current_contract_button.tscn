@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://kiks86wybe7n"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_xn33r"]
+[ext_resource type="Script" uid="uid://cir7nndk7mdxt" path="res://scenes/GUI/main_game/top_bar/gui_current_contract_button.gd" id="2_st2oq"]
+[ext_resource type="Texture2D" uid="uid://bbfdftm20x8el" path="res://resources/sprites/GUI/icons/other_icons/current_contract_button.png" id="3_fr5qm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_st2oq"]
+atlas = ExtResource("3_fr5qm")
+region = Rect2(0, 0, 12, 12)
+
+[node name="GUICurrentContractButton" instance=ExtResource("1_xn33r")]
+custom_minimum_size = Vector2(0, 0)
+offset_right = 11.0
+offset_bottom = 13.0
+script = ExtResource("2_st2oq")
+tool_tip_localized_string = "BUTTON_TOOLTIP_SHOW_CONTRACT"
+
+[node name="TextureRect" type="TextureRect" parent="." index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = SubResource("AtlasTexture_st2oq")
+stretch_mode = 5

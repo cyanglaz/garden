@@ -1,7 +1,6 @@
 class_name GUIShopMain
 extends Control
 
-
 const ADD_CARD_TO_PILE_ANIMATION_TIME := 0.3
 
 signal tool_shop_button_pressed(tool_data:ToolData)
@@ -47,7 +46,7 @@ func _populate_shop(number_of_tools:int) -> void:
 
 func _populate_tools(number_of_tools) -> void:
 	Util.remove_all_children(tool_container)
-	var tools := MainDatabase.tool_database.roll_tools(number_of_tools)
+	var tools := MainDatabase.tool_database.roll_tools(number_of_tools, -1)
 	for tool_data:ToolData in tools:
 		var tool_shop_button:GUIToolShopButton  = TOOL_SHOP_BUTTON_SCENE.instantiate()
 		tool_container.add_child(tool_shop_button)

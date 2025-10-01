@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://b16d7mxqxy13b"
+path="res://.godot/imported/icon_booster_pack_legendary.aseprite-5157fb8492fe5bb35d68bf225281c6c4.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/booster_packs/icon_booster_pack_legendary.aseprite"
+dest_files=["res://.godot/imported/icon_booster_pack_legendary.aseprite-5157fb8492fe5bb35d68bf225281c6c4.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cqdykmiikcooa"
+path="res://.godot/imported/current_contract_button.aseprite-4ae56b48d683b9f7a170d3955491b048.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/current_contract_button.aseprite"
+dest_files=["res://.godot/imported/current_contract_button.aseprite-4ae56b48d683b9f7a170d3955491b048.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true

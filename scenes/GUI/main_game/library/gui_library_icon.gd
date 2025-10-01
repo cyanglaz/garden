@@ -38,18 +38,18 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	wrapper_button.mouse_entered.connect(func() -> void: tool_card_button.card_state = GUIToolCardButton.CardState.HIGHLIGHTED)
 	wrapper_button.mouse_exited.connect(func() -> void: tool_card_button.card_state = GUIToolCardButton.CardState.NORMAL)
 
-func update_with_level_data(level_data:LevelData) -> void:
-	var wrapper_button:GUIBasicButton = GUIBasicButton.new()
-	add_child(wrapper_button)
-	wrapper_button.pressed.connect(func() -> void: button_evoked.emit(level_data))
-	var enemy:GUIEnemy = GUI_ENEMY_SCENE.instantiate()
-	enemy.display_mode = true
-	enemy.library_mode = true
-	wrapper_button.add_child(enemy)
-	enemy.update_with_level_data(level_data)
-	enemy.mouse_behavior_recursive = Control.MOUSE_BEHAVIOR_DISABLED
-	wrapper_button.mouse_entered.connect(func() -> void: enemy.is_highlighted = true)
-	wrapper_button.mouse_exited.connect(func() -> void: enemy.is_highlighted = false)
+#func update_with_level_data(level_data:LevelData) -> void:
+	#var wrapper_button:GUIBasicButton = GUIBasicButton.new()
+	#add_child(wrapper_button)
+	#wrapper_button.pressed.connect(func() -> void: button_evoked.emit(level_data))
+	#var enemy:GUIEnemy = GUI_ENEMY_SCENE.instantiate()
+	#enemy.display_mode = true
+	#enemy.library_mode = true
+	#wrapper_button.add_child(enemy)
+	#enemy.update_with_level_data(level_data)
+	#enemy.mouse_behavior_recursive = Control.MOUSE_BEHAVIOR_DISABLED
+	#wrapper_button.mouse_entered.connect(func() -> void: enemy.is_highlighted = true)
+	#wrapper_button.mouse_exited.connect(func() -> void: enemy.is_highlighted = false)
 
 func update_with_field_status_data(field_status_data:FieldStatusData) -> void:
 	var wrapper_button:GUIBasicButton = GUIBasicButton.new()

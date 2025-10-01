@@ -94,6 +94,9 @@ func animate_shuffle(number_of_cards:int) -> void:
 func animate_add_cards_to_draw_pile(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
 	await _gui_tool_card_animation_container.animate_add_cards_to_draw_pile(tool_datas, from_global_position, pause)
 
+func animate_add_cards_to_discard_pile(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+	await _gui_tool_card_animation_container.animate_add_cards_to_discard_pile(tool_datas, from_global_position, pause)
+
 func animate_add_cards_to_hand(hand:Array, tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
 	await _gui_tool_card_animation_container.animate_add_cards_to_hand(hand, tool_datas, from_global_position, pause)
 
@@ -155,6 +158,9 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 func _on_tool_card_pressed(index:int) -> void:
 	Singletons.main_game.hide_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_ENERGY)
 	var selected_card:GUIToolCardButton = _container.get_child(index)
+	if selected_card.tool_data.energy_cost < 0:
+		Singletons.main_game.show_dialogue(GUIDialogueItem.DialogueType.CANNOT_USE_CARD)
+		return
 	_selected_index = index
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	for i in _container.get_children().size():

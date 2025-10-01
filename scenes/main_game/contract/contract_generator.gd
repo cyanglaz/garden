@@ -2,23 +2,26 @@ class_name ContractGenerator
 extends RefCounted
 
 const MAX_REROLL_PLANTS_COUNT := 100
-const TOTAL_COMMON_CONTRACTS_TO_GENERATE_PER_CHAPTER := 4
-const TOTAL_ELITE_CONTRACTS_TO_GENERATE_PER_CHAPTER := 2
+const TOTAL_COMMON_CONTRACTS_TO_GENERATE_PER_CHAPTER := 6
+const TOTAL_ELITE_CONTRACTS_TO_GENERATE_PER_CHAPTER := 4
 const TOTAL_BOSS_CONTRACTS_TO_GENERATE_PER_CHAPTER := 1
+const ELITE_CONTRACT_CHANCE := 0.5
+const REWARD_VALUE_CHAPTER_MULTIPLIER := 3
+const RATING_REWARD_CHANCE := 0.1
+const RATING_REWARD_RATE := 0.5
 
 const BASE_NUMBER_OF_PLANTS_DICE := {
 	3: 5,
 	4: 60,
 	5: 30,
-	6: 5,
+	6: 50000,
 }
 
 const NUMBER_OF_PLANTS_TYPE_DICE := {
-	1: 15,
-	2: 70,
+	1: 5,
+	2: 80,
 	3: 15
 }
-
 
 const TOP_PLANT_DIFFICULTY_FOR_TYPE := {
 	ContractData.ContractType.COMMON: 0,
@@ -35,12 +38,8 @@ const BASE_REWARD_VALUE_FOR_EACH_PLANT_DIFFICULTY_TYPE := {
 const BASE_BOOSTER_PACK_TYPE_FOR_TYPE := {
 	ContractData.ContractType.COMMON: ContractData.BoosterPackType.COMMON,
 	ContractData.ContractType.ELITE: ContractData.BoosterPackType.RARE,
-	ContractData.ContractType.BOSS: ContractData.BoosterPackType.EPIC,
+	ContractData.ContractType.BOSS: ContractData.BoosterPackType.LEGENDARY,
 }
-
-const REWARD_VALUE_CHAPTER_MULTIPLIER := 3
-const RATING_REWARD_CHANCE := 0.1
-const RATING_REWARD_RATE := 0.3
 
 const BASE_GRACE_PERIOD := 4
 const BASE_PENALTY_RATE_FOR_TYPE := {
@@ -49,18 +48,66 @@ const BASE_PENALTY_RATE_FOR_TYPE := {
 	ContractData.ContractType.BOSS: 2,
 }
 
+var bosses:Array[BossData] = []
+
 var common_contracts:Array[ContractData] = []
 var elite_contracts:Array[ContractData] = []
 var boss_contracts:Array[ContractData] = []
 
 var _all_available_plants:Array = []
 
+func generate_bosses(number_of_bosses:int) -> void:
+	bosses = MainDatabase.boss_database.roll_bosses(number_of_bosses)
+
 func generate_contracts(chapter:int) -> void:
-	_all_available_plants = MainDatabase.plant_database.get_all_datas().filter(func(plant:PlantData) -> bool: return plant.chapters.has(chapter))
+	_all_available_plants = MainDatabase.plant_database.get_plants_by_chapter(chapter)
 	common_contracts = _generate_contracts(chapter, ContractData.ContractType.COMMON, TOTAL_COMMON_CONTRACTS_TO_GENERATE_PER_CHAPTER)
 	elite_contracts = _generate_contracts(chapter, ContractData.ContractType.ELITE, TOTAL_ELITE_CONTRACTS_TO_GENERATE_PER_CHAPTER)
-	boss_contracts = _generate_contracts(chapter, ContractData.ContractType.BOSS, 1)
+	boss_contracts = _generate_contracts(chapter, ContractData.ContractType.BOSS, TOTAL_BOSS_CONTRACTS_TO_GENERATE_PER_CHAPTER)
 	_log_contracts(chapter)
+
+func pick_contracts(number_of_contracts:int, level:int) -> Array:
+	var number_of_common_contracts := 0
+	var number_of_elite_contracts := 0
+	var number_of_boss_contracts := 0
+	if level == 0:
+		# First level are always common contracts
+		number_of_common_contracts = number_of_contracts
+	elif level == 1:
+		# Second level has a chance to have 1 elite contract
+		var rand := randf()
+		if rand < ELITE_CONTRACT_CHANCE:
+			number_of_elite_contracts = 1
+		number_of_common_contracts = number_of_contracts - number_of_elite_contracts
+	elif level == 2:
+		# Third level, roll twice for elite contract
+		var rand := randf()
+		if rand < ELITE_CONTRACT_CHANCE:
+			number_of_elite_contracts = 1
+		rand = randf()
+		if rand < ELITE_CONTRACT_CHANCE:
+			number_of_elite_contracts += 1
+		number_of_common_contracts = number_of_contracts - number_of_elite_contracts
+	elif level == 3:
+		# Fourth level is boss level
+		number_of_boss_contracts = 1
+	var picks := []
+	if number_of_common_contracts > 0:
+		var common_picks := Util.unweighted_roll(common_contracts, number_of_common_contracts)
+		for pick in common_picks:
+			common_contracts.erase(pick)
+		picks += common_picks
+	if number_of_elite_contracts > 0:
+		var elite_picks := Util.unweighted_roll(elite_contracts, number_of_elite_contracts)
+		for pick in elite_picks:
+			elite_contracts.erase(pick)
+		picks += elite_picks
+	if number_of_boss_contracts > 0:
+		var boss_picks := Util.unweighted_roll(boss_contracts, number_of_boss_contracts)
+		for pick in boss_picks:
+			boss_contracts.erase(pick)
+		picks += boss_picks
+	return picks
 
 func _generate_contracts(chapter:int, contract_type:ContractData.ContractType, count:int) -> Array[ContractData]:
 	var contracts:Array[ContractData] = []
@@ -78,6 +125,12 @@ func _generate_contracts(chapter:int, contract_type:ContractData.ContractType, c
 
 		# Booster pack rewards
 		contract.reward_booster_pack_type = BASE_BOOSTER_PACK_TYPE_FOR_TYPE[contract_type]
+
+		if contract_type == ContractData.ContractType.BOSS:
+			assert(bosses.size() > 0)
+			contract.boss_data = bosses.pop_back()
+		else:
+			contract.boss_data = null
 
 		contracts.append(contract)
 	return contracts

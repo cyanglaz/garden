@@ -7,12 +7,15 @@ const ACTION_TOOLTIP_DELAY := 0.2
 @onready var _gui_action_list: GUIActionList = %GUIActionList
 @onready var _rich_text_label: RichTextLabel = %RichTextLabel
 
+var display_mode := false
 var _weak_actions_tooltip:WeakRef = weakref(null)
 var _weak_weather_data:WeakRef = weakref(null)
 
 func _ready() -> void:
 	super._ready()
 	tool_tip_shown.connect(_on_tooltop_shown)
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
 
 func update_with_weather_data(weather_data:WeatherData) -> void:
 	_weak_weather_data = weakref(weather_data)
@@ -23,13 +26,29 @@ func update_with_weather_data(weather_data:WeatherData) -> void:
 		_gui_action_list.update(weather_data.actions)
 
 func _on_tooltop_shown() -> void:
+	if display_mode:
+		return
 	await Util.create_scaled_timer(ACTION_TOOLTIP_DELAY).timeout
+	_show_actions_tooltip()
+
+func _on_mouse_entered() -> void:
+	if display_mode:
+		_show_actions_tooltip()
+
+func _on_mouse_exited() -> void:
+	if display_mode:
+		_hide_actions_tooltip()
+
+func _show_actions_tooltip() -> void:
 	if _weak_weather_data.get_ref().actions.is_empty():
 		return
 	_weak_actions_tooltip = weakref(Util.display_actions_tooltip(_weak_weather_data.get_ref().actions, self, false, self.tooltip_position, false))
 
+func _hide_actions_tooltip() -> void:
+	if _weak_actions_tooltip.get_ref():
+		_weak_actions_tooltip.get_ref().queue_free()
+		_weak_actions_tooltip = weakref(null)
+
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
-		if _weak_actions_tooltip.get_ref():
-			_weak_actions_tooltip.get_ref().queue_free()
-			_weak_actions_tooltip = weakref(null)
+		_hide_actions_tooltip()

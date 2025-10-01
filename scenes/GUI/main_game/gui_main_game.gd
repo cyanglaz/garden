@@ -3,10 +3,10 @@ extends CanvasLayer
 
 signal end_turn_button_pressed()
 signal tool_selected(tool_data:ToolData)
-signal level_summary_continue_button_pressed()
-signal gold_increased(gold:int)
 signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData)
 signal rating_update_finished(value:int)
+signal reward_finished(tool_data:ToolData)
+signal contract_selected(contract_data:ContractData)
 
 @onready var gui_top_bar: GUITopBar = %GUITopBar
 @onready var game_container: PanelContainer = %GameContainer
@@ -22,12 +22,13 @@ signal rating_update_finished(value:int)
 @onready var gui_plant_seed_animation_container: GUIPlantSeedAnimationContainer = %GUIPlantSeedAnimationContainer
 
 @onready var gui_shop_main: GUIShopMain = %GUIShopMain
-@onready var gui_level_summary_main: GUILevelSummaryMain = %GUILevelSummaryMain
 @onready var gui_game_over_main: GUIGameOverMain = %GUIGameOverMain
 @onready var gui_demo_end_main: GUIDemoEndMain = %GUIDemoEndMain
-@onready var gui_enemy: GUIEnemy = %GUIEnemy
 @onready var gui_library: GUILibrary = %GUILibrary
 @onready var gui_thing_info_view: GUIThingInfoView = %GUIThingInfoView
+@onready var gui_contract_selection_main: GUIContractSelectionMain = %GUIContractSelectionMain
+@onready var gui_reward_main: GUIRewardMain = %GUIRewardMain
+@onready var gui_top_animation_overlay: GUITopAnimationOverlay = %GUITopAnimationOverlay
 
 @onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
@@ -35,6 +36,8 @@ signal rating_update_finished(value:int)
 @onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
 @onready var _gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
 @onready var _gui_dialogue_window: GUIDialogueWindow = %GUIDialogueWindow
+@onready var _main_container: VBoxContainer = %MainContainer
+@onready var _gui_contract_view: GUIContractView = %GUIContractView
 
 var _toggle_ui_semaphore := 0
 
@@ -46,19 +49,12 @@ func _ready() -> void:
 	gui_top_bar.setting_button_evoked.connect(_on_settings_button_evoked)
 	gui_top_bar.library_button_evoked.connect(_on_library_button_evoked)
 	gui_top_bar.rating_update_finished.connect(func(value:int) -> void: rating_update_finished.emit(value))
-	gui_level_summary_main.continue_button_pressed.connect(func() -> void: level_summary_continue_button_pressed.emit())
-	gui_level_summary_main.gold_increased.connect(func(gold:int) -> void: gold_increased.emit(gold))
+	gui_top_bar.contract_button_evoked.connect(_on_contract_button_evoked)
+	gui_reward_main.reward_finished.connect(func(tool_data:ToolData) -> void: reward_finished.emit(tool_data))
 	gui_plant_seed_animation_container.draw_plant_card_completed.connect(func(field_index:int, plant_data:PlantData) -> void: plant_seed_drawn_animation_completed.emit(field_index, plant_data))
 	gui_shop_main.setup(gui_top_bar.gui_full_deck_button)
-
-#region level
-
-func update_levels(level_manager:LevelManager) -> void:
-	gui_top_bar.update_levels(level_manager.levels)
-	gui_top_bar.update_level(level_manager.level_index)
-	gui_enemy.update_with_level_data(level_manager.current_level)
-
-#endregion
+	gui_contract_selection_main.contract_selected.connect(func(contract_data:ContractData) -> void: contract_selected.emit(contract_data))
+	gui_top_animation_overlay.setup(self)
 
 #region power
 
@@ -93,15 +89,30 @@ func toggle_all_ui(on:bool) -> void:
 	else:
 		_end_turn_button.button_state = GUIBasicButton.ButtonState.DISABLED
 
+func get_main_size() -> Vector2:
+	return _main_container.size
+
 #region topbar
 func update_level(level:int) -> void:
 	gui_top_bar.update_level(level)
 
-func update_gold(gold:int, animated:bool) -> void:
-	await gui_top_bar.update_gold(gold, animated)
+func update_gold(gold_diff:int, animated:bool) -> void:
+	await gui_top_bar.update_gold(gold_diff, animated)
 
 func bind_with_rating(rating:ResourcePoint) -> void:
 	gui_top_bar.bind_with_rating(rating)
+
+func show_boss_icon(boss_data:BossData) -> void:	
+	gui_top_bar.show_boss_icon(boss_data)
+
+func hide_boss_icon() -> void:
+	gui_top_bar.hide_boss_icon()
+
+func show_current_contract(contract_data:ContractData) -> void:
+	gui_top_bar.show_current_contract(contract_data)
+
+func hide_current_contract() -> void:
+	gui_top_bar.hide_current_contract()
 
 #region characters
 
@@ -134,8 +145,8 @@ func setup_plant_seed_animation_container(field_container:FieldContainer) -> voi
 #endregion
 
 #region days
-func update_day_left(day_left:int) -> void:
-	gui_top_bar.update_day_left(day_left)
+func update_day_left(day_left:int, penalty_per_day:int) -> void:
+	gui_top_bar.update_day_left(day_left, penalty_per_day)
 
 func bind_energy(resource_point:ResourcePoint) -> void:
 	_gui_energy_tracker.bind_with_resource_point(resource_point)
@@ -146,10 +157,17 @@ func update_weathers(weather_manager:WeatherManager) -> void:
 
 #endregion
 
+#region contract selection
+
+func animate_show_contract_selection(contracts:Array) -> void:
+	gui_contract_selection_main.animate_show_with_contracts(contracts)
+
+#endregion
+
 #region level summary
 
-func animate_show_level_summary(days_left:int) -> void:
-	await gui_level_summary_main.animate_show(days_left)
+func animate_show_reward_main(contract_data:ContractData) -> void:
+	await gui_reward_main.show_with_contract_data(contract_data)
 
 #endregion
 
@@ -213,5 +231,8 @@ func _on_settings_button_evoked() -> void:
 
 func _on_library_button_evoked() -> void:
 	gui_library.animate_show()
+
+func _on_contract_button_evoked(contract_data:ContractData) -> void:
+	_gui_contract_view.show_with_contract_data(contract_data)
 
 #endregion

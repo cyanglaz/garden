@@ -82,6 +82,10 @@ func add_temp_tools_to_draw_pile(tool_datas:Array[ToolData], from_global_positio
 	await _gui_tool_card_container.animate_add_cards_to_draw_pile(tool_datas, from_global_position, pause)
 	tool_deck.add_temp_items_to_draw_pile(tool_datas, random_place)
 
+func add_temp_tools_to_discard_pile(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+	await _gui_tool_card_container.animate_add_cards_to_discard_pile(tool_datas, from_global_position, pause)
+	tool_deck.add_temp_items_to_discard_pile(tool_datas)
+
 func add_temp_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
 	tool_deck.add_temp_items_to_hand(tool_datas)
 	await _gui_tool_card_container.animate_add_cards_to_hand(tool_deck.hand, tool_datas, from_global_position, pause)

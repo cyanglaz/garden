@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://bcy1uounmn85m"]
+
+[ext_resource type="PackedScene" uid="uid://caiue05en2fg7" path="res://scenes/GUI/main_game/plant_cards/gui_plant_icon.tscn" id="1_aafjx"]
+[ext_resource type="Script" uid="uid://bduc3psd7byal" path="res://scenes/GUI/main_game/contracts/gui_contract_plant_icon.gd" id="1_rjbmk"]
+[ext_resource type="PackedScene" uid="uid://673wlt1ldg8q" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.tscn" id="5_mawv0"]
+
+[node name="GUIContractPlaintIcon" type="PanelContainer"]
+offset_right = 25.0
+offset_bottom = 35.0
+script = ExtResource("1_rjbmk")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="GUIPlantIcon" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_aafjx")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CountLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"HUD"
+text = "2"
+vertical_alignment = 2
+
+[node name="ResourceContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="LightBar" parent="VBoxContainer/ResourceContainer" instance=ExtResource("5_mawv0")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+
+[node name="WaterBar" parent="VBoxContainer/ResourceContainer" instance=ExtResource("5_mawv0")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2

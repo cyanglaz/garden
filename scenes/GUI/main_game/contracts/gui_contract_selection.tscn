@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://dl3nh5rsipopx"]
+
+[ext_resource type="PackedScene" uid="uid://b6obg3hop3pr0" path="res://scenes/GUI/main_game/contracts/gui_contract.tscn" id="1_154u4"]
+[ext_resource type="Script" uid="uid://dhans8yiot6ry" path="res://scenes/GUI/main_game/contracts/gui_contract_selection.gd" id="1_yxa58"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="2_d3nfw"]
+
+[node name="GUIContractSelection" type="VBoxContainer"]
+theme_override_constants/separation = 6
+script = ExtResource("1_yxa58")
+
+[node name="GUIContract" parent="." instance=ExtResource("1_154u4")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="GUIRichTextButton" parent="." instance=ExtResource("2_d3nfw")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+localization_text_key = "CONTRACT_SELECTION_BUTTON_TEXT"

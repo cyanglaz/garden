@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://by515lqah4cmj"]
-
-[ext_resource type="Texture2D" uid="uid://dikflalteykjp" path="res://resources/sprites/GUI/general/damage_icon.aseprite" id="1_aysed"]
-
-[node name="GUICoinIcon" type="TextureRect"]
-offset_right = 5.0
-offset_bottom = 6.0
-texture = ExtResource("1_aysed")
-stretch_mode = 4

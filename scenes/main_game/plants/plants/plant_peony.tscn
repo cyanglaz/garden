@@ -3,22 +3,22 @@
 [ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plants/plant.tscn" id="1_intk5"]
 [ext_resource type="Texture2D" uid="uid://brux0yec1r7r3" path="res://resources/sprites/plants/plant_peony.png" id="2_intk5"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_syrty"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_intk5"]
 atlas = ExtResource("2_intk5")
 region = Rect2(0, 0, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fcsay"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_syrty"]
 atlas = ExtResource("2_intk5")
 region = Rect2(36, 0, 36, 36)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_xrisi"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_fcsay"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_syrty")
+"texture": SubResource("AtlasTexture_intk5")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fcsay")
+"texture": SubResource("AtlasTexture_syrty")
 }],
 "loop": true,
 "name": &"idle",
@@ -29,7 +29,7 @@ animations = [{
 
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_xrisi")
+sprite_frames = SubResource("SpriteFrames_fcsay")
 animation = &"idle"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,

@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://ctjggegiourgw"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_kehks"]
+[ext_resource type="Script" uid="uid://cb163m78jcwr" path="res://scenes/GUI/controls/buttons/gui_booster_pack_button.gd" id="2_ee5ms"]
+[ext_resource type="PackedScene" uid="uid://cp4hifbli0slg" path="res://scenes/GUI/main_game/reward/gui_booster_pack_icon.tscn" id="3_7yqk0"]
+
+[node name="GUIBoosterPackButton" instance=ExtResource("1_kehks")]
+offset_right = 40.0
+offset_bottom = 54.0
+script = ExtResource("2_ee5ms")
+
+[node name="GUIBoosterPackIcon" parent="." index="0" instance=ExtResource("3_7yqk0")]
+unique_name_in_owner = true
+layout_mode = 2

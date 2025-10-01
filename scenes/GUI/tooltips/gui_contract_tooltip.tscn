@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://c2cit0n2bxbmf"]
+
+[ext_resource type="PackedScene" uid="uid://73vkj3ho7ou5" path="res://scenes/GUI/tooltips/gui_tooltip.tscn" id="1_dpcua"]
+[ext_resource type="Script" uid="uid://dapn8dsln5j7s" path="res://scenes/GUI/tooltips/gui_contract_tooltip.gd" id="2_dpcua"]
+[ext_resource type="PackedScene" uid="uid://b6obg3hop3pr0" path="res://scenes/GUI/main_game/contracts/gui_contract.tscn" id="3_dpcua"]
+
+[node name="GUIContractTooltip" instance=ExtResource("1_dpcua")]
+offset_right = 38.0
+offset_bottom = 52.0
+script = ExtResource("2_dpcua")
+
+[node name="GUIPanelBackgroundColor" parent="." index="0"]
+unique_name_in_owner = true
+visible = false
+
+[node name="StickyProgressBar" parent="GUIPanelBackgroundColor" index="0"]
+visible = false
+
+[node name="ContentContainer" parent="." index="1"]
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="GUIContract" parent="ContentContainer" index="0" instance=ExtResource("3_dpcua")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="NinePatchRect" parent="." index="2"]
+visible = false

@@ -35,9 +35,10 @@ func update_with_data(data:Resource, index_level:int) -> void:
 			_update_with_plant_data(data_to_show, i)
 		elif data_to_show is ToolData:
 			_update_with_tool_data(data_to_show, i)
-		elif data_to_show is LevelData:
-			assert(data_to_show.type == LevelData.Type.BOSS)
-			_update_with_level_data(data_to_show, i)
+		elif data_to_show is BossData:
+			_update_with_boss_data(data_to_show, i)
+		elif data_to_show is WeatherData:
+			_update_with_weather_data(data_to_show, i)
 		elif data_to_show is FieldStatusData || data_to_show is PowerData:
 			_update_with_thing_data(data_to_show, i)
 
@@ -55,10 +56,17 @@ func _update_with_tool_data(tool_data:ToolData, level_index:int) -> void:
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	_set_item_position.call_deferred(item)
 
-func _update_with_level_data(level_data:LevelData, level_index:int) -> void:
+func _update_with_boss_data(boss_data:BossData, level_index:int) -> void:
 	var item:GUIThingInfoItem = INFO_ITEM_SCENE.instantiate()
 	_tooltip_container.add_child(item)
-	item.update_with_level_data(level_data)
+	item.update_with_boss_data(boss_data)
+	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
+	_set_item_position.call_deferred(item)
+
+func _update_with_weather_data(weather_data:WeatherData, level_index:int) -> void:
+	var item:GUIThingInfoItem = INFO_ITEM_SCENE.instantiate()
+	_tooltip_container.add_child(item)
+	item.update_with_weather_data(weather_data)
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	_set_item_position.call_deferred(item)
 

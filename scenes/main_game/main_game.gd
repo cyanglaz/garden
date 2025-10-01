@@ -10,28 +10,35 @@ const INSTANT_CARD_USE_DELAY := 0.3
 const DETAIL_TOOLTIP_DELAY := 0.8
 const INITIAL_RATING_VALUE := 100
 const INITIAL_RATING_MAX_VALUE := 100
+const CONTRACT_COUNT := 2
+const NEW_CONTRACT_PAUSE_TIME := 0.3
 
 @export var player:PlayerData
 @export var test_tools:Array[ToolData]
 @export var test_number_of_fields := 0
-@export var test_level_data:LevelData
+@export var test_contract:ContractData
 
 @onready var gui_main_game: GUIMainGame = %GUIGameSession
 @onready var field_container: FieldContainer = %FieldContainer
+@onready var feedback_camera_2d: FeedbackCamera2D = %FeedbackCamera2D
 
 var session_seed := 0
 
 var energy_tracker:ResourcePoint = ResourcePoint.new()
 var weather_manager:WeatherManager = WeatherManager.new()
-var level_manager:LevelManager = LevelManager.new()
+var chapter_manager:ChapterManager = ChapterManager.new()
+var contract_generator:ContractGenerator = ContractGenerator.new()
 var power_manager:PowerManager = PowerManager.new()
 var tool_manager:ToolManager
 var plant_seed_manager:PlantSeedManager
+var day_manager:DayManager = DayManager.new()
 var max_energy := 3
 var session_summary:SessionSummary
 var hovered_data:ThingData: set = _set_hovered_data
 var rating:ResourcePoint = ResourcePoint.new()
 var _gold := 0: set = _set_gold
+var _selected_contract:ContractData
+var _level:int = 0
 
 var _harvesting_fields:Array = []
 
@@ -76,17 +83,17 @@ func _ready() -> void:
 	gui_main_game.bind_with_rating(rating)
 	gui_main_game.end_turn_button_pressed.connect(_on_end_turn_button_pressed)
 	gui_main_game.tool_selected.connect(_on_tool_selected)
-	gui_main_game.level_summary_continue_button_pressed.connect(_on_level_summary_continue_button_pressed)
-	gui_main_game.gold_increased.connect(_on_level_summary_gold_increased)
 	gui_main_game.plant_seed_drawn_animation_completed.connect(_on_plant_seed_drawn_animation_completed)
+	gui_main_game.contract_selected.connect(_on_contract_selected)
+	gui_main_game.reward_finished.connect(_on_reward_finished)
 	
 	#shop signals
 	gui_main_game.gui_shop_main.next_level_button_pressed.connect(_on_shop_next_level_pressed)
 	gui_main_game.gui_shop_main.tool_shop_button_pressed.connect(_on_tool_shop_button_pressed)
 	
 	energy_tracker.capped = false
-	level_manager.generate_with_chapter(0)
-	_start_new_level()
+	contract_generator.generate_bosses(1)
+	_start_new_chapter()
 	update_gold(0, false)
 	
 	#gui_main_game.animate_show_shop(3, 0)
@@ -115,6 +122,9 @@ func add_temp_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vec
 	await power_manager.handle_card_added_to_hand_hook(tool_datas)
 	await tool_manager.add_temp_tools_to_hand(tool_datas, from_global_position, pause)
 
+func add_card_to_deck(tool_data:ToolData) -> void:
+	tool_manager.add_tool_to_deck(tool_data)
+
 #endregion
 
 #powers
@@ -136,9 +146,11 @@ func update_rating(val:int) -> void:
 
 #region gold
 
-func update_gold(gold:int, animated:bool) -> void:
-	_gold = gold
-	await gui_main_game.update_gold(_gold, animated)
+func update_gold(gold_diff:int, animated:bool) -> void:
+	_gold += gold_diff
+	if gold_diff > 0:
+		session_summary.total_gold_earned += gold_diff
+	await gui_main_game.update_gold(gold_diff, animated)
 
 #endregion
 
@@ -163,31 +175,47 @@ func hide_dialogue(type:GUIDialogueItem.DialogueType) -> void:
 
 #region private
 
+func _start_new_chapter() -> void:
+	_level = 0
+	chapter_manager.next_chapter()
+	weather_manager.generate_next_weathers(chapter_manager.current_chapter)
+	contract_generator.generate_contracts(chapter_manager.current_chapter)
+	gui_main_game.show_boss_icon(contract_generator.boss_contracts[0].boss_data)
+	#_selected_contract = contract_generator.pick_contracts(CONTRACT_COUNT, _level)[0]
+	#gui_main_game.animate_show_reward_main(_selected_contract)
+	_select_contract()
+
+func _select_contract() -> void:
+	gui_main_game.hide_current_contract()
+	var picked_contracts := contract_generator.pick_contracts(CONTRACT_COUNT, _level)
+	gui_main_game.animate_show_contract_selection(picked_contracts)
+  
 func _start_new_level() -> void:
+	gui_main_game.show_current_contract(_selected_contract)
 	power_manager.clear_powers()
-	level_manager.next_level()
-	if test_level_data:
-		level_manager.current_level = test_level_data
-	plant_seed_manager = PlantSeedManager.new(level_manager.current_level.plants, level_manager.current_level.shuffle_plants)
+	if test_contract:
+		_selected_contract = test_contract
+	plant_seed_manager = PlantSeedManager.new(_selected_contract.plants)
 	tool_manager.refresh_deck()
-	session_summary.level = level_manager.level_index
-	level_manager.day_manager.start_new(level_manager.current_level)
+	session_summary.contract = _selected_contract
+	day_manager.start_new(_selected_contract)
 	gui_main_game.update_with_plants(plant_seed_manager.plant_datas)
-	gui_main_game.update_levels(level_manager)
+
 	_start_day()
 
 func _start_day() -> void:
+	weather_manager.generate_next_weathers(chapter_manager.current_chapter)
 	gui_main_game.toggle_all_ui(false)
 	energy_tracker.setup(max_energy, max_energy)
-	level_manager.next_day()
-	weather_manager.generate_next_weathers(level_manager)
-	gui_main_game.update_day_left(level_manager.get_day_left())
+	day_manager.next_day()
+	gui_main_game.update_day_left(day_manager.get_grace_period_day_left(), _selected_contract.penalty_rate)
 	gui_main_game.clear_tool_selection()
 	await Util.await_for_tiny_time()
-	if level_manager.get_day() == 0:
-		await level_manager.apply_level_actions(self, LevelScript.HookType.LEVEL_START)
+	if day_manager.day == 0:
+		await _selected_contract.apply_boss_actions(self, BossScript.HookType.LEVEL_START)
 		await Util.create_scaled_timer(0.2).timeout
 		await _plant_new_seeds()
+	await _selected_contract.apply_boss_actions(self, BossScript.HookType.TURN_START)
 	await draw_cards(hand_size)
 	gui_main_game.toggle_all_ui(true)
 
@@ -203,10 +231,10 @@ func _win() -> void:
 	await _discard_all_tools()
 	field_container.clear_all_statuses()
 	_harvesting_fields.clear()
-	session_summary.total_days_skipped += level_manager.get_day_left()
-	gui_main_game.animate_show_level_summary(level_manager.get_day_left())
+	session_summary.total_days_skipped += day_manager.get_grace_period_day_left()
+	gui_main_game.animate_show_reward_main(_selected_contract)
 	gui_main_game.toggle_all_ui(true)
-	level_manager.levels[level_manager.level].is_finished = true
+	_level += 1
 
 func _lose() -> void:
 	gui_main_game.toggle_all_ui(false)
@@ -217,24 +245,30 @@ func _lose() -> void:
 func _end_day() -> void:
 	gui_main_game.toggle_all_ui(false)
 	_clear_tool_selection()
+	await tool_manager.apply_auto_tools(self, field_container.fields, func(tool_data:ToolData): return tool_data.specials.has(ToolData.Special.WITHER))
 	await _discard_all_tools()
 	await field_container.trigger_end_day_hook(self)
 	await field_container.trigger_end_day_ability(self)
 	await weather_manager.apply_weather_actions(field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
+	weather_manager.pass_day()
 	var won := await _harvest()
 	gui_main_game.toggle_all_ui(true)
 	if won:
 		return #Harvest won the game, no need to discard tools or end the day
 	field_container.handle_turn_end()
-	if level_manager.day_manager.get_day_left() <= 0:
-		await update_rating(-50)
-		_start_day()
+	if day_manager.get_grace_period_day_left() <= 0:
+		await update_rating( -_selected_contract.penalty_rate)
+	_start_day()
 
-func _on_level_summary_continue_button_pressed() -> void:
-	if level_manager.is_boss_level():
+func _on_reward_finished(tool_data:ToolData) -> void:
+	if _selected_contract.contract_type == ContractData.ContractType.BOSS:
+		gui_main_game.hide_boss_icon()
 		gui_main_game.animate_show_demo_end()
 	else:
-		gui_main_game.animate_show_shop(3, _gold)
+		if tool_data:
+			tool_manager.add_tool_to_deck(tool_data)
+			await Util.create_scaled_timer(NEW_CONTRACT_PAUSE_TIME).timeout
+		_select_contract()
 	
 func _discard_all_tools() -> void:
 	if tool_manager.tool_deck.hand.is_empty():
@@ -313,7 +347,7 @@ func _on_tool_application_completed() -> void:
 #region gui main events
 func _on_end_turn_button_pressed() -> void:
 	_end_day()
-	
+
 #region field events
 func _on_field_harvest_started() -> void:
 	pass
@@ -347,16 +381,16 @@ func _on_weathers_updated() -> void:
 
 #region shop events
 func _on_shop_next_level_pressed() -> void:
-	_start_new_level()
+	_select_contract()
 
 func _on_tool_shop_button_pressed(tool_data:ToolData) -> void:
 	update_gold(_gold - tool_data.cost, true)
 	tool_manager.add_tool_to_deck(tool_data)
 
-#region level summary events
-func _on_level_summary_gold_increased(gold:int) -> void:
-	update_gold(_gold + gold, true)
-	session_summary.total_gold_earned += gold
+#region contract selection events
+func _on_contract_selected(contract_data:ContractData) -> void:
+	_selected_contract = contract_data
+	_start_new_level()
 #endregion
 
 #endregion
