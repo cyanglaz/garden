@@ -27,6 +27,9 @@ void fragment() {
 	sprite_color = vec4(sprite_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
 	base_color = sprite_color;
 	
-	COLOR = base_color * modulate;
-
+	if (base_color.a > 0.0) {
+    	COLOR = mix(base_color, blend_color, blend_strength) * modulate;
+	} else {
+		COLOR = base_color * modulate;
+	}
 }

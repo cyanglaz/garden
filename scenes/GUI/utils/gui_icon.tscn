@@ -12,7 +12,7 @@ shader_parameter/outline_size = 0
 shader_parameter/blend_color = Color(1, 1, 1, 1)
 shader_parameter/blend_strength = 0.0
 
-[node name="GUIOutlineIcon" type="TextureRect"]
+[node name="GUIIcon" type="TextureRect"]
 material = SubResource("ShaderMaterial_so68i")
 offset_right = 13.0
 offset_bottom = 11.0

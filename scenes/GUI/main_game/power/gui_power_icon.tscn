@@ -1,12 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://umsm3c0whsu5"]
 
 [ext_resource type="Script" uid="uid://c46ktk080kcw8" path="res://scenes/GUI/main_game/power/gui_power_icon.gd" id="1_8egag"]
-[ext_resource type="Texture2D" uid="uid://dvbpesdthn3m8" path="res://resources/sprites/GUI/icons/resources/icon_fungus.png" id="2_1jcw1"]
-[ext_resource type="Shader" uid="uid://d3yx2bm83kisy" path="res://scenes/GUI/main_game/power/gui_power_icon.gdshader" id="2_bbruq"]
+[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="2_bbruq"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="3_8egag"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_05pfd"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pwuiq"]
 resource_local_to_scene = true
-shader = ExtResource("2_bbruq")
+shader = ExtResource("3_8egag")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
 shader_parameter/blend_color = Color(1, 1, 1, 1)
 shader_parameter/blend_strength = 0.0
 
@@ -15,12 +17,10 @@ offset_right = 7.0
 offset_bottom = 7.0
 script = ExtResource("1_8egag")
 
-[node name="Icon" type="TextureRect" parent="."]
+[node name="GUIIcon" parent="." instance=ExtResource("2_bbruq")]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_05pfd")
+material = SubResource("ShaderMaterial_pwuiq")
 layout_mode = 2
-texture = ExtResource("2_1jcw1")
-stretch_mode = 5
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 2
