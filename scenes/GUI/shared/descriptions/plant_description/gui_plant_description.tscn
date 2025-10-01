@@ -1,12 +1,40 @@
-[gd_scene load_steps=4 format=3 uid="uid://h75kpqpphro7"]
+[gd_scene load_steps=10 format=3 uid="uid://h75kpqpphro7"]
 
 [ext_resource type="Script" uid="uid://bd28yuw5ttosm" path="res://scenes/GUI/shared/descriptions/plant_description/gui_plant_description.gd" id="1_lgl7a"]
 [ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/GUI/icons/resources/icon_light.png" id="3_22r1h"]
+[ext_resource type="PackedScene" uid="uid://buhh447uvthpt" path="res://scenes/GUI/main_game/plant_cards/gui_plant_ability_icon.tscn" id="4_4rpey"]
 [ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/icon_water.png" id="4_lgl7a"]
+[ext_resource type="PackedScene" uid="uid://bfye3pwakcidx" path="res://scenes/GUI/shared/descriptions/gui_tooltip_description_separator.tscn" id="4_mws2d"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="5_mws2d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bf7rn"]
+resource_local_to_scene = true
+shader = ExtResource("5_mws2d")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4rpey"]
+resource_local_to_scene = true
+shader = ExtResource("5_mws2d")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mws2d"]
+resource_local_to_scene = true
+shader = ExtResource("5_mws2d")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
 
 [node name="GUIPlantDescription" type="VBoxContainer"]
-offset_right = 33.0
-offset_bottom = 36.0
+custom_minimum_size = Vector2(43, 0)
+offset_right = 25.0
+offset_bottom = 26.0
 theme_override_constants/separation = 2
 script = ExtResource("1_lgl7a")
 
@@ -58,6 +86,33 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HUD_small"
 
-[node name="AbilityContainer" type="GridContainer" parent="."]
+[node name="GUITooltipDescriptionSeparator" parent="." instance=ExtResource("4_mws2d")]
+unique_name_in_owner = true
 layout_mode = 2
-columns = 3
+
+[node name="AbilityContainer" type="GridContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
+columns = 5
+
+[node name="GUIPlantAbilityIcon" parent="AbilityContainer" instance=ExtResource("4_4rpey")]
+material = SubResource("ShaderMaterial_bf7rn")
+layout_mode = 2
+
+[node name="GUIPlantAbilityIcon2" parent="AbilityContainer" instance=ExtResource("4_4rpey")]
+material = SubResource("ShaderMaterial_4rpey")
+layout_mode = 2
+
+[node name="GUIPlantAbilityIcon3" parent="AbilityContainer" instance=ExtResource("4_4rpey")]
+material = SubResource("ShaderMaterial_mws2d")
+layout_mode = 2
+
+[node name="GUIPlantAbilityIcon4" parent="AbilityContainer" instance=ExtResource("4_4rpey")]
+material = SubResource("ShaderMaterial_mws2d")
+layout_mode = 2
+
+[node name="GUIPlantAbilityIcon5" parent="AbilityContainer" instance=ExtResource("4_4rpey")]
+material = SubResource("ShaderMaterial_mws2d")
+layout_mode = 2

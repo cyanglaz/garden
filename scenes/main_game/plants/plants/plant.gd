@@ -25,7 +25,6 @@ var water:ResourcePoint = ResourcePoint.new()
 
 var data:PlantData:set = _set_data
 var field:Field: set = _set_field, get = _get_field
-var abilities:Array[PlantAbilityData]
 var _weak_field:WeakRef = weakref(null)
 
 func _ready() -> void:
@@ -41,22 +40,9 @@ func harvest() -> void:
 	fsm.push("PlantStateHarvest")
 
 func trigger_ability(ability_type:AbilityType, main_game:MainGame) -> void:
-	if _has_ability(ability_type):
-		await field.status_manager.handle_ability_hook(ability_type, self)
-		await _trigger_ability(ability_type, main_game)
-	else:
-		await Util.await_for_tiny_time()
-		ability_triggered.emit(ability_type)
-
-#region ability overrides
-
-func _trigger_ability(ability_type:AbilityType, _main_game:MainGame) -> void:
 	await Util.await_for_tiny_time()
+	await plant_ability_container.trigger_ability(ability_type, main_game, self)
 	ability_triggered.emit(ability_type)
-
-func _has_ability(_ability_type:AbilityType) -> bool:
-	return false
-
 #endregion
 
 func _set_data(value:PlantData) -> void:

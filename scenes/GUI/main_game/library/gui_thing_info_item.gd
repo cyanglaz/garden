@@ -5,10 +5,11 @@ signal reference_button_evoked(reference_pair:Array)
 
 const REFERENCE_BUTTON_SCENE := preload("res://scenes/GUI/controls/buttons/gui_tooltip_reference_button.tscn")
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
-const CARD_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_card.png"
 const GUI_PLANT_ICON_SCENE := preload("res://scenes/GUI/main_game/plant_cards/gui_plant_icon.tscn")
+const CARD_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_card.png"
 const GUI_ENEMY_SCENE := preload("res://scenes/GUI/main_game/characters/gui_enemy.tscn")
 const GUI_WEATHER_SCENE := preload("res://scenes/GUI/main_game/weather/gui_weather.tscn")
+const PLANT_ABILITY_ICON_SCENE := preload("res://scenes/GUI/main_game/plant_cards/gui_plant_ability_icon.tscn")
 var GUI_TOOL_CARD_BUTTON_SCENE := load("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 var GUI_PLANT_TOOLTIP_SCENE := load("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn")
 
@@ -28,6 +29,10 @@ func update_with_plant_data(plant_data:PlantData) -> void:
 	for status_id in plant_data.immune_to_status:
 		immune_to_status_pairs.append(["field_status", status_id])
 	_add_reference_buttons(immune_to_status_pairs)
+	var ability_pairs:Array = []
+	for ability_id:String in plant_data.abilities:
+		ability_pairs.append(["plant_ability", ability_id])
+	_add_reference_buttons(ability_pairs)
 
 func update_with_tool_data(tool_data:ToolData) -> void:
 	var card_button:GUIToolCardButton = GUI_TOOL_CARD_BUTTON_SCENE.instantiate()
@@ -62,12 +67,6 @@ func update_with_weather_data(weather_data:WeatherData) -> void:
 	_find_reference_pairs_and_add_buttons(weather_data.description)
 
 func update_with_thing_data(thing_data:ThingData) -> void:
-	var texture_rect:TextureRect = TextureRect.new()
-	texture_rect.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	add_child(texture_rect)
-	texture_rect.texture = load(Util.get_image_path_for_resource_id(thing_data.id))
-	set_deferred("content_position_y", texture_rect.position.y + texture_rect.texture.get_height() + get_theme_constant("separation"))
 	var thing_data_tooltip:GUIThingDataTooltip = Util.GUI_THING_DATA_TOOLTIP_SCENE.instantiate()
 	add_child(thing_data_tooltip)
 	thing_data_tooltip.update_with_thing_data(thing_data)
@@ -99,6 +98,8 @@ func _get_reference_button_icon_path(category:String, id:String) -> String:
 			return str(RESOURCE_ICON_PREFIX, id, ".png")
 		"card":
 			return CARD_ICON_PATH
+		"plant_ability":
+			return str(RESOURCE_ICON_PREFIX, id, ".png")
 		_:
 			assert(false, "category not implemented")
 	return ""
@@ -112,6 +113,8 @@ func _get_reference_name(category:String, id:String) -> String:
 			return Util.get_action_name_from_action_type(action_type)
 		"card":
 			return MainDatabase.tool_database.get_data_by_id(id).display_name
+		"plant_ability":
+			return MainDatabase.plant_ability_database.get_data_by_id(id).display_name
 		_:
 			assert(false, "category not implemented")
 	return ""

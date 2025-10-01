@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://vefo6e8plu7x"
-path="res://.godot/imported/icon_thorn.png-04b520bd22d7443202b152efe2d68532.ctex"
+path="res://.godot/imported/icon_thorn.png-7de59348501a7e7cc85ede185fd3a957.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/GUI/icons/plant_abilities/icon_thorn.png"
-dest_files=["res://.godot/imported/icon_thorn.png-04b520bd22d7443202b152efe2d68532.ctex"]
+source_file="res://resources/sprites/GUI/icons/resources/icon_thorn.png"
+dest_files=["res://.godot/imported/icon_thorn.png-7de59348501a7e7cc85ede185fd3a957.ctex"]
 
 [params]
 
