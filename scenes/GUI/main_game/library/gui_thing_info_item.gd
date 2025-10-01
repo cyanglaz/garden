@@ -8,6 +8,7 @@ const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_
 const CARD_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_card.png"
 const GUI_PLANT_ICON_SCENE := preload("res://scenes/GUI/main_game/plant_cards/gui_plant_icon.tscn")
 const GUI_ENEMY_SCENE := preload("res://scenes/GUI/main_game/characters/gui_enemy.tscn")
+const GUI_WEATHER_SCENE := preload("res://scenes/GUI/main_game/weather/gui_weather.tscn")
 var GUI_TOOL_CARD_BUTTON_SCENE := load("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 var GUI_PLANT_TOOLTIP_SCENE := load("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn")
 
@@ -46,6 +47,19 @@ func update_with_boss_data(boss_data:BossData) -> void:
 	boss_tooltip.library_mode = true
 	boss_tooltip.update_with_boss_data(boss_data)
 	_find_reference_pairs_and_add_buttons(boss_data.description)
+
+func update_with_weather_data(weather_data:WeatherData) -> void:
+	var weather_icon:GUIWeather = GUI_WEATHER_SCENE.instantiate()
+	add_child(weather_icon)
+	weather_icon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	weather_icon.setup_with_weather_data(weather_data)
+	weather_icon.has_tooltip = false
+	set_deferred("content_position_y", weather_icon.position.y + weather_icon.size.y + get_theme_constant("separation"))
+	var weather_tooltip:GUIWeatherTooltip = Util.GUI_WEATHER_TOOLTIP_SCENE.instantiate()
+	weather_tooltip.display_mode = true
+	add_child(weather_tooltip)
+	weather_tooltip.update_with_weather_data(weather_data)
+	_find_reference_pairs_and_add_buttons(weather_data.description)
 
 func update_with_thing_data(thing_data:ThingData) -> void:
 	var texture_rect:TextureRect = TextureRect.new()
