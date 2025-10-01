@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://ps5vjsn1nr2c" path="res://scenes/GUI/main_game/top_bar/gui_rating.tscn" id="5_8mpe6"]
 [ext_resource type="PackedScene" uid="uid://b5iut15shlmp5" path="res://scenes/GUI/main_game/top_bar/gui_boss_icon.tscn" id="6_8slyq"]
 [ext_resource type="PackedScene" uid="uid://ct8p64yajr0fh" path="res://scenes/GUI/controls/buttons/gui_full_deck_button.tscn" id="6_mmkmm"]
-[ext_resource type="Shader" path="res://scenes/GUI/utils/gui_outline_icon.gdshader" id="7_6bd1k"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="7_6bd1k"]
 [ext_resource type="PackedScene" uid="uid://c6xeh4cid7k8w" path="res://scenes/GUI/controls/buttons/gui_library_button.tscn" id="7_ey64j"]
 [ext_resource type="PackedScene" uid="uid://bv0vcudygflck" path="res://scenes/GUI/controls/buttons/gui_settings_button.tscn" id="9_j76ip"]
 [ext_resource type="PackedScene" uid="uid://kiks86wybe7n" path="res://scenes/GUI/main_game/top_bar/gui_current_contract_button.tscn" id="11_6bd1k"]

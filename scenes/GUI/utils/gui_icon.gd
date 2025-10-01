@@ -1,4 +1,4 @@
-class_name GUIOutlineIcon
+class_name GUIIcon
 extends TextureRect
 
 var has_outline:bool:set = _set_has_outline

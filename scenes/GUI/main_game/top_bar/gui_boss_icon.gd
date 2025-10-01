@@ -1,5 +1,5 @@
 class_name GUIBossIcon
-extends GUIOutlineIcon
+extends GUIIcon
 
 var _weak_boss_tooltip:WeakRef = weakref(null)
 var _weak_boss_data:WeakRef = weakref(null)

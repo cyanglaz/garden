@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://b5iut15shlmp5"]
 
-[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_outline_icon.tscn" id="1_gk6ss"]
-[ext_resource type="Shader" path="res://scenes/GUI/utils/gui_outline_icon.gdshader" id="2_da3sh"]
+[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="1_gk6ss"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="2_da3sh"]
 [ext_resource type="Script" uid="uid://d33t353rsajvy" path="res://scenes/GUI/main_game/top_bar/gui_boss_icon.gd" id="3_1tl3v"]
 [ext_resource type="Texture2D" uid="uid://bstfq5ob3nr2s" path="res://resources/sprites/icons/other/icon_boss.png" id="3_da3sh"]
 

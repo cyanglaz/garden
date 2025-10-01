@@ -1,7 +1,7 @@
 class_name GUIContractRating
 extends HBoxContainer
 
-@onready var gui_outline_icon: GUIOutlineIcon = %GUIOutlineIcon
+@onready var gui_outline_icon: GUIIcon = %GUIOutlineIcon
 @onready var label: Label = %Label
 
 func _ready() -> void:

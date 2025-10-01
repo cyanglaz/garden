@@ -1,4 +1,4 @@
-class_name GUIBoosterPackIcon
+class_name GUIBoosterPackImage
 extends TextureRect
 
 const COMMON_TEXTURE := preload("res://resources/sprites/booster_packs/booster_pack_common.png")

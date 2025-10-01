@@ -5,7 +5,7 @@ const SUFFICIENT_GOLD_COLOR := Constants.COLOR_WHITE
 const INSUFFICIENT_GOLD_COLOR := Constants.COLOR_GRAY3
 
 @onready var cost_label: Label = %CostLabel
-@onready var gold_icon: GUIOutlineIcon = %GoldIcon
+@onready var gold_icon: GUIIcon = %GoldIcon
 
 var cost:int:set = _set_cost
 var sufficient_gold := false: set = _set_sufficient_gold

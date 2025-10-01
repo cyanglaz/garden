@@ -7,8 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://cx7x10rh7aiw2" path="res://scenes/GUI/main_game/contracts/gui_contract_gold.tscn" id="4_hxrax"]
 [ext_resource type="PackedScene" uid="uid://cir3rkyftmxlb" path="res://scenes/GUI/main_game/contracts/gui_contract_total_resources.tscn" id="4_ry6cy"]
 [ext_resource type="PackedScene" uid="uid://priw672helay" path="res://scenes/GUI/main_game/contracts/gui_contract_rating.tscn" id="5_dh2kh"]
-[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_outline_icon.tscn" id="6_fxvfg"]
-[ext_resource type="Shader" path="res://scenes/GUI/utils/gui_outline_icon.gdshader" id="7_syms5"]
+[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="6_fxvfg"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="7_syms5"]
 [ext_resource type="Texture2D" uid="uid://b2guebaf423cn" path="res://resources/sprites/GUI/icons/booster_packs/icon_booster_pack_common.png" id="8_syms5"]
 [ext_resource type="PackedScene" uid="uid://c7r0e7b4q3dj1" path="res://scenes/GUI/tooltips/gui_boss_tooltip.tscn" id="11_bi1fw"]
 
