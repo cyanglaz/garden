@@ -25,6 +25,7 @@ signal new_plant_planted()
 @onready var _point_audio: AudioStreamPlayer2D = %PointAudio
 @onready var _gui_field_selection_arrow: GUIFieldSelectionArrow = %GUIFieldSelectionArrow
 @onready var _gui_field_status_container: GUIFieldStatusContainer = %GUIFieldStatusContainer
+@onready var _gui_plant_ability_icon_container: GUIPlantAbilityIconContainer = %GUIPlantAbilityIconContainer
 @onready var _plant_down_sound: AudioStreamPlayer2D = %PlantDownSound
 
 var _weak_plant_preview:WeakRef = weakref(null)
@@ -74,11 +75,13 @@ func plant_seed(plant_data:PlantData) -> void:
 	plant.harvest_started.connect(func(): plant_harvest_started.emit())
 	plant.harvest_completed.connect(_on_plant_harvest_completed)
 	plant.field = self
+	_gui_plant_ability_icon_container.setup_with_plant_ability_container(plant.plant_ability_container)
 	await plant.trigger_ability(Plant.AbilityType.ON_PLANT, Singletons.main_game)
 	new_plant_planted.emit()
 
 func remove_plant() -> void:
 	if plant:
+		_gui_plant_ability_icon_container.remove_all()
 		plant.removed_from_field.emit()
 		plant.queue_free()
 		plant = null
@@ -129,7 +132,10 @@ func apply_field_status(field_status_id:String, stack:int) -> void:
 			text = "-"
 		await _show_resource_icon_popup(field_status_id, text)
 		status_manager.update_status(field_status_id, 1)
-	await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_UPDATE, Singletons.main_game)
+	if stack > 0:
+		await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_INCREASE, Singletons.main_game)
+	else:
+		await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_DECREASE, Singletons.main_game)
 
 func show_harvest_popup() -> void:
 	_point_audio.play()

@@ -23,7 +23,9 @@ func get_duplicate() -> PlantAbilityData:
 func get_ability() -> PlantAbility:
 	var scene_path := PLANT_ABILITY_SCRIPT_PATH % [id]
 	if ResourceLoader.exists(scene_path):
-		return load(scene_path).instantiate()
+		var ability:PlantAbility = load(scene_path).instantiate()
+		ability.ability_data = self
+		return ability
 	else:
 		return null
 	

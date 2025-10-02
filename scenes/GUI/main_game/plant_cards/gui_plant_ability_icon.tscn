@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://buhh447uvthpt"]
+[gd_scene load_steps=7 format=3 uid="uid://buhh447uvthpt"]
 
 [ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="1_k5r21"]
 [ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="2_jsdt3"]
 [ext_resource type="Texture2D" uid="uid://vefo6e8plu7x" path="res://resources/sprites/GUI/icons/resources/icon_thorned.png" id="3_atocr"]
 [ext_resource type="Script" uid="uid://birt5pfaxqvy1" path="res://scenes/GUI/main_game/plant_cards/gui_plant_ability_icon.gd" id="3_jsdt3"]
+[ext_resource type="AudioStream" uid="uid://doilouvmfbgsc" path="res://resources/sounds/SFX/field/field_status_good.wav" id="5_8lh2r"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jmhgc"]
 resource_local_to_scene = true
@@ -17,3 +18,8 @@ shader_parameter/blend_strength = 0.0
 material = SubResource("ShaderMaterial_jmhgc")
 texture = ExtResource("3_atocr")
 script = ExtResource("3_jsdt3")
+
+[node name="GoodAnimationAudio" type="AudioStreamPlayer2D" parent="." index="0"]
+unique_name_in_owner = true
+stream = ExtResource("5_8lh2r")
+bus = &"SFX"

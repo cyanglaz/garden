@@ -20,7 +20,7 @@ func update_with_plant_data(plant_data:PlantData) -> void:
 		_gui_tooltip_description_separator.show()
 		_ability_container.show()
 		for ability_id:String in plant_data.abilities:
-			var ability_icon:PlantAbilityIcon = PLANT_ABILITY_ICON_SCENE.instantiate()
+			var ability_icon:GUIPlantAbilityIcon = PLANT_ABILITY_ICON_SCENE.instantiate()
 			_ability_container.add_child(ability_icon)
 			ability_icon.update_with_plant_ability_id(ability_id)
 	else:
