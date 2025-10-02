@@ -128,6 +128,7 @@ func apply_field_status(field_status_id:String, stack:int) -> void:
 			text = "-"
 		await _show_resource_icon_popup(field_status_id, text)
 		status_manager.update_status(field_status_id, 1)
+	await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_UPDATE, Singletons.main_game)
 
 func show_harvest_popup() -> void:
 	_point_audio.play()

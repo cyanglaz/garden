@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://vefo6e8plu7x"
-path="res://.godot/imported/icon_thorn.png-7de59348501a7e7cc85ede185fd3a957.ctex"
+uid="uid://0r75lvd5lal2"
+path="res://.godot/imported/icon_repel.png-28db40eeb34aee915d799af0e5f10608.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/GUI/icons/resources/icon_thorn.png"
-dest_files=["res://.godot/imported/icon_thorn.png-7de59348501a7e7cc85ede185fd3a957.ctex"]
+source_file="res://resources/sprites/GUI/icons/resources/icon_repel.png"
+dest_files=["res://.godot/imported/icon_repel.png-28db40eeb34aee915d799af0e5f10608.ctex"]
 
 [params]
 

@@ -14,13 +14,6 @@ func update_with_plant_data(plant_data:PlantData) -> void:
 	_name_label.add_theme_color_override("font_color", Util.get_plant_name_color(plant_data))
 	_light_requirement_label.text = str(plant_data.light)
 	_water_requirement_label.text = str(plant_data.water)
-	if plant_data.immune_to_status.size() > 0:
-		var status_texts := ""
-		for status_id in plant_data.immune_to_status:
-			status_texts += "{field_status:" + status_id + "}" + ", "
-		status_texts = status_texts.trim_suffix(", ")
-		var status_description := Util.get_localized_string("IMMUNE_TO_STATUS_TEXT") % status_texts
-		status_description = DescriptionParser.format_references(status_description, {}, {}, func(_reference_id:String) -> bool: return false)
 	
 	Util.remove_all_children(_ability_container)
 	if plant_data.abilities.size() > 0:

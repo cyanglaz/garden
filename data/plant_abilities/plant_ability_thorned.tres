@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_p8ojn")
-id = "thorn"
-display_name = "Thorn"
+id = "thorned"
+display_name = "Thorned"
 description = "When harvested, shuffle a {card:thorn} into the draw pile."
 metadata/_custom_type_script = "uid://jejwqju653m5"

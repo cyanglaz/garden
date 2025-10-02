@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://c8y7vedi6cln7"]
-
-[ext_resource type="PackedScene" uid="uid://lptujl1fd783" path="res://scenes/main_game/plants/abilities/plant_ability.tscn" id="1_0mnuy"]
-[ext_resource type="Script" uid="uid://bgqc8frty55nn" path="res://scenes/main_game/plants/abilities/plant_ability_thorn.gd" id="2_qpuv3"]
-
-[node name="PlantAbilityThorn" instance=ExtResource("1_0mnuy")]
-script = ExtResource("2_qpuv3")

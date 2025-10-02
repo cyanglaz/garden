@@ -25,10 +25,6 @@ func update_with_plant_data(plant_data:PlantData) -> void:
 	add_child(plant_tooltip)
 	plant_tooltip.update_with_plant_data(plant_data)
 	_find_reference_pairs_and_add_buttons(plant_data.description)
-	var immune_to_status_pairs:Array = []
-	for status_id in plant_data.immune_to_status:
-		immune_to_status_pairs.append(["field_status", status_id])
-	_add_reference_buttons(immune_to_status_pairs)
 	var ability_pairs:Array = []
 	for ability_id:String in plant_data.abilities:
 		ability_pairs.append(["plant_ability", ability_id])

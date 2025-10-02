@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://ckugo4tqv16qp"
+path="res://.godot/imported/icon_thorned.aseprite-010bbb776f9267b136af409fa61322a7.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_thorned.aseprite"
+dest_files=["res://.godot/imported/icon_thorned.aseprite-010bbb776f9267b136af409fa61322a7.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -69,10 +69,9 @@ func _handle_next_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> v
 		return
 	var status_id:String = _ability_hook_queue[_current_ability_hook_index]
 	_current_ability_hook_index += 1
-	if !plant.data.immune_to_status.has(status_id):
-		var status_data := field_status_map[status_id]
-		await _send_hook_animation_signals(status_data)
-		await status_data.status_script.handle_ability_hook(ability_type, plant)
+	var status_data := field_status_map[status_id]
+	await _send_hook_animation_signals(status_data)
+	await status_data.status_script.handle_ability_hook(ability_type, plant)
 	await _handle_next_ability_hook(ability_type, plant)
 
 func handle_harvest_hook(plant:Plant) -> void:

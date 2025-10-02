@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1_0i3ae")
-id = "thorn"
-display_name = "Thorn"
+id = "the_bramble"
+display_name = "The Bramble"
 description = "Shuffle {count} {card:thorn} into your draw pile at the start of the first day."
 data = {
 "count": "2"
