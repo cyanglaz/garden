@@ -134,9 +134,9 @@ bus = &"SFX"
 
 [node name="GUIFieldStatusContainer" parent="." instance=ExtResource("9_3ecbu")]
 unique_name_in_owner = true
-offset_left = 19.0
+offset_left = 22.0
 offset_top = 11.0
-offset_right = 19.0
+offset_right = 22.0
 offset_bottom = 11.0
 
 [node name="GUIPlantAbilityIconContainer" parent="." instance=ExtResource("12_sqga6")]
@@ -144,8 +144,8 @@ unique_name_in_owner = true
 anchors_preset = 2
 anchor_left = 0.0
 anchor_right = 0.0
-offset_left = -18.0
+offset_left = -22.0
 offset_top = 11.0
-offset_right = -18.0
+offset_right = -22.0
 offset_bottom = 11.0
 grow_horizontal = 1
