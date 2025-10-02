@@ -43,7 +43,7 @@ func _ready() -> void:
 	_gui_field_button.mouse_exited.connect(_on_field_mouse_exited)
 	_gui_field_status_container.bind_with_field_status_manager(status_manager)
 	status_manager.request_hook_message_popup.connect(_on_request_hook_message_popup)
-	status_manager.update_status("pest", 1)
+	#status_manager.update_status("pest", 1)
 	_animated_sprite_2d.play("idle")
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
@@ -75,7 +75,7 @@ func plant_seed(plant_data:PlantData) -> void:
 	plant.harvest_started.connect(func(): plant_harvest_started.emit())
 	plant.harvest_completed.connect(_on_plant_harvest_completed)
 	plant.field = self
-	_gui_plant_ability_icon_container.setup_with_plant_ability_container(plant.plant_ability_container)
+	_gui_plant_ability_icon_container.setup_with_plant(plant)
 	await plant.trigger_ability(Plant.AbilityType.ON_PLANT, Singletons.main_game)
 	new_plant_planted.emit()
 
@@ -132,10 +132,11 @@ func apply_field_status(field_status_id:String, stack:int) -> void:
 			text = "-"
 		await _show_resource_icon_popup(field_status_id, text)
 		status_manager.update_status(field_status_id, 1)
-	if stack > 0:
-		await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_INCREASE, Singletons.main_game)
-	else:
-		await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_DECREASE, Singletons.main_game)
+	if plant:
+		if stack > 0:
+			await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_INCREASE, Singletons.main_game)
+		else:
+			await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_DECREASE, Singletons.main_game)
 
 func show_harvest_popup() -> void:
 	_point_audio.play()
