@@ -373,7 +373,7 @@ func _on_field_pressed(index:int) -> void:
 	tool_manager.apply_tool(self, field_container.fields, index)
 
 func _on_plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData) -> void:
-	field_container.fields[field_index].plant_seed(plant_data)
+	await field_container.fields[field_index].plant_seed(plant_data)
 
 #region weather events
 func _on_weathers_updated() -> void:

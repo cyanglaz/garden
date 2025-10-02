@@ -74,6 +74,7 @@ func plant_seed(plant_data:PlantData) -> void:
 	plant.harvest_started.connect(func(): plant_harvest_started.emit())
 	plant.harvest_completed.connect(_on_plant_harvest_completed)
 	plant.field = self
+	await plant.trigger_ability(Plant.AbilityType.ON_PLANT, Singletons.main_game)
 	new_plant_planted.emit()
 
 func remove_plant() -> void:

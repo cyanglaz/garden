@@ -51,6 +51,8 @@ func clear_all_statuses() -> void:
 	status_updated.emit()
 
 func get_status(status_id:String) -> FieldStatusData:
+	if !field_status_map.has(status_id):
+		return null
 	return field_status_map[status_id]
 
 func get_all_statuses() -> Array[FieldStatusData]:

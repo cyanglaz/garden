@@ -7,6 +7,7 @@ enum AbilityType {
 	LIGHT_GAIN,
 	WEATHER,
 	FIELD_STATUS_UPDATE,
+	ON_PLANT,
 }
 
 @warning_ignore("unused_signal")
