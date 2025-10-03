@@ -25,9 +25,9 @@ func _ready() -> void:
 	_set_border_color(border_color)
 	_set_background_color(background_color)
 	_set_icon_size(icon_size)
+	_set_icon_texture(icon_texture)
 	_set_max_value(max_value)
 	_set_current_value(current_value)
-	_set_icon_texture(icon_texture)
 	_adjust_segment_size.call_deferred()
 
 func bind_with_resource_point(resource_point:ResourcePoint) -> void:
@@ -42,8 +42,17 @@ func _adjust_segment_size() -> void:
 		return
 	# var segment_width: float = _h_box_container.get_child(0).size.x
 	# var total_width:float = _icon.size.x + get_theme_constant("separation") + _margin_container.get_theme_constant("margin_left") + _margin_container.get_theme_constant("margin_right") + max_value * segment_width + _h_box_container.get_theme_constant("separation") * (max_value - 1)
-	var icon_x:float = _icon.size.x if _icon else 0.0
-	var total_none_segment_width :float = icon_x + get_theme_constant("separation") + _margin_container.get_theme_constant("margin_left") + _margin_container.get_theme_constant("margin_right") + segment_separation * (max_value - 1)
+	var icon_width:float = _icon.size.x if _icon else 0.0
+	var icon_separation := 0.0
+	if icon_texture:
+		icon_separation = get_theme_constant("separation")
+	var total_none_segment_width :float = icon_width + icon_separation + _margin_container.get_theme_constant("margin_left") + _margin_container.get_theme_constant("margin_right") + segment_separation * (max_value - 1)
+	print("total_none_segment_width: ", total_none_segment_width)
+	print("size.x: ", size.x)
+	print("max_value: ", max_value)
+	print("icon_separation: ", icon_separation)
+	print("icon_width: ", icon_width)
+
 	var total_segment_width:float = size.x - total_none_segment_width
 	var segment_width:float = total_segment_width / max_value
 	for i in range(max_value):
@@ -103,6 +112,7 @@ func _set_icon_texture(val: Texture2D) -> void:
 			_icon.visible = true
 		else:
 			_icon.visible = false
+		
 
 func _set_icon_size(val: Vector2) -> void:
 	icon_size = val

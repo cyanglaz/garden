@@ -23,6 +23,8 @@ resource_local_to_scene = true
 shader = ExtResource("7_syms5")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
 
 [node name="GUIContract" type="PanelContainer"]
 offset_right = 93.0
@@ -30,7 +32,7 @@ offset_bottom = 99.0
 script = ExtResource("1_7v566")
 
 [node name="ContractMain" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(93, 0)
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 
 [node name="Background" type="NinePatchRect" parent="ContractMain"]
@@ -123,6 +125,6 @@ unique_name_in_owner = true
 z_index = 0
 z_as_relative = true
 layout_mode = 1
-offset_left = 95.0
-offset_right = 159.0
+offset_left = 97.0
+offset_right = 161.0
 offset_bottom = 18.0

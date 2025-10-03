@@ -16,6 +16,9 @@ shader_parameter/blend_strength = 0.0
 
 [node name="GUIPlantAbilityIcon" instance=ExtResource("1_k5r21")]
 material = SubResource("ShaderMaterial_jmhgc")
+offset_right = 7.0
+offset_bottom = 7.0
+mouse_filter = 0
 texture = ExtResource("3_atocr")
 script = ExtResource("3_jsdt3")
 

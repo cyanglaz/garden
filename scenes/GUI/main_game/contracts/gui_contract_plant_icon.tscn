@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://673wlt1ldg8q" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.tscn" id="5_mawv0"]
 
 [node name="GUIContractPlaintIcon" type="PanelContainer"]
-offset_right = 25.0
-offset_bottom = 35.0
+offset_right = 24.0
+offset_bottom = 40.0
 script = ExtResource("1_rjbmk")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -15,11 +15,30 @@ theme_override_constants/separation = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 1
+theme_override_constants/separation = 2
 
 [node name="GUIPlantIcon" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_aafjx")]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="AbilityIconContainer" type="Control" parent="VBoxContainer/HBoxContainer/GUIPlantIcon"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="AbilityContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer/GUIPlantIcon/AbilityIconContainer"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = -5.0
+offset_right = 21.0
+offset_bottom = 1.0
+grow_vertical = 0
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 2
 
 [node name="CountLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
@@ -37,8 +56,10 @@ theme_override_constants/separation = 0
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 7)
 layout_mode = 2
+icon_texture = null
 
 [node name="WaterBar" parent="VBoxContainer/ResourceContainer" instance=ExtResource("5_mawv0")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 7)
 layout_mode = 2
+icon_texture = null
