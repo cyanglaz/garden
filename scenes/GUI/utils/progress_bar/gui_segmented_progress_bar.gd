@@ -47,12 +47,6 @@ func _adjust_segment_size() -> void:
 	if icon_texture:
 		icon_separation = get_theme_constant("separation")
 	var total_none_segment_width :float = icon_width + icon_separation + _margin_container.get_theme_constant("margin_left") + _margin_container.get_theme_constant("margin_right") + segment_separation * (max_value - 1)
-	print("total_none_segment_width: ", total_none_segment_width)
-	print("size.x: ", size.x)
-	print("max_value: ", max_value)
-	print("icon_separation: ", icon_separation)
-	print("icon_width: ", icon_width)
-
 	var total_segment_width:float = size.x - total_none_segment_width
 	var segment_width:float = total_segment_width / max_value
 	for i in range(max_value):
