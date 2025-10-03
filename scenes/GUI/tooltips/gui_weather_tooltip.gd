@@ -12,7 +12,6 @@ var _weak_actions_tooltip:WeakRef = weakref(null)
 var _weak_weather_data:WeakRef = weakref(null)
 
 func _ready() -> void:
-	super._ready()
 	tool_tip_shown.connect(_on_tooltop_shown)
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)

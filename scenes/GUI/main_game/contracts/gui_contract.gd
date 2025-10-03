@@ -30,6 +30,8 @@ func _ready() -> void:
 	penalty_rate_label.mouse_exited.connect(_on_mouse_exited_penalty_rate_label)
 	gui_reward_booster_pack.mouse_entered.connect(_on_mouse_entered_booster_pack)
 	gui_reward_booster_pack.mouse_exited.connect(_on_mouse_exited_booster_pack)
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
 
 func update_with_contract_data(contract:ContractData) -> void:
 	_weak_contract_data = weakref(contract)
@@ -77,12 +79,14 @@ func _combine_plant_datas(plant_datas:Array[PlantData]) -> Dictionary:
 	return result
 
 func _on_mouse_entered_plant_icon(index:int, plant_data:PlantData) -> void:
+	_on_mouse_entered()
 	var gui_contract_plant_icon:GUIContractPlaintIcon = plant_container.get_child(index)
 	Singletons.main_game.hovered_data = plant_data
 	gui_contract_plant_icon.gui_plant_icon.has_outline = true
 	_weak_tooltip = weakref(Util.display_plant_tooltip(plant_data, gui_contract_plant_icon.gui_plant_icon, false, GUITooltip.TooltipPosition.BOTTOM_RIGHT))
 
 func _on_mouse_exited_plant_icon(index:int) -> void:
+	_on_mouse_exited()
 	var gui_contract_plant_icon:GUIContractPlaintIcon = plant_container.get_child(index)
 	Singletons.main_game.hovered_data = null
 	gui_contract_plant_icon.gui_plant_icon.has_outline = false
@@ -91,30 +95,42 @@ func _on_mouse_exited_plant_icon(index:int) -> void:
 		_weak_tooltip = weakref(null)
 
 func _on_mouse_entered_grace_period_label() -> void:
+	_on_mouse_entered()
 	_weak_tooltip = weakref(Util.display_rich_text_tooltip(Util.get_localized_string("CONTRACT_GRACE_PERIOD_TOOL_TIP_TEXT"), grace_period_label, false, GUITooltip.TooltipPosition.BOTTOM_RIGHT))
 
 func _on_mouse_exited_grace_period_label() -> void:
+	_on_mouse_exited()
 	if _weak_tooltip.get_ref():
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)
 
 func _on_mouse_entered_penalty_rate_label() -> void:
+	_on_mouse_entered()
 	_weak_tooltip = weakref(Util.display_rich_text_tooltip(Util.get_localized_string("CONTRACT_PENALTY_RATE_TOOL_TIP_TEXT"), penalty_rate_label, false, GUITooltip.TooltipPosition.BOTTOM_RIGHT))
 
 func _on_mouse_exited_penalty_rate_label() -> void:
+	_on_mouse_exited()
 	if _weak_tooltip.get_ref():
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)
 
 func _on_mouse_entered_booster_pack() -> void:
+	_on_mouse_entered()
 	gui_reward_booster_pack.has_outline = true
 	_weak_tooltip = weakref(Util.display_booster_pack_tooltip(_weak_contract_data.get_ref().reward_booster_pack_type, gui_reward_booster_pack, false, GUITooltip.TooltipPosition.LEFT))
-
+	
 func _on_mouse_exited_booster_pack() -> void:
+	_on_mouse_exited()
 	gui_reward_booster_pack.has_outline = false
 	if _weak_tooltip.get_ref():
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)
+
+func _on_mouse_entered() -> void:
+	has_outline = true
+
+func _on_mouse_exited() -> void:
+	has_outline = false
 
 func _set_has_outline(val:bool) -> void:
 	has_outline = val

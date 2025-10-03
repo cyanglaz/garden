@@ -135,7 +135,6 @@ static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_m
 	tooltip.show()
 	if tooltip is GUITooltip:
 		tooltip.anchor_to_mouse = anchor_mouse
-		tooltip.sticky = anchor_mouse
 		tooltip.show_tooltip()
 		tooltip.update_anchors()
 	if anchor_mouse && on_control_node:
