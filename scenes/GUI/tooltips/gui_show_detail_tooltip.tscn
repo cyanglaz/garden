@@ -8,12 +8,6 @@ offset_right = 60.0
 offset_bottom = 8.0
 script = ExtResource("2_6us0w")
 
-[node name="GUIPanelBackgroundColor" parent="." index="0"]
-self_modulate = Color(1, 0.784314, 0.145098, 1)
-
-[node name="StickyProgressBar" parent="GUIPanelBackgroundColor" index="0"]
-self_modulate = Color(0.047058824, 0.94509804, 1, 1)
-
 [node name="VBoxContainer" type="VBoxContainer" parent="ContentContainer" index="0"]
 layout_mode = 2
 
