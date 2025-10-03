@@ -6,12 +6,6 @@
 [node name="GUIButtonTooltip" instance=ExtResource("1_58yvd")]
 script = ExtResource("2_wjv5j")
 
-[node name="GUIPanelBackgroundColor" parent="." index="0"]
-self_modulate = Color(0.521569, 0.521569, 0.521569, 1)
-
-[node name="StickyProgressBar" parent="GUIPanelBackgroundColor" index="0"]
-value = 100.0
-
 [node name="VBoxContainer" type="VBoxContainer" parent="ContentContainer" index="0"]
 layout_mode = 2
 
