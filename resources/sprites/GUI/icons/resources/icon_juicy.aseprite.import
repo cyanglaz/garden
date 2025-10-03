@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://f3okn8n4w72i"
+path="res://.godot/imported/icon_juicy.aseprite-273f8f5df59db37b5998043d81c4db0e.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_juicy.aseprite"
+dest_files=["res://.godot/imported/icon_juicy.aseprite-273f8f5df59db37b5998043d81c4db0e.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
