@@ -507,6 +507,9 @@ static func get_color_for_rarity(rarity:int) -> Color:
 			assert(false, "Invalid rarity: " + str(rarity))
 	return Color.WHITE
 
+static func get_color_for_card_rarity(rarity:int) -> Color:
+	return Constants.CARD_RARITY_COLOR[rarity]
+
 static func get_plant_icon_background_region(plant_data:PlantData, highlighted:bool = false) -> Vector2:
 	var x := 0
 	var y := 0

@@ -142,6 +142,7 @@ func _handle_card_selection_ended(tool_data:ToolData, from_global_position:Vecto
 	choose_card_title.hide()
 	skip_card_button.hide()
 	Util.remove_all_children(cards_container)
+	hide()
 	card_selected.emit(tool_data, from_global_position)
 
 func _on_mouse_entered(gui_tool_card_button:GUIToolCardButton) -> void:
