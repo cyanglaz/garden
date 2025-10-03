@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_hkwdx")
-id = "bulb"
-display_name = "Bulb"
+id = "juicy"
+display_name = "Juicy"
 description = "When harvested, shuffle a {card:water_cache} into your hand."
 metadata/_custom_type_script = "uid://jejwqju653m5"
