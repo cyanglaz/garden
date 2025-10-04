@@ -10,6 +10,7 @@ const CARD_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_card.p
 const GUI_ENEMY_SCENE := preload("res://scenes/GUI/main_game/characters/gui_enemy.tscn")
 const GUI_WEATHER_SCENE := preload("res://scenes/GUI/main_game/weather/gui_weather.tscn")
 const PLANT_ABILITY_ICON_SCENE := preload("res://scenes/GUI/main_game/plant_cards/gui_plant_ability_icon.tscn")
+const ONE_ACTION_DESCRIPTION_SCENE := preload("res://scenes/GUI/shared/descriptions/shared_description/gui_one_action_description.tscn")
 var GUI_TOOL_CARD_BUTTON_SCENE := load("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 var GUI_PLANT_TOOLTIP_SCENE := load("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn")
 
@@ -41,6 +42,17 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	card_button.mouse_entered.connect(func() -> void: card_button.card_state = GUIToolCardButton.CardState.HIGHLIGHTED)
 	card_button.mouse_exited.connect(func() -> void: card_button.card_state = GUIToolCardButton.CardState.NORMAL)
 	_find_reference_pairs_and_add_buttons(tool_data.description)
+	var action_pairs:Array = []
+	for action_data:ActionData in tool_data.actions:
+		action_pairs.append(["action", action_data])
+	_add_reference_buttons(action_pairs)
+
+func update_with_action_data(action_data:ActionData) -> void:
+	var action_tooltip:GUIActionsTooltip = Util.GUI_ACTIONS_TOOLTIP_SCENE.instantiate()
+	add_child(action_tooltip)
+	action_tooltip.update_with_actions([action_data])
+	print(ActionDescriptionFormulator.get_action_description(action_data))
+	_find_reference_pairs_and_add_buttons(ActionDescriptionFormulator.get_action_description(action_data))
 
 func update_with_boss_data(boss_data:BossData) -> void:
 	var boss_tooltip:GUIBossTooltip = Util.GUI_BOSS_TOOLTIP_SCENE.instantiate()
@@ -75,7 +87,11 @@ func _find_reference_pairs_and_add_buttons(description:String) -> void:
 func _add_reference_buttons(reference_pairs:Array) -> void:
 	for reference_pair:Array in reference_pairs:
 		var category:String = reference_pair[0]
-		var id:String = reference_pair[1]
+		var id:String = ""
+		if category == "action":
+			id = Util.get_action_id_with_action_type(reference_pair[1].type)
+		else:
+			id = reference_pair[1]
 		if category == "resource" || category == "bordered_text":
 			continue
 		var reference_button:GUITooltipReferenceButton = REFERENCE_BUTTON_SCENE.instantiate()

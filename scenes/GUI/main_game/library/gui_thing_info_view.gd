@@ -41,6 +41,8 @@ func update_with_data(data:Resource, index_level:int) -> void:
 			_update_with_weather_data(data_to_show, i)
 		elif data_to_show is FieldStatusData || data_to_show is PowerData || data_to_show is PlantAbilityData:
 			_update_with_thing_data(data_to_show, i)
+		elif data_to_show is ActionData:
+			_update_with_action_data(data_to_show, i)
 
 func _update_with_plant_data(plant_data:PlantData, level_index:int) -> void:
 	var item:GUIThingInfoItem = INFO_ITEM_SCENE.instantiate()
@@ -77,6 +79,13 @@ func _update_with_thing_data(thing_data:ThingData, level_index:int) -> void:
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	_set_item_position.call_deferred(item)
 
+func _update_with_action_data(action_data:ActionData, level_index:int) -> void:
+	var item:GUIThingInfoItem = INFO_ITEM_SCENE.instantiate()
+	_tooltip_container.add_child(item)
+	item.update_with_action_data(action_data)
+	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
+	_set_item_position.call_deferred(item)
+
 func _set_item_position(item:GUIThingInfoItem) -> void:
 	if _tooltip_container.get_child_count() == 1:
 		item.position = _tooltip_container.size/2 - item.size/2
@@ -109,6 +118,8 @@ func _on_reference_button_evoked(reference_pair:Array, level:int) -> void:
 		data = MainDatabase.power_database.get_data_by_id(reference_pair[1])
 	elif reference_pair[0] == "plant_ability":
 		data = MainDatabase.plant_ability_database.get_data_by_id(reference_pair[1])
+	elif reference_pair[0] == "action":
+		data = reference_pair[1]
 	update_with_data(data, level + 1)
 
 func _on_back_button_evoked() -> void:

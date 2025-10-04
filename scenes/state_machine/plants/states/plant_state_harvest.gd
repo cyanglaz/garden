@@ -9,7 +9,7 @@ func enter() -> void:
 	plant.harvest_completed.emit()
 
 func _play_harvest_animation() -> void:
-	await plant.field.show_harvest_popup()
+	plant.field.show_harvest_popup()
 	exit("")
 
 func _handle_ability() -> void:
