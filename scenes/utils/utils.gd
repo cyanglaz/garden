@@ -553,7 +553,7 @@ static func create_scaled_timer(duration:float) -> SceneTreeTimer:
 
 # Unnoticiable timer, usually used to make async methods always async.
 static func await_for_tiny_time() -> void:
-	await Util.create_scaled_timer(0.05).timeout
+	await Util.create_scaled_timer(0.005).timeout
 
 # Noticiable timer, usually used to make pauses between animation sequences.
 static func await_for_small_time() -> void:

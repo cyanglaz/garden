@@ -140,7 +140,6 @@ func apply_field_status(field_status_id:String, stack:int) -> void:
 
 func show_harvest_popup() -> void:
 	_point_audio.play()
-	await Util.await_for_small_time()
 	# TODO:
 
 func can_harvest() -> bool:

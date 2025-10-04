@@ -6,6 +6,7 @@ func enter() -> void:
 	plant.harvest_started.emit()
 	await _handle_ability()
 	_play_harvest_animation()
+	await Util.await_for_tiny_time()
 	plant.harvest_completed.emit()
 
 func _play_harvest_animation() -> void:
