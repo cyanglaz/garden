@@ -21,6 +21,6 @@ actions = Array[ExtResource("1_51kjc")]([SubResource("Resource_51kjc"), SubResou
 id = "sunny"
 display_name = "Sunny"
 note = "+1 light
--1 fungus
+-2 fungus
 "
 metadata/_custom_type_script = "uid://g4t52w546b5k"

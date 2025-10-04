@@ -26,4 +26,7 @@ script = ExtResource("2_pndmv")
 actions = Array[ExtResource("1_81tfl")]([SubResource("Resource_51kjc"), SubResource("Resource_cmjpk"), SubResource("Resource_81tfl")])
 id = "rainy"
 display_name = "Rainy"
+note = "water + 2
+light -1
+fungus +1"
 metadata/_custom_type_script = "uid://g4t52w546b5k"

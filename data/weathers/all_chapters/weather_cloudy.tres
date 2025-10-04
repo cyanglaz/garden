@@ -27,4 +27,7 @@ actions = Array[ExtResource("1_o58v4")]([SubResource("Resource_a482c"), SubResou
 id = "cloudy"
 display_name = "Cloudy"
 description = "Nothing happens."
+note = "light -1
+pest - 1
+fungus -1"
 metadata/_custom_type_script = "uid://g4t52w546b5k"
