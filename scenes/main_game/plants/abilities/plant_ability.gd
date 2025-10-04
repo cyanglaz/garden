@@ -3,15 +3,15 @@ extends Node2D
 
 var ability_data:PlantAbilityData
 
-func has_ability_hook(ability_type:Plant.AbilityType) -> bool:
-	return _has_ability_hook(ability_type)
+func has_ability_hook(ability_type:Plant.AbilityType, main_game:MainGame,plant:Plant) -> bool:
+	return _has_ability_hook(ability_type, main_game, plant)
 
 func trigger_ability_hook(ability_type:Plant.AbilityType, main_game:MainGame, plant:Plant) -> void:
 	await _trigger_ability_hook(ability_type, main_game, plant)
 
 #region for override
 
-func _has_ability_hook(_ability_type:Plant.AbilityType) -> bool:
+func _has_ability_hook(_ability_type:Plant.AbilityType, _main_game:MainGame, _plant:Plant) -> bool:
 	return false
 
 func _trigger_ability_hook(_ability_type:Plant.AbilityType, _main_game:MainGame, _plant:Plant) -> void:

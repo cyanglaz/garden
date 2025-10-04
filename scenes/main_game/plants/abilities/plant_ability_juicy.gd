@@ -1,7 +1,7 @@
 class_name PlantAbilityJuicy
 extends PlantAbility
 
-func _has_ability_hook(ability_type:Plant.AbilityType) -> bool:
+func _has_ability_hook(ability_type:Plant.AbilityType, _main_game:MainGame, _plant:Plant) -> bool:
 	return ability_type == Plant.AbilityType.HARVEST
 
 func _trigger_ability_hook(ability_type:Plant.AbilityType, main_game:MainGame, _plant:Plant) -> void:

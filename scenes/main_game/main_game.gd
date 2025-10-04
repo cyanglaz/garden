@@ -208,7 +208,7 @@ func _start_day() -> void:
 	gui_main_game.toggle_all_ui(false)
 	energy_tracker.setup(max_energy, max_energy)
 	day_manager.next_day()
-	gui_main_game.update_day_left(day_manager.get_grace_period_day_left(), _selected_contract.penalty_rate)
+	gui_main_game.update_day_left(day_manager.get_grace_period_day_left(), _selected_contract.get_penalty_rate(day_manager.day))
 	gui_main_game.clear_tool_selection()
 	await Util.await_for_tiny_time()
 	if day_manager.day == 0:
