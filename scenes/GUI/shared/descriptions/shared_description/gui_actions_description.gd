@@ -9,3 +9,9 @@ func update_with_actions(action_datas:Array[ActionData]) -> void:
 		var action_description: GUIOneActionDescription = ONE_ACTION_DESCRIPTION_SCENE.instantiate()
 		add_child(action_description)
 		action_description.update_with_action_data(action_data)
+
+func update_with_special(special:ToolData.Special) -> void:
+	Util.remove_all_children(self)
+	var action_description: GUIOneActionDescription = ONE_ACTION_DESCRIPTION_SCENE.instantiate()
+	add_child(action_description)
+	action_description.update_with_tool_special(special)

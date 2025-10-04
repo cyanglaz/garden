@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://cx7x10rh7aiw2"]
 
 [ext_resource type="Script" uid="uid://biqdb07r4ic62" path="res://scenes/GUI/main_game/contracts/gui_contract_gold.gd" id="1_y7k0u"]
-[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_outline_icon.tscn" id="2_l4kij"]
-[ext_resource type="Shader" path="res://scenes/GUI/utils/gui_outline_icon.gdshader" id="3_gb0og"]
+[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="2_l4kij"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="3_gb0og"]
 [ext_resource type="Texture2D" uid="uid://d1hlhkeceq461" path="res://resources/sprites/GUI/icons/resources/icon_gold.png" id="4_cehxn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kdsh5"]

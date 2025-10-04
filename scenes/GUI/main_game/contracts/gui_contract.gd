@@ -14,13 +14,15 @@ const GUI_CONTRACT_PLANT_ICON_SCENE := preload("res://scenes/GUI/main_game/contr
 @onready var penalty_rate_label: Label = %PenaltyRateLabel
 @onready var gui_reward_gold: GUIContractGold = %GUIContractGold
 @onready var gui_reward_rating: GUIContractRating = %GUIContractRating
-@onready var gui_reward_booster_pack: GUIOutlineIcon = %GUIRewardBoosterPack
+@onready var gui_reward_booster_pack: GUIIcon = %GUIRewardBoosterPack
 @onready var gui_contract_total_resources: GUIContractTotalResources = %GUIContractTotalResources
 @onready var background: NinePatchRect = %Background
 @onready var gui_boss_tooltip: GUIBossTooltip = %GUIBossTooltip
+@onready var contract_main: PanelContainer = %ContractMain
 
 var _weak_tooltip:WeakRef = weakref(null)
 var _weak_contract_data:WeakRef = weakref(null)
+var _mouse_in:bool = false
 var has_outline:bool = false:set = _set_has_outline
 
 func _ready() -> void:
@@ -30,6 +32,16 @@ func _ready() -> void:
 	penalty_rate_label.mouse_exited.connect(_on_mouse_exited_penalty_rate_label)
 	gui_reward_booster_pack.mouse_entered.connect(_on_mouse_entered_booster_pack)
 	gui_reward_booster_pack.mouse_exited.connect(_on_mouse_exited_booster_pack)
+
+func _process(_delta: float) -> void:
+	if contract_main.get_global_rect().has_point(get_global_mouse_position()):
+		if !_mouse_in:
+			_mouse_in = true
+			_on_mouse_entered()
+	else:
+		if _mouse_in:
+			_mouse_in = false
+			_on_mouse_exited()
 
 func update_with_contract_data(contract:ContractData) -> void:
 	_weak_contract_data = weakref(contract)
@@ -109,12 +121,18 @@ func _on_mouse_exited_penalty_rate_label() -> void:
 func _on_mouse_entered_booster_pack() -> void:
 	gui_reward_booster_pack.has_outline = true
 	_weak_tooltip = weakref(Util.display_booster_pack_tooltip(_weak_contract_data.get_ref().reward_booster_pack_type, gui_reward_booster_pack, false, GUITooltip.TooltipPosition.LEFT))
-
+	
 func _on_mouse_exited_booster_pack() -> void:
 	gui_reward_booster_pack.has_outline = false
 	if _weak_tooltip.get_ref():
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)
+
+func _on_mouse_entered() -> void:
+	has_outline = true
+
+func _on_mouse_exited() -> void:
+	has_outline = false
 
 func _set_has_outline(val:bool) -> void:
 	has_outline = val

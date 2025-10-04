@@ -6,6 +6,9 @@ enum AbilityType {
 	END_DAY,
 	LIGHT_GAIN,
 	WEATHER,
+	FIELD_STATUS_INCREASE,
+	FIELD_STATUS_DECREASE,
+	ON_PLANT,
 }
 
 @warning_ignore("unused_signal")
@@ -14,10 +17,10 @@ signal harvest_started()
 signal removed_from_field()
 @warning_ignore("unused_signal")
 signal harvest_completed()
-signal ability_triggered(ability_type:AbilityType)
 
 @onready var plant_sprite: AnimatedSprite2D = %PlantSprite
 @onready var fsm: PlantStateMachine = %PlantStateMachine
+@onready var plant_ability_container: PlantAbilityContainer = %PlantAbilityContainer
 
 var light:ResourcePoint = ResourcePoint.new()
 var water:ResourcePoint = ResourcePoint.new()
@@ -39,28 +42,14 @@ func harvest() -> void:
 	fsm.push("PlantStateHarvest")
 
 func trigger_ability(ability_type:AbilityType, main_game:MainGame) -> void:
-	if _has_ability(ability_type):
-		await field.status_manager.handle_ability_hook(ability_type, self)
-		await _trigger_ability(ability_type, main_game)
-	else:
-		await Util.await_for_tiny_time()
-		ability_triggered.emit(ability_type)
-
-#region ability overrides
-
-func _trigger_ability(ability_type:AbilityType, _main_game:MainGame) -> void:
-	await Util.await_for_tiny_time()
-	ability_triggered.emit(ability_type)
-
-func _has_ability(_ability_type:AbilityType) -> bool:
-	return false
-
+	await plant_ability_container.trigger_ability(ability_type, main_game, self)
 #endregion
 
 func _set_data(value:PlantData) -> void:
 	data = value
 	light.setup(0, data.light)
 	water.setup(0, data.water)
+	plant_ability_container.setup_with_plant_data(data)
 
 func _set_field(value:Field) -> void:
 	_weak_field = weakref(value)

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PlantAbilityData" load_steps=2 format=3 uid="uid://c6ipq74058bse"]
+
+[ext_resource type="Script" uid="uid://jejwqju653m5" path="res://data/models/plants/plant_ability_data.gd" id="1_p8ojn"]
+
+[resource]
+script = ExtResource("1_p8ojn")
+id = "thorned"
+display_name = "Thorned"
+description = "When harvested, shuffle a {card:thorn} into the discard pile."
+metadata/_custom_type_script = "uid://jejwqju653m5"

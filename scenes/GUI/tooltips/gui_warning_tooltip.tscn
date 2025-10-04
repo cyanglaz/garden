@@ -6,12 +6,6 @@
 [node name="GUIWarningTooltip" instance=ExtResource("1_y4x75")]
 script = ExtResource("2_2jpms")
 
-[node name="GUIPanelBackgroundColor" parent="." index="0"]
-self_modulate = Color(1, 0.784314, 0.145098, 1)
-
-[node name="StickyProgressBar" parent="GUIPanelBackgroundColor" index="0"]
-self_modulate = Color(1, 0.784314, 0.145098, 1)
-
 [node name="RichTextLabel" type="RichTextLabel" parent="ContentContainer" index="0"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 0)

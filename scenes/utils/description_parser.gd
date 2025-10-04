@@ -1,7 +1,6 @@
 class_name DescriptionParser
 extends RefCounted
 
-const IMAGE_PATH_CARD := "res://resources/sprites/GUI/icons/resources/icon_card.png"
 const ICON_SIZE := 6
 
 static func find_all_reference_pairs(formatted_description:String) -> Array:
@@ -61,6 +60,8 @@ static func _format_reference(reference_key:String, data_to_format:Dictionary, h
 			parsed_string = _format_sign_reference(reference_id)
 		elif reference_category == "value":
 			parsed_string = _format_value_reference(reference_id)
+		elif reference_category == "weather":
+			parsed_string = _format_weather_reference(reference_id)
 	return parsed_string
 
 static func _get_level_suffix(reference_id:String) -> String:
@@ -106,11 +107,13 @@ static func _highlight_string(string:String) -> String:
 	return Util.convert_to_bbc_highlight_text(string, highlight_color)
 
 static func _format_card_reference(reference_id:String, highlight:bool) -> String:
-	var highlight_color := Constants.COLOR_WHITE
+	var card_data := MainDatabase.tool_database.get_data_by_id(reference_id)
+	var highlight_color := Util.get_color_for_card_rarity(card_data.rarity)
 	if highlight:
-		highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
-	var icon_string = str("[img=", ICON_SIZE, "x", ICON_SIZE, "]", IMAGE_PATH_CARD, "[/img]")
-	var card_name:String = Util.convert_to_bbc_highlight_text(MainDatabase.tool_database.get_data_by_id(reference_id).display_name, highlight_color)
-	var final_string := str(icon_string, card_name)
-	return final_string
+		highlight_color = Constants.COLOR_WHITE
+	var card_name:String = Util.convert_to_bbc_highlight_text(card_data.display_name, highlight_color, 2)
+	return card_name
 	
+static func _format_weather_reference(reference_id:String) -> String:
+	var weather_name :String = MainDatabase.weather_database.get_data_by_id(reference_id).display_name
+	return Util.convert_to_bbc_highlight_text(weather_name, Constants.COLOR_WHITE)

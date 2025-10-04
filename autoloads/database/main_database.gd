@@ -7,6 +7,7 @@ var plant_database:PlantDatabase = PlantDatabase.new()
 var tool_database:ToolDatabase = ToolDatabase.new()
 var boss_database:BossDatabase = BossDatabase.new()
 var power_database:PowerDatabase = PowerDatabase.new()
+var plant_ability_database:PlantAbilityDatabase = PlantAbilityDatabase.new()
 
 func _ready() -> void:
 	#add_child(item_database)
@@ -16,3 +17,4 @@ func _ready() -> void:
 	add_child(tool_database)
 	add_child(boss_database)
 	add_child(power_database)
+	add_child(plant_ability_database)

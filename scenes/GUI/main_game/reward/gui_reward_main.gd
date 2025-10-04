@@ -26,6 +26,7 @@ func _ready() -> void:
 	gui_reward_cards_main.card_selected.connect(_on_card_selected)
 
 func show_with_contract_data(contract_data:ContractData) -> void:
+	margin_container.show()
 	title_label.show()
 	gui_reward_gold.hide()
 	gui_reward_rating.hide()
@@ -37,6 +38,7 @@ func show_with_contract_data(contract_data:ContractData) -> void:
 func _update_with_contract_data(contract_data:ContractData) -> void:
 	gui_reward_gold.update_with_value(contract_data.reward_gold)
 	if contract_data.reward_rating > 0:
+		gui_reward_rating.show()
 		gui_reward_rating.update_with_value(contract_data.reward_rating)
 	else:
 		gui_reward_rating.hide()

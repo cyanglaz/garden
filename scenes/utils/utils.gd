@@ -135,7 +135,6 @@ static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_m
 	tooltip.show()
 	if tooltip is GUITooltip:
 		tooltip.anchor_to_mouse = anchor_mouse
-		tooltip.sticky = anchor_mouse
 		tooltip.show_tooltip()
 		tooltip.update_anchors()
 	if anchor_mouse && on_control_node:
@@ -451,6 +450,18 @@ static func get_id_for_tool_speical(special:ToolData.Special) -> String:
 			assert(false, "special id not implemented")
 	return id
 
+static func get_special_from_id(id:String) -> ToolData.Special:
+	match id:
+		"use_on_draw":
+			return ToolData.Special.USE_ON_DRAW
+		"compost":
+			return ToolData.Special.COMPOST
+		"wither":
+			return ToolData.Special.WITHER
+		_:
+			assert(false, "Invalid special id: %s" % id)
+	return ToolData.Special.USE_ON_DRAW
+
 static func get_id_for_action_speical(special:ActionData.Special) -> String:
 	var id := ""
 	match special:
@@ -508,6 +519,9 @@ static func get_color_for_rarity(rarity:int) -> Color:
 			assert(false, "Invalid rarity: " + str(rarity))
 	return Color.WHITE
 
+static func get_color_for_card_rarity(rarity:int) -> Color:
+	return Constants.CARD_RARITY_COLOR[rarity]
+
 static func get_plant_icon_background_region(plant_data:PlantData, highlighted:bool = false) -> Vector2:
 	var x := 0
 	var y := 0
@@ -551,7 +565,7 @@ static func create_scaled_timer(duration:float) -> SceneTreeTimer:
 
 # Unnoticiable timer, usually used to make async methods always async.
 static func await_for_tiny_time() -> void:
-	await Util.create_scaled_timer(0.05).timeout
+	await Util.create_scaled_timer(0.005).timeout
 
 # Noticiable timer, usually used to make pauses between animation sequences.
 static func await_for_small_time() -> void:
@@ -574,8 +588,8 @@ static func _get_game_speed_scale() -> float:
 			return 1.4
 	return 1
 
-static func convert_to_bbc_highlight_text(string:String, color:Color) -> String:
-	return str("[outline_size=1][color=", Util.get_color_hex(color), "]", string, "[/color][/outline_size]")
+static func convert_to_bbc_highlight_text(string:String, color:Color, outline_size:int = 1) -> String:
+	return "[outline_size=%s][color=%s]%s[/color][/outline_size]" % [str(outline_size), Util.get_color_hex(color), string]
 
 static func get_localized_string(localized_key:String) -> String:
 	var string := Singletons.tr(localized_key)

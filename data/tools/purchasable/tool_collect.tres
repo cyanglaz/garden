@@ -9,10 +9,12 @@ rarity = 1
 need_select_field = true
 id = "collect"
 display_name = "Collect"
-description = "{resource:water} {bordered_text:= 0}. Gain {gain} {card:graywater} per {resource:water} lost."
+description = "{resource:water}{bordered_text:=0}. Shuffle {gain} {card:graywater} to your hand per {resource:water} lost."
 data = {
 "gain": "1"
 }
 note = "water to 0
-Create graywater for water reduced."
+Create graywater for water reduced.
+
+Set a plant's {resource:water} to {bordered_text:0}. Gain {gain} {card:graywater} per {resource:water} lost."
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

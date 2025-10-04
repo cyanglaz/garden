@@ -7,7 +7,9 @@ const OFFSCREEN_PADDING := 6
 const STICKY_TIME := 0.7
 const TOOLTIP_MOUSE_OFFSET:float = 2.0
 
-@onready var _sticky_progress_bar: TextureProgressBar = %StickyProgressBar
+@export var outline_color:Color = Constants.COLOR_WHITE: set = _set_outline_color
+
+@onready var _border: NinePatchRect = %Border
 
 enum TooltipPosition {
 	RIGHT,
@@ -24,51 +26,18 @@ var tooltip_position:TooltipPosition = TooltipPosition.RIGHT: set = _set_tooltip
 var host_view_size:Vector2
 var mouse_in:bool = false
 var anchor_to_mouse:bool = false
-var sticky:bool = false: set = _set_sticky
-var is_sticked := false
+var has_outline:bool = false: set = _set_has_outline
+
 var _showing := false
-var _sticky_timer:float = 0.0
 
 var triggering_global_rect:Rect2 = Rect2()
 
-func _ready() -> void:
-	_sticky_progress_bar.max_value = STICKY_TIME
-	_sticky_progress_bar.value = _sticky_progress_bar.max_value
-	_sticky_progress_bar.step = 0.01			
-
-func _process(delta: float) -> void:
-	mouse_in = get_global_rect().has_point(get_global_mouse_position())
-	if sticky && visible:
-		_sticky_timer += delta
-		if _sticky_timer > STICKY_TIME:
-			is_sticked = true
-			_sticky_progress_bar.value = _sticky_progress_bar.max_value
-		else:
-			_sticky_progress_bar.value = _sticky_timer
-		if is_sticked && !anchor_to_mouse:
-			return
-		if anchor_to_mouse && _showing:
-			if is_sticked && !mouse_in:
-				#print("_stikcy and not mouse in")
-				queue_free()
-				return
-			elif !is_sticked:
-				_follow_mouse_position()
-				#print("not sticky yet")
-		if triggering_global_rect.size != Vector2.ZERO && !triggering_global_rect.has_point(get_global_mouse_position()):
-			try_remove_tooltip()
-
 func show_tooltip() -> void:
-	if sticky:
-		is_sticked = false
-		_sticky_timer = 0
 	show()
 	tool_tip_shown.emit()
 	_showing = true
 
 func try_remove_tooltip() -> void:
-	if is_sticked && ((anchor_to_mouse && mouse_in) || !anchor_to_mouse):
-		return
 	queue_free()
 
 func update_anchors() -> void:	
@@ -186,15 +155,15 @@ func _set_tooltip_position(val:TooltipPosition) -> void:
 	tooltip_position = val
 	update_anchors()
 
-func _set_sticky(val:bool) -> void:
-	sticky = val
-	if val:
-		_sticky_progress_bar.value = 0
+func _set_has_outline(val:bool) -> void:
+	has_outline = val
+	if has_outline:
+		_border.material.set_shader_parameter("outline_size", 1)
+		_border.material.set_shader_parameter("outline_color", outline_color)
 	else:
-		_sticky_progress_bar.value = _sticky_progress_bar.max_value
+		_border.material.set_shader_parameter("outline_size", 0)
 
-func _on_visibility_changed() -> void:
-	if visible:
-		if sticky:
-			is_sticked = false
-			_sticky_progress_bar.value = 0
+func _set_outline_color(val:Color) -> void:
+	outline_color = val
+	if _border:
+		_border.material.set_shader_parameter("outline_color", val)

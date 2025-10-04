@@ -26,6 +26,7 @@ const BOOSTER_PACK_CARD_BASE_COUNTS := {
 }
 
 const NUMBER_OF_CARDS_IN_BOOSTER_PACK := 3
+const PENALTY_INCREASE_DAYS := 3
 
 @export var contract_type:ContractType
 @export var plants:Array[PlantData]
@@ -57,7 +58,13 @@ func apply_boss_actions(main_game:MainGame, hook_type:BossScript.HookType) -> vo
 	if contract_type != ContractType.BOSS:
 		return
 	if boss_data.boss_script.has_hook(hook_type):
-		await boss_data.boss_script.handle_hook(hook_type, main_game)	
+		await boss_data.boss_script.handle_hook(hook_type, main_game)
+	
+func get_penalty_rate(day:int) -> int:
+	if day < grace_period:
+		return 0
+	@warning_ignore("integer_division")
+	return penalty_rate + (day - grace_period)/PENALTY_INCREASE_DAYS
 
 func log() -> void:
 	print("contract =================================================")

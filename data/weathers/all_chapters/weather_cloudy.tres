@@ -1,13 +1,33 @@
-[gd_resource type="Resource" script_class="WeatherData" load_steps=3 format=3 uid="uid://dtrokmm2grp4i"]
+[gd_resource type="Resource" script_class="WeatherData" load_steps=6 format=3 uid="uid://dtrokmm2grp4i"]
 
 [ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_o58v4"]
 [ext_resource type="Script" uid="uid://g4t52w546b5k" path="res://data/models/weather/weather_data.gd" id="2_uen8h"]
 
+[sub_resource type="Resource" id="Resource_a482c"]
+script = ExtResource("1_o58v4")
+type = 1
+value = -1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_o7rbg"]
+script = ExtResource("1_o58v4")
+type = 3
+value = -1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_j7lt1"]
+script = ExtResource("1_o58v4")
+type = 4
+value = -1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
 [resource]
 script = ExtResource("2_uen8h")
-actions = Array[ExtResource("1_o58v4")]([])
+actions = Array[ExtResource("1_o58v4")]([SubResource("Resource_a482c"), SubResource("Resource_o7rbg"), SubResource("Resource_j7lt1")])
 id = "cloudy"
 display_name = "Cloudy"
 description = "Nothing happens."
-data = {}
+note = "light -1
+pest - 1
+fungus -1"
 metadata/_custom_type_script = "uid://g4t52w546b5k"

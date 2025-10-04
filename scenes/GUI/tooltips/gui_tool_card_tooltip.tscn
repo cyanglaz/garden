@@ -8,10 +8,7 @@
 [node name="GUIToolCardTooltip" instance=ExtResource("1_hijmy")]
 script = ExtResource("2_hijmy")
 
-[node name="GUIPanelBackgroundColor" parent="." index="0"]
-unique_name_in_owner = true
-
-[node name="ContentContainer" parent="." index="1"]
+[node name="ContentContainer" parent="." index="2"]
 theme_override_constants/margin_left = 3
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3

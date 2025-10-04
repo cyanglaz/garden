@@ -2,6 +2,8 @@ shader_type canvas_item;
 
 uniform vec4 outline_color:source_color;
 uniform int outline_size = 0;
+uniform vec4 blend_color:source_color = vec4(1, 1, 1, 1);
+uniform float blend_strength = 0.0;
 
 varying vec4 modulate;
 
@@ -25,6 +27,9 @@ void fragment() {
 	sprite_color = vec4(sprite_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
 	base_color = sprite_color;
 	
-	COLOR = base_color * modulate;
-
+	if (base_color.a > 0.0) {
+    	COLOR = mix(base_color, blend_color, blend_strength) * modulate;
+	} else {
+		COLOR = base_color * modulate;
+	}
 }

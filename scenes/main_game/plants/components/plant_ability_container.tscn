@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ch73pnku1ejr5"]
+
+[ext_resource type="Script" uid="uid://bfibwqsml3lgk" path="res://scenes/main_game/plants/components/plant_ability_container.gd" id="1_nydgu"]
+
+[node name="PlantAbilityContainer" type="Node2D"]
+script = ExtResource("1_nydgu")

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://csjer170a2mw3"
+path="res://.godot/imported/icon_repel.aseprite-7dbdc8d0dd0b30d3fdf3ee3b468b9bf5.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_repel.aseprite"
+dest_files=["res://.godot/imported/icon_repel.aseprite-7dbdc8d0dd0b30d3fdf3ee3b468b9bf5.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

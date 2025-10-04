@@ -5,8 +5,9 @@
 [resource]
 script = ExtResource("1_1uste")
 light = 4
-water = 1
+water = 2
 chapters = Array[int]([0])
+abilities = Array[String](["repel"])
 id = "daffodil"
 display_name = "Daffodil"
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

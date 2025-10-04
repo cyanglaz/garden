@@ -208,9 +208,8 @@ func _start_day() -> void:
 	gui_main_game.toggle_all_ui(false)
 	energy_tracker.setup(max_energy, max_energy)
 	day_manager.next_day()
-	gui_main_game.update_day_left(day_manager.get_grace_period_day_left(), _selected_contract.penalty_rate)
+	gui_main_game.update_day_left(day_manager.get_grace_period_day_left(), _selected_contract.get_penalty_rate(day_manager.day))
 	gui_main_game.clear_tool_selection()
-	await Util.await_for_tiny_time()
 	if day_manager.day == 0:
 		await _selected_contract.apply_boss_actions(self, BossScript.HookType.LEVEL_START)
 		await Util.create_scaled_timer(0.2).timeout
@@ -224,11 +223,11 @@ func _met_win_condition() -> bool:
 	
 func _win() -> void:
 	gui_main_game.toggle_all_ui(false)
-	tool_manager.cleanup_deck()
 	await Util.create_scaled_timer(WIN_PAUSE_TIME).timeout
 	for field:Field in field_container.fields:
 		field.remove_plant()
 	await _discard_all_tools()
+	tool_manager.cleanup_deck()
 	field_container.clear_all_statuses()
 	_harvesting_fields.clear()
 	session_summary.total_days_skipped += day_manager.get_grace_period_day_left()
@@ -257,7 +256,7 @@ func _end_day() -> void:
 		return #Harvest won the game, no need to discard tools or end the day
 	field_container.handle_turn_end()
 	if day_manager.get_grace_period_day_left() <= 0:
-		await update_rating( -_selected_contract.penalty_rate)
+		await update_rating( -_selected_contract.get_penalty_rate(day_manager.day))
 	_start_day()
 
 func _on_reward_finished(tool_data:ToolData) -> void:
@@ -373,7 +372,7 @@ func _on_field_pressed(index:int) -> void:
 	tool_manager.apply_tool(self, field_container.fields, index)
 
 func _on_plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData) -> void:
-	field_container.fields[field_index].plant_seed(plant_data)
+	await field_container.fields[field_index].plant_seed(plant_data)
 
 #region weather events
 func _on_weathers_updated() -> void:

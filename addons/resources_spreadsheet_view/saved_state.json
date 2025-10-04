@@ -10,10 +10,34 @@
       "resource_name": {
         "visibility": 0.0
       }
+    },
+    "res://data/tools/other/": {
+      "metadata/_custom_type_script": {
+        "visibility": 0.0
+      },
+      "resource_local_to_scene": {
+        "visibility": 0.0
+      },
+      "resource_name": {
+        "visibility": 0.0
+      }
+    },
+    "res://data/tools/purchasable/": {
+      "metadata/_custom_type_script": {
+        "visibility": 0.0
+      },
+      "resource_local_to_scene": {
+        "visibility": 0.0
+      },
+      "resource_name": {
+        "visibility": 0.0
+      }
     }
   },
   "recent_paths": [
-    "res://data/plants/"
+    "res://data/plants/",
+    "res://data/tools/other/",
+    "res://data/tools/purchasable/"
   ],
   "table_functions": {
     "filter": [

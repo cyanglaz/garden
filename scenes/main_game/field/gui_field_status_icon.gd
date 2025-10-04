@@ -3,7 +3,7 @@ extends PanelContainer
 
 const ANIMATION_OFFSET := 3
 
-@onready var _icon: TextureRect = %Icon
+@onready var _gui_icon: GUIIcon = %GUIIcon
 @onready var _stack: Label = %Stack
 @onready var _good_animation_audio: AudioStreamPlayer2D = %GoodAnimationAudio
 @onready var _bad_animation_audio: AudioStreamPlayer2D = %BadAnimationAudio
@@ -23,7 +23,7 @@ func _ready() -> void:
 
 func setup_with_field_status_data(field_status_data:FieldStatusData) -> void:
 	_weak_field_status_data = weakref(field_status_data)
-	_icon.texture = load(Util.get_image_path_for_resource_id(field_status_data.id))
+	_gui_icon.texture = load(Util.get_image_path_for_resource_id(field_status_data.id))
 	if field_status_data.stackable:
 		_stack.text = str(field_status_data.stack)
 	else:
@@ -37,11 +37,11 @@ func play_trigger_animation() -> void:
 			_bad_animation_audio.play()
 		FieldStatusData.Type.GOOD:
 			_good_animation_audio.play()
-	var original_position:Vector2 = _icon.position
+	var original_position:Vector2 = _gui_icon.position
 	var tween:Tween = Util.create_scaled_tween(self)
 	for i in 2:
-		tween.tween_property(_icon, "position", _icon.position + Vector2.UP * ANIMATION_OFFSET, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		tween.tween_property(_icon, "position", original_position, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(_gui_icon, "position", _gui_icon.position + Vector2.UP * ANIMATION_OFFSET, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(_gui_icon, "position", original_position, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	
 func _on_mouse_entered() -> void:
 	is_highlighted = true
@@ -65,9 +65,9 @@ func _on_mouse_exited() -> void:
 func _set_is_highlighted(val:bool) -> void:
 	is_highlighted = val
 	if is_highlighted:
-		(_icon.material as ShaderMaterial).set_shader_parameter("blend_strength", 0.2)
+		(_gui_icon.material as ShaderMaterial).set_shader_parameter("blend_strength", 0.2)
 	else:
-		(_icon.material as ShaderMaterial).set_shader_parameter("blend_strength", 0.0)
+		(_gui_icon.material as ShaderMaterial).set_shader_parameter("blend_strength", 0.0)
 
 func _set_display_mode(val:bool) -> void:
 	display_mode = val

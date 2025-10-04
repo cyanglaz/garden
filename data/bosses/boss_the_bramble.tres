@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BossData" load_steps=2 format=3 uid="uid://bfjvutu1dux0h"]
+
+[ext_resource type="Script" uid="uid://bt7c5hiesqa06" path="res://data/models/contracts/boss_data.gd" id="1_n4koo"]
+
+[resource]
+script = ExtResource("1_n4koo")
+id = "the_bramble"
+display_name = "The Bramble"
+description = "Shuffle {count} {card:thorn} into your discard pile at the start of the first day."
+data = {
+"count": "2"
+}
+metadata/_custom_type_script = "uid://bt7c5hiesqa06"

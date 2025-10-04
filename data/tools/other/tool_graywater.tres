@@ -13,6 +13,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_1m4me")
 energy_cost = 0
 actions = Array[ExtResource("1_msbn6")]([SubResource("Resource_oexgw")])
+rarity = -1
 specials = Array[int]([1])
 need_select_field = true
 id = "graywater"

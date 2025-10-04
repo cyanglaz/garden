@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://bew0jn8wyeci0"]
+
+[ext_resource type="PackedScene" uid="uid://lptujl1fd783" path="res://scenes/main_game/plants/abilities/plant_ability.tscn" id="1_j0pgq"]
+[ext_resource type="Script" uid="uid://4umjxbmesyr5" path="res://scenes/main_game/plants/abilities/plant_ability_repel.gd" id="2_j0pgq"]
+
+[node name="PlantAbilityRepel" instance=ExtResource("1_j0pgq")]
+script = ExtResource("2_j0pgq")

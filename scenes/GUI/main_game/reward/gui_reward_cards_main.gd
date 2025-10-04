@@ -1,7 +1,6 @@
 class_name GUIRewardCardsMain
 extends Control
 
-const GUI_TOOL_CARD_SCALE := GUIRewardBoosterPackOpenTransition.SCALE_FACTOR
 const CARD_PADDING := 16
 const SCALE_FACTOR:float = 1.5
 const CARD_DROP_DELAY := 0.05
@@ -11,7 +10,7 @@ const GUI_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_
 signal card_selected(tool_data:ToolData, from_global_position:Vector2)
 
 @onready var cards_container: Control = %CardsContainer
-@onready var gui_booster_pack_icon: GUIBoosterPackIcon = %GUIBoosterPackIcon
+@onready var gui_booster_pack_image: GUIBoosterPackImage = %GUIBoosterPackImage
 @onready var choose_card_title: Label = %ChooseCardTitle
 @onready var skip_card_button: GUIRichTextButton = %SkipCardButton
 
@@ -96,13 +95,13 @@ func _get_all_card_positions() -> Array[Vector2]:
 	return positions
 
 func _animate_pack_open(booster_pack_type:ContractData.BoosterPackType, g_position:Vector2) -> void:
-	gui_booster_pack_icon.show()
-	gui_booster_pack_icon.update_with_booster_pack_type(booster_pack_type)
-	gui_booster_pack_icon.global_position = g_position
-	gui_booster_pack_icon.pivot_offset = gui_booster_pack_icon.size/2
-	gui_booster_pack_icon.has_outline = true
+	gui_booster_pack_image.show()
+	gui_booster_pack_image.update_with_booster_pack_type(booster_pack_type)
+	gui_booster_pack_image.global_position = g_position
+	gui_booster_pack_image.pivot_offset = gui_booster_pack_image.size/2
+	gui_booster_pack_image.has_outline = true
 	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(gui_booster_pack_icon, "scale", Vector2.ONE * SCALE_FACTOR, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(gui_booster_pack_image, "scale", Vector2.ONE * SCALE_FACTOR, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await tween.finished
 
 func _animate_card_fly_up() -> void:
@@ -110,16 +109,16 @@ func _animate_card_fly_up() -> void:
 	tween.set_parallel(true)
 	for i in cards_container.get_child_count():
 		var child := cards_container.get_child(i)
-		var initial_positions :Vector2 = gui_booster_pack_icon.position + gui_booster_pack_icon.size/2-child.size/2
+		var initial_positions :Vector2 = gui_booster_pack_image.position + gui_booster_pack_image.size/2-child.size/2
 		var target_position := Vector2(self.size.x/2 - child.size.x/2, 0 - child.size.y)
 		child.global_position = initial_positions
-		child.scale = Vector2.ONE * GUI_TOOL_CARD_SCALE
+		child.scale = Vector2.ONE * SCALE_FACTOR
 		child.pivot_offset = child.size/2
 		Util.create_scaled_timer(CARD_DROP_DELAY * i).timeout.connect(func() -> void: child.visible = true)
 		tween.tween_property(child, "global_position", target_position, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(CARD_DROP_DELAY * i)
 		tween.tween_property(child, "scale", Vector2.ONE, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(CARD_DROP_DELAY * i)
 	await tween.finished
-	gui_booster_pack_icon.hide()
+	gui_booster_pack_image.hide()
 
 func _animate_card_drop() -> void:
 	var final_positions := _get_all_card_positions()
@@ -143,6 +142,7 @@ func _handle_card_selection_ended(tool_data:ToolData, from_global_position:Vecto
 	choose_card_title.hide()
 	skip_card_button.hide()
 	Util.remove_all_children(cards_container)
+	hide()
 	card_selected.emit(tool_data, from_global_position)
 
 func _on_mouse_entered(gui_tool_card_button:GUIToolCardButton) -> void:

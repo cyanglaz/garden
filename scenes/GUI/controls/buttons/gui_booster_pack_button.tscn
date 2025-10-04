@@ -1,14 +1,54 @@
-[gd_scene load_steps=4 format=3 uid="uid://ctjggegiourgw"]
+[gd_scene load_steps=6 format=3 uid="uid://ctjggegiourgw"]
 
 [ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_kehks"]
 [ext_resource type="Script" uid="uid://cb163m78jcwr" path="res://scenes/GUI/controls/buttons/gui_booster_pack_button.gd" id="2_ee5ms"]
-[ext_resource type="PackedScene" uid="uid://cp4hifbli0slg" path="res://scenes/GUI/main_game/reward/gui_booster_pack_icon.tscn" id="3_7yqk0"]
+[ext_resource type="PackedScene" uid="uid://cp4hifbli0slg" path="res://scenes/GUI/main_game/reward/gui_booster_pack_image.tscn" id="3_7yqk0"]
+
+[sub_resource type="Shader" id="Shader_nouqg"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform vec4 outline_color:source_color = vec4(1, 1, 1, 1);
+uniform int outline_size = 0;
+
+varying vec4 modulate;
+
+void vertex() {
+	modulate = COLOR;
+}
+
+void fragment() {
+
+	vec4 base_color = COLOR;
+
+	float size_x = 1.0/float(textureSize(TEXTURE, 0).x);
+	float size_y = 1.0/float(textureSize(TEXTURE, 0).y);
+	vec4 sprite_color = texture(TEXTURE, UV);
+	float alpha  = -4.0 * sprite_color.a;
+	alpha += textureLod(TEXTURE, UV + vec2(size_x * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(-size_x * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, -size_y * float(outline_size)), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, size_y * float(outline_size)), 0).a;
+	sprite_color = mix(sprite_color, outline_color, clamp(alpha, 0.0, 1.0));
+	sprite_color = vec4(sprite_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
+	base_color = sprite_color;
+
+	COLOR = base_color * modulate;
+
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_do0ps"]
+resource_local_to_scene = true
+shader = SubResource("Shader_nouqg")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
 
 [node name="GUIBoosterPackButton" instance=ExtResource("1_kehks")]
 offset_right = 40.0
 offset_bottom = 54.0
 script = ExtResource("2_ee5ms")
 
-[node name="GUIBoosterPackIcon" parent="." index="0" instance=ExtResource("3_7yqk0")]
-unique_name_in_owner = true
+[node name="GUIBoosterPackImage" parent="." index="0" instance=ExtResource("3_7yqk0")]
+material = SubResource("ShaderMaterial_do0ps")
 layout_mode = 2

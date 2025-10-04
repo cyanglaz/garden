@@ -7,8 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://cx7x10rh7aiw2" path="res://scenes/GUI/main_game/contracts/gui_contract_gold.tscn" id="4_hxrax"]
 [ext_resource type="PackedScene" uid="uid://cir3rkyftmxlb" path="res://scenes/GUI/main_game/contracts/gui_contract_total_resources.tscn" id="4_ry6cy"]
 [ext_resource type="PackedScene" uid="uid://priw672helay" path="res://scenes/GUI/main_game/contracts/gui_contract_rating.tscn" id="5_dh2kh"]
-[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_outline_icon.tscn" id="6_fxvfg"]
-[ext_resource type="Shader" path="res://scenes/GUI/utils/gui_outline_icon.gdshader" id="7_syms5"]
+[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="6_fxvfg"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="7_syms5"]
 [ext_resource type="Texture2D" uid="uid://b2guebaf423cn" path="res://resources/sprites/GUI/icons/booster_packs/icon_booster_pack_common.png" id="8_syms5"]
 [ext_resource type="PackedScene" uid="uid://c7r0e7b4q3dj1" path="res://scenes/GUI/tooltips/gui_boss_tooltip.tscn" id="11_bi1fw"]
 
@@ -23,6 +23,8 @@ resource_local_to_scene = true
 shader = ExtResource("7_syms5")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
 
 [node name="GUIContract" type="PanelContainer"]
 offset_right = 93.0
@@ -30,7 +32,8 @@ offset_bottom = 99.0
 script = ExtResource("1_7v566")
 
 [node name="ContractMain" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(93, 0)
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 
 [node name="Background" type="NinePatchRect" parent="ContractMain"]
@@ -71,10 +74,12 @@ layout_mode = 2
 [node name="GUIContractTotalResources" parent="ContractMain/MarginContainer/VBoxContainer" instance=ExtResource("4_ry6cy")]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 0
 
 [node name="GracePeriodLabel" type="Label" parent="ContractMain/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 0
 size_flags_vertical = 0
 mouse_filter = 0
 theme_type_variation = &"HUD_mid"
@@ -83,6 +88,7 @@ text = "Grace Period: 3 days"
 [node name="PenaltyRateLabel" type="Label" parent="ContractMain/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 0
 size_flags_vertical = 0
 mouse_filter = 0
 theme_type_variation = &"HUD_mid"
@@ -123,6 +129,6 @@ unique_name_in_owner = true
 z_index = 0
 z_as_relative = true
 layout_mode = 1
-offset_left = 95.0
-offset_right = 159.0
+offset_left = 97.0
+offset_right = 161.0
 offset_bottom = 18.0

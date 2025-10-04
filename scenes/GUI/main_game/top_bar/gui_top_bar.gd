@@ -12,12 +12,13 @@ signal contract_button_evoked(contract_data:ContractData)
 @onready var gui_full_deck_button: GUIDeckButton = %GUIFullDeckButton
 @onready var _gui_gold: GUIGold = %GUIGold
 @onready var _gui_settings_button: GUISettingsButton = %GUISettingsButton
-@onready var _day_label: Label = %DayLabel
 @onready var _gui_player: GUICharacter = %GUIPlayer
 @onready var _gui_library_button: GUILibraryButton = %GUILibraryButton
 @onready var _gui_rating: GUIRating = %GUIRating
 @onready var _gui_boss_icon: GUIBossIcon = %GUIBossIcon
 @onready var _gui_current_contract_button: GUICurrentContractButton = %GUICurrentContractButton
+
+@onready var _gui_level_title: GUILevelTitle = %GUILevelTitle
 
 var _weak_contract_data:WeakRef = weakref(null)
 
@@ -48,14 +49,9 @@ func bind_with_rating(rating:ResourcePoint) -> void:
 func update_gold(gold_diff:int, animated:bool) -> void:
 	await _gui_gold.update_gold(gold_diff, GUIGold.AnimationType.FULL if animated else GUIGold.AnimationType.NONE)
 
-func update_day_left(day_left:int, penalty_per_day:int) -> void:
-	if day_left >= 0:
-		_day_label.text = Util.get_localized_string("DAY_LABEL_TEXT")% day_left
-		_day_label.modulate = Constants.COLOR_BLUE_2
-	else:
-		_day_label.text = Util.get_localized_string("AFTER_GRACE_PERIOD_LABEL_TEXT")% penalty_per_day
-		_day_label.modulate = Constants.COLOR_RED
-
+func update_day_left(day_left:int, penalty:int) -> void:
+	await _gui_level_title.update_day_left(day_left, penalty)
+	
 func update_player(player_data:PlayerData) -> void:
 	_gui_player.update_with_player_data(player_data)
 

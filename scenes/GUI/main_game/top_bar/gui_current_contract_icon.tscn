@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://r53ldp7rxj0n"]
 
-[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_outline_icon.tscn" id="1_x6y8a"]
-[ext_resource type="Shader" path="res://scenes/GUI/utils/gui_outline_icon.gdshader" id="2_38obo"]
+[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="1_x6y8a"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="2_38obo"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_x7r3r"]
 resource_local_to_scene = true

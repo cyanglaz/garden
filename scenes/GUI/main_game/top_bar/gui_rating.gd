@@ -11,6 +11,8 @@ const RATING_DANGER_COLOR := Constants.COLOR_ORANGE4
 const RATING_SAFE_TEXT_COLOR := Constants.COLOR_WHITE
 const RATING_MODERATE_TEXT_COLOR := Constants.COLOR_YELLOW1
 const RATING_DANGER_TEXT_COLOR := Constants.COLOR_RED1
+const RATING_INCREASE_COLOR := Constants.COLOR_YELLOW1
+const RATING_DECREASE_COLOR := Constants.COLOR_RED2
 const RATING_MODERATE_PERCENTAGE := 0.6
 const RATING_DANGER_PERCENTAGE := 0.2
 const POPUP_SHOW_TIME := 0.5
@@ -38,6 +40,10 @@ func _on_rating_value_update(rating:ResourcePoint) -> void:
 	gui_bordered_progress_bar.max_value = rating.max_value
 	if _current_value >= 0:
 		var diff = rating.value - _current_value
+		if diff == 0:
+			await Util.await_for_tiny_time()
+			rating_update_finished.emit(rating.value)
+			return
 		_play_animation(diff)
 	_current_value = rating.value
 	gui_bordered_progress_bar.animated_set_value(rating.value)
@@ -59,14 +65,15 @@ func _on_rating_value_update(rating:ResourcePoint) -> void:
 func _play_animation(diff:int) -> void:
 	var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()
 	add_child(popup)
+	popup.label.add_theme_font_size_override("font_size", 10)
 	popup.global_position = Util.get_control_global_position(self, gui_bordered_progress_bar) + Vector2.RIGHT * gui_bordered_progress_bar.size.x
-	var color:Color
+	var color:Color = RATING_DECREASE_COLOR
 	if diff > 0:
-		color = RATING_SAFE_COLOR
+		color = RATING_INCREASE_COLOR
 		_play_rating_increase_animation()
 	elif diff < 0:
 		_play_rating_drop_animation()
-		color = RATING_DANGER_COLOR
+		color = RATING_DECREASE_COLOR
 	await popup.animate_show_label_and_destroy(str(diff), -10, 10, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, color)
 
 func _play_rating_drop_animation() -> void:

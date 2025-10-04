@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://51t3oygwdup5"
+path="res://.godot/imported/gui_tooltip_border.aseprite-313c752ed1d2d58ae9ec795fd6cfeff7.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/shared/gui_tooltip_border.aseprite"
+dest_files=["res://.godot/imported/gui_tooltip_border.aseprite-313c752ed1d2d58ae9ec795fd6cfeff7.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

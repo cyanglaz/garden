@@ -46,7 +46,7 @@ func toggle_plant_preview(on:bool, plant_data:PlantData, index:int) -> void:
 
 func plant_seed(plant_data:PlantData, index:int) -> void:
 	var field:Field = _container.get_child(index)
-	field.plant_seed(plant_data)
+	await field.plant_seed(plant_data)
 
 func clear_previews() -> void:
 	for field:Field in _container.get_children():

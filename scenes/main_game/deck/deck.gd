@@ -37,7 +37,6 @@ func cleanup_temp_items() -> void:
 	for item in temp_items:
 		pool.erase(item)
 		draw_pool.erase(item)
-		temp_items.erase(item)
 		discard_pool.erase(item)
 		hand.erase(item)
 	pool_updated.emit(pool)
@@ -46,7 +45,6 @@ func cleanup_temp_items() -> void:
 	temp_items.clear()
 
 func shuffle_draw_pool() -> void:
-	assert(draw_pool.size() + discard_pool.size() + hand.size() + exhaust_pool.size() + (1 if in_use_item else 0) == pool.size())
 	draw_pool.append_array(discard_pool.duplicate())
 	draw_pool.shuffle()
 	draw_pool_updated.emit(draw_pool)
@@ -97,6 +95,10 @@ func exhaust(items:Array) -> void:
 		elif draw_pool.has(item):
 			draw_pool.erase(item)
 			draw_pool_updated.emit(draw_pool)
+		if temp_items.has(item) && pool.has(item):
+			temp_items.erase(item)
+			pool.erase(item)
+			pool_updated.emit(pool)
 		else:
 			assert(false, "exhausting item at wrong place" + str(item))
 	exhaust_pool.append_array(items)
