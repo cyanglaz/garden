@@ -48,6 +48,10 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	for action_data:ActionData in tool_data.actions:
 		action_pairs.append(["action", action_data])
 	_add_reference_buttons(action_pairs)
+	var special_pairs:Array = []
+	for special:ToolData.Special in tool_data.specials:
+		special_pairs.append(["special", Util.get_id_for_tool_speical(special)])
+	_add_reference_buttons(special_pairs)
 
 func update_with_action_data(action_data:ActionData) -> void:
 	var action_tooltip:GUIActionsTooltip = Util.GUI_ACTIONS_TOOLTIP_SCENE.instantiate()
@@ -55,6 +59,13 @@ func update_with_action_data(action_data:ActionData) -> void:
 	action_tooltip.update_with_actions([action_data])
 	action_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	_find_reference_pairs_and_add_buttons(ActionDescriptionFormulator.get_action_description(action_data))
+
+func update_with_special_data(special:ToolData.Special) -> void:
+	var special_tooltip:GUIActionsTooltip = Util.GUI_ACTIONS_TOOLTIP_SCENE.instantiate()
+	add_child(special_tooltip)
+	special_tooltip.update_with_special(special)
+	special_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	_find_reference_pairs_and_add_buttons(ActionDescriptionFormulator.get_special_description(special))
 
 func update_with_boss_data(boss_data:BossData) -> void:
 	var boss_tooltip:GUIBossTooltip = Util.GUI_BOSS_TOOLTIP_SCENE.instantiate()
@@ -117,6 +128,8 @@ func _get_reference_button_icon_path(category:String, id:String) -> String:
 			return str(RESOURCE_ICON_PREFIX, id, ".png")
 		"weather":
 			return str(WEATHER_ICON_PREFIX, id, ".png")
+		"special":
+			return str(RESOURCE_ICON_PREFIX, id, ".png")
 		_:
 			assert(false, "category not implemented")
 	return ""
@@ -134,6 +147,8 @@ func _get_reference_name(category:String, id:String) -> String:
 			return MainDatabase.plant_ability_database.get_data_by_id(id).display_name
 		"weather":
 			return MainDatabase.weather_database.get_data_by_id(id).display_name
+		"special":
+			return ActionDescriptionFormulator.get_special_name(Util.get_special_from_id(id))
 		_:
 			assert(false, "category not implemented")
 	return ""

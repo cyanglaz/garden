@@ -24,6 +24,34 @@ static func get_action_description(action_data:ActionData) -> String:
 		action_description = action_description % _get_value_text(action_data)
 	return action_description
 
+static func get_special_name(special:ToolData.Special) -> String:
+	var special_name := ""
+	match special:
+		ToolData.Special.USE_ON_DRAW:
+			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_ON_DRAW")
+		ToolData.Special.COMPOST:
+			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_COMPOST")
+		ToolData.Special.WITHER:
+			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_WITHER")
+		_:
+			assert(false, "Invalid special: %s" % special)
+	return special_name
+
+static func get_special_description(special:ToolData.Special) -> String:
+	var special_description := ""
+	match special:
+		ToolData.Special.USE_ON_DRAW:
+			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_ON_DRAW")
+		ToolData.Special.COMPOST:
+			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_COMPOST")
+		ToolData.Special.WITHER:
+			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_WITHER")
+		_:
+			assert(false, "Invalid special: %s" % special)
+	if !special_description.ends_with("."):
+		special_description += "."
+	return special_description
+
 static func _get_field_action_description(action_data:ActionData) -> String:
 	var increase_description := Util.get_localized_string("ACTION_DESCRIPTION_INCREASE")
 	var decrease_description := Util.get_localized_string("ACTION_DESCRIPTION_DECREASE")

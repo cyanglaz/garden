@@ -450,6 +450,18 @@ static func get_id_for_tool_speical(special:ToolData.Special) -> String:
 			assert(false, "special id not implemented")
 	return id
 
+static func get_special_from_id(id:String) -> ToolData.Special:
+	match id:
+		"use_on_draw":
+			return ToolData.Special.USE_ON_DRAW
+		"compost":
+			return ToolData.Special.COMPOST
+		"wither":
+			return ToolData.Special.WITHER
+		_:
+			assert(false, "Invalid special id: %s" % id)
+	return ToolData.Special.USE_ON_DRAW
+
 static func get_id_for_action_speical(special:ActionData.Special) -> String:
 	var id := ""
 	match special:

@@ -16,14 +16,14 @@ func _ready() -> void:
 	
 	#show_with_data(MainDatabase.plant_database.get_data_by_id("rose"))
 
-func show_with_data(data:Resource) -> void:
+func show_with_data(data:Variant) -> void:
 	update_with_data(data, 0)
 	if Singletons.main_game:
 		Singletons.main_game.clear_all_tooltips()
 	PauseManager.try_pause()
 	show()
 
-func update_with_data(data:Resource, index_level:int) -> void:
+func update_with_data(data:Variant, index_level:int) -> void:
 	if data == null:
 		return
 	_clear_tooltips(index_level)
@@ -31,7 +31,7 @@ func update_with_data(data:Resource, index_level:int) -> void:
 	for i:int in stack.size():
 		if i < index_level:
 			continue
-		var data_to_show:ThingData = stack[i]
+		var data_to_show:Variant = stack[i]
 		if data_to_show is PlantData:
 			_update_with_plant_data(data_to_show, i)
 		elif data_to_show is ToolData:
@@ -44,6 +44,8 @@ func update_with_data(data:Resource, index_level:int) -> void:
 			_update_with_thing_data(data_to_show, i)
 		elif data_to_show is ActionData:
 			_update_with_action_data(data_to_show, i)
+		elif data_to_show is ToolData.Special:
+			_update_with_special_data(data_to_show, i)
 
 func _update_with_plant_data(plant_data:PlantData, level_index:int) -> void:
 	var item:GUIThingInfoItem = INFO_ITEM_SCENE.instantiate()
@@ -87,6 +89,13 @@ func _update_with_action_data(action_data:ActionData, level_index:int) -> void:
 	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
 	_set_item_position.call_deferred(item)
 
+func _update_with_special_data(special:ToolData.Special, level_index:int) -> void:
+	var item:GUIThingInfoItem = INFO_ITEM_SCENE.instantiate()
+	_tooltip_container.add_child(item)
+	item.update_with_special_data(special)
+	item.reference_button_evoked.connect(_on_reference_button_evoked.bind(level_index))
+	_set_item_position.call_deferred(item)
+
 func _set_item_position(item:GUIThingInfoItem) -> void:
 	if _tooltip_container.get_child_count() == 1:
 		item.position = _tooltip_container.size/2 - item.size/2
@@ -110,7 +119,7 @@ func _clear_tooltips(from_level:int) -> void:
 		stack.pop_back()
 
 func _on_reference_button_evoked(reference_pair:Array, level:int) -> void:
-	var data:Resource
+	var data:Variant
 	if reference_pair[0] == "plant":
 		data = MainDatabase.plant_database.get_data_by_id(reference_pair[1])
 	elif reference_pair[0] == "card":
@@ -127,6 +136,8 @@ func _on_reference_button_evoked(reference_pair:Array, level:int) -> void:
 		data = reference_pair[1]
 	elif reference_pair[0] == "weather":
 		data = MainDatabase.weather_database.get_data_by_id(reference_pair[1])
+	elif reference_pair[0] == "special":
+		data = Util.get_special_from_id(reference_pair[1]) as ToolData.Special
 	update_with_data(data, level + 1)
 
 func _on_back_button_evoked() -> void:
