@@ -38,7 +38,6 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	add_child(card_button)
 	card_button.library_mode = true
 	card_button.display_mode = true
-	card_button.activated = true
 	card_button.mouse_disabled = false
 	card_button.update_with_tool_data(tool_data)
 	card_button.mouse_entered.connect(func() -> void: card_button.card_state = GUIToolCardButton.CardState.HIGHLIGHTED)
@@ -67,7 +66,7 @@ func update_with_boss_data(boss_data:BossData) -> void:
 
 func update_with_weather_data(weather_data:WeatherData) -> void:
 	var weather_tooltip:GUIWeatherTooltip = Util.GUI_WEATHER_TOOLTIP_SCENE.instantiate()
-	weather_tooltip.display_mode = true
+	weather_tooltip.display_mode = false
 	weather_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	add_child(weather_tooltip)
 	weather_tooltip.update_with_weather_data(weather_data)

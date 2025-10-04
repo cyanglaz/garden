@@ -3,6 +3,7 @@ extends Control
 
 const INFO_ITEM_SCENE := preload("res://scenes/GUI/main_game/library/gui_thing_info_item.tscn")
 const PADDING := 4
+const OFFSCREEN_PADDING := 6
 
 @onready var _tooltip_container: Control = %TooltipContainer
 @onready var _back_button: GUIRichTextButton = %BackButton
@@ -94,6 +95,10 @@ func _set_item_position(item:GUIThingInfoItem) -> void:
 		var last_item:GUIThingInfoItem = _tooltip_container.get_child(_tooltip_container.get_child_count() - 2)
 		var last_item_position:Vector2 = last_item.position + Vector2(0, last_item.content_position_y)
 		item.position = Vector2(last_item_position.x + last_item.size.x + PADDING, _item_y_position - item.content_position_y)
+	var off_screen_x := item.get_screen_position().x + item.size.x + OFFSCREEN_PADDING - get_viewport_rect().size.x
+	if off_screen_x > 0:
+		for child in _tooltip_container.get_children():
+			child.position.x -= off_screen_x
 
 func _clear_tooltips(from_level:int) -> void:
 	while _tooltip_container.get_child_count() > from_level:
