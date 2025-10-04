@@ -38,6 +38,10 @@ func _on_rating_value_update(rating:ResourcePoint) -> void:
 	gui_bordered_progress_bar.max_value = rating.max_value
 	if _current_value >= 0:
 		var diff = rating.value - _current_value
+		if diff == 0:
+			await Util.await_for_tiny_time()
+			rating_update_finished.emit(rating.value)
+			return
 		_play_animation(diff)
 	_current_value = rating.value
 	gui_bordered_progress_bar.animated_set_value(rating.value)

@@ -61,10 +61,6 @@ func apply_boss_actions(main_game:MainGame, hook_type:BossScript.HookType) -> vo
 		await boss_data.boss_script.handle_hook(hook_type, main_game)
 	
 func get_penalty_rate(day:int) -> int:
-	print("day: ", day)
-	print("grace_period: ", grace_period)
-	@warning_ignore("integer_division")
-	print("penalty_rate: ", penalty_rate + (day - grace_period)/PENALTY_INCREASE_DAYS)
 	if day < grace_period:
 		return 0
 	@warning_ignore("integer_division")

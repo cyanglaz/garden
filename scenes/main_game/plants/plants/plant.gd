@@ -17,7 +17,6 @@ signal harvest_started()
 signal removed_from_field()
 @warning_ignore("unused_signal")
 signal harvest_completed()
-signal ability_triggered(ability_type:AbilityType)
 
 @onready var plant_sprite: AnimatedSprite2D = %PlantSprite
 @onready var fsm: PlantStateMachine = %PlantStateMachine
@@ -43,9 +42,7 @@ func harvest() -> void:
 	fsm.push("PlantStateHarvest")
 
 func trigger_ability(ability_type:AbilityType, main_game:MainGame) -> void:
-	await Util.await_for_tiny_time()
 	await plant_ability_container.trigger_ability(ability_type, main_game, self)
-	ability_triggered.emit(ability_type)
 #endregion
 
 func _set_data(value:PlantData) -> void:
