@@ -109,6 +109,6 @@ static func _format_card_reference(reference_id:String, highlight:bool) -> Strin
 	var highlight_color := Util.get_color_for_card_rarity(card_data.rarity)
 	if highlight:
 		highlight_color = Constants.COLOR_WHITE
-	var card_name:String = Util.convert_to_bbc_highlight_text(card_data.display_name, highlight_color)
+	var card_name:String = Util.convert_to_bbc_highlight_text(card_data.display_name, highlight_color, 2)
 	return card_name
 	

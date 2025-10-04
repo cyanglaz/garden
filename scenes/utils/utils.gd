@@ -576,8 +576,8 @@ static func _get_game_speed_scale() -> float:
 			return 1.4
 	return 1
 
-static func convert_to_bbc_highlight_text(string:String, color:Color) -> String:
-	return str("[outline_size=1][color=", Util.get_color_hex(color), "]", string, "[/color][/outline_size]")
+static func convert_to_bbc_highlight_text(string:String, color:Color, outline_size:int = 1) -> String:
+	return "[outline_size=%s][color=%s]%s[/color][/outline_size]" % [str(outline_size), Util.get_color_hex(color), string]
 
 static func get_localized_string(localized_key:String) -> String:
 	var string := Singletons.tr(localized_key)
