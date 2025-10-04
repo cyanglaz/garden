@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3 uid="uid://cs81yivlig7mc"]
+
+[ext_resource type="Script" uid="uid://c42x4dsabj362" path="res://scenes/GUI/main_game/top_bar/gui_level_title.gd" id="1_xsgu8"]
+
+[node name="CenterContainer" type="HBoxContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -6.0
+offset_right = 23.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 2
+alignment = 1
+script = ExtResource("1_xsgu8")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="GracePeriodTitleLabel" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+self_modulate = Color(0, 0.8039216, 0.9764706, 1)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HUD_mid"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GracePeriodValue" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HUD"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="PenaltyRateTitleLabel" type="Label" parent="HBoxContainer2"]
+unique_name_in_owner = true
+self_modulate = Color(0.9607843, 0.33333334, 0.3647059, 1)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HUD_mid"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PenaltyRateValueLabel" type="Label" parent="HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HUD"
+horizontal_alignment = 1
+vertical_alignment = 1

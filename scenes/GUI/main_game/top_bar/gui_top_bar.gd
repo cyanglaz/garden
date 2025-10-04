@@ -18,10 +18,7 @@ signal contract_button_evoked(contract_data:ContractData)
 @onready var _gui_boss_icon: GUIBossIcon = %GUIBossIcon
 @onready var _gui_current_contract_button: GUICurrentContractButton = %GUICurrentContractButton
 
-@onready var _grace_period_title_label: Label = %GracePeriodTitleLabel
-@onready var _grace_period_value: Label = %GracePeriodValue
-@onready var _penalty_rate_title_label: Label = %PenaltyRateTitleLabel
-@onready var _penalty_rate_value_label: Label = %PenaltyRateValueLabel
+@onready var _gui_level_title: GUILevelTitle = %GUILevelTitle
 
 var _weak_contract_data:WeakRef = weakref(null)
 
@@ -31,8 +28,6 @@ func _ready() -> void:
 	_gui_library_button.pressed.connect(func() -> void: library_button_evoked.emit())
 	_gui_rating.rating_update_finished.connect(func(value:int) -> void: rating_update_finished.emit(value))
 	_gui_current_contract_button.pressed.connect(func() -> void: contract_button_evoked.emit(_weak_contract_data.get_ref()))
-	_grace_period_title_label.text = Util.get_localized_string("GRACE_PERIOD_TITLE")
-	_penalty_rate_title_label.text = Util.get_localized_string("PENALTY_RATE_TITLE")
 
 func show_boss_icon(boss_data:BossData) -> void:
 	_gui_boss_icon.show()
@@ -55,27 +50,8 @@ func update_gold(gold_diff:int, animated:bool) -> void:
 	await _gui_gold.update_gold(gold_diff, GUIGold.AnimationType.FULL if animated else GUIGold.AnimationType.NONE)
 
 func update_day_left(day_left:int, penalty:int) -> void:
-	var day_left_color:Color
-	var day_left_string := "0"
-	if day_left > 0:
-		day_left_string = str(day_left)
-		day_left_color = Constants.COLOR_BLUE_2
-	else:
-		day_left_color = Constants.COLOR_RED
-	_grace_period_value.self_modulate = day_left_color
-	_grace_period_value.text = day_left_string
+	await _gui_level_title.update_day_left(day_left, penalty)
 	
-	var penalty_per_day_color:Color
-	var penalty_per_day_string := "0"
-	if penalty > 0:
-		penalty_per_day_string = str(penalty)
-		penalty_per_day_color = Constants.COLOR_RED1
-	else:
-		penalty_per_day_color = Constants.COLOR_WHITE
-	_penalty_rate_value_label.self_modulate = penalty_per_day_color
-	_penalty_rate_value_label.text = penalty_per_day_string
-	
-
 func update_player(player_data:PlayerData) -> void:
 	_gui_player.update_with_player_data(player_data)
 

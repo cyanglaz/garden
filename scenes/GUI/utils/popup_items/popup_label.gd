@@ -1,14 +1,14 @@
 class_name PopupLabel
 extends PopupThing
 
-@onready var _label: Label = %Label
+@onready var label: Label = %Label
 
 func _ready() -> void:
 	top_level = true
 
 func animate_show_label(value:String, height:float, spread:float, time:float, color:Color):
-	_label.text = value
-	_label.add_theme_color_override("font_color", color)
+	label.text = value
+	label.add_theme_color_override("font_color", color)
 	await animate_show(height, spread, time)
 
 func animate_show_label_and_destroy(value:String, height:float, spread:float, show_time:float, destroy_time:float, color:Color) -> void:
