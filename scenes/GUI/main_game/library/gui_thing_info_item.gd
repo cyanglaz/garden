@@ -51,7 +51,6 @@ func update_with_action_data(action_data:ActionData) -> void:
 	var action_tooltip:GUIActionsTooltip = Util.GUI_ACTIONS_TOOLTIP_SCENE.instantiate()
 	add_child(action_tooltip)
 	action_tooltip.update_with_actions([action_data])
-	print(ActionDescriptionFormulator.get_action_description(action_data))
 	_find_reference_pairs_and_add_buttons(ActionDescriptionFormulator.get_action_description(action_data))
 
 func update_with_boss_data(boss_data:BossData) -> void:
@@ -112,6 +111,8 @@ func _get_reference_button_icon_path(category:String, id:String) -> String:
 			return CARD_ICON_PATH
 		"plant_ability":
 			return str(RESOURCE_ICON_PREFIX, id, ".png")
+		"weather":
+			return str(RESOURCE_ICON_PREFIX, id, ".png")
 		_:
 			assert(false, "category not implemented")
 	return ""
@@ -127,6 +128,8 @@ func _get_reference_name(category:String, id:String) -> String:
 			return MainDatabase.tool_database.get_data_by_id(id).display_name
 		"plant_ability":
 			return MainDatabase.plant_ability_database.get_data_by_id(id).display_name
+		"weather":
+			return MainDatabase.weather_database.get_data_by_id(id).display_name
 		_:
 			assert(false, "category not implemented")
 	return ""

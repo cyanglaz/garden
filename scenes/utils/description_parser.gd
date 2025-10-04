@@ -60,6 +60,8 @@ static func _format_reference(reference_key:String, data_to_format:Dictionary, h
 			parsed_string = _format_sign_reference(reference_id)
 		elif reference_category == "value":
 			parsed_string = _format_value_reference(reference_id)
+		elif reference_category == "weather":
+			parsed_string = _format_weather_reference(reference_id)
 	return parsed_string
 
 static func _get_level_suffix(reference_id:String) -> String:
@@ -112,3 +114,6 @@ static func _format_card_reference(reference_id:String, highlight:bool) -> Strin
 	var card_name:String = Util.convert_to_bbc_highlight_text(card_data.display_name, highlight_color, 2)
 	return card_name
 	
+static func _format_weather_reference(reference_id:String) -> String:
+	var weather_name :String = MainDatabase.weather_database.get_data_by_id(reference_id).display_name
+	return Util.convert_to_bbc_highlight_text(weather_name, Constants.COLOR_WHITE)

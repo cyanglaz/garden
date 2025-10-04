@@ -47,12 +47,12 @@ static func _get_weather_action_description(action_data:ActionData) -> String:
 	var weather_name := ""
 	match action_data.type:
 		ActionData.ActionType.WEATHER_SUNNY:
-			weather_name = Util.get_localized_string("WEATHER_NAME_SUNNY")
+			weather_name = "sunny"
 		ActionData.ActionType.WEATHER_RAINY:
-			weather_name = Util.get_localized_string("WEATHER_NAME_RAINY")
+			weather_name = "rainy"
 		_:
 			assert(false, "Invalid action type: %s" % action_data.type)
-	weather_name = Util.convert_to_bbc_highlight_text(weather_name, HIGHLIGHT_COLOR)
+	weather_name = str("{weather:", weather_name, "}")
 	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_CHANGE_WEATHER")
 	main_description = main_description % [weather_name]
 	return main_description
@@ -91,4 +91,4 @@ static func _get_field_status_description(action_data:ActionData) -> String:
 	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(id)
 	if !field_status_data:
 		return ""
-	return field_status_data.get_display_description()
+	return field_status_data.description
