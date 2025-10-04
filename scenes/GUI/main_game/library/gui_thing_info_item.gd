@@ -5,6 +5,7 @@ signal reference_button_evoked(reference_pair:Array)
 
 const REFERENCE_BUTTON_SCENE := preload("res://scenes/GUI/controls/buttons/gui_tooltip_reference_button.tscn")
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
+const WEATHER_ICON_PREFIX := "res://resources/sprites/GUI/icons/weathers/icon_"
 const GUI_PLANT_ICON_SCENE := preload("res://scenes/GUI/main_game/plant_cards/gui_plant_icon.tscn")
 const CARD_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_card.png"
 const GUI_ENEMY_SCENE := preload("res://scenes/GUI/main_game/characters/gui_enemy.tscn")
@@ -22,6 +23,7 @@ func update_with_plant_data(plant_data:PlantData) -> void:
 	plant_icon.update_with_plant_data(plant_data)
 	set_deferred("content_position_y", plant_icon.position.y + plant_icon.size.y + get_theme_constant("separation"))
 	var plant_tooltip:GUIPlantTooltip = GUI_PLANT_TOOLTIP_SCENE.instantiate()
+	plant_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	plant_tooltip.library_mode = true
 	add_child(plant_tooltip)
 	plant_tooltip.update_with_plant_data(plant_data)
@@ -41,6 +43,7 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	card_button.update_with_tool_data(tool_data)
 	card_button.mouse_entered.connect(func() -> void: card_button.card_state = GUIToolCardButton.CardState.HIGHLIGHTED)
 	card_button.mouse_exited.connect(func() -> void: card_button.card_state = GUIToolCardButton.CardState.NORMAL)
+	card_button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	_find_reference_pairs_and_add_buttons(tool_data.description)
 	var action_pairs:Array = []
 	for action_data:ActionData in tool_data.actions:
@@ -51,6 +54,7 @@ func update_with_action_data(action_data:ActionData) -> void:
 	var action_tooltip:GUIActionsTooltip = Util.GUI_ACTIONS_TOOLTIP_SCENE.instantiate()
 	add_child(action_tooltip)
 	action_tooltip.update_with_actions([action_data])
+	action_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	_find_reference_pairs_and_add_buttons(ActionDescriptionFormulator.get_action_description(action_data))
 
 func update_with_boss_data(boss_data:BossData) -> void:
@@ -58,25 +62,26 @@ func update_with_boss_data(boss_data:BossData) -> void:
 	add_child(boss_tooltip)
 	boss_tooltip.library_mode = true
 	boss_tooltip.update_with_boss_data(boss_data)
+	boss_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	_find_reference_pairs_and_add_buttons(boss_data.description)
 
 func update_with_weather_data(weather_data:WeatherData) -> void:
-	var weather_icon:GUIWeather = GUI_WEATHER_SCENE.instantiate()
-	add_child(weather_icon)
-	weather_icon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	weather_icon.setup_with_weather_data(weather_data)
-	weather_icon.has_tooltip = false
-	set_deferred("content_position_y", weather_icon.position.y + weather_icon.size.y + get_theme_constant("separation"))
 	var weather_tooltip:GUIWeatherTooltip = Util.GUI_WEATHER_TOOLTIP_SCENE.instantiate()
 	weather_tooltip.display_mode = true
+	weather_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	add_child(weather_tooltip)
 	weather_tooltip.update_with_weather_data(weather_data)
 	_find_reference_pairs_and_add_buttons(weather_data.description)
+	var action_pairs:Array = []
+	for action_data:ActionData in weather_data.actions:
+		action_pairs.append(["action", action_data])
+	_add_reference_buttons(action_pairs)
 
 func update_with_thing_data(thing_data:ThingData) -> void:
 	var thing_data_tooltip:GUIThingDataTooltip = Util.GUI_THING_DATA_TOOLTIP_SCENE.instantiate()
 	add_child(thing_data_tooltip)
 	thing_data_tooltip.update_with_thing_data(thing_data)
+	thing_data_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	_find_reference_pairs_and_add_buttons(thing_data.description)
 
 func _find_reference_pairs_and_add_buttons(description:String) -> void:
@@ -112,7 +117,7 @@ func _get_reference_button_icon_path(category:String, id:String) -> String:
 		"plant_ability":
 			return str(RESOURCE_ICON_PREFIX, id, ".png")
 		"weather":
-			return str(RESOURCE_ICON_PREFIX, id, ".png")
+			return str(WEATHER_ICON_PREFIX, id, ".png")
 		_:
 			assert(false, "category not implemented")
 	return ""

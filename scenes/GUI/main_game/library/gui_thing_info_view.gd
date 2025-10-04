@@ -120,6 +120,8 @@ func _on_reference_button_evoked(reference_pair:Array, level:int) -> void:
 		data = MainDatabase.plant_ability_database.get_data_by_id(reference_pair[1])
 	elif reference_pair[0] == "action":
 		data = reference_pair[1]
+	elif reference_pair[0] == "weather":
+		data = MainDatabase.weather_database.get_data_by_id(reference_pair[1])
 	update_with_data(data, level + 1)
 
 func _on_back_button_evoked() -> void:
