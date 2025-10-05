@@ -25,7 +25,7 @@ const BOOSTER_PACK_CARD_BASE_COUNTS := {
 	BoosterPackType.LEGENDARY: [0, 0, 0],
 }
 
-const NUMBER_OF_CARDS_IN_BOOSTER_PACK := 3
+const NUMBER_OF_CARDS_IN_BOOSTER_PACK := 4
 const PENALTY_INCREASE_DAYS := 3
 
 @export var contract_type:ContractType
