@@ -250,7 +250,8 @@ func _on_field_mouse_entered() -> void:
 	if plant:
 		Singletons.main_game.hovered_data = plant.data
 		field_hovered.emit(true)
-		_weak_plant_tooltip = weakref(Util.display_plant_tooltip(plant.data, _gui_field_button, false, GUITooltip.TooltipPosition.LEFT_TOP, true))
+		if !Singletons.main_game.tool_manager.selected_tool:
+			_weak_plant_tooltip = weakref(Util.display_plant_tooltip(plant.data, _gui_field_button, false, GUITooltip.TooltipPosition.LEFT_TOP, true))
 
 func _on_field_mouse_exited() -> void:
 	Singletons.main_game.hovered_data = null

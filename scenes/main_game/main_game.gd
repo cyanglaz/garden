@@ -326,7 +326,7 @@ func _remove_plants(field_indices:Array[int]) -> void:
 func _on_tool_selected(tool_data:ToolData) -> void:
 	_handle_select_tool(tool_data)
 	if tool_data.need_select_field:
-		field_container.ready_field_selection_indicators()
+		field_container.toggle_all_field_selection_indicators(GUIFieldSelectionArrow.IndicatorState.READY)
 	if !tool_data:
 		return
 	if !tool_data.need_select_field:
@@ -361,9 +361,12 @@ func _on_field_harvest_completed(index:int) -> void:
 func _on_field_hovered(hovered:bool, index:int) -> void:
 	if tool_manager.selected_tool && tool_manager.selected_tool.need_select_field:
 		if hovered:
-			field_container.toggle_field_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT, tool_manager.selected_tool, index)
+			if tool_manager.selected_tool.all_fields:
+				field_container.toggle_all_field_selection_indicators(GUIFieldSelectionArrow.IndicatorState.CURRENT)
+			else:
+				field_container.toggle_field_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT, tool_manager.selected_tool, index)
 		else:
-			field_container.ready_field_selection_indicators()
+			field_container.toggle_all_field_selection_indicators(GUIFieldSelectionArrow.IndicatorState.READY)
 
 func _on_field_pressed(index:int) -> void:
 	if !tool_manager.selected_tool || !tool_manager.selected_tool.need_select_field:

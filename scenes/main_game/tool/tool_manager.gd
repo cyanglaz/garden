@@ -97,7 +97,6 @@ func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)
 
 func apply_auto_tools(main_game:MainGame, fields:Array, filter_func:Callable) -> void:
-	assert(false, "TODO: this logic is not tested, make sure it works.")
 	var has_tool_to_apply:bool = true
 	while has_tool_to_apply:
 		has_tool_to_apply = false

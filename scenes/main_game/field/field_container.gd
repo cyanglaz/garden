@@ -84,10 +84,10 @@ func toggle_field_selection_indicator(indicator_state: GUIFieldSelectionArrow.In
 		for other_field:Field in fields:
 			if other_field != field:
 				other_field.toggle_selection_indicator(GUIFieldSelectionArrow.IndicatorState.HIDE)
-
-func ready_field_selection_indicators() -> void:
+			
+func toggle_all_field_selection_indicators(indicator_state: GUIFieldSelectionArrow.IndicatorState) -> void:
 	for field:Field in fields:
-		field.toggle_selection_indicator(GUIFieldSelectionArrow.IndicatorState.READY)
+		field.toggle_selection_indicator(indicator_state)
 
 func harvest_all_fields() -> void:
 	assert(get_harvestable_fields().size() > 0, "No harvestable fields")
