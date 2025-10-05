@@ -40,6 +40,7 @@ signal contract_selected(contract_data:ContractData)
 @onready var _gui_contract_view: GUIContractView = %GUIContractView
 
 var _toggle_ui_semaphore := 0
+var _warning_manager:WarningManager = WarningManager.new()
 
 func _ready() -> void:
 	_gui_tool_cards_viewer.hide()
@@ -55,6 +56,7 @@ func _ready() -> void:
 	gui_shop_main.setup(gui_top_bar.gui_full_deck_button)
 	gui_contract_selection_main.contract_selected.connect(func(contract_data:ContractData) -> void: contract_selected.emit(contract_data))
 	gui_top_animation_overlay.setup(self)
+	_warning_manager.setup(_gui_energy_tracker, gui_top_bar.gui_gold, _gui_dialogue_window)
 
 #region power
 
@@ -203,7 +205,13 @@ func clear_all_tooltips() -> void:
 
 #endregion
 
-#region dialog
+#region warning
+
+func show_warning(warning_type:WarningManager.WarningType) -> void:
+	_warning_manager.show_warning(warning_type)
+
+func hide_warning(warning_type:WarningManager.WarningType) -> void:
+	_warning_manager.hide_warning(warning_type)
 
 func show_dialogue(type:GUIDialogueItem.DialogueType) -> void:
 	_gui_dialogue_window.show_with_type(type)

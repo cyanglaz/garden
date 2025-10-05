@@ -4,13 +4,18 @@
 [ext_resource type="Script" uid="uid://mpkgqbdp030b" path="res://scenes/GUI/tooltips/gui_warning_tooltip.gd" id="2_2jpms"]
 
 [node name="GUIWarningTooltip" instance=ExtResource("1_y4x75")]
+offset_right = 40.0
+offset_bottom = 8.0
 script = ExtResource("2_2jpms")
+
+[node name="Background" parent="." index="1"]
+self_modulate = Color(1, 0.92156863, 0.34117648, 1)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="ContentContainer" index="0"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(32, 0)
+custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
-theme_type_variation = &"RichTextControlTipSmall"
+theme_type_variation = &"RichTextControlTip"
 bbcode_enabled = true
 fit_content = true
 scroll_active = false

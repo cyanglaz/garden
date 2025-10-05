@@ -3,8 +3,6 @@ extends PanelContainer
 
 enum DialogueType {
 	THING_DETAIL,
-	INSUFFICIENT_ENERGY,
-	INSUFFICIENT_GOLD,
 	CANNOT_USE_CARD,
 }
 
@@ -28,11 +26,6 @@ func _update_text() -> void:
 		DialogueType.THING_DETAIL:
 			var input_icon_string := str("[img=6x6]", THING_DETAIL_INPUT_ICON_PATH, "[/img]")
 			description.text = Util.get_localized_string("SHOW_LIBRARY_TOOLTIP_PROMPT") % [input_icon_string]
-		DialogueType.INSUFFICIENT_ENERGY:
-			description.text = Util.get_localized_string("WARNING_INSUFFICIENT_ENERGY")
-		DialogueType.INSUFFICIENT_GOLD:
-			var gold_icon_string := str("[img=6x6]", GOLD_ICON_PATH, "[/img]")
-			description.text = Util.get_localized_string("WARNING_INSUFFICIENT_GOLD") % [gold_icon_string]
 		DialogueType.CANNOT_USE_CARD:
 			description.text = Util.get_localized_string("WARNING_CANNOT_USE_CARD")
 

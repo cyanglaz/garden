@@ -3,7 +3,7 @@ extends RefCounted
 
 var day:int = 0
 
-func start_new(contract:ContractData) -> void:
+func start_new() -> void:
 	day = -1
 
 func next_day() -> void:

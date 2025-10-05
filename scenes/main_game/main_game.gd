@@ -165,11 +165,11 @@ func clear_all_tooltips() -> void:
 func show_thing_info_view(data:Resource) -> void:
 	gui_main_game.gui_thing_info_view.show_with_data(data)
 
-func show_dialogue(type:GUIDialogueItem.DialogueType) -> void:
-	gui_main_game.show_dialogue(type)
+func show_warning(type:WarningManager.WarningType) -> void:
+	gui_main_game.show_warning(type)
 	
-func hide_dialogue(type:GUIDialogueItem.DialogueType) -> void:
-	gui_main_game.hide_dialogue(type)
+func hide_warning(type:WarningManager.WarningType) -> void:
+	gui_main_game.hide_warning(type)
 
 #endregion
 
@@ -198,7 +198,7 @@ func _start_new_level() -> void:
 	plant_seed_manager = PlantSeedManager.new(_selected_contract.plants)
 	tool_manager.refresh_deck()
 	session_summary.contract = _selected_contract
-	day_manager.start_new(_selected_contract)
+	day_manager.start_new()
 	gui_main_game.update_with_plants(plant_seed_manager.plant_datas)
 
 	_start_day()
@@ -404,8 +404,8 @@ func _set_hovered_data(val:ThingData) -> void:
 	if hovered_data:
 		await Util.create_scaled_timer(DETAIL_TOOLTIP_DELAY).timeout
 		if hovered_data:
-			show_dialogue(GUIDialogueItem.DialogueType.THING_DETAIL)
+			show_warning(WarningManager.WarningType.DIALOGUE_THING_DETAIL)
 	else:
-		hide_dialogue(GUIDialogueItem.DialogueType.THING_DETAIL)
+		hide_warning(WarningManager.WarningType.DIALOGUE_THING_DETAIL)
 
 #endregion

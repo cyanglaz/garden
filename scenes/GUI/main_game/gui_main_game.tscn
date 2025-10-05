@@ -16,7 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://cq1vyx3yrtj8p" path="res://scenes/GUI/main_game/tool_cards/gui_tool_cards_viewer.tscn" id="11_648op"]
 [ext_resource type="PackedScene" uid="uid://cgvd1dcwahof5" path="res://scenes/GUI/top_level_overlays/demo_end/gui_demo_end_main.tscn" id="12_bkemh"]
 [ext_resource type="PackedScene" uid="uid://3068uq3kyx0r" path="res://scenes/GUI/settings/gui_settings_main.tscn" id="12_wnks3"]
-[ext_resource type="PackedScene" uid="uid://bkdad5jox6bdj" path="res://scenes/GUI/main_game/dialog/gui_dialogue_window.tscn" id="13_di7a2"]
+[ext_resource type="PackedScene" uid="uid://bkdad5jox6bdj" path="res://scenes/GUI/main_game/warning/dialog/gui_dialogue_window.tscn" id="13_di7a2"]
 [ext_resource type="PackedScene" uid="uid://blnntdbnqmjsp" path="res://scenes/GUI/main_game/game_over/gui_game_over_main.tscn" id="14_k6nqb"]
 [ext_resource type="PackedScene" uid="uid://b7d00expmt8m" path="res://scenes/GUI/main_game/contracts/gui_contract_selection_main.tscn" id="16_di7a2"]
 [ext_resource type="PackedScene" uid="uid://3rrhwgyv2qp3" path="res://scenes/GUI/main_game/reward/gui_reward_main.tscn" id="17_7ewl2"]
@@ -88,6 +88,7 @@ theme_override_constants/separation = 4
 
 [node name="GUIEnergyTracker" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container/BottomLeftContainer/VBoxContainer/HBoxContainer" instance=ExtResource("8_ho5j6")]
 unique_name_in_owner = true
+z_index = 1
 layout_mode = 2
 size_flags_vertical = 8
 

@@ -63,7 +63,7 @@ func _play_show_animation() -> void:
 	_next_level_button.show()
 
 func animate_hide() -> void:
-	Singletons.main_game.hide_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_GOLD)
+	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_GOLD)
 	_next_level_button.hide()
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(_main_panel, "position:y", Constants.PENEL_HIDE_Y, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
@@ -89,20 +89,20 @@ func _get_full_deck_button() -> GUIDeckButton:
 	return _weak_full_deck_button.get_ref()
 
 func _on_tool_shop_button_pressed(gui_shop_button:GUIShopButton, tool_data:ToolData) -> void:
-	Singletons.main_game.hide_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_GOLD)
+	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_GOLD)
 	if gui_shop_button.sufficient_gold:
 		tool_shop_button_pressed.emit(tool_data)
 		_animate_add_card_to_deck(gui_shop_button, tool_data)
 		gui_shop_button.queue_free()
 	else:
-		Singletons.main_game.show_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_GOLD)
+		Singletons.main_game.show_warning(WarningManager.WarningType.INSUFFICIENT_GOLD)
 
 func _on_next_level_button_pressed() -> void:
 	await animate_hide()
 	next_level_button_pressed.emit()
 
 func _on_shop_button_mouse_exited() -> void:
-	Singletons.main_game.hide_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_GOLD)
+	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_GOLD)
 	if _weak_tooltip.get_ref():
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)

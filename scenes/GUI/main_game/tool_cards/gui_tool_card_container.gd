@@ -31,7 +31,7 @@ func clear() -> void:
 		return
 	for child:GUIToolCardButton in _container.get_children():
 		child.queue_free()
-	Singletons.main_game.hide_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_ENERGY)
+	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 
 func clear_selection() -> void:
 	for i in _container.get_children().size():
@@ -39,7 +39,7 @@ func clear_selection() -> void:
 		gui_card.mouse_disabled = false
 		gui_card.card_state = GUIToolCardButton.CardState.NORMAL
 	_selected_index = -1
-	Singletons.main_game.hide_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_ENERGY)
+	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 
 func add_card(tool_data:ToolData) -> GUIToolCardButton:
 	var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
@@ -156,10 +156,10 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 #region events
 
 func _on_tool_card_pressed(index:int) -> void:
-	Singletons.main_game.hide_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_ENERGY)
+	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 	var selected_card:GUIToolCardButton = _container.get_child(index)
 	if selected_card.tool_data.energy_cost < 0:
-		Singletons.main_game.show_dialogue(GUIDialogueItem.DialogueType.CANNOT_USE_CARD)
+		Singletons.main_game.show_warning(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
 		return
 	_selected_index = index
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
@@ -176,10 +176,10 @@ func _on_tool_card_pressed(index:int) -> void:
 			else:
 				gui_card.card_state = GUIToolCardButton.CardState.NORMAL
 	else:
-		Singletons.main_game.show_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_ENERGY)
+		Singletons.main_game.show_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 
 func _on_tool_card_mouse_entered(index:int) -> void:
-	Singletons.main_game.hide_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_ENERGY)
+	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 	var mouse_over_card = _container.get_child(index)
 	if !is_instance_valid(mouse_over_card):
 		return
@@ -212,7 +212,7 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 		tween.kill()
 
 func _on_tool_card_mouse_exited(index:int) -> void:
-	Singletons.main_game.hide_dialogue(GUIDialogueItem.DialogueType.INSUFFICIENT_ENERGY)
+	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 	var mouse_exit_card = _container.get_child(index)
 	if !is_instance_valid(mouse_exit_card):
 		return
