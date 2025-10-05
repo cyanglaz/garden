@@ -10,7 +10,8 @@ const BOOSTER_PACK_ICON_MAP := {
 const GUI_CONTRACT_PLANT_ICON_SCENE := preload("res://scenes/GUI/main_game/contracts/gui_contract_plant_icon.tscn")
 
 @onready var plant_container: HBoxContainer = %PlantContainer
-@onready var penalty_rate_label: Label = %PenaltyRateLabel
+@onready var type_title_label: Label = %TypeTitleLabel
+@onready var type_value_label: Label = %TypeValueLabel
 @onready var gui_reward_gold: GUIContractGold = %GUIContractGold
 @onready var gui_reward_rating: GUIContractRating = %GUIContractRating
 @onready var gui_reward_booster_pack: GUIIcon = %GUIRewardBoosterPack
@@ -18,6 +19,8 @@ const GUI_CONTRACT_PLANT_ICON_SCENE := preload("res://scenes/GUI/main_game/contr
 @onready var background: NinePatchRect = %Background
 @onready var gui_boss_tooltip: GUIBossTooltip = %GUIBossTooltip
 @onready var contract_main: PanelContainer = %ContractMain
+@onready var penalty_rate_title_label: Label = %PenaltyRateTitleLabel
+@onready var penalty_rate_value_label: Label = %PenaltyRateValueLabel
 
 var _weak_tooltip:WeakRef = weakref(null)
 var _weak_contract_data:WeakRef = weakref(null)
@@ -25,10 +28,15 @@ var _mouse_in:bool = false
 var has_outline:bool = false:set = _set_has_outline
 
 func _ready() -> void:
-	penalty_rate_label.mouse_entered.connect(_on_mouse_entered_penalty_rate_label)
-	penalty_rate_label.mouse_exited.connect(_on_mouse_exited_penalty_rate_label)
+	penalty_rate_title_label.mouse_entered.connect(_on_mouse_entered_penalty_rate_label)
+	penalty_rate_title_label.mouse_exited.connect(_on_mouse_exited_penalty_rate_label)
 	gui_reward_booster_pack.mouse_entered.connect(_on_mouse_entered_booster_pack)
 	gui_reward_booster_pack.mouse_exited.connect(_on_mouse_exited_booster_pack)
+	gui_contract_total_resources.mouse_entered.connect(_on_mouse_entered_total_resources)
+	gui_contract_total_resources.mouse_exited.connect(_on_mouse_exited_total_resources)
+	gui_reward_gold.mouse_entered.connect(_on_mouse_entered_reward_gold)
+	gui_reward_gold.mouse_exited.connect(_on_mouse_exited_reward_gold)
+	type_title_label.text = Util.get_localized_string("CONTRACT_TYPE_LABEL_TEXT")
 
 func _process(_delta: float) -> void:
 	if contract_main.get_global_rect().has_point(get_global_mouse_position()):
@@ -48,6 +56,20 @@ func update_with_contract_data(contract:ContractData) -> void:
 	else:
 		gui_boss_tooltip.hide()
 	
+	var theme_color := Constants.COLOR_WHITE
+	
+	match contract.contract_type:
+		ContractData.ContractType.BOSS:
+			type_value_label.text = Util.get_localized_string("CONTRACT_TYPE_VALUE_BOSS_TEXT")
+			theme_color = Constants.COLOR_RED1
+		ContractData.ContractType.ELITE:
+			type_value_label.text = Util.get_localized_string("CONTRACT_TYPE_VALUE_ELITE_TEXT")
+			theme_color = Constants.COLOR_BLUE_3
+		ContractData.ContractType.COMMON:
+			type_value_label.text = Util.get_localized_string("CONTRACT_TYPE_VALUE_COMMON_TEXT")
+			theme_color = Constants.COLOR_GREEN2
+	type_value_label.modulate = theme_color
+	
 	Util.remove_all_children(plant_container)
 	var index := 0
 	var total_light := 0
@@ -65,7 +87,11 @@ func update_with_contract_data(contract:ContractData) -> void:
 		total_light += plant_data.light * count
 		total_water += plant_data.water * count
 	gui_contract_total_resources.update(total_light, total_water)
-	penalty_rate_label.text = Util.get_localized_string("CONTRACT_PENALTY_RATE_LABEL_TEXT")% contract.penalty_rate
+
+	penalty_rate_title_label.text = Util.get_localized_string("CONTRACT_PENALTY_RATE_LABEL_TEXT")
+	penalty_rate_value_label.text = str(contract.penalty_rate)
+	penalty_rate_value_label.modulate = theme_color
+	
 	gui_reward_gold.update_with_value(contract.reward_gold)
 	if contract.reward_rating > 0:
 		gui_reward_rating.update_with_value(contract.reward_rating)
@@ -88,7 +114,7 @@ func _on_mouse_entered_plant_icon(index:int, plant_data:PlantData) -> void:
 	var gui_contract_plant_icon:GUIContractPlaintIcon = plant_container.get_child(index)
 	Singletons.main_game.hovered_data = plant_data
 	gui_contract_plant_icon.gui_plant_icon.has_outline = true
-	_weak_tooltip = weakref(Util.display_plant_tooltip(plant_data, gui_contract_plant_icon.gui_plant_icon, false, GUITooltip.TooltipPosition.BOTTOM_RIGHT))
+	_weak_tooltip = weakref(Util.display_plant_tooltip(plant_data, gui_contract_plant_icon.gui_plant_icon, false, GUITooltip.TooltipPosition.LEFT))
 
 func _on_mouse_exited_plant_icon(index:int) -> void:
 	var gui_contract_plant_icon:GUIContractPlaintIcon = plant_container.get_child(index)
@@ -99,7 +125,7 @@ func _on_mouse_exited_plant_icon(index:int) -> void:
 		_weak_tooltip = weakref(null)
 
 func _on_mouse_entered_penalty_rate_label() -> void:
-	_weak_tooltip = weakref(Util.display_rich_text_tooltip(Util.get_localized_string("CONTRACT_PENALTY_RATE_TOOL_TIP_TEXT"), penalty_rate_label, false, GUITooltip.TooltipPosition.BOTTOM_RIGHT))
+	_weak_tooltip = weakref(Util.display_rich_text_tooltip(Util.get_localized_string("CONTRACT_PENALTY_RATE_TOOL_TIP_TEXT"), penalty_rate_title_label, false, GUITooltip.TooltipPosition.LEFT))
 
 func _on_mouse_exited_penalty_rate_label() -> void:
 	if _weak_tooltip.get_ref():
@@ -112,6 +138,22 @@ func _on_mouse_entered_booster_pack() -> void:
 	
 func _on_mouse_exited_booster_pack() -> void:
 	gui_reward_booster_pack.has_outline = false
+	if _weak_tooltip.get_ref():
+		_weak_tooltip.get_ref().queue_free()
+		_weak_tooltip = weakref(null)
+
+func _on_mouse_entered_total_resources() -> void:
+	_weak_tooltip = weakref(Util.display_rich_text_tooltip(Util.get_localized_string("CONTRACT_TOTAL_RESOURCES_TOOL_TIP_TEXT"), gui_contract_total_resources, false, GUITooltip.TooltipPosition.LEFT))
+
+func _on_mouse_exited_total_resources() -> void:
+	if _weak_tooltip.get_ref():
+		_weak_tooltip.get_ref().queue_free()
+		_weak_tooltip = weakref(null)
+
+func _on_mouse_entered_reward_gold() -> void:
+	_weak_tooltip = weakref(Util.display_rich_text_tooltip(Util.get_localized_string("CONTRACT_REWARD_GOLD_TOOL_TIP_TEXT"), gui_reward_gold, false, GUITooltip.TooltipPosition.LEFT))
+
+func _on_mouse_exited_reward_gold() -> void:
 	if _weak_tooltip.get_ref():
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)

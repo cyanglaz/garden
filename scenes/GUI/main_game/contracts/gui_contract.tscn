@@ -1,9 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://b6obg3hop3pr0"]
+[gd_scene load_steps=13 format=3 uid="uid://b6obg3hop3pr0"]
 
 [ext_resource type="Script" uid="uid://dkaxg5wc0utiy" path="res://scenes/GUI/main_game/contracts/gui_contract.gd" id="1_7v566"]
 [ext_resource type="Texture2D" uid="uid://pjdyj2bfffr6" path="res://resources/sprites/GUI/theme/contract_background.png" id="2_32xe8"]
 [ext_resource type="Shader" uid="uid://o2rtc2c5l2wv" path="res://scenes/GUI/main_game/contracts/gui_contract.gdshader" id="2_j8mo5"]
-[ext_resource type="PackedScene" uid="uid://bcy1uounmn85m" path="res://scenes/GUI/main_game/contracts/gui_contract_plant_icon.tscn" id="3_ry6cy"]
 [ext_resource type="PackedScene" uid="uid://cx7x10rh7aiw2" path="res://scenes/GUI/main_game/contracts/gui_contract_gold.tscn" id="4_hxrax"]
 [ext_resource type="PackedScene" uid="uid://cir3rkyftmxlb" path="res://scenes/GUI/main_game/contracts/gui_contract_total_resources.tscn" id="4_ry6cy"]
 [ext_resource type="PackedScene" uid="uid://priw672helay" path="res://scenes/GUI/main_game/contracts/gui_contract_rating.tscn" id="5_dh2kh"]
@@ -27,13 +26,13 @@ shader_parameter/blend_color = Color(1, 1, 1, 1)
 shader_parameter/blend_strength = 0.0
 
 [node name="GUIContract" type="PanelContainer"]
-offset_right = 93.0
-offset_bottom = 99.0
+offset_right = 62.0
+offset_bottom = 84.0
 script = ExtResource("1_7v566")
 
 [node name="ContractMain" type="PanelContainer" parent="."]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(96, 0)
+custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 
 [node name="Background" type="NinePatchRect" parent="ContractMain"]
@@ -59,33 +58,63 @@ layout_mode = 2
 
 [node name="PlantContainer" type="HBoxContainer" parent="ContractMain/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="GUIContractPlaintIcon" parent="ContractMain/MarginContainer/VBoxContainer/PlantContainer" instance=ExtResource("3_ry6cy")]
+[node name="Type" type="HBoxContainer" parent="ContractMain/MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 1
 
-[node name="GUIContractPlaintIcon2" parent="ContractMain/MarginContainer/VBoxContainer/PlantContainer" instance=ExtResource("3_ry6cy")]
+[node name="TypeTitleLabel" type="Label" parent="ContractMain/MarginContainer/VBoxContainer/Type"]
+unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+mouse_filter = 0
+theme_type_variation = &"HUD_mid"
+text = "Difficulty:"
+vertical_alignment = 1
 
-[node name="GUIContractPlaintIcon3" parent="ContractMain/MarginContainer/VBoxContainer/PlantContainer" instance=ExtResource("3_ry6cy")]
+[node name="TypeValueLabel" type="Label" parent="ContractMain/MarginContainer/VBoxContainer/Type"]
+unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+mouse_filter = 0
+theme_type_variation = &"HUD"
+text = "Difficulty:"
+vertical_alignment = 1
 
 [node name="GUIContractTotalResources" parent="ContractMain/MarginContainer/VBoxContainer" instance=ExtResource("4_ry6cy")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 0
 
-[node name="PenaltyRateLabel" type="Label" parent="ContractMain/MarginContainer/VBoxContainer"]
+[node name="PenaltyRate" type="HBoxContainer" parent="ContractMain/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="PenaltyRateTitleLabel" type="Label" parent="ContractMain/MarginContainer/VBoxContainer/PenaltyRate"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
-size_flags_vertical = 0
+size_flags_vertical = 1
 mouse_filter = 0
 theme_type_variation = &"HUD_mid"
 text = "Penalty Rate: 1"
+vertical_alignment = 1
 
-[node name="RewardContainer" type="HBoxContainer" parent="ContractMain/MarginContainer/VBoxContainer"]
+[node name="PenaltyRateValueLabel" type="Label" parent="ContractMain/MarginContainer/VBoxContainer/PenaltyRate"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+mouse_filter = 0
+theme_type_variation = &"HUD"
+text = "1"
+vertical_alignment = 1
+
+[node name="RewardContainer" type="VBoxContainer" parent="ContractMain/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 10
 theme_override_constants/separation = 1
@@ -96,15 +125,19 @@ theme_type_variation = &"HUD_mid"
 text = "Rewards:"
 vertical_alignment = 1
 
-[node name="GUIContractGold" parent="ContractMain/MarginContainer/VBoxContainer/RewardContainer" instance=ExtResource("4_hxrax")]
+[node name="HBoxContainer" type="HBoxContainer" parent="ContractMain/MarginContainer/VBoxContainer/RewardContainer"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="GUIContractGold" parent="ContractMain/MarginContainer/VBoxContainer/RewardContainer/HBoxContainer" instance=ExtResource("4_hxrax")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="GUIContractRating" parent="ContractMain/MarginContainer/VBoxContainer/RewardContainer" instance=ExtResource("5_dh2kh")]
+[node name="GUIContractRating" parent="ContractMain/MarginContainer/VBoxContainer/RewardContainer/HBoxContainer" instance=ExtResource("5_dh2kh")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="GUIRewardBoosterPack" parent="ContractMain/MarginContainer/VBoxContainer/RewardContainer" instance=ExtResource("6_fxvfg")]
+[node name="GUIRewardBoosterPack" parent="ContractMain/MarginContainer/VBoxContainer/RewardContainer/HBoxContainer" instance=ExtResource("6_fxvfg")]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_ry6cy")
 layout_mode = 2
@@ -120,6 +153,6 @@ unique_name_in_owner = true
 z_index = 0
 z_as_relative = true
 layout_mode = 1
-offset_left = 97.0
-offset_right = 161.0
+offset_left = 63.0
+offset_right = 127.0
 offset_bottom = 18.0
