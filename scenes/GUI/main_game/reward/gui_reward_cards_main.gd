@@ -119,6 +119,7 @@ func _animate_card_fly_up() -> void:
 		tween.tween_property(child, "scale", Vector2.ONE, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(CARD_DROP_DELAY * i)
 	await tween.finished
 	gui_booster_pack_image.hide()
+	gui_booster_pack_image.scale = Vector2.ONE
 
 func _animate_card_drop() -> void:
 	var final_positions := _get_all_card_positions()
