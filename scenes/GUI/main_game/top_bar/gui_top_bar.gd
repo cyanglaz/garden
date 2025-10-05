@@ -49,8 +49,8 @@ func bind_with_rating(rating:ResourcePoint) -> void:
 func update_gold(gold_diff:int, animated:bool) -> void:
 	await _gui_gold.update_gold(gold_diff, GUIGold.AnimationType.FULL if animated else GUIGold.AnimationType.NONE)
 
-func update_day_left(day_left:int, penalty:int) -> void:
-	await _gui_level_title.update_day_left(day_left, penalty)
+func update_penalty(penalty:int) -> void:
+	await _gui_level_title.update_penalty(penalty)
 	
 func update_player(player_data:PlayerData) -> void:
 	_gui_player.update_with_player_data(player_data)

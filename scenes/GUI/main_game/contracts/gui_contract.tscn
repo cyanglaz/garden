@@ -76,15 +76,6 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="GracePeriodLabel" type="Label" parent="ContractMain/MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-mouse_filter = 0
-theme_type_variation = &"HUD_mid"
-text = "Grace Period: 3 days"
-
 [node name="PenaltyRateLabel" type="Label" parent="ContractMain/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2

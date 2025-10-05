@@ -30,7 +30,6 @@ const PENALTY_INCREASE_DAYS := 3
 
 @export var contract_type:ContractType
 @export var plants:Array[PlantData]
-@export var grace_period:int
 @export var penalty_rate:int
 @export var reward_gold:int
 @export var reward_rating:int
@@ -42,7 +41,6 @@ func copy(other:ThingData) -> void:
 	var other_contract: ContractData = other as ContractData
 	contract_type = other_contract.contract_type
 	plants = other_contract.plants.duplicate()
-	grace_period = other_contract.grace_period
 	penalty_rate = other_contract.penalty_rate
 	reward_gold = other_contract.reward_gold
 	reward_rating = other_contract.reward_rating
@@ -61,17 +59,14 @@ func apply_boss_actions(main_game:MainGame, hook_type:BossScript.HookType) -> vo
 		await boss_data.boss_script.handle_hook(hook_type, main_game)
 	
 func get_penalty_rate(day:int) -> int:
-	if day < grace_period:
-		return 0
 	@warning_ignore("integer_division")
-	return penalty_rate + (day - grace_period)/PENALTY_INCREASE_DAYS
+	return penalty_rate + day/PENALTY_INCREASE_DAYS
 
 func log() -> void:
 	print("contract =================================================")
 	print("contract_type: ", ContractType.keys()[contract_type])
 	for plant in plants:
 		print("plant: ", plant.id)
-	print("grace_period: ", grace_period)
 	print("penalty_rate: ", penalty_rate)
 	print("reward_gold: ", reward_gold)
 	print("reward_rating: ", reward_rating)

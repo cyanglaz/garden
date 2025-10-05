@@ -208,7 +208,7 @@ func _start_day() -> void:
 	gui_main_game.toggle_all_ui(false)
 	energy_tracker.setup(max_energy, max_energy)
 	day_manager.next_day()
-	gui_main_game.update_day_left(day_manager.get_grace_period_day_left(), _selected_contract.get_penalty_rate(day_manager.day))
+	gui_main_game.update_penalty(_selected_contract.get_penalty_rate(day_manager.day))
 	gui_main_game.clear_tool_selection()
 	if day_manager.day == 0:
 		await _selected_contract.apply_boss_actions(self, BossScript.HookType.LEVEL_START)
@@ -230,7 +230,7 @@ func _win() -> void:
 	tool_manager.cleanup_deck()
 	field_container.clear_all_statuses()
 	_harvesting_fields.clear()
-	session_summary.total_days_skipped += day_manager.get_grace_period_day_left()
+	session_summary.total_days += day_manager.day
 	gui_main_game.animate_show_reward_main(_selected_contract)
 	gui_main_game.toggle_all_ui(true)
 	_level += 1
@@ -255,8 +255,7 @@ func _end_day() -> void:
 	if won:
 		return #Harvest won the game, no need to discard tools or end the day
 	field_container.handle_turn_end()
-	if day_manager.get_grace_period_day_left() <= 0:
-		await update_rating( -_selected_contract.get_penalty_rate(day_manager.day))
+	await update_rating( -_selected_contract.get_penalty_rate(day_manager.day))
 	_start_day()
 
 func _on_reward_finished(tool_data:ToolData) -> void:

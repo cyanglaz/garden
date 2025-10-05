@@ -10,7 +10,6 @@ const BOOSTER_PACK_ICON_MAP := {
 const GUI_CONTRACT_PLANT_ICON_SCENE := preload("res://scenes/GUI/main_game/contracts/gui_contract_plant_icon.tscn")
 
 @onready var plant_container: HBoxContainer = %PlantContainer
-@onready var grace_period_label: Label = %GracePeriodLabel
 @onready var penalty_rate_label: Label = %PenaltyRateLabel
 @onready var gui_reward_gold: GUIContractGold = %GUIContractGold
 @onready var gui_reward_rating: GUIContractRating = %GUIContractRating
@@ -26,8 +25,6 @@ var _mouse_in:bool = false
 var has_outline:bool = false:set = _set_has_outline
 
 func _ready() -> void:
-	grace_period_label.mouse_entered.connect(_on_mouse_entered_grace_period_label)
-	grace_period_label.mouse_exited.connect(_on_mouse_exited_grace_period_label)
 	penalty_rate_label.mouse_entered.connect(_on_mouse_entered_penalty_rate_label)
 	penalty_rate_label.mouse_exited.connect(_on_mouse_exited_penalty_rate_label)
 	gui_reward_booster_pack.mouse_entered.connect(_on_mouse_entered_booster_pack)
@@ -68,7 +65,6 @@ func update_with_contract_data(contract:ContractData) -> void:
 		total_light += plant_data.light * count
 		total_water += plant_data.water * count
 	gui_contract_total_resources.update(total_light, total_water)
-	grace_period_label.text = Util.get_localized_string("CONTRACT_GRACE_PERIOD_LABEL_TEXT")% contract.grace_period
 	penalty_rate_label.text = Util.get_localized_string("CONTRACT_PENALTY_RATE_LABEL_TEXT")% contract.penalty_rate
 	gui_reward_gold.update_with_value(contract.reward_gold)
 	if contract.reward_rating > 0:
@@ -98,14 +94,6 @@ func _on_mouse_exited_plant_icon(index:int) -> void:
 	var gui_contract_plant_icon:GUIContractPlaintIcon = plant_container.get_child(index)
 	Singletons.main_game.hovered_data = null
 	gui_contract_plant_icon.gui_plant_icon.has_outline = false
-	if _weak_tooltip.get_ref():
-		_weak_tooltip.get_ref().queue_free()
-		_weak_tooltip = weakref(null)
-
-func _on_mouse_entered_grace_period_label() -> void:
-	_weak_tooltip = weakref(Util.display_rich_text_tooltip(Util.get_localized_string("CONTRACT_GRACE_PERIOD_TOOL_TIP_TEXT"), grace_period_label, false, GUITooltip.TooltipPosition.BOTTOM_RIGHT))
-
-func _on_mouse_exited_grace_period_label() -> void:
 	if _weak_tooltip.get_ref():
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)

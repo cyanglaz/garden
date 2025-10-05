@@ -145,8 +145,8 @@ func setup_plant_seed_animation_container(field_container:FieldContainer) -> voi
 #endregion
 
 #region days
-func update_day_left(day_left:int, penalty:int) -> void:
-	gui_top_bar.update_day_left(day_left, penalty)
+func update_penalty(penalty:int) -> void:
+	gui_top_bar.update_penalty(penalty)
 
 func bind_energy(resource_point:ResourcePoint) -> void:
 	_gui_energy_tracker.bind_with_resource_point(resource_point)

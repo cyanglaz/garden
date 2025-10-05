@@ -39,7 +39,6 @@ const BASE_BOOSTER_PACK_TYPE_FOR_TYPE := {
 	ContractData.ContractType.BOSS: ContractData.BoosterPackType.LEGENDARY,
 }
 
-const BASE_GRACE_PERIOD := 4
 const BASE_PENALTY_RATE_FOR_TYPE := {
 	ContractData.ContractType.COMMON: 1,
 	ContractData.ContractType.ELITE: 2,
@@ -112,7 +111,6 @@ func _generate_contracts(chapter:int, contract_type:ContractData.ContractType, c
 	for i in count:
 		var contract:ContractData = ContractData.new()
 		contract.contract_type = contract_type
-		contract.grace_period = BASE_GRACE_PERIOD + chapter
 		contract.penalty_rate = BASE_PENALTY_RATE_FOR_TYPE[contract_type] + chapter
 
 		# Plants
