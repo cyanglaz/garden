@@ -11,10 +11,8 @@ const RATING_REWARD_CHANCE := 0.1
 const RATING_REWARD_RATE := 0.5
 
 const BASE_NUMBER_OF_PLANTS_DICE := {
-	3: 5,
-	4: 60,
-	5: 30,
-	6: 50000,
+	4: 55,
+	5: 45,
 }
 
 const NUMBER_OF_PLANTS_TYPE_DICE := {
