@@ -40,7 +40,7 @@ var outline_color:Color = Constants.RESOURCE_SUFFICIENT_COLOR: set = _set_outlin
 var has_outline:bool = false: set = _set_has_outline
 var tool_data:ToolData: get = _get_tool_data
 var _weak_tool_data:WeakRef = weakref(null)
-var _container_offset:float = 0.0: set = _set_container_offset
+var _container_offset:Vector2 = Vector2.ZERO: set = _set_container_offset
 
 var _weak_actions_tooltip:WeakRef = weakref(null)
 
@@ -89,6 +89,9 @@ func play_exhaust_animation() -> void:
 	_animation_player.play("dissolve")
 	GlobalSoundManager.play_sound(EXHAUST_SOUND)
 	await _dissolve_finished
+
+func play_insufficient_energy_animation() -> void:
+	await Util.play_error_shake_animation(self, "_container_offset", Vector2.ZERO)
 
 func _update_for_energy(energy:int) -> void:
 	if !tool_data:
@@ -157,18 +160,18 @@ func _set_card_state(value:CardState) -> void:
 	card_state = value
 	match value:
 		CardState.NORMAL:
-			_container_offset = 0.0
+			_container_offset = Vector2.ZERO
 			has_outline = false
 		CardState.SELECTED:
-			_container_offset = SELECTED_OFFSET
+			_container_offset = Vector2.UP * SELECTED_OFFSET
 			has_outline = true
 		CardState.HIGHLIGHTED:
-			_container_offset = HIGHLIGHTED_OFFSET
+			_container_offset = Vector2.UP * HIGHLIGHTED_OFFSET
 			has_outline = true
 
-func _set_container_offset(offset:float) -> void:
+func _set_container_offset(offset:Vector2) -> void:
 	_container_offset = offset
-	_card_container.position.y = -offset
+	_card_container.position = offset
 
 func _set_resource_sufficient(value:bool) -> void:
 	resource_sufficient = value

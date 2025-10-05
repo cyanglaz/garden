@@ -31,6 +31,7 @@ func show_warning(warning_type:WarningType) -> void:
 		WarningType.INSUFFICIENT_ENERGY:
 			var energy_warning_string := Util.get_localized_string("WARNING_INSUFFICIENT_ENERGY")
 			_weak_energy_warning_tooltip = weakref(Util.display_warning_tooltip(energy_warning_string, _gui_energy_tracker, false, GUITooltip.TooltipPosition.TOP))
+			_gui_energy_tracker.play_insufficient_energy_animation()
 		WarningType.INSUFFICIENT_GOLD:
 			var gold_icon_string := str("[img=6x6]", GOLD_ICON_PATH, "[/img]")
 			var gold_warning_string := Util.get_localized_string("WARNING_INSUFFICIENT_GOLD") % gold_icon_string

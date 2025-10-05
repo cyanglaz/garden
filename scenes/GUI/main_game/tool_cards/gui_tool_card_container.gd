@@ -176,6 +176,7 @@ func _on_tool_card_pressed(index:int) -> void:
 			else:
 				gui_card.card_state = GUIToolCardButton.CardState.NORMAL
 	else:
+		selected_card.play_insufficient_energy_animation()
 		Singletons.main_game.show_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 
 func _on_tool_card_mouse_entered(index:int) -> void:
