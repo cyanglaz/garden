@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cyd2pmyuelacd"]
+[gd_scene load_steps=26 format=3 uid="uid://cyd2pmyuelacd"]
 
 [ext_resource type="Script" uid="uid://b3s0cai251tmf" path="res://scenes/GUI/main_game/gui_main_game.gd" id="1_48pcf"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_pgwuj"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://cra7g0krpvfvf" path="res://scenes/GUI/main_game/plant_cards/gui_plant_seed_animation_container.tscn" id="10_648op"]
 [ext_resource type="PackedScene" uid="uid://cu82s1rr2eqbq" path="res://scenes/GUI/main_game/shop/gui_shop_main.tscn" id="11_70io0"]
 [ext_resource type="PackedScene" uid="uid://cq1vyx3yrtj8p" path="res://scenes/GUI/main_game/tool_cards/gui_tool_cards_viewer.tscn" id="11_648op"]
+[ext_resource type="PackedScene" uid="uid://csrspsf8vl2ux" path="res://scenes/GUI/main_game/momentum/gui_boost_tracker.tscn" id="11_pgghc"]
 [ext_resource type="PackedScene" uid="uid://cgvd1dcwahof5" path="res://scenes/GUI/top_level_overlays/demo_end/gui_demo_end_main.tscn" id="12_bkemh"]
 [ext_resource type="PackedScene" uid="uid://3068uq3kyx0r" path="res://scenes/GUI/settings/gui_settings_main.tscn" id="12_wnks3"]
 [ext_resource type="PackedScene" uid="uid://bkdad5jox6bdj" path="res://scenes/GUI/main_game/warning/dialog/gui_dialogue_window.tscn" id="13_di7a2"]
@@ -159,6 +160,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="GUIBoostTracker" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container" index="5" instance=ExtResource("11_pgghc")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -22.0
+offset_right = -19.0
+offset_bottom = 9.0
+grow_horizontal = 0
 
 [node name="GUIShopMain" parent="MainContainer/GameContainer" instance=ExtResource("11_70io0")]
 unique_name_in_owner = true

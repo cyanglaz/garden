@@ -17,6 +17,7 @@ signal contract_selected(contract_data:ContractData)
 @onready var gui_discard_box_button: GUIDeckButton = %GUIDiscardBoxButton
 @onready var gui_exhaust_box_button: GUIDeckButton = %GUIExhaustBoxButton
 @onready var gui_power_container: GUIPowerContainer = %GUIPowerContainer
+@onready var gui_boost_tracker: GUIBoostTracker = %GUIBoostTracker
 
 @onready var gui_plant_deck_box: GUIPlantDeckBox = %GUIPlantDeckBox
 @onready var gui_plant_seed_animation_container: GUIPlantSeedAnimationContainer = %GUIPlantSeedAnimationContainer
@@ -156,6 +157,13 @@ func bind_energy(resource_point:ResourcePoint) -> void:
 #region weathers
 func update_weathers(weather_manager:WeatherManager) -> void:
 	gui_weather_container.update_with_weather_manager(weather_manager)
+
+#endregion
+
+#region boost
+
+func update_boost(boost:int) -> void:
+	gui_boost_tracker.update_boost(boost)
 
 #endregion
 

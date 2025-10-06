@@ -36,6 +36,7 @@ var max_energy := 3
 var session_summary:SessionSummary
 var hovered_data:ThingData: set = _set_hovered_data
 var rating:ResourcePoint = ResourcePoint.new()
+var boost := 1: set = _set_boost
 var _gold := 0: set = _set_gold
 var _selected_contract:ContractData
 var _level:int = 0
@@ -191,6 +192,7 @@ func _select_contract() -> void:
 	gui_main_game.animate_show_contract_selection(picked_contracts)
   
 func _start_new_level() -> void:
+	boost = 1
 	gui_main_game.show_current_contract(_selected_contract)
 	power_manager.clear_powers()
 	if test_contract:
@@ -204,6 +206,7 @@ func _start_new_level() -> void:
 	_start_day()
 
 func _start_day() -> void:
+	boost = maxi(boost - 1, 1)
 	weather_manager.generate_next_weathers(chapter_manager.current_chapter)
 	gui_main_game.toggle_all_ui(false)
 	energy_tracker.setup(max_energy, max_energy)
@@ -312,8 +315,9 @@ func _harvest() -> bool:
 		return true
 	else:
 		await plant_seed_manager.draw_plants(field_indices_to_harvest, gui_main_game.gui_plant_seed_animation_container)
-		energy_tracker.restore(number_of_fields_to_harvest)
-		await draw_cards(number_of_fields_to_harvest)
+		energy_tracker.restore(number_of_fields_to_harvest * boost)
+		await draw_cards(number_of_fields_to_harvest * boost)
+		boost += number_of_fields_to_harvest
 		return false
 	
 func _remove_plants(field_indices:Array[int]) -> void:
@@ -404,6 +408,10 @@ func _on_contract_selected(contract_data:ContractData) -> void:
 func _set_gold(val:int) -> void:
 	_gold = val
 	gui_main_game.gui_shop_main.update_for_gold(_gold)
+
+func _set_boost(val:int) -> void:
+	boost = val
+	gui_main_game.update_boost(boost)
 
 func _set_hovered_data(val:ThingData) -> void:
 	hovered_data = val

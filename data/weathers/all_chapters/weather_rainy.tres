@@ -9,21 +9,21 @@ type = 2
 value = 2
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
-[sub_resource type="Resource" id="Resource_cmjpk"]
-script = ExtResource("1_81tfl")
-type = 1
-value = -1
-metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
-
 [sub_resource type="Resource" id="Resource_81tfl"]
 script = ExtResource("1_81tfl")
 type = 4
 value = 1
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
+[sub_resource type="Resource" id="Resource_cmjpk"]
+script = ExtResource("1_81tfl")
+type = 1
+value = -1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
 [resource]
 script = ExtResource("2_pndmv")
-actions = Array[ExtResource("1_81tfl")]([SubResource("Resource_51kjc"), SubResource("Resource_cmjpk"), SubResource("Resource_81tfl")])
+actions = Array[ExtResource("1_81tfl")]([SubResource("Resource_51kjc"), SubResource("Resource_81tfl"), SubResource("Resource_cmjpk")])
 id = "rainy"
 display_name = "Rainy"
 note = "water + 2
