@@ -330,8 +330,8 @@ func _on_tool_selected(tool_data:ToolData) -> void:
 
 func _on_tool_application_started(tool_data:ToolData) -> void:
 	gui_main_game.toggle_all_ui(false)
-	if tool_data.energy_cost > 0:
-		energy_tracker.spend(tool_data.energy_cost)
+	if tool_data.get_final_energy_cost() > 0:
+		energy_tracker.spend(tool_data.get_final_energy_cost())
 
 func _on_tool_application_completed(_tool_data:ToolData) -> void:
 	await _harvest()

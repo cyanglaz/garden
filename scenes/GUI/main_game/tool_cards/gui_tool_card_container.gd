@@ -27,6 +27,11 @@ func toggle_all_tool_cards(on:bool) -> void:
 		var card:GUIToolCardButton = _container.get_child(i)
 		card.mouse_disabled = !on
 
+func refresh_tool_cards() -> void:
+	for i in get_card_count():
+		var card:GUIToolCardButton = _container.get_child(i)
+		card.update_with_tool_data(card.tool_data)
+
 func clear() -> void:
 	if _container.get_children().size() == 0:
 		return
@@ -178,7 +183,7 @@ func _handle_selected_card(card:GUIToolCardButton) -> void:
 func _on_tool_card_pressed(index:int) -> void:
 	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 	var selected_card:GUIToolCardButton = _container.get_child(index)
-	if selected_card.tool_data.energy_cost < 0:
+	if selected_card.tool_data.get_final_energy_cost() < 0:
 		Singletons.main_game.show_warning(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
 		return
 	selected_index = index

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cf38qnelokdpq"
+path="res://.godot/imported/icon_tangled.aseprite-9b422b71702fa0ae63c18497bb8b9c4b.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_tangled.aseprite"
+dest_files=["res://.godot/imported/icon_tangled.aseprite-9b422b71702fa0ae63c18497bb8b9c4b.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

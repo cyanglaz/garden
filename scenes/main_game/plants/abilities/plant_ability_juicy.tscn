@@ -3,5 +3,5 @@
 [ext_resource type="PackedScene" uid="uid://lptujl1fd783" path="res://scenes/main_game/plants/abilities/plant_ability.tscn" id="1_kbiua"]
 [ext_resource type="Script" uid="uid://djy5ahjr6vcj1" path="res://scenes/main_game/plants/abilities/plant_ability_juicy.gd" id="2_5eei8"]
 
-[node name="PlantAbilityBulb" instance=ExtResource("1_kbiua")]
+[node name="PlantAbilityJuicy" instance=ExtResource("1_kbiua")]
 script = ExtResource("2_5eei8")

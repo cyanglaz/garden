@@ -101,6 +101,9 @@ func finish_card(tool_data:ToolData) -> void:
 	else:
 		await discard_cards([tool_data])
 
+func refresh_ui() -> void:
+	_gui_tool_card_container.refresh_tool_cards()
+
 func _run_card_lifecycle(tool_data:ToolData) -> void:
 	_tool_lifecycle_queue.append(tool_data)
 	if tool_data.specials.has(ToolData.Special.COMPOST):

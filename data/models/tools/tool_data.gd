@@ -28,6 +28,7 @@ var need_select_field:bool : get = _get_need_select_field
 var all_fields:bool : get = _get_all_fields
 var cost:int : get = _get_cost
 var tool_script:ToolScript : get = _get_tool_script
+var energy_modifier:int
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
@@ -39,11 +40,15 @@ func copy(other:ThingData) -> void:
 	rarity = other_tool.rarity
 	specials = other_tool.specials.duplicate()
 	need_select_field = other_tool.need_select_field
+	energy_modifier = other_tool.energy_modifier
 
 func get_duplicate() -> ToolData:
 	var dup:ToolData = ToolData.new()
 	dup.copy(self)
 	return dup
+
+func get_final_energy_cost() -> int:
+	return energy_modifier + energy_cost
 
 func _get_cost() -> int:
 	return COSTS[rarity]
