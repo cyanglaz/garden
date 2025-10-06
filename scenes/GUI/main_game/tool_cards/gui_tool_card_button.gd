@@ -177,6 +177,7 @@ func _set_card_state(value:CardState) -> void:
 			has_outline = false
 			_overlay.hide()
 			_use_card_button.hide()
+			z_index = 0
 		CardState.SELECTED:
 			_container_offset = Vector2.UP * SELECTED_OFFSET
 			has_outline = true
@@ -185,16 +186,19 @@ func _set_card_state(value:CardState) -> void:
 				_use_card_button.hide()
 			else:
 				_use_card_button.show()
+			z_index = 1
 		CardState.HIGHLIGHTED:
 			_container_offset = Vector2.UP * HIGHLIGHTED_OFFSET
 			has_outline = true
 			_overlay.hide()
 			_use_card_button.hide()
+			z_index = 1
 		CardState.UNSELECTED:
 			_container_offset = Vector2.ZERO
 			has_outline = false
 			_overlay.show()
 			_use_card_button.hide()
+			z_index = 0
 
 func _set_container_offset(offset:Vector2) -> void:
 	_container_offset = offset
