@@ -4,7 +4,8 @@ extends Node2D
 const PLANT_SCENE_PATH_PREFIX := "res://scenes/main_game/plants/plants/plant_"
 const POPUP_LABEL_ICON_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label_icon.tscn")
 const POPUP_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label.tscn")
-const GUI_ICON_SCENE := preload("res://scenes/GUI/utils/gui_icon.tscn")
+const GUI_GENERAL_ACTION_SCENE := preload("res://scenes/GUI/main_game/actions/gui_general_action.tscn")
+const GUI_WEATHER_ACTION_SCENE := preload("res://scenes/GUI/main_game/actions/gui_weather_action.tscn")
 const point_LABEL_OFFSET := Vector2.RIGHT * 12
 const POPUP_SHOW_TIME := 0.3
 const POPUP_DESTROY_TIME:= 0.8
@@ -225,24 +226,24 @@ func _get_action_true_value(action_data:ActionData) -> int:
 	return 0
 
 func _play_action_from_gui_animation(action:ActionData, from_gui:Control) -> void:
-	if action.value <= 0:
-		return
-	var id := Util.get_action_id_with_action_type(action.type)
-	var icon_path := Util.get_image_path_for_resource_id(id)
-	var icon := GUI_ICON_SCENE.instantiate()
-	icon.texture = load(icon_path)
-	icon.global_position = from_gui.global_position + from_gui.size/2
-	icon.pivot_offset = icon.size/2
-	icon.scale = Vector2.ONE * 0.5
-	icon.z_index = 20
-	Singletons.main_game.add_control_to_overlay(icon)
-	var target_position:Vector2 = Util.get_node_ui_position(icon, self)
-	var tween:Tween = Util.create_scaled_tween(icon)
+	var gui_action:GUIAction
+	if action.action_category == ActionData.ActionCategory.WEATHER:
+		gui_action = GUI_WEATHER_ACTION_SCENE.instantiate()
+	else:
+		gui_action = GUI_GENERAL_ACTION_SCENE.instantiate()
+	Singletons.main_game.add_control_to_overlay(gui_action)
+	gui_action.update_with_action(action)
+	gui_action.global_position = from_gui.global_position + from_gui.size/2
+	gui_action.pivot_offset = gui_action.size/2
+	gui_action.scale = Vector2.ONE * 0.5
+	gui_action.z_index = 20
+	var target_position:Vector2 = Util.get_node_ui_position(gui_action, self)
+	var tween:Tween = Util.create_scaled_tween(gui_action)
 	tween.set_parallel(true)
-	tween.tween_property(icon, "global_position", target_position, ACTION_ICON_MOVE_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(icon, "scale", Vector2.ONE, ACTION_ICON_MOVE_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(gui_action, "global_position", target_position, ACTION_ICON_MOVE_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(gui_action, "scale", Vector2.ONE, ACTION_ICON_MOVE_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	await tween.finished
-	icon.queue_free()
+	gui_action.queue_free()
 
 #region events
 

@@ -38,7 +38,6 @@ func apply_weather_actions(fields:Array[Field], today_weather_icon:GUIWeather) -
 	await _apply_weather_action_to_next_field(fields, 0, today_weather_icon)
 
 func apply_weather_tool_action(action:ActionData, icon_move_start_position:Vector2, icon_move_target_position:Vector2) -> void:
-	await Util.await_for_tiny_time()
 	assert(action.action_category == ActionData.ActionCategory.WEATHER)
 	weathers.pop_front()
 	match action.type:
