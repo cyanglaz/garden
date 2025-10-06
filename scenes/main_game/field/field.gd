@@ -30,6 +30,7 @@ signal new_plant_planted()
 @onready var _gui_field_status_container: GUIFieldStatusContainer = %GUIFieldStatusContainer
 @onready var _gui_plant_ability_icon_container: GUIPlantAbilityIconContainer = %GUIPlantAbilityIconContainer
 @onready var _plant_down_sound: AudioStreamPlayer2D = %PlantDownSound
+@onready var _action_move_sound: AudioStreamPlayer2D = %ActionMoveSound
 
 var _weak_plant_preview:WeakRef = weakref(null)
 var plant:Plant
@@ -227,6 +228,7 @@ func _get_action_true_value(action_data:ActionData) -> int:
 
 func _play_action_from_gui_animation(action:ActionData, from_gui:Control) -> void:
 	var gui_action:GUIAction
+	_action_move_sound.play()
 	if action.action_category == ActionData.ActionCategory.WEATHER:
 		gui_action = GUI_WEATHER_ACTION_SCENE.instantiate()
 	else:
@@ -235,13 +237,13 @@ func _play_action_from_gui_animation(action:ActionData, from_gui:Control) -> voi
 	gui_action.update_with_action(action)
 	gui_action.global_position = from_gui.global_position + from_gui.size/2
 	gui_action.pivot_offset = gui_action.size/2
-	gui_action.scale = Vector2.ONE * 0.5
+	gui_action.scale = Vector2.ONE
 	gui_action.z_index = 20
 	var target_position:Vector2 = Util.get_node_ui_position(gui_action, self)
 	var tween:Tween = Util.create_scaled_tween(gui_action)
 	tween.set_parallel(true)
 	tween.tween_property(gui_action, "global_position", target_position, ACTION_ICON_MOVE_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(gui_action, "scale", Vector2.ONE, ACTION_ICON_MOVE_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(gui_action, "scale", Vector2.ONE * 0.3, ACTION_ICON_MOVE_TIME).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	await tween.finished
 	gui_action.queue_free()
 
