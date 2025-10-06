@@ -23,6 +23,8 @@ var _weak_gui_tool_card_container:WeakRef = weakref(null)
 func _init(initial_tools:Array, gui_tool_card_container:GUIToolCardContainer) -> void:
 	tool_deck = Deck.new(initial_tools)
 	_weak_gui_tool_card_container = weakref(gui_tool_card_container)
+	_tool_lifecycle_completed.connect(_on_tool_lifecycle_completed)
+	_tool_actions_completed.connect(_on_tool_actions_completed)
 
 func refresh_deck() -> void:
 	tool_deck.refresh()
@@ -68,11 +70,10 @@ func select_tool(tool_data:ToolData) -> void:
 
 func apply_tool(main_game:MainGame, fields:Array, field_index:int) -> void:
 	var applying_tool = selected_tool
-	tool_application_started.emit(applying_tool)
 	_run_card_lifecycle(applying_tool)
 	_run_card_actions(main_game, fields, field_index, applying_tool)
 	_tool_application_queue.append(applying_tool)
-	tool_application_completed.emit(applying_tool)
+	tool_application_started.emit(applying_tool)
 
 func discardable_cards() -> Array:
 	return tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return tool_data != selected_tool)
