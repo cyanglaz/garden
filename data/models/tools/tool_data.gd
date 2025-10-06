@@ -56,6 +56,8 @@ func _get_tool_script() -> ToolScript:
 		return null
 	
 func _get_need_select_field() -> bool:
+	if actions.is_empty():
+		return tool_script.need_select_field()
 	for action:ActionData in actions:
 		if action.action_category == ActionData.ActionCategory.FIELD:
 			return true
