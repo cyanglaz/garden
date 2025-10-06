@@ -12,7 +12,6 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 [resource]
 script = ExtResource("2_kxdff")
 actions = Array[ExtResource("1_ecsgx")]([SubResource("Resource_oexgw")])
-need_select_field = true
 id = "bug_spray"
 display_name = "Bug Spray"
 note = "-1 bug"

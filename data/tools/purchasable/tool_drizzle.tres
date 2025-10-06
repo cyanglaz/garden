@@ -12,7 +12,6 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 [resource]
 script = ExtResource("2_xbvr6")
 actions = Array[ExtResource("1_oexgw")]([SubResource("Resource_oexgw")])
-need_select_field = true
 id = "drizzle"
 display_name = "Drizzle"
 note = "+1 water

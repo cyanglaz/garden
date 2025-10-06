@@ -13,7 +13,6 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_bofcb")
 actions = Array[ExtResource("1_oac4a")]([SubResource("Resource_oac4a")])
 rarity = 1
-need_select_field = true
 id = "seep"
 display_name = "Seep"
 data = {

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dswoypivjtaql"]
+[gd_scene load_steps=18 format=3 uid="uid://dswoypivjtaql"]
 
 [ext_resource type="Script" uid="uid://ypmkl3x5hk7f" path="res://scenes/main_game/field/field.gd" id="1_4blml"]
 [ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/field.png" id="1_se4o6"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://e0jhp4mhrm81" path="res://scenes/main_game/field/gui_field_status_container.tscn" id="9_3ecbu"]
 [ext_resource type="AudioStream" uid="uid://t10sv74gr8qu" path="res://resources/sounds/SFX/other/points/points_collected.wav" id="9_n6lee"]
 [ext_resource type="AudioStream" uid="uid://d1akur2jywp1n" path="res://resources/sounds/SFX/plants/plant_down.wav" id="9_sqga6"]
+[ext_resource type="AudioStream" uid="uid://bgyg7vg7fsae6" path="res://resources/sounds/SFX/tool_cards/card_use.wav" id="11_u5lh2"]
 [ext_resource type="PackedScene" uid="uid://jaeock3j73t2" path="res://scenes/main_game/field/gui_plant_ability_icon_container.tscn" id="12_sqga6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sqga6"]
@@ -130,6 +131,11 @@ bus = &"SFX"
 [node name="PointAudio" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("9_n6lee")
+bus = &"SFX"
+
+[node name="ActionMoveSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("11_u5lh2")
 bus = &"SFX"
 
 [node name="GUIFieldStatusContainer" parent="." instance=ExtResource("9_3ecbu")]

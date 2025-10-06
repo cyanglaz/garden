@@ -9,7 +9,7 @@ var _pending_actions:Array[ActionData] = []
 var _action_index:int = 0
 var _field_application_index_counter:int = 0
 
-func apply_tool(main_game:MainGame, fields:Array, field_index:int, tool_data:ToolData) -> void:
+func apply_tool(main_game:MainGame, fields:Array, field_index:int, tool_data:ToolData, tool_card:GUIToolCardButton) -> void:
 	tool_application_started.emit(tool_data)
 	if tool_data.tool_script:
 		await tool_data.tool_script.apply_tool(main_game, fields, field_index, tool_data)
@@ -17,9 +17,9 @@ func apply_tool(main_game:MainGame, fields:Array, field_index:int, tool_data:Too
 	else:
 		_action_index = 0
 		_pending_actions = tool_data.actions.duplicate()
-		await _apply_next_action(main_game, fields, field_index, tool_data)
+		await _apply_next_action(main_game, fields, field_index, tool_data, tool_card)
 
-func _apply_next_action(main_game:MainGame, fields:Array, field_index:int, tool_data:ToolData) -> void:
+func _apply_next_action(main_game:MainGame, fields:Array, field_index:int, tool_data:ToolData, tool_card:GUIToolCardButton) -> void:
 	if _action_index >= _pending_actions.size():
 		_pending_actions.clear()
 		_action_index = 0
@@ -35,18 +35,18 @@ func _apply_next_action(main_game:MainGame, fields:Array, field_index:int, tool_
 			else:
 				fields_to_apply.append(fields[field_index])
 			fields_to_apply.filter(func(field:Field): return field.is_action_applicable(action))
-			await _apply_field_tool_action(action, fields_to_apply)
+			await _apply_field_tool_action(action, fields_to_apply, tool_card)
 		ActionData.ActionCategory.WEATHER:
 			await _apply_weather_tool_action(action, main_game)
 		_:
 			await _apply_instant_use_tool_action(action, main_game, tool_data)
-	await _apply_next_action(main_game, fields, field_index, tool_data)
+	await _apply_next_action(main_game, fields, field_index, tool_data, tool_card)
 
-func _apply_field_tool_action(action:ActionData, fields:Array) -> void:
+func _apply_field_tool_action(action:ActionData, fields:Array, tool_card:GUIToolCardButton) -> void:
 	_field_application_index_counter = fields.size()
 	for field:Field in fields:
 		field.action_application_completed.connect(_on_field_action_application_completed.bind(field))
-		field.apply_actions([action])
+		field.apply_actions([action], tool_card)
 	await _all_field_action_application_completed
 
 func _apply_weather_tool_action(action:ActionData, main_game:MainGame) -> void:

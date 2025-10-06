@@ -2,11 +2,13 @@ class_name GUIToolCardButton
 extends GUIBasicButton
 
 signal _dissolve_finished()
+signal use_card_button_pressed()
 
 enum CardState {
 	NORMAL,
 	HIGHLIGHTED,
 	SELECTED,
+	UNSELECTED,
 }
 
 const SPECIAL_ICON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_special_icon.tscn")
@@ -14,7 +16,7 @@ const VALUE_ICON_PREFIX := "res://resources/sprites/GUI/icons/cards/values/icon_
 const EXHAUST_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_exhaust.wav")
 
 const SIZE := Vector2(40, 54)
-const SELECTED_OFFSET := 6.0
+const SELECTED_OFFSET := 10.0
 const IN_USE_OFFSET := 10.0
 const HIGHLIGHTED_OFFSET := 1.0
 
@@ -28,6 +30,8 @@ const HIGHLIGHTED_OFFSET := 1.0
 @onready var _rich_text_label: RichTextLabel = %RichTextLabel
 @onready var _use_sound: AudioStreamPlayer2D = %UseSound
 @onready var _animation_player: AnimationPlayer = %AnimationPlayer
+@onready var _overlay: NinePatchRect = %Overlay
+@onready var _gui_use_card_button: GUIUseCardButton = %GUIUseCardButton
 
 var mouse_disabled:bool = true: set = _set_mouse_disabled
 var activated := false: set = _set_activated
@@ -49,6 +53,8 @@ func _ready() -> void:
 	mouse_filter = MOUSE_FILTER_IGNORE
 	assert(size == SIZE, "size not match")
 	_animation_player.animation_finished.connect(_on_animation_finished)
+	_gui_use_card_button.pressed.connect(_on_use_button_pressed)
+	_gui_use_card_button.hide()
 
 func update_with_tool_data(td:ToolData) -> void:
 	_weak_tool_data = weakref(td)
@@ -93,6 +99,11 @@ func play_exhaust_animation() -> void:
 func play_insufficient_energy_animation() -> void:
 	await Util.play_error_shake_animation(self, "_container_offset", Vector2.ZERO)
 
+func clear_tooltip() -> void:
+	if _weak_actions_tooltip.get_ref():
+		_weak_actions_tooltip.get_ref().queue_free()
+		_weak_actions_tooltip = weakref(null)
+
 func _update_for_energy(energy:int) -> void:
 	if !tool_data:
 		return
@@ -100,6 +111,11 @@ func _update_for_energy(energy:int) -> void:
 		resource_sufficient = true
 	else:
 		resource_sufficient = false
+	
+func _play_hover_sound() -> void:
+	if card_state == CardState.SELECTED:
+		return
+	super._play_hover_sound()
 
 #region events
 
@@ -117,9 +133,7 @@ func _on_mouse_entered() -> void:
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
 	Singletons.main_game.hovered_data = null
-	if _weak_actions_tooltip.get_ref():
-		_weak_actions_tooltip.get_ref().queue_free()
-		_weak_actions_tooltip = weakref(null)
+	clear_tooltip()
 
 func _on_energy_tracker_value_updated(energy_tracker:ResourcePoint) -> void:
 	_update_for_energy(energy_tracker.value)
@@ -152,7 +166,6 @@ func _set_animation_mode(value:bool) -> void:
 	if value:
 		custom_minimum_size = Vector2.ZERO
 		#_card_margin_container.custom_minimum_size = Vector2.ZERO
-		card_state = CardState.NORMAL
 	else:
 		custom_minimum_size = SIZE
 
@@ -162,12 +175,30 @@ func _set_card_state(value:CardState) -> void:
 		CardState.NORMAL:
 			_container_offset = Vector2.ZERO
 			has_outline = false
+			_overlay.hide()
+			_gui_use_card_button.hide()
+			z_index = 0
 		CardState.SELECTED:
 			_container_offset = Vector2.UP * SELECTED_OFFSET
 			has_outline = true
+			_overlay.hide()
+			if tool_data.need_select_field:
+				_gui_use_card_button.hide()
+			else:
+				_gui_use_card_button.show()
+			z_index = 1
 		CardState.HIGHLIGHTED:
 			_container_offset = Vector2.UP * HIGHLIGHTED_OFFSET
 			has_outline = true
+			_overlay.hide()
+			_gui_use_card_button.hide()
+			z_index = 1
+		CardState.UNSELECTED:
+			_container_offset = Vector2.ZERO
+			has_outline = false
+			_overlay.show()
+			_gui_use_card_button.hide()
+			z_index = 0
 
 func _set_container_offset(offset:Vector2) -> void:
 	_container_offset = offset
@@ -204,3 +235,7 @@ func _on_animation_finished(anim_name:String) -> void:
 
 func _on_tool_data_refresh() -> void:
 	update_with_tool_data(tool_data)
+
+func _on_use_button_pressed() -> void:
+	_gui_use_card_button.hide()
+	use_card_button_pressed.emit()

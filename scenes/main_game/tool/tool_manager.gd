@@ -22,8 +22,6 @@ var _weak_gui_tool_card_container:WeakRef = weakref(null)
 
 func _init(initial_tools:Array, gui_tool_card_container:GUIToolCardContainer) -> void:
 	tool_deck = Deck.new(initial_tools)
-	_tool_lifecycle_completed.connect(_on_tool_lifecycle_completed)
-	_tool_actions_completed.connect(_on_tool_actions_completed)
 	_weak_gui_tool_card_container = weakref(gui_tool_card_container)
 
 func refresh_deck() -> void:
@@ -70,10 +68,11 @@ func select_tool(tool_data:ToolData) -> void:
 
 func apply_tool(main_game:MainGame, fields:Array, field_index:int) -> void:
 	var applying_tool = selected_tool
+	tool_application_started.emit(applying_tool)
 	_run_card_lifecycle(applying_tool)
 	_run_card_actions(main_game, fields, field_index, applying_tool)
 	_tool_application_queue.append(applying_tool)
-	tool_application_started.emit(applying_tool)
+	tool_application_completed.emit(applying_tool)
 
 func discardable_cards() -> Array:
 	return tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return tool_data != selected_tool)
@@ -96,22 +95,14 @@ func add_temp_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vec
 func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)
 
-func apply_auto_tools(main_game:MainGame, fields:Array, filter_func:Callable) -> void:
-	var has_tool_to_apply:bool = true
-	while has_tool_to_apply:
-		has_tool_to_apply = false
-		for tool_data:ToolData in tool_deck.hand:
-			if filter_func.call(tool_data):
-				select_tool(tool_data)
-				apply_tool(main_game, fields, 0)
-				await tool_application_completed
-				has_tool_to_apply = true
-				break
+func finish_card(tool_data:ToolData) -> void:
+	if tool_data.specials.has(ToolData.Special.COMPOST):
+		await exhaust_cards([tool_data])
+	else:
+		await discard_cards([tool_data])
 
 func _run_card_lifecycle(tool_data:ToolData) -> void:
 	_tool_lifecycle_queue.append(tool_data)
-	if !tool_data.need_select_field:
-		await use_card(tool_data)
 	if tool_data.specials.has(ToolData.Special.COMPOST):
 		await exhaust_cards([tool_data])
 	else:
@@ -122,7 +113,7 @@ func _run_card_lifecycle(tool_data:ToolData) -> void:
 func _run_card_actions(main_game:MainGame, fields:Array, field_index:int, tool_data:ToolData) -> void:
 	_tool_actions_queue.append(tool_data)
 	await main_game.field_container.trigger_tool_application_hook()
-	await _tool_applier.apply_tool(main_game, fields, field_index, tool_data)
+	await _tool_applier.apply_tool(main_game, fields, field_index, tool_data, null)
 	_tool_actions_queue.erase(tool_data)
 	_tool_actions_completed.emit(tool_data)
 

@@ -4,10 +4,13 @@ extends Node2D
 const PLANT_SCENE_PATH_PREFIX := "res://scenes/main_game/plants/plants/plant_"
 const POPUP_LABEL_ICON_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label_icon.tscn")
 const POPUP_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label.tscn")
+const GUI_GENERAL_ACTION_SCENE := preload("res://scenes/GUI/main_game/actions/gui_general_action.tscn")
+const GUI_WEATHER_ACTION_SCENE := preload("res://scenes/GUI/main_game/actions/gui_weather_action.tscn")
 const point_LABEL_OFFSET := Vector2.RIGHT * 12
 const POPUP_SHOW_TIME := 0.3
 const POPUP_DESTROY_TIME:= 0.8
 const POPUP_STATUS_DESTROY_TIME := 1.2
+const ACTION_ICON_MOVE_TIME := 0.3
 
 signal field_pressed()
 signal field_hovered(hovered:bool)
@@ -27,6 +30,7 @@ signal new_plant_planted()
 @onready var _gui_field_status_container: GUIFieldStatusContainer = %GUIFieldStatusContainer
 @onready var _gui_plant_ability_icon_container: GUIPlantAbilityIconContainer = %GUIPlantAbilityIconContainer
 @onready var _plant_down_sound: AudioStreamPlayer2D = %PlantDownSound
+@onready var _action_move_sound: AudioStreamPlayer2D = %ActionMoveSound
 
 var _weak_plant_preview:WeakRef = weakref(null)
 var plant:Plant
@@ -94,8 +98,8 @@ func remove_plant_preview() -> void:
 		_weak_plant_preview.get_ref().queue_free()
 		_reset_progress_bars()
 
-func apply_weather_actions(weather_data:WeatherData) -> void:
-	await apply_actions(weather_data.actions)
+func apply_weather_actions(weather_data:WeatherData, from_gui:Control) -> void:
+	await apply_actions(weather_data.actions, from_gui)
 	if plant:
 		await plant.trigger_ability(Plant.AbilityType.WEATHER, Singletons.main_game)
 
@@ -105,8 +109,9 @@ func is_action_applicable(action:ActionData) -> bool:
 	else:
 		return true
 
-func apply_actions(actions:Array[ActionData]) -> void:
-	for action:ActionData in actions:
+func apply_actions(actions:Array[ActionData], _from_gui:Control) -> void:
+	#await _play_action_from_gui_animation(action, from_gui)
+	for action in actions:
 		match action.type:
 			ActionData.ActionType.LIGHT:
 				await _apply_light_action(action)
@@ -219,6 +224,29 @@ func _get_action_true_value(action_data:ActionData) -> int:
 	elif action_data.value_type == ActionData.ValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
 		return Singletons.main_game.tool_manager.tool_deck.hand.size()
 	return 0
+
+func _play_action_from_gui_animation(action:ActionData, from_gui:Control) -> void:
+	var gui_action:GUIAction
+	_action_move_sound.play()
+	if action.action_category == ActionData.ActionCategory.WEATHER:
+		gui_action = GUI_WEATHER_ACTION_SCENE.instantiate()
+	else:
+		gui_action = GUI_GENERAL_ACTION_SCENE.instantiate()
+	Singletons.main_game.add_control_to_overlay(gui_action)
+	gui_action.update_with_action(action)
+	gui_action.global_position = from_gui.global_position + from_gui.size/2
+	gui_action.pivot_offset = gui_action.size/2
+	gui_action.scale = Vector2.ONE
+	gui_action.z_index = 20
+	var target_position:Vector2 = Util.get_node_ui_position(gui_action, self)
+	var tween:Tween = Util.create_scaled_tween(gui_action)
+	tween.set_parallel(true)
+	tween.tween_property(gui_action, "global_position", target_position, ACTION_ICON_MOVE_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(gui_action, "scale", Vector2.ONE * 0.3, ACTION_ICON_MOVE_TIME).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
+	await tween.finished
+	gui_action.queue_free()
+
+#region events
 
 func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> void:
 	match state:

@@ -12,7 +12,6 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 [resource]
 script = ExtResource("2_1qw2k")
 actions = Array[ExtResource("1_6pbky")]([SubResource("Resource_oexgw")])
-need_select_field = true
 id = "sunlight"
 display_name = "Sunlight"
 note = "+1 light"

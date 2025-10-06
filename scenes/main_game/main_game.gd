@@ -59,7 +59,6 @@ func _ready() -> void:
 	field_container.field_pressed.connect(_on_field_pressed)
 	field_container.field_harvest_started.connect(_on_field_harvest_started)
 	field_container.field_harvest_completed.connect(_on_field_harvest_completed)
-	
 	#weather signals
 	weather_manager.weathers_updated.connect(_on_weathers_updated)
 	
@@ -87,6 +86,7 @@ func _ready() -> void:
 	gui_main_game.plant_seed_drawn_animation_completed.connect(_on_plant_seed_drawn_animation_completed)
 	gui_main_game.contract_selected.connect(_on_contract_selected)
 	gui_main_game.reward_finished.connect(_on_reward_finished)
+	gui_main_game.card_use_button_pressed.connect(_on_card_use_button_pressed)
 	
 	#shop signals
 	gui_main_game.gui_shop_main.next_level_button_pressed.connect(_on_shop_next_level_pressed)
@@ -114,7 +114,6 @@ func _input(event: InputEvent) -> void:
 func draw_cards(count:int) -> void:
 	var draw_results:Array = await tool_manager.draw_cards(count)
 	await power_manager.handle_card_added_to_hand_hook(draw_results)
-	await tool_manager.apply_auto_tools(self, field_container.fields, func(tool_data:ToolData): return tool_data.specials.has(ToolData.Special.USE_ON_DRAW))
 
 func discard_cards(tools:Array) -> void:
 	await tool_manager.discard_cards(tools)
@@ -247,7 +246,6 @@ func _lose() -> void:
 func _end_day() -> void:
 	gui_main_game.toggle_all_ui(false)
 	_clear_tool_selection()
-	await tool_manager.apply_auto_tools(self, field_container.fields, func(tool_data:ToolData): return tool_data.specials.has(ToolData.Special.WITHER))
 	await _discard_all_tools()
 	await field_container.trigger_end_day_hook(self)
 	await field_container.trigger_end_day_ability(self)
@@ -291,11 +289,6 @@ func _handle_select_tool(tool_data:ToolData) -> void:
 	field_container.clear_tool_indicators()
 	tool_manager.select_tool(tool_data)
 
-func _apply_instant_tool() -> void:
-	await Util.create_scaled_timer(INSTANT_CARD_USE_DELAY).timeout
-	tool_manager.apply_tool(self, field_container.fields, 0)
-	await tool_manager.tool_application_completed
-
 #endregion
 
 #region harvest flow
@@ -334,20 +327,22 @@ func _on_tool_selected(tool_data:ToolData) -> void:
 	_handle_select_tool(tool_data)
 	if tool_data.need_select_field:
 		field_container.toggle_all_field_selection_indicators(GUIFieldSelectionArrow.IndicatorState.READY)
-	if !tool_data:
-		return
-	if !tool_data.need_select_field:
-		await _apply_instant_tool()
 
 func _on_tool_application_started(tool_data:ToolData) -> void:
-	_clear_tool_selection()
 	gui_main_game.toggle_all_ui(false)
 	if tool_data.energy_cost > 0:
 		energy_tracker.spend(tool_data.energy_cost)
 
 func _on_tool_application_completed(_tool_data:ToolData) -> void:
 	await _harvest()
+	_clear_tool_selection()
 	gui_main_game.toggle_all_ui(true)
+
+func _on_card_use_button_pressed(tool_data:ToolData) -> void:
+	assert(!tool_data.need_select_field)
+	await Util.create_scaled_timer(INSTANT_CARD_USE_DELAY).timeout
+	tool_manager.apply_tool(self, field_container.fields, 0)
+	await tool_manager.tool_application_completed
 
 #region gui main events
 func _on_end_turn_button_pressed() -> void:
@@ -382,7 +377,6 @@ func _on_field_pressed(index:int) -> void:
 
 func _on_plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData) -> void:
 	await field_container.fields[field_index].plant_seed(plant_data)
-
 #region weather events
 func _on_weathers_updated() -> void:
 	gui_main_game.update_weathers(weather_manager)

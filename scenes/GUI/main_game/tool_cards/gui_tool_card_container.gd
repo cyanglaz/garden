@@ -2,6 +2,7 @@ class_name GUIToolCardContainer
 extends PanelContainer
 
 signal tool_selected(tool_data:ToolData)
+signal card_use_button_pressed(tool_data:ToolData)
 
 var TOOL_CARD_SCENE := load("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const DEFAULT_CARD_SPACE := 1.0
@@ -13,7 +14,7 @@ const TOOL_SELECTED_OFFSET := -6.0
 @onready var _gui_tool_card_animation_container: GUIToolCardAnimationContainer = %GUIToolCardAnimationContainer
 
 var _card_size:float
-var _selected_index:int = -1
+var selected_index:int = -1
 
 func _ready() -> void:
 	_card_size = GUIToolCardButton.SIZE.x
@@ -34,11 +35,19 @@ func clear() -> void:
 	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 
 func clear_selection() -> void:
-	for i in _container.get_children().size():
-		var gui_card = _container.get_child(i)
-		gui_card.mouse_disabled = false
-		gui_card.card_state = GUIToolCardButton.CardState.NORMAL
-	_selected_index = -1
+	selected_index = -1
+	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
+	if positions.size() > 0:
+		var tween:Tween = Util.create_scaled_tween(self)
+		tween.set_parallel(true)
+		for i in _container.get_children().size():
+			var gui_card = _container.get_child(i)
+			gui_card.card_state = GUIToolCardButton.CardState.NORMAL
+			tween.tween_property(gui_card, "position", positions[i], REPOSITION_DURATION)
+		await tween.finished
+		for i in _container.get_children().size():
+			var gui_card = _container.get_child(i)
+			gui_card.z_index = 0
 	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 
 func add_card(tool_data:ToolData) -> GUIToolCardButton:
@@ -46,6 +55,11 @@ func add_card(tool_data:ToolData) -> GUIToolCardButton:
 	_container.add_child(gui_card)
 	gui_card.update_with_tool_data(tool_data)
 	gui_card.activated = true
+	gui_card.use_card_button_pressed.connect(_on_tool_card_use_card_button_pressed.bind(tool_data))
+	if selected_index >= 0:
+		gui_card.card_state = GUIToolCardButton.CardState.UNSELECTED
+	else:
+		gui_card.card_state = GUIToolCardButton.CardState.NORMAL
 	_rebind_signals()
 	return gui_card
 
@@ -138,18 +152,24 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 		result.append(target_position)
 	result.reverse() # First card is at the end of the array.
 	for i in result.size():
-		if _selected_index >= 0:
+		if selected_index >= 0:
 			if card_space < 0.0:
 				var pos = result[i]
-				if i < _selected_index:
+				if i < selected_index:
 					# The positions are reversed
 					pos.x += 1 - card_space # Push right cards 4 pixels left
-				elif i > _selected_index:
+				elif i > selected_index:
 					pos.x -= 1 - card_space # Push left cards 4 pixels right
 				result[i] = pos
 	return result
 
 #region private
+
+func _handle_selected_card(card:GUIToolCardButton) -> void:
+	if card.card_state == GUIToolCardButton.CardState.SELECTED:
+		return
+	card.card_state = GUIToolCardButton.CardState.SELECTED
+	tool_selected.emit(card.tool_data)
 
 #endregion
 
@@ -161,7 +181,8 @@ func _on_tool_card_pressed(index:int) -> void:
 	if selected_card.tool_data.energy_cost < 0:
 		Singletons.main_game.show_warning(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
 		return
-	_selected_index = index
+	selected_index = index
+	
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
@@ -170,11 +191,9 @@ func _on_tool_card_pressed(index:int) -> void:
 		for i in _container.get_children().size():	
 			var gui_card:GUIToolCardButton = _container.get_child(i)
 			if i == index:
-				if gui_card.card_state != GUIToolCardButton.CardState.SELECTED:
-					gui_card.card_state = GUIToolCardButton.CardState.SELECTED
-					tool_selected.emit(gui_card.tool_data)
+				_handle_selected_card(gui_card)
 			else:
-				gui_card.card_state = GUIToolCardButton.CardState.NORMAL
+				gui_card.card_state = GUIToolCardButton.CardState.UNSELECTED
 	else:
 		selected_card.play_insufficient_energy_animation()
 		Singletons.main_game.show_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
@@ -184,9 +203,9 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 	var mouse_over_card = _container.get_child(index)
 	if !is_instance_valid(mouse_over_card):
 		return
-	if mouse_over_card.card_state == GUIToolCardButton.CardState.NORMAL:
+	if mouse_over_card.card_state == GUIToolCardButton.CardState.NORMAL || mouse_over_card.card_state == GUIToolCardButton.CardState.UNSELECTED:
 		mouse_over_card.card_state = GUIToolCardButton.CardState.HIGHLIGHTED
-	if _selected_index >= 0:
+	if selected_index >= 0:
 		return
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	if positions.size() < 2:
@@ -218,7 +237,12 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 	if !is_instance_valid(mouse_exit_card):
 		return
 	if mouse_exit_card.card_state == GUIToolCardButton.CardState.HIGHLIGHTED:
-		mouse_exit_card.card_state = GUIToolCardButton.CardState.NORMAL
+		if selected_index >= 0:
+			mouse_exit_card.card_state = GUIToolCardButton.CardState.UNSELECTED
+		else:
+			mouse_exit_card.card_state = GUIToolCardButton.CardState.NORMAL
+	if selected_index >= 0:
+		return
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
@@ -232,3 +256,6 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 		animated = true
 	if !animated:
 		tween.kill()
+
+func _on_tool_card_use_card_button_pressed(tool_data:ToolData) -> void:
+	card_use_button_pressed.emit(tool_data)
