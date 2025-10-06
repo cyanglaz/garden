@@ -5,8 +5,6 @@ const IN_USE_PAUSE := 0.2
 
 signal tool_application_started(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
-signal _tool_lifecycle_completed(tool_data:ToolData)
-signal _tool_actions_completed(tool_data:ToolData)
 
 var tool_deck:Deck
 var selected_tool_index:int: get = _get_selected_tool_index
@@ -14,16 +12,11 @@ var selected_tool:ToolData
 
 var _gui_tool_card_container:GUIToolCardContainer: get = _get_gui_tool_card_container
 var _tool_applier:ToolApplier = ToolApplier.new()
-var _tool_application_queue:Array[ToolData] = []
-var _tool_actions_queue:Array[ToolData] = []
-var _tool_lifecycle_queue:Array[ToolData] = []
 
 var _weak_gui_tool_card_container:WeakRef = weakref(null)
 
 func _init(initial_tools:Array, gui_tool_card_container:GUIToolCardContainer) -> void:
 	tool_deck = Deck.new(initial_tools)
-	_tool_lifecycle_completed.connect(_on_tool_lifecycle_completed)
-	_tool_actions_completed.connect(_on_tool_actions_completed)
 	_weak_gui_tool_card_container = weakref(gui_tool_card_container)
 
 func refresh_deck() -> void:
@@ -70,10 +63,9 @@ func select_tool(tool_data:ToolData) -> void:
 
 func apply_tool(main_game:MainGame, fields:Array, field_index:int) -> void:
 	var applying_tool = selected_tool
-	_run_card_lifecycle(applying_tool)
-	_run_card_actions(main_game, fields, field_index, applying_tool)
-	_tool_application_queue.append(applying_tool)
 	tool_application_started.emit(applying_tool)
+	await _run_card_actions(main_game, fields, field_index, applying_tool)
+	tool_application_completed.emit(applying_tool)
 
 func discardable_cards() -> Array:
 	return tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return tool_data != selected_tool)
@@ -108,23 +100,15 @@ func apply_auto_tools(main_game:MainGame, fields:Array, filter_func:Callable) ->
 				has_tool_to_apply = true
 				break
 
-func _run_card_lifecycle(tool_data:ToolData) -> void:
-	_tool_lifecycle_queue.append(tool_data)
-	#if !tool_data.need_select_field:
-	#	await use_card(tool_data)
+func finish_card(tool_data:ToolData) -> void:
 	if tool_data.specials.has(ToolData.Special.COMPOST):
 		await exhaust_cards([tool_data])
 	else:
 		await discard_cards([tool_data])
-	_tool_lifecycle_queue.erase(tool_data)
-	_tool_lifecycle_completed.emit(tool_data)
 
 func _run_card_actions(main_game:MainGame, fields:Array, field_index:int, tool_data:ToolData) -> void:
-	_tool_actions_queue.append(tool_data)
 	await main_game.field_container.trigger_tool_application_hook()
 	await _tool_applier.apply_tool(main_game, fields, field_index, tool_data)
-	_tool_actions_queue.erase(tool_data)
-	_tool_actions_completed.emit(tool_data)
 
 func _get_selected_tool_index() -> int:
 	if !selected_tool:
@@ -134,14 +118,3 @@ func _get_selected_tool_index() -> int:
 func _get_gui_tool_card_container() -> GUIToolCardContainer:
 	return _weak_gui_tool_card_container.get_ref()
 
-func _on_tool_lifecycle_completed(tool_data:ToolData) -> void:
-	assert(!_tool_lifecycle_queue.has(tool_data))
-	if !_tool_lifecycle_queue.has(tool_data) && _tool_application_queue.has(tool_data):
-		_tool_application_queue.erase(tool_data)
-		tool_application_completed.emit(tool_data)
-
-func _on_tool_actions_completed(tool_data:ToolData) -> void:
-	assert(!_tool_actions_queue.has(tool_data))
-	if !_tool_actions_queue.has(tool_data) && _tool_application_queue.has(tool_data):
-		_tool_application_queue.erase(tool_data)
-		tool_application_completed.emit(tool_data)

@@ -169,13 +169,6 @@ func _handle_selected_card(card:GUIToolCardButton) -> void:
 	if card.card_state == GUIToolCardButton.CardState.SELECTED:
 		return
 	card.card_state = GUIToolCardButton.CardState.SELECTED
-	card.z_index = 1
-	card.clear_tooltip()
-	card.mouse_disabled = true
-	var tween:Tween = Util.create_scaled_tween(self)
-	tween.tween_property(card, "global_position", _container.global_position + _container.size/2 - card.size/2, REPOSITION_DURATION)
-	await tween.finished
-	card.mouse_disabled = false
 	tool_selected.emit(card.tool_data)
 
 #endregion
@@ -189,6 +182,7 @@ func _on_tool_card_pressed(index:int) -> void:
 		Singletons.main_game.show_warning(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
 		return
 	selected_index = index
+	
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
@@ -209,7 +203,7 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 	var mouse_over_card = _container.get_child(index)
 	if !is_instance_valid(mouse_over_card):
 		return
-	if mouse_over_card.card_state == GUIToolCardButton.CardState.NORMAL:
+	if mouse_over_card.card_state == GUIToolCardButton.CardState.NORMAL || mouse_over_card.card_state == GUIToolCardButton.CardState.UNSELECTED:
 		mouse_over_card.card_state = GUIToolCardButton.CardState.HIGHLIGHTED
 	if selected_index >= 0:
 		return
@@ -242,10 +236,13 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 	var mouse_exit_card = _container.get_child(index)
 	if !is_instance_valid(mouse_exit_card):
 		return
+	if mouse_exit_card.card_state == GUIToolCardButton.CardState.HIGHLIGHTED:
+		if selected_index >= 0:
+			mouse_exit_card.card_state = GUIToolCardButton.CardState.UNSELECTED
+		else:
+			mouse_exit_card.card_state = GUIToolCardButton.CardState.NORMAL
 	if selected_index >= 0:
 		return
-	if mouse_exit_card.card_state == GUIToolCardButton.CardState.HIGHLIGHTED:
-		mouse_exit_card.card_state = GUIToolCardButton.CardState.NORMAL
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)

@@ -332,13 +332,14 @@ func _on_tool_selected(tool_data:ToolData) -> void:
 		field_container.toggle_all_field_selection_indicators(GUIFieldSelectionArrow.IndicatorState.READY)
 
 func _on_tool_application_started(tool_data:ToolData) -> void:
-	_clear_tool_selection()
 	gui_main_game.toggle_all_ui(false)
 	if tool_data.energy_cost > 0:
 		energy_tracker.spend(tool_data.energy_cost)
 
-func _on_tool_application_completed(_tool_data:ToolData) -> void:
+func _on_tool_application_completed(tool_data:ToolData) -> void:
 	await _harvest()
+	await tool_manager.finish_card(tool_data)
+	_clear_tool_selection()
 	gui_main_game.toggle_all_ui(true)
 
 func _on_card_use_button_pressed(tool_data:ToolData) -> void:
