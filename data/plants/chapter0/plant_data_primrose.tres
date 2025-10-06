@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_y5ah4")
 light = 1
-water = 5
+water = 3
 chapters = Array[int]([0])
 id = "primrose"
 display_name = "Primrose"
