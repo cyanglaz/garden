@@ -95,7 +95,8 @@ func remove_plant_preview() -> void:
 		_reset_progress_bars()
 
 func apply_weather_actions(weather_data:WeatherData) -> void:
-	await apply_actions(weather_data.actions)
+	for action:ActionData in weather_data.actions:
+		await apply_action(action)
 	if plant:
 		await plant.trigger_ability(Plant.AbilityType.WEATHER, Singletons.main_game)
 
@@ -105,17 +106,16 @@ func is_action_applicable(action:ActionData) -> bool:
 	else:
 		return true
 
-func apply_actions(actions:Array[ActionData]) -> void:
-	for action:ActionData in actions:
-		match action.type:
-			ActionData.ActionType.LIGHT:
-				await _apply_light_action(action)
-			ActionData.ActionType.WATER:
-				await _apply_water_action(action)
-			ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
-				await _apply_field_status_action(action)
-			_:
-				pass
+func apply_action(action:ActionData) -> void:
+	match action.type:
+		ActionData.ActionType.LIGHT:
+			await _apply_light_action(action)
+		ActionData.ActionType.WATER:
+			await _apply_water_action(action)
+		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
+			await _apply_field_status_action(action)
+		_:
+			pass
 	action_application_completed.emit()
 
 func apply_field_status(field_status_id:String, stack:int) -> void:

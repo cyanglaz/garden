@@ -6,7 +6,7 @@ func apply_tool(_main_game:MainGame, fields:Array, field_index:int, _tool_data:T
 	var field:Field = fields[field_index]
 	action_data.type = ActionData.ActionType.WATER
 	action_data.value = field.plant.light.value
-	await field.apply_actions([action_data])
+	await field.apply_action(action_data)
 
 func need_select_field() -> bool:
 	return true

@@ -46,7 +46,7 @@ func _apply_field_tool_action(action:ActionData, fields:Array) -> void:
 	_field_application_index_counter = fields.size()
 	for field:Field in fields:
 		field.action_application_completed.connect(_on_field_action_application_completed.bind(field))
-		field.apply_actions([action])
+		field.apply_action(action)
 	await _all_field_action_application_completed
 
 func _apply_weather_tool_action(action:ActionData, main_game:MainGame) -> void:
