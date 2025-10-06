@@ -113,7 +113,7 @@ func _update_for_energy(energy:int) -> void:
 		resource_sufficient = false
 	
 func _play_hover_sound() -> void:
-	if card_state == CardState.SELECTED || card_state == CardState.UNSELECTED:
+	if card_state == CardState.SELECTED:
 		return
 	super._play_hover_sound()
 
