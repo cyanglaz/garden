@@ -34,6 +34,7 @@ func clear() -> void:
 	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 
 func clear_selection() -> void:
+	_selected_index = -1
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	if positions.size() > 0:
 		var tween:Tween = Util.create_scaled_tween(self)
@@ -46,7 +47,6 @@ func clear_selection() -> void:
 		for i in _container.get_children().size():
 			var gui_card = _container.get_child(i)
 			gui_card.z_index = 0
-	_selected_index = -1
 	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 
 func add_card(tool_data:ToolData) -> GUIToolCardButton:
