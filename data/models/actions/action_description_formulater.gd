@@ -9,9 +9,9 @@ static func get_action_description(action_data:ActionData) -> String:
 		ActionData.ActionType.LIGHT, ActionData.ActionType.WATER:
 			action_description = _get_field_action_description(action_data)
 		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
+			#action_description = _get_field_action_description(action_data)
+			#action_description += "\n\n"
 			action_description = _get_field_status_description(action_data)
-			action_description += "\n"
-			action_description += _get_field_action_description(action_data)
 		ActionData.ActionType.WEATHER_SUNNY, ActionData.ActionType.WEATHER_RAINY:
 			action_description = _get_weather_action_description(action_data)
 		ActionData.ActionType.DRAW_CARD:
@@ -69,6 +69,8 @@ static func _get_field_action_description(action_data:ActionData) -> String:
 			ActionData.Special.ALL_FIELDS:
 				var all_fields_string := Util.get_localized_string("ACTION_ALL_FIELDS_TEXT")
 				main_description += Util.convert_to_bbc_highlight_text(all_fields_string, HIGHLIGHT_COLOR)
+	if !main_description.ends_with("."):
+		main_description += "."
 	return main_description
 
 static func _get_weather_action_description(action_data:ActionData) -> String:
