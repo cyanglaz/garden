@@ -5,6 +5,7 @@ signal field_harvest_started()
 signal field_harvest_completed(index:int)
 signal field_hovered(hovered:bool, index:int)
 signal field_pressed(index:int)
+signal field_action_application_completed(index:int)
 
 const MAX_DISTANCE_BETWEEN_FIELDS := 15
 const MARGIN := 36
@@ -26,6 +27,7 @@ func update_with_number_of_fields(number_of_fields:int) -> void:
 		field.field_pressed.connect(func(): field_pressed.emit(i))
 		field.plant_harvest_started.connect(func(): field_harvest_started.emit())
 		field.plant_harvest_completed.connect(func(): field_harvest_completed.emit(i))
+		field.action_application_completed.connect(func(): field_action_application_completed.emit(i))
 		if last_field:
 			field.weak_left_field = weakref(last_field)
 			last_field.weak_right_field = weakref(field)

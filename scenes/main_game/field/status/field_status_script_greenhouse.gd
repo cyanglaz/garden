@@ -10,4 +10,4 @@ func _handle_tool_application_hook(plant:Plant) -> void:
 	var light_gain := (status_data.data["light"] as int) * stack
 	action.type = ActionData.ActionType.LIGHT
 	action.value = light_gain
-	await plant.field.apply_action(action, null)
+	await plant.field.apply_actions([action], null)

@@ -59,7 +59,6 @@ func _ready() -> void:
 	field_container.field_pressed.connect(_on_field_pressed)
 	field_container.field_harvest_started.connect(_on_field_harvest_started)
 	field_container.field_harvest_completed.connect(_on_field_harvest_completed)
-	
 	#weather signals
 	weather_manager.weathers_updated.connect(_on_weathers_updated)
 	
@@ -334,9 +333,8 @@ func _on_tool_application_started(tool_data:ToolData) -> void:
 	if tool_data.energy_cost > 0:
 		energy_tracker.spend(tool_data.energy_cost)
 
-func _on_tool_application_completed(tool_data:ToolData) -> void:
+func _on_tool_application_completed(_tool_data:ToolData) -> void:
 	await _harvest()
-	tool_manager.finish_card(tool_data)
 	_clear_tool_selection()
 	gui_main_game.toggle_all_ui(true)
 
@@ -379,7 +377,6 @@ func _on_field_pressed(index:int) -> void:
 
 func _on_plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData) -> void:
 	await field_container.fields[field_index].plant_seed(plant_data)
-
 #region weather events
 func _on_weathers_updated() -> void:
 	gui_main_game.update_weathers(weather_manager)

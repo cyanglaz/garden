@@ -10,4 +10,4 @@ func _handle_tool_discard_hook(plant:Plant, count:int) -> void:
 	var water_gain := (status_data.data["water"] as int) * stack * count
 	action.type = ActionData.ActionType.WATER
 	action.value = water_gain
-	await plant.field.apply_action(action, null)
+	await plant.field.apply_actions([action], null)

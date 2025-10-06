@@ -80,11 +80,10 @@ func _apply_weather_action_to_next_field(fields:Array[Field], field_index:int, t
 			WEATHER_APPLICATION_ICON_MOVE_TIME
 		).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		await tween.finished
-		await field.apply_weather_actions(today_weather, gui_weather_copy)
 		var disappear_tween:Tween = Util.create_scaled_tween(gui_weather_copy)
 		disappear_tween.tween_property(gui_weather_copy, "modulate:a", 0, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		await disappear_tween.finished
-		gui_weather_copy.queue_free()
+		disappear_tween.finished.connect(func() -> void: gui_weather_copy.queue_free())
+		await field.apply_weather_actions(today_weather, null)
 		await _apply_weather_action_to_next_field(fields, field_index + 1, today_weather_icon)
 
 func _animate_weather_icon_move(weather_data:WeatherData, start_position:Vector2, target_position:Vector2) -> void:

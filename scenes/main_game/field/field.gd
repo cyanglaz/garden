@@ -99,8 +99,7 @@ func remove_plant_preview() -> void:
 		_reset_progress_bars()
 
 func apply_weather_actions(weather_data:WeatherData, from_gui:Control) -> void:
-	for action:ActionData in weather_data.actions:
-		await apply_action(action, from_gui)
+	await apply_actions(weather_data.actions, from_gui)
 	if plant:
 		await plant.trigger_ability(Plant.AbilityType.WEATHER, Singletons.main_game)
 
@@ -110,17 +109,18 @@ func is_action_applicable(action:ActionData) -> bool:
 	else:
 		return true
 
-func apply_action(action:ActionData, from_gui:Control) -> void:
-	await _play_action_from_gui_animation(action, from_gui)
-	match action.type:
-		ActionData.ActionType.LIGHT:
-			await _apply_light_action(action)
-		ActionData.ActionType.WATER:
-			await _apply_water_action(action)
-		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
-			await _apply_field_status_action(action)
-		_:
-			pass
+func apply_actions(actions:Array[ActionData], _from_gui:Control) -> void:
+	#await _play_action_from_gui_animation(action, from_gui)
+	for action in actions:
+		match action.type:
+			ActionData.ActionType.LIGHT:
+				await _apply_light_action(action)
+			ActionData.ActionType.WATER:
+				await _apply_water_action(action)
+			ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
+				await _apply_field_status_action(action)
+			_:
+				pass
 	action_application_completed.emit()
 
 func apply_field_status(field_status_id:String, stack:int) -> void:
@@ -216,8 +216,7 @@ func _show_resource_icon_popup(icon_id:String, text:String) -> void:
 	popup.global_position = _gui_field_button.global_position + _gui_field_button.size/2 + Vector2.RIGHT * 8
 	var color:Color = Constants.COLOR_WHITE
 	popup.setup(text, color, load(Util.get_image_path_for_resource_id(icon_id)))
-	popup.animate_show_and_destroy(6, 3, POPUP_SHOW_TIME, POPUP_DESTROY_TIME)
-	await Util.create_scaled_timer(ACTION_ICON_MOVE_TIME).timeout
+	await popup.animate_show_and_destroy(6, 3, POPUP_SHOW_TIME, POPUP_DESTROY_TIME)
 
 func _get_action_true_value(action_data:ActionData) -> int:
 	if action_data.value_type == ActionData.ValueType.NUMBER:
