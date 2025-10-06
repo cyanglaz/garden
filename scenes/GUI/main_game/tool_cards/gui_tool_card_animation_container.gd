@@ -373,6 +373,8 @@ func _animate_reposition() -> void:
 	var tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
 	for i:int in card_count:
+		if i == _tool_card_container.selected_index:
+			continue
 		var card:GUIToolCardButton = _tool_card_container.get_card(i)
 		var target_position:Vector2 = _tool_card_container.global_position + default_positions[i]
 		tween.tween_property(card, "global_position", target_position, REPOSITION_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)

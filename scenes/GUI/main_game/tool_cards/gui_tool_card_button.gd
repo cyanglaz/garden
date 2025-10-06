@@ -110,6 +110,11 @@ func _update_for_energy(energy:int) -> void:
 		resource_sufficient = true
 	else:
 		resource_sufficient = false
+	
+func _play_hover_sound() -> void:
+	if card_state == CardState.SELECTED:
+		return
+	super._play_hover_sound()
 
 #region events
 
@@ -160,7 +165,6 @@ func _set_animation_mode(value:bool) -> void:
 	if value:
 		custom_minimum_size = Vector2.ZERO
 		#_card_margin_container.custom_minimum_size = Vector2.ZERO
-		card_state = CardState.NORMAL
 	else:
 		custom_minimum_size = SIZE
 
