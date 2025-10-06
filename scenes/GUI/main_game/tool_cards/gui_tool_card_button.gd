@@ -40,7 +40,7 @@ var resource_sufficient := false: set = _set_resource_sufficient
 var animation_mode := false : set = _set_animation_mode
 var display_mode := false
 var library_mode := false
-var outline_color:Color = Constants.RESOURCE_SUFFICIENT_COLOR: set = _set_outline_color
+var outline_color:Color = Constants.COST_DEFAULT_COLOR: set = _set_outline_color
 var has_outline:bool = false: set = _set_has_outline
 var tool_data:ToolData: get = _get_tool_data
 var _weak_tool_data:WeakRef = weakref(null)
@@ -206,12 +206,17 @@ func _set_container_offset(offset:Vector2) -> void:
 
 func _set_resource_sufficient(value:bool) -> void:
 	resource_sufficient = value
+	var sufficient_color := Constants.COST_DEFAULT_COLOR
+	if tool_data.energy_modifier > 0:
+		sufficient_color = Constants.COST_INCREASED_COLOR
+	if tool_data.energy_modifier < 0:
+		sufficient_color = Constants.COST_REDUCED_COLOR
 	if value:
-		_cost_icon.modulate = Constants.RESOURCE_SUFFICIENT_COLOR
-		outline_color = Constants.RESOURCE_SUFFICIENT_COLOR
+		_cost_icon.modulate = sufficient_color
+		outline_color = Constants.COST_DEFAULT_COLOR
 	else:
 		if display_mode:
-			_cost_icon.modulate = Constants.RESOURCE_SUFFICIENT_COLOR
+			_cost_icon.modulate = sufficient_color
 		else:
 			_cost_icon.modulate = Constants.RESOURCE_INSUFFICIENT_COLOR
 		outline_color = Constants.RESOURCE_INSUFFICIENT_COLOR

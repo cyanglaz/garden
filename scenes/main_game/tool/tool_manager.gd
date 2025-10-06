@@ -52,6 +52,8 @@ func shuffle() -> void:
 func discard_cards(tools:Array) -> void:
 	assert(tools.size() > 0)
 	# Order is important, discard first, then animate
+	for tool_data in tools:
+		tool_data.energy_modifier = 0
 	tool_deck.discard(tools)
 	await _gui_tool_card_container.animate_discard(tools)
 

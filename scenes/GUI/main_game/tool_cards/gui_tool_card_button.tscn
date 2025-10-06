@@ -108,6 +108,12 @@ offset_right = 38.0
 offset_bottom = 52.0
 size_flags_vertical = 4
 script = ExtResource("1_a7c0j")
+short_cut = null
+action_type = null
+hold_time = null
+button_state = null
+tool_tip_localized_string = null
+tooltip_position = null
 hover_sound = ExtResource("2_882ho")
 click_sound = ExtResource("3_dn2eb")
 
