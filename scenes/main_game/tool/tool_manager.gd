@@ -110,8 +110,8 @@ func apply_auto_tools(main_game:MainGame, fields:Array, filter_func:Callable) ->
 
 func _run_card_lifecycle(tool_data:ToolData) -> void:
 	_tool_lifecycle_queue.append(tool_data)
-	if !tool_data.need_select_field:
-		await use_card(tool_data)
+	#if !tool_data.need_select_field:
+	#	await use_card(tool_data)
 	if tool_data.specials.has(ToolData.Special.COMPOST):
 		await exhaust_cards([tool_data])
 	else:

@@ -2,6 +2,7 @@ class_name GUIToolCardContainer
 extends PanelContainer
 
 signal tool_selected(tool_data:ToolData)
+signal card_use_button_pressed(tool_data:ToolData)
 
 var TOOL_CARD_SCENE := load("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const DEFAULT_CARD_SPACE := 1.0
@@ -54,6 +55,7 @@ func add_card(tool_data:ToolData) -> GUIToolCardButton:
 	_container.add_child(gui_card)
 	gui_card.update_with_tool_data(tool_data)
 	gui_card.activated = true
+	gui_card.use_card_button_pressed.connect(_on_tool_card_use_card_button_pressed.bind(tool_data))
 	_rebind_signals()
 	return gui_card
 
@@ -253,3 +255,6 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 		animated = true
 	if !animated:
 		tween.kill()
+
+func _on_tool_card_use_card_button_pressed(tool_data:ToolData) -> void:
+	card_use_button_pressed.emit(tool_data)

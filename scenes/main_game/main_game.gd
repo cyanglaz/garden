@@ -87,6 +87,7 @@ func _ready() -> void:
 	gui_main_game.plant_seed_drawn_animation_completed.connect(_on_plant_seed_drawn_animation_completed)
 	gui_main_game.contract_selected.connect(_on_contract_selected)
 	gui_main_game.reward_finished.connect(_on_reward_finished)
+	gui_main_game.card_use_button_pressed.connect(_on_card_use_button_pressed)
 	
 	#shop signals
 	gui_main_game.gui_shop_main.next_level_button_pressed.connect(_on_shop_next_level_pressed)
@@ -291,11 +292,6 @@ func _handle_select_tool(tool_data:ToolData) -> void:
 	field_container.clear_tool_indicators()
 	tool_manager.select_tool(tool_data)
 
-func _apply_instant_tool() -> void:
-	await Util.create_scaled_timer(INSTANT_CARD_USE_DELAY).timeout
-	tool_manager.apply_tool(self, field_container.fields, 0)
-	await tool_manager.tool_application_completed
-
 #endregion
 
 #region harvest flow
@@ -334,8 +330,6 @@ func _on_tool_selected(tool_data:ToolData) -> void:
 	_handle_select_tool(tool_data)
 	if tool_data.need_select_field:
 		field_container.toggle_all_field_selection_indicators(GUIFieldSelectionArrow.IndicatorState.READY)
-	#if !tool_data.need_select_field:
-	#	await _apply_instant_tool()
 
 func _on_tool_application_started(tool_data:ToolData) -> void:
 	_clear_tool_selection()
@@ -346,6 +340,12 @@ func _on_tool_application_started(tool_data:ToolData) -> void:
 func _on_tool_application_completed(_tool_data:ToolData) -> void:
 	await _harvest()
 	gui_main_game.toggle_all_ui(true)
+
+func _on_card_use_button_pressed(tool_data:ToolData) -> void:
+	assert(!tool_data.need_select_field)
+	await Util.create_scaled_timer(INSTANT_CARD_USE_DELAY).timeout
+	tool_manager.apply_tool(self, field_container.fields, 0)
+	await tool_manager.tool_application_completed
 
 #region gui main events
 func _on_end_turn_button_pressed() -> void:

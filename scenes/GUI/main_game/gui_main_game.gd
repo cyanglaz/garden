@@ -7,6 +7,7 @@ signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantDat
 signal rating_update_finished(value:int)
 signal reward_finished(tool_data:ToolData)
 signal contract_selected(contract_data:ContractData)
+signal card_use_button_pressed(tool_data:ToolData)
 
 @onready var gui_top_bar: GUITopBar = %GUITopBar
 @onready var game_container: PanelContainer = %GameContainer
@@ -45,8 +46,9 @@ var _warning_manager:WarningManager = WarningManager.new()
 
 func _ready() -> void:
 	_gui_tool_cards_viewer.hide()
-	gui_tool_card_container.tool_selected.connect(func(tool_data:ToolData) -> void: tool_selected.emit(tool_data))
 	_end_turn_button.pressed.connect(func() -> void: end_turn_button_pressed.emit())
+	gui_tool_card_container.tool_selected.connect(func(tool_data:ToolData) -> void: tool_selected.emit(tool_data))
+	gui_tool_card_container.card_use_button_pressed.connect(func(tool_data:ToolData) -> void: card_use_button_pressed.emit(tool_data))
 	gui_tool_card_container.setup(gui_draw_box_button, gui_discard_box_button)
 	gui_top_bar.setting_button_evoked.connect(_on_settings_button_evoked)
 	gui_top_bar.library_button_evoked.connect(_on_library_button_evoked)
