@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://buyt1a7qvowxq"
+path="res://.godot/imported/use_card_button_backgrond.aseprite-e3c350ab91859348e0af8164a60e8231.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/theme/use_card_button_backgrond.aseprite"
+dest_files=["res://.godot/imported/use_card_button_backgrond.aseprite-e3c350ab91859348e0af8164a60e8231.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -31,7 +31,7 @@ const HIGHLIGHTED_OFFSET := 1.0
 @onready var _use_sound: AudioStreamPlayer2D = %UseSound
 @onready var _animation_player: AnimationPlayer = %AnimationPlayer
 @onready var _overlay: NinePatchRect = %Overlay
-@onready var _use_card_button: GUIRichTextButton = %UseCardButton
+@onready var _gui_use_card_button: GUIUseCardButton = %GUIUseCardButton
 
 var mouse_disabled:bool = true: set = _set_mouse_disabled
 var activated := false: set = _set_activated
@@ -53,8 +53,8 @@ func _ready() -> void:
 	mouse_filter = MOUSE_FILTER_IGNORE
 	assert(size == SIZE, "size not match")
 	_animation_player.animation_finished.connect(_on_animation_finished)
-	_use_card_button.pressed.connect(_on_use_button_pressed)
-	_use_card_button.hide()
+	_gui_use_card_button.pressed.connect(_on_use_button_pressed)
+	_gui_use_card_button.hide()
 
 func update_with_tool_data(td:ToolData) -> void:
 	_weak_tool_data = weakref(td)
@@ -176,28 +176,28 @@ func _set_card_state(value:CardState) -> void:
 			_container_offset = Vector2.ZERO
 			has_outline = false
 			_overlay.hide()
-			_use_card_button.hide()
+			_gui_use_card_button.hide()
 			z_index = 0
 		CardState.SELECTED:
 			_container_offset = Vector2.UP * SELECTED_OFFSET
 			has_outline = true
 			_overlay.hide()
 			if tool_data.need_select_field:
-				_use_card_button.hide()
+				_gui_use_card_button.hide()
 			else:
-				_use_card_button.show()
+				_gui_use_card_button.show()
 			z_index = 1
 		CardState.HIGHLIGHTED:
 			_container_offset = Vector2.UP * HIGHLIGHTED_OFFSET
 			has_outline = true
 			_overlay.hide()
-			_use_card_button.hide()
+			_gui_use_card_button.hide()
 			z_index = 1
 		CardState.UNSELECTED:
 			_container_offset = Vector2.ZERO
 			has_outline = false
 			_overlay.show()
-			_use_card_button.hide()
+			_gui_use_card_button.hide()
 			z_index = 0
 
 func _set_container_offset(offset:Vector2) -> void:
@@ -237,5 +237,5 @@ func _on_tool_data_refresh() -> void:
 	update_with_tool_data(tool_data)
 
 func _on_use_button_pressed() -> void:
-	_use_card_button.hide()
+	_gui_use_card_button.hide()
 	use_card_button_pressed.emit()
