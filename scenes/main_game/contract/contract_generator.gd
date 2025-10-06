@@ -180,9 +180,11 @@ func _roll_plants_once(chapter:int, top_plant_difficulty:int) -> Array[PlantData
 		rest_available_plants.erase(pick)
 
 	var result:Array[PlantData] = []
-	# Pick each selection at least once
-	for plant_data:PlantData in selected_plant_types:
-		result.append(plant_data.get_duplicate())
+
+	# Pick primary plant at least half of the time (ceiling)
+	@warning_ignore("integer_division")
+	for i in number_of_plants/2:
+		result.append(primary_pick.get_duplicate())
 
 	# Pick the rest of the plants
 	for i in number_of_plants - result.size():
