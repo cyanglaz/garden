@@ -334,10 +334,8 @@ func _on_tool_selected(tool_data:ToolData) -> void:
 	_handle_select_tool(tool_data)
 	if tool_data.need_select_field:
 		field_container.toggle_all_field_selection_indicators(GUIFieldSelectionArrow.IndicatorState.READY)
-	if !tool_data:
-		return
-	if !tool_data.need_select_field:
-		await _apply_instant_tool()
+	#if !tool_data.need_select_field:
+	#	await _apply_instant_tool()
 
 func _on_tool_application_started(tool_data:ToolData) -> void:
 	_clear_tool_selection()

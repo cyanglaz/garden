@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bacvied61ghpe"]
+[gd_scene load_steps=13 format=3 uid="uid://bacvied61ghpe"]
 
 [ext_resource type="Script" uid="uid://t7x03xkbah7n" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.gd" id="1_a7c0j"]
 [ext_resource type="Shader" uid="uid://6cqmrfdokad8" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.gdshader" id="1_ckxcp"]
@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://b6grhwuhdlsmf" path="res://resources/sounds/SFX/tool_cards/card_select.wav" id="3_dn2eb"]
 [ext_resource type="PackedScene" uid="uid://cjwhkrmueycbi" path="res://scenes/GUI/shared/descriptions/shared_description/gui_action_list.tscn" id="4_882ho"]
 [ext_resource type="AudioStream" uid="uid://bgyg7vg7fsae6" path="res://resources/sounds/SFX/tool_cards/card_use.wav" id="5_a7c0j"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="8_dn2eb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ckxcp"]
 resource_local_to_scene = true
@@ -217,6 +218,26 @@ patch_margin_left = 3
 patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 3
+
+[node name="FreeContainer" type="Control" parent="CardContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="UseCardButton" parent="CardContainer/FreeContainer" instance=ExtResource("8_dn2eb")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -69.0
+offset_right = 8.0
+offset_bottom = -57.0
+grow_horizontal = 2
+grow_vertical = 0
+localization_text_key = "ACTION_USE_CARD"
 
 [node name="UseSound" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
