@@ -10,6 +10,7 @@ const WEATHER_RAINY := preload("res://data/weathers/all_chapters/weather_rainy.t
 const WEATHER_APPLICATION_ICON_START_DELAY := 0.05
 const WEATHER_APPLICATION_ICON_MOVE_TIME := 0.3
 const WEATHER_TOOL_ACTION_ICON_MOVE_TIME := 0.5
+const WEATHER_ICON_ANIMATION_HEIGHT := 40
 
 const GUI_WEATHER_SCENE := preload("res://scenes/GUI/main_game/weather/gui_weather.tscn")
 
@@ -71,7 +72,7 @@ func _apply_weather_action_to_next_field(fields:Array[Field], field_index:int, t
 		gui_weather_copy.setup_with_weather_data(today_weather)
 		var target_position:Vector2 = Util.get_node_ui_position(gui_weather_copy, field) \
 				- gui_weather_copy.size/2 \
-				+ Vector2.UP * 24
+				+ Vector2.UP * WEATHER_ICON_ANIMATION_HEIGHT
 		gui_weather_copy.play_flying_sound()
 		tween.tween_property(
 			gui_weather_copy,
@@ -80,10 +81,11 @@ func _apply_weather_action_to_next_field(fields:Array[Field], field_index:int, t
 			WEATHER_APPLICATION_ICON_MOVE_TIME
 		).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		await tween.finished
+		await field.apply_weather_actions(today_weather, gui_weather_copy)
 		var disappear_tween:Tween = Util.create_scaled_tween(gui_weather_copy)
 		disappear_tween.tween_property(gui_weather_copy, "modulate:a", 0, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		disappear_tween.finished.connect(func() -> void: gui_weather_copy.queue_free())
-		await field.apply_weather_actions(today_weather)
+		await disappear_tween.finished
+		gui_weather_copy.queue_free()
 		await _apply_weather_action_to_next_field(fields, field_index + 1, today_weather_icon)
 
 func _animate_weather_icon_move(weather_data:WeatherData, start_position:Vector2, target_position:Vector2) -> void:

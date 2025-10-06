@@ -88,18 +88,6 @@ func add_temp_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vec
 func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)
 
-func apply_auto_tools(main_game:MainGame, fields:Array, filter_func:Callable) -> void:
-	var has_tool_to_apply:bool = true
-	while has_tool_to_apply:
-		has_tool_to_apply = false
-		for tool_data:ToolData in tool_deck.hand:
-			if filter_func.call(tool_data):
-				select_tool(tool_data)
-				apply_tool(main_game, fields, 0)
-				await tool_application_completed
-				has_tool_to_apply = true
-				break
-
 func finish_card(tool_data:ToolData) -> void:
 	if tool_data.specials.has(ToolData.Special.COMPOST):
 		await exhaust_cards([tool_data])
@@ -108,7 +96,8 @@ func finish_card(tool_data:ToolData) -> void:
 
 func _run_card_actions(main_game:MainGame, fields:Array, field_index:int, tool_data:ToolData) -> void:
 	await main_game.field_container.trigger_tool_application_hook()
-	await _tool_applier.apply_tool(main_game, fields, field_index, tool_data)
+	var tool_card:GUIToolCardButton = _gui_tool_card_container.find_card(tool_data)
+	await _tool_applier.apply_tool(main_game, fields, field_index, tool_data, tool_card)
 
 func _get_selected_tool_index() -> int:
 	if !selected_tool:

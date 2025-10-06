@@ -115,7 +115,6 @@ func _input(event: InputEvent) -> void:
 func draw_cards(count:int) -> void:
 	var draw_results:Array = await tool_manager.draw_cards(count)
 	await power_manager.handle_card_added_to_hand_hook(draw_results)
-	await tool_manager.apply_auto_tools(self, field_container.fields, func(tool_data:ToolData): return tool_data.specials.has(ToolData.Special.USE_ON_DRAW))
 
 func discard_cards(tools:Array) -> void:
 	await tool_manager.discard_cards(tools)
@@ -248,7 +247,6 @@ func _lose() -> void:
 func _end_day() -> void:
 	gui_main_game.toggle_all_ui(false)
 	_clear_tool_selection()
-	await tool_manager.apply_auto_tools(self, field_container.fields, func(tool_data:ToolData): return tool_data.specials.has(ToolData.Special.WITHER))
 	await _discard_all_tools()
 	await field_container.trigger_end_day_hook(self)
 	await field_container.trigger_end_day_ability(self)
@@ -338,7 +336,7 @@ func _on_tool_application_started(tool_data:ToolData) -> void:
 
 func _on_tool_application_completed(tool_data:ToolData) -> void:
 	await _harvest()
-	await tool_manager.finish_card(tool_data)
+	tool_manager.finish_card(tool_data)
 	_clear_tool_selection()
 	gui_main_game.toggle_all_ui(true)
 

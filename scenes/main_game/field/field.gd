@@ -4,10 +4,12 @@ extends Node2D
 const PLANT_SCENE_PATH_PREFIX := "res://scenes/main_game/plants/plants/plant_"
 const POPUP_LABEL_ICON_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label_icon.tscn")
 const POPUP_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label.tscn")
+const GUI_ICON_SCENE := preload("res://scenes/GUI/utils/gui_icon.tscn")
 const point_LABEL_OFFSET := Vector2.RIGHT * 12
 const POPUP_SHOW_TIME := 0.3
 const POPUP_DESTROY_TIME:= 0.8
 const POPUP_STATUS_DESTROY_TIME := 1.2
+const ACTION_ICON_MOVE_TIME := 0.3
 
 signal field_pressed()
 signal field_hovered(hovered:bool)
@@ -94,9 +96,9 @@ func remove_plant_preview() -> void:
 		_weak_plant_preview.get_ref().queue_free()
 		_reset_progress_bars()
 
-func apply_weather_actions(weather_data:WeatherData) -> void:
+func apply_weather_actions(weather_data:WeatherData, from_gui:Control) -> void:
 	for action:ActionData in weather_data.actions:
-		await apply_action(action)
+		await apply_action(action, from_gui)
 	if plant:
 		await plant.trigger_ability(Plant.AbilityType.WEATHER, Singletons.main_game)
 
@@ -106,7 +108,8 @@ func is_action_applicable(action:ActionData) -> bool:
 	else:
 		return true
 
-func apply_action(action:ActionData) -> void:
+func apply_action(action:ActionData, from_gui:Control) -> void:
+	await _play_action_from_gui_animation(action, from_gui)
 	match action.type:
 		ActionData.ActionType.LIGHT:
 			await _apply_light_action(action)
@@ -211,7 +214,8 @@ func _show_resource_icon_popup(icon_id:String, text:String) -> void:
 	popup.global_position = _gui_field_button.global_position + _gui_field_button.size/2 + Vector2.RIGHT * 8
 	var color:Color = Constants.COLOR_WHITE
 	popup.setup(text, color, load(Util.get_image_path_for_resource_id(icon_id)))
-	await popup.animate_show_and_destroy(6, 3, POPUP_SHOW_TIME, POPUP_DESTROY_TIME)
+	popup.animate_show_and_destroy(6, 3, POPUP_SHOW_TIME, POPUP_DESTROY_TIME)
+	await Util.create_scaled_timer(ACTION_ICON_MOVE_TIME).timeout
 
 func _get_action_true_value(action_data:ActionData) -> int:
 	if action_data.value_type == ActionData.ValueType.NUMBER:
@@ -219,6 +223,28 @@ func _get_action_true_value(action_data:ActionData) -> int:
 	elif action_data.value_type == ActionData.ValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
 		return Singletons.main_game.tool_manager.tool_deck.hand.size()
 	return 0
+
+func _play_action_from_gui_animation(action:ActionData, from_gui:Control) -> void:
+	if action.value <= 0:
+		return
+	var id := Util.get_action_id_with_action_type(action.type)
+	var icon_path := Util.get_image_path_for_resource_id(id)
+	var icon := GUI_ICON_SCENE.instantiate()
+	icon.texture = load(icon_path)
+	icon.global_position = from_gui.global_position + from_gui.size/2
+	icon.pivot_offset = icon.size/2
+	icon.scale = Vector2.ONE * 0.5
+	icon.z_index = 20
+	Singletons.main_game.add_control_to_overlay(icon)
+	var target_position:Vector2 = Util.get_node_ui_position(icon, self)
+	var tween:Tween = Util.create_scaled_tween(icon)
+	tween.set_parallel(true)
+	tween.tween_property(icon, "global_position", target_position, ACTION_ICON_MOVE_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(icon, "scale", Vector2.ONE, ACTION_ICON_MOVE_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	await tween.finished
+	icon.queue_free()
+
+#region events
 
 func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> void:
 	match state:
