@@ -305,12 +305,15 @@ func _harvest() -> bool:
 		return false
 	field_container.harvest_all_fields()
 	await _all_field_harvested
+	var number_of_fields_to_harvest := field_indices_to_harvest.size()
 	await plant_seed_manager.finish_plants(field_indices_to_harvest, harvestable_plant_datas, gui_main_game.gui_plant_seed_animation_container)
 	if _met_win_condition():
 		await _win()
 		return true
 	else:
 		await plant_seed_manager.draw_plants(field_indices_to_harvest, gui_main_game.gui_plant_seed_animation_container)
+		energy_tracker.restore(number_of_fields_to_harvest)
+		await draw_cards(number_of_fields_to_harvest)
 		return false
 	
 func _remove_plants(field_indices:Array[int]) -> void:
