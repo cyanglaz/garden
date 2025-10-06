@@ -17,6 +17,7 @@ signal contract_selected(contract_data:ContractData)
 @onready var gui_discard_box_button: GUIDeckButton = %GUIDiscardBoxButton
 @onready var gui_exhaust_box_button: GUIDeckButton = %GUIExhaustBoxButton
 @onready var gui_power_container: GUIPowerContainer = %GUIPowerContainer
+@onready var gui_boost_tracker: GUIBoostTracker = %GUIBoostTracker
 
 @onready var gui_plant_deck_box: GUIPlantDeckBox = %GUIPlantDeckBox
 @onready var gui_plant_seed_animation_container: GUIPlantSeedAnimationContainer = %GUIPlantSeedAnimationContainer
@@ -40,6 +41,7 @@ signal contract_selected(contract_data:ContractData)
 @onready var _gui_contract_view: GUIContractView = %GUIContractView
 
 var _toggle_ui_semaphore := 0
+var _warning_manager:WarningManager = WarningManager.new()
 
 func _ready() -> void:
 	_gui_tool_cards_viewer.hide()
@@ -55,6 +57,7 @@ func _ready() -> void:
 	gui_shop_main.setup(gui_top_bar.gui_full_deck_button)
 	gui_contract_selection_main.contract_selected.connect(func(contract_data:ContractData) -> void: contract_selected.emit(contract_data))
 	gui_top_animation_overlay.setup(self)
+	_warning_manager.setup(_gui_energy_tracker, gui_top_bar.gui_gold, _gui_dialogue_window)
 
 #region power
 
@@ -145,8 +148,8 @@ func setup_plant_seed_animation_container(field_container:FieldContainer) -> voi
 #endregion
 
 #region days
-func update_day_left(day_left:int, penalty:int) -> void:
-	gui_top_bar.update_day_left(day_left, penalty)
+func update_penalty(penalty:int) -> void:
+	gui_top_bar.update_penalty(penalty)
 
 func bind_energy(resource_point:ResourcePoint) -> void:
 	_gui_energy_tracker.bind_with_resource_point(resource_point)
@@ -154,6 +157,13 @@ func bind_energy(resource_point:ResourcePoint) -> void:
 #region weathers
 func update_weathers(weather_manager:WeatherManager) -> void:
 	gui_weather_container.update_with_weather_manager(weather_manager)
+
+#endregion
+
+#region boost
+
+func update_boost(boost:int) -> void:
+	gui_boost_tracker.update_boost(boost)
 
 #endregion
 
@@ -203,7 +213,13 @@ func clear_all_tooltips() -> void:
 
 #endregion
 
-#region dialog
+#region warning
+
+func show_warning(warning_type:WarningManager.WarningType) -> void:
+	_warning_manager.show_warning(warning_type)
+
+func hide_warning(warning_type:WarningManager.WarningType) -> void:
+	_warning_manager.hide_warning(warning_type)
 
 func show_dialogue(type:GUIDialogueItem.DialogueType) -> void:
 	_gui_dialogue_window.show_with_type(type)

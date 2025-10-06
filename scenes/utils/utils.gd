@@ -27,6 +27,7 @@ const WEATHER_ICON_PREFIX := "res://resources/sprites/GUI/icons/weathers/icon_"
 
 const TOOLTIP_OFFSET:float = 2.0
 const FLOAT_EQUAL_EPSILON:float = 0.001
+const ERROR_SHAKE_OFFSET := 1.0
 
 static func show_alert(title:String, message:String, close_button_title:String, by_pass_button_title:String) -> GUIPopupAlert:
 	var popup := GUI_ALERT_POPUP_SCENE.instantiate()
@@ -577,6 +578,14 @@ static func remove_duplicates_from_array(array:Array) -> Array:
 		if item not in result:
 			result.append(item)
 	return result
+
+static func play_error_shake_animation(object:Object, position_property:String, original_position:Vector2, duration:float = 0.1) -> void:
+	var tween:Tween = Util.create_scaled_tween(object)
+	tween.tween_property(object, position_property, original_position + Vector2.LEFT * ERROR_SHAKE_OFFSET, duration/4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(object, position_property, original_position + Vector2.RIGHT * ERROR_SHAKE_OFFSET, duration/4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(object, position_property, original_position + Vector2.LEFT * ERROR_SHAKE_OFFSET, duration/4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(object, position_property, original_position, duration/4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	await tween.finished
 
 static func _get_game_speed_scale() -> float:
 	match PlayerSettings.setting_data.game_speed:

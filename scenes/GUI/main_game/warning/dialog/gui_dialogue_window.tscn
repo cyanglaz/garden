@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bkdad5jox6bdj"]
 
-[ext_resource type="Script" uid="uid://jxm055cbub8h" path="res://scenes/GUI/main_game/dialog/gui_dialogue_window.gd" id="1_jirmj"]
+[ext_resource type="Script" uid="uid://jxm055cbub8h" path="res://scenes/GUI/main_game/warning/dialog/gui_dialogue_window.gd" id="1_jirmj"]
 
 [node name="GUIDialogueWindow" type="PanelContainer"]
 anchors_preset = 15

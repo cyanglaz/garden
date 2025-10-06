@@ -23,8 +23,9 @@ enum Special {
 @export var actions:Array[ActionData]
 @export var rarity:int = 0 # -1: COMPOST, 0: common, 1: uncommon, 2: rare
 @export var specials:Array[Special]
-@export var need_select_field:bool
 
+var need_select_field:bool : get = _get_need_select_field
+var all_fields:bool : get = _get_all_fields
 var cost:int : get = _get_cost
 var tool_script:ToolScript : get = _get_tool_script
 
@@ -54,3 +55,16 @@ func _get_tool_script() -> ToolScript:
 	else:
 		return null
 	
+func _get_need_select_field() -> bool:
+	if actions.is_empty():
+		return tool_script.need_select_field()
+	for action:ActionData in actions:
+		if action.action_category == ActionData.ActionCategory.FIELD:
+			return true
+	return false
+
+func _get_all_fields() -> bool:
+	for action:ActionData in actions:
+		if action.specials.has(ActionData.Special.ALL_FIELDS):
+			return true
+	return false

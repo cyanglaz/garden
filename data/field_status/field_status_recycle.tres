@@ -11,5 +11,5 @@ single_turn = true
 remove_on_trigger = true
 id = "recycle"
 display_name = "Recycle"
-description = "When add {resource:water}, shuffle a  {card:graywater} to your hand for each stack. "
+description = "When add {resource:water} to the affected field, shuffle a {card:graywater} to your hand for each stack. "
 metadata/_custom_type_script = "uid://ep5ey6gqhty1"

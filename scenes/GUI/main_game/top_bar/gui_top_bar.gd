@@ -10,7 +10,7 @@ signal rating_update_finished(value:int)
 signal contract_button_evoked(contract_data:ContractData)
 
 @onready var gui_full_deck_button: GUIDeckButton = %GUIFullDeckButton
-@onready var _gui_gold: GUIGold = %GUIGold
+@onready var gui_gold: GUIGold = %GUIGold
 @onready var _gui_settings_button: GUISettingsButton = %GUISettingsButton
 @onready var _gui_player: GUICharacter = %GUIPlayer
 @onready var _gui_library_button: GUILibraryButton = %GUILibraryButton
@@ -47,10 +47,10 @@ func bind_with_rating(rating:ResourcePoint) -> void:
 	_gui_rating.bind_with_rating(rating)
 
 func update_gold(gold_diff:int, animated:bool) -> void:
-	await _gui_gold.update_gold(gold_diff, GUIGold.AnimationType.FULL if animated else GUIGold.AnimationType.NONE)
+	await gui_gold.update_gold(gold_diff, GUIGold.AnimationType.FULL if animated else GUIGold.AnimationType.NONE)
 
-func update_day_left(day_left:int, penalty:int) -> void:
-	await _gui_level_title.update_day_left(day_left, penalty)
+func update_penalty(penalty:int) -> void:
+	await _gui_level_title.update_penalty(penalty)
 	
 func update_player(player_data:PlayerData) -> void:
 	_gui_player.update_with_player_data(player_data)

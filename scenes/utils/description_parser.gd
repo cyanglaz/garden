@@ -83,7 +83,6 @@ static func _format_icon_reference(reference_id:String, highlight:bool) -> Strin
 	return icon_string
 
 static func _format_sign_reference(reference_id:String) -> String:
-	
 	var image_path = Util.get_image_path_for_sign_id(reference_id)
 	var icon_string = str("[img=", ICON_SIZE, "x", ICON_SIZE, "]", image_path, "[/img]")
 	return icon_string

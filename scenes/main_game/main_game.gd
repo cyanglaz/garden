@@ -36,6 +36,7 @@ var max_energy := 3
 var session_summary:SessionSummary
 var hovered_data:ThingData: set = _set_hovered_data
 var rating:ResourcePoint = ResourcePoint.new()
+var boost := 1: set = _set_boost
 var _gold := 0: set = _set_gold
 var _selected_contract:ContractData
 var _level:int = 0
@@ -165,11 +166,11 @@ func clear_all_tooltips() -> void:
 func show_thing_info_view(data:Resource) -> void:
 	gui_main_game.gui_thing_info_view.show_with_data(data)
 
-func show_dialogue(type:GUIDialogueItem.DialogueType) -> void:
-	gui_main_game.show_dialogue(type)
+func show_warning(type:WarningManager.WarningType) -> void:
+	gui_main_game.show_warning(type)
 	
-func hide_dialogue(type:GUIDialogueItem.DialogueType) -> void:
-	gui_main_game.hide_dialogue(type)
+func hide_warning(type:WarningManager.WarningType) -> void:
+	gui_main_game.hide_warning(type)
 
 #endregion
 
@@ -191,6 +192,7 @@ func _select_contract() -> void:
 	gui_main_game.animate_show_contract_selection(picked_contracts)
   
 func _start_new_level() -> void:
+	boost = 1
 	gui_main_game.show_current_contract(_selected_contract)
 	power_manager.clear_powers()
 	if test_contract:
@@ -198,17 +200,18 @@ func _start_new_level() -> void:
 	plant_seed_manager = PlantSeedManager.new(_selected_contract.plants)
 	tool_manager.refresh_deck()
 	session_summary.contract = _selected_contract
-	day_manager.start_new(_selected_contract)
+	day_manager.start_new()
 	gui_main_game.update_with_plants(plant_seed_manager.plant_datas)
 
 	_start_day()
 
 func _start_day() -> void:
+	boost = maxi(boost - 1, 1)
 	weather_manager.generate_next_weathers(chapter_manager.current_chapter)
 	gui_main_game.toggle_all_ui(false)
 	energy_tracker.setup(max_energy, max_energy)
 	day_manager.next_day()
-	gui_main_game.update_day_left(day_manager.get_grace_period_day_left(), _selected_contract.get_penalty_rate(day_manager.day))
+	gui_main_game.update_penalty(_selected_contract.get_penalty_rate(day_manager.day))
 	gui_main_game.clear_tool_selection()
 	if day_manager.day == 0:
 		await _selected_contract.apply_boss_actions(self, BossScript.HookType.LEVEL_START)
@@ -230,7 +233,7 @@ func _win() -> void:
 	tool_manager.cleanup_deck()
 	field_container.clear_all_statuses()
 	_harvesting_fields.clear()
-	session_summary.total_days_skipped += day_manager.get_grace_period_day_left()
+	session_summary.total_days += day_manager.day
 	gui_main_game.animate_show_reward_main(_selected_contract)
 	gui_main_game.toggle_all_ui(true)
 	_level += 1
@@ -255,8 +258,7 @@ func _end_day() -> void:
 	if won:
 		return #Harvest won the game, no need to discard tools or end the day
 	field_container.handle_turn_end()
-	if day_manager.get_grace_period_day_left() <= 0:
-		await update_rating( -_selected_contract.get_penalty_rate(day_manager.day))
+	await update_rating( -_selected_contract.get_penalty_rate(day_manager.day))
 	_start_day()
 
 func _on_reward_finished(tool_data:ToolData) -> void:
@@ -306,12 +308,16 @@ func _harvest() -> bool:
 		return false
 	field_container.harvest_all_fields()
 	await _all_field_harvested
+	var number_of_fields_to_harvest := field_indices_to_harvest.size()
 	await plant_seed_manager.finish_plants(field_indices_to_harvest, harvestable_plant_datas, gui_main_game.gui_plant_seed_animation_container)
 	if _met_win_condition():
 		await _win()
 		return true
 	else:
 		await plant_seed_manager.draw_plants(field_indices_to_harvest, gui_main_game.gui_plant_seed_animation_container)
+		energy_tracker.restore(number_of_fields_to_harvest * boost)
+		await draw_cards(number_of_fields_to_harvest * boost)
+		boost += number_of_fields_to_harvest
 		return false
 	
 func _remove_plants(field_indices:Array[int]) -> void:
@@ -327,7 +333,7 @@ func _remove_plants(field_indices:Array[int]) -> void:
 func _on_tool_selected(tool_data:ToolData) -> void:
 	_handle_select_tool(tool_data)
 	if tool_data.need_select_field:
-		field_container.ready_field_selection_indicators()
+		field_container.toggle_all_field_selection_indicators(GUIFieldSelectionArrow.IndicatorState.READY)
 	if !tool_data:
 		return
 	if !tool_data.need_select_field:
@@ -339,7 +345,7 @@ func _on_tool_application_started(tool_data:ToolData) -> void:
 	if tool_data.energy_cost > 0:
 		energy_tracker.spend(tool_data.energy_cost)
 
-func _on_tool_application_completed() -> void:
+func _on_tool_application_completed(_tool_data:ToolData) -> void:
 	await _harvest()
 	gui_main_game.toggle_all_ui(true)
 
@@ -362,9 +368,12 @@ func _on_field_harvest_completed(index:int) -> void:
 func _on_field_hovered(hovered:bool, index:int) -> void:
 	if tool_manager.selected_tool && tool_manager.selected_tool.need_select_field:
 		if hovered:
-			field_container.toggle_field_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT, tool_manager.selected_tool, index)
+			if tool_manager.selected_tool.all_fields:
+				field_container.toggle_all_field_selection_indicators(GUIFieldSelectionArrow.IndicatorState.CURRENT)
+			else:
+				field_container.toggle_field_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT, tool_manager.selected_tool, index)
 		else:
-			field_container.ready_field_selection_indicators()
+			field_container.toggle_all_field_selection_indicators(GUIFieldSelectionArrow.IndicatorState.READY)
 
 func _on_field_pressed(index:int) -> void:
 	if !tool_manager.selected_tool || !tool_manager.selected_tool.need_select_field:
@@ -400,13 +409,17 @@ func _set_gold(val:int) -> void:
 	_gold = val
 	gui_main_game.gui_shop_main.update_for_gold(_gold)
 
+func _set_boost(val:int) -> void:
+	boost = val
+	gui_main_game.update_boost(boost)
+
 func _set_hovered_data(val:ThingData) -> void:
 	hovered_data = val
 	if hovered_data:
 		await Util.create_scaled_timer(DETAIL_TOOLTIP_DELAY).timeout
 		if hovered_data:
-			show_dialogue(GUIDialogueItem.DialogueType.THING_DETAIL)
+			show_warning(WarningManager.WarningType.DIALOGUE_THING_DETAIL)
 	else:
-		hide_dialogue(GUIDialogueItem.DialogueType.THING_DETAIL)
+		hide_warning(WarningManager.WarningType.DIALOGUE_THING_DETAIL)
 
 #endregion

@@ -70,7 +70,7 @@ func update_anchors() -> void:
 			anchor_bottom = 0
 			anchor_top = 1
 			grow_horizontal = Control.GROW_DIRECTION_BOTH
-			grow_vertical = Control.GROW_DIRECTION_BEGIN
+			grow_vertical = Control.GROW_DIRECTION_END
 		TooltipPosition.LEFT_TOP:		
 			anchor_right = 0
 			anchor_left = 0

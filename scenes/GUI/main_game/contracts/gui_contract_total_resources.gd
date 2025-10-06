@@ -1,13 +1,15 @@
 class_name GUIContractTotalResources
-extends HBoxContainer
+extends VBoxContainer
 
-@onready var light_requirement_label: Label = %LightRequirementLabel
-@onready var water_requirement_label: Label = %WaterRequirementLabel
 @onready var title: Label = %Title
+@onready var _total_light: Label = %TotalLight
+@onready var _total_water: Label = %TotalWater
 
 func _ready() -> void:
 	title.text = Util.get_localized_string("CONTRACT_TOTAL_RESOURCES_TITLE_TEXT")
+	_total_light.add_theme_color_override("font_color", Constants.LIGHT_THEME_COLOR)
+	_total_water.add_theme_color_override("font_color", Constants.WATER_THEME_COLOR)
 
 func update(light:int, water:int) -> void:
-	light_requirement_label.text = str(light)
-	water_requirement_label.text = str(water)
+	_total_light.text = str(light)
+	_total_water.text = str(water)
