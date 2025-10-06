@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_rihwm")
-light = 4
+light = 5
 water = 2
 difficulty = 1
 chapters = Array[int]([0])

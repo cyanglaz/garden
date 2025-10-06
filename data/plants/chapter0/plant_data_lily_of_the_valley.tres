@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_ydpd7")
 light = 2
-water = 6
+water = 5
 difficulty = 1
 chapters = Array[int]([0])
 id = "lily_of_the_valley"
