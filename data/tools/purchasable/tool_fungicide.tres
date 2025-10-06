@@ -12,7 +12,6 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 [resource]
 script = ExtResource("2_hbjkt")
 actions = Array[ExtResource("1_xbadh")]([SubResource("Resource_oexgw")])
-need_select_field = true
 id = "fungicide"
 display_name = "Fungicide"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

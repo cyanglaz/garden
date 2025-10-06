@@ -13,7 +13,6 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_ldudj")
 actions = Array[ExtResource("1_jtep7")]([SubResource("Resource_1wgia")])
 rarity = 1
-need_select_field = true
 id = "greenhouse"
 display_name = "Greenhouse"
 data = {

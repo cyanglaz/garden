@@ -7,6 +7,7 @@ enum CardState {
 	NORMAL,
 	HIGHLIGHTED,
 	SELECTED,
+	UNSELECTED,
 }
 
 const SPECIAL_ICON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_special_icon.tscn")
@@ -14,7 +15,7 @@ const VALUE_ICON_PREFIX := "res://resources/sprites/GUI/icons/cards/values/icon_
 const EXHAUST_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_exhaust.wav")
 
 const SIZE := Vector2(40, 54)
-const SELECTED_OFFSET := 6.0
+const SELECTED_OFFSET := 10.0
 const IN_USE_OFFSET := 10.0
 const HIGHLIGHTED_OFFSET := 1.0
 
@@ -28,6 +29,7 @@ const HIGHLIGHTED_OFFSET := 1.0
 @onready var _rich_text_label: RichTextLabel = %RichTextLabel
 @onready var _use_sound: AudioStreamPlayer2D = %UseSound
 @onready var _animation_player: AnimationPlayer = %AnimationPlayer
+@onready var _overlay: NinePatchRect = %Overlay
 
 var mouse_disabled:bool = true: set = _set_mouse_disabled
 var activated := false: set = _set_activated
@@ -93,6 +95,11 @@ func play_exhaust_animation() -> void:
 func play_insufficient_energy_animation() -> void:
 	await Util.play_error_shake_animation(self, "_container_offset", Vector2.ZERO)
 
+func clear_tooltip() -> void:
+	if _weak_actions_tooltip.get_ref():
+		_weak_actions_tooltip.get_ref().queue_free()
+		_weak_actions_tooltip = weakref(null)
+
 func _update_for_energy(energy:int) -> void:
 	if !tool_data:
 		return
@@ -117,9 +124,7 @@ func _on_mouse_entered() -> void:
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
 	Singletons.main_game.hovered_data = null
-	if _weak_actions_tooltip.get_ref():
-		_weak_actions_tooltip.get_ref().queue_free()
-		_weak_actions_tooltip = weakref(null)
+	clear_tooltip()
 
 func _on_energy_tracker_value_updated(energy_tracker:ResourcePoint) -> void:
 	_update_for_energy(energy_tracker.value)
@@ -162,12 +167,23 @@ func _set_card_state(value:CardState) -> void:
 		CardState.NORMAL:
 			_container_offset = Vector2.ZERO
 			has_outline = false
+			mouse_disabled = false
+			_overlay.hide()
 		CardState.SELECTED:
 			_container_offset = Vector2.UP * SELECTED_OFFSET
 			has_outline = true
+			mouse_disabled = false
+			_overlay.hide()
 		CardState.HIGHLIGHTED:
 			_container_offset = Vector2.UP * HIGHLIGHTED_OFFSET
 			has_outline = true
+			mouse_disabled = false
+			_overlay.hide()
+		CardState.UNSELECTED:
+			_container_offset = Vector2.ZERO
+			has_outline = false
+			mouse_disabled = true
+			_overlay.show()
 
 func _set_container_offset(offset:Vector2) -> void:
 	_container_offset = offset

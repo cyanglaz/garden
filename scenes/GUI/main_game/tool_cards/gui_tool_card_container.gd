@@ -34,10 +34,18 @@ func clear() -> void:
 	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 
 func clear_selection() -> void:
-	for i in _container.get_children().size():
-		var gui_card = _container.get_child(i)
-		gui_card.mouse_disabled = false
-		gui_card.card_state = GUIToolCardButton.CardState.NORMAL
+	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
+	if positions.size() > 0:
+		var tween:Tween = Util.create_scaled_tween(self)
+		tween.set_parallel(true)
+		for i in _container.get_children().size():
+			var gui_card = _container.get_child(i)
+			gui_card.card_state = GUIToolCardButton.CardState.NORMAL
+			tween.tween_property(gui_card, "position", positions[i], REPOSITION_DURATION)
+		await tween.finished
+		for i in _container.get_children().size():
+			var gui_card = _container.get_child(i)
+			gui_card.z_index = 0
 	_selected_index = -1
 	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 
@@ -151,6 +159,19 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 
 #region private
 
+func _handle_selected_card(card:GUIToolCardButton) -> void:
+	if card.card_state == GUIToolCardButton.CardState.SELECTED:
+		return
+	card.card_state = GUIToolCardButton.CardState.SELECTED
+	card.z_index = 1
+	card.clear_tooltip()
+	card.mouse_disabled = true
+	var tween:Tween = Util.create_scaled_tween(self)
+	tween.tween_property(card, "global_position", _container.global_position + _container.size/2 - card.size/2, REPOSITION_DURATION)
+	await tween.finished
+	card.mouse_disabled = false
+	tool_selected.emit(card.tool_data)
+
 #endregion
 
 #region events
@@ -170,11 +191,9 @@ func _on_tool_card_pressed(index:int) -> void:
 		for i in _container.get_children().size():	
 			var gui_card:GUIToolCardButton = _container.get_child(i)
 			if i == index:
-				if gui_card.card_state != GUIToolCardButton.CardState.SELECTED:
-					gui_card.card_state = GUIToolCardButton.CardState.SELECTED
-					tool_selected.emit(gui_card.tool_data)
+				_handle_selected_card(gui_card)
 			else:
-				gui_card.card_state = GUIToolCardButton.CardState.NORMAL
+				gui_card.card_state = GUIToolCardButton.CardState.UNSELECTED
 	else:
 		selected_card.play_insufficient_energy_animation()
 		Singletons.main_game.show_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
@@ -216,6 +235,8 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 	var mouse_exit_card = _container.get_child(index)
 	if !is_instance_valid(mouse_exit_card):
+		return
+	if _selected_index >= 0:
 		return
 	if mouse_exit_card.card_state == GUIToolCardButton.CardState.HIGHLIGHTED:
 		mouse_exit_card.card_state = GUIToolCardButton.CardState.NORMAL

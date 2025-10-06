@@ -205,6 +205,19 @@ size_flags_vertical = 8
 theme_override_constants/separation = 1
 alignment = 2
 
+[node name="Overlay" type="NinePatchRect" parent="CardContainer"]
+unique_name_in_owner = true
+visible = false
+self_modulate = Color(0.07450981, 0.07450981, 0.07450981, 0.6666667)
+material = SubResource("ShaderMaterial_ckxcp")
+layout_mode = 2
+texture = ExtResource("2_a7c0j")
+region_rect = Rect2(0, 0, 40, 54)
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
 [node name="UseSound" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("5_a7c0j")

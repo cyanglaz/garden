@@ -19,7 +19,6 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_pc4tl")
 energy_cost = 2
 actions = Array[ExtResource("1_0wo8n")]([SubResource("Resource_oexgw"), SubResource("Resource_0wo8n")])
-need_select_field = true
 id = "photosynthesis"
 display_name = "Photosynthesis"
 note = "+2 light

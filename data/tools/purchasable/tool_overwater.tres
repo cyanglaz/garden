@@ -19,7 +19,6 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_ih1py")
 energy_cost = 2
 actions = Array[ExtResource("1_m0gly")]([SubResource("Resource_oexgw"), SubResource("Resource_m0gly")])
-need_select_field = true
 id = "overwater"
 display_name = "Overwater"
 note = "+3 water
