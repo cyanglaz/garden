@@ -6,5 +6,5 @@
 script = ExtResource("1_cufwi")
 id = "tangled"
 display_name = "Tangled"
-description = "When harvested, double the energy cost of all cards on hand."
+description = "When harvested, double the energy cost of all cards on hand until the end of the turn."
 metadata/_custom_type_script = "uid://jejwqju653m5"

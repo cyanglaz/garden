@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://bdnbyj0ctwjc8"]
+
+[ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plants/plant.tscn" id="1_7og8t"]
+[ext_resource type="Texture2D" uid="uid://ce7h16ga11jiq" path="res://resources/sprites/plants/plant_morning_glory.png" id="2_6sj2a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6sj2a"]
+atlas = ExtResource("2_6sj2a")
+region = Rect2(0, 0, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7og8t"]
+atlas = ExtResource("2_6sj2a")
+region = Rect2(36, 0, 36, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_08u7e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6sj2a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7og8t")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}]
+
+[node name="PlantRose" instance=ExtResource("1_7og8t")]
+
+[node name="PlantSprite" parent="." index="0"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_08u7e")
+animation = &"idle"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/plants/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/plants/plant_morning_glory.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "8bc73c44386a8113d9a4e0f89594191a"

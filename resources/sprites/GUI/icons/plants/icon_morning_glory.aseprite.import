@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bcf81ldbuoeb8"
+path="res://.godot/imported/icon_morning_glory.aseprite-883e3e2d82b68ef9981fb10686cf3f9e.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/plants/icon_morning_glory.aseprite"
+dest_files=["res://.godot/imported/icon_morning_glory.aseprite-883e3e2d82b68ef9981fb10686cf3f9e.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
