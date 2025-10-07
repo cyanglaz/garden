@@ -47,10 +47,9 @@ func card_use_limit() -> int:
 	var card_limit_modifiers:Array = modifiers.filter(func(modifier:GameModifier) -> bool:
 		return modifier.modifier_type == GameModifier.ModifierType.CARD_USE_LIMIT
 	)
-	var card_limit_value:int = 9999999999999999999
+	var card_limit_value:int = 99999999
 	for card_limit_modifier:GameModifier in card_limit_modifiers:
 		assert(card_limit_modifier.modifier_value > 0)
-		assert(card_limit_modifier.modifier_timing == GameModifier.ModifierTiming.TURN)
 		card_limit_value = min(card_limit_value, card_limit_modifier.modifier_value)
 	return card_limit_value
 

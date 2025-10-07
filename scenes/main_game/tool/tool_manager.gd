@@ -11,7 +11,7 @@ signal _tool_actions_completed(tool_data:ToolData)
 var tool_deck:Deck
 var selected_tool_index:int: get = _get_selected_tool_index
 var selected_tool:ToolData
-var number_of_card_used_this_turn:int
+var number_of_card_used_this_turn:int = 0
 
 var _gui_tool_card_container:GUIToolCardContainer: get = _get_gui_tool_card_container
 var _tool_applier:ToolApplier = ToolApplier.new()

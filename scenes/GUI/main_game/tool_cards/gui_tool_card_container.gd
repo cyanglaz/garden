@@ -187,6 +187,8 @@ func _on_tool_card_pressed(index:int) -> void:
 		selected_card.play_error_shake_animation()
 		Singletons.main_game.show_warning(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
 		return
+	print("number of card used this turn: ", Singletons.main_game.tool_manager.number_of_card_used_this_turn)
+	print("card use limit: ", Singletons.main_game.game_modifier_manager.card_use_limit())
 	if Singletons.main_game.tool_manager.number_of_card_used_this_turn >= Singletons.main_game.game_modifier_manager.card_use_limit():
 		selected_card.play_error_shake_animation()
 		Singletons.main_game.show_warning(WarningManager.WarningType.CARD_USE_LIMIT_REACHED)
