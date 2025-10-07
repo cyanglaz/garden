@@ -36,6 +36,7 @@ var max_energy := 3
 var session_summary:SessionSummary
 var hovered_data:ThingData: set = _set_hovered_data
 var rating:ResourcePoint = ResourcePoint.new()
+var game_modifier_manager:GameModifierManager = GameModifierManager.new()
 var boost := 1: set = _set_boost
 var _gold := 0: set = _set_gold
 var _selected_contract:ContractData
@@ -91,6 +92,8 @@ func _ready() -> void:
 	#shop signals
 	gui_main_game.gui_shop_main.next_level_button_pressed.connect(_on_shop_next_level_pressed)
 	gui_main_game.gui_shop_main.tool_shop_button_pressed.connect(_on_tool_shop_button_pressed)
+
+	game_modifier_manager.setup(self)
 	
 	energy_tracker.capped = false
 	contract_generator.generate_bosses(1)
@@ -191,6 +194,7 @@ func _select_contract() -> void:
 	gui_main_game.animate_show_contract_selection(picked_contracts)
   
 func _start_new_level() -> void:
+	game_modifier_manager.apply_modifiers(GameModifier.ModifierTiming.LEVEL)
 	boost = 1
 	gui_main_game.show_current_contract(_selected_contract)
 	power_manager.clear_powers()
@@ -205,6 +209,7 @@ func _start_new_level() -> void:
 	_start_day()
 
 func _start_day() -> void:
+	game_modifier_manager.apply_modifiers(GameModifier.ModifierTiming.TURN)
 	boost = maxi(boost - 1, 1)
 	weather_manager.generate_next_weathers(chapter_manager.current_chapter)
 	gui_main_game.toggle_all_ui(false)
@@ -234,6 +239,7 @@ func _win() -> void:
 	_harvesting_fields.clear()
 	session_summary.total_days += day_manager.day
 	gui_main_game.animate_show_reward_main(_selected_contract)
+	game_modifier_manager.clear_for_level()
 	gui_main_game.toggle_all_ui(true)
 	_level += 1
 
@@ -252,6 +258,8 @@ func _end_day() -> void:
 	await weather_manager.apply_weather_actions(field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
 	weather_manager.pass_day()
 	var won := await _harvest()
+	tool_manager.cleanup_for_turn()
+	game_modifier_manager.clear_for_turn()
 	gui_main_game.toggle_all_ui(true)
 	if won:
 		return #Harvest won the game, no need to discard tools or end the day

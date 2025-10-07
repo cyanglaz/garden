@@ -4,6 +4,7 @@ extends PanelContainer
 enum DialogueType {
 	THING_DETAIL,
 	CANNOT_USE_CARD,
+	CARD_USE_LIMIT_REACHED,
 }
 
 const THING_DETAIL_INPUT_ICON_PATH := "res://resources/sprites/GUI/icons/inputs/input_v.png"
@@ -28,6 +29,8 @@ func _update_text() -> void:
 			description.text = Util.get_localized_string("SHOW_LIBRARY_TOOLTIP_PROMPT") % [input_icon_string]
 		DialogueType.CANNOT_USE_CARD:
 			description.text = Util.get_localized_string("WARNING_CANNOT_USE_CARD")
+		DialogueType.CARD_USE_LIMIT_REACHED:
+			description.text = Util.get_localized_string("WARNING_CARD_USE_LIMIT_REACHED")
 
 func _set_is_top_item(val:bool) -> void:
 	is_top_item = val

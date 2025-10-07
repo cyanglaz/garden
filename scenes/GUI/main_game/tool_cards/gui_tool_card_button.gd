@@ -96,7 +96,7 @@ func play_exhaust_animation() -> void:
 	GlobalSoundManager.play_sound(EXHAUST_SOUND)
 	await _dissolve_finished
 
-func play_insufficient_energy_animation() -> void:
+func play_error_shake_animation() -> void:
 	await Util.play_error_shake_animation(self, "_container_offset", Vector2.ZERO)
 
 func clear_tooltip() -> void:

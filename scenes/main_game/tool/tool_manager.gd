@@ -11,6 +11,7 @@ signal _tool_actions_completed(tool_data:ToolData)
 var tool_deck:Deck
 var selected_tool_index:int: get = _get_selected_tool_index
 var selected_tool:ToolData
+var number_of_card_used_this_turn:int
 
 var _gui_tool_card_container:GUIToolCardContainer: get = _get_gui_tool_card_container
 var _tool_applier:ToolApplier = ToolApplier.new()
@@ -31,6 +32,9 @@ func refresh_deck() -> void:
 
 func cleanup_deck() -> void:
 	tool_deck.cleanup_temp_items()
+
+func cleanup_for_turn() -> void:
+	number_of_card_used_this_turn = 0
 
 func draw_cards(count:int) -> Array:
 	var _display_index = tool_deck.hand.size() - 1
@@ -71,6 +75,7 @@ func select_tool(tool_data:ToolData) -> void:
 	selected_tool = tool_data
 
 func apply_tool(main_game:MainGame, fields:Array, field_index:int) -> void:
+	number_of_card_used_this_turn += 1
 	var applying_tool = selected_tool
 	_run_card_lifecycle(applying_tool)
 	_run_card_actions(main_game, fields, field_index, applying_tool)

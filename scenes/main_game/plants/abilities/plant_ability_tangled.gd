@@ -6,6 +6,8 @@ func _has_ability_hook(ability_type:Plant.AbilityType, _main_game:MainGame, _pla
 
 func _trigger_ability_hook(ability_type:Plant.AbilityType, main_game:MainGame, _plant:Plant) -> void:
 	assert(ability_type == Plant.AbilityType.HARVEST)
-	for tool_data:ToolData in main_game.tool_manager.tool_deck.hand:
-		tool_data.energy_modifier = tool_data.energy_cost
-	main_game.tool_manager.refresh_ui()
+	var game_modifier:GameModifier = GameModifier.new()
+	game_modifier.modifier_type = GameModifier.ModifierType.CARD_ENERGY_COST_MULTIPLICATIVE
+	game_modifier.modifier_timing = GameModifier.ModifierTiming.TURN
+	game_modifier.modifier_value = 2
+	main_game.game_modifier_manager.add_modifier(game_modifier)
