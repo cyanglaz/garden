@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_n4koo")
+primary_plant_id = "rose"
 id = "the_bramble"
 display_name = "The Bramble"
 description = "Shuffle {count} {card:thorn} into your discard pile at the start of the first day."

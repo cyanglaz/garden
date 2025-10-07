@@ -11,6 +11,8 @@ signal _tool_actions_completed(tool_data:ToolData)
 var tool_deck:Deck
 var selected_tool_index:int: get = _get_selected_tool_index
 var selected_tool:ToolData
+var number_of_card_used_this_turn:int = 0
+var card_use_limit_reached:bool = false: set = _set_card_use_limit_reached
 
 var _gui_tool_card_container:GUIToolCardContainer: get = _get_gui_tool_card_container
 var _tool_applier:ToolApplier = ToolApplier.new()
@@ -23,12 +25,18 @@ var _weak_gui_tool_card_container:WeakRef = weakref(null)
 func _init(initial_tools:Array, gui_tool_card_container:GUIToolCardContainer) -> void:
 	tool_deck = Deck.new(initial_tools)
 	_weak_gui_tool_card_container = weakref(gui_tool_card_container)
+	_tool_lifecycle_completed.connect(_on_tool_lifecycle_completed)
+	_tool_actions_completed.connect(_on_tool_actions_completed)
 
 func refresh_deck() -> void:
 	tool_deck.refresh()
 
 func cleanup_deck() -> void:
 	tool_deck.cleanup_temp_items()
+
+func cleanup_for_turn() -> void:
+	number_of_card_used_this_turn = 0
+	card_use_limit_reached = false
 
 func draw_cards(count:int) -> Array:
 	var _display_index = tool_deck.hand.size() - 1
@@ -50,6 +58,8 @@ func shuffle() -> void:
 func discard_cards(tools:Array) -> void:
 	assert(tools.size() > 0)
 	# Order is important, discard first, then animate
+	for tool_data in tools:
+		tool_data.energy_modifier = 0
 	tool_deck.discard(tools)
 	await _gui_tool_card_container.animate_discard(tools)
 
@@ -67,12 +77,12 @@ func select_tool(tool_data:ToolData) -> void:
 	selected_tool = tool_data
 
 func apply_tool(main_game:MainGame, fields:Array, field_index:int) -> void:
+	number_of_card_used_this_turn += 1
 	var applying_tool = selected_tool
-	tool_application_started.emit(applying_tool)
 	_run_card_lifecycle(applying_tool)
 	_run_card_actions(main_game, fields, field_index, applying_tool)
 	_tool_application_queue.append(applying_tool)
-	tool_application_completed.emit(applying_tool)
+	tool_application_started.emit(applying_tool)
 
 func discardable_cards() -> Array:
 	return tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return tool_data != selected_tool)
@@ -101,6 +111,9 @@ func finish_card(tool_data:ToolData) -> void:
 	else:
 		await discard_cards([tool_data])
 
+func refresh_ui() -> void:
+	_gui_tool_card_container.refresh_tool_cards()
+
 func _run_card_lifecycle(tool_data:ToolData) -> void:
 	_tool_lifecycle_queue.append(tool_data)
 	if tool_data.specials.has(ToolData.Special.COMPOST):
@@ -117,13 +130,7 @@ func _run_card_actions(main_game:MainGame, fields:Array, field_index:int, tool_d
 	_tool_actions_queue.erase(tool_data)
 	_tool_actions_completed.emit(tool_data)
 
-func _get_selected_tool_index() -> int:
-	if !selected_tool:
-		return -1
-	return tool_deck.hand.find(selected_tool)
-
-func _get_gui_tool_card_container() -> GUIToolCardContainer:
-	return _weak_gui_tool_card_container.get_ref()
+#region events
 
 func _on_tool_lifecycle_completed(tool_data:ToolData) -> void:
 	assert(!_tool_lifecycle_queue.has(tool_data))
@@ -136,3 +143,21 @@ func _on_tool_actions_completed(tool_data:ToolData) -> void:
 	if !_tool_actions_queue.has(tool_data) && _tool_application_queue.has(tool_data):
 		_tool_application_queue.erase(tool_data)
 		tool_application_completed.emit(tool_data)
+
+#endregion
+
+#region setters/getters
+
+func _get_selected_tool_index() -> int:
+	if !selected_tool:
+		return -1
+	return tool_deck.hand.find(selected_tool)
+
+func _get_gui_tool_card_container() -> GUIToolCardContainer:
+	return _weak_gui_tool_card_container.get_ref()
+
+func _set_card_use_limit_reached(value:bool) -> void:
+	card_use_limit_reached = value
+	_gui_tool_card_container.card_use_limit_reached = value
+
+#endregion

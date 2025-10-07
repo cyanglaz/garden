@@ -14,6 +14,7 @@ func _ready() -> void:
 func update_with_boss_data(boss_data:BossData) -> void:
 	_weak_boss_data = weakref(boss_data)
 	name_label.text = boss_data.display_name
+	name_label.modulate = Constants.CONTRACT_THEME_COLOR_BOSS
 	rich_text_label.text = boss_data.get_display_description()
 
 func _on_mouse_entered() -> void:

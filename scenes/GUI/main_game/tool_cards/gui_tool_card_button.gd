@@ -40,7 +40,7 @@ var resource_sufficient := false: set = _set_resource_sufficient
 var animation_mode := false : set = _set_animation_mode
 var display_mode := false
 var library_mode := false
-var outline_color:Color = Constants.RESOURCE_SUFFICIENT_COLOR: set = _set_outline_color
+var disabled:bool = false: set = _set_disabled
 var has_outline:bool = false: set = _set_has_outline
 var tool_data:ToolData: get = _get_tool_data
 var _weak_tool_data:WeakRef = weakref(null)
@@ -62,8 +62,8 @@ func update_with_tool_data(td:ToolData) -> void:
 		_gui_action_list.update(tool_data.actions)
 	if !tool_data.get_display_description().is_empty():
 		_rich_text_label.text = tool_data.get_display_description()
-	if tool_data.energy_cost >= 0:
-		_cost_icon.texture = load(VALUE_ICON_PREFIX + str(tool_data.energy_cost) + ".png")
+	if tool_data.get_final_energy_cost() >= 0:
+		_cost_icon.texture = load(VALUE_ICON_PREFIX + str(tool_data.get_final_energy_cost()) + ".png")
 	else:
 		_cost_icon.hide()
 	_title.text = tool_data.display_name
@@ -96,7 +96,7 @@ func play_exhaust_animation() -> void:
 	GlobalSoundManager.play_sound(EXHAUST_SOUND)
 	await _dissolve_finished
 
-func play_insufficient_energy_animation() -> void:
+func play_error_shake_animation() -> void:
 	await Util.play_error_shake_animation(self, "_container_offset", Vector2.ZERO)
 
 func clear_tooltip() -> void:
@@ -107,7 +107,7 @@ func clear_tooltip() -> void:
 func _update_for_energy(energy:int) -> void:
 	if !tool_data:
 		return
-	if tool_data.energy_cost <= energy:
+	if tool_data.get_final_energy_cost() <= energy:
 		resource_sufficient = true
 	else:
 		resource_sufficient = false
@@ -206,28 +206,34 @@ func _set_container_offset(offset:Vector2) -> void:
 
 func _set_resource_sufficient(value:bool) -> void:
 	resource_sufficient = value
-	if value:
-		_cost_icon.modulate = Constants.RESOURCE_SUFFICIENT_COLOR
-		outline_color = Constants.RESOURCE_SUFFICIENT_COLOR
-	else:
-		if display_mode:
-			_cost_icon.modulate = Constants.RESOURCE_SUFFICIENT_COLOR
-		else:
-			_cost_icon.modulate = Constants.RESOURCE_INSUFFICIENT_COLOR
-		outline_color = Constants.RESOURCE_INSUFFICIENT_COLOR
+	var sufficient_color := Constants.COST_DEFAULT_COLOR
+	if tool_data.energy_modifier > 0:
+		sufficient_color = Constants.COST_INCREASED_COLOR
+	if tool_data.energy_modifier < 0:
+		sufficient_color = Constants.COST_REDUCED_COLOR
 	
-func _set_outline_color(value:Color) -> void:
-	outline_color = value
-	if _background:
-		_background.material.set_shader_parameter("outline_color", value)
+	if resource_sufficient || display_mode:
+		_cost_icon.self_modulate = sufficient_color
+	else:
+		_cost_icon.self_modulate = Constants.RESOURCE_INSUFFICIENT_COLOR
+	if disabled:
+		_set_disabled(true)
 
 func _set_has_outline(val:bool) -> void:
 	has_outline = val
 	if has_outline:
-		_background.material.set_shader_parameter("outline_color", outline_color)
+		_background.material.set_shader_parameter("outline_color", _cost_icon.self_modulate)
 		_background.material.set_shader_parameter("outline_size", 1)
 	else:
 		_background.material.set_shader_parameter("outline_size", 0)
+
+func _set_disabled(value:bool) -> void:
+	disabled = value
+	if value:
+		_cost_icon.self_modulate = Constants.CARD_DISABLED_COLOR
+	else:
+		_set_resource_sufficient(resource_sufficient)
+#region events
 
 func _on_animation_finished(anim_name:String) -> void:
 	if anim_name == "dissolve":
@@ -239,3 +245,5 @@ func _on_tool_data_refresh() -> void:
 func _on_use_button_pressed() -> void:
 	_gui_use_card_button.hide()
 	use_card_button_pressed.emit()
+
+#endregion

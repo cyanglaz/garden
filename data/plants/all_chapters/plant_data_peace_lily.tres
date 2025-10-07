@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_x380q")
 light = 2
-water = 6
+water = 5
 difficulty = 1
 chapters = Array[int]([0, 1, 2, 3])
 id = "peace_lily"

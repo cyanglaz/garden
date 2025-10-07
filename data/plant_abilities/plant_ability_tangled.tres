@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PlantAbilityData" load_steps=2 format=3 uid="uid://c7w2gphpk8t4s"]
+
+[ext_resource type="Script" uid="uid://jejwqju653m5" path="res://data/models/plants/plant_ability_data.gd" id="1_cufwi"]
+
+[resource]
+script = ExtResource("1_cufwi")
+id = "tangled"
+display_name = "Tangled"
+description = "When harvested, double the energy cost of all cards on hand until the end of the turn."
+metadata/_custom_type_script = "uid://jejwqju653m5"

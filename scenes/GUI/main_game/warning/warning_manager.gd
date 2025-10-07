@@ -8,6 +8,7 @@ enum WarningType {
 	INSUFFICIENT_GOLD,
 	DIALOGUE_THING_DETAIL,
 	DIALOGUE_CANNOT_USE_CARD,
+	CARD_USE_LIMIT_REACHED,
 }
 
 var _gui_energy_tracker:GUIEnergyTracker: get = _get_gui_energy_tracker
@@ -40,6 +41,8 @@ func show_warning(warning_type:WarningType) -> void:
 			_gui_dialogue_window.show_with_type(GUIDialogueItem.DialogueType.THING_DETAIL)
 		WarningType.DIALOGUE_CANNOT_USE_CARD:
 			_gui_dialogue_window.show_with_type(GUIDialogueItem.DialogueType.CANNOT_USE_CARD)
+		WarningType.CARD_USE_LIMIT_REACHED:
+			_gui_dialogue_window.show_with_type(GUIDialogueItem.DialogueType.CARD_USE_LIMIT_REACHED)
 
 func hide_warning(warning_type:WarningType) -> void:
 	match warning_type:
@@ -53,6 +56,8 @@ func hide_warning(warning_type:WarningType) -> void:
 			_gui_dialogue_window.hide_type(GUIDialogueItem.DialogueType.THING_DETAIL)
 		WarningType.DIALOGUE_CANNOT_USE_CARD:
 			_gui_dialogue_window.hide_type(GUIDialogueItem.DialogueType.CANNOT_USE_CARD)
+		WarningType.CARD_USE_LIMIT_REACHED:
+			_gui_dialogue_window.hide_type(GUIDialogueItem.DialogueType.CARD_USE_LIMIT_REACHED)
 
 func _get_gui_energy_tracker() -> GUIEnergyTracker:
 	return _weak_gui_energy_tracker.get_ref()

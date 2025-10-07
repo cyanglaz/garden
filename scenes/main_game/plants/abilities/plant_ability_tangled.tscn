@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cblcs8vcqn3lh"]
+
+[ext_resource type="PackedScene" uid="uid://lptujl1fd783" path="res://scenes/main_game/plants/abilities/plant_ability.tscn" id="1_t2uij"]
+[ext_resource type="Script" uid="uid://bjr4ka7xv7dpb" path="res://scenes/main_game/plants/abilities/plant_ability_tangled.gd" id="2_147vw"]
+
+[node name="PlantAbilityTangled" instance=ExtResource("1_t2uij")]
+script = ExtResource("2_147vw")
