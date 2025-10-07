@@ -212,14 +212,12 @@ func _set_resource_sufficient(value:bool) -> void:
 		sufficient_color = Constants.COST_INCREASED_COLOR
 	if tool_data.energy_modifier < 0:
 		sufficient_color = Constants.COST_REDUCED_COLOR
-	if value:
+	
+	if resource_sufficient || display_mode:
 		_cost_icon.modulate = sufficient_color
-		outline_color = Constants.COST_DEFAULT_COLOR
+		outline_color = sufficient_color
 	else:
-		if display_mode:
-			_cost_icon.modulate = sufficient_color
-		else:
-			_cost_icon.modulate = Constants.RESOURCE_INSUFFICIENT_COLOR
+		_cost_icon.modulate = Constants.RESOURCE_INSUFFICIENT_COLOR
 		outline_color = Constants.RESOURCE_INSUFFICIENT_COLOR
 	if disabled:
 		_set_disabled(true)
