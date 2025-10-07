@@ -82,7 +82,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 1
 mouse_filter = 0
-theme_type_variation = &"HUD"
+theme_type_variation = &"HUD_mid"
 text = "Difficulty:"
 vertical_alignment = 1
 
@@ -101,7 +101,7 @@ size_flags_horizontal = 0
 size_flags_vertical = 1
 mouse_filter = 0
 theme_type_variation = &"HUD_mid"
-text = "Penalty Rate: 1"
+text = "Starting Penalty Rate: 1"
 vertical_alignment = 1
 
 [node name="PenaltyRateValueLabel" type="Label" parent="ContractMain/MarginContainer/VBoxContainer/PenaltyRate"]
@@ -110,9 +110,8 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 1
 mouse_filter = 0
-theme_type_variation = &"HUD"
+theme_type_variation = &"HUD_mid"
 text = "1"
-vertical_alignment = 1
 
 [node name="RewardContainer" type="VBoxContainer" parent="ContractMain/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -153,6 +152,6 @@ unique_name_in_owner = true
 z_index = 0
 z_as_relative = true
 layout_mode = 1
-offset_left = 63.0
-offset_right = 127.0
+offset_left = 72.0
+offset_right = 136.0
 offset_bottom = 18.0

@@ -16,9 +16,8 @@ const BASE_NUMBER_OF_PLANTS_DICE := {
 }
 
 const NUMBER_OF_PLANTS_TYPE_DICE := {
-	1: 5,
-	2: 80,
-	3: 15
+	2: 75,
+	3: 25
 }
 
 const TOP_PLANT_DIFFICULTY_FOR_TYPE := {
@@ -163,7 +162,7 @@ func _roll_boss_plants(chapter:int, boss_data:BossData) -> Array[PlantData]:
 	var available_secondary_plants:Array = _all_available_plants.filter(
 		func(plant:PlantData) -> bool: return plant.difficulty == TOP_PLANT_DIFFICULTY_FOR_TYPE[ContractData.ContractType.ELITE]
 	)
-	var selected_plant_types:Array[PlantData] = Util.unweighted_roll(available_secondary_plants, number_of_plants_type-1)
+	var selected_plant_types:Array = Util.unweighted_roll(available_secondary_plants, number_of_plants_type-1)
 
 	var primary_pick:PlantData = MainDatabase.plant_database.get_data_by_id(boss_data.primary_plant_id, true)
 

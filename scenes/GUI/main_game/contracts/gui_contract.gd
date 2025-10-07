@@ -61,13 +61,13 @@ func update_with_contract_data(contract:ContractData) -> void:
 	match contract.contract_type:
 		ContractData.ContractType.BOSS:
 			type_value_label.text = Util.get_localized_string("CONTRACT_TYPE_VALUE_BOSS_TEXT")
-			theme_color = Constants.COLOR_RED1
+			theme_color = Constants.CONTRACT_THEME_COLOR_BOSS
 		ContractData.ContractType.ELITE:
 			type_value_label.text = Util.get_localized_string("CONTRACT_TYPE_VALUE_ELITE_TEXT")
-			theme_color = Constants.COLOR_BLUE_3
+			theme_color = Constants.CONTRACT_THEME_COLOR_ELITE
 		ContractData.ContractType.COMMON:
 			type_value_label.text = Util.get_localized_string("CONTRACT_TYPE_VALUE_COMMON_TEXT")
-			theme_color = Constants.COLOR_GREEN2
+			theme_color = Constants.CONTRACT_THEME_COLOR_COMMON
 	type_value_label.modulate = theme_color
 	
 	Util.remove_all_children(plant_container)
