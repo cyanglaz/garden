@@ -9,6 +9,6 @@ id = "the_binder"
 display_name = "The Binder"
 description = "You can only play {count} card each turn."
 data = {
-"count": "1"
+"count": "4"
 }
 metadata/_custom_type_script = "uid://bt7c5hiesqa06"

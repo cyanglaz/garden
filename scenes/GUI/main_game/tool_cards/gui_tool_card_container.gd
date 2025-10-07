@@ -54,6 +54,8 @@ func clear_selection() -> void:
 			var gui_card = _container.get_child(i)
 			gui_card.z_index = 0
 	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
+	Singletons.main_game.hide_warning(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
+	Singletons.main_game.hide_warning(WarningManager.WarningType.CARD_USE_LIMIT_REACHED)
 
 func add_card(tool_data:ToolData) -> GUIToolCardButton:
 	var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
@@ -176,19 +178,22 @@ func _handle_selected_card(card:GUIToolCardButton) -> void:
 	card.card_state = GUIToolCardButton.CardState.SELECTED
 	tool_selected.emit(card.tool_data)
 
+func _hide_all_warnings() -> void:
+	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
+	Singletons.main_game.hide_warning(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
+	Singletons.main_game.hide_warning(WarningManager.WarningType.CARD_USE_LIMIT_REACHED)
+
 #endregion
 
 #region events
 
 func _on_tool_card_pressed(index:int) -> void:
-	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
+	_hide_all_warnings()
 	var selected_card:GUIToolCardButton = _container.get_child(index)
 	if selected_card.tool_data.get_final_energy_cost() < 0:
 		selected_card.play_error_shake_animation()
 		Singletons.main_game.show_warning(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
 		return
-	print("number of card used this turn: ", Singletons.main_game.tool_manager.number_of_card_used_this_turn)
-	print("card use limit: ", Singletons.main_game.game_modifier_manager.card_use_limit())
 	if Singletons.main_game.tool_manager.number_of_card_used_this_turn >= Singletons.main_game.game_modifier_manager.card_use_limit():
 		selected_card.play_error_shake_animation()
 		Singletons.main_game.show_warning(WarningManager.WarningType.CARD_USE_LIMIT_REACHED)
@@ -212,7 +217,7 @@ func _on_tool_card_pressed(index:int) -> void:
 		Singletons.main_game.show_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 
 func _on_tool_card_mouse_entered(index:int) -> void:
-	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
+	_hide_all_warnings()
 	var mouse_over_card = _container.get_child(index)
 	if !is_instance_valid(mouse_over_card):
 		return
@@ -245,7 +250,7 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 		tween.kill()
 
 func _on_tool_card_mouse_exited(index:int) -> void:
-	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
+	_hide_all_warnings()
 	var mouse_exit_card = _container.get_child(index)
 	if !is_instance_valid(mouse_exit_card):
 		return
