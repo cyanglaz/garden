@@ -33,6 +33,8 @@ const BASE_REWARD_VALUE_FOR_EACH_PLANT_DIFFICULTY_TYPE := {
 	2: 6,
 }
 
+const BOSS_RATING_REWARD := 50
+
 const BASE_BOOSTER_PACK_TYPE_FOR_TYPE := {
 	ContractData.ContractType.COMMON: ContractData.BoosterPackType.COMMON,
 	ContractData.ContractType.ELITE: ContractData.BoosterPackType.RARE,
@@ -113,8 +115,13 @@ func _generate_contracts(chapter:int, contract_type:ContractData.ContractType, c
 		contract.contract_type = contract_type
 		contract.penalty_rate = BASE_PENALTY_RATE_FOR_TYPE[contract_type] + chapter
 
-		# Plants
-		contract.plants = _roll_plants(chapter, contract_type, contracts)
+		if contract_type == ContractData.ContractType.BOSS:
+			assert(bosses.size() > 0)
+			contract.boss_data = bosses.pop_back()
+			contract.plants = _roll_boss_plants(chapter, contract.boss_data)
+		else:
+			contract.boss_data = null
+			contract.plants = _roll_plants(chapter, contract_type, contracts)
 
 		# Gold and rating rewards
 		_roll_reward_values(contract, chapter)
@@ -122,11 +129,6 @@ func _generate_contracts(chapter:int, contract_type:ContractData.ContractType, c
 		# Booster pack rewards
 		contract.reward_booster_pack_type = BASE_BOOSTER_PACK_TYPE_FOR_TYPE[contract_type]
 
-		if contract_type == ContractData.ContractType.BOSS:
-			assert(bosses.size() > 0)
-			contract.boss_data = bosses.pop_back()
-		else:
-			contract.boss_data = null
 
 		contracts.append(contract)
 	return contracts
@@ -153,6 +155,32 @@ func _roll_plants(chapter:int, contract_type:ContractData.ContractType, contract
 				break
 	return pick_result
 
+func _roll_boss_plants(chapter:int, boss_data:BossData) -> Array[PlantData]:
+
+	var number_of_plants := _roll_number_of_plants(chapter)
+	var number_of_plants_type := _roll_number_of_plants_type(chapter)
+
+	var available_secondary_plants:Array = _all_available_plants.filter(
+		func(plant:PlantData) -> bool: return plant.difficulty == TOP_PLANT_DIFFICULTY_FOR_TYPE[ContractData.ContractType.ELITE]
+	)
+	var selected_plant_types:Array[PlantData] = Util.unweighted_roll(available_secondary_plants, number_of_plants_type-1)
+
+	var primary_pick:PlantData = MainDatabase.plant_database.get_data_by_id(boss_data.primary_plant_id, true)
+
+	var result:Array[PlantData] = []
+	# Pick primary plant at least half of the time (ceiling)
+	@warning_ignore("integer_division")
+	for i in number_of_plants/2:
+		result.append(primary_pick.get_duplicate())
+
+	# Pick the rest of the plants
+	for i in number_of_plants - result.size():
+		var pick:PlantData = selected_plant_types.pick_random()
+		result.append(pick.get_duplicate())
+	result.shuffle()
+
+	return result
+	
 func _roll_plants_once(chapter:int, top_plant_difficulty:int) -> Array[PlantData]:
 	var number_of_plants := _roll_number_of_plants(chapter)
 	var number_of_plants_type := _roll_number_of_plants_type(chapter)
@@ -211,7 +239,7 @@ func _roll_reward_values(contract:ContractData, chapter:int) -> void:
 	for plant:PlantData in contract.plants:
 		reward_value += BASE_REWARD_VALUE_FOR_EACH_PLANT_DIFFICULTY_TYPE[plant.difficulty]
 	reward_value += chapter * REWARD_VALUE_CHAPTER_MULTIPLIER
-	var has_rating_reward = randf() < RATING_REWARD_CHANCE
+	var has_rating_reward = randf() < RATING_REWARD_CHANCE && contract.contract_type != ContractData.ContractType.BOSS
 	if has_rating_reward:
 		@warning_ignore("integer_division")
 		contract.reward_rating = ceili((reward_value/2) * RATING_REWARD_RATE)
@@ -219,6 +247,8 @@ func _roll_reward_values(contract:ContractData, chapter:int) -> void:
 		contract.reward_gold = floori(reward_value/2)
 	else:
 		contract.reward_gold = reward_value
+	if contract.contract_type == ContractData.ContractType.BOSS:
+		contract.reward_rating += BOSS_RATING_REWARD
 
 func _log_contracts(chapter:int) -> void:
 	print("chapter: ", chapter)
