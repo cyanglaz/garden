@@ -184,9 +184,9 @@ func _start_new_chapter() -> void:
 	weather_manager.generate_next_weathers(chapter_manager.current_chapter)
 	contract_generator.generate_contracts(chapter_manager.current_chapter)
 	gui_main_game.show_boss_icon(contract_generator.boss_contracts[0].boss_data)
+	_select_contract()
 	#_selected_contract = contract_generator.pick_contracts(CONTRACT_COUNT, _level)[0]
 	#gui_main_game.animate_show_reward_main(_selected_contract)
-	_select_contract()
 
 func _select_contract() -> void:
 	gui_main_game.hide_current_contract()
@@ -194,12 +194,12 @@ func _select_contract() -> void:
 	gui_main_game.animate_show_contract_selection(picked_contracts)
   
 func _start_new_level() -> void:
+	if test_contract:
+		_selected_contract = test_contract
 	game_modifier_manager.apply_modifiers(GameModifier.ModifierTiming.LEVEL)
 	boost = 1
 	gui_main_game.show_current_contract(_selected_contract)
 	power_manager.clear_powers()
-	if test_contract:
-		_selected_contract = test_contract
 	plant_seed_manager = PlantSeedManager.new(_selected_contract.plants)
 	tool_manager.refresh_deck()
 	session_summary.contract = _selected_contract
@@ -343,11 +343,11 @@ func _on_tool_application_started(tool_data:ToolData) -> void:
 		energy_tracker.spend(tool_data.get_final_energy_cost())
 	_clear_tool_selection()
 
-func _on_tool_application_completed(_tool_data:ToolData, number_of_card_used_this_turn:int) -> void:
+func _on_tool_application_completed(_tool_data:ToolData) -> void:
 	await _harvest()
-	gui_main_game.toggle_all_ui(true)
-	if number_of_card_used_this_turn >= game_modifier_manager.card_use_limit():
+	if tool_manager.number_of_card_used_this_turn >= game_modifier_manager.card_use_limit():
 		tool_manager.card_use_limit_reached = true
+	gui_main_game.toggle_all_ui(true)
 
 func _on_card_use_button_pressed(tool_data:ToolData) -> void:
 	assert(!tool_data.need_select_field)

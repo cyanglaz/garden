@@ -69,7 +69,7 @@ func add_card(tool_data:ToolData) -> GUIToolCardButton:
 	else:
 		gui_card.card_state = GUIToolCardButton.CardState.NORMAL
 	_rebind_signals()
-	gui_card.card_use_limit_reached = card_use_limit_reached
+	gui_card.disabled = card_use_limit_reached
 	return gui_card
 
 func remove_cards(gui_cards:Array[GUIToolCardButton]) -> void:
@@ -288,6 +288,6 @@ func _set_card_use_limit_reached(value:bool) -> void:
 	card_use_limit_reached = value
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
-		gui_card.card_use_limit_reached = value
+		gui_card.disabled = value
 
 #endregion

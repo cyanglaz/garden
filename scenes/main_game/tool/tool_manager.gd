@@ -4,7 +4,7 @@ extends RefCounted
 const IN_USE_PAUSE := 0.2
 
 signal tool_application_started(tool_data:ToolData)
-signal tool_application_completed(tool_data:ToolData, number_of_card_used_this_turn:int)
+signal tool_application_completed(tool_data:ToolData)
 signal _tool_lifecycle_completed(tool_data:ToolData)
 signal _tool_actions_completed(tool_data:ToolData)
 

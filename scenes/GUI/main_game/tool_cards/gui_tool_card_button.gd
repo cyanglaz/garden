@@ -40,9 +40,8 @@ var resource_sufficient := false: set = _set_resource_sufficient
 var animation_mode := false : set = _set_animation_mode
 var display_mode := false
 var library_mode := false
-var cost_sufficient_outline_color:Color = Constants.COST_DEFAULT_COLOR
 var outline_color:Color = Constants.COST_DEFAULT_COLOR: set = _set_outline_color
-var card_use_limit_reached:bool = false: set = _set_card_use_limit_reached
+var disabled:bool = false: set = _set_disabled
 var has_outline:bool = false: set = _set_has_outline
 var tool_data:ToolData: get = _get_tool_data
 var _weak_tool_data:WeakRef = weakref(null)
@@ -215,13 +214,15 @@ func _set_resource_sufficient(value:bool) -> void:
 		sufficient_color = Constants.COST_REDUCED_COLOR
 	if value:
 		_cost_icon.modulate = sufficient_color
-		outline_color = cost_sufficient_outline_color
+		outline_color = Constants.COST_DEFAULT_COLOR
 	else:
 		if display_mode:
 			_cost_icon.modulate = sufficient_color
 		else:
 			_cost_icon.modulate = Constants.RESOURCE_INSUFFICIENT_COLOR
 		outline_color = Constants.RESOURCE_INSUFFICIENT_COLOR
+	if disabled:
+		_set_disabled(true)
 	
 func _set_outline_color(value:Color) -> void:
 	outline_color = value
@@ -236,12 +237,13 @@ func _set_has_outline(val:bool) -> void:
 	else:
 		_background.material.set_shader_parameter("outline_size", 0)
 
-func _set_card_use_limit_reached(value:bool) -> void:
-	card_use_limit_reached = value
+func _set_disabled(value:bool) -> void:
+	disabled = value
 	if value:
-		cost_sufficient_outline_color = Constants.CARD_RESTRICTED_COLOR
+		outline_color = Constants.CARD_DISABLED_COLOR
+		_cost_icon.modulate = Constants.CARD_DISABLED_COLOR
 	else:
-		cost_sufficient_outline_color = Constants.COST_DEFAULT_COLOR
+		_set_resource_sufficient(resource_sufficient)
 #region events
 
 func _on_animation_finished(anim_name:String) -> void:
