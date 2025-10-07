@@ -253,6 +253,7 @@ func _end_day() -> void:
 	gui_main_game.toggle_all_ui(false)
 	_clear_tool_selection()
 	await _discard_all_tools()
+	tool_manager.card_use_limit_reached = false
 	await field_container.trigger_end_day_hook(self)
 	await field_container.trigger_end_day_ability(self)
 	await weather_manager.apply_weather_actions(field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
@@ -342,9 +343,11 @@ func _on_tool_application_started(tool_data:ToolData) -> void:
 		energy_tracker.spend(tool_data.get_final_energy_cost())
 	_clear_tool_selection()
 
-func _on_tool_application_completed(_tool_data:ToolData) -> void:
+func _on_tool_application_completed(_tool_data:ToolData, number_of_card_used_this_turn:int) -> void:
 	await _harvest()
 	gui_main_game.toggle_all_ui(true)
+	if number_of_card_used_this_turn >= game_modifier_manager.card_use_limit():
+		tool_manager.card_use_limit_reached = true
 
 func _on_card_use_button_pressed(tool_data:ToolData) -> void:
 	assert(!tool_data.need_select_field)

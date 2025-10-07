@@ -40,7 +40,9 @@ var resource_sufficient := false: set = _set_resource_sufficient
 var animation_mode := false : set = _set_animation_mode
 var display_mode := false
 var library_mode := false
+var cost_sufficient_outline_color:Color = Constants.COST_DEFAULT_COLOR
 var outline_color:Color = Constants.COST_DEFAULT_COLOR: set = _set_outline_color
+var card_use_limit_reached:bool = false: set = _set_card_use_limit_reached
 var has_outline:bool = false: set = _set_has_outline
 var tool_data:ToolData: get = _get_tool_data
 var _weak_tool_data:WeakRef = weakref(null)
@@ -213,7 +215,7 @@ func _set_resource_sufficient(value:bool) -> void:
 		sufficient_color = Constants.COST_REDUCED_COLOR
 	if value:
 		_cost_icon.modulate = sufficient_color
-		outline_color = Constants.COST_DEFAULT_COLOR
+		outline_color = cost_sufficient_outline_color
 	else:
 		if display_mode:
 			_cost_icon.modulate = sufficient_color
@@ -234,6 +236,14 @@ func _set_has_outline(val:bool) -> void:
 	else:
 		_background.material.set_shader_parameter("outline_size", 0)
 
+func _set_card_use_limit_reached(value:bool) -> void:
+	card_use_limit_reached = value
+	if value:
+		cost_sufficient_outline_color = Constants.CARD_RESTRICTED_COLOR
+	else:
+		cost_sufficient_outline_color = Constants.COST_DEFAULT_COLOR
+#region events
+
 func _on_animation_finished(anim_name:String) -> void:
 	if anim_name == "dissolve":
 		_dissolve_finished.emit()
@@ -244,3 +254,5 @@ func _on_tool_data_refresh() -> void:
 func _on_use_button_pressed() -> void:
 	_gui_use_card_button.hide()
 	use_card_button_pressed.emit()
+
+#endregion

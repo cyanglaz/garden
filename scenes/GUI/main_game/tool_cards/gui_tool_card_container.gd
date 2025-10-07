@@ -15,6 +15,7 @@ const TOOL_SELECTED_OFFSET := -6.0
 
 var _card_size:float
 var selected_index:int = -1
+var card_use_limit_reached:bool = false: set = _set_card_use_limit_reached
 
 func _ready() -> void:
 	_card_size = GUIToolCardButton.SIZE.x
@@ -68,6 +69,7 @@ func add_card(tool_data:ToolData) -> GUIToolCardButton:
 	else:
 		gui_card.card_state = GUIToolCardButton.CardState.NORMAL
 	_rebind_signals()
+	gui_card.card_use_limit_reached = card_use_limit_reached
 	return gui_card
 
 func remove_cards(gui_cards:Array[GUIToolCardButton]) -> void:
@@ -194,7 +196,7 @@ func _on_tool_card_pressed(index:int) -> void:
 		selected_card.play_error_shake_animation()
 		Singletons.main_game.show_warning(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
 		return
-	if Singletons.main_game.tool_manager.number_of_card_used_this_turn >= Singletons.main_game.game_modifier_manager.card_use_limit():
+	if card_use_limit_reached:
 		selected_card.play_error_shake_animation()
 		Singletons.main_game.show_warning(WarningManager.WarningType.CARD_USE_LIMIT_REACHED)
 		return
@@ -277,3 +279,15 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 
 func _on_tool_card_use_card_button_pressed(tool_data:ToolData) -> void:
 	card_use_button_pressed.emit(tool_data)
+
+#endregion
+
+#region setters/getters
+
+func _set_card_use_limit_reached(value:bool) -> void:
+	card_use_limit_reached = value
+	for i in _container.get_children().size():
+		var gui_card = _container.get_child(i)
+		gui_card.card_use_limit_reached = value
+
+#endregion
