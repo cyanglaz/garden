@@ -7,9 +7,10 @@
 script = ExtResource("2_7dex1")
 rarity = 2
 specials = Array[int]([1])
+type = 1
 id = "clean_energy"
 display_name = "Clean Energy"
-description = "When "
+description = "When a cost 0 card is used, all fields +{value} {resource:light}."
 data = {
 "value": "1"
 }

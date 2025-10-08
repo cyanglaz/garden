@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PowerData" load_steps=2 format=3 uid="uid://ckrit16qn8yiv"]
+
+[ext_resource type="Script" uid="uid://chfp1x344tt3w" path="res://data/models/powers/power_data.gd" id="1_tjw0k"]
+
+[resource]
+script = ExtResource("1_tjw0k")
+id = "sustainability"
+display_name = "Sustainability"
+description = "{card:graywater} adds {value} more {resource:water}."
+data = {
+"value": "1"
+}
+metadata/_custom_type_script = "uid://chfp1x344tt3w"
