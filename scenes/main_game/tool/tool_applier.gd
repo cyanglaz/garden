@@ -65,8 +65,7 @@ func _apply_instant_use_tool_action(action:ActionData, main_game:MainGame, tool_
 		ActionData.ActionType.DISCARD_CARD:
 			await _handle_discard_card_action(action, main_game, tool_data)
 		ActionData.ActionType.ENERGY:
-			tool_data.level_energy_modifier += action.value
-			main_game.tool_manager.refresh_ui()
+			main_game.energy_tracker.restore(action.value)
 
 func _handle_discard_card_action(action:ActionData, main_game:MainGame, tool_data:ToolData) -> void:
 	var random := action.value_type == ActionData.ValueType.RANDOM
