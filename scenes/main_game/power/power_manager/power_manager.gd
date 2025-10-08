@@ -107,7 +107,7 @@ func _handle_next_weather_application_hook(main_game:MainGame, weather_data:Weat
 		return
 	var power_id:String = _weather_application_hook_queue[_current_weather_application_hook_index]
 	var power_data := power_map[power_id]
-	await _send_hook_animation_signals(power_data)
+	_send_hook_animation_signals(power_data)
 	await power_data.power_script.handle_weather_application_hook(main_game, weather_data)
 	_current_weather_application_hook_index += 1
 	await _handle_next_weather_application_hook(main_game, weather_data)

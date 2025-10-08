@@ -68,6 +68,8 @@ func copy(other:ThingData) -> void:
 	x_value = other.x_value
 	x_value_type = other.x_value_type
 	_original_value = other._original_value
+	modified_x_value = other.modified_x_value
+	_original_x_value = other._original_x_value
 
 func get_duplicate() -> ThingData:
 	var action_data:ActionData = ActionData.new()
@@ -102,10 +104,10 @@ func _set_x_value(val:int) -> void:
 	_original_x_value = val
 
 func _get_x_value() -> int:
-	var base_value := 0
+	var base_x_value := 0
 	match x_value_type:
 		XValueType.NUMBER:
-			base_value = _original_x_value
+			base_x_value = _original_x_value
 		XValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
-			base_value = Singletons.main_game.tool_manager.tool_deck.hand.size()
-	return modified_value + base_value
+			base_x_value = Singletons.main_game.tool_manager.tool_deck.hand.size()
+	return modified_x_value + base_x_value

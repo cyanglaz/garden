@@ -31,7 +31,7 @@ func _init(initial_tools:Array, gui_tool_card_container:GUIToolCardContainer) ->
 func refresh_deck() -> void:
 	tool_deck.refresh()
 	for tool_data in tool_deck.pool:
-		tool_data.level_energy_modifier = 0
+		tool_data.refresh_for_level()
 
 func cleanup_deck() -> void:
 	tool_deck.cleanup_temp_items()
@@ -61,7 +61,7 @@ func discard_cards(tools:Array) -> void:
 	assert(tools.size() > 0)
 	# Order is important, discard first, then animate
 	for tool_data in tools:
-		tool_data.energy_modifier = 0
+		tool_data.refresh_for_turn()
 	tool_deck.discard(tools)
 	await _gui_tool_card_container.animate_discard(tools)
 
