@@ -58,11 +58,11 @@ func get_preview_icon_global_position(preview_icon:Control, index:int) -> Vector
 	var field:Field = _container.get_child(index)
 	return field.get_preview_icon_global_position(preview_icon)
 
-func trigger_end_day_hook(main_game:MainGame) -> void:
+func trigger_end_day_field_status_hooks(main_game:MainGame) -> void:
 	for field:Field in _container.get_children():
 		await field.handle_end_day_hook(main_game)
 
-func trigger_end_day_ability(main_game:MainGame) -> void:
+func trigger_end_day_plant_abilities(main_game:MainGame) -> void:
 	for field:Field in _container.get_children():
 		if field.plant:
 			await field.plant.trigger_ability(Plant.AbilityType.END_DAY, main_game)

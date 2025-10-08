@@ -254,9 +254,10 @@ func _end_day() -> void:
 	_clear_tool_selection()
 	await _discard_all_tools()
 	tool_manager.card_use_limit_reached = false
-	await field_container.trigger_end_day_hook(self)
-	await field_container.trigger_end_day_ability(self)
+	await field_container.trigger_end_day_field_status_hooks(self)
+	await field_container.trigger_end_day_plant_abilities(self)
 	await weather_manager.apply_weather_actions(field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
+	await power_manager.handle_weather_application_hook(self, weather_manager.get_current_weather())
 	weather_manager.pass_day()
 	var won := await _harvest()
 	tool_manager.cleanup_for_turn()

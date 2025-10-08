@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c1347b4drm1lh"
+path="res://.godot/imported/icon_solar_panel.aseprite-9577e80e524c7b6e16fea0bec9a4e14a.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_solar_panel.aseprite"
+dest_files=["res://.godot/imported/icon_solar_panel.aseprite-9577e80e524c7b6e16fea0bec9a4e14a.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

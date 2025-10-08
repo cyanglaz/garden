@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=3 format=3 uid="uid://bwbe2q506thjl"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_7ar85"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_0iyne"]
+
+[resource]
+script = ExtResource("2_0iyne")
+rarity = 1
+specials = Array[int]([1])
+type = 1
+id = "solar_panel"
+display_name = "Solar Panel"
+data = {
+"value": "1"
+}
+note = "{card:graywater} adds {value} more {resource:water}."
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

@@ -12,6 +12,8 @@ var _card_added_to_hand_hook_queue:Array[String] = []
 var _current_card_added_to_hand_hook_index:int = 0
 var _tool_application_hook_queue:Array[String] = []
 var _current_tool_application_hook_index:int = 0
+var _weather_application_hook_queue:Array[String] = []
+var _current_weather_application_hook_index:int = 0
 
 func clear_powers() -> void:
 	power_map.clear()
@@ -91,4 +93,22 @@ func _handle_next_tool_application_hook(main_game:MainGame, tool_data:ToolData) 
 	await power_data.power_script.handle_tool_application_hook(main_game, tool_data)
 	_current_tool_application_hook_index += 1
 	await _handle_next_tool_application_hook(main_game, tool_data)
+
+func handle_weather_application_hook(main_game:MainGame, weather_data:WeatherData) -> void:
+	var all_power_ids := power_map.keys()
+	_weather_application_hook_queue = all_power_ids.filter(func(power_id:String) -> bool:
+		return power_map[power_id].power_script.has_weather_application_hook(main_game, weather_data)
+	)
+	_current_weather_application_hook_index = 0
+	await _handle_next_weather_application_hook(main_game, weather_data)
+
+func _handle_next_weather_application_hook(main_game:MainGame, weather_data:WeatherData) -> void:
+	if _current_weather_application_hook_index >= _weather_application_hook_queue.size():
+		return
+	var power_id:String = _weather_application_hook_queue[_current_weather_application_hook_index]
+	var power_data := power_map[power_id]
+	await _send_hook_animation_signals(power_data)
+	await power_data.power_script.handle_weather_application_hook(main_game, weather_data)
+	_current_weather_application_hook_index += 1
+	await _handle_next_weather_application_hook(main_game, weather_data)
 #endregion

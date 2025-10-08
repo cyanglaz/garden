@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PowerData" load_steps=2 format=3 uid="uid://b3s8n1m7we7v4"]
+
+[ext_resource type="Script" uid="uid://chfp1x344tt3w" path="res://data/models/powers/power_data.gd" id="1_lcedw"]
+
+[resource]
+script = ExtResource("1_lcedw")
+id = "solar_panel"
+display_name = "Solar Panel"
+description = "Sunny and Cloudy weather + {value} {resource:light}."
+data = {
+"value": "1"
+}
+metadata/_custom_type_script = "uid://chfp1x344tt3w"
