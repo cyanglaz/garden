@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=5 format=3 uid="uid://bpyngl57tlf5l"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_icjug"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_6xxhp"]
+
+[sub_resource type="Resource" id="Resource_icjug"]
+script = ExtResource("1_icjug")
+type = 1
+value = 3
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_6xxhp"]
+script = ExtResource("1_icjug")
+type = 12
+value = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_6xxhp")
+actions = Array[ExtResource("1_icjug")]([SubResource("Resource_icjug"), SubResource("Resource_6xxhp")])
+id = "solar_battery"
+display_name = "Solar Battery"
+note = "+3 light
++1 energy cost"
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

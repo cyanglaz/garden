@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bbcxpceayay3"]
+[gd_scene load_steps=12 format=3 uid="uid://bbcxpceayay3"]
 
 [ext_resource type="PackedScene" uid="uid://byg0qymapjkn6" path="res://scenes/main_game/field/field_container.tscn" id="1_075iw"]
 [ext_resource type="Script" uid="uid://sc1eubamsw6x" path="res://scenes/main_game/main_game.gd" id="1_yra6k"]
@@ -10,11 +10,12 @@
 [ext_resource type="Resource" uid="uid://c5kykt5rgjgx3" path="res://data/tools/other/tool_graywater.tres" id="5_ldk84"]
 [ext_resource type="Resource" uid="uid://bwbe2q506thjl" path="res://data/tools/purchasable/tool_solar_panel.tres" id="6_ldk84"]
 [ext_resource type="Resource" uid="uid://bwwawmwufgn1h" path="res://data/tools/purchasable/tool_clear_sky.tres" id="7_r81kp"]
+[ext_resource type="Resource" uid="uid://bpyngl57tlf5l" path="res://data/tools/purchasable/tool_battery.tres" id="8_fetp2"]
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 player = ExtResource("2_8ywsm")
-test_tools = Array[ExtResource("3_i3kwu")]([ExtResource("4_mijjq"), ExtResource("5_ldk84"), ExtResource("6_ldk84"), ExtResource("7_r81kp")])
+test_tools = Array[ExtResource("3_i3kwu")]([ExtResource("4_mijjq"), ExtResource("5_ldk84"), ExtResource("6_ldk84"), ExtResource("7_r81kp"), ExtResource("8_fetp2")])
 
 [node name="FieldContainer" parent="." instance=ExtResource("1_075iw")]
 unique_name_in_owner = true

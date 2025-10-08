@@ -14,6 +14,7 @@ enum ActionType {
 	RECYCLE,
 	GREENHOUSE,
 	SEEP,
+	ENERGY,
 }
 
 enum ActionCategory {

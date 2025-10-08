@@ -30,11 +30,13 @@ enum Type {
 @export var specials:Array[Special]
 @export var type:Type = Type.SKILL
 
+var level_data:Dictionary # Data consists wihtin a level
 var need_select_field:bool : get = _get_need_select_field
 var all_fields:bool : get = _get_all_fields
 var cost:int : get = _get_cost
 var tool_script:ToolScript : get = _get_tool_script
 var energy_modifier:int
+var level_energy_modifier:int
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
@@ -48,6 +50,7 @@ func copy(other:ThingData) -> void:
 	need_select_field = other_tool.need_select_field
 	energy_modifier = other_tool.energy_modifier
 	type = other_tool.type
+	level_energy_modifier = other_tool.level_energy_modifier
 
 func get_duplicate() -> ToolData:
 	var dup:ToolData = ToolData.new()
@@ -55,7 +58,10 @@ func get_duplicate() -> ToolData:
 	return dup
 
 func get_final_energy_cost() -> int:
-	return energy_modifier + energy_cost
+	return energy_cost + get_total_energy_modifier()
+
+func get_total_energy_modifier() -> int:
+	return energy_modifier + level_energy_modifier
 
 func _get_cost() -> int:
 	return COSTS[rarity]

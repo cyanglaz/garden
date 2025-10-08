@@ -18,6 +18,8 @@ static func get_action_description(action_data:ActionData) -> String:
 			action_description = _get_draw_card_action_description(action_data)
 		ActionData.ActionType.DISCARD_CARD:
 			action_description = _get_discard_card_action_description(action_data)
+		ActionData.ActionType.ENERGY:
+			action_description = _get_energy_action_description(action_data)
 		ActionData.ActionType.NONE:
 			pass
 	if action_description.contains("%s"):
@@ -94,6 +96,11 @@ static func _get_draw_card_action_description(action_data:ActionData) -> String:
 
 static func _get_discard_card_action_description(action_data:ActionData) -> String:
 	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_DISCARD_CARD")
+	main_description = main_description % [_get_value_text(action_data)]
+	return main_description
+
+static func _get_energy_action_description(action_data:ActionData) -> String:
+	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_ENERGY")
 	main_description = main_description % [_get_value_text(action_data)]
 	return main_description
 

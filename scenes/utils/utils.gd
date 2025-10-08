@@ -376,6 +376,8 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "greenhouse"
 		ActionData.ActionType.SEEP:
 			id = "seep"
+		ActionData.ActionType.ENERGY:
+			id = "energy"
 		ActionData.ActionType.NONE:
 			pass
 	return id
@@ -404,6 +406,8 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 			return ActionData.ActionType.GREENHOUSE
 		"seep":
 			return ActionData.ActionType.SEEP
+		"energy":
+			return ActionData.ActionType.ENERGY
 		"none":
 			return ActionData.ActionType.NONE
 	assert(false, "Invalid action id: " + action_id)
@@ -434,6 +438,8 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 			action_name = Util.get_localized_string("ACTION_NAME_GREENHOUSE")
 		ActionData.ActionType.SEEP:
 			action_name = Util.get_localized_string("ACTION_NAME_SEEP")
+		ActionData.ActionType.ENERGY:
+			action_name = Util.get_localized_string("ACTION_NAME_ENERGY")
 		ActionData.ActionType.NONE:
 			pass
 	return action_name

@@ -30,6 +30,8 @@ func _init(initial_tools:Array, gui_tool_card_container:GUIToolCardContainer) ->
 
 func refresh_deck() -> void:
 	tool_deck.refresh()
+	for tool_data in tool_deck.pool:
+		tool_data.level_energy_modifier = 0
 
 func cleanup_deck() -> void:
 	tool_deck.cleanup_temp_items()
