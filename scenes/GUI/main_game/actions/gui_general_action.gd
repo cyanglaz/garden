@@ -19,6 +19,9 @@ func update_with_action(action_data:ActionData) -> void:
 	_random_icon.hide()
 	_field_application_icon.hide()
 	_gui_action_type_icon.update_with_action_type(action_data.type)
+	if action_data.type == ActionData.ActionType.SET_X:
+		_sign_icon.show()
+		_sign_icon.texture = load(SIGN_ICON_PATH + "equals.png")
 	match action_data.value_type:
 		ActionData.ValueType.NUMBER:
 			if action_data.value == 0:
@@ -42,6 +45,9 @@ func update_with_action(action_data:ActionData) -> void:
 			var icon_path := VALUE_ICON_PATH + value_id + ".png"
 			_value_icon.texture = load(icon_path)
 			_random_icon.show()
+		ActionData.ValueType.X:
+			_value_icon.show()
+			_value_icon.texture = load(VALUE_ICON_PATH + "x.png")
 	if action_data.modified_value > 0:
 		_value_icon.modulate = Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
 	elif action_data.modified_value < 0:

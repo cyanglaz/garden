@@ -378,6 +378,10 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "seep"
 		ActionData.ActionType.ENERGY:
 			id = "energy"
+		ActionData.ActionType.SET_X:
+			id = "set_x"
+		ActionData.ActionType.UPDATE_X:
+			id = "update_x"
 		ActionData.ActionType.NONE:
 			pass
 	return id
@@ -408,6 +412,10 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 			return ActionData.ActionType.SEEP
 		"energy":
 			return ActionData.ActionType.ENERGY
+		"value_x":
+			return ActionData.ActionType.SET_X
+		"update_x":
+			return ActionData.ActionType.UPDATE_X
 		"none":
 			return ActionData.ActionType.NONE
 	assert(false, "Invalid action id: " + action_id)

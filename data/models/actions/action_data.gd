@@ -15,6 +15,8 @@ enum ActionType {
 	GREENHOUSE,
 	SEEP,
 	ENERGY,
+	SET_X,
+	UPDATE_X,
 }
 
 enum ActionCategory {
@@ -28,6 +30,7 @@ enum ValueType {
 	NUMBER,
 	NUMBER_OF_TOOL_CARDS_IN_HAND,
 	RANDOM,
+	X,
 }
 
 enum Special {

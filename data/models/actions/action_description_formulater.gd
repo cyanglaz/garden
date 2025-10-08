@@ -119,6 +119,8 @@ static func _get_value_text(action_data:ActionData) -> String:
 		ActionData.ValueType.RANDOM:
 			value_text = Util.convert_to_bbc_highlight_text(str(abs(action_data.value)), HIGHLIGHT_COLOR)
 			value_text += Util.convert_to_bbc_highlight_text(Util.get_localized_string("ACTION_DESCRIPTION_RANDOM"), highlight_color)
+		ActionData.ValueType.X:
+			value_text = DescriptionParser.format_references("{value:x}", {}, {}, func(_reference_id:String) -> bool: return false)
 		_:
 			assert(false, "Invalid value type: %s" % action_data.value_type)
 	return value_text
