@@ -32,6 +32,7 @@ theme_override_constants/margin_bottom = 4
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HUD_small"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Use"
 horizontal_alignment = 1
 vertical_alignment = 1

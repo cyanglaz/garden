@@ -18,11 +18,17 @@ enum Special {
 	WITHER,
 }
 
+enum Type {
+	SKILL,
+	POWER,
+}
+
 
 @export var energy_cost:int = 1
 @export var actions:Array[ActionData]
 @export var rarity:int = 0 # -1: COMPOST, 0: common, 1: uncommon, 2: rare
 @export var specials:Array[Special]
+@export var type:Type = Type.SKILL
 
 var need_select_field:bool : get = _get_need_select_field
 var all_fields:bool : get = _get_all_fields
@@ -41,6 +47,7 @@ func copy(other:ThingData) -> void:
 	specials = other_tool.specials.duplicate()
 	need_select_field = other_tool.need_select_field
 	energy_modifier = other_tool.energy_modifier
+	type = other_tool.type
 
 func get_duplicate() -> ToolData:
 	var dup:ToolData = ToolData.new()
@@ -61,6 +68,8 @@ func _get_tool_script() -> ToolScript:
 		return null
 	
 func _get_need_select_field() -> bool:
+	if type == Type.POWER:
+		return false
 	if actions.is_empty():
 		return tool_script.need_select_field()
 	for action:ActionData in actions:

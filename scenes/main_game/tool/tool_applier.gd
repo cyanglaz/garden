@@ -11,13 +11,17 @@ var _field_application_index_counter:int = 0
 
 func apply_tool(main_game:MainGame, fields:Array, field_index:int, tool_data:ToolData, tool_card:GUIToolCardButton) -> void:
 	tool_application_started.emit(tool_data)
-	if tool_data.tool_script:
-		await tool_data.tool_script.apply_tool(main_game, fields, field_index, tool_data)
-		tool_application_completed.emit(tool_data)
-	else:
-		_action_index = 0
-		_pending_actions = tool_data.actions.duplicate()
-		await _apply_next_action(main_game, fields, field_index, tool_data, tool_card)
+	match tool_data.type:
+		ToolData.Type.SKILL:
+			if tool_data.tool_script:
+				await tool_data.tool_script.apply_tool(main_game, fields, field_index, tool_data)
+			else:
+				_action_index = 0
+				_pending_actions = tool_data.actions.duplicate()
+				await _apply_next_action(main_game, fields, field_index, tool_data, tool_card)
+		ToolData.Type.POWER:
+			await main_game.update_power(tool_data.id, 1)
+	tool_application_completed.emit(tool_data)
 
 func _apply_next_action(main_game:MainGame, fields:Array, field_index:int, tool_data:ToolData, tool_card:GUIToolCardButton) -> void:
 	if _action_index >= _pending_actions.size():
