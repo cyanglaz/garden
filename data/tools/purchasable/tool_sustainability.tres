@@ -10,8 +10,8 @@ specials = Array[int]([1])
 type = 1
 id = "sustainability"
 display_name = "Sustainability"
-description = "{card:graywater} adds {value} more {resource:water}."
 data = {
 "value": "1"
 }
+note = "{card:graywater} adds {value} more {resource:water}."
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

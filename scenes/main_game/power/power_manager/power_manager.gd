@@ -10,9 +10,17 @@ var _activation_hook_queue:Array[String] = []
 var _current_activation_hook_index:int = 0
 var _card_added_to_hand_hook_queue:Array[String] = []
 var _current_card_added_to_hand_hook_index:int = 0
+var _tool_application_hook_queue:Array[String] = []
+var _current_tool_application_hook_index:int = 0
 
 func clear_powers() -> void:
 	power_map.clear()
+	power_updated.emit()
+
+func remove_single_turn_powers() -> void:
+	for power_id in power_map.keys():
+		if power_map[power_id].single_turn:
+			power_map.erase(power_id)
 	power_updated.emit()
 
 func update_power(power_id:String, stack:int) -> void:
@@ -65,4 +73,22 @@ func _handle_next_card_added_to_hand_hook(tool_datas:Array) -> void:
 
 func _send_hook_animation_signals(power_data:PowerData) -> void:
 	request_power_hook_animation.emit(power_data.id)
+
+func handle_tool_application_hook(main_game:MainGame, tool_data:ToolData) -> void:
+	var all_power_ids := power_map.keys()
+	_tool_application_hook_queue = all_power_ids.filter(func(power_id:String) -> bool:
+		return power_map[power_id].power_script.has_tool_application_hook(main_game, tool_data)
+	)
+	_current_tool_application_hook_index = 0
+	await _handle_next_tool_application_hook(main_game, tool_data)
+
+func _handle_next_tool_application_hook(main_game:MainGame, tool_data:ToolData) -> void:
+	if _current_tool_application_hook_index >= _tool_application_hook_queue.size():
+		return
+	var power_id:String = _tool_application_hook_queue[_current_tool_application_hook_index]
+	var power_data := power_map[power_id]
+	_send_hook_animation_signals(power_data)
+	await power_data.power_script.handle_tool_application_hook(main_game, tool_data)
+	_current_tool_application_hook_index += 1
+	await _handle_next_tool_application_hook(main_game, tool_data)
 #endregion

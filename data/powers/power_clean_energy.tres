@@ -4,9 +4,10 @@
 
 [resource]
 script = ExtResource("1_tjw0k")
-id = "sustainability"
-display_name = "Sustainability"
-description = "{card:graywater} adds {value} more {resource:water}."
+single_turn = true
+id = "clean_energy"
+display_name = "Clean Energy"
+description = "This turn, when a cost {bordered_text:0} card is used, all fields +{value} {resource:light}."
 data = {
 "value": "1"
 }

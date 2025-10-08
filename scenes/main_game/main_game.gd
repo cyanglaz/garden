@@ -261,6 +261,7 @@ func _end_day() -> void:
 	var won := await _harvest()
 	tool_manager.cleanup_for_turn()
 	game_modifier_manager.clear_for_turn()
+	power_manager.remove_single_turn_powers()
 	gui_main_game.toggle_all_ui(true)
 	if won:
 		return #Harvest won the game, no need to discard tools or end the day
@@ -343,10 +344,11 @@ func _on_tool_application_started(tool_data:ToolData) -> void:
 		energy_tracker.spend(tool_data.get_final_energy_cost())
 	_clear_tool_selection()
 
-func _on_tool_application_completed(_tool_data:ToolData) -> void:
+func _on_tool_application_completed(tool_data:ToolData) -> void:
 	await _harvest()
 	if tool_manager.number_of_card_used_this_turn >= game_modifier_manager.card_use_limit():
 		tool_manager.card_use_limit_reached = true
+	await power_manager.handle_tool_application_hook(self, tool_data)
 	gui_main_game.toggle_all_ui(true)
 
 func _on_card_use_button_pressed(tool_data:ToolData) -> void:

@@ -1,6 +1,8 @@
 class_name PowerData
 extends ThingData
 
+@export var single_turn:bool
+
 var power_script:PowerScript: get = _get_power_script
 
 var stack := 0
@@ -11,6 +13,7 @@ func copy(other:ThingData) -> void:
 	super.copy(other)
 	var other_power_data := other as PowerData
 	stack = other_power_data.stack
+	single_turn = other_power_data.single_turn
 
 func get_duplicate() -> PowerData:
 	var dup:PowerData = PowerData.new()

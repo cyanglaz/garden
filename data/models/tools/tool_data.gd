@@ -82,3 +82,8 @@ func _get_all_fields() -> bool:
 		if action.specials.has(ActionData.Special.ALL_FIELDS):
 			return true
 	return false
+
+func _get_description() -> String:
+	if type == Type.POWER:
+		return MainDatabase.power_database.get_data_by_id(id).description
+	return super._get_description()
