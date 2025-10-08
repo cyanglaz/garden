@@ -27,7 +27,6 @@ enum ActionCategory {
 
 enum ValueType {
 	NUMBER,
-	NUMBER_OF_TOOL_CARDS_IN_HAND,
 	RANDOM,
 	X,
 }
@@ -91,8 +90,6 @@ func _set_value(val:int) -> void:
 func _get_value() -> int:
 	match value_type:
 		ValueType.NUMBER:
-			return modified_value + _original_value
-		ValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
 			return modified_value + _original_value
 		ValueType.RANDOM:
 			return -1

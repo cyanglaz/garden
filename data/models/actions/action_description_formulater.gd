@@ -55,16 +55,10 @@ static func get_special_description(special:ToolData.Special) -> String:
 	return special_description
 
 static func _get_field_action_description(action_data:ActionData) -> String:
-	var increase_description := Util.get_localized_string("ACTION_DESCRIPTION_INCREASE")
-	var decrease_description := Util.get_localized_string("ACTION_DESCRIPTION_DECREASE")
+	var update_description := Util.get_localized_string("ACTION_VALUE_DESCRIPTION_UPDATE")
 	var action_name := Util.get_action_name_from_action_type(action_data.type)
-	var increase := action_data.value > 0 || action_data.value_type != ActionData.ValueType.NUMBER
 	action_name = Util.convert_to_bbc_highlight_text(action_name, HIGHLIGHT_COLOR)
-	var main_description := ""
-	if increase:
-		main_description = increase_description
-	else:
-		main_description = decrease_description
+	var main_description := update_description
 	main_description = main_description % [action_name, _get_value_text(action_data)]
 	for special:ActionData.Special in action_data.specials:
 		match special:
@@ -113,11 +107,9 @@ static func _get_value_text(action_data:ActionData) -> String:
 		highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_RED
 	match action_data.value_type:
 		ActionData.ValueType.NUMBER:
-			value_text =  Util.convert_to_bbc_highlight_text(str(abs(action_data.value)), highlight_color)
-		ActionData.ValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
-			value_text =  Util.convert_to_bbc_highlight_text(Util.get_localized_string(("ACTION_VALUE_HAND_CARDS")), highlight_color)
+			value_text = Util.convert_to_bbc_highlight_text(str(action_data.value), highlight_color)
 		ActionData.ValueType.RANDOM:
-			value_text = Util.convert_to_bbc_highlight_text(str(abs(action_data.value)), HIGHLIGHT_COLOR)
+			value_text = Util.convert_to_bbc_highlight_text(str(action_data.value), HIGHLIGHT_COLOR)
 			value_text += Util.convert_to_bbc_highlight_text(Util.get_localized_string("ACTION_VALUE_RANDOM"), highlight_color)
 		ActionData.ValueType.X:
 			var x_value_string := Util.get_localized_string("ACTION_VALUE_X") % [_get_x_value_text(action_data)]
