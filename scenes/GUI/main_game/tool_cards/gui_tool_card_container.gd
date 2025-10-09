@@ -9,10 +9,12 @@ const DEFAULT_CARD_SPACE := 1.0
 const MAX_TOTAL_WIDTH := 200
 const REPOSITION_DURATION:float = 0.08
 const TOOL_SELECTED_OFFSET := -6.0
+const CARD_SELECTION_READY_TIME := 0.2
 
 @onready var _container: Control = %Container
 @onready var _gui_tool_card_animation_container: GUIToolCardAnimationContainer = %GUIToolCardAnimationContainer
 @onready var _gui_overlay_background: ColorRect = %GUIOverlayBackground
+@onready var _use_card_anchor: Control = %UseCardAnchor
 
 var _card_size:float
 var selected_index:int = -1
@@ -43,6 +45,7 @@ func clear() -> void:
 	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 
 func clear_selection() -> void:
+	card_selection_mode = false
 	selected_index = -1
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	if positions.size() > 0:
@@ -88,6 +91,14 @@ func find_card(tool_data:ToolData) -> GUIToolCardButton:
 		if card.tool_data == tool_data:
 			return card
 	return null
+
+func select_secondary_cards(number_of_cards:int) -> void:
+	assert(selected_index >= 0)
+	card_selection_mode = true
+	var selected_card:GUIToolCardButton = _container.get_child(selected_index)
+	var tween := Util.create_scaled_tween(self)
+	tween.tween_property(selected_card, "global_position", _use_card_anchor.global_position, CARD_SELECTION_READY_TIME).set_trans(Tween.TRANS_CUBIC)
+	await tween.finished
 
 func _rebind_signals() -> void:
 	for i in _container.get_children().size():
