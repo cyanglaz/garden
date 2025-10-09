@@ -57,7 +57,7 @@ func _ready() -> void:
 	gui_reward_main.reward_finished.connect(func(tool_data:ToolData) -> void: reward_finished.emit(tool_data))
 	gui_plant_seed_animation_container.draw_plant_card_completed.connect(func(field_index:int, plant_data:PlantData) -> void: plant_seed_drawn_animation_completed.emit(field_index, plant_data))
 	gui_shop_main.setup(gui_top_bar.gui_full_deck_button)
-	gui_contract_selection_main.contract_selected.connect(func(contract_data:ContractData) -> void: contract_selected.emit(contract_data))
+	gui_contract_selection_main.contract_selected.connect(_on_contract_selected)
 	gui_top_animation_overlay.setup(self)
 	_warning_manager.setup(_gui_energy_tracker, gui_top_bar.gui_gold, _gui_dialogue_window)
 
@@ -172,6 +172,7 @@ func update_boost(boost:int) -> void:
 #region contract selection
 
 func animate_show_contract_selection(contracts:Array) -> void:
+	gui_weather_container.z_index = 10
 	gui_contract_selection_main.animate_show_with_contracts(contracts)
 
 #endregion
@@ -252,5 +253,9 @@ func _on_library_button_evoked() -> void:
 
 func _on_contract_button_evoked(contract_data:ContractData) -> void:
 	_gui_contract_view.show_with_contract_data(contract_data)
+
+func _on_contract_selected(contract_data:ContractData) -> void:
+	gui_weather_container.z_index = 0
+	contract_selected.emit(contract_data)
 
 #endregion
