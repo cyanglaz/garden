@@ -269,16 +269,6 @@ func _end_day() -> void:
 	field_container.handle_turn_end()
 	await update_rating( -_selected_contract.get_penalty_rate(day_manager.day))
 	_start_day()
-
-func _on_reward_finished(tool_data:ToolData) -> void:
-	if _selected_contract.contract_type == ContractData.ContractType.BOSS:
-		gui_main_game.hide_boss_icon()
-		gui_main_game.animate_show_demo_end()
-	else:
-		if tool_data:
-			tool_manager.add_tool_to_deck(tool_data)
-			await Util.create_scaled_timer(NEW_CONTRACT_PAUSE_TIME).timeout
-		_select_contract()
 	
 func _discard_all_tools() -> void:
 	if tool_manager.tool_deck.hand.is_empty():
@@ -299,10 +289,6 @@ func _plant_new_seeds() -> void:
 func _handle_select_tool(tool_data:ToolData) -> void:
 	field_container.clear_tool_indicators()
 	tool_manager.select_tool(tool_data)
-
-#endregion
-
-#region harvest flow
 
 func _harvest() -> bool:
 	var field_indices_to_harvest = field_container.get_harvestable_fields()
@@ -328,51 +314,25 @@ func _remove_plants(field_indices:Array[int]) -> void:
 	for field_index:int in field_indices:
 		var field:Field = field_container.fields[field_index]
 		field.remove_plant()
+	
+func _handle_card_use(field_index:int) -> void:
+	tool_manager.apply_tool(self, field_container.fields, field_index)
+	await tool_manager.tool_application_completed
 
 #endregion
 
-#region events
-#region tool events
-
+#region UI EVENTS
 func _on_tool_selected(tool_data:ToolData) -> void:
 	_handle_select_tool(tool_data)
 	if tool_data.need_select_field:
 		field_container.toggle_all_field_selection_indicators(GUIFieldSelectionArrow.IndicatorState.READY)
 
-func _on_tool_application_started(tool_data:ToolData) -> void:
-	gui_main_game.toggle_all_ui(false)
-	if tool_data.get_final_energy_cost() > 0:
-		energy_tracker.spend(tool_data.get_final_energy_cost())
-	_clear_tool_selection()
-
-func _on_tool_application_completed(tool_data:ToolData) -> void:
-	await _harvest()
-	if tool_manager.number_of_card_used_this_turn >= game_modifier_manager.card_use_limit():
-		tool_manager.card_use_limit_reached = true
-	await power_manager.handle_tool_application_hook(self, tool_data)
-	gui_main_game.toggle_all_ui(true)
-
 func _on_card_use_button_pressed(tool_data:ToolData) -> void:
 	assert(!tool_data.need_select_field)
-	await Util.create_scaled_timer(INSTANT_CARD_USE_DELAY).timeout
-	tool_manager.apply_tool(self, field_container.fields, 0)
-	await tool_manager.tool_application_completed
+	_handle_card_use(0)
 
-#region gui main events
 func _on_end_turn_button_pressed() -> void:
 	_end_day()
-
-#region field events
-func _on_field_harvest_started() -> void:
-	pass
-	#gui_main_game.toggle_all_ui(false)
-
-func _on_field_harvest_completed(index:int) -> void:
-	var field:Field = field_container.fields[index]
-	field.remove_plant()
-	_harvesting_fields.erase(index)
-	if _harvesting_fields.is_empty():
-		_all_field_harvested.emit()
 
 func _on_field_hovered(hovered:bool, index:int) -> void:
 	if tool_manager.selected_tool && tool_manager.selected_tool.need_select_field:
@@ -387,14 +347,7 @@ func _on_field_hovered(hovered:bool, index:int) -> void:
 func _on_field_pressed(index:int) -> void:
 	if !tool_manager.selected_tool || !tool_manager.selected_tool.need_select_field:
 		return
-	tool_manager.apply_tool(self, field_container.fields, index)
-
-func _on_plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData) -> void:
-	await field_container.fields[field_index].plant_seed(plant_data)
-#region weather events
-func _on_weathers_updated() -> void:
-	gui_main_game.update_weathers(weather_manager)
-
+	_handle_card_use(index)
 #region shop events
 func _on_shop_next_level_pressed() -> void:
 	_select_contract()
@@ -403,11 +356,52 @@ func _on_tool_shop_button_pressed(tool_data:ToolData) -> void:
 	update_gold(_gold - tool_data.cost, true)
 	tool_manager.add_tool_to_deck(tool_data)
 
-#region contract selection events
 func _on_contract_selected(contract_data:ContractData) -> void:
 	_selected_contract = contract_data
 	_start_new_level()
+
+func _on_reward_finished(tool_data:ToolData) -> void:
+	if _selected_contract.contract_type == ContractData.ContractType.BOSS:
+		gui_main_game.hide_boss_icon()
+		gui_main_game.animate_show_demo_end()
+	else:
+		if tool_data:
+			tool_manager.add_tool_to_deck(tool_data)
+			await Util.create_scaled_timer(NEW_CONTRACT_PAUSE_TIME).timeout
+		_select_contract()
 #endregion
+
+#region other events
+
+func _on_tool_application_started(tool_data:ToolData) -> void:
+	gui_main_game.toggle_all_ui(false)
+	if tool_data.get_final_energy_cost() > 0:
+		energy_tracker.spend(tool_data.get_final_energy_cost())
+	_clear_tool_selection()
+
+func _on_tool_application_completed(tool_data:ToolData) -> void:
+	await _harvest()
+	if tool_manager.number_of_card_used_this_turn >= game_modifier_manager.card_use_limit():
+		tool_manager.card_use_limit_reached = true
+	await power_manager.handle_tool_application_hook(self, tool_data)
+	gui_main_game.toggle_all_ui(true)
+
+func _on_field_harvest_started() -> void:
+	pass
+	#gui_main_game.toggle_all_ui(false)
+
+func _on_field_harvest_completed(index:int) -> void:
+	var field:Field = field_container.fields[index]
+	field.remove_plant()
+	_harvesting_fields.erase(index)
+	if _harvesting_fields.is_empty():
+		_all_field_harvested.emit()
+
+func _on_weathers_updated() -> void:
+	gui_main_game.update_weathers(weather_manager)
+
+func _on_plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData) -> void:
+	await field_container.fields[field_index].plant_seed(plant_data)
 
 #endregion
 

@@ -1,5 +1,5 @@
 class_name GUIToolCardContainer
-extends PanelContainer
+extends Control
 
 signal tool_selected(tool_data:ToolData)
 signal card_use_button_pressed(tool_data:ToolData)
@@ -12,10 +12,12 @@ const TOOL_SELECTED_OFFSET := -6.0
 
 @onready var _container: Control = %Container
 @onready var _gui_tool_card_animation_container: GUIToolCardAnimationContainer = %GUIToolCardAnimationContainer
+@onready var _gui_overlay_background: ColorRect = %GUIOverlayBackground
 
 var _card_size:float
 var selected_index:int = -1
 var card_use_limit_reached:bool = false: set = _set_card_use_limit_reached
+var card_selection_mode := false: set = _set_card_selection_mode
 
 func _ready() -> void:
 	_card_size = GUIToolCardButton.SIZE.x
@@ -156,8 +158,9 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 	var center := _container.size/2
 	var start_x := center.x - (number_of_cards * _card_size + card_space * (number_of_cards - 1)) / 2
 	var result:Array[Vector2] = []
+	var target_y = size.y - GUIToolCardButton.SIZE.y
 	for i in number_of_cards:
-		var target_position := Vector2(start_x + i*_card_size + i*card_space, 0)
+		var target_position := Vector2(start_x + i*_card_size + i*card_space, target_y)
 		result.append(target_position)
 	result.reverse() # First card is at the end of the array.
 	for i in result.size():
@@ -289,5 +292,10 @@ func _set_card_use_limit_reached(value:bool) -> void:
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
 		gui_card.disabled = value
+
+func _set_card_selection_mode(val:bool) -> void:
+	card_selection_mode = val
+	if _gui_tool_card_animation_container:
+		_gui_tool_card_animation_container.visible = card_selection_mode
 
 #endregion
