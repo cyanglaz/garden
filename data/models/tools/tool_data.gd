@@ -18,17 +18,25 @@ enum Special {
 	WITHER,
 }
 
+enum Type {
+	SKILL,
+	POWER,
+}
+
 
 @export var energy_cost:int = 1
 @export var actions:Array[ActionData]
 @export var rarity:int = 0 # -1: COMPOST, 0: common, 1: uncommon, 2: rare
 @export var specials:Array[Special]
+@export var type:Type = Type.SKILL
 
+var level_data:Dictionary # Data consists wihtin a level
 var need_select_field:bool : get = _get_need_select_field
 var all_fields:bool : get = _get_all_fields
 var cost:int : get = _get_cost
 var tool_script:ToolScript : get = _get_tool_script
-var energy_modifier:int
+var turn_energy_modifier:int
+var level_energy_modifier:int
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
@@ -40,7 +48,18 @@ func copy(other:ThingData) -> void:
 	rarity = other_tool.rarity
 	specials = other_tool.specials.duplicate()
 	need_select_field = other_tool.need_select_field
-	energy_modifier = other_tool.energy_modifier
+	turn_energy_modifier = other_tool.turn_energy_modifier
+	type = other_tool.type
+	level_energy_modifier = other_tool.level_energy_modifier
+
+func refresh_for_turn() -> void:
+	turn_energy_modifier = 0
+
+func refresh_for_level() -> void:
+	level_energy_modifier = 0
+	for action:ActionData in actions:
+		action.modified_x_value = 0
+		action.modified_value = 0
 
 func get_duplicate() -> ToolData:
 	var dup:ToolData = ToolData.new()
@@ -48,7 +67,10 @@ func get_duplicate() -> ToolData:
 	return dup
 
 func get_final_energy_cost() -> int:
-	return energy_modifier + energy_cost
+	return energy_cost + get_total_energy_modifier()
+
+func get_total_energy_modifier() -> int:
+	return turn_energy_modifier + level_energy_modifier
 
 func _get_cost() -> int:
 	return COSTS[rarity]
@@ -61,6 +83,8 @@ func _get_tool_script() -> ToolScript:
 		return null
 	
 func _get_need_select_field() -> bool:
+	if type == Type.POWER:
+		return false
 	if actions.is_empty():
 		return tool_script.need_select_field()
 	for action:ActionData in actions:
@@ -73,3 +97,8 @@ func _get_all_fields() -> bool:
 		if action.specials.has(ActionData.Special.ALL_FIELDS):
 			return true
 	return false
+
+func _get_description() -> String:
+	if type == Type.POWER:
+		return MainDatabase.power_database.get_data_by_id(id).description
+	return super._get_description()

@@ -24,12 +24,15 @@ var _weak_gui_tool_card_container:WeakRef = weakref(null)
 
 func _init(initial_tools:Array, gui_tool_card_container:GUIToolCardContainer) -> void:
 	tool_deck = Deck.new(initial_tools)
+	tool_deck.hand_updated.connect(_on_hand_updated)
 	_weak_gui_tool_card_container = weakref(gui_tool_card_container)
 	_tool_lifecycle_completed.connect(_on_tool_lifecycle_completed)
 	_tool_actions_completed.connect(_on_tool_actions_completed)
 
 func refresh_deck() -> void:
 	tool_deck.refresh()
+	for tool_data in tool_deck.pool:
+		tool_data.refresh_for_level()
 
 func cleanup_deck() -> void:
 	tool_deck.cleanup_temp_items()
@@ -59,7 +62,7 @@ func discard_cards(tools:Array) -> void:
 	assert(tools.size() > 0)
 	# Order is important, discard first, then animate
 	for tool_data in tools:
-		tool_data.energy_modifier = 0
+		tool_data.refresh_for_turn()
 	tool_deck.discard(tools)
 	await _gui_tool_card_container.animate_discard(tools)
 
@@ -143,6 +146,10 @@ func _on_tool_actions_completed(tool_data:ToolData) -> void:
 	if !_tool_actions_queue.has(tool_data) && _tool_application_queue.has(tool_data):
 		_tool_application_queue.erase(tool_data)
 		tool_application_completed.emit(tool_data)
+
+func _on_hand_updated() -> void:
+	for tool_data in tool_deck.hand:
+		tool_data.request_refresh.emit()
 
 #endregion
 

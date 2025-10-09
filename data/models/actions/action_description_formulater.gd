@@ -6,7 +6,7 @@ const HIGHLIGHT_COLOR := Constants.COLOR_WHITE
 static func get_action_description(action_data:ActionData) -> String:
 	var action_description := ""
 	match action_data.type:
-		ActionData.ActionType.LIGHT, ActionData.ActionType.WATER:
+		ActionData.ActionType.LIGHT, ActionData.ActionType.WATER, ActionData.ActionType.UPDATE_X:
 			action_description = _get_field_action_description(action_data)
 		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
 			#action_description = _get_field_action_description(action_data)
@@ -18,6 +18,8 @@ static func get_action_description(action_data:ActionData) -> String:
 			action_description = _get_draw_card_action_description(action_data)
 		ActionData.ActionType.DISCARD_CARD:
 			action_description = _get_discard_card_action_description(action_data)
+		ActionData.ActionType.ENERGY:
+			action_description = _get_energy_action_description(action_data)
 		ActionData.ActionType.NONE:
 			pass
 	if action_description.contains("%s"):
@@ -53,16 +55,10 @@ static func get_special_description(special:ToolData.Special) -> String:
 	return special_description
 
 static func _get_field_action_description(action_data:ActionData) -> String:
-	var increase_description := Util.get_localized_string("ACTION_DESCRIPTION_INCREASE")
-	var decrease_description := Util.get_localized_string("ACTION_DESCRIPTION_DECREASE")
+	var update_description := Util.get_localized_string("ACTION_VALUE_DESCRIPTION_UPDATE")
 	var action_name := Util.get_action_name_from_action_type(action_data.type)
-	var increase := action_data.value > 0 || action_data.value_type != ActionData.ValueType.NUMBER
 	action_name = Util.convert_to_bbc_highlight_text(action_name, HIGHLIGHT_COLOR)
-	var main_description := ""
-	if increase:
-		main_description = increase_description
-	else:
-		main_description = decrease_description
+	var main_description := update_description
 	main_description = main_description % [action_name, _get_value_text(action_data)]
 	for special:ActionData.Special in action_data.specials:
 		match special:
@@ -97,6 +93,11 @@ static func _get_discard_card_action_description(action_data:ActionData) -> Stri
 	main_description = main_description % [_get_value_text(action_data)]
 	return main_description
 
+static func _get_energy_action_description(action_data:ActionData) -> String:
+	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_ENERGY")
+	main_description = main_description % [_get_value_text(action_data)]
+	return main_description
+
 static func _get_value_text(action_data:ActionData) -> String:
 	var value_text := ""
 	var highlight_color := HIGHLIGHT_COLOR
@@ -106,15 +107,25 @@ static func _get_value_text(action_data:ActionData) -> String:
 		highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_RED
 	match action_data.value_type:
 		ActionData.ValueType.NUMBER:
-			value_text =  Util.convert_to_bbc_highlight_text(str(abs(action_data.value)), highlight_color)
-		ActionData.ValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
-			value_text =  Util.convert_to_bbc_highlight_text(Util.get_localized_string(("ACTION_DESCRIPTION_NUMBER_OF_TOOL_CARDS_IN_HAND")), highlight_color)
+			value_text = Util.convert_to_bbc_highlight_text(str(action_data.value), highlight_color)
 		ActionData.ValueType.RANDOM:
-			value_text = Util.convert_to_bbc_highlight_text(str(abs(action_data.value)), HIGHLIGHT_COLOR)
-			value_text += Util.convert_to_bbc_highlight_text(Util.get_localized_string("ACTION_DESCRIPTION_RANDOM"), highlight_color)
+			value_text = Util.convert_to_bbc_highlight_text(str(action_data.value), HIGHLIGHT_COLOR)
+			value_text += Util.convert_to_bbc_highlight_text(Util.get_localized_string("ACTION_VALUE_RANDOM"), highlight_color)
+		ActionData.ValueType.X:
+			var x_value_string := Util.get_localized_string("ACTION_VALUE_X") % [_get_x_value_text(action_data)]
+			value_text = DescriptionParser.format_references(x_value_string, {}, {}, func(_reference_id:String) -> bool: return false)
 		_:
 			assert(false, "Invalid value type: %s" % action_data.value_type)
 	return value_text
+
+static func _get_x_value_text(action_data:ActionData) -> String:
+	var x_value_text := ""
+	match action_data.x_value_type:
+		ActionData.XValueType.NUMBER:
+			x_value_text = str("{bordered_text:", action_data.x_value, "}")
+		ActionData.XValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
+			x_value_text = Util.get_localized_string("ACTION_VALUE_HAND_CARDS")
+	return x_value_text
 
 static func _get_field_status_description(action_data:ActionData) -> String:
 	var id := Util.get_action_id_with_action_type(action_data.type)

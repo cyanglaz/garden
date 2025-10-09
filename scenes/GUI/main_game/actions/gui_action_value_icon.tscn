@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://d0btssfhp63fx"]
+
+[ext_resource type="Script" uid="uid://cufj6t6bmcjwh" path="res://scenes/GUI/main_game/actions/gui_action_value_icon.gd" id="1_umqc3"]
+[ext_resource type="Texture2D" uid="uid://cblujbj7yxnou" path="res://resources/sprites/GUI/icons/cards/values/icon_1.png" id="2_mrfuq"]
+[ext_resource type="Texture2D" uid="uid://bkiknt2cfxop" path="res://resources/sprites/GUI/icons/cards/values/icon_random.png" id="3_mrfuq"]
+
+[node name="GUIActionValueIcon" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 1
+script = ExtResource("1_umqc3")
+
+[node name="SignIcon" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+stretch_mode = 5
+
+[node name="NumberSignIcon" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+stretch_mode = 5
+
+[node name="ValueIcon" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("2_mrfuq")
+stretch_mode = 5
+
+[node name="XValueLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_type_variation = &"HUD_mid"
+text = "(3)"
+vertical_alignment = 1
+
+[node name="RandomIcon" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("3_mrfuq")
+stretch_mode = 5

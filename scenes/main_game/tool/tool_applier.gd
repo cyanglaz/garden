@@ -11,13 +11,17 @@ var _field_application_index_counter:int = 0
 
 func apply_tool(main_game:MainGame, fields:Array, field_index:int, tool_data:ToolData, tool_card:GUIToolCardButton) -> void:
 	tool_application_started.emit(tool_data)
-	if tool_data.tool_script:
-		await tool_data.tool_script.apply_tool(main_game, fields, field_index, tool_data)
-		tool_application_completed.emit(tool_data)
-	else:
-		_action_index = 0
-		_pending_actions = tool_data.actions.duplicate()
-		await _apply_next_action(main_game, fields, field_index, tool_data, tool_card)
+	match tool_data.type:
+		ToolData.Type.SKILL:
+			if tool_data.tool_script:
+				await tool_data.tool_script.apply_tool(main_game, fields, field_index, tool_data)
+			else:
+				_action_index = 0
+				_pending_actions = tool_data.actions.duplicate()
+				await _apply_next_action(main_game, fields, field_index, tool_data, tool_card)
+		ToolData.Type.POWER:
+			await main_game.update_power(tool_data.id, 1)
+	tool_application_completed.emit(tool_data)
 
 func _apply_next_action(main_game:MainGame, fields:Array, field_index:int, tool_data:ToolData, tool_card:GUIToolCardButton) -> void:
 	if _action_index >= _pending_actions.size():
@@ -60,6 +64,15 @@ func _apply_instant_use_tool_action(action:ActionData, main_game:MainGame, tool_
 			await main_game.draw_cards(action.value)
 		ActionData.ActionType.DISCARD_CARD:
 			await _handle_discard_card_action(action, main_game, tool_data)
+		ActionData.ActionType.ENERGY:
+			main_game.energy_tracker.restore(action.value)
+		ActionData.ActionType.UPDATE_X:
+			var x_action:ActionData
+			for action_data:ActionData in tool_data.actions:
+				if action_data.value_type == ActionData.ValueType.X:
+					x_action = action_data
+					break
+			x_action.modified_x_value += action.value
 
 func _handle_discard_card_action(action:ActionData, main_game:MainGame, tool_data:ToolData) -> void:
 	var random := action.value_type == ActionData.ValueType.RANDOM

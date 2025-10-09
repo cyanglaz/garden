@@ -207,9 +207,9 @@ func _set_container_offset(offset:Vector2) -> void:
 func _set_resource_sufficient(value:bool) -> void:
 	resource_sufficient = value
 	var sufficient_color := Constants.COST_DEFAULT_COLOR
-	if tool_data.energy_modifier > 0:
+	if tool_data.get_total_energy_modifier() > 0:
 		sufficient_color = Constants.COST_INCREASED_COLOR
-	if tool_data.energy_modifier < 0:
+	if tool_data.get_total_energy_modifier() < 0:
 		sufficient_color = Constants.COST_REDUCED_COLOR
 	
 	if resource_sufficient || display_mode:

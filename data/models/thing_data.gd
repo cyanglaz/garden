@@ -11,7 +11,7 @@ enum ReferenceType {
 
 @export var id:String
 @export var display_name:String
-@export_multiline var description:String
+@export_multiline var description:String:get = _get_description
 @export var data:Dictionary
 @export_multiline var note:String
 
@@ -71,3 +71,6 @@ func _get_upgraded_from_id() -> String:
 	if level == 1:
 		return base_id
 	return base_id + "+" + str(level - 1)
+
+func _get_description() -> String:
+	return description

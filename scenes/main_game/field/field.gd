@@ -219,11 +219,7 @@ func _show_resource_icon_popup(icon_id:String, text:String) -> void:
 	await popup.animate_show_and_destroy(6, 3, POPUP_SHOW_TIME, POPUP_DESTROY_TIME)
 
 func _get_action_true_value(action_data:ActionData) -> int:
-	if action_data.value_type == ActionData.ValueType.NUMBER:
-		return action_data.value
-	elif action_data.value_type == ActionData.ValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
-		return Singletons.main_game.tool_manager.tool_deck.hand.size()
-	return 0
+	return action_data.value
 
 func _play_action_from_gui_animation(action:ActionData, from_gui:Control) -> void:
 	var gui_action:GUIAction

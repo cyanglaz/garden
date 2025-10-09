@@ -15,7 +15,6 @@ energy_cost = 0
 actions = Array[ExtResource("1_msbn6")]([SubResource("Resource_oexgw")])
 rarity = -1
 specials = Array[int]([1])
-need_select_field = true
 id = "graywater"
 display_name = "Graywater"
 note = "+1 water

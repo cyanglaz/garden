@@ -254,13 +254,15 @@ func _end_day() -> void:
 	_clear_tool_selection()
 	await _discard_all_tools()
 	tool_manager.card_use_limit_reached = false
-	await field_container.trigger_end_day_hook(self)
-	await field_container.trigger_end_day_ability(self)
+	await field_container.trigger_end_day_field_status_hooks(self)
+	await field_container.trigger_end_day_plant_abilities(self)
 	await weather_manager.apply_weather_actions(field_container.fields, gui_main_game.gui_weather_container.get_today_weather_icon())
+	await power_manager.handle_weather_application_hook(self, weather_manager.get_current_weather())
 	weather_manager.pass_day()
 	var won := await _harvest()
 	tool_manager.cleanup_for_turn()
 	game_modifier_manager.clear_for_turn()
+	power_manager.remove_single_turn_powers()
 	gui_main_game.toggle_all_ui(true)
 	if won:
 		return #Harvest won the game, no need to discard tools or end the day
@@ -343,10 +345,11 @@ func _on_tool_application_started(tool_data:ToolData) -> void:
 		energy_tracker.spend(tool_data.get_final_energy_cost())
 	_clear_tool_selection()
 
-func _on_tool_application_completed(_tool_data:ToolData) -> void:
+func _on_tool_application_completed(tool_data:ToolData) -> void:
 	await _harvest()
 	if tool_manager.number_of_card_used_this_turn >= game_modifier_manager.card_use_limit():
 		tool_manager.card_use_limit_reached = true
+	await power_manager.handle_tool_application_hook(self, tool_data)
 	gui_main_game.toggle_all_ui(true)
 
 func _on_card_use_button_pressed(tool_data:ToolData) -> void:

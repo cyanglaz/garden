@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=3 format=3 uid="uid://dhud5avy67nfx"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_nutp1"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_7dex1"]
+
+[resource]
+script = ExtResource("2_7dex1")
+rarity = 2
+type = 1
+id = "clean_energy"
+display_name = "Clean Energy"
+data = {
+"value": "1"
+}
+note = "This turn, when a cost 0 card is used, all fields +{value} {resource:light}."
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

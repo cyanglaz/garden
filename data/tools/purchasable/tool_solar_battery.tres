@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=5 format=3 uid="uid://bpyngl57tlf5l"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_0glle"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_g05ep"]
+
+[sub_resource type="Resource" id="Resource_icjug"]
+script = ExtResource("1_0glle")
+type = 1
+value_type = 2
+x_value = 3
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_6xxhp"]
+script = ExtResource("1_0glle")
+type = 13
+value = -1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_g05ep")
+actions = Array[ExtResource("1_0glle")]([SubResource("Resource_icjug"), SubResource("Resource_6xxhp")])
+id = "solar_battery"
+display_name = "Solar Battery"
+data = {
+"value": "1"
+}
+note = "+3 light
+-1 light per use"
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

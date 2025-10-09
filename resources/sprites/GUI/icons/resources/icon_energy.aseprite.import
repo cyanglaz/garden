@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://62xg3i35fnyh"
+path="res://.godot/imported/icon_energy.aseprite-bd5944818c7b299b6e19bade28d2f238.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_energy.aseprite"
+dest_files=["res://.godot/imported/icon_energy.aseprite-bd5944818c7b299b6e19bade28d2f238.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

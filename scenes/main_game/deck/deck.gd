@@ -5,6 +5,7 @@ signal draw_pool_updated(draw_pool:Array)
 signal discard_pool_updated(discard_pool:Array)
 signal exhaust_pool_updated(exhaust_pool:Array)
 signal pool_updated(pool:Array)
+signal hand_updated(hand:Array)
 
 var pool:Array
 var draw_pool:Array
@@ -32,6 +33,7 @@ func refresh() -> void:
 	exhaust_pool.clear()
 	exhaust_pool_updated.emit(exhaust_pool)
 	hand.clear()
+	hand_updated.emit()
 
 func cleanup_temp_items() -> void:
 	for item in temp_items:
@@ -42,6 +44,7 @@ func cleanup_temp_items() -> void:
 	pool_updated.emit(pool)
 	draw_pool_updated.emit(draw_pool)
 	discard_pool_updated.emit(discard_pool)
+	hand_updated.emit()
 	temp_items.clear()
 
 func shuffle_draw_pool() -> void:
@@ -64,6 +67,7 @@ func draw(count:int, indices:Array = []) -> Array:
 		else:
 			hand.insert(indices.pop_front(), item)
 		drawn_items.append(item)
+	hand_updated.emit()
 	draw_pool_updated.emit(draw_pool)
 	return drawn_items
 
@@ -77,10 +81,12 @@ func discard(items:Array) -> void:
 			hand.erase(item)
 		else:
 			assert(false, "discarding item not in hand" + str(item))
+	hand_updated.emit()
 	discard_pool_updated.emit(discard_pool)
 
 func use(item:Variant) -> void:
 	hand.erase(item)
+	hand_updated.emit()
 	in_use_item = item
 
 func exhaust(items:Array) -> void:
@@ -89,13 +95,14 @@ func exhaust(items:Array) -> void:
 			in_use_item = null
 		elif hand.has(item):
 			hand.erase(item)
+			hand_updated.emit()
 		elif discard_pool.has(item):
 			discard_pool.erase(item)
 			discard_pool_updated.emit(discard_pool)
 		elif draw_pool.has(item):
 			draw_pool.erase(item)
 			draw_pool_updated.emit(draw_pool)
-		if temp_items.has(item) && pool.has(item):
+		elif temp_items.has(item):
 			temp_items.erase(item)
 			pool.erase(item)
 			pool_updated.emit(pool)
@@ -131,6 +138,7 @@ func add_temp_items_to_hand(items:Array) -> void:
 	hand.append_array(items)
 	temp_items.append_array(items)
 	pool_updated.emit(pool)
+	hand_updated.emit()
 
 func remove_item(item:Variant) -> void:
 	pool.erase(item)
@@ -140,6 +148,7 @@ func remove_item(item:Variant) -> void:
 	draw_pool_updated.emit(draw_pool)
 	discard_pool_updated.emit(discard_pool)
 	pool_updated.emit(pool)
+	hand_updated.emit()
 	if item == in_use_item:
 		in_use_item = null
 
@@ -153,3 +162,4 @@ func filter_items(filter_func:Callable) -> void:
 	exhaust_pool = exhaust_pool.filter(filter_func)
 	exhaust_pool_updated.emit(exhaust_pool)
 	hand = hand.filter(filter_func)
+	hand_updated.emit()
