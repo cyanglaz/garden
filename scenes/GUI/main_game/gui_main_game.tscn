@@ -94,19 +94,32 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container/BottomLeftContainer/VBoxContainer"]
+[node name="Container" type="Control" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container/BottomLeftContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
-theme_override_constants/separation = 4
 
-[node name="GUIEnergyTracker" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container/BottomLeftContainer/VBoxContainer/HBoxContainer" instance=ExtResource("8_ho5j6")]
+[node name="GUIDrawBoxButton" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container/BottomLeftContainer/VBoxContainer/Container" instance=ExtResource("9_fu4tq")]
 unique_name_in_owner = true
-z_index = 1
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 19.0
+offset_top = -16.0
+offset_right = 31.0
+offset_bottom = 0.0
+grow_vertical = 0
 size_flags_vertical = 8
 
-[node name="GUIDrawBoxButton" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container/BottomLeftContainer/VBoxContainer/HBoxContainer" instance=ExtResource("9_fu4tq")]
+[node name="GUIEnergyTracker" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container/BottomLeftContainer/VBoxContainer/Container" instance=ExtResource("8_ho5j6")]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -16.0
+offset_right = 16.0
+grow_vertical = 0
 size_flags_vertical = 8
 
 [node name="BottomRightContainer" type="VBoxContainer" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container" index="3"]
