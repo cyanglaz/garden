@@ -106,5 +106,7 @@ func _get_x_value() -> int:
 		XValueType.NUMBER:
 			base_x_value = _original_x_value
 		XValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
-			base_x_value = Singletons.main_game.tool_manager.tool_deck.hand.size()
+			if Singletons.main_game.tool_manager:
+				# -1 to exclude the selected tool
+				base_x_value = Singletons.main_game.tool_manager.tool_deck.hand.size() - 1
 	return modified_x_value + base_x_value

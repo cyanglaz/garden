@@ -122,7 +122,7 @@ static func _get_x_value_text(action_data:ActionData) -> String:
 	var x_value_text := ""
 	match action_data.x_value_type:
 		ActionData.XValueType.NUMBER:
-			x_value_text = str(action_data.x_value)
+			x_value_text = str("{bordered_text:", action_data.x_value, "}")
 		ActionData.XValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
 			x_value_text = Util.get_localized_string("ACTION_VALUE_HAND_CARDS")
 	return x_value_text

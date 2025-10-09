@@ -72,9 +72,7 @@ func _apply_instant_use_tool_action(action:ActionData, main_game:MainGame, tool_
 				if action_data.value_type == ActionData.ValueType.X:
 					x_action = action_data
 					break
-			print(x_action.modified_x_value)
 			x_action.modified_x_value += action.value
-			print(x_action.modified_x_value)
 
 func _handle_discard_card_action(action:ActionData, main_game:MainGame, tool_data:ToolData) -> void:
 	var random := action.value_type == ActionData.ValueType.RANDOM

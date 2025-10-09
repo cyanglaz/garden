@@ -74,13 +74,7 @@ func update_for_x(x_value:int, x_value_type:ActionData.XValueType) -> void:
 		show()
 
 func _get_x_value(action_data) -> String:
-	match action_data.x_value_type:
-		ActionData.XValueType.NUMBER:
-			return str(action_data.x_value)
-		ActionData.XValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
-			assert(false, "NUMBER_OF_TOOL_CARDS_IN_HAND is not implemented")
-			return Util.get_localized_string("ACTION_VALUE_HAND_CARDS")
-	return ""
+	return str(action_data.x_value)
 
 func _get_value_id(value:int) -> String:
 	var value_id := str(abs(value))

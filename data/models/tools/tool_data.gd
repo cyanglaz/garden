@@ -43,7 +43,6 @@ func copy(other:ThingData) -> void:
 	var other_tool: ToolData = other as ToolData
 	energy_cost = other_tool.energy_cost
 	actions.clear()
-	print("copy tool")
 	for action:ActionData in other_tool.actions:
 		actions.append(action.get_duplicate())
 	rarity = other_tool.rarity
