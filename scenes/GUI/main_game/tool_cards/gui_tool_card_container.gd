@@ -3,8 +3,10 @@ extends Control
 
 signal tool_selected(tool_data:ToolData)
 signal card_use_button_pressed(tool_data:ToolData)
+signal _secondary_cards_selected()
 
 var TOOL_CARD_SCENE := load("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
+
 const DEFAULT_CARD_SPACE := 1.0
 const MAX_TOTAL_WIDTH := 200
 const REPOSITION_DURATION:float = 0.08
@@ -13,13 +15,14 @@ const CARD_SELECTION_READY_TIME := 0.2
 
 @onready var _container: Control = %Container
 @onready var _gui_tool_card_animation_container: GUIToolCardAnimationContainer = %GUIToolCardAnimationContainer
-@onready var _gui_overlay_background: ColorRect = %GUIOverlayBackground
 @onready var _use_card_anchor: Control = %UseCardAnchor
+@onready var _card_selection_container: GUICardSelectionContainer = %CardSelectionContainer
 
 var _card_size:float
 var selected_index:int = -1
 var card_use_limit_reached:bool = false: set = _set_card_use_limit_reached
 var card_selection_mode := false: set = _set_card_selection_mode
+var _selected_secondary_cards:Array[GUIToolCardButton] = []
 
 func _ready() -> void:
 	_card_size = GUIToolCardButton.SIZE.x
@@ -43,10 +46,16 @@ func clear() -> void:
 	for child:GUIToolCardButton in _container.get_children():
 		child.queue_free()
 	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
+	_card_selection_container.erase_selected_secondary_cards()
+	_card_selection_container.hide()
+	_selected_secondary_cards.clear()
 
 func clear_selection() -> void:
 	card_selection_mode = false
 	selected_index = -1
+	_card_selection_container.erase_selected_secondary_cards()
+	_card_selection_container.hide()
+	_selected_secondary_cards.clear()
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	if positions.size() > 0:
 		var tween:Tween = Util.create_scaled_tween(self)
@@ -92,13 +101,26 @@ func find_card(tool_data:ToolData) -> GUIToolCardButton:
 			return card
 	return null
 
-func select_secondary_cards(number_of_cards:int) -> void:
+func select_secondary_cards(number_of_cards:int) -> Array:
 	assert(selected_index >= 0)
 	card_selection_mode = true
-	var selected_card:GUIToolCardButton = _container.get_child(selected_index)
-	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(selected_card, "global_position", _use_card_anchor.global_position, CARD_SELECTION_READY_TIME).set_trans(Tween.TRANS_CUBIC)
-	await tween.finished
+	_card_selection_container.start_selection(number_of_cards)
+	await _card_selection_container.secondary_cards_selected
+	return []
+	# #var selected_card:GUIToolCardButton = _container.get_child(selected_index)
+	# #var tween := Util.create_scaled_tween(self)
+	# #tween.tween_property(selected_card, "global_position", _use_card_anchor.global_position, CARD_SELECTION_READY_TIME).set_trans(Tween.TRANS_CUBIC)
+	# #await tween.finished
+	# Util.remove_all_children(_card_selection_container)
+	# _card_selection_container.show()
+	# for i in number_of_cards:
+	# 	var card_placement:GUICardPlacement = GUI_CARD_PLACEMENT_SCENE.instantiate()
+	# 	_card_selection_container.add_child(card_placement)
+	# _layout_card_placements()
+	# await _secondary_cards_selected
+	# var result := _selected_secondary_cards.duplicate()
+	# _selected_secondary_cards.clear()
+	# return result
 
 func _rebind_signals() -> void:
 	for i in _container.get_children().size():
@@ -169,7 +191,7 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 	var center := _container.size/2
 	var start_x := center.x - (number_of_cards * _card_size + card_space * (number_of_cards - 1)) / 2
 	var result:Array[Vector2] = []
-	var target_y = size.y - GUIToolCardButton.SIZE.y
+	var target_y = _container.size.y - GUIToolCardButton.SIZE.y
 	for i in number_of_cards:
 		var target_position := Vector2(start_x + i*_card_size + i*card_space, target_y)
 		result.append(target_position)
@@ -206,6 +228,17 @@ func _hide_all_warnings() -> void:
 func _on_tool_card_pressed(index:int) -> void:
 	_hide_all_warnings()
 	var selected_card:GUIToolCardButton = _container.get_child(index)
+	if card_selection_mode:
+		if _card_selection_container.is_selected_secondary_card(selected_card):
+			var default_position := calculate_default_positions(_container.get_children().size())[index]
+			selected_card.position = default_position
+			_card_selection_container.remove_selected_secondary_card(selected_card)
+		elif _card_selection_container.is_card_selection_full():
+			print("card selection full")
+		else:
+			_card_selection_container.select_secondary_card(selected_card)
+		return
+	# Select a main card from hand.
 	if selected_card.tool_data.get_final_energy_cost() < 0:
 		selected_card.play_error_shake_animation()
 		Singletons.main_game.show_warning(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
@@ -226,6 +259,7 @@ func _on_tool_card_pressed(index:int) -> void:
 			if i == index:
 				_handle_selected_card(gui_card)
 			else:
+				assert(!card_selection_mode)
 				gui_card.card_state = GUIToolCardButton.CardState.UNSELECTED
 	else:
 		selected_index = -1
@@ -271,7 +305,7 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 	if !is_instance_valid(mouse_exit_card):
 		return
 	if mouse_exit_card.card_state == GUIToolCardButton.CardState.HIGHLIGHTED:
-		if selected_index >= 0:
+		if selected_index >= 0 && !card_selection_mode:
 			mouse_exit_card.card_state = GUIToolCardButton.CardState.UNSELECTED
 		else:
 			mouse_exit_card.card_state = GUIToolCardButton.CardState.NORMAL
@@ -306,7 +340,10 @@ func _set_card_use_limit_reached(value:bool) -> void:
 
 func _set_card_selection_mode(val:bool) -> void:
 	card_selection_mode = val
-	if _gui_tool_card_animation_container:
-		_gui_tool_card_animation_container.visible = card_selection_mode
-
+	for i in _container.get_children().size():
+		var gui_card:GUIToolCardButton = _container.get_child(i)
+		if i == selected_index:
+			gui_card.card_state = GUIToolCardButton.CardState.WAITING
+		else:
+			gui_card.card_state = GUIToolCardButton.CardState.NORMAL
 #endregion

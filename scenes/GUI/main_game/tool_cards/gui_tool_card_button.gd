@@ -9,6 +9,7 @@ enum CardState {
 	HIGHLIGHTED,
 	SELECTED,
 	UNSELECTED,
+	WAITING,
 }
 
 const SPECIAL_ICON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_special_icon.tscn")
@@ -199,6 +200,12 @@ func _set_card_state(value:CardState) -> void:
 			_overlay.show()
 			_gui_use_card_button.hide()
 			z_index = 0
+		CardState.WAITING:
+			_container_offset = Vector2.UP * SELECTED_OFFSET
+			has_outline = true
+			_overlay.show()
+			_gui_use_card_button.hide()
+			z_index = 1
 
 func _set_container_offset(offset:Vector2) -> void:
 	_container_offset = offset

@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://dtq1g3lhbj277"]
+
+[ext_resource type="Texture2D" uid="uid://ugtybr3upkmn" path="res://resources/sprites/GUI/backgrounds/tool_card_background.png" id="1_a1dqw"]
+[ext_resource type="Script" uid="uid://3b0ubt4ldyij" path="res://scenes/GUI/main_game/tool_cards/gui_card_placement.gd" id="2_m7dku"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3g0t2"]
+atlas = ExtResource("1_a1dqw")
+region = Rect2(160, 0, 40, 54)
+
+[node name="GUICardPlacement" type="TextureRect"]
+texture = SubResource("AtlasTexture_3g0t2")
+stretch_mode = 5
+script = ExtResource("2_m7dku")

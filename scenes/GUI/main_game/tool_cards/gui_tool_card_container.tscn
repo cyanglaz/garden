@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://canp4x5u3afyb"]
 
 [ext_resource type="Script" uid="uid://be0wbaoj8j50h" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_container.gd" id="1_32kbc"]
-[ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="2_6wowp"]
 [ext_resource type="PackedScene" uid="uid://dy6ehpdrlw24h" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_animation_container.tscn" id="2_32kbc"]
+[ext_resource type="PackedScene" uid="uid://drfa1ynsyd28a" path="res://scenes/GUI/main_game/tool_cards/gui_card_selection_container.tscn" id="3_a7sxg"]
 
 [node name="GUIToolCardContainer" type="Control"]
 layout_mode = 3
@@ -14,7 +14,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_32kbc")
 
-[node name="GUIOverlayBackground" parent="." instance=ExtResource("2_6wowp")]
+[node name="CardSelectionContainer" parent="." instance=ExtResource("3_a7sxg")]
 unique_name_in_owner = true
 layout_mode = 1
 
@@ -38,9 +38,9 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -55.0
-offset_top = -82.0
+offset_top = -122.0
 offset_right = -55.0
-offset_bottom = -82.0
+offset_bottom = -122.0
 grow_horizontal = 0
 grow_vertical = 0
 
