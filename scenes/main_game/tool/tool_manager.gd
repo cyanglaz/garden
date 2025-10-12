@@ -86,6 +86,9 @@ func apply_tool(main_game:MainGame, fields:Array, field_index:int) -> void:
 	if number_of_cards_to_select > 0:
 		# Some actions need to select cards, for example discard, compost
 		var selected_cards:Array = await _gui_tool_card_container.select_secondary_cards(number_of_cards_to_select)
+		if selected_cards.size() != number_of_cards_to_select:
+			print("apply tool returned early")
+			return
 	_run_card_lifecycle(applying_tool)
 	_run_card_actions(main_game, fields, field_index, applying_tool)
 	_tool_application_queue.append(applying_tool)
