@@ -134,6 +134,7 @@ func _rebind_signals() -> void:
 		gui_card.pressed.connect(_on_tool_card_pressed.bind(i))
 		gui_card.mouse_entered.connect(_on_tool_card_mouse_entered.bind(i))
 		gui_card.mouse_exited.connect(_on_tool_card_mouse_exited.bind(i))
+		gui_card.hand_index = i
 
 #region animation
 
@@ -221,6 +222,13 @@ func _hide_all_warnings() -> void:
 	Singletons.main_game.hide_warning(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
 	Singletons.main_game.hide_warning(WarningManager.WarningType.CARD_USE_LIMIT_REACHED)
 
+func _return_secondary_card_to_hand(card:GUIToolCardButton) -> void:
+	_card_selection_container.remove_selected_secondary_card(card)
+	var default_position := calculate_default_positions(_container.get_children().size())[card.hand_index]
+	var tween:Tween = Util.create_scaled_tween(self)
+	tween.tween_property(card, "position", default_position, REPOSITION_DURATION)
+	await tween.finished
+
 #endregion
 
 #region events
@@ -230,11 +238,12 @@ func _on_tool_card_pressed(index:int) -> void:
 	var selected_card:GUIToolCardButton = _container.get_child(index)
 	if card_selection_mode:
 		if _card_selection_container.is_selected_secondary_card(selected_card):
-			var default_position := calculate_default_positions(_container.get_children().size())[index]
-			selected_card.position = default_position
-			_card_selection_container.remove_selected_secondary_card(selected_card)
+			_return_secondary_card_to_hand(selected_card)
 		elif _card_selection_container.is_card_selection_full():
-			print("card selection full")
+			var card_to_remove_index := _card_selection_container.selected_secondary_cards.size() - 1
+			var card_to_remove:GUIToolCardButton = _card_selection_container.selected_secondary_cards[card_to_remove_index]
+			_return_secondary_card_to_hand(card_to_remove)
+			_card_selection_container.select_secondary_card(selected_card)
 		else:
 			_card_selection_container.select_secondary_card(selected_card)
 		return

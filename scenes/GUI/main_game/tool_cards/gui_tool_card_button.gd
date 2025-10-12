@@ -44,6 +44,7 @@ var library_mode := false
 var disabled:bool = false: set = _set_disabled
 var has_outline:bool = false: set = _set_has_outline
 var tool_data:ToolData: get = _get_tool_data
+var hand_index:int = -1
 var _weak_tool_data:WeakRef = weakref(null)
 var _container_offset:Vector2 = Vector2.ZERO: set = _set_container_offset
 
