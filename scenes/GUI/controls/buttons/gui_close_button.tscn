@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://l1ppui2vcrvo"]
+[gd_scene load_steps=7 format=3 uid="uid://l1ppui2vcrvo"]
 
 [ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_urfjh"]
 [ext_resource type="Script" uid="uid://cg0pfquvaw2al" path="res://scenes/GUI/controls/buttons/gui_close_button.gd" id="2_bjqkd"]
+[ext_resource type="AudioStream" uid="uid://8kfow6gw6njt" path="res://resources/sounds/GUI/close_button_hover.wav" id="3_vogsd"]
+[ext_resource type="AudioStream" uid="uid://ckebp7c0x1kgd" path="res://resources/sounds/GUI/close_button_click.wav" id="4_a3n6e"]
 [ext_resource type="Texture2D" uid="uid://cvm3m4w3cu5fl" path="res://resources/sprites/GUI/menu/close_button.png" id="4_se1wg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ud8re"]
@@ -14,6 +16,8 @@ custom_minimum_size = Vector2(0, 0)
 offset_right = 11.0
 offset_bottom = 11.0
 script = ExtResource("2_bjqkd")
+hover_sound = ExtResource("3_vogsd")
+click_sound = ExtResource("4_a3n6e")
 
 [node name="TextureRect" type="TextureRect" parent="." index="0"]
 unique_name_in_owner = true

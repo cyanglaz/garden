@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://by4p2lbbaimh3"]
-
-[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_3t8hu"]
-[ext_resource type="Script" uid="uid://dtgih7rrkxj82" path="res://scenes/GUI/controls/buttons/gui_field_button.gd" id="2_nnpdn"]
-
-[node name="GUIFieldButton" instance=ExtResource("1_3t8hu")]
-script = ExtResource("2_nnpdn")
