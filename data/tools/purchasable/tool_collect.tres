@@ -6,7 +6,6 @@
 [resource]
 script = ExtResource("2_61bw8")
 rarity = 1
-need_select_field = true
 id = "collect"
 display_name = "Collect"
 description = "{resource:water}{bordered_text:=0}. Shuffle {gain} {card:graywater} to your hand per {resource:water} lost."

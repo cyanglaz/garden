@@ -83,10 +83,11 @@ func apply_tool(main_game:MainGame, fields:Array, field_index:int) -> void:
 	number_of_card_used_this_turn += 1
 	var applying_tool = selected_tool
 	var number_of_cards_to_select := _get_num_card_need_to_select(applying_tool)
-	var secondary_card_datas:Array
+	var secondary_card_datas:Array = []
 	if number_of_cards_to_select > 0:
+		var selecting_from_cards = _get_secondary_cards_to_select_from(applying_tool)
 		# Some actions need to select cards, for example discard, compost
-		secondary_card_datas = await _gui_tool_card_container.select_secondary_cards(number_of_cards_to_select)
+		secondary_card_datas = await _gui_tool_card_container.select_secondary_cards(number_of_cards_to_select, selecting_from_cards)
 		if secondary_card_datas.size() != number_of_cards_to_select:
 			print("apply tool returned early")
 			return
@@ -142,11 +143,17 @@ func _run_card_actions(main_game:MainGame, fields:Array, field_index:int, tool_d
 	_tool_actions_completed.emit(tool_data)
 
 func _get_num_card_need_to_select(tool_data:ToolData) -> int:
-	var num_card_on_hand_excluding_tool := tool_deck.hand.size()-1
+	if tool_data.tool_script && tool_data.tool_script.number_of_secondary_cards_to_select() > 0:
+		return tool_data.tool_script.number_of_secondary_cards_to_select()
 	for action:ActionData in tool_data.actions:
 		if action.type in ActionData.NEED_CARD_SELECTION:
-			return mini(action.value, num_card_on_hand_excluding_tool)
+			return action.value
 	return 0
+
+func _get_secondary_cards_to_select_from(tool_data:ToolData) -> Array:
+	if tool_data.tool_script && tool_data.tool_script.secondary_card_selection_filter():
+		return tool_data.tool_script.secondary_card_selection_filter().call(tool_data)
+	return tool_deck.hand
 
 #region events
 

@@ -8,3 +8,10 @@ func apply_tool(_main_game:MainGame, _fields:Array, _field_index:int, _tool_data
 func need_select_field() -> bool:
 	assert(false, "need_select_field is not implemented")
 	return false
+
+func number_of_secondary_cards_to_select() -> int:
+	return 0
+
+func secondary_card_selection_filter() -> Callable:
+	return func(_tool_data:ToolData) -> bool:
+		return true

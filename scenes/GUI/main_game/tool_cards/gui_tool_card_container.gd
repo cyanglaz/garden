@@ -97,10 +97,10 @@ func find_card(tool_data:ToolData) -> GUIToolCardButton:
 			return card
 	return null
 
-func select_secondary_cards(number_of_cards:int) -> Array:
+func select_secondary_cards(number_of_cards:int, selecting_from_cards:Array) -> Array:
 	assert(selected_index >= 0)
 	card_selection_mode = true
-	return await _card_selection_container.start_selection(number_of_cards)
+	return await _card_selection_container.start_selection(number_of_cards, selecting_from_cards)
 
 func _rebind_signals() -> void:
 	for i in _container.get_children().size():

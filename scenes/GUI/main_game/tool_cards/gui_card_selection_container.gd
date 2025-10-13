@@ -15,7 +15,9 @@ var _number_of_cards_to_select:int = 0
 func _ready() -> void:
 	_gui_check_button.pressed.connect(_on_check_button_pressed)
 
-func start_selection(number_of_cards:int) -> Array:
+func start_selection(number_of_cards:int, selecting_from_cards:Array) -> Array:
+	if number_of_cards >= selecting_from_cards.size():
+		return selecting_from_cards.duplicate()
 	_title_label.text = Util.get_localized_string("SECONDARY_CARD_SELECTION_TITLE")%number_of_cards
 	_gui_check_button.hide()
 	_number_of_cards_to_select = number_of_cards
