@@ -1,11 +1,13 @@
-[gd_scene load_steps=18 format=3 uid="uid://dswoypivjtaql"]
+[gd_scene load_steps=20 format=3 uid="uid://dswoypivjtaql"]
 
 [ext_resource type="Script" uid="uid://ypmkl3x5hk7f" path="res://scenes/main_game/field/field.gd" id="1_4blml"]
 [ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/field.png" id="1_se4o6"]
-[ext_resource type="PackedScene" uid="uid://by4p2lbbaimh3" path="res://scenes/GUI/controls/buttons/gui_field_button.tscn" id="3_hjlch"]
+[ext_resource type="Script" uid="uid://c42mdjgajw0gi" path="res://scenes/GUI/controls/buttons/gui_basic_button.gd" id="3_u5lh2"]
 [ext_resource type="PackedScene" uid="uid://b0mxsb1ypllyg" path="res://scenes/main_game/field/gui_field_selection_arrow.tscn" id="4_50o30"]
 [ext_resource type="PackedScene" uid="uid://673wlt1ldg8q" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.tscn" id="4_bve5f"]
+[ext_resource type="AudioStream" uid="uid://ctu3v3nqwt6d2" path="res://resources/sounds/SFX/field/field_hover.wav" id="4_rw11e"]
 [ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/GUI/icons/resources/icon_light.png" id="5_7ysiu"]
+[ext_resource type="AudioStream" uid="uid://b00jsu3na1sj0" path="res://resources/sounds/SFX/field/field_click.wav" id="5_37mqm"]
 [ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/icon_water.png" id="6_bhkj4"]
 [ext_resource type="AudioStream" uid="uid://bs0jg061p4c2d" path="res://resources/sounds/SFX/field/field_buff.wav" id="7_wjfsy"]
 [ext_resource type="PackedScene" uid="uid://e0jhp4mhrm81" path="res://scenes/main_game/field/gui_field_status_container.tscn" id="9_3ecbu"]
@@ -77,12 +79,16 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "b7e21ffcfbf0e6c24f621230d6cc6bd0"
 
-[node name="GUIFieldButton" parent="." instance=ExtResource("3_hjlch")]
+[node name="GUIFieldButton" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 offset_left = -18.0
 offset_top = -11.0
 offset_right = 18.0
 offset_bottom = 11.0
+script = ExtResource("3_u5lh2")
+hover_sound = ExtResource("4_rw11e")
+click_sound = ExtResource("5_37mqm")
+metadata/_custom_type_script = "uid://c42mdjgajw0gi"
 
 [node name="ProgressBars" type="VBoxContainer" parent="."]
 unique_name_in_owner = true

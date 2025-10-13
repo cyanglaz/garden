@@ -1,9 +1,8 @@
-[gd_scene load_steps=26 format=3 uid="uid://cyd2pmyuelacd"]
+[gd_scene load_steps=25 format=3 uid="uid://cyd2pmyuelacd"]
 
 [ext_resource type="Script" uid="uid://b3s0cai251tmf" path="res://scenes/GUI/main_game/gui_main_game.gd" id="1_48pcf"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_pgwuj"]
 [ext_resource type="PackedScene" uid="uid://bp2sap1brkhfa" path="res://scenes/GUI/main_game/top_bar/gui_top_bar.tscn" id="2_fu4tq"]
-[ext_resource type="PackedScene" uid="uid://vyd5g82f347q" path="res://scenes/GUI/utils/main_margin_container.tscn" id="3_7ewl2"]
 [ext_resource type="PackedScene" uid="uid://dknalx44eyqdt" path="res://scenes/GUI/main_game/power/gui_power_container.tscn" id="4_a45yh"]
 [ext_resource type="PackedScene" uid="uid://cb7rus2xat3us" path="res://scenes/GUI/main_game/plant_cards/gui_plant_deck_box.tscn" id="4_fu4tq"]
 [ext_resource type="PackedScene" uid="uid://b224jou4wqp13" path="res://scenes/GUI/main_game/weather/gui_weather_container.tscn" id="5_ho5j6"]
@@ -65,7 +64,19 @@ offset_right = 8.0
 offset_bottom = 4.0
 grow_horizontal = 2
 
-[node name="BottomLeftContainer" type="VBoxContainer" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container" index="1"]
+[node name="GUIWeatherContainer" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container" index="1" instance=ExtResource("5_ho5j6")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -16.0
+offset_right = 0.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="BottomLeftContainer" type="VBoxContainer" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container" index="2"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -83,22 +94,35 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container/BottomLeftContainer/VBoxContainer"]
+[node name="Container" type="Control" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container/BottomLeftContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
-theme_override_constants/separation = 4
 
-[node name="GUIEnergyTracker" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container/BottomLeftContainer/VBoxContainer/HBoxContainer" instance=ExtResource("8_ho5j6")]
+[node name="GUIDrawBoxButton" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container/BottomLeftContainer/VBoxContainer/Container" instance=ExtResource("9_fu4tq")]
 unique_name_in_owner = true
-z_index = 1
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 19.0
+offset_top = -16.0
+offset_right = 31.0
+offset_bottom = 0.0
+grow_vertical = 0
 size_flags_vertical = 8
 
-[node name="GUIDrawBoxButton" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container/BottomLeftContainer/VBoxContainer/HBoxContainer" instance=ExtResource("9_fu4tq")]
+[node name="GUIEnergyTracker" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container/BottomLeftContainer/VBoxContainer/Container" instance=ExtResource("8_ho5j6")]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -16.0
+offset_right = 16.0
+grow_vertical = 0
 size_flags_vertical = 8
 
-[node name="BottomRightContainer" type="VBoxContainer" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container" index="2"]
+[node name="BottomRightContainer" type="VBoxContainer" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container" index="3"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -138,19 +162,6 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 localization_text_key = "ACTION_END_DAY"
 
-[node name="GUIToolCardContainer" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container" index="3" instance=ExtResource("5_hujfj")]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_top = -48.0
-offset_bottom = 0.0
-grow_horizontal = 2
-grow_vertical = 0
-
 [node name="GUIPlantSeedAnimationContainer" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container" index="4" instance=ExtResource("10_648op")]
 unique_name_in_owner = true
 layout_mode = 1
@@ -171,6 +182,10 @@ offset_left = -22.0
 offset_right = -19.0
 offset_bottom = 9.0
 grow_horizontal = 0
+
+[node name="GUIToolCardContainer" parent="MainContainer/GameContainer/BaseMainMarginContainer/Container" index="6" instance=ExtResource("5_hujfj")]
+unique_name_in_owner = true
+layout_mode = 1
 
 [node name="GUIShopMain" parent="MainContainer/GameContainer" instance=ExtResource("11_70io0")]
 unique_name_in_owner = true
@@ -196,15 +211,6 @@ layout_mode = 2
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-
-[node name="OverMainMarginContainer" parent="MainContainer/GameContainer" instance=ExtResource("3_7ewl2")]
-layout_mode = 2
-
-[node name="GUIWeatherContainer" parent="MainContainer/GameContainer/OverMainMarginContainer" instance=ExtResource("5_ho5j6")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
 
 [node name="GUIRewardMain" parent="MainContainer/GameContainer" instance=ExtResource("17_7ewl2")]
 unique_name_in_owner = true

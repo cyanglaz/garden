@@ -40,6 +40,7 @@ enum Special {
 	ALL_FIELDS,
 }
 
+const NEED_CARD_SELECTION := [ActionType.DISCARD_CARD]
 const CARD_ACTION_TYPES := [ActionType.DRAW_CARD, ActionType.DISCARD_CARD]
 const FIELD_ACTION_TYPES := [ActionType.LIGHT, ActionType.WATER, ActionType.PEST, ActionType.FUNGUS, ActionType.RECYCLE, ActionType.GREENHOUSE, ActionType.SEEP]
 const WEATHER_ACTION_TYPES := [ActionType.WEATHER_SUNNY, ActionType.WEATHER_RAINY]

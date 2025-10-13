@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://drfa1ynsyd28a"]
+
+[ext_resource type="Script" uid="uid://bktetim0c26aj" path="res://scenes/GUI/main_game/tool_cards/gui_card_selection_container.gd" id="1_adwhr"]
+[ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="1_gbwga"]
+[ext_resource type="PackedScene" uid="uid://bkvnqyvn72j1h" path="res://scenes/GUI/controls/buttons/gui_check_button.tscn" id="3_adwhr"]
+
+[node name="GUICardSelectionContainer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_adwhr")
+
+[node name="GUIOverlayBackground" parent="." instance=ExtResource("1_gbwga")]
+unique_name_in_owner = true
+layout_mode = 1
+color = Color(0, 0, 0, 0.9411765)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD_LARGE"
+text = "Test Title"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlacementContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+alignment = 1
+
+[node name="GUICheckButton" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_adwhr")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4

@@ -82,8 +82,16 @@ func select_tool(tool_data:ToolData) -> void:
 func apply_tool(main_game:MainGame, fields:Array, field_index:int) -> void:
 	number_of_card_used_this_turn += 1
 	var applying_tool = selected_tool
+	var number_of_cards_to_select := _get_num_card_need_to_select(applying_tool)
+	var secondary_card_datas:Array
+	if number_of_cards_to_select > 0:
+		# Some actions need to select cards, for example discard, compost
+		secondary_card_datas = await _gui_tool_card_container.select_secondary_cards(number_of_cards_to_select)
+		if secondary_card_datas.size() != number_of_cards_to_select:
+			print("apply tool returned early")
+			return
+	_run_card_actions(main_game, fields, field_index, applying_tool, secondary_card_datas)
 	_run_card_lifecycle(applying_tool)
-	_run_card_actions(main_game, fields, field_index, applying_tool)
 	_tool_application_queue.append(applying_tool)
 	tool_application_started.emit(applying_tool)
 
@@ -126,12 +134,19 @@ func _run_card_lifecycle(tool_data:ToolData) -> void:
 	_tool_lifecycle_queue.erase(tool_data)
 	_tool_lifecycle_completed.emit(tool_data)
 
-func _run_card_actions(main_game:MainGame, fields:Array, field_index:int, tool_data:ToolData) -> void:
+func _run_card_actions(main_game:MainGame, fields:Array, field_index:int, tool_data:ToolData, secondary_card_datas:Array) -> void:
 	_tool_actions_queue.append(tool_data)
 	await main_game.field_container.trigger_tool_application_hook()
-	await _tool_applier.apply_tool(main_game, fields, field_index, tool_data, null)
+	await _tool_applier.apply_tool(main_game, fields, field_index, tool_data, secondary_card_datas, null)
 	_tool_actions_queue.erase(tool_data)
 	_tool_actions_completed.emit(tool_data)
+
+func _get_num_card_need_to_select(tool_data:ToolData) -> int:
+	var num_card_on_hand_excluding_tool := tool_deck.hand.size()-1
+	for action:ActionData in tool_data.actions:
+		if action.type in ActionData.NEED_CARD_SELECTION:
+			return mini(action.value, num_card_on_hand_excluding_tool)
+	return 0
 
 #region events
 
