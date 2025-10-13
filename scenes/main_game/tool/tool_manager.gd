@@ -151,9 +151,12 @@ func _get_num_card_need_to_select(tool_data:ToolData) -> int:
 	return 0
 
 func _get_secondary_cards_to_select_from(tool_data:ToolData) -> Array:
+	var selecting_from_cards:Array = tool_deck.hand.duplicate()
+	selecting_from_cards.erase(tool_data)
 	if tool_data.tool_script && tool_data.tool_script.secondary_card_selection_filter():
-		return tool_data.tool_script.secondary_card_selection_filter().call(tool_data)
-	return tool_deck.hand
+		var filter:Callable = tool_data.tool_script.secondary_card_selection_filter()
+		selecting_from_cards = selecting_from_cards.filter(filter)
+	return selecting_from_cards
 
 #region events
 
