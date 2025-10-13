@@ -3,7 +3,6 @@ extends Control
 
 signal tool_selected(tool_data:ToolData)
 signal card_use_button_pressed(tool_data:ToolData)
-
 var TOOL_CARD_SCENE := load("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
 const DEFAULT_CARD_SPACE := 1.0
@@ -19,7 +18,7 @@ const CARD_SELECTION_READY_TIME := 0.2
 var _card_size:float
 var selected_index:int = -1
 var card_use_limit_reached:bool = false: set = _set_card_use_limit_reached
-var card_selection_mode := false: set = _set_card_selection_mode
+var card_selection_mode := false
 var _selected_secondary_cards:Array[GUIToolCardButton] = []
 
 func _ready() -> void:
@@ -48,7 +47,7 @@ func clear() -> void:
 	_selected_secondary_cards.clear()
 
 func clear_selection() -> void:
-	card_selection_mode = false
+	_toggle_card_selection(false, [])
 	selected_index = -1
 	_card_selection_container.end_selection()
 	_selected_secondary_cards.clear()
@@ -99,8 +98,27 @@ func find_card(tool_data:ToolData) -> GUIToolCardButton:
 
 func select_secondary_cards(number_of_cards:int, selecting_from_cards:Array) -> Array:
 	assert(selected_index >= 0)
-	card_selection_mode = true
+	_toggle_card_selection(true, selecting_from_cards)
 	return await _card_selection_container.start_selection(number_of_cards, selecting_from_cards)
+
+func _toggle_card_selection(on:bool, selecting_from_cards:Array) -> void:
+	var selecting_from_card_index := []
+	for tool_data:ToolData in selecting_from_cards:
+		var gui_card:GUIToolCardButton = find_card(tool_data)
+		selecting_from_card_index.append(gui_card.hand_index)
+	card_selection_mode = on
+	for i in _container.get_children().size():
+		var gui_card:GUIToolCardButton = _container.get_child(i)
+		if selecting_from_card_index.has(i):
+			gui_card.card_state = GUIToolCardButton.CardState.NORMAL
+		elif i == selected_index:
+			if card_selection_mode:
+				gui_card.card_state = GUIToolCardButton.CardState.WAITING
+			else:
+				gui_card.card_state = GUIToolCardButton.CardState.SELECTED
+		else:
+			gui_card.card_state = GUIToolCardButton.CardState.UNSELECTED
+
 
 func _rebind_signals() -> void:
 	for i in _container.get_children().size():
@@ -327,12 +345,4 @@ func _set_card_use_limit_reached(value:bool) -> void:
 		var gui_card = _container.get_child(i)
 		gui_card.disabled = value
 
-func _set_card_selection_mode(val:bool) -> void:
-	card_selection_mode = val
-	for i in _container.get_children().size():
-		var gui_card:GUIToolCardButton = _container.get_child(i)
-		if i == selected_index:
-			gui_card.card_state = GUIToolCardButton.CardState.WAITING
-		else:
-			gui_card.card_state = GUIToolCardButton.CardState.NORMAL
 #endregion
