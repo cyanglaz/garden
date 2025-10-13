@@ -20,7 +20,7 @@ func start_selection(number_of_cards:int) -> Array:
 	Util.remove_all_children(_placement_container)
 	show()
 	await _selection_completed
-	return selected_secondary_cards.duplicate()
+	return selected_secondary_cards.map(func(card:GUIToolCardButton): return card.tool_data)
 
 func is_selected_secondary_card(card:GUIToolCardButton) -> bool:
 	return selected_secondary_cards.has(card)
