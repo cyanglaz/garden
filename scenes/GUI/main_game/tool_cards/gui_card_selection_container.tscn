@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bktetim0c26aj" path="res://scenes/GUI/main_game/tool_cards/gui_card_selection_container.gd" id="1_adwhr"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="1_gbwga"]
-[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="2_e0nqi"]
+[ext_resource type="PackedScene" uid="uid://bkvnqyvn72j1h" path="res://scenes/GUI/controls/buttons/gui_check_button.tscn" id="3_adwhr"]
 
 [node name="GUICardSelectionContainer" type="Control"]
 layout_mode = 3
@@ -45,7 +45,6 @@ custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
 alignment = 1
 
-[node name="GUIRichTextButton" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_e0nqi")]
+[node name="GUICheckButton" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_adwhr")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4

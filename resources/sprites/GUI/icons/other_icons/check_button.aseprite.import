@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bl7j7xyumb2tw"
+path="res://.godot/imported/check_button.aseprite-67d4c074709416c7cf6ae74164a20dc3.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/check_button.aseprite"
+dest_files=["res://.godot/imported/check_button.aseprite-67d4c074709416c7cf6ae74164a20dc3.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true

@@ -6,16 +6,18 @@ const CARD_MOVE_ANIMATION_TIME:float = 0.2
 signal _selection_completed()
 
 @onready var _placement_container: HBoxContainer = %PlacementContainer
-@onready var _gui_rich_text_button: GUIRichTextButton = %GUIRichTextButton
 @onready var _title_label: Label = %TitleLabel
+@onready var _gui_check_button: GUIImageButton = %GUICheckButton
 
 var selected_secondary_cards:Array = []
 var _number_of_cards_to_select:int = 0
 
+func _ready() -> void:
+	_gui_check_button.pressed.connect(_on_check_button_pressed)
+
 func start_selection(number_of_cards:int) -> Array:
 	_title_label.text = Util.get_localized_string("SECONDARY_CARD_SELECTION_TITLE")%number_of_cards
-	_gui_rich_text_button.hide()
-	_gui_rich_text_button.pressed.connect(_on_gui_rich_text_button_pressed)
+	_gui_check_button.hide()
 	_number_of_cards_to_select = number_of_cards
 	Util.remove_all_children(_placement_container)
 	show()
@@ -36,12 +38,12 @@ func remove_selected_secondary_card(card:GUIToolCardButton) -> void:
 	_placement_container.remove_child(place_holder)
 	place_holder.queue_free()
 	selected_secondary_cards.erase(card)
-	_gui_rich_text_button.hide()
+	_gui_check_button.hide()
 
 func end_selection() -> void:
 	Util.remove_all_children(_placement_container)
 	selected_secondary_cards.clear()
-	_gui_rich_text_button.hide()
+	_gui_check_button.hide()
 	_selection_completed.emit()
 	hide()
 
@@ -63,9 +65,9 @@ func _display_secondary_card(card:GUIToolCardButton, place_holder:PanelContainer
 	await tween.finished
 	card.mouse_disabled = false
 	if selected_secondary_cards.size() == _number_of_cards_to_select:
-		_gui_rich_text_button.show()
+		_gui_check_button.show()
 
-func _on_gui_rich_text_button_pressed() -> void:
+func _on_check_button_pressed() -> void:
 	_selection_completed.emit()
 	Util.remove_all_children(_placement_container)
 	selected_secondary_cards.clear()

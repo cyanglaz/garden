@@ -3,7 +3,6 @@ extends Control
 
 signal tool_selected(tool_data:ToolData)
 signal card_use_button_pressed(tool_data:ToolData)
-signal _secondary_cards_selected()
 
 var TOOL_CARD_SCENE := load("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
@@ -15,7 +14,6 @@ const CARD_SELECTION_READY_TIME := 0.2
 
 @onready var _container: Control = %Container
 @onready var _gui_tool_card_animation_container: GUIToolCardAnimationContainer = %GUIToolCardAnimationContainer
-@onready var _use_card_anchor: Control = %UseCardAnchor
 @onready var _card_selection_container: GUICardSelectionContainer = %CardSelectionContainer
 
 var _card_size:float
