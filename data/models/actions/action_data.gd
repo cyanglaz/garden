@@ -29,11 +29,14 @@ enum ValueType {
 	NUMBER,
 	RANDOM,
 	X,
+	SET_NUMBER,
+	SET_X,
 }
 
 enum XValueType {
 	NUMBER,
 	NUMBER_OF_TOOL_CARDS_IN_HAND,
+	TARGET_LIGHT,
 }
 
 enum Special {
