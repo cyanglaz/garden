@@ -224,10 +224,16 @@ func _animate_add_card_to_draw_pile(animation_item:AnimationQueueItem) -> void:
 			await Util.create_scaled_timer(display_pause_time).timeout
 			animating_card.play_move_sound()
 		)
-		Util.create_scaled_timer(ADD_CARD_TO_PILE_DELAY * index + ADD_CARD_TO_PILE_ANIMATION_TIME + display_pause_time - 0.01).timeout.connect(func(): animating_card.hide())
-		Util.create_scaled_timer(ADD_CARD_TO_PILE_DELAY * index + ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25 + display_pause_time).timeout.connect(func(): animating_card.animation_mode = true)
-		tween.tween_property(animating_card, "global_position", _draw_deck_button.global_position, ADD_CARD_TO_PILE_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_delay(ADD_CARD_TO_PILE_DELAY * index + display_pause_time)
-		tween.tween_property(animating_card, "size", _draw_deck_button.size, ADD_CARD_TO_PILE_ANIMATION_TIME * 0.75).set_trans(Tween.TRANS_CUBIC).set_delay(display_pause_time + ADD_CARD_TO_PILE_DELAY * index + ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25)
+		var move_delay := ADD_CARD_TO_PILE_DELAY * index + display_pause_time
+		var move_animation_time := ADD_CARD_TO_PILE_ANIMATION_TIME
+		var scale_delay := move_delay + ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25
+		var scale_animation_time := ADD_CARD_TO_PILE_ANIMATION_TIME * 0.75
+		Util.create_scaled_timer(scale_delay).timeout.connect(func(): animating_card.animation_mode = true)
+		var move_tweener := tween.tween_property(animating_card, "global_position", _draw_deck_button.global_position, move_animation_time).set_trans(Tween.TRANS_CUBIC).set_delay(move_delay)
+		move_tweener.finished.connect(func():
+			animating_card.hide()
+		)
+		tween.tween_property(animating_card, "size", _draw_deck_button.size, scale_animation_time).set_trans(Tween.TRANS_CUBIC).set_delay(scale_delay)
 		index += 1
 	await tween.finished
 	for animating_card in animating_cards:
@@ -256,10 +262,16 @@ func _animate_add_card_to_discard_pile(animation_item:AnimationQueueItem) -> voi
 			await Util.create_scaled_timer(display_pause_time).timeout
 			animating_card.play_move_sound()
 		)
-		Util.create_scaled_timer(ADD_CARD_TO_PILE_DELAY * index + ADD_CARD_TO_PILE_ANIMATION_TIME + display_pause_time - 0.01).timeout.connect(func(): animating_card.hide())
-		Util.create_scaled_timer(ADD_CARD_TO_PILE_DELAY * index + ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25 + display_pause_time).timeout.connect(func(): animating_card.animation_mode = true)
-		tween.tween_property(animating_card, "global_position", _discard_deck_button.global_position, ADD_CARD_TO_PILE_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_delay(ADD_CARD_TO_PILE_DELAY * index + display_pause_time)
-		tween.tween_property(animating_card, "size", _discard_deck_button.size, ADD_CARD_TO_PILE_ANIMATION_TIME * 0.75).set_trans(Tween.TRANS_CUBIC).set_delay(display_pause_time + ADD_CARD_TO_PILE_DELAY * index + ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25)
+		var move_delay_time := ADD_CARD_TO_PILE_DELAY * index + display_pause_time
+		var move_animation_time := ADD_CARD_TO_PILE_ANIMATION_TIME
+		var scale_delay_time := move_delay_time + ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25
+		var scale_animation_time := ADD_CARD_TO_PILE_ANIMATION_TIME * 0.75
+		Util.create_scaled_timer(scale_delay_time).timeout.connect(func(): animating_card.animation_mode = true)
+		var move_tweener := tween.tween_property(animating_card, "global_position", _discard_deck_button.global_position, move_animation_time).set_trans(Tween.TRANS_CUBIC).set_delay(move_delay_time)
+		move_tweener.finished.connect(func():
+			animating_card.hide()
+		)
+		tween.tween_property(animating_card, "size", _discard_deck_button.size, scale_animation_time).set_trans(Tween.TRANS_CUBIC).set_delay(scale_delay_time)
 		index -=1
 	await tween.finished
 	for animating_card in animating_cards:
