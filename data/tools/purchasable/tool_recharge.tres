@@ -5,7 +5,9 @@
 
 [resource]
 script = ExtResource("2_01e7c")
+energy_cost = 0
 rarity = 2
+specials = Array[int]([1])
 id = "recharge"
 display_name = "Recharge"
 description = "Sets a {card:solar_battery}'s {resource:light} gain to its original value."

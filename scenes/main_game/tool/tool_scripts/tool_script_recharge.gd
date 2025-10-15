@@ -8,6 +8,7 @@ func apply_tool(_main_game:MainGame, _fields:Array, _field_index:int, _tool_data
 		var light_action_data:ActionData  = tool_data.actions[0]
 		assert(light_action_data.type == ActionData.ActionType.LIGHT, "Solar battery's first action is light action")
 		light_action_data.modified_x_value = 0
+		tool_data.request_refresh.emit()
 
 func need_select_field() -> bool:
 	return false

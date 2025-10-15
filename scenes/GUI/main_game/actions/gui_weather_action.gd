@@ -6,7 +6,7 @@ var WEATHER_DATA_RAINY := load("res://data/weathers/weather_rainy.tres")
 
 @onready var gui_weather: GUIWeather = %GUIWeather
 
-func update_with_action(action_data:ActionData, target_field:Field) -> void:
+func update_with_action(action_data:ActionData, _target_field:Field) -> void:
 	assert(action_data.action_category == ActionData.ActionCategory.WEATHER, "Action is not a weather action")
 	match action_data.type:
 		ActionData.ActionType.WEATHER_SUNNY:
