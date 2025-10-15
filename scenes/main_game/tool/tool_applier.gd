@@ -14,7 +14,7 @@ func apply_tool(main_game:MainGame, fields:Array, field_index:int, tool_data:Too
 	match tool_data.type:
 		ToolData.Type.SKILL:
 			if tool_data.tool_script:
-				await tool_data.tool_script.apply_tool(main_game, fields, field_index, tool_data)
+				await tool_data.tool_script.apply_tool(main_game, fields, field_index, tool_data, secondary_card_datas)
 			else:
 				_action_index = 0
 				_pending_actions = tool_data.actions.duplicate()
