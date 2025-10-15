@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bbcxpceayay3"]
+[gd_scene load_steps=9 format=3 uid="uid://bbcxpceayay3"]
 
 [ext_resource type="PackedScene" uid="uid://byg0qymapjkn6" path="res://scenes/main_game/field/field_container.tscn" id="1_075iw"]
 [ext_resource type="Script" uid="uid://sc1eubamsw6x" path="res://scenes/main_game/main_game.gd" id="1_yra6k"]
@@ -6,12 +6,13 @@
 [ext_resource type="PackedScene" uid="uid://drjaux1gtvc31" path="res://scenes/utils/camera/feedback_camera_2d.tscn" id="2_yra6k"]
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="3_i3kwu"]
+[ext_resource type="Resource" uid="uid://b7kyqku5vtyny" path="res://data/tools/purchasable/tool_mirror_pool.tres" id="5_mijjq"]
 [ext_resource type="Resource" uid="uid://dveio5prp3e4b" path="res://data/tools/purchasable/tool_burn.tres" id="8_fetp2"]
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 player = ExtResource("2_8ywsm")
-test_tools = Array[ExtResource("3_i3kwu")]([ExtResource("8_fetp2"), ExtResource("8_fetp2"), ExtResource("8_fetp2"), ExtResource("8_fetp2"), ExtResource("8_fetp2")])
+test_tools = Array[ExtResource("3_i3kwu")]([ExtResource("8_fetp2"), ExtResource("8_fetp2"), ExtResource("8_fetp2"), ExtResource("8_fetp2"), ExtResource("5_mijjq")])
 
 [node name="FieldContainer" parent="." instance=ExtResource("1_075iw")]
 unique_name_in_owner = true

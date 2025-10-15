@@ -2,6 +2,7 @@ class_name GUIActionValueIcon
 extends HBoxContainer
 
 const VALUE_ICON_PATH := "res://resources/sprites/GUI/icons/cards/values/icon_"
+const RESOURCE_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_"
 const SIGN_ICON_PATH := "res://resources/sprites/GUI/icons/cards/signs/icon_"
 
 @onready var _sign_icon: TextureRect = %SignIcon
@@ -46,6 +47,11 @@ func update_with_action(action_data:ActionData) -> void:
 	else:
 		_value_icon.modulate = Color.WHITE
 	
+	if action_data.operator_type == ActionData.OperatorType.EQUAL_TO:
+		assert(action_data.value >= 0, "Value must be greater than 0 for equal to operator")
+		_sign_icon.show()
+		_sign_icon.texture = load(SIGN_ICON_PATH + "equals.png")
+
 	if !_sign_icon.visible && !_value_icon.visible && !_random_icon.visible && !_x_value_label.visible && !_number_sign_icon.visible:
 		hide()
 	else:
@@ -67,6 +73,8 @@ func update_for_x(x_value:int, x_value_type:ActionData.XValueType) -> void:
 			_value_icon.texture = load(VALUE_ICON_PATH + str(abs(x_value)) + ".png")
 		ActionData.XValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
 			_value_icon.texture = load(VALUE_ICON_PATH + "cards_in_hand.png")
+		ActionData.XValueType.TARGET_LIGHT:
+			_value_icon.texture = load(RESOURCE_ICON_PATH + "light.png")
 	
 	if !_sign_icon.visible && !_value_icon.visible && !_random_icon.visible && !_x_value_label.visible && !_number_sign_icon.visible:
 		hide()

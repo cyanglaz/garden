@@ -2,12 +2,15 @@ class_name ActionDescriptionFormulator
 extends RefCounted
 
 const HIGHLIGHT_COLOR := Constants.COLOR_WHITE
+const X_DESCRIPTION_HIGHLIGHT_COLOR := Constants.COLOR_BLUE_2
 
 static func get_action_description(action_data:ActionData) -> String:
 	var action_description := ""
 	match action_data.type:
-		ActionData.ActionType.LIGHT, ActionData.ActionType.WATER, ActionData.ActionType.UPDATE_X:
+		ActionData.ActionType.LIGHT, ActionData.ActionType.WATER:
 			action_description = _get_field_action_description(action_data)
+		ActionData.ActionType.ENERGY || ActionData.ActionType.UPDATE_X:
+			action_description = _get_resource_update_action_description(action_data)
 		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
 			#action_description = _get_field_action_description(action_data)
 			#action_description += "\n\n"
@@ -18,12 +21,17 @@ static func get_action_description(action_data:ActionData) -> String:
 			action_description = _get_draw_card_action_description(action_data)
 		ActionData.ActionType.DISCARD_CARD:
 			action_description = _get_discard_card_action_description(action_data)
-		ActionData.ActionType.ENERGY:
-			action_description = _get_energy_action_description(action_data)
 		ActionData.ActionType.NONE:
 			pass
 	if action_description.contains("%s"):
 		action_description = action_description % _get_value_text(action_data)
+	
+	if action_data.value_type == ActionData.ValueType.X:
+		action_description += str(Util.get_localized_string("PUNCTUATION_COMMA"), _get_x_value_text(action_data))
+
+	var period_string := Util.get_localized_string("PUNCTUATION_PERIOD").trim_suffix(" ")
+	if !action_description.ends_with(period_string):
+		action_description += period_string
 	return action_description
 
 static func get_special_name(special:ToolData.Special) -> String:
@@ -50,23 +58,32 @@ static func get_special_description(special:ToolData.Special) -> String:
 			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_WITHER")
 		_:
 			assert(false, "Invalid special: %s" % special)
-	if !special_description.ends_with("."):
-		special_description += "."
 	return special_description
 
 static func _get_field_action_description(action_data:ActionData) -> String:
-	var update_description := Util.get_localized_string("ACTION_VALUE_DESCRIPTION_UPDATE")
+	var main_description := _get_action_value_update_description(action_data)
+	var field_string := ""
+	if action_data.specials.has(ActionData.Special.ALL_FIELDS):
+		field_string = Util.get_localized_string("ACTION_ALL_FIELDS_TEXT")
+	else:
+		field_string = Util.get_localized_string("ACTION_ONE_FIELDS_TEXT")
+	main_description += Util.convert_to_bbc_highlight_text(field_string, HIGHLIGHT_COLOR)
+	return main_description
+
+static func _get_resource_update_action_description(action_data:ActionData) -> String:
+	var main_description := _get_action_value_update_description(action_data)
+	return main_description
+
+static func _get_action_value_update_description(action_data:ActionData) -> String:
+	var main_description := ""
+	match action_data.operator_type:
+		ActionData.OperatorType.UPDATE_BY:
+			main_description = Util.get_localized_string("ACTION_VALUE_DESCRIPTION_UPDATE")
+		ActionData.OperatorType.EQUAL_TO:
+			main_description = Util.get_localized_string("ACTION_VALUE_DESCRIPTION_EQUAL")
 	var action_name := Util.get_action_name_from_action_type(action_data.type)
 	action_name = Util.convert_to_bbc_highlight_text(action_name, HIGHLIGHT_COLOR)
-	var main_description := update_description
 	main_description = main_description % [action_name, _get_value_text(action_data)]
-	for special:ActionData.Special in action_data.specials:
-		match special:
-			ActionData.Special.ALL_FIELDS:
-				var all_fields_string := Util.get_localized_string("ACTION_ALL_FIELDS_TEXT")
-				main_description += Util.convert_to_bbc_highlight_text(all_fields_string, HIGHLIGHT_COLOR)
-	if !main_description.ends_with("."):
-		main_description += "."
 	return main_description
 
 static func _get_weather_action_description(action_data:ActionData) -> String:
@@ -93,11 +110,6 @@ static func _get_discard_card_action_description(action_data:ActionData) -> Stri
 	main_description = main_description % [_get_value_text(action_data)]
 	return main_description
 
-static func _get_energy_action_description(action_data:ActionData) -> String:
-	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_ENERGY")
-	main_description = main_description % [_get_value_text(action_data)]
-	return main_description
-
 static func _get_value_text(action_data:ActionData) -> String:
 	var value_text := ""
 	var highlight_color := HIGHLIGHT_COLOR
@@ -112,20 +124,26 @@ static func _get_value_text(action_data:ActionData) -> String:
 			value_text = Util.convert_to_bbc_highlight_text(str(action_data.value), HIGHLIGHT_COLOR)
 			value_text += Util.convert_to_bbc_highlight_text(Util.get_localized_string("ACTION_VALUE_RANDOM"), highlight_color)
 		ActionData.ValueType.X:
-			var x_value_string := Util.get_localized_string("ACTION_VALUE_X") % [_get_x_value_text(action_data)]
-			value_text = DescriptionParser.format_references(x_value_string, {}, {}, func(_reference_id:String) -> bool: return false)
+			value_text = Util.convert_to_bbc_highlight_text(Util.get_localized_string("ACTION_VALUE_X"), X_DESCRIPTION_HIGHLIGHT_COLOR)
 		_:
 			assert(false, "Invalid value type: %s" % action_data.value_type)
 	return value_text
 
 static func _get_x_value_text(action_data:ActionData) -> String:
+	var main_description := Util.get_localized_string("ACTION_X_DESCRIPTION")
 	var x_value_text := ""
 	match action_data.x_value_type:
 		ActionData.XValueType.NUMBER:
-			x_value_text = str("{bordered_text:", action_data.x_value, "}")
+			x_value_text = str(action_data.x_value)
 		ActionData.XValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
 			x_value_text = Util.get_localized_string("ACTION_VALUE_HAND_CARDS")
-	return x_value_text
+		ActionData.XValueType.TARGET_LIGHT:
+			x_value_text = Util.get_localized_string("ACTION_VALUE_TARGET_LIGHT")
+		_:
+			assert(false, "Invalid x value type: %s" % action_data.x_value_type)
+	main_description = main_description % [x_value_text]
+	main_description = Util.convert_to_bbc_highlight_text(main_description, X_DESCRIPTION_HIGHLIGHT_COLOR)
+	return main_description
 
 static func _get_field_status_description(action_data:ActionData) -> String:
 	var id := Util.get_action_id_with_action_type(action_data.type)

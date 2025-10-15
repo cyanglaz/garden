@@ -25,12 +25,15 @@ enum ActionCategory {
 	CARD,
 }
 
+enum OperatorType {
+	UPDATE_BY,
+	EQUAL_TO,
+}
+
 enum ValueType {
 	NUMBER,
 	RANDOM,
 	X,
-	SET_NUMBER,
-	SET_X,
 }
 
 enum XValueType {
@@ -51,6 +54,7 @@ const WEATHER_ACTION_TYPES := [ActionType.WEATHER_SUNNY, ActionType.WEATHER_RAIN
 @export var type:ActionType
 @export var value:int:set = _set_value, get = _get_value
 @export var value_type:ValueType = ValueType.NUMBER
+@export var operator_type:OperatorType = OperatorType.UPDATE_BY
 @export var specials:Array[Special]
 @export var x_value:int:set = _set_x_value, get = _get_x_value
 @export var x_value_type:XValueType = XValueType.NUMBER
@@ -68,6 +72,7 @@ func copy(other:ThingData) -> void:
 	value_type = other.value_type
 	specials = other.specials.duplicate()
 	modified_value = other.modified_value
+	operator_type = other.operator_type
 	x_value = other.x_value
 	x_value_type = other.x_value_type
 	_original_value = other._original_value
