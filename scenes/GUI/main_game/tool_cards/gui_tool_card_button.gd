@@ -59,6 +59,9 @@ func _ready() -> void:
 	_gui_use_card_button.hide()
 
 func update_with_tool_data(td:ToolData) -> void:
+	if Singletons.main_game && !Singletons.main_game.field_container.mouse_field_updated.is_connected(_on_mouse_field_updated):
+		Singletons.main_game.field_container.mouse_field_updated.connect(_on_mouse_field_updated)
+
 	_weak_tool_data = weakref(td)
 	if !tool_data.actions.is_empty():
 		_gui_action_list.update(tool_data.actions, Singletons.main_game.field_container.mouse_field)
@@ -253,5 +256,8 @@ func _on_tool_data_refresh() -> void:
 func _on_use_button_pressed() -> void:
 	_gui_use_card_button.hide()
 	use_card_button_pressed.emit()
+
+func _on_mouse_field_updated(field:Field) -> void:
+	_gui_action_list.update(tool_data.actions, field)
 
 #endregion
