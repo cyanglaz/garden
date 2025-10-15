@@ -84,19 +84,19 @@ static func display_thing_data_tooltip(thing_data:ThingData, on_control_node:Con
 	_display_tool_tip.call_deferred(thing_data_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
 	return thing_data_tooltip
 
-static func display_actions_tooltip(action_datas:Array[ActionData], on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool) -> GUIActionsTooltip:
+static func display_actions_tooltip(action_datas:Array[ActionData], target_field:Field, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool) -> GUIActionsTooltip:
 	var actions_tooltip:GUIActionsTooltip = GUI_ACTIONS_TOOLTIP_SCENE.instantiate()
 	Singletons.main_game.add_control_to_overlay(actions_tooltip)
 	actions_tooltip.tooltip_position = tooltip_position
-	actions_tooltip.update_with_actions(action_datas)
+	actions_tooltip.update_with_actions(action_datas, target_field)
 	_display_tool_tip.call_deferred(actions_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
 	return actions_tooltip
 
-static func display_tool_card_tooltip(tool_data:ToolData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool) -> GUIToolCardTooltip:
+static func display_tool_card_tooltip(tool_data:ToolData, target_field:Field, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool) -> GUIToolCardTooltip:
 	var tool_card_tooltip:GUIToolCardTooltip = GUI_TOOL_CARD_TOOLTIP_SCENE.instantiate()
 	Singletons.main_game.add_control_to_overlay(tool_card_tooltip)
 	tool_card_tooltip.tooltip_position = tooltip_position
-	tool_card_tooltip.update_with_tool_data(tool_data)
+	tool_card_tooltip.update_with_tool_data(tool_data, target_field)
 	_display_tool_tip.call_deferred(tool_card_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
 	return tool_card_tooltip
 

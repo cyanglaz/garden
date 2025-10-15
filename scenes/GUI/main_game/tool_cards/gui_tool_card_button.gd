@@ -61,7 +61,7 @@ func _ready() -> void:
 func update_with_tool_data(td:ToolData) -> void:
 	_weak_tool_data = weakref(td)
 	if !tool_data.actions.is_empty():
-		_gui_action_list.update(tool_data.actions)
+		_gui_action_list.update(tool_data.actions, Singletons.main_game.field_container.mouse_field)
 	if !tool_data.get_display_description().is_empty():
 		_rich_text_label.text = tool_data.get_display_description()
 	if tool_data.get_final_energy_cost() >= 0:
@@ -130,7 +130,7 @@ func _on_mouse_entered() -> void:
 		if mouse_in && !tool_data.actions.is_empty():
 			if _weak_actions_tooltip.get_ref():
 				return
-			_weak_actions_tooltip = weakref(Util.display_tool_card_tooltip(tool_data, self, false, GUITooltip.TooltipPosition.RIGHT, true))
+			_weak_actions_tooltip = weakref(Util.display_tool_card_tooltip(tool_data, Singletons.main_game.field_container.mouse_field, self, false, GUITooltip.TooltipPosition.RIGHT, true))
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()

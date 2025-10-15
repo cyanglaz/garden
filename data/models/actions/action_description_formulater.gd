@@ -4,13 +4,13 @@ extends RefCounted
 const HIGHLIGHT_COLOR := Constants.COLOR_WHITE
 const X_DESCRIPTION_HIGHLIGHT_COLOR := Constants.COLOR_BLUE_2
 
-static func get_action_description(action_data:ActionData) -> String:
+static func get_action_description(action_data:ActionData, target_field:Field) -> String:
 	var action_description := ""
 	match action_data.type:
 		ActionData.ActionType.LIGHT, ActionData.ActionType.WATER:
-			action_description = _get_field_action_description(action_data)
+			action_description = _get_field_action_description(action_data, target_field)
 		ActionData.ActionType.ENERGY || ActionData.ActionType.UPDATE_X:
-			action_description = _get_resource_update_action_description(action_data)
+			action_description = _get_resource_update_action_description(action_data, target_field)
 		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
 			#action_description = _get_field_action_description(action_data)
 			#action_description += "\n\n"
@@ -18,16 +18,16 @@ static func get_action_description(action_data:ActionData) -> String:
 		ActionData.ActionType.WEATHER_SUNNY, ActionData.ActionType.WEATHER_RAINY:
 			action_description = _get_weather_action_description(action_data)
 		ActionData.ActionType.DRAW_CARD:
-			action_description = _get_draw_card_action_description(action_data)
+			action_description = _get_draw_card_action_description(action_data, target_field)
 		ActionData.ActionType.DISCARD_CARD:
-			action_description = _get_discard_card_action_description(action_data)
+			action_description = _get_discard_card_action_description(action_data, target_field)
 		ActionData.ActionType.NONE:
 			pass
 	if action_description.contains("%s"):
-		action_description = action_description % _get_value_text(action_data)
+		action_description = action_description % _get_value_text(action_data, target_field)
 	
 	if action_data.value_type == ActionData.ValueType.X:
-		action_description += str(Util.get_localized_string("PUNCTUATION_COMMA"), _get_x_value_text(action_data))
+		action_description += str(Util.get_localized_string("PUNCTUATION_COMMA"), _get_x_value_text(action_data, target_field))
 
 	var period_string := Util.get_localized_string("PUNCTUATION_PERIOD").trim_suffix(" ")
 	if !action_description.ends_with(period_string):
@@ -60,8 +60,8 @@ static func get_special_description(special:ToolData.Special) -> String:
 			assert(false, "Invalid special: %s" % special)
 	return special_description
 
-static func _get_field_action_description(action_data:ActionData) -> String:
-	var main_description := _get_action_value_update_description(action_data)
+static func _get_field_action_description(action_data:ActionData, target_field:Field) -> String:
+	var main_description := _get_action_value_update_description(action_data, target_field)
 	var field_string := ""
 	if action_data.specials.has(ActionData.Special.ALL_FIELDS):
 		field_string = Util.get_localized_string("ACTION_ALL_FIELDS_TEXT")
@@ -70,11 +70,11 @@ static func _get_field_action_description(action_data:ActionData) -> String:
 	main_description += Util.convert_to_bbc_highlight_text(field_string, HIGHLIGHT_COLOR)
 	return main_description
 
-static func _get_resource_update_action_description(action_data:ActionData) -> String:
-	var main_description := _get_action_value_update_description(action_data)
+static func _get_resource_update_action_description(action_data:ActionData, target_field:Field) -> String:
+	var main_description := _get_action_value_update_description(action_data, target_field)
 	return main_description
 
-static func _get_action_value_update_description(action_data:ActionData) -> String:
+static func _get_action_value_update_description(action_data:ActionData, target_field:Field) -> String:
 	var main_description := ""
 	match action_data.operator_type:
 		ActionData.OperatorType.UPDATE_BY:
@@ -83,7 +83,7 @@ static func _get_action_value_update_description(action_data:ActionData) -> Stri
 			main_description = Util.get_localized_string("ACTION_VALUE_DESCRIPTION_EQUAL")
 	var action_name := Util.get_action_name_from_action_type(action_data.type)
 	action_name = Util.convert_to_bbc_highlight_text(action_name, HIGHLIGHT_COLOR)
-	main_description = main_description % [action_name, _get_value_text(action_data)]
+	main_description = main_description % [action_name, _get_value_text(action_data, target_field)]
 	return main_description
 
 static func _get_weather_action_description(action_data:ActionData) -> String:
@@ -100,17 +100,17 @@ static func _get_weather_action_description(action_data:ActionData) -> String:
 	main_description = main_description % [weather_name]
 	return main_description
 
-static func _get_draw_card_action_description(action_data:ActionData) -> String:
+static func _get_draw_card_action_description(action_data:ActionData, target_field:Field) -> String:
 	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_DRAW_CARD")
-	main_description = main_description % [_get_value_text(action_data)]
+	main_description = main_description % [_get_value_text(action_data, target_field)]
 	return main_description
 
-static func _get_discard_card_action_description(action_data:ActionData) -> String:
+static func _get_discard_card_action_description(action_data:ActionData, target_field:Field) -> String:
 	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_DISCARD_CARD")
-	main_description = main_description % [_get_value_text(action_data)]
+	main_description = main_description % [_get_value_text(action_data, target_field)]
 	return main_description
 
-static func _get_value_text(action_data:ActionData) -> String:
+static func _get_value_text(action_data:ActionData, target_field:Field) -> String:
 	var value_text := ""
 	var highlight_color := HIGHLIGHT_COLOR
 	if action_data.modified_value > 0:
@@ -119,9 +119,9 @@ static func _get_value_text(action_data:ActionData) -> String:
 		highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_RED
 	match action_data.value_type:
 		ActionData.ValueType.NUMBER:
-			value_text = Util.convert_to_bbc_highlight_text(str(action_data.value), highlight_color)
+			value_text = Util.convert_to_bbc_highlight_text(str(action_data.get_calculated_value(target_field)), highlight_color)
 		ActionData.ValueType.RANDOM:
-			value_text = Util.convert_to_bbc_highlight_text(str(action_data.value), HIGHLIGHT_COLOR)
+			value_text = Util.convert_to_bbc_highlight_text(str(action_data.get_calculated_value(target_field)), HIGHLIGHT_COLOR)
 			value_text += Util.convert_to_bbc_highlight_text(Util.get_localized_string("ACTION_VALUE_RANDOM"), highlight_color)
 		ActionData.ValueType.X:
 			value_text = Util.convert_to_bbc_highlight_text(Util.get_localized_string("ACTION_VALUE_X"), X_DESCRIPTION_HIGHLIGHT_COLOR)
@@ -129,12 +129,12 @@ static func _get_value_text(action_data:ActionData) -> String:
 			assert(false, "Invalid value type: %s" % action_data.value_type)
 	return value_text
 
-static func _get_x_value_text(action_data:ActionData) -> String:
+static func _get_x_value_text(action_data:ActionData, target_field:Field) -> String:
 	var main_description := Util.get_localized_string("ACTION_X_DESCRIPTION")
 	var x_value_text := ""
 	match action_data.x_value_type:
 		ActionData.XValueType.NUMBER:
-			x_value_text = str(action_data.x_value)
+			x_value_text = str(action_data.get_calculated_x_value(target_field))
 		ActionData.XValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
 			x_value_text = Util.get_localized_string("ACTION_VALUE_HAND_CARDS")
 		ActionData.XValueType.TARGET_LIGHT:

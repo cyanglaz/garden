@@ -68,12 +68,10 @@ var _original_x_value:int
 func copy(other:ThingData) -> void:
 	super.copy(other)
 	type = other.type
-	value = other.value
 	value_type = other.value_type
 	specials = other.specials.duplicate()
 	modified_value = other.modified_value
 	operator_type = other.operator_type
-	x_value = other.x_value
 	x_value_type = other.x_value_type
 	_original_value = other._original_value
 	modified_x_value = other.modified_x_value
@@ -83,6 +81,31 @@ func get_duplicate() -> ThingData:
 	var action_data:ActionData = ActionData.new()
 	action_data.copy(self)
 	return action_data
+
+func get_calculated_value(target_field:Field) -> int:
+	var base_value := 0
+	match value_type:
+		ValueType.NUMBER:
+			base_value = _original_value
+		ValueType.RANDOM:
+			return -1
+		ValueType.X:
+			base_value = get_calculated_x_value(target_field)
+	return modified_value + base_value
+
+func get_calculated_x_value(target_field:Field) -> int:
+	var base_x_value := 0
+	match x_value_type:
+		XValueType.NUMBER:
+			base_x_value = _original_x_value
+		XValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
+			base_x_value = Singletons.main_game.tool_manager.tool_deck.hand.size() - 1
+		XValueType.TARGET_LIGHT:
+			if target_field && target_field.plant:
+				base_x_value = target_field.plant.light.value
+			else:
+				base_x_value = 0
+	return modified_x_value + base_x_value
 
 func _get_action_category() -> ActionCategory:
 	if FIELD_ACTION_TYPES.has(type):
@@ -96,26 +119,13 @@ func _get_action_category() -> ActionCategory:
 func _set_value(val:int) -> void:
 	_original_value = val
 
-func _get_value() -> int:
-	match value_type:
-		ValueType.NUMBER:
-			return modified_value + _original_value
-		ValueType.RANDOM:
-			return -1
-		ValueType.X:
-			return x_value
-	return modified_value + _original_value
-
 func _set_x_value(val:int) -> void:
 	_original_x_value = val
 
+func _get_value() -> int:
+	assert(false, "use get_calculated_value instead")
+	return _original_value
+
 func _get_x_value() -> int:
-	var base_x_value := 0
-	match x_value_type:
-		XValueType.NUMBER:
-			base_x_value = _original_x_value
-		XValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
-			if Singletons.main_game.tool_manager:
-				# -1 to exclude the selected tool
-				base_x_value = Singletons.main_game.tool_manager.tool_deck.hand.size() - 1
-	return modified_x_value + base_x_value
+	assert(false, "use get_calculated_x_value instead")
+	return _original_x_value

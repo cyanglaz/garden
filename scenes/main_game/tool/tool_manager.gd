@@ -147,7 +147,7 @@ func _get_num_card_need_to_select(tool_data:ToolData) -> int:
 		return tool_data.tool_script.number_of_secondary_cards_to_select()
 	for action:ActionData in tool_data.actions:
 		if action.type in ActionData.NEED_CARD_SELECTION:
-			return action.value
+			return action.get_calculated_value(null)
 	return 0
 
 func _get_secondary_cards_to_select_from(tool_data:ToolData) -> Array:
