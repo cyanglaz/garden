@@ -1,8 +1,9 @@
 class_name GUIToolCardButton
 extends GUIBasicButton
 
-signal _dissolve_finished()
 signal use_card_button_pressed()
+signal _dissolve_finished()
+signal _transform_finished()
 
 enum CardState {
 	NORMAL,
@@ -23,7 +24,6 @@ const HIGHLIGHTED_OFFSET := 1.0
 
 @onready var _gui_action_list: GUIActionList = %GUIActionList
 @onready var _card_container: Control = %CardContainer
-@onready var _background: NinePatchRect = %Background
 @onready var _title: Label = %Title
 @onready var _card_content: Control = %CardContent
 @onready var _specials_container: VBoxContainer = %SpecialsContainer
@@ -33,6 +33,8 @@ const HIGHLIGHTED_OFFSET := 1.0
 @onready var _animation_player: AnimationPlayer = %AnimationPlayer
 @onready var _overlay: NinePatchRect = %Overlay
 @onready var _gui_use_card_button: GUIUseCardButton = %GUIUseCardButton
+@onready var _gui_tool_card_background: GUIToolCardBackground = %GUIToolCardBackground
+@onready var _animating_foreground: GUIToolCardBackground = %AnimatingForeground
 
 var mouse_disabled:bool = true: set = _set_mouse_disabled
 var activated := false: set = _set_activated
@@ -57,6 +59,7 @@ func _ready() -> void:
 	_animation_player.animation_finished.connect(_on_animation_finished)
 	_gui_use_card_button.pressed.connect(_on_use_button_pressed)
 	_gui_use_card_button.hide()
+	_animating_foreground.hide()
 
 func update_with_tool_data(td:ToolData) -> void:
 	if Singletons.main_game && !Singletons.main_game.field_container.mouse_field_updated.is_connected(_on_mouse_field_updated):
@@ -71,15 +74,7 @@ func update_with_tool_data(td:ToolData) -> void:
 	else:
 		_cost_icon.hide()
 	_title.text = tool_data.display_name
-	match tool_data.rarity:
-		-1:
-			_background.region_rect.position.x = 0
-		0:
-			_background.region_rect.position.x = 40
-		1:
-			_background.region_rect.position.x = 80	
-		2:
-			_background.region_rect.position.x = 120
+	_gui_tool_card_background.update_with_rarity(tool_data.rarity)
 	Util.remove_all_children(_specials_container)
 	for special in tool_data.specials:
 		var special_icon := SPECIAL_ICON_SCENE.instantiate()
@@ -99,6 +94,15 @@ func play_exhaust_animation() -> void:
 	_animation_player.play("dissolve")
 	GlobalSoundManager.play_sound(EXHAUST_SOUND)
 	await _dissolve_finished
+
+func animated_transform(old_rarity:int) -> void:
+	has_outline = true
+	_animating_foreground.update_with_rarity(old_rarity)
+	update_with_tool_data(tool_data)
+	_animation_player.play("transform")
+	GlobalSoundManager.play_sound(EXHAUST_SOUND)
+	await _transform_finished
+	has_outline = false
 
 func play_error_shake_animation() -> void:
 	await Util.play_error_shake_animation(self, "_container_offset", Vector2.ZERO)
@@ -231,11 +235,7 @@ func _set_resource_sufficient(value:bool) -> void:
 
 func _set_has_outline(val:bool) -> void:
 	has_outline = val
-	if has_outline:
-		_background.material.set_shader_parameter("outline_color", _cost_icon.self_modulate)
-		_background.material.set_shader_parameter("outline_size", 1)
-	else:
-		_background.material.set_shader_parameter("outline_size", 0)
+	_gui_tool_card_background.toggle_outline(has_outline, _cost_icon.self_modulate)
 
 func _set_disabled(value:bool) -> void:
 	disabled = value
@@ -243,11 +243,14 @@ func _set_disabled(value:bool) -> void:
 		_cost_icon.self_modulate = Constants.CARD_DISABLED_COLOR
 	else:
 		_set_resource_sufficient(resource_sufficient)
+	
 #region events
 
 func _on_animation_finished(anim_name:String) -> void:
 	if anim_name == "dissolve":
 		_dissolve_finished.emit()
+	if anim_name == "transform":
+		_transform_finished.emit()
 
 func _on_tool_data_refresh() -> void:
 	update_with_tool_data(tool_data)

@@ -117,8 +117,9 @@ func add_temp_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vec
 	await _gui_tool_card_container.animate_add_cards_to_hand(tool_deck.hand, tool_datas, from_global_position, pause)
 
 func update_tool_card(tool_data:ToolData, new_tool_data:ToolData) -> void:
+	var old_rarity = tool_data.rarity
 	tool_data.copy(new_tool_data)
-	tool_data.request_refresh.emit()
+	_gui_tool_card_container.find_card(tool_data).animated_transform(old_rarity)
 
 func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)
