@@ -74,6 +74,7 @@ func _ready() -> void:
 		
 	tool_manager.tool_application_started.connect(_on_tool_application_started)
 	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
+	tool_manager.tool_application_error.connect(_on_tool_application_error)
 
 	#gui main signals
 	gui_main_game.update_player(player)
@@ -387,6 +388,9 @@ func _on_tool_application_completed(tool_data:ToolData) -> void:
 		tool_manager.card_use_limit_reached = true
 	await power_manager.handle_tool_application_hook(self, tool_data)
 	gui_main_game.toggle_all_ui(true)
+
+func _on_tool_application_error(_tool_data:ToolData, _warning_type:WarningManager.WarningType) -> void:
+	_clear_tool_selection()
 
 func _on_field_harvest_started() -> void:
 	pass

@@ -47,7 +47,14 @@ enum Special {
 	ALL_FIELDS,
 }
 
-const NEED_CARD_SELECTION := [ActionType.DISCARD_CARD]
+enum CardSelectionType {
+	RESTRICTED,
+	NON_RESTRICTED,
+}
+
+const RESTRICTED_CARD_SELECTION_TYPES := [] # The action cannot be performed if not enough cards to select from.
+const NON_RESTRICTED_CARD_SELECTION_TYPES := [ActionType.DISCARD_CARD] # The action can be partially performed if not enough cards to select from.
+const NEED_CARD_SELECTION := RESTRICTED_CARD_SELECTION_TYPES + NON_RESTRICTED_CARD_SELECTION_TYPES
 const CARD_ACTION_TYPES := [ActionType.DRAW_CARD, ActionType.DISCARD_CARD]
 const FIELD_ACTION_TYPES := [ActionType.LIGHT, ActionType.WATER, ActionType.PEST, ActionType.FUNGUS, ActionType.RECYCLE, ActionType.GREENHOUSE, ActionType.SEEP]
 const WEATHER_ACTION_TYPES := [ActionType.WEATHER_SUNNY, ActionType.WEATHER_RAINY]
@@ -61,6 +68,7 @@ const WEATHER_ACTION_TYPES := [ActionType.WEATHER_SUNNY, ActionType.WEATHER_RAIN
 @export var x_value_type:XValueType = XValueType.NUMBER
 
 var action_category:ActionCategory: get = _get_action_category
+var card_selection_type:CardSelectionType: get = _get_card_selection_type
 var modified_value:int
 var modified_x_value:int
 var _original_value:int
@@ -130,3 +138,10 @@ func _get_value() -> int:
 func _get_x_value() -> int:
 	assert(false, "use get_calculated_x_value instead")
 	return _original_x_value
+
+func _get_card_selection_type() -> CardSelectionType:
+	if RESTRICTED_CARD_SELECTION_TYPES.has(type):
+		return CardSelectionType.RESTRICTED
+	elif NON_RESTRICTED_CARD_SELECTION_TYPES.has(type):
+		return CardSelectionType.NON_RESTRICTED
+	return CardSelectionType.NON_RESTRICTED

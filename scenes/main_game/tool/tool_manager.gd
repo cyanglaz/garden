@@ -5,6 +5,7 @@ const IN_USE_PAUSE := 0.2
 
 signal tool_application_started(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
+signal tool_application_error(tool_data:ToolData, warning_type:WarningManager.WarningType)
 signal _tool_lifecycle_completed(tool_data:ToolData)
 signal _tool_actions_completed(tool_data:ToolData)
 
@@ -81,20 +82,21 @@ func select_tool(tool_data:ToolData) -> void:
 
 func apply_tool(main_game:MainGame, fields:Array, field_index:int) -> void:
 	var applying_tool = selected_tool
-	var number_of_cards_to_select := _get_num_card_need_to_select(applying_tool)
-	var random := _get_is_random_secondary_card_selection(applying_tool)
+	var number_of_cards_to_select := applying_tool.get_number_of_secondary_cards_to_select()
+	var random := applying_tool.get_is_random_secondary_card_selection()
 	var secondary_card_datas:Array = []
 	if number_of_cards_to_select > 0:
 		var selecting_from_cards = _get_secondary_cards_to_select_from(applying_tool)
-		number_of_cards_to_select = mini(number_of_cards_to_select, selecting_from_cards.size())
-		if number_of_cards_to_select == 0:
-			print("no available cards to select")
+		var actual_number_of_cards_to_select = mini(number_of_cards_to_select, selecting_from_cards.size())
+		if actual_number_of_cards_to_select < number_of_cards_to_select:
+			await _gui_tool_card_container.animate_card_error_shake(applying_tool, WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
+			tool_application_error.emit(applying_tool, WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
 			return
 		if random:
-			secondary_card_datas = Util.unweighted_roll(selecting_from_cards, mini(number_of_cards_to_select, selecting_from_cards.size()))
+			secondary_card_datas = Util.unweighted_roll(selecting_from_cards, mini(actual_number_of_cards_to_select, selecting_from_cards.size()))
 		else:
 			# Some actions need to select cards, for example discard, compost
-			secondary_card_datas = await _gui_tool_card_container.select_secondary_cards(number_of_cards_to_select, selecting_from_cards)
+			secondary_card_datas = await _gui_tool_card_container.select_secondary_cards(actual_number_of_cards_to_select, selecting_from_cards)
 	number_of_card_used_this_turn += 1
 	_run_card_actions(main_game, fields, field_index, applying_tool, secondary_card_datas)
 	_run_card_lifecycle(applying_tool)
@@ -151,21 +153,6 @@ func _run_card_actions(main_game:MainGame, fields:Array, field_index:int, tool_d
 	await _tool_applier.apply_tool(main_game, fields, field_index, tool_data, secondary_card_datas, null)
 	_tool_actions_queue.erase(tool_data)
 	_tool_actions_completed.emit(tool_data)
-
-func _get_num_card_need_to_select(tool_data:ToolData) -> int:
-	if tool_data.tool_script && tool_data.tool_script.number_of_secondary_cards_to_select() > 0:
-		return tool_data.tool_script.number_of_secondary_cards_to_select()
-	for action:ActionData in tool_data.actions:
-		if action.type in ActionData.NEED_CARD_SELECTION:
-			return action.get_calculated_value(null)
-	return 0
-
-func _get_is_random_secondary_card_selection(tool_data:ToolData) -> bool:
-	for action:ActionData in tool_data.actions:
-		if action.type in ActionData.NEED_CARD_SELECTION:
-			if action.value_type == ActionData.ValueType.RANDOM:
-				return true
-	return false
 
 func _get_secondary_cards_to_select_from(tool_data:ToolData) -> Array:
 	var selecting_from_cards:Array = tool_deck.hand.duplicate()

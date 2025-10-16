@@ -160,6 +160,11 @@ func animate_add_cards_to_hand(hand:Array, tool_datas:Array, from_global_positio
 func animate_exhaust(tool_datas:Array) -> void:
 	await _gui_tool_card_animation_container.animate_exhaust(tool_datas)
 
+func animate_card_error_shake(tool_data:ToolData, warning_type:WarningManager.WarningType) -> void:
+	var card:GUIToolCardButton = find_card(tool_data)
+	await card.play_error_shake_animation()
+	Singletons.main_game.show_warning(warning_type)
+
 #endregion
 
 func get_card(index:int) -> GUIToolCardButton:

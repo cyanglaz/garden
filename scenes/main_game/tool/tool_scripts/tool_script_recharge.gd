@@ -19,3 +19,6 @@ func number_of_secondary_cards_to_select() -> int:
 func secondary_card_selection_filter() -> Callable:
 	return func(tool_data:ToolData) -> bool:
 		return tool_data.id in ["solar_battery"]
+
+func get_card_selection_type() -> ActionData.CardSelectionType:
+	return ActionData.CardSelectionType.RESTRICTED
