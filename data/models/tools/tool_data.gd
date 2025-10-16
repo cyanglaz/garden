@@ -53,6 +53,7 @@ func copy(other:ThingData) -> void:
 	turn_energy_modifier = other_tool.turn_energy_modifier
 	type = other_tool.type
 	level_energy_modifier = other_tool.level_energy_modifier
+	_tool_script = null # Refresh tool script on copy
 
 func refresh_for_turn() -> void:
 	turn_energy_modifier = 0

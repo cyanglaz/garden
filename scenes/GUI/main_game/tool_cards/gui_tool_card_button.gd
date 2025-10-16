@@ -63,8 +63,7 @@ func update_with_tool_data(td:ToolData) -> void:
 		Singletons.main_game.field_container.mouse_field_updated.connect(_on_mouse_field_updated)
 
 	_weak_tool_data = weakref(td)
-	if !tool_data.actions.is_empty():
-		_gui_action_list.update(tool_data.actions, Singletons.main_game.field_container.mouse_field)
+	_gui_action_list.update(tool_data.actions, Singletons.main_game.field_container.mouse_field)
 	if !tool_data.get_display_description().is_empty():
 		_rich_text_label.text = tool_data.get_display_description()
 	if tool_data.get_final_energy_cost() >= 0:
