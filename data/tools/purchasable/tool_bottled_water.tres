@@ -9,7 +9,7 @@ energy_cost = 0
 specials = Array[int]([1])
 id = "bottled_water"
 display_name = "Bottled Water"
-description = "+{gain} {resource:water}. Create an {card:empty_bottle} in your hand."
+description = "+{gain} {resource:water}. Shuffle an {card:empty_bottle} to the discard pile."
 data = {
 "gain": "1"
 }

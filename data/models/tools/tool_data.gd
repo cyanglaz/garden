@@ -38,6 +38,8 @@ var tool_script:ToolScript : get = _get_tool_script
 var turn_energy_modifier:int
 var level_energy_modifier:int
 
+var _tool_script:ToolScript
+
 func copy(other:ThingData) -> void:
 	super.copy(other)
 	var other_tool: ToolData = other as ToolData
@@ -76,9 +78,12 @@ func _get_cost() -> int:
 	return COSTS[rarity]
 
 func _get_tool_script() -> ToolScript:
+	if _tool_script:
+		return _tool_script
 	var script_path := TOOL_SCRIPT_PATH % [id]
 	if ResourceLoader.exists(script_path):
-		return load(script_path).new()
+		_tool_script = load(script_path).new()
+		return _tool_script
 	else:
 		return null
 	
