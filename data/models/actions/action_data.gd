@@ -16,6 +16,7 @@ enum ActionType {
 	SEEP,
 	ENERGY,
 	UPDATE_X,
+	UPDATE_GOLD,
 }
 
 enum ActionCategory {

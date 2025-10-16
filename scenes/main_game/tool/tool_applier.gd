@@ -66,6 +66,8 @@ func _apply_instant_use_tool_action(action:ActionData, main_game:MainGame, tool_
 			await _handle_discard_card_action(action, main_game, tool_data, secondary_card_datas)
 		ActionData.ActionType.ENERGY:
 			main_game.energy_tracker.restore(action.get_calculated_value(null))
+		ActionData.ActionType.UPDATE_GOLD:
+			await main_game.update_gold(action.get_calculated_value(null), true)
 		ActionData.ActionType.UPDATE_X:
 			var x_action:ActionData
 			for action_data:ActionData in tool_data.actions:

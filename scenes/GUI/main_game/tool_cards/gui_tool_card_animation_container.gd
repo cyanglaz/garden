@@ -291,11 +291,15 @@ func _animate_add_card_to_hand(animation_item:AnimationQueueItem) -> void:
 	for i in hand.size():
 		var display_pause_time := 0.0
 		var animating_card:GUIToolCardButton
+		var card_local_position:Vector2 = card_positions[i]
+		var target_global_position:Vector2 = _tool_card_container.global_position + card_local_position
 		if i < exiting_card_count:
 			animating_card = _tool_card_container.get_card(i)
 			assert(!new_tool_datas.has(animating_card.tool_data))
 		else:
 			animating_card = _tool_card_container.add_card(new_tool_datas[i - exiting_card_count])
+			if from_global_position == Vector2.ZERO:
+				from_global_position = target_global_position
 			animating_card.hide()
 			animating_card.animation_mode = true
 			animating_card.global_position = from_global_position
@@ -308,8 +312,6 @@ func _animate_add_card_to_hand(animation_item:AnimationQueueItem) -> void:
 				animating_card.show()
 				await Util.create_scaled_timer(display_pause_time).timeout
 				animating_card.play_move_sound())
-		var card_local_position:Vector2 = card_positions[i]
-		var target_global_position:Vector2 = _tool_card_container.global_position + card_local_position
 		tween.tween_property(animating_card, "global_position", target_global_position, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index + display_pause_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index + display_pause_time).timeout.connect(func(): 
 			animating_card.mouse_disabled = false

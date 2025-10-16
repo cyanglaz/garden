@@ -160,19 +160,23 @@ func _get_secondary_cards_to_select_from(tool_data:ToolData) -> Array:
 		selecting_from_cards = selecting_from_cards.filter(filter)
 	return selecting_from_cards
 
+func _handle_tool_application_completed(tool_data:ToolData) -> void:
+	_tool_application_queue.erase(tool_data)
+	if tool_data.tool_script:
+		await tool_data.tool_script.handle_post_application_hook(tool_data)
+	tool_application_completed.emit(tool_data)
+
 #region events
 
 func _on_tool_lifecycle_completed(tool_data:ToolData) -> void:
 	assert(!_tool_lifecycle_queue.has(tool_data))
 	if !_tool_lifecycle_queue.has(tool_data) && _tool_application_queue.has(tool_data):
-		_tool_application_queue.erase(tool_data)
-		tool_application_completed.emit(tool_data)
+		_handle_tool_application_completed(tool_data)
 
 func _on_tool_actions_completed(tool_data:ToolData) -> void:
 	assert(!_tool_actions_queue.has(tool_data))
 	if !_tool_actions_queue.has(tool_data) && _tool_application_queue.has(tool_data):
-		_tool_application_queue.erase(tool_data)
-		tool_application_completed.emit(tool_data)
+		_handle_tool_application_completed(tool_data)
 
 func _on_hand_updated() -> void:
 	for tool_data in tool_deck.hand:

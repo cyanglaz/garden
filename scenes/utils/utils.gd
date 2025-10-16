@@ -380,6 +380,8 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "energy"
 		ActionData.ActionType.UPDATE_X:
 			id = "update_x"
+		ActionData.ActionType.UPDATE_GOLD:
+			id = "gain_gold"
 		ActionData.ActionType.NONE:
 			pass
 	return id
@@ -446,6 +448,8 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 			action_name = Util.get_localized_string("ACTION_NAME_ENERGY")
 		ActionData.ActionType.UPDATE_X:
 			action_name = Util.get_localized_string("ACTION_NAME_UPDATE_X")
+		ActionData.ActionType.UPDATE_GOLD:
+			action_name = Util.get_localized_string("ACTION_NAME_UPDATE_GOLD")
 		ActionData.ActionType.NONE:
 			pass
 	return action_name

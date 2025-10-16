@@ -9,7 +9,7 @@ static func get_action_description(action_data:ActionData, target_field:Field) -
 	match action_data.type:
 		ActionData.ActionType.LIGHT, ActionData.ActionType.WATER:
 			action_description = _get_field_action_description(action_data, target_field)
-		ActionData.ActionType.ENERGY || ActionData.ActionType.UPDATE_X:
+		ActionData.ActionType.ENERGY, ActionData.ActionType.UPDATE_X, ActionData.ActionType.UPDATE_GOLD:
 			action_description = _get_resource_update_action_description(action_data, target_field)
 		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
 			#action_description = _get_field_action_description(action_data)

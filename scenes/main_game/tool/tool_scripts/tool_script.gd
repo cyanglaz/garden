@@ -15,3 +15,6 @@ func number_of_secondary_cards_to_select() -> int:
 func secondary_card_selection_filter() -> Callable:
 	return func(_tool_data:ToolData) -> bool:
 		return true
+
+func handle_post_application_hook(_tool_data:ToolData) -> void:
+	await Util.await_for_tiny_time()

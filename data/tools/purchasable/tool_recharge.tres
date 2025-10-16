@@ -10,7 +10,7 @@ rarity = 2
 specials = Array[int]([1])
 id = "recharge"
 display_name = "Recharge"
-description = "Sets a {card:solar_battery}'s {resource:light} gain to its original value."
+description = "Resets a {card:solar_battery} card."
 note = "+3 light
 -1 light per use"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"
