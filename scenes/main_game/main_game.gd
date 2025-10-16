@@ -179,7 +179,7 @@ func hide_warning(type:WarningManager.WarningType) -> void:
 #region private
 
 func _start_new_chapter() -> void:
-	_level = 3
+	_level = 0
 	chapter_manager.next_chapter()
 	weather_manager.generate_next_weathers(chapter_manager.current_chapter)
 	contract_generator.generate_contracts(chapter_manager.current_chapter)
@@ -193,9 +193,12 @@ func _select_contract() -> void:
 	var picked_contracts := contract_generator.pick_contracts(CONTRACT_COUNT, _level)
 	gui_main_game.animate_show_contract_selection(picked_contracts)
   
-func _start_new_level() -> void:
+func _start_new_level(contract_data:ContractData) -> void:
+	assert(_level <= ContractGenerator.BOSS_LEVEL)
 	if test_contract:
 		_selected_contract = test_contract
+	else:
+		_selected_contract = contract_data
 	game_modifier_manager.apply_modifiers(GameModifier.ModifierTiming.LEVEL)
 	boost = 1
 	gui_main_game.show_current_contract(_selected_contract)
@@ -357,8 +360,7 @@ func _on_tool_shop_button_pressed(tool_data:ToolData) -> void:
 	tool_manager.add_tool_to_deck(tool_data)
 
 func _on_contract_selected(contract_data:ContractData) -> void:
-	_selected_contract = contract_data
-	_start_new_level()
+	_start_new_level(contract_data)
 
 func _on_reward_finished(tool_data:ToolData) -> void:
 	if _selected_contract.contract_type == ContractData.ContractType.BOSS:
