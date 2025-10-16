@@ -89,14 +89,15 @@ func apply_tool(main_game:MainGame, fields:Array, field_index:int) -> void:
 		var selecting_from_cards = _get_secondary_cards_to_select_from(applying_tool)
 		var actual_number_of_cards_to_select = mini(number_of_cards_to_select, selecting_from_cards.size())
 		if actual_number_of_cards_to_select < number_of_cards_to_select:
-			await _gui_tool_card_container.animate_card_error_shake(applying_tool, WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
-			tool_application_error.emit(applying_tool, WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
-			return
-		if random:
-			secondary_card_datas = Util.unweighted_roll(selecting_from_cards, mini(actual_number_of_cards_to_select, selecting_from_cards.size()))
+			if applying_tool.get_card_selection_type() == ActionData.CardSelectionType.RESTRICTED:
+				await _gui_tool_card_container.animate_card_error_shake(applying_tool, WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
+				tool_application_error.emit(applying_tool, WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
 		else:
-			# Some actions need to select cards, for example discard, compost
-			secondary_card_datas = await _gui_tool_card_container.select_secondary_cards(actual_number_of_cards_to_select, selecting_from_cards)
+			if random:
+				secondary_card_datas = Util.unweighted_roll(selecting_from_cards, mini(actual_number_of_cards_to_select, selecting_from_cards.size()))
+			else:
+				# Some actions need to select cards, for example discard, compost
+				secondary_card_datas = await _gui_tool_card_container.select_secondary_cards(actual_number_of_cards_to_select, selecting_from_cards)
 	number_of_card_used_this_turn += 1
 	_run_card_actions(main_game, fields, field_index, applying_tool, secondary_card_datas)
 	_run_card_lifecycle(applying_tool)

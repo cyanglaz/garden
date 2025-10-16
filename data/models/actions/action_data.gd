@@ -69,6 +69,7 @@ const WEATHER_ACTION_TYPES := [ActionType.WEATHER_SUNNY, ActionType.WEATHER_RAIN
 
 var action_category:ActionCategory: get = _get_action_category
 var card_selection_type:CardSelectionType: get = _get_card_selection_type
+var need_card_selection:bool: get = _get_need_card_selection
 var modified_value:int
 var modified_x_value:int
 var _original_value:int
@@ -145,3 +146,6 @@ func _get_card_selection_type() -> CardSelectionType:
 	elif NON_RESTRICTED_CARD_SELECTION_TYPES.has(type):
 		return CardSelectionType.NON_RESTRICTED
 	return CardSelectionType.NON_RESTRICTED
+
+func _get_need_card_selection() -> bool:
+	return NEED_CARD_SELECTION.has(type)

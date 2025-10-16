@@ -79,7 +79,7 @@ func get_number_of_secondary_cards_to_select() -> int:
 	if tool_script && tool_script.number_of_secondary_cards_to_select() > 0:
 		return tool_script.number_of_secondary_cards_to_select()
 	for action:ActionData in actions:
-		if action.type in ActionData.NEED_CARD_SELECTION:
+		if action.need_card_selection:
 			return action.get_calculated_value(null)
 	return 0
 
@@ -89,6 +89,14 @@ func get_is_random_secondary_card_selection() -> bool:
 			if action.value_type == ActionData.ValueType.RANDOM:
 				return true
 	return false
+
+func get_card_selection_type() -> ActionData.CardSelectionType:
+	if tool_script:
+		return tool_script.get_card_selection_type()
+	for action:ActionData in actions:
+		if action.need_card_selection:
+			return action.card_selection_type
+	return ActionData.CardSelectionType.NON_RESTRICTED
 
 func _get_cost() -> int:
 	return COSTS[rarity]
