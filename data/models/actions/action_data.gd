@@ -89,7 +89,7 @@ func get_calculated_value(target_field:Field) -> int:
 		ValueType.NUMBER:
 			base_value = _original_value
 		ValueType.RANDOM:
-			return -1
+			base_value = _original_value
 		ValueType.X:
 			base_value = get_calculated_x_value(target_field)
 	return modified_value + base_value

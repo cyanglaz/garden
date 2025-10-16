@@ -82,16 +82,19 @@ func select_tool(tool_data:ToolData) -> void:
 func apply_tool(main_game:MainGame, fields:Array, field_index:int) -> void:
 	var applying_tool = selected_tool
 	var number_of_cards_to_select := _get_num_card_need_to_select(applying_tool)
+	var random := _get_is_random_secondary_card_selection(applying_tool)
 	var secondary_card_datas:Array = []
-	print("number_of_cards_to_select: ", number_of_cards_to_select)
 	if number_of_cards_to_select > 0:
 		var selecting_from_cards = _get_secondary_cards_to_select_from(applying_tool)
-		# Some actions need to select cards, for example discard, compost
-		secondary_card_datas = await _gui_tool_card_container.select_secondary_cards(number_of_cards_to_select, selecting_from_cards)
-		if secondary_card_datas.size() != number_of_cards_to_select:
+		number_of_cards_to_select = mini(number_of_cards_to_select, selecting_from_cards.size())
+		if number_of_cards_to_select == 0:
 			print("no available cards to select")
-			applying_tool = null
 			return
+		if random:
+			secondary_card_datas = Util.unweighted_roll(selecting_from_cards, mini(number_of_cards_to_select, selecting_from_cards.size()))
+		else:
+			# Some actions need to select cards, for example discard, compost
+			secondary_card_datas = await _gui_tool_card_container.select_secondary_cards(number_of_cards_to_select, selecting_from_cards)
 	number_of_card_used_this_turn += 1
 	_run_card_actions(main_game, fields, field_index, applying_tool, secondary_card_datas)
 	_run_card_lifecycle(applying_tool)
@@ -156,6 +159,13 @@ func _get_num_card_need_to_select(tool_data:ToolData) -> int:
 		if action.type in ActionData.NEED_CARD_SELECTION:
 			return action.get_calculated_value(null)
 	return 0
+
+func _get_is_random_secondary_card_selection(tool_data:ToolData) -> bool:
+	for action:ActionData in tool_data.actions:
+		if action.type in ActionData.NEED_CARD_SELECTION:
+			if action.value_type == ActionData.ValueType.RANDOM:
+				return true
+	return false
 
 func _get_secondary_cards_to_select_from(tool_data:ToolData) -> Array:
 	var selecting_from_cards:Array = tool_deck.hand.duplicate()
