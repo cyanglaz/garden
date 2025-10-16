@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bbcxpceayay3"]
+[gd_scene load_steps=15 format=3 uid="uid://bbcxpceayay3"]
 
 [ext_resource type="PackedScene" uid="uid://byg0qymapjkn6" path="res://scenes/main_game/field/field_container.tscn" id="1_075iw"]
 [ext_resource type="Script" uid="uid://sc1eubamsw6x" path="res://scenes/main_game/main_game.gd" id="1_yra6k"]
@@ -6,12 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://drjaux1gtvc31" path="res://scenes/utils/camera/feedback_camera_2d.tscn" id="2_yra6k"]
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="3_i3kwu"]
-[ext_resource type="Resource" uid="uid://djqrg2tjtqt7" path="res://data/tools/purchasable/tool_bottled_water.tres" id="6_gl27v"]
 [ext_resource type="Resource" uid="uid://bjr1afoq0lue5" path="res://data/tools/other/tool_water_cache.tres" id="6_ldk84"]
-[ext_resource type="Resource" uid="uid://bcr6do0c5xoad" path="res://data/tools/purchasable/tool_recharge.tres" id="6_r81kp"]
 [ext_resource type="Resource" uid="uid://diu82b74no5rj" path="res://data/tools/purchasable/tool_collect.tres" id="7_4y18v"]
 [ext_resource type="Resource" uid="uid://bfjvutu1dux0h" path="res://data/bosses/boss_the_bramble.tres" id="7_b4n6q"]
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="8_gl27v"]
+[ext_resource type="Resource" uid="uid://cle5bi6japsh5" path="res://data/tools/purchasable/tool_refill.tres" id="8_irrf2"]
 [ext_resource type="Script" uid="uid://ektnj8rt6k0k" path="res://data/models/contracts/contract_data.gd" id="9_4y18v"]
 [ext_resource type="Resource" uid="uid://hsjy22n36v8s" path="res://data/plants/chapter0/plant_data_rose.tres" id="9_gl27v"]
 
@@ -25,7 +24,7 @@ metadata/_custom_type_script = "uid://ektnj8rt6k0k"
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 player = ExtResource("2_8ywsm")
-test_tools = Array[ExtResource("3_i3kwu")]([ExtResource("6_ldk84"), ExtResource("6_r81kp"), ExtResource("6_r81kp"), ExtResource("6_gl27v"), ExtResource("7_4y18v")])
+test_tools = Array[ExtResource("3_i3kwu")]([ExtResource("6_ldk84"), ExtResource("7_4y18v"), ExtResource("8_irrf2")])
 test_contract = SubResource("Resource_irrf2")
 
 [node name="FieldContainer" parent="." instance=ExtResource("1_075iw")]
