@@ -14,14 +14,14 @@ enum BoosterPackType {
 }
 
 const BOOSTER_PACK_CARD_CHANCES := {
-	BoosterPackType.COMMON: [70, 29, 1],
-	BoosterPackType.RARE: [20, 70, 10],
+	BoosterPackType.COMMON: [50, 40, 10],
+	BoosterPackType.RARE: [30, 60, 10],
 	BoosterPackType.LEGENDARY: [0, 0, 100],
 }
 
 const BOOSTER_PACK_CARD_BASE_COUNTS := {
-	BoosterPackType.COMMON: [0, 0 , 0],
-	BoosterPackType.RARE: [ 0, 1, 0],
+	BoosterPackType.COMMON: [2, 0 , 0],
+	BoosterPackType.RARE: [ 0, 2, 0],
 	BoosterPackType.LEGENDARY: [0, 0, 0],
 }
 

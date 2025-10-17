@@ -18,7 +18,7 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 
 func _on_tool_tip_shown() -> void:
 	await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
-	_weak_tool_card_tooltip = weakref(Util.display_tool_card_tooltip(_weak_tool_data.get_ref(), self, false, self.tooltip_position, true))
+	_weak_tool_card_tooltip = weakref(Util.display_tool_card_tooltip(_weak_tool_data.get_ref(), Singletons.main_game.field_container.mouse_field, self, false, self.tooltip_position, true))
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:

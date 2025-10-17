@@ -1,54 +1,167 @@
-[gd_scene load_steps=13 format=3 uid="uid://bacvied61ghpe"]
+[gd_scene load_steps=17 format=3 uid="uid://bacvied61ghpe"]
 
 [ext_resource type="Script" uid="uid://t7x03xkbah7n" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.gd" id="1_a7c0j"]
-[ext_resource type="Shader" uid="uid://6cqmrfdokad8" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.gdshader" id="1_ckxcp"]
 [ext_resource type="AudioStream" uid="uid://q4k3jnocowmn" path="res://resources/sounds/SFX/tool_cards/card_hover.wav" id="2_882ho"]
 [ext_resource type="Texture2D" uid="uid://ugtybr3upkmn" path="res://resources/sprites/GUI/backgrounds/tool_card_background.png" id="2_a7c0j"]
 [ext_resource type="AudioStream" uid="uid://b6grhwuhdlsmf" path="res://resources/sounds/SFX/tool_cards/card_select.wav" id="3_dn2eb"]
 [ext_resource type="PackedScene" uid="uid://cjwhkrmueycbi" path="res://scenes/GUI/shared/descriptions/shared_description/gui_action_list.tscn" id="4_882ho"]
+[ext_resource type="PackedScene" uid="uid://i1255yg1aoyk" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_background.tscn" id="4_nheet"]
 [ext_resource type="AudioStream" uid="uid://bgyg7vg7fsae6" path="res://resources/sounds/SFX/tool_cards/card_use.wav" id="5_a7c0j"]
 [ext_resource type="PackedScene" uid="uid://caehhf1p88h3q" path="res://scenes/GUI/controls/buttons/gui_use_card_button.tscn" id="7_dn2eb"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ckxcp"]
+[sub_resource type="Shader" id="Shader_np7v7"]
 resource_local_to_scene = true
-shader = ExtResource("1_ckxcp")
+code = "shader_type canvas_item;
+
+group_uniforms OUTLINE;
+uniform vec4 outline_color:source_color;
+uniform int outline_size = 0;
+
+group_uniforms RESOLVE;
+uniform float sensitivity : hint_range(0.0, 1.0) = .5;
+
+varying vec4 modulate;
+
+void vertex() {
+	modulate = COLOR;
+}
+
+float random(vec2 uv) {
+	return fract(sin(dot(uv, vec2(12.9898, 78.233))) * 438.5453);
+}
+
+void fragment() {
+	
+	vec4 base_color = COLOR;
+	// Get size of texture in pixels
+	float size_x = float(textureSize(TEXTURE, 0).x);
+	float size_y = float(textureSize(TEXTURE, 0).y);
+	
+	float size_x_in_texture = 1.0/size_x;
+	float size_y_in_texture = 1.0/size_y;
+	vec4 sprite_color = texture(TEXTURE, UV);
+	float alpha  = -4.0 * sprite_color.a;
+	alpha += textureLod(TEXTURE, UV + vec2(size_x_in_texture * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(-size_x_in_texture * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, -size_y_in_texture * float(outline_size)), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, size_y_in_texture * float(outline_size)), 0).a;
+	sprite_color = mix(sprite_color, outline_color, clamp(alpha, 0.0, 1.0));
+	sprite_color = vec4(sprite_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
+	base_color = sprite_color;
+
+	vec2 UVr = vec2(floor(UV.x*size_x)/size_x, floor(UV.y*size_y)/size_y);
+	// Determine whether pixel should be visible or not
+	float visible = step(sensitivity, random(UVr));
+	// Draw the pixel, or not depending on if it is visible or not
+	COLOR = vec4(base_color.r, base_color.g, base_color.b, min(visible, base_color.a)) * modulate;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_euhxl"]
+resource_local_to_scene = true
+shader = SubResource("Shader_np7v7")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 shader_parameter/sensitivity = 0.0
+
+[sub_resource type="Shader" id="Shader_nheet"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+group_uniforms OUTLINE;
+uniform vec4 outline_color:source_color;
+uniform int outline_size = 0;
+
+group_uniforms RESOLVE;
+uniform float sensitivity : hint_range(0.0, 1.0) = .5;
+
+varying vec4 modulate;
+
+void vertex() {
+	modulate = COLOR;
+}
+
+float random(vec2 uv) {
+	return fract(sin(dot(uv, vec2(12.9898, 78.233))) * 438.5453);
+}
+
+void fragment() {
+	
+	vec4 base_color = COLOR;
+	// Get size of texture in pixels
+	float size_x = float(textureSize(TEXTURE, 0).x);
+	float size_y = float(textureSize(TEXTURE, 0).y);
+	
+	float size_x_in_texture = 1.0/size_x;
+	float size_y_in_texture = 1.0/size_y;
+	vec4 sprite_color = texture(TEXTURE, UV);
+	float alpha  = -4.0 * sprite_color.a;
+	alpha += textureLod(TEXTURE, UV + vec2(size_x_in_texture * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(-size_x_in_texture * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, -size_y_in_texture * float(outline_size)), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, size_y_in_texture * float(outline_size)), 0).a;
+	sprite_color = mix(sprite_color, outline_color, clamp(alpha, 0.0, 1.0));
+	sprite_color = vec4(sprite_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
+	base_color = sprite_color;
+
+	vec2 UVr = vec2(floor(UV.x*size_x)/size_x, floor(UV.y*size_y)/size_y);
+	// Determine whether pixel should be visible or not
+	float visible = step(sensitivity, random(UVr));
+	// Draw the pixel, or not depending on if it is visible or not
+	COLOR = vec4(base_color.r, base_color.g, base_color.b, min(visible, base_color.a)) * modulate;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_np7v7"]
+resource_local_to_scene = true
+shader = SubResource("Shader_nheet")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/sensitivity = 1.0
 
 [sub_resource type="Animation" id="Animation_882ho"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CardContainer/Background:material:shader_parameter/sensitivity")
+tracks/0/path = NodePath("CardContainer/AnimatingForeground:material:shader_parameter/sensitivity")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [0.0]
+"values": [1.0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
+tracks/1/path = NodePath("CardContainer/AnimatingForeground:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("CardContainer/CardContent:visible")
+tracks/2/path = NodePath("CardContainer/GUIToolCardBackground:material:shader_parameter/sensitivity")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CardContainer/GUIToolCardBackground:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -62,7 +175,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CardContainer/Background:material:shader_parameter/sensitivity")
+tracks/0/path = NodePath("CardContainer/GUIToolCardBackground:material:shader_parameter/sensitivity")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -96,10 +209,52 @@ tracks/2/keys = {
 "values": [false]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_882ho"]
+[sub_resource type="Animation" id="Animation_dn2eb"]
+resource_name = "new_animation"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CardContainer/GUIToolCardBackground:material:shader_parameter/sensitivity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1, 0.4),
+"transitions": PackedFloat32Array(2, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CardContainer/AnimatingForeground:material:shader_parameter/sensitivity")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CardContainer/AnimatingForeground:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dn2eb"]
 _data = {
 &"RESET": SubResource("Animation_882ho"),
-&"dissolve": SubResource("Animation_ckxcp")
+&"dissolve": SubResource("Animation_ckxcp"),
+&"transform": SubResource("Animation_dn2eb")
 }
 
 [node name="GUIToolCardButton" type="PanelContainer"]
@@ -117,21 +272,34 @@ layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="Background" type="NinePatchRect" parent="CardContainer"]
+[node name="GUIToolCardBackground" parent="CardContainer" instance=ExtResource("4_nheet")]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_ckxcp")
+material = SubResource("ShaderMaterial_euhxl")
 layout_mode = 2
-texture = ExtResource("2_a7c0j")
-region_rect = Rect2(0, 0, 40, 54)
-patch_margin_left = 3
-patch_margin_top = 3
-patch_margin_right = 3
-patch_margin_bottom = 3
 
 [node name="CardContent" type="Control" parent="CardContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
+
+[node name="SpecialsContainer" type="VBoxContainer" parent="CardContainer/CardContent"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_constants/separation = 1
+alignment = 2
 
 [node name="TitleContainer" type="Control" parent="CardContainer/CardContent"]
 custom_minimum_size = Vector2(0, 8)
@@ -187,30 +355,16 @@ offset_right = 36.0
 offset_bottom = 51.0
 mouse_filter = 2
 
-[node name="SpecialsContainer" type="VBoxContainer" parent="CardContainer/CardContent"]
+[node name="AnimatingForeground" parent="CardContainer" instance=ExtResource("4_nheet")]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -4.0
-offset_top = -4.0
-offset_right = -4.0
-offset_bottom = -4.0
-grow_horizontal = 0
-grow_vertical = 0
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme_override_constants/separation = 1
-alignment = 2
+visible = false
+material = SubResource("ShaderMaterial_np7v7")
+layout_mode = 2
 
 [node name="Overlay" type="NinePatchRect" parent="CardContainer"]
 unique_name_in_owner = true
 visible = false
 self_modulate = Color(0.07450981, 0.07450981, 0.07450981, 0.6666667)
-material = SubResource("ShaderMaterial_ckxcp")
 layout_mode = 2
 texture = ExtResource("2_a7c0j")
 region_rect = Rect2(0, 0, 40, 54)
@@ -248,5 +402,5 @@ bus = &"SFX"
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 libraries = {
-&"": SubResource("AnimationLibrary_882ho")
+&"": SubResource("AnimationLibrary_dn2eb")
 }

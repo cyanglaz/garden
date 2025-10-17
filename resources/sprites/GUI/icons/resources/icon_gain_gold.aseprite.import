@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://3p7pv4q7mfgi"
+path="res://.godot/imported/icon_gain_gold.aseprite-688240001b191dc463f2359d55baf93a.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_gain_gold.aseprite"
+dest_files=["res://.godot/imported/icon_gain_gold.aseprite-688240001b191dc463f2359d55baf93a.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

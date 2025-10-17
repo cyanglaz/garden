@@ -12,6 +12,7 @@ const INITIAL_RATING_VALUE := 100
 const INITIAL_RATING_MAX_VALUE := 100
 const CONTRACT_COUNT := 2
 const NEW_CONTRACT_PAUSE_TIME := 0.3
+const TOOL_APPLICATION_ERROR_HIDE_DELAY := 3.0
 
 @export var player:PlayerData
 @export var test_tools:Array[ToolData]
@@ -40,6 +41,7 @@ var game_modifier_manager:GameModifierManager = GameModifierManager.new()
 var boost := 1: set = _set_boost
 var _gold := 0: set = _set_gold
 var _selected_contract:ContractData
+var _tool_application_error_timers:Dictionary = {}
 var _level:int = 0
 
 var _harvesting_fields:Array = []
@@ -74,6 +76,7 @@ func _ready() -> void:
 		
 	tool_manager.tool_application_started.connect(_on_tool_application_started)
 	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
+	tool_manager.tool_application_error.connect(_on_tool_application_error)
 
 	#gui main signals
 	gui_main_game.update_player(player)
@@ -88,6 +91,7 @@ func _ready() -> void:
 	gui_main_game.contract_selected.connect(_on_contract_selected)
 	gui_main_game.reward_finished.connect(_on_reward_finished)
 	gui_main_game.card_use_button_pressed.connect(_on_card_use_button_pressed)
+	gui_main_game.mouse_exited_card.connect(_on_mouse_exited_card)
 	
 	#shop signals
 	gui_main_game.gui_shop_main.next_level_button_pressed.connect(_on_shop_next_level_pressed)
@@ -174,12 +178,22 @@ func show_warning(type:WarningManager.WarningType) -> void:
 func hide_warning(type:WarningManager.WarningType) -> void:
 	gui_main_game.hide_warning(type)
 
+func show_custom_error(message:String, identifier:String) -> void:
+	gui_main_game.show_custom_error(message, identifier)
+
+func hide_custom_error(identifier:String) -> void:
+	if _tool_application_error_timers.has(identifier):
+		var timer:SceneTreeTimer = _tool_application_error_timers[identifier]
+		timer.timeout.disconnect(_on_tool_application_error_timer_timeout)
+		_tool_application_error_timers.erase(identifier)
+	gui_main_game.hide_custom_error(identifier)
+
 #endregion
 
 #region private
 
 func _start_new_chapter() -> void:
-	_level = 3
+	_level = 0
 	chapter_manager.next_chapter()
 	weather_manager.generate_next_weathers(chapter_manager.current_chapter)
 	contract_generator.generate_contracts(chapter_manager.current_chapter)
@@ -193,9 +207,12 @@ func _select_contract() -> void:
 	var picked_contracts := contract_generator.pick_contracts(CONTRACT_COUNT, _level)
 	gui_main_game.animate_show_contract_selection(picked_contracts)
   
-func _start_new_level() -> void:
+func _start_new_level(contract_data:ContractData) -> void:
+	assert(_level <= ContractGenerator.BOSS_LEVEL)
 	if test_contract:
 		_selected_contract = test_contract
+	else:
+		_selected_contract = contract_data
 	game_modifier_manager.apply_modifiers(GameModifier.ModifierTiming.LEVEL)
 	boost = 1
 	gui_main_game.show_current_contract(_selected_contract)
@@ -327,6 +344,9 @@ func _on_tool_selected(tool_data:ToolData) -> void:
 	if tool_data.need_select_field:
 		field_container.toggle_all_field_selection_indicators(GUIFieldSelectionArrow.IndicatorState.READY)
 
+func _on_mouse_exited_card(tool_data:ToolData) -> void:
+	hide_custom_error(tool_data.id)
+
 func _on_card_use_button_pressed(tool_data:ToolData) -> void:
 	assert(!tool_data.need_select_field)
 	_handle_card_use(0)
@@ -348,6 +368,7 @@ func _on_field_pressed(index:int) -> void:
 	if !tool_manager.selected_tool || !tool_manager.selected_tool.need_select_field:
 		return
 	_handle_card_use(index)
+
 #region shop events
 func _on_shop_next_level_pressed() -> void:
 	_select_contract()
@@ -357,8 +378,7 @@ func _on_tool_shop_button_pressed(tool_data:ToolData) -> void:
 	tool_manager.add_tool_to_deck(tool_data)
 
 func _on_contract_selected(contract_data:ContractData) -> void:
-	_selected_contract = contract_data
-	_start_new_level()
+	_start_new_level(contract_data)
 
 func _on_reward_finished(tool_data:ToolData) -> void:
 	if _selected_contract.contract_type == ContractData.ContractType.BOSS:
@@ -385,6 +405,19 @@ func _on_tool_application_completed(tool_data:ToolData) -> void:
 		tool_manager.card_use_limit_reached = true
 	await power_manager.handle_tool_application_hook(self, tool_data)
 	gui_main_game.toggle_all_ui(true)
+
+func _on_tool_application_error(tool_data:ToolData, error_message:String) -> void:
+	_clear_tool_selection()
+	show_custom_error(error_message, tool_data.id)
+	if _tool_application_error_timers.has(tool_data.id):
+		var existing_timer:SceneTreeTimer = _tool_application_error_timers[tool_data.id]
+		existing_timer.timeout.disconnect(_on_tool_application_error_timer_timeout)
+	var timer:SceneTreeTimer = Util.create_scaled_timer(TOOL_APPLICATION_ERROR_HIDE_DELAY)
+	_tool_application_error_timers[tool_data.id] = timer
+	timer.timeout.connect(_on_tool_application_error_timer_timeout.bind(tool_data.id))
+
+func _on_tool_application_error_timer_timeout(id:String) -> void:
+	hide_custom_error(id)
 
 func _on_field_harvest_started() -> void:
 	pass

@@ -1,6 +1,7 @@
 class_name FieldContainer
 extends Node2D
 
+signal mouse_field_updated(field:Field)
 signal field_harvest_started()
 signal field_harvest_completed(index:int)
 signal field_hovered(hovered:bool, index:int)
@@ -182,6 +183,8 @@ func _get_mouse_field() -> Field:
 func _on_field_hovered(hovered:bool, index:int) -> void:
 	if hovered:
 		_weak_mouse_field = weakref(fields[index])
+		mouse_field_updated.emit(_weak_mouse_field.get_ref())
 	else:
 		_weak_mouse_field = weakref(null)
+		mouse_field_updated.emit(null)
 	field_hovered.emit(hovered, index)

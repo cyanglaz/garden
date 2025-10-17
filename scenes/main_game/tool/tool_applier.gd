@@ -14,7 +14,7 @@ func apply_tool(main_game:MainGame, fields:Array, field_index:int, tool_data:Too
 	match tool_data.type:
 		ToolData.Type.SKILL:
 			if tool_data.tool_script:
-				await tool_data.tool_script.apply_tool(main_game, fields, field_index, tool_data)
+				await tool_data.tool_script.apply_tool(main_game, fields, field_index, tool_data, secondary_card_datas)
 			else:
 				_action_index = 0
 				_pending_actions = tool_data.actions.duplicate()
@@ -23,7 +23,7 @@ func apply_tool(main_game:MainGame, fields:Array, field_index:int, tool_data:Too
 			await main_game.update_power(tool_data.id, 1)
 	tool_application_completed.emit(tool_data)
 
-func _apply_next_action(main_game:MainGame, fields:Array, field_index:int, tool_data:ToolData, secondary_card_datas, tool_card:GUIToolCardButton) -> void:
+func _apply_next_action(main_game:MainGame, fields:Array, field_index:int, tool_data:ToolData, secondary_card_datas:Array, tool_card:GUIToolCardButton) -> void:
 	if _action_index >= _pending_actions.size():
 		_pending_actions.clear()
 		_action_index = 0
@@ -61,22 +61,24 @@ func _apply_weather_tool_action(action:ActionData, main_game:MainGame) -> void:
 func _apply_instant_use_tool_action(action:ActionData, main_game:MainGame, tool_data:ToolData, secondary_card_datas:Array) -> void:
 	match action.type:
 		ActionData.ActionType.DRAW_CARD:
-			await main_game.draw_cards(action.value)
+			await main_game.draw_cards(action.get_calculated_value(null))
 		ActionData.ActionType.DISCARD_CARD:
 			await _handle_discard_card_action(action, main_game, tool_data, secondary_card_datas)
 		ActionData.ActionType.ENERGY:
-			main_game.energy_tracker.restore(action.value)
+			main_game.energy_tracker.restore(action.get_calculated_value(null))
+		ActionData.ActionType.UPDATE_GOLD:
+			await main_game.update_gold(action.get_calculated_value(null), true)
 		ActionData.ActionType.UPDATE_X:
 			var x_action:ActionData
 			for action_data:ActionData in tool_data.actions:
 				if action_data.value_type == ActionData.ValueType.X:
 					x_action = action_data
 					break
-			x_action.modified_x_value += action.value
+			x_action.modified_x_value += action.get_calculated_value(null)
 
 func _handle_discard_card_action(action:ActionData, main_game:MainGame, tool_data:ToolData, secondary_card_datas:Array) -> void:
 	var random := action.value_type == ActionData.ValueType.RANDOM
-	var discard_size := action.value
+	var discard_size := action.get_calculated_value(null)
 	if random:
 		var tool_datas_to_discard:Array = main_game.tool_manager.discardable_cards()
 		tool_datas_to_discard.erase(tool_data)

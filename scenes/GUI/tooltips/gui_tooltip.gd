@@ -29,8 +29,10 @@ var anchor_to_mouse:bool = false
 var has_outline:bool = false: set = _set_has_outline
 
 var _showing := false
-
 var triggering_global_rect:Rect2 = Rect2()
+
+func _ready() -> void:
+	pass
 
 func show_tooltip() -> void:
 	show()

@@ -109,4 +109,4 @@ func _on_shop_button_mouse_exited() -> void:
 
 func _on_tool_shop_button_mouse_entered(tool_data:ToolData, control:Control) -> void:
 	if !tool_data.actions.is_empty():
-		_weak_tooltip = weakref(Util.display_tool_card_tooltip(tool_data, control, false, GUITooltip.TooltipPosition.RIGHT, false))
+		_weak_tooltip = weakref(Util.display_tool_card_tooltip(tool_data, null, control, false, GUITooltip.TooltipPosition.RIGHT, false))

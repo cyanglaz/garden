@@ -22,7 +22,7 @@ func update_with_weather_data(weather_data:WeatherData) -> void:
 	if weather_data.actions.is_empty():
 		_rich_text_label.text = weather_data.get_display_description()
 	else:
-		_gui_action_list.update(weather_data.actions)
+		_gui_action_list.update(weather_data.actions, null)
 
 func _on_tooltop_shown() -> void:
 	if display_mode:
@@ -41,7 +41,7 @@ func _on_mouse_exited() -> void:
 func _show_actions_tooltip() -> void:
 	if _weak_weather_data.get_ref().actions.is_empty():
 		return
-	_weak_actions_tooltip = weakref(Util.display_actions_tooltip(_weak_weather_data.get_ref().actions, self, false, self.tooltip_position, false))
+	_weak_actions_tooltip = weakref(Util.display_actions_tooltip(_weak_weather_data.get_ref().actions, null, self, false, self.tooltip_position, false))
 
 func _hide_actions_tooltip() -> void:
 	if _weak_actions_tooltip.get_ref():

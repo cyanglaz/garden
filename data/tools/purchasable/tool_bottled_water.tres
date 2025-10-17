@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=3 format=3 uid="uid://djqrg2tjtqt7"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_lw1cs"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_w68dx"]
+
+[resource]
+script = ExtResource("2_w68dx")
+energy_cost = 0
+specials = Array[int]([1])
+id = "bottled_water"
+display_name = "Bottled Water"
+description = "+{gain} {resource:water}. Shuffle an {card:empty_bottle} to the discard pile."
+data = {
+"gain": "1"
+}
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

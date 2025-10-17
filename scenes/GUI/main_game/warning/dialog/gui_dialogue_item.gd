@@ -5,6 +5,7 @@ enum DialogueType {
 	THING_DETAIL,
 	CANNOT_USE_CARD,
 	CARD_USE_LIMIT_REACHED,
+	CARD_CUSTOM_ERROR,
 }
 
 const THING_DETAIL_INPUT_ICON_PATH := "res://resources/sprites/GUI/icons/inputs/input_v.png"
@@ -16,11 +17,18 @@ const GOLD_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_gold.p
 
 var is_top_item:bool: set = _set_is_top_item
 var dialogue_type:DialogueType
+var id := ""
 
 func show_with_type(type:DialogueType) -> void:
 	dialogue_type = type
 	show()
 	_update_text()
+
+func show_with_custom_error(message:String, identifier:String) -> void:
+	id = identifier
+	dialogue_type = DialogueType.CARD_CUSTOM_ERROR
+	show()
+	description.text = DescriptionParser.format_references(message, {}, {}, func(_reference_id:String) -> bool: return false)
 
 func _update_text() -> void:
 	match dialogue_type:

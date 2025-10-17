@@ -10,6 +10,8 @@ const REWARD_VALUE_CHAPTER_MULTIPLIER := 3
 const RATING_REWARD_CHANCE := 0.1
 const RATING_REWARD_RATE := 0.5
 
+const BOSS_LEVEL := 3
+
 const BASE_NUMBER_OF_PLANTS_DICE := {
 	4: 55,
 	5: 45,
@@ -86,7 +88,7 @@ func pick_contracts(number_of_contracts:int, level:int) -> Array:
 		if rand < ELITE_CONTRACT_CHANCE:
 			number_of_elite_contracts += 1
 		number_of_common_contracts = number_of_contracts - number_of_elite_contracts
-	elif level == 3:
+	elif level == BOSS_LEVEL:
 		# Fourth level is boss level
 		number_of_boss_contracts = 1
 	var picks := []

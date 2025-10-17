@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=3 format=3 uid="uid://bcr6do0c5xoad"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_kvy8i"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_01e7c"]
+
+[resource]
+script = ExtResource("2_01e7c")
+energy_cost = 0
+rarity = 2
+specials = Array[int]([1])
+id = "recharge"
+display_name = "Recharge"
+description = "Resets a {card:solar_battery} card."
+note = "+3 light
+-1 light per use"
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

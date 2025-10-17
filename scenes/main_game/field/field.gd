@@ -183,6 +183,8 @@ func _reset_progress_bars() -> void:
 
 func _apply_light_action(action:ActionData) -> void:
 	var true_value := _get_action_true_value(action)
+	if action.operator_type == ActionData.OperatorType.EQUAL_TO && plant:
+		true_value = true_value - plant.light.value 
 	await _show_popup_action_indicator(action, true_value)
 	if plant:
 		plant.light.value += true_value
@@ -191,6 +193,8 @@ func _apply_light_action(action:ActionData) -> void:
 
 func _apply_water_action(action:ActionData) -> void:
 	var true_value := _get_action_true_value(action)
+	if action.operator_type == ActionData.OperatorType.EQUAL_TO && plant:
+		true_value = true_value - plant.water.value
 	await _show_popup_action_indicator(action, true_value)
 	if plant:
 		plant.water.value += true_value
@@ -200,6 +204,9 @@ func _apply_water_action(action:ActionData) -> void:
 func _apply_field_status_action(action:ActionData) -> void:
 	var resource_id := Util.get_action_id_with_action_type(action.type)
 	var true_value := _get_action_true_value(action)
+	var current_status := status_manager.get_status(resource_id)
+	if action.operator_type == ActionData.OperatorType.EQUAL_TO && current_status:
+		true_value = true_value - current_status.stack
 	await apply_field_status(resource_id, true_value)
 
 func _show_popup_action_indicator(action_data:ActionData, true_value:int) -> void:
@@ -219,7 +226,7 @@ func _show_resource_icon_popup(icon_id:String, text:String) -> void:
 	await popup.animate_show_and_destroy(6, 3, POPUP_SHOW_TIME, POPUP_DESTROY_TIME)
 
 func _get_action_true_value(action_data:ActionData) -> int:
-	return action_data.value
+	return action_data.get_calculated_value(self)
 
 func _play_action_from_gui_animation(action:ActionData, from_gui:Control) -> void:
 	var gui_action:GUIAction
@@ -229,7 +236,7 @@ func _play_action_from_gui_animation(action:ActionData, from_gui:Control) -> voi
 	else:
 		gui_action = GUI_GENERAL_ACTION_SCENE.instantiate()
 	Singletons.main_game.add_control_to_overlay(gui_action)
-	gui_action.update_with_action(action)
+	gui_action.update_with_action(action, null)
 	gui_action.global_position = from_gui.global_position + from_gui.size/2
 	gui_action.pivot_offset = gui_action.size/2
 	gui_action.scale = Vector2.ONE

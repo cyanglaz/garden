@@ -5,6 +5,7 @@ const IN_USE_PAUSE := 0.2
 
 signal tool_application_started(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
+signal tool_application_error(tool_data:ToolData, warning_type:WarningManager.WarningType)
 signal _tool_lifecycle_completed(tool_data:ToolData)
 signal _tool_actions_completed(tool_data:ToolData)
 
@@ -80,16 +81,25 @@ func select_tool(tool_data:ToolData) -> void:
 	selected_tool = tool_data
 
 func apply_tool(main_game:MainGame, fields:Array, field_index:int) -> void:
-	number_of_card_used_this_turn += 1
 	var applying_tool = selected_tool
-	var number_of_cards_to_select := _get_num_card_need_to_select(applying_tool)
-	var secondary_card_datas:Array
+	var number_of_cards_to_select := applying_tool.get_number_of_secondary_cards_to_select()
+	var random := applying_tool.get_is_random_secondary_card_selection()
+	var secondary_card_datas:Array = []
 	if number_of_cards_to_select > 0:
-		# Some actions need to select cards, for example discard, compost
-		secondary_card_datas = await _gui_tool_card_container.select_secondary_cards(number_of_cards_to_select)
-		if secondary_card_datas.size() != number_of_cards_to_select:
-			print("apply tool returned early")
-			return
+		var selecting_from_cards = _get_secondary_cards_to_select_from(applying_tool)
+		var actual_number_of_cards_to_select = mini(number_of_cards_to_select, selecting_from_cards.size())
+		if actual_number_of_cards_to_select < number_of_cards_to_select:
+			if applying_tool.get_card_selection_type() == ActionData.CardSelectionType.RESTRICTED:
+				_gui_tool_card_container.animate_card_error_shake(applying_tool)
+				tool_application_error.emit(applying_tool, applying_tool.get_card_selection_custom_error_message())
+				return
+		else:
+			if random:
+				secondary_card_datas = Util.unweighted_roll(selecting_from_cards, mini(actual_number_of_cards_to_select, selecting_from_cards.size()))
+			else:
+				# Some actions need to select cards, for example discard, compost
+				secondary_card_datas = await _gui_tool_card_container.select_secondary_cards(actual_number_of_cards_to_select, selecting_from_cards)
+	number_of_card_used_this_turn += 1
 	_run_card_actions(main_game, fields, field_index, applying_tool, secondary_card_datas)
 	_run_card_lifecycle(applying_tool)
 	_tool_application_queue.append(applying_tool)
@@ -112,6 +122,11 @@ func add_temp_tools_to_discard_pile(tool_datas:Array[ToolData], from_global_posi
 func add_temp_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
 	tool_deck.add_temp_items_to_hand(tool_datas)
 	await _gui_tool_card_container.animate_add_cards_to_hand(tool_deck.hand, tool_datas, from_global_position, pause)
+
+func update_tool_card(tool_data:ToolData, new_tool_data:ToolData) -> void:
+	var old_rarity = tool_data.rarity
+	tool_data.copy(new_tool_data)
+	_gui_tool_card_container.find_card(tool_data).animated_transform(old_rarity)
 
 func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)
@@ -141,26 +156,31 @@ func _run_card_actions(main_game:MainGame, fields:Array, field_index:int, tool_d
 	_tool_actions_queue.erase(tool_data)
 	_tool_actions_completed.emit(tool_data)
 
-func _get_num_card_need_to_select(tool_data:ToolData) -> int:
-	var num_card_on_hand_excluding_tool := tool_deck.hand.size()-1
-	for action:ActionData in tool_data.actions:
-		if action.type in ActionData.NEED_CARD_SELECTION:
-			return mini(action.value, num_card_on_hand_excluding_tool)
-	return 0
+func _get_secondary_cards_to_select_from(tool_data:ToolData) -> Array:
+	var selecting_from_cards:Array = tool_deck.hand.duplicate()
+	selecting_from_cards.erase(tool_data)
+	if tool_data.tool_script && tool_data.tool_script.secondary_card_selection_filter():
+		var filter:Callable = tool_data.tool_script.secondary_card_selection_filter()
+		selecting_from_cards = selecting_from_cards.filter(filter)
+	return selecting_from_cards
+
+func _handle_tool_application_completed(tool_data:ToolData) -> void:
+	_tool_application_queue.erase(tool_data)
+	if tool_data.tool_script:
+		await tool_data.tool_script.handle_post_application_hook(tool_data)
+	tool_application_completed.emit(tool_data)
 
 #region events
 
 func _on_tool_lifecycle_completed(tool_data:ToolData) -> void:
 	assert(!_tool_lifecycle_queue.has(tool_data))
 	if !_tool_lifecycle_queue.has(tool_data) && _tool_application_queue.has(tool_data):
-		_tool_application_queue.erase(tool_data)
-		tool_application_completed.emit(tool_data)
+		_handle_tool_application_completed(tool_data)
 
 func _on_tool_actions_completed(tool_data:ToolData) -> void:
 	assert(!_tool_actions_queue.has(tool_data))
 	if !_tool_actions_queue.has(tool_data) && _tool_application_queue.has(tool_data):
-		_tool_application_queue.erase(tool_data)
-		tool_application_completed.emit(tool_data)
+		_handle_tool_application_completed(tool_data)
 
 func _on_hand_updated() -> void:
 	for tool_data in tool_deck.hand:
