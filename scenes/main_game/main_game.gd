@@ -200,8 +200,33 @@ func _start_new_chapter() -> void:
 	contract_generator.generate_contracts(chapter_manager.current_chapter)
 	map_generator.generate(chapter_manager.current_chapter, session_seed)
 	map_generator.log()
+	_show_map_view(map_generator.rows)
 	gui_main_game.show_boss_icon(contract_generator.boss_contracts[0].boss_data)
 	_select_contract()
+# Temporary simple map view overlay
+func _show_map_view(rows:Array) -> void:
+	var map_view_script := preload("res://scenes/GUI/main_game/map/gui_map_view.gd")
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	gui_main_game.add_control_to_overlay(scroll)
+	var map_view:Control = map_view_script.new()
+	scroll.add_child(map_view)
+	map_view.update_with_map(rows)
+	map_view.gui_input.connect(func(event:InputEvent):
+		if event is InputEventMouseButton && event.pressed:
+			scroll.queue_free()
+	)
+	# Scroll to bottom after layout
+	_call_deferred_scroll_to_bottom(scroll)
+
+func _call_deferred_scroll_to_bottom(scroll:ScrollContainer) -> void:
+	# Wait a frame so ScrollContainer measures child
+	await Util.create_scaled_timer(0.01).timeout
+	var vbar := scroll.get_v_scroll_bar()
+	vbar.value = vbar.max_value
 	#_selected_contract = contract_generator.pick_contracts(CONTRACT_COUNT, _level)[0]
 	#gui_main_game.animate_show_reward_main(_selected_contract)
 

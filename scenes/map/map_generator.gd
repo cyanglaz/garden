@@ -4,14 +4,19 @@ extends RefCounted
 const MapNodeScript := preload("res://scenes/map/map_node.gd")
 
 const ROW_COUNT := 10
-const MIN_COLUMNS := 3
+const MIN_COLUMNS := 2
 const MAX_COLUMNS := 5
+const START_NODE_COUNT := 1
 
 const ELITE_CHANCE := 0.15
 const SHOP_CHANCE := 0.1
 const TAVERN_CHANCE := 0.12
 const EVENT_CHANCE := 0.15
 const CHEST_CHANCE := 0.08
+
+# Global path count constraints
+const MIN_TOTAL_PATHS := 4
+const MAX_TOTAL_PATHS := 6
 
 # Configurable restrictions (now for all types)
 const DEFAULT_MIN_ROW := {
@@ -77,75 +82,83 @@ var _no_consecutive_types:Array = [MapNodeScript.NodeType.ELITE, MapNodeScript.N
 var rows:Array = []
 
 func generate(_chapter:int, _seed:int = 0, _restrictions:Dictionary = {}) -> void:
+	# Minimal Cobalt Core-like generator: single start and boss, layered widths,
+	# non-crossing monotone connections with light branching. Configs removed for now.
 	rows.clear()
 	var rng := RandomNumberGenerator.new()
 	if _seed != 0:
 		rng.seed = _seed
 
-	# restrictions use constants in this script; _restrictions only carries seed/chapter here
-
-	# rows/cols
 	var num_rows:int = ROW_COUNT
 	assert(num_rows >= 2)
-	var num_cols := rng.randi_range(MIN_COLUMNS, MAX_COLUMNS)
 
-	# track counts for all types
-	var type_counts := {
-		MapNodeScript.NodeType.NORMAL: 0,
-		MapNodeScript.NodeType.EVENT: 0,
-		MapNodeScript.NodeType.ELITE: 0,
-		MapNodeScript.NodeType.SHOP: 0,
-		MapNodeScript.NodeType.TAVERN: 0,
-		MapNodeScript.NodeType.CHEST: 0,
-		MapNodeScript.NodeType.BOSS: 0,
-	}
+	# 1) Decide simple row widths: start=1, boss=1, gentle variation in between (1..4)
+	var row_widths:Array = []
+	row_widths.append(1)
+	var prev := 1
+	var planned_diverges:int = rng.randi_range(2, 3)
+	for r in range(1, num_rows - 1):
+		var next_w:int
+		if r <= planned_diverges:
+			# Force early divergence: 2, then 3, then 4 lanes (capped)
+			next_w = mini(1 + r, 4)
+		else:
+			# Gentle variation afterward
+			var delta := rng.randi_range(-1, 1)
+			next_w = clamp(prev + delta, 1, 4)
+		row_widths.append(next_w)
+		prev = next_w
+	row_widths.append(1)
 
-	# create rows of nodes
+	# 2) Create nodes; all NORMAL except final BOSS
 	for r in num_rows:
 		var row_nodes:Array = []
-		var columns_this_row := num_cols
-		if r == 0:
-			columns_this_row = num_cols # start row
-		elif r == num_rows - 1:
-			columns_this_row = 1 # boss row
-		else:
-			columns_this_row = rng.randi_range(MIN_COLUMNS, num_cols)
-		for c in columns_this_row:
+		var w:int = row_widths[r]
+		for c in w:
 			var node = MapNodeScript.new()
 			node.row = r
 			node.column = c
-			node.type = _roll_node_type(r, num_rows, rng, type_counts)
-			# increase count for restricted types
-			if type_counts.has(node.type):
-				type_counts[node.type] += 1
+			node.type = MapNodeScript.NodeType.NORMAL
 			row_nodes.append(node)
 		rows.append(row_nodes)
-
-	# ensure boss at last row
 	rows[num_rows - 1][0].type = MapNodeScript.NodeType.BOSS
 
-	# satisfy global minimum counts before connections (rough pass)
-	_satisfy_min_counts(rows, type_counts, num_rows)
+	# 2.5) Fill node types with simple configurable weights
+	_fill_types(rows, num_rows, rng)
 
-	# connect forward edges (each node connects to 1-2 nodes next row)
+	# 3) Connect rows with non-crossing monotone links and light branching
 	for r in num_rows - 1:
-		var current_row = rows[r]
-		var next_row = rows[r + 1]
-		for node in current_row:
-			var targets = _pick_connections(next_row, rng)
-			for t in targets:
-				node.connect_to(t)
+		var curr:Array = rows[r]
+		var nxt:Array = rows[r + 1]
+		if curr.is_empty() || nxt.is_empty():
+			continue
+		var curr_len:int = curr.size()
+		var nxt_len:int = nxt.size()
+		var pairs:int = min(curr_len, nxt_len)
+		# base i->i
+		for i in pairs:
+			curr[i].connect_to(nxt[i])
+		# ensure all next nodes have incoming
+		if nxt_len > curr_len:
+			for j in range(curr_len, nxt_len):
+				curr[curr_len - 1].connect_to(nxt[j])
+		# merge extra current nodes into last next
+		if curr_len > nxt_len:
+			for i in range(nxt_len, curr_len):
+				curr[i].connect_to(nxt[nxt_len - 1])
+		# gentle branching i->i+1 with 40% chance
+		var max_fwd:int = min(curr_len - 1, nxt_len - 1)
+		for i in max_fwd:
+			if rng.randf() < 0.4:
+				if nxt[i + 1] not in curr[i].next_nodes:
+					curr[i].connect_to(nxt[i + 1])
 
-	# enforce per-path constraints by iterative adjustments
-	_enforce_per_path_constraints(rows, type_counts, num_rows)
-
-	# final global passes
-	_satisfy_min_counts(rows, type_counts, num_rows)
-	_enforce_global_max_counts(rows, type_counts, num_rows)
-
-	# hard rule (path-aware): node on each path before boss is TAVERN
-	_force_penultimate_row_tavern(rows, type_counts, num_rows)
-	_enforce_global_max_counts(rows, type_counts, num_rows)
+	# Enforce total path count within [MIN_TOTAL_PATHS, MAX_TOTAL_PATHS]
+	_enforce_total_paths(rows, num_rows)
+	# Ensure no dead ends (every non-last-row node has at least one outgoing)
+	_ensure_no_dead_ends(rows, num_rows)
+	# Only one node leads to boss, and it must be TAVERN
+	_enforce_single_boss_entry(rows, num_rows)
 
 func _roll_node_type(r:int, num_rows:int, rng:RandomNumberGenerator, type_counts:Dictionary) -> int:
 	# Row 0 is always NORMAL regardless of restrictions
@@ -471,8 +484,327 @@ func _pick_connections(next_row:Array, rng:RandomNumberGenerator) -> Array:
 			connections.append(second)
 	return connections
 
+func _connect_rows(current_row:Array, next_row:Array, _rng:RandomNumberGenerator) -> void:
+	if current_row.is_empty() || next_row.is_empty():
+		return
+	# Sort both rows by column to create monotonic mapping to avoid crossings
+	var sorted_current := current_row.duplicate()
+	sorted_current.sort_custom(Callable(self, "_compare_node_column"))
+	var sorted_next := next_row.duplicate()
+	sorted_next.sort_custom(Callable(self, "_compare_node_column"))
+
+	# First pass: one-to-one connections in order to ensure a base non-crossing skeleton
+	var pairs:int = min(sorted_current.size(), sorted_next.size())
+	for i in pairs:
+		sorted_current[i].connect_to(sorted_next[i])
+
+	# Ensure each next-row node has at least one incoming edge
+	var index_of_next := {}
+	for j in sorted_next.size():
+		index_of_next[sorted_next[j]] = j
+	var has_incoming:Array = []
+	for _j in sorted_next.size():
+		has_incoming.append(false)
+	for src in current_row:
+		for t in src.next_nodes:
+			if index_of_next.has(t):
+				var j:int = index_of_next[t]
+				has_incoming[j] = true
+	for j in sorted_next.size():
+		if has_incoming[j]:
+			continue
+		var src_index:int = min(j, sorted_current.size() - 1)
+		if src_index < 0:
+			continue
+		var src_node = sorted_current[src_index]
+		var target = sorted_next[j]
+		if target not in src_node.next_nodes:
+			src_node.connect_to(target)
+
+	# Second pass: allow forward edges i->i+1 and i->i+2, cap out-degree at 3
+	var extra_limit:int = min(sorted_current.size(), sorted_next.size())
+	for i in extra_limit:
+		var node = sorted_current[i]
+		for offset in 2:
+			if node.next_nodes.size() >= 3:
+				break
+			var j:int = i + 1 + offset
+			if j < 0 || j >= sorted_next.size():
+				continue
+			var extra_target = sorted_next[j]
+			if extra_target in node.next_nodes:
+				continue
+			node.connect_to(extra_target)
+
+func _enforce_total_paths(_rows:Array, num_rows:int) -> void:
+	var safety:int = 400
+	while safety > 0:
+		safety -= 1
+		var paths := _get_all_paths(_rows, num_rows)
+		var count:int = paths.size()
+		if count < MIN_TOTAL_PATHS:
+			# try to add edges to increase paths
+			if !_try_add_monotone_edge(_rows):
+				break
+			continue
+		if count > MAX_TOTAL_PATHS:
+			# use greedy removal of non-essential edges to reduce path count
+			if !_greedy_remove_one_edge(_rows, num_rows, count):
+				# fallback to simple removal
+				if !_try_remove_monotone_extra(_rows):
+					break
+			continue
+		break
+
+func _try_add_monotone_edge(_rows:Array) -> bool:
+	for r in _rows.size() - 1:
+		var current_row = _rows[r]
+		var next_row = _rows[r + 1]
+		if current_row.is_empty() || next_row.is_empty():
+			continue
+		var sc:Array = current_row.duplicate()
+		sc.sort_custom(Callable(self, "_compare_node_column"))
+		var sn:Array = next_row.duplicate()
+		sn.sort_custom(Callable(self, "_compare_node_column"))
+		var pairs:int = min(sc.size(), sn.size())
+		for i in pairs:
+			var node = sc[i]
+			var j:int = i + 1
+			if j >= 0 && j < sn.size():
+				var target = sn[j]
+				if target not in node.next_nodes:
+					node.connect_to(target)
+					return true
+	return false
+
+func _try_remove_monotone_extra(_rows:Array) -> bool:
+	for r in _rows.size() - 1:
+		var current_row = _rows[r]
+		var next_row = _rows[r + 1]
+		if current_row.is_empty() || next_row.is_empty():
+			continue
+		var sc:Array = current_row.duplicate()
+		sc.sort_custom(Callable(self, "_compare_node_column"))
+		var sn:Array = next_row.duplicate()
+		sn.sort_custom(Callable(self, "_compare_node_column"))
+		var pairs:int = min(sc.size(), sn.size())
+		for i in pairs:
+			var node = sc[i]
+			var j:int = i + 1
+			if j >= 0 && j < sn.size():
+				var target = sn[j]
+				if target in node.next_nodes:
+					node.next_nodes.erase(target)
+					return true
+	return false
+
+func _compute_incoming_counts(_rows:Array) -> Dictionary:
+	var incoming:Dictionary = {}
+	for r in _rows.size():
+		for node in _rows[r]:
+			incoming[node] = 0
+	for r in _rows.size():
+		for node in _rows[r]:
+			for t in node.next_nodes:
+				incoming[t] = int(incoming.get(t, 0)) + 1
+	return incoming
+
+func _greedy_remove_one_edge(_rows:Array, num_rows:int, current_count:int) -> bool:
+	# Prefer removing edges high in the graph to cut many combinations
+	var incoming := _compute_incoming_counts(_rows)
+	for r in range(0, num_rows - 1):
+		for node in _rows[r]:
+			# iterate over a copy to allow removal
+			var targets:Array = node.next_nodes.duplicate()
+			for t in targets:
+				# keep at least one incoming for target
+				if int(incoming.get(t, 0)) <= 1:
+					continue
+				# try remove
+				node.next_nodes.erase(t)
+				incoming[t] = int(incoming.get(t, 0)) - 1
+				var new_count:int = _get_all_paths(_rows, num_rows).size()
+				if new_count < current_count && new_count >= MIN_TOTAL_PATHS:
+					return true
+				# revert
+				node.next_nodes.append(t)
+				incoming[t] = int(incoming.get(t, 0)) + 1
+	return false
+
+func _ensure_no_dead_ends(_rows:Array, num_rows:int) -> void:
+	for r in range(0, num_rows - 1):
+		var curr:Array = _rows[r]
+		var nxt:Array = _rows[r + 1]
+		if curr.is_empty() || nxt.is_empty():
+			continue
+		# sorted by column to keep planarity assumptions
+		var sorted_curr:Array = curr.duplicate()
+		sorted_curr.sort_custom(Callable(self, "_compare_node_column"))
+		for i in sorted_curr.size():
+			var node = sorted_curr[i]
+			if node.next_nodes.is_empty():
+				# attach to nearest forward index
+				var j:int = clamp(i, 0, nxt.size() - 1)
+				if nxt[j] not in node.next_nodes:
+					node.connect_to(nxt[j])
+
+func _enforce_single_boss_entry(_rows:Array, num_rows:int) -> void:
+	if num_rows < 2:
+		return
+	var boss_row:Array = _rows[num_rows - 1]
+	if boss_row.is_empty():
+		return
+	var boss = boss_row[0]
+	var penultimate_row:Array = _rows[num_rows - 2]
+	if penultimate_row.is_empty():
+		return
+	# Pick a single entry node in penultimate row (prefer existing tavern, else first)
+	var entry = null
+	for node in penultimate_row:
+		if node.type == MapNodeScript.NodeType.TAVERN:
+			entry = node
+			break
+	if entry == null:
+		entry = penultimate_row[0]
+		entry.type = MapNodeScript.NodeType.TAVERN
+	# Remove all edges to boss; then connect only entry -> boss
+	for node in penultimate_row:
+		if boss in node.next_nodes:
+			node.next_nodes.erase(boss)
+	if boss not in entry.next_nodes:
+		entry.connect_to(boss)
+	# Collapse penultimate row to only keep the entry tavern
+	var new_penultimate:Array = []
+	new_penultimate.append(entry)
+	entry.column = 0
+	_rows[num_rows - 2] = new_penultimate
+	# Redirect all parents (pre-penultimate row) to flow into the entry tavern
+	if num_rows >= 3:
+		var pre_row:Array = _rows[num_rows - 3]
+		for parent in pre_row:
+			# remove links to other penultimate nodes
+			var to_remove:Array = []
+			for t in parent.next_nodes:
+				if t.row == num_rows - 2 && t != entry:
+					to_remove.append(t)
+			for t in to_remove:
+				parent.next_nodes.erase(t)
+			# ensure link to entry
+			if entry not in parent.next_nodes:
+				parent.connect_to(entry)
+
+func _ensure_all_paths_reach_boss(_rows:Array, num_rows:int) -> void:
+	# Backward pass to ensure each node can reach some node in next rows up to boss
+	var can_reach:Array = []
+	for r in num_rows:
+		can_reach.append([])
+	# Boss row can reach boss
+	for node in _rows[num_rows - 1]:
+		can_reach[num_rows - 1].append(true)
+	# Other rows initially false
+	for r in num_rows - 1:
+		var row:Array = _rows[r]
+		for _n in row:
+			can_reach[r].append(false)
+	# Backward propagate reachability
+	for r in range(num_rows - 2, -1, -1):
+		var row:Array = _rows[r]
+		for i in row.size():
+			var node = row[i]
+			var reachable := false
+			for nxt in node.next_nodes:
+				if can_reach[nxt.row][nxt.column]:
+					reachable = true
+					break
+			if !reachable:
+				# add a monotone edge to a reachable next node if possible
+				if !_connect_to_nearest_reachable(node, _rows[r + 1], can_reach, r + 1):
+					# fallback: connect to nearest in next row
+					node.connect_to(_rows[r + 1][min(i, _rows[r + 1].size() - 1)])
+					reachable = true
+			# update this node's reachability
+			can_reach[r][i] = reachable
+
+func _connect_to_nearest_reachable(node, next_row:Array, can_reach:Array, next_r:int) -> bool:
+	if next_row.is_empty():
+		return false
+	# try same column
+	var j:int = clamp(node.column, 0, next_row.size() - 1)
+	if can_reach[next_r][j]:
+		if next_row[j] not in node.next_nodes:
+			node.connect_to(next_row[j])
+		return true
+	# try neighbors to the right only to preserve non-crossing
+	var right:int = j + 1
+	while right < next_row.size():
+		if can_reach[next_r][right]:
+			if next_row[right] not in node.next_nodes:
+				node.connect_to(next_row[right])
+			return true
+		right += 1
+	return false
+
+func _enforce_degree_cap(_rows:Array, max_out_degree:int) -> void:
+	for r in _rows.size() - 1:
+		for node in _rows[r]:
+			if node.next_nodes.size() <= max_out_degree:
+				continue
+			# sort targets by column index (monotone left-to-right)
+			var targets:Array = node.next_nodes.duplicate()
+			targets.sort_custom(Callable(self, "_compare_node_column"))
+			# keep the first max_out_degree
+			var to_keep := targets.slice(0, max_out_degree)
+			var new_next:Array = []
+			for t in node.next_nodes:
+				if t in to_keep:
+					new_next.append(t)
+			node.next_nodes = new_next
+
+func _compare_node_column(a, b) -> bool:
+	return a.column < b.column
+
 func log() -> void:
 	for r in rows.size():
 		for node in rows[r]:
 			node.log()
 
+func _fill_types(_rows:Array, num_rows:int, rng:RandomNumberGenerator) -> void:
+	# Simple per-row type fill with caps to avoid flooding and keep boss row intact
+	if num_rows <= 2:
+		return
+	# lightweight caps per run
+	var max_elite:int = 3
+	var max_shop:int = 3
+	var max_tavern:int = 3
+	var max_chest:int = 3
+	var elite:=0
+	var shop:=0
+	var tavern:=0
+	var chest:=0
+	for r in range(1, num_rows - 1):
+		for node in _rows[r]:
+			var roll := rng.randf()
+			if roll < ELITE_CHANCE && elite < max_elite:
+				node.type = MapNodeScript.NodeType.ELITE
+				elite += 1
+				continue
+			roll -= ELITE_CHANCE
+			if roll < SHOP_CHANCE && shop < max_shop:
+				node.type = MapNodeScript.NodeType.SHOP
+				shop += 1
+				continue
+			roll -= SHOP_CHANCE
+			if roll < TAVERN_CHANCE && tavern < max_tavern:
+				node.type = MapNodeScript.NodeType.TAVERN
+				tavern += 1
+				continue
+			roll -= TAVERN_CHANCE
+			if roll < EVENT_CHANCE:
+				node.type = MapNodeScript.NodeType.EVENT
+				continue
+			roll -= EVENT_CHANCE
+			if roll < CHEST_CHANCE && chest < max_chest:
+				node.type = MapNodeScript.NodeType.CHEST
+				chest += 1
+				continue
+			node.type = MapNodeScript.NodeType.NORMAL
