@@ -1,14 +1,13 @@
+class_name GUIMapView
 extends Control
-
-const MapNodeScript := preload("res://scenes/map/map_node.gd")
 
 var _rows:Array = []
 var _node_positions:Array = [] # same shape as _rows: positions by [row][col]
 var _content_size:Vector2 = Vector2.ZERO
 
 const MARGIN := 24
-const ROW_SPACING := 28
-const COL_SPACING := 80
+const ROW_SPACING := 30
+const COL_SPACING := 30
 const NODE_RADIUS := 3
 const LINE_WIDTH := 1.0
 const BACKGROUND_COLOR := Color(0.1, 0.12, 0.14)
@@ -16,31 +15,6 @@ const BACKGROUND_COLOR := Color(0.1, 0.12, 0.14)
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	queue_redraw()
-
-func _notification(what:int) -> void:
-	if what == NOTIFICATION_THEME_CHANGED:
-		queue_redraw()
-
-func _update_content_size() -> void:
-	# Fit full map to viewport, left-to-right columns, vertically centered per column
-	if _rows.is_empty():
-		_content_size = get_viewport_rect().size
-		custom_minimum_size = _content_size
-		return
-	var layers:int = _rows.size()
-	var max_cols:int = 0
-	for r in layers:
-		max_cols = max(max_cols, _rows[r].size())
-	var viewport_size:Vector2 = get_viewport_rect().size
-	var needed_cols:int = max(1, layers - 1)
-	var needed_rows:int = max(1, max_cols - 1)
-	var col_spacing:float = minf(COL_SPACING, (viewport_size.x - 2.0 * MARGIN) / float(needed_cols))
-	var row_spacing:float = minf(ROW_SPACING, (viewport_size.y - 2.0 * MARGIN) / float(needed_rows))
-	# Store as content size; positions recompute with these spacings
-	_content_size = viewport_size
-	custom_minimum_size = _content_size
-	# recompute using local spacings via helper
-	_recompute_positions_with(col_spacing, row_spacing)
 
 func update_with_map(rows:Array) -> void:
 	_rows = rows
@@ -105,21 +79,46 @@ func _get_node_position(node) -> Vector2:
 			return row_positions[c]
 	return Vector2.ZERO
 
+func _update_content_size() -> void:
+	# Fit full map to viewport, left-to-right columns, vertically centered per column
+	if _rows.is_empty():
+		_content_size = get_viewport_rect().size
+		custom_minimum_size = _content_size
+		return
+	var layers:int = _rows.size()
+	var max_cols:int = 0
+	for r in layers:
+		max_cols = max(max_cols, _rows[r].size())
+	var viewport_size:Vector2 = get_viewport_rect().size
+	var needed_cols:int = max(1, layers - 1)
+	var needed_rows:int = max(1, max_cols - 1)
+	var col_spacing:float = minf(COL_SPACING, (viewport_size.x - 2.0 * MARGIN) / float(needed_cols))
+	var row_spacing:float = minf(ROW_SPACING, (viewport_size.y - 2.0 * MARGIN) / float(needed_rows))
+	# Store as content size; positions recompute with these spacings
+	_content_size = viewport_size
+	custom_minimum_size = _content_size
+	# recompute using local spacings via helper
+	_recompute_positions_with(col_spacing, row_spacing)
+
 func _get_color_for_type(t:int) -> Color:
 	match t:
-		MapNodeScript.NodeType.NORMAL:
+		MapNode.NodeType.NORMAL:
 			return Color(0.7, 0.8, 0.7)
-		MapNodeScript.NodeType.ELITE:
+		MapNode.NodeType.ELITE:
 			return Color(0.95, 0.45, 0.45)
-		MapNodeScript.NodeType.BOSS:
+		MapNode.NodeType.BOSS:
 			return Color(0.2, 0.2, 0.2)
-		MapNodeScript.NodeType.SHOP:
+		MapNode.NodeType.SHOP:
 			return Color(0.3, 0.6, 0.95)
-		MapNodeScript.NodeType.TAVERN:
+		MapNode.NodeType.TAVERN:
 			return Color(0.85, 0.7, 0.4)
-		MapNodeScript.NodeType.CHEST:
+		MapNode.NodeType.CHEST:
 			return Color(0.95, 0.85, 0.4)
-		MapNodeScript.NodeType.EVENT:
+		MapNode.NodeType.EVENT:
 			return Color(0.7, 0.6, 0.95)
 		_:
 			return Color(0.8, 0.8, 0.8)
+
+func _notification(what:int) -> void:
+	if what == NOTIFICATION_THEME_CHANGED:
+		queue_redraw()
