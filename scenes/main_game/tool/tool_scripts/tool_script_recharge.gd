@@ -22,3 +22,6 @@ func secondary_card_selection_filter() -> Callable:
 
 func get_card_selection_type() -> ActionData.CardSelectionType:
 	return ActionData.CardSelectionType.RESTRICTED
+
+func get_card_selection_custom_error_message() -> String:
+	return Util.get_localized_string("WARNING_NO_CARD_IN_HAND") % "solar_battery"

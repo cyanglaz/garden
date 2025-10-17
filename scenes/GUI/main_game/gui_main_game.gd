@@ -8,6 +8,7 @@ signal rating_update_finished(value:int)
 signal reward_finished(tool_data:ToolData)
 signal contract_selected(contract_data:ContractData)
 signal card_use_button_pressed(tool_data:ToolData)
+signal mouse_exited_card(tool_data:ToolData)
 
 @onready var gui_top_bar: GUITopBar = %GUITopBar
 @onready var game_container: PanelContainer = %GameContainer
@@ -50,6 +51,7 @@ func _ready() -> void:
 	gui_tool_card_container.tool_selected.connect(func(tool_data:ToolData) -> void: tool_selected.emit(tool_data))
 	gui_tool_card_container.card_use_button_pressed.connect(func(tool_data:ToolData) -> void: card_use_button_pressed.emit(tool_data))
 	gui_tool_card_container.setup(gui_draw_box_button, gui_discard_box_button)
+	gui_tool_card_container.mouse_exited_card.connect(func(tool_data:ToolData) -> void: mouse_exited_card.emit(tool_data))
 	gui_top_bar.setting_button_evoked.connect(_on_settings_button_evoked)
 	gui_top_bar.library_button_evoked.connect(_on_library_button_evoked)
 	gui_top_bar.rating_update_finished.connect(func(value:int) -> void: rating_update_finished.emit(value))
@@ -224,11 +226,11 @@ func show_warning(warning_type:WarningManager.WarningType) -> void:
 func hide_warning(warning_type:WarningManager.WarningType) -> void:
 	_warning_manager.hide_warning(warning_type)
 
-func show_dialogue(type:GUIDialogueItem.DialogueType) -> void:
-	_gui_dialogue_window.show_with_type(type)
-	
-func hide_dialogue(type:GUIDialogueItem.DialogueType) -> void:
-	_gui_dialogue_window.hide_type(type)
+func show_custom_error(message:String, id:String) -> void:
+	_warning_manager.show_custom_error(message, id)
+
+func hide_custom_error(id:String) -> void:
+	_warning_manager.hide_custom_error(id)
 	
 #endregion
 

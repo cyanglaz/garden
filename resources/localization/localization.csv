@@ -117,6 +117,7 @@ WARNING_INSUFFICIENT_ENERGY, "Not Enough Energy."
 WARNING_INSUFFICIENT_GOLD, "Not Enough %s."
 WARNING_CANNOT_USE_CARD, "Cannot Use This Card."
 WARNING_CARD_USE_LIMIT_REACHED, "You cannot play more cards this turn."
+WARNING_NO_CARD_IN_HAND, "There are no {card:%s} in your hand."
 
 SHOP_TITLE, "Shop" 
 SHOP_SUBTITLE, "Get ready for next week."

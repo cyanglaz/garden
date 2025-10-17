@@ -98,6 +98,11 @@ func get_card_selection_type() -> ActionData.CardSelectionType:
 			return action.card_selection_type
 	return ActionData.CardSelectionType.NON_RESTRICTED
 
+func get_card_selection_custom_error_message() -> String:
+	if tool_script:
+		return tool_script.get_card_selection_custom_error_message()
+	return ""
+
 func _get_cost() -> int:
 	return COSTS[rarity]
 

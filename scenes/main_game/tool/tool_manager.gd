@@ -90,8 +90,9 @@ func apply_tool(main_game:MainGame, fields:Array, field_index:int) -> void:
 		var actual_number_of_cards_to_select = mini(number_of_cards_to_select, selecting_from_cards.size())
 		if actual_number_of_cards_to_select < number_of_cards_to_select:
 			if applying_tool.get_card_selection_type() == ActionData.CardSelectionType.RESTRICTED:
-				await _gui_tool_card_container.animate_card_error_shake(applying_tool, WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
-				tool_application_error.emit(applying_tool, WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
+				_gui_tool_card_container.animate_card_error_shake(applying_tool)
+				tool_application_error.emit(applying_tool, applying_tool.get_card_selection_custom_error_message())
+				return
 		else:
 			if random:
 				secondary_card_datas = Util.unweighted_roll(selecting_from_cards, mini(actual_number_of_cards_to_select, selecting_from_cards.size()))

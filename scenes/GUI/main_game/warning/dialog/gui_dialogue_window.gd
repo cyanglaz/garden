@@ -5,6 +5,7 @@ const DIALOGUE_ITEM_SCENE := preload("res://scenes/GUI/main_game/warning/dialog/
 
 @onready var v_box_container: VBoxContainer = %VBoxContainer
 
+
 func show_with_type(type:GUIDialogueItem.DialogueType) -> void:
 	for child:GUIDialogueItem in v_box_container.get_children():
 		if child.dialogue_type == type:
@@ -17,6 +18,23 @@ func show_with_type(type:GUIDialogueItem.DialogueType) -> void:
 func hide_type(type:GUIDialogueItem.DialogueType) -> void:
 	for child:GUIDialogueItem in v_box_container.get_children():
 		if child.dialogue_type == type:
+			v_box_container.remove_child(child)
+			child.queue_free()
+			return
+	_reorder_children()
+
+func show_custom_error(message:String, id:String) -> void:
+	for child:GUIDialogueItem in v_box_container.get_children():
+		if child.id == id:
+			return
+	var item:GUIDialogueItem = DIALOGUE_ITEM_SCENE.instantiate()
+	v_box_container.add_child(item)
+	item.show_with_custom_error(message, id)
+	_reorder_children()
+
+func hide_custom_error(id:String) -> void:
+	for child:GUIDialogueItem in v_box_container.get_children():
+		if child.id == id:
 			v_box_container.remove_child(child)
 			child.queue_free()
 			return

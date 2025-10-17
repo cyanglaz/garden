@@ -9,6 +9,7 @@ enum WarningType {
 	DIALOGUE_THING_DETAIL,
 	DIALOGUE_CANNOT_USE_CARD,
 	CARD_USE_LIMIT_REACHED,
+	CARD_CUSTOM_ERROR,
 }
 
 var _gui_energy_tracker:GUIEnergyTracker: get = _get_gui_energy_tracker
@@ -58,6 +59,12 @@ func hide_warning(warning_type:WarningType) -> void:
 			_gui_dialogue_window.hide_type(GUIDialogueItem.DialogueType.CANNOT_USE_CARD)
 		WarningType.CARD_USE_LIMIT_REACHED:
 			_gui_dialogue_window.hide_type(GUIDialogueItem.DialogueType.CARD_USE_LIMIT_REACHED)
+
+func show_custom_error(message:String, id:String) -> void:
+	_gui_dialogue_window.show_custom_error(message, id)
+
+func hide_custom_error(id:String) -> void:
+	_gui_dialogue_window.hide_custom_error(id)
 
 func _get_gui_energy_tracker() -> GUIEnergyTracker:
 	return _weak_gui_energy_tracker.get_ref()
