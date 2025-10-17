@@ -29,6 +29,7 @@ var energy_tracker:ResourcePoint = ResourcePoint.new()
 var weather_manager:WeatherManager = WeatherManager.new()
 var chapter_manager:ChapterManager = ChapterManager.new()
 var contract_generator:ContractGenerator = ContractGenerator.new()
+var map_generator = MapGenerator.new()
 var power_manager:PowerManager = PowerManager.new()
 var tool_manager:ToolManager
 var plant_seed_manager:PlantSeedManager
@@ -197,6 +198,8 @@ func _start_new_chapter() -> void:
 	chapter_manager.next_chapter()
 	weather_manager.generate_next_weathers(chapter_manager.current_chapter)
 	contract_generator.generate_contracts(chapter_manager.current_chapter)
+	map_generator.generate(chapter_manager.current_chapter, session_seed)
+	map_generator.log()
 	gui_main_game.show_boss_icon(contract_generator.boss_contracts[0].boss_data)
 	_select_contract()
 	#_selected_contract = contract_generator.pick_contracts(CONTRACT_COUNT, _level)[0]
