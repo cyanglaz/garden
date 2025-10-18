@@ -7,10 +7,10 @@ var _layers:Array = []
 var _node_positions:Array = [] # same shape as _layers: positions by [layer][width]
 
 const LAYER_SPACING := 24
-const ROW_SPACING := 24
+const ROW_SPACING := 30
 const NODE_RADIUS := 3
 const LINE_WIDTH := 1.0
-const BACKGROUND_COLOR := Color(0.1, 0.12, 0.14)
+const BACKGROUND_COLOR := Constants.COLOR_GREEN5
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE

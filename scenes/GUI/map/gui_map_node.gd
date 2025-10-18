@@ -12,13 +12,13 @@ func update_with_node(node:MapNode) -> void:
 			icon.texture = load(ICON_PATH_PREFIX + "normal.png")
 		MapNode.NodeType.ELITE:
 			icon.texture = load(ICON_PATH_PREFIX + "elite.png")
-		#MapNode.NodeType.BOSS:
-		#	icon.texture = load(ICON_PATH_PREFIX + "boss.png")
-		#MapNode.NodeType.SHOP:
-		#	icon.texture = load(ICON_PATH_PREFIX + "shop.png")
-		#MapNode.NodeType.TAVERN:
-		#	icon.texture = load(ICON_PATH_PREFIX + "tavern.png")
-		#MapNode.NodeType.CHEST:
-		#	icon.texture = load(ICON_PATH_PREFIX + "chest.png")
-		#MapNode.NodeType.EVENT:
-		#	icon.texture = load(ICON_PATH_PREFIX + "event.png")
+		MapNode.NodeType.BOSS:
+			icon.texture = load(ICON_PATH_PREFIX + "boss.png")
+		MapNode.NodeType.SHOP:
+			icon.texture = load(ICON_PATH_PREFIX + "shop.png")
+		MapNode.NodeType.TAVERN:
+			icon.texture = load(ICON_PATH_PREFIX + "tavern.png")
+		MapNode.NodeType.CHEST:
+			icon.texture = load(ICON_PATH_PREFIX + "chest.png")
+		MapNode.NodeType.EVENT:
+			icon.texture = load(ICON_PATH_PREFIX + "event.png")
