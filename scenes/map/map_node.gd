@@ -14,8 +14,8 @@ enum NodeType {
 var type:NodeType
 
 # Grid coordinates within the generated map
+var layer:int = -1
 var row:int = -1
-var column:int = -1
 
 # Forward connections to the next row
 var next_nodes:Array = []
@@ -28,19 +28,19 @@ func connect_to(next_node) -> void:
 func save() -> Dictionary:
 	return {
 		"type": int(type),
+		"layer": layer,
 		"row": row,
-		"column": column,
 		"next": next_nodes.map(func(n): return {
+			"layer": n.layer,
 			"row": n.row,
-			"column": n.column,
 			"type": int(n.type),
 		})
 	}
 
 func log() -> void:
 	var type_str := _type_to_string(type)
-	var next_coords := next_nodes.map(func(n): return "(%s,%s:%s)" % [str(n.row), str(n.column), _type_to_string(n.type)])
-	print("Node (", row, ",", column, ") ", type_str, " -> ", next_coords)
+	var next_coords := next_nodes.map(func(n): return "(%s,%s:%s)" % [str(n.layer), str(n.row), _type_to_string(n.type)])
+	print("Node (", layer, ",", row, ") ", type_str, " -> ", next_coords)
 
 func _type_to_string(t:NodeType) -> String:
 	match t:

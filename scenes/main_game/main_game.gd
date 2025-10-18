@@ -22,6 +22,7 @@ const TOOL_APPLICATION_ERROR_HIDE_DELAY := 3.0
 @onready var gui_main_game: GUIMainGame = %GUIGameSession
 @onready var field_container: FieldContainer = %FieldContainer
 @onready var feedback_camera_2d: FeedbackCamera2D = %FeedbackCamera2D
+@onready var gui_map_main: GUIMapMain = %GUIMapMain
 
 var session_seed := 0
 
@@ -29,7 +30,6 @@ var energy_tracker:ResourcePoint = ResourcePoint.new()
 var weather_manager:WeatherManager = WeatherManager.new()
 var chapter_manager:ChapterManager = ChapterManager.new()
 var contract_generator:ContractGenerator = ContractGenerator.new()
-var map_generator = MapGenerator.new()
 var power_manager:PowerManager = PowerManager.new()
 var tool_manager:ToolManager
 var plant_seed_manager:PlantSeedManager
@@ -198,29 +198,8 @@ func _start_new_chapter() -> void:
 	chapter_manager.next_chapter()
 	weather_manager.generate_next_weathers(chapter_manager.current_chapter)
 	contract_generator.generate_contracts(chapter_manager.current_chapter)
-	map_generator.generate(chapter_manager.current_chapter, session_seed)
-	map_generator.log()
-	_show_map_view(map_generator.rows)
 	gui_main_game.show_boss_icon(contract_generator.boss_contracts[0].boss_data)
 	_select_contract()
-# Temporary simple map view overlay
-func _show_map_view(rows:Array) -> void:
-	var map_view_script := preload("res://scenes/GUI/main_game/map/gui_map_view.gd")
-	var scroll := ScrollContainer.new()
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
-	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	gui_main_game.add_control_to_overlay(scroll)
-	var map_view:Control = map_view_script.new()
-	scroll.add_child(map_view)
-	map_view.update_with_map(rows)
-	map_view.gui_input.connect(func(event:InputEvent):
-		if event is InputEventMouseButton && event.pressed:
-			scroll.queue_free()
-	)
-	# Scroll to bottom after layout
-	_call_deferred_scroll_to_bottom(scroll)
 
 func _call_deferred_scroll_to_bottom(scroll:ScrollContainer) -> void:
 	# Wait a frame so ScrollContainer measures child

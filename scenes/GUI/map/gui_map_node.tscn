@@ -1,14 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://b4p0fh4e62gpa"]
+[gd_scene load_steps=3 format=3 uid="uid://b4p0fh4e62gpa"]
 
 [ext_resource type="Script" uid="uid://h24vm13sk052" path="res://scenes/GUI/map/gui_map_node.gd" id="1_243l6"]
+[ext_resource type="Texture2D" uid="uid://bob3mebvc55g" path="res://resources/sprites/map/map_node_background.png" id="2_8tpku"]
 
 [node name="GUIMapNode" type="PanelContainer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_right = 14.0
+offset_bottom = 14.0
 script = ExtResource("1_243l6")
 
-[node name="Background" type="NinePatchRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 layout_mode = 2
+texture = ExtResource("2_8tpku")
+stretch_mode = 5

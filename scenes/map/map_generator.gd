@@ -3,9 +3,9 @@ extends RefCounted
 
 const MapNodeScript := preload("res://scenes/map/map_node.gd")
 
-const ROW_COUNT := 10
-const MIN_COLUMNS := 2
-const MAX_COLUMNS := 5
+const LAYER_COUNT := 10
+const MIN_ROW:= 2
+const MAX_ROW:= 5
 const START_NODE_COUNT := 1
 
 const ELITE_CHANCE := 0.15
@@ -19,7 +19,7 @@ const MIN_TOTAL_PATHS := 4
 const MAX_TOTAL_PATHS := 6
 
 # Configurable restrictions (now for all types)
-const DEFAULT_MIN_ROW := {
+const DEFAULT_MIN_LAYER := {
 	MapNodeScript.NodeType.NORMAL: 0,
 	MapNodeScript.NodeType.EVENT: 1,
 	MapNodeScript.NodeType.ELITE: 3,
@@ -29,7 +29,7 @@ const DEFAULT_MIN_ROW := {
 	MapNodeScript.NodeType.BOSS: 0,
 }
 
-var _min_row_for_type:Dictionary = DEFAULT_MIN_ROW.duplicate(true)
+var _min_layer_for_type:Dictionary = DEFAULT_MIN_LAYER.duplicate(true)
 
 const DEFAULT_MAX_COUNT := {
 	MapNodeScript.NodeType.NORMAL: 999999,
@@ -79,25 +79,25 @@ var _per_path_max:Dictionary = PER_PATH_MAX.duplicate(true)
 # Smart constraints: types that cannot appear consecutively along any path
 var _no_consecutive_types:Array = [MapNodeScript.NodeType.ELITE, MapNodeScript.NodeType.SHOP, MapNodeScript.NodeType.TAVERN, MapNodeScript.NodeType.CHEST]
 
-var rows:Array = []
+var layers:Array = []
 
 func generate(_chapter:int, _seed:int = 0, _restrictions:Dictionary = {}) -> void:
-	# Minimal Cobalt Core-like generator: single start and boss, layered widths,
+	# Minimal Cobalt Core-like generator: single start and boss, layered rows,
 	# non-crossing monotone connections with light branching. Configs removed for now.
-	rows.clear()
+	layers.clear()
 	var rng := RandomNumberGenerator.new()
 	if _seed != 0:
 		rng.seed = _seed
 
-	var num_rows:int = ROW_COUNT
-	assert(num_rows >= 2)
+	var num_layers:int = LAYER_COUNT
+	assert(num_layers >= 2)
 
-	# 1) Decide simple row widths: start=1, boss=1, gentle variation in between (1..4)
-	var row_widths:Array = []
-	row_widths.append(1)
+	# 1) Decide simple layer rows: start=1, boss=1, gentle variation in between (1..4)
+	var layer_rows:Array = []
+	layer_rows.append(1)
 	var prev := 1
 	var planned_diverges:int = rng.randi_range(2, 3)
-	for r in range(1, num_rows - 1):
+	for r in range(1, num_layers - 1):
 		var next_w:int
 		if r <= planned_diverges:
 			# Force early divergence: 2, then 3, then 4 lanes (capped)
@@ -106,30 +106,30 @@ func generate(_chapter:int, _seed:int = 0, _restrictions:Dictionary = {}) -> voi
 			# Gentle variation afterward
 			var delta := rng.randi_range(-1, 1)
 			next_w = clamp(prev + delta, 1, 4)
-		row_widths.append(next_w)
+		layer_rows.append(next_w)
 		prev = next_w
-	row_widths.append(1)
+	layer_rows.append(1)
 
 	# 2) Create nodes; all NORMAL except final BOSS
-	for r in num_rows:
-		var row_nodes:Array = []
-		var w:int = row_widths[r]
-		for c in w:
+	for layer_index in num_layers:
+		var layer_nodes:Array = []
+		var layer_row:int = layer_rows[layer_index]
+		for row_index in layer_row:
 			var node = MapNodeScript.new()
-			node.row = r
-			node.column = c
+			node.layer = layer_index
+			node.row = row_index
 			node.type = MapNodeScript.NodeType.NORMAL
-			row_nodes.append(node)
-		rows.append(row_nodes)
-	rows[num_rows - 1][0].type = MapNodeScript.NodeType.BOSS
+			layer_nodes.append(node)
+		layers.append(layer_nodes)
+	layers[num_layers - 1][0].type = MapNodeScript.NodeType.BOSS
 
 	# 2.5) Fill node types with simple configurable weights
-	_fill_types(rows, num_rows, rng)
+	_fill_types(layers, num_layers, rng)
 
-	# 3) Connect rows with non-crossing monotone links and light branching
-	for r in num_rows - 1:
-		var curr:Array = rows[r]
-		var nxt:Array = rows[r + 1]
+	# 3) Connect layers with non-crossing monotone links and light branching
+	for r in num_layers - 1:
+		var curr:Array = layers[r]
+		var nxt:Array = layers[r + 1]
 		if curr.is_empty() || nxt.is_empty():
 			continue
 		var curr_len:int = curr.size()
@@ -154,18 +154,18 @@ func generate(_chapter:int, _seed:int = 0, _restrictions:Dictionary = {}) -> voi
 					curr[i].connect_to(nxt[i + 1])
 
 	# Enforce total path count within [MIN_TOTAL_PATHS, MAX_TOTAL_PATHS]
-	_enforce_total_paths(rows, num_rows)
-	# Ensure no dead ends (every non-last-row node has at least one outgoing)
-	_ensure_no_dead_ends(rows, num_rows)
+	_enforce_total_paths(layers, num_layers)
+	# Ensure no dead ends (every non-last-layer node has at least one outgoing)
+	_ensure_no_dead_ends(layers, num_layers)
 	# Only one node leads to boss, and it must be TAVERN
-	_enforce_single_boss_entry(rows, num_rows)
+	_enforce_single_boss_entry(layers, num_layers)
 
-func _roll_node_type(r:int, num_rows:int, rng:RandomNumberGenerator, type_counts:Dictionary) -> int:
-	# Row 0 is always NORMAL regardless of restrictions
+func _roll_node_type(r:int, num_layers:int, rng:RandomNumberGenerator, type_counts:Dictionary) -> int:
+	# layer 0 is always NORMAL regardless of restrictions
 	if r == 0:
 		return MapNodeScript.NodeType.NORMAL
-	# Last row is always BOSS regardless of restrictions
-	if r == num_rows - 1:
+	# Last layer is always BOSS regardless of restrictions
+	if r == num_layers - 1:
 		return MapNodeScript.NodeType.BOSS
 	var roll := rng.randf()
 	if roll < ELITE_CHANCE:
@@ -195,32 +195,32 @@ func _roll_node_type(r:int, num_rows:int, rng:RandomNumberGenerator, type_counts
 	# If everything is exhausted, default to NORMAL to keep map viable
 	return MapNodeScript.NodeType.NORMAL
 
-func _can_place_type(t:int, row:int, type_counts:Dictionary) -> bool:
-	var min_row := int(_min_row_for_type.get(t, 0))
-	if row < min_row:
+func _can_place_type(t:int, layer:int, type_counts:Dictionary) -> bool:
+	var min_layer := int(_min_layer_for_type.get(t, 0))
+	if layer < min_layer:
 		return false
 	var current := int(type_counts.get(t, 0))
 	var max_count := int(_max_count_for_type.get(t, 999999))
 	return current < max_count
 
-func _satisfy_min_counts(_rows:Array, type_counts:Dictionary, num_rows:int) -> void:
+func _satisfy_min_counts(_layers:Array, type_counts:Dictionary, num_layers:int) -> void:
 	for t in _min_count_for_type.keys():
 		var needed := int(_min_count_for_type[t]) - int(type_counts.get(t, 0))
 		if needed <= 0:
 			continue
-		_needed_promote_type(t, needed, _rows, type_counts, num_rows)
+		_needed_promote_type(t, needed, _layers, type_counts, num_layers)
 
-func _needed_promote_type(t:int, needed:int, _rows:Array, type_counts:Dictionary, num_rows:int) -> void:
+func _needed_promote_type(t:int, needed:int, _layers:Array, type_counts:Dictionary, num_layers:int) -> void:
 	if needed <= 0:
 		return
-	for r in _rows.size():
+	for r in _layers.size():
 		if needed <= 0:
 			break
 		if r == 0:
 			continue
-		if r == num_rows - 1:
+		if r == num_layers - 1:
 			continue
-		for node in _rows[r]:
+		for node in _layers[r]:
 			if needed <= 0:
 				break
 			if !_can_place_type(t, r, type_counts):
@@ -242,12 +242,12 @@ func _needed_promote_type(t:int, needed:int, _rows:Array, type_counts:Dictionary
 			type_counts[src] = int(type_counts.get(src, 0)) - 1
 			needed -= 1
 
-func _enforce_per_path_constraints(_rows:Array, type_counts:Dictionary, num_rows:int) -> void:
+func _enforce_per_path_constraints(_layers:Array, type_counts:Dictionary, num_layers:int) -> void:
 	var safety:int = 100
 	while safety > 0:
 		safety -= 1
 		var adjusted:bool = false
-		var paths := _get_all_paths(_rows, num_rows)
+		var paths := _get_all_paths(_layers, num_layers)
 		for path in paths:
 			# For each type with per-path constraints
 			for t in _per_path_min.keys():
@@ -261,7 +261,7 @@ func _enforce_per_path_constraints(_rows:Array, type_counts:Dictionary, num_rows
 						count += 1
 				# underflow -> promote
 				if count < min_needed:
-					var promoted:bool = _promote_on_path_to_type(path, t, min_needed - count, type_counts, num_rows)
+					var promoted:bool = _promote_on_path_to_type(path, t, min_needed - count, type_counts, num_layers)
 					if promoted:
 						adjusted = true
 						break
@@ -271,19 +271,19 @@ func _enforce_per_path_constraints(_rows:Array, type_counts:Dictionary, num_rows
 					if demoted:
 						adjusted = true
 						break
-			# Smart constraint: break disallowed consecutive types (skip penultimate row)
+			# Smart constraint: break disallowed consecutive types (skip penultimate layer)
 			if _no_consecutive_types.size() > 0:
 				for i in range(1, path.size()):
 					var prev = path[i - 1]
 					var cur = path[i]
-					if prev.row == num_rows - 2 || cur.row == num_rows - 2:
+					if prev.layer == num_layers - 2 || cur.layer == num_layers - 2:
 						continue
 					if prev.type == cur.type && _no_consecutive_types.has(cur.type):
 						# Try to modify the current node to break the consecutive
-						var fixed:bool = _break_consecutive_at(path, i, type_counts, num_rows)
+						var fixed:bool = _break_consecutive_at(path, i, type_counts, num_layers)
 						if !fixed:
 							# Fallback: try modify previous if possible
-							fixed = _break_consecutive_at(path, i - 1, type_counts, num_rows)
+							fixed = _break_consecutive_at(path, i - 1, type_counts, num_layers)
 						if fixed:
 							adjusted = true
 							break
@@ -292,12 +292,12 @@ func _enforce_per_path_constraints(_rows:Array, type_counts:Dictionary, num_rows
 		if !adjusted:
 			break
 
-func _break_consecutive_at(path:Array, index:int, type_counts:Dictionary, num_rows:int) -> bool:
+func _break_consecutive_at(path:Array, index:int, type_counts:Dictionary, num_layers:int) -> bool:
 	if index < 0 || index >= path.size():
 		return false
 	var node = path[index]
-	var r:int = node.row
-	if r == 0 || r == num_rows - 1 || r == num_rows - 2:
+	var r:int = node.layer
+	if r == 0 || r == num_layers - 1 || r == num_layers - 2:
 		return false
 	var src:int = node.type
 	# ensure we can reduce count of src if needed
@@ -329,7 +329,7 @@ func _break_consecutive_at(path:Array, index:int, type_counts:Dictionary, num_ro
 		if _no_consecutive_types.has(target):
 			if target == before_type || target == next_type:
 				continue
-		# Respect min_row and global max_count
+		# Respect min_layer and global max_count
 		if !_can_place_type(target, r, type_counts):
 			continue
 		# Apply
@@ -339,13 +339,13 @@ func _break_consecutive_at(path:Array, index:int, type_counts:Dictionary, num_ro
 		return true
 	return false
 
-func _promote_on_path_to_type(path:Array, t:int, need:int, type_counts:Dictionary, num_rows:int) -> bool:
+func _promote_on_path_to_type(path:Array, t:int, need:int, type_counts:Dictionary, num_layers:int) -> bool:
 	var changed:bool = false
 	for node in path:
 		if need <= 0:
 			break
-		var r:int = node.row
-		if r == 0 || r == num_rows - 1 || r == num_rows - 2:
+		var r:int = node.layer
+		if r == 0 || r == num_layers - 1 || r == num_layers - 2:
 			continue
 		if !_can_place_type(t, r, type_counts):
 			continue
@@ -373,8 +373,8 @@ func _demote_on_path_from_type(path:Array, t:int, excess:int, type_counts:Dictio
 			break
 		if node.type != t:
 			continue
-		# ensure we keep global min_count for t and keep penultimate row taverns
-		if node.row == ROW_COUNT - 2 && t == MapNodeScript.NodeType.TAVERN:
+		# ensure we keep global min_count for t and keep penultimate layer taverns
+		if node.layer == LAYER_COUNT - 2 && t == MapNodeScript.NodeType.TAVERN:
 			continue
 		var t_min := int(_min_count_for_type.get(t, 0))
 		var t_count := int(type_counts.get(t, 0))
@@ -388,17 +388,17 @@ func _demote_on_path_from_type(path:Array, t:int, excess:int, type_counts:Dictio
 		changed = true
 	return changed
 
-func _enforce_global_max_counts(_rows:Array, type_counts:Dictionary, num_rows:int) -> void:
+func _enforce_global_max_counts(_layers:Array, type_counts:Dictionary, num_layers:int) -> void:
 	for t in _max_count_for_type.keys():
 		var max_allowed := int(_max_count_for_type.get(t, 999999))
 		var current := int(type_counts.get(t, 0))
 		var excess := current - max_allowed
 		if excess <= 0:
 			continue
-		for r in _rows.size():
+		for r in _layers.size():
 			if excess <= 0:
 				break
-			for node in _rows[r]:
+			for node in _layers[r]:
 				if excess <= 0:
 					break
 				if node.type != t:
@@ -407,8 +407,8 @@ func _enforce_global_max_counts(_rows:Array, type_counts:Dictionary, num_rows:in
 					continue
 				if node.type == MapNodeScript.NodeType.BOSS:
 					continue
-				# keep taverns on penultimate row
-				if r == num_rows - 2 && t == MapNodeScript.NodeType.TAVERN:
+				# keep taverns on penultimate layer
+				if r == num_layers - 2 && t == MapNodeScript.NodeType.TAVERN:
 					continue
 				var t_min := int(_min_count_for_type.get(t, 0))
 				if int(type_counts.get(t, 0)) - 1 < t_min:
@@ -418,12 +418,12 @@ func _enforce_global_max_counts(_rows:Array, type_counts:Dictionary, num_rows:in
 				type_counts[t] = int(type_counts.get(t, 0)) - 1
 				excess -= 1
 
-func _get_all_paths(_rows:Array, num_rows:int) -> Array:
+func _get_all_paths(_layers:Array, num_layers:int) -> Array:
 	var paths:Array = []
-	if _rows.is_empty():
+	if _layers.is_empty():
 		return paths
-	var starts:Array = _rows[0]
-	var end_node = _rows[num_rows - 1][0]
+	var starts:Array = _layers[0]
+	var end_node = _layers[num_layers - 1][0]
 	for s in starts:
 		var current:Array = []
 		_current_paths_dfs(s, end_node, current, paths)
@@ -442,22 +442,22 @@ func _current_paths_dfs(node, end_node, current:Array, paths:Array) -> void:
 		_current_paths_dfs(nxt, end_node, current, paths)
 	current.pop_back()
 
-func _force_penultimate_row_tavern(_rows:Array, type_counts:Dictionary, num_rows:int) -> void:
-	if num_rows < 2:
+func _force_penultimate_layer_tavern(_layers:Array, type_counts:Dictionary, num_layers:int) -> void:
+	if num_layers < 2:
 		return
-	var row_index := num_rows - 2
-	var _boss_row_index := num_rows - 1
-	# Build quick set of nodes on any path at penultimate row
+	var layer_index := num_layers - 2
+	var _boss_layer_index := num_layers - 1
+	# Build quick set of nodes on any path at penultimate layer
 	var path_nodes := {}
-	var paths := _get_all_paths(_rows, num_rows)
+	var paths := _get_all_paths(_layers, num_layers)
 	for path in paths:
 		if path.size() < 2:
 			continue
 		var penultimate = path[path.size() - 2]
-		if penultimate.row == row_index:
+		if penultimate.layer == layer_index:
 			path_nodes[penultimate] = true
-	# Force only path nodes on the penultimate row to TAVERN
-	for node in _rows[row_index]:
+	# Force only path nodes on the penultimate layer to TAVERN
+	for node in _layers[layer_index]:
 		if !path_nodes.has(node):
 			continue
 		if node.type == MapNodeScript.NodeType.TAVERN:
@@ -467,45 +467,45 @@ func _force_penultimate_row_tavern(_rows:Array, type_counts:Dictionary, num_rows
 		type_counts[MapNodeScript.NodeType.TAVERN] = int(type_counts.get(MapNodeScript.NodeType.TAVERN, 0)) + 1
 		type_counts[src] = int(type_counts.get(src, 0)) - 1
 
-func _pick_connections(next_row:Array, rng:RandomNumberGenerator) -> Array:
+func _pick_connections(next_layer:Array, rng:RandomNumberGenerator) -> Array:
 	var connections:Array = []
-	if next_row.is_empty():
+	if next_layer.is_empty():
 		return connections
-	var first = next_row[rng.randi_range(0, next_row.size() - 1)]
+	var first = next_layer[rng.randi_range(0, next_layer.size() - 1)]
 	connections.append(first)
 	# chance to add a second distinct connection
-	if next_row.size() > 1 && rng.randf() < 0.5:
+	if next_layer.size() > 1 && rng.randf() < 0.5:
 		var second = first
 		var safety := 8
 		while second == first && safety > 0:
-			second = next_row[rng.randi_range(0, next_row.size() - 1)]
+			second = next_layer[rng.randi_range(0, next_layer.size() - 1)]
 			safety -= 1
 		if second != first:
 			connections.append(second)
 	return connections
 
-func _connect_rows(current_row:Array, next_row:Array, _rng:RandomNumberGenerator) -> void:
-	if current_row.is_empty() || next_row.is_empty():
+func _connect_layers(current_layer:Array, next_layer:Array, _rng:RandomNumberGenerator) -> void:
+	if current_layer.is_empty() || next_layer.is_empty():
 		return
-	# Sort both rows by column to create monotonic mapping to avoid crossings
-	var sorted_current := current_row.duplicate()
-	sorted_current.sort_custom(Callable(self, "_compare_node_column"))
-	var sorted_next := next_row.duplicate()
-	sorted_next.sort_custom(Callable(self, "_compare_node_column"))
+	# Sort both layers by row to create monotonic mapping to avoid crossings
+	var sorted_current := current_layer.duplicate()
+	sorted_current.sort_custom(Callable(self, "_compare_node_row"))
+	var sorted_next := next_layer.duplicate()
+	sorted_next.sort_custom(Callable(self, "_compare_node_row"))
 
 	# First pass: one-to-one connections in order to ensure a base non-crossing skeleton
 	var pairs:int = min(sorted_current.size(), sorted_next.size())
 	for i in pairs:
 		sorted_current[i].connect_to(sorted_next[i])
 
-	# Ensure each next-row node has at least one incoming edge
+	# Ensure each next-layer node has at least one incoming edge
 	var index_of_next := {}
 	for j in sorted_next.size():
 		index_of_next[sorted_next[j]] = j
 	var has_incoming:Array = []
 	for _j in sorted_next.size():
 		has_incoming.append(false)
-	for src in current_row:
+	for src in current_layer:
 		for t in src.next_nodes:
 			if index_of_next.has(t):
 				var j:int = index_of_next[t]
@@ -536,36 +536,36 @@ func _connect_rows(current_row:Array, next_row:Array, _rng:RandomNumberGenerator
 				continue
 			node.connect_to(extra_target)
 
-func _enforce_total_paths(_rows:Array, num_rows:int) -> void:
+func _enforce_total_paths(_layers:Array, num_layers:int) -> void:
 	var safety:int = 400
 	while safety > 0:
 		safety -= 1
-		var paths := _get_all_paths(_rows, num_rows)
+		var paths := _get_all_paths(_layers, num_layers)
 		var count:int = paths.size()
 		if count < MIN_TOTAL_PATHS:
 			# try to add edges to increase paths
-			if !_try_add_monotone_edge(_rows):
+			if !_try_add_monotone_edge(_layers):
 				break
 			continue
 		if count > MAX_TOTAL_PATHS:
 			# use greedy removal of non-essential edges to reduce path count
-			if !_greedy_remove_one_edge(_rows, num_rows, count):
+			if !_greedy_remove_one_edge(_layers, num_layers, count):
 				# fallback to simple removal
-				if !_try_remove_monotone_extra(_rows):
+				if !_try_remove_monotone_extra(_layers):
 					break
 			continue
 		break
 
-func _try_add_monotone_edge(_rows:Array) -> bool:
-	for r in _rows.size() - 1:
-		var current_row = _rows[r]
-		var next_row = _rows[r + 1]
-		if current_row.is_empty() || next_row.is_empty():
+func _try_add_monotone_edge(_layers:Array) -> bool:
+	for r in _layers.size() - 1:
+		var current_layer = _layers[r]
+		var next_layer = _layers[r + 1]
+		if current_layer.is_empty() || next_layer.is_empty():
 			continue
-		var sc:Array = current_row.duplicate()
-		sc.sort_custom(Callable(self, "_compare_node_column"))
-		var sn:Array = next_row.duplicate()
-		sn.sort_custom(Callable(self, "_compare_node_column"))
+		var sc:Array = current_layer.duplicate()
+		sc.sort_custom(Callable(self, "_compare_node_row"))
+		var sn:Array = next_layer.duplicate()
+		sn.sort_custom(Callable(self, "_compare_node_row"))
 		var pairs:int = min(sc.size(), sn.size())
 		for i in pairs:
 			var node = sc[i]
@@ -577,16 +577,16 @@ func _try_add_monotone_edge(_rows:Array) -> bool:
 					return true
 	return false
 
-func _try_remove_monotone_extra(_rows:Array) -> bool:
-	for r in _rows.size() - 1:
-		var current_row = _rows[r]
-		var next_row = _rows[r + 1]
-		if current_row.is_empty() || next_row.is_empty():
+func _try_remove_monotone_extra(_layers:Array) -> bool:
+	for r in _layers.size() - 1:
+		var current_layer = _layers[r]
+		var next_layer = _layers[r + 1]
+		if current_layer.is_empty() || next_layer.is_empty():
 			continue
-		var sc:Array = current_row.duplicate()
-		sc.sort_custom(Callable(self, "_compare_node_column"))
-		var sn:Array = next_row.duplicate()
-		sn.sort_custom(Callable(self, "_compare_node_column"))
+		var sc:Array = current_layer.duplicate()
+		sc.sort_custom(Callable(self, "_compare_node_row"))
+		var sn:Array = next_layer.duplicate()
+		sn.sort_custom(Callable(self, "_compare_node_row"))
 		var pairs:int = min(sc.size(), sn.size())
 		for i in pairs:
 			var node = sc[i]
@@ -598,22 +598,22 @@ func _try_remove_monotone_extra(_rows:Array) -> bool:
 					return true
 	return false
 
-func _compute_incoming_counts(_rows:Array) -> Dictionary:
+func _compute_incoming_counts(_layers:Array) -> Dictionary:
 	var incoming:Dictionary = {}
-	for r in _rows.size():
-		for node in _rows[r]:
+	for r in _layers.size():
+		for node in _layers[r]:
 			incoming[node] = 0
-	for r in _rows.size():
-		for node in _rows[r]:
+	for r in _layers.size():
+		for node in _layers[r]:
 			for t in node.next_nodes:
 				incoming[t] = int(incoming.get(t, 0)) + 1
 	return incoming
 
-func _greedy_remove_one_edge(_rows:Array, num_rows:int, current_count:int) -> bool:
+func _greedy_remove_one_edge(_layers:Array, num_layers:int, current_count:int) -> bool:
 	# Prefer removing edges high in the graph to cut many combinations
-	var incoming := _compute_incoming_counts(_rows)
-	for r in range(0, num_rows - 1):
-		for node in _rows[r]:
+	var incoming := _compute_incoming_counts(_layers)
+	for r in range(0, num_layers - 1):
+		for node in _layers[r]:
 			# iterate over a copy to allow removal
 			var targets:Array = node.next_nodes.duplicate()
 			for t in targets:
@@ -623,7 +623,7 @@ func _greedy_remove_one_edge(_rows:Array, num_rows:int, current_count:int) -> bo
 				# try remove
 				node.next_nodes.erase(t)
 				incoming[t] = int(incoming.get(t, 0)) - 1
-				var new_count:int = _get_all_paths(_rows, num_rows).size()
+				var new_count:int = _get_all_paths(_layers, num_layers).size()
 				if new_count < current_count && new_count >= MIN_TOTAL_PATHS:
 					return true
 				# revert
@@ -631,15 +631,15 @@ func _greedy_remove_one_edge(_rows:Array, num_rows:int, current_count:int) -> bo
 				incoming[t] = int(incoming.get(t, 0)) + 1
 	return false
 
-func _ensure_no_dead_ends(_rows:Array, num_rows:int) -> void:
-	for r in range(0, num_rows - 1):
-		var curr:Array = _rows[r]
-		var nxt:Array = _rows[r + 1]
+func _ensure_no_dead_ends(_layers:Array, num_layers:int) -> void:
+	for r in range(0, num_layers - 1):
+		var curr:Array = _layers[r]
+		var nxt:Array = _layers[r + 1]
 		if curr.is_empty() || nxt.is_empty():
 			continue
-		# sorted by column to keep planarity assumptions
+		# sorted by row to keep planarity assumptions
 		var sorted_curr:Array = curr.duplicate()
-		sorted_curr.sort_custom(Callable(self, "_compare_node_column"))
+		sorted_curr.sort_custom(Callable(self, "_compare_node_row"))
 		for i in sorted_curr.size():
 			var node = sorted_curr[i]
 			if node.next_nodes.is_empty():
@@ -648,44 +648,44 @@ func _ensure_no_dead_ends(_rows:Array, num_rows:int) -> void:
 				if nxt[j] not in node.next_nodes:
 					node.connect_to(nxt[j])
 
-func _enforce_single_boss_entry(_rows:Array, num_rows:int) -> void:
-	if num_rows < 2:
+func _enforce_single_boss_entry(_layers:Array, num_layers:int) -> void:
+	if num_layers < 2:
 		return
-	var boss_row:Array = _rows[num_rows - 1]
-	if boss_row.is_empty():
+	var boss_layer:Array = _layers[num_layers - 1]
+	if boss_layer.is_empty():
 		return
-	var boss = boss_row[0]
-	var penultimate_row:Array = _rows[num_rows - 2]
-	if penultimate_row.is_empty():
+	var boss = boss_layer[0]
+	var penultimate_layer:Array = _layers[num_layers - 2]
+	if penultimate_layer.is_empty():
 		return
-	# Pick a single entry node in penultimate row (prefer existing tavern, else first)
+	# Pick a single entry node in penultimate layer (prefer existing tavern, else first)
 	var entry = null
-	for node in penultimate_row:
+	for node in penultimate_layer:
 		if node.type == MapNodeScript.NodeType.TAVERN:
 			entry = node
 			break
 	if entry == null:
-		entry = penultimate_row[0]
+		entry = penultimate_layer[0]
 		entry.type = MapNodeScript.NodeType.TAVERN
 	# Remove all edges to boss; then connect only entry -> boss
-	for node in penultimate_row:
+	for node in penultimate_layer:
 		if boss in node.next_nodes:
 			node.next_nodes.erase(boss)
 	if boss not in entry.next_nodes:
 		entry.connect_to(boss)
-	# Collapse penultimate row to only keep the entry tavern
+	# Collapse penultimate layer to only keep the entry tavern
 	var new_penultimate:Array = []
 	new_penultimate.append(entry)
-	entry.column = 0
-	_rows[num_rows - 2] = new_penultimate
-	# Redirect all parents (pre-penultimate row) to flow into the entry tavern
-	if num_rows >= 3:
-		var pre_row:Array = _rows[num_rows - 3]
-		for parent in pre_row:
+	entry.row = 0
+	_layers[num_layers - 2] = new_penultimate
+	# Redirect all parents (pre-penultimate layer) to flow into the entry tavern
+	if num_layers >= 3:
+		var pre_layer:Array = _layers[num_layers - 3]
+		for parent in pre_layer:
 			# remove links to other penultimate nodes
 			var to_remove:Array = []
 			for t in parent.next_nodes:
-				if t.row == num_rows - 2 && t != entry:
+				if t.layer == num_layers - 2 && t != entry:
 					to_remove.append(t)
 			for t in to_remove:
 				parent.next_nodes.erase(t)
@@ -693,65 +693,65 @@ func _enforce_single_boss_entry(_rows:Array, num_rows:int) -> void:
 			if entry not in parent.next_nodes:
 				parent.connect_to(entry)
 
-func _ensure_all_paths_reach_boss(_rows:Array, num_rows:int) -> void:
-	# Backward pass to ensure each node can reach some node in next rows up to boss
+func _ensure_all_paths_reach_boss(_layers:Array, num_layers:int) -> void:
+	# Backward pass to ensure each node can reach some node in next layers up to boss
 	var can_reach:Array = []
-	for r in num_rows:
+	for r in num_layers:
 		can_reach.append([])
-	# Boss row can reach boss
-	for node in _rows[num_rows - 1]:
-		can_reach[num_rows - 1].append(true)
-	# Other rows initially false
-	for r in num_rows - 1:
-		var row:Array = _rows[r]
-		for _n in row:
+	# Boss layer can reach boss
+	for node in _layers[num_layers - 1]:
+		can_reach[num_layers - 1].append(true)
+	# Other layers initially false
+	for r in num_layers - 1:
+		var layer:Array = _layers[r]
+		for _n in layer:
 			can_reach[r].append(false)
 	# Backward propagate reachability
-	for r in range(num_rows - 2, -1, -1):
-		var row:Array = _rows[r]
-		for i in row.size():
-			var node = row[i]
+	for r in range(num_layers - 2, -1, -1):
+		var layer:Array = _layers[r]
+		for i in layer.size():
+			var node = layer[i]
 			var reachable := false
 			for nxt in node.next_nodes:
-				if can_reach[nxt.row][nxt.column]:
+				if can_reach[nxt.layer][nxt.row]:
 					reachable = true
 					break
 			if !reachable:
 				# add a monotone edge to a reachable next node if possible
-				if !_connect_to_nearest_reachable(node, _rows[r + 1], can_reach, r + 1):
-					# fallback: connect to nearest in next row
-					node.connect_to(_rows[r + 1][min(i, _rows[r + 1].size() - 1)])
+				if !_connect_to_nearest_reachable(node, _layers[r + 1], can_reach, r + 1):
+					# fallback: connect to nearest in next layer
+					node.connect_to(_layers[r + 1][min(i, _layers[r + 1].size() - 1)])
 					reachable = true
 			# update this node's reachability
 			can_reach[r][i] = reachable
 
-func _connect_to_nearest_reachable(node, next_row:Array, can_reach:Array, next_r:int) -> bool:
-	if next_row.is_empty():
+func _connect_to_nearest_reachable(node, next_layer:Array, can_reach:Array, next_r:int) -> bool:
+	if next_layer.is_empty():
 		return false
-	# try same column
-	var j:int = clamp(node.column, 0, next_row.size() - 1)
+	# try same row
+	var j:int = clamp(node.row, 0, next_layer.size() - 1)
 	if can_reach[next_r][j]:
-		if next_row[j] not in node.next_nodes:
-			node.connect_to(next_row[j])
+		if next_layer[j] not in node.next_nodes:
+			node.connect_to(next_layer[j])
 		return true
 	# try neighbors to the right only to preserve non-crossing
 	var right:int = j + 1
-	while right < next_row.size():
+	while right < next_layer.size():
 		if can_reach[next_r][right]:
-			if next_row[right] not in node.next_nodes:
-				node.connect_to(next_row[right])
+			if next_layer[right] not in node.next_nodes:
+				node.connect_to(next_layer[right])
 			return true
 		right += 1
 	return false
 
-func _enforce_degree_cap(_rows:Array, max_out_degree:int) -> void:
-	for r in _rows.size() - 1:
-		for node in _rows[r]:
+func _enforce_degree_cap(_layers:Array, max_out_degree:int) -> void:
+	for r in _layers.size() - 1:
+		for node in _layers[r]:
 			if node.next_nodes.size() <= max_out_degree:
 				continue
-			# sort targets by column index (monotone left-to-right)
+			# sort targets by row index (monotone left-to-right)
 			var targets:Array = node.next_nodes.duplicate()
-			targets.sort_custom(Callable(self, "_compare_node_column"))
+			targets.sort_custom(Callable(self, "_compare_node_row"))
 			# keep the first max_out_degree
 			var to_keep := targets.slice(0, max_out_degree)
 			var new_next:Array = []
@@ -760,17 +760,17 @@ func _enforce_degree_cap(_rows:Array, max_out_degree:int) -> void:
 					new_next.append(t)
 			node.next_nodes = new_next
 
-func _compare_node_column(a, b) -> bool:
-	return a.column < b.column
+func _compare_node_row(a, b) -> bool:
+	return a.row < b.row
 
 func log() -> void:
-	for r in rows.size():
-		for node in rows[r]:
+	for r in layers.size():
+		for node in layers[r]:
 			node.log()
 
-func _fill_types(_rows:Array, num_rows:int, rng:RandomNumberGenerator) -> void:
-	# Simple per-row type fill with caps to avoid flooding and keep boss row intact
-	if num_rows <= 2:
+func _fill_types(_layers:Array, num_layers:int, rng:RandomNumberGenerator) -> void:
+	# Simple per-layer type fill with caps to avoid flooding and keep boss layer intact
+	if num_layers <= 2:
 		return
 	# lightweight caps per run
 	var max_elite:int = 3
@@ -781,8 +781,8 @@ func _fill_types(_rows:Array, num_rows:int, rng:RandomNumberGenerator) -> void:
 	var shop:=0
 	var tavern:=0
 	var chest:=0
-	for r in range(1, num_rows - 1):
-		for node in _rows[r]:
+	for r in range(1, num_layers - 1):
+		for node in _layers[r]:
 			var roll := rng.randf()
 			if roll < ELITE_CHANCE && elite < max_elite:
 				node.type = MapNodeScript.NodeType.ELITE
