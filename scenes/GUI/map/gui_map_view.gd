@@ -22,9 +22,10 @@ func update_with_map(layers:Array) -> void:
 	#_update_content_size()
 	for layer_index in _layers.size():
 		var layer_nodes:Array = _layers[layer_index]
-		for node in layer_nodes:
+		for node:MapNode in layer_nodes:
 			var gui_node:GUIMapNode = MAP_NODE_SCENE.instantiate()
 			add_child(gui_node)
+			gui_node.update_with_node(node)
 			gui_node.position = _get_node_position(node) - gui_node.size / 2.0
 			#gui_node.update_with_node(node)
 	queue_redraw()
