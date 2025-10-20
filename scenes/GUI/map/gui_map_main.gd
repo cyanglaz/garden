@@ -9,7 +9,7 @@ func _ready() -> void:
 	randomize()
 	var s := randi()
 	print(s)
-	map_generator.generate(1, s)
+	map_generator.generate(s)
 	map_generator.log()
 	update_with_map(map_generator.layers)
 

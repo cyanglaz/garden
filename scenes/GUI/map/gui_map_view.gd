@@ -4,10 +4,10 @@ extends Control
 const MAP_NODE_SCENE := preload("res://scenes/GUI/map/gui_map_node.tscn")
 
 var _layers:Array = []
-var _node_positions:Array = [] # same shape as _layers: positions by [layer][width]
+var _node_positions:Dictionary = {} # {Vector2i: Vector2}
 
 const LAYER_SPACING := 24
-const ROW_SPACING := 30
+const ROW_SPACING := 18
 const NODE_RADIUS := 3
 const LINE_WIDTH := 1.0
 const BACKGROUND_COLOR := Constants.COLOR_GREEN5
@@ -35,19 +35,15 @@ func _recompute_positions() -> void:
 	if _layers.is_empty():
 		return
 	var layers:int = _layers.size()
-	var total_width := (layers-1) * LAYER_SPACING
+	var total_width := layers * LAYER_SPACING
 	var starting_x := (size.x - total_width) / 2.0
-	for layer_index:int in layers:
-		var layer_nodes:Array = _layers[layer_index]
-		var layer_positions:Array = []
+	var starting_y := (size.y - MapGenerator.MAX_ROWS * ROW_SPACING) / 2.0
+	for layer_nodes:Array in _layers:
 		assert(layer_nodes.size() > 0)
-		var num_rows:int = layer_nodes.size()
-		var starting_y := (size.y - num_rows * ROW_SPACING) / 2.0
-		for row_index in num_rows:
-			var x := starting_x + layer_index * LAYER_SPACING
-			var y := starting_y + row_index * ROW_SPACING
-			layer_positions.append(Vector2(x, y))
-		_node_positions.append(layer_positions)
+		for node:MapNode in layer_nodes:
+			var x := starting_x + node.grid_coordinates.x * LAYER_SPACING
+			var y := starting_y + node.grid_coordinates.y * ROW_SPACING
+			_node_positions[node.grid_coordinates] = Vector2(x, y)
 
 func _draw() -> void:
 	if _layers.is_empty():
@@ -63,14 +59,8 @@ func _draw() -> void:
 				var to_p := _get_node_position(nxt)
 				draw_line(from_p, to_p, Color(0.5,0.5,0.5,1.0), LINE_WIDTH)
 
-func _get_node_position(node) -> Vector2:
-	var layer_index:int = node.layer
-	var row_index:int = node.row
-	if layer_index >= 0 && layer_index < _node_positions.size():
-		var layer_positions:Array = _node_positions[layer_index]
-		if row_index >= 0 && row_index < layer_positions.size():
-			return layer_positions[row_index]
-	return Vector2.ZERO
+func _get_node_position(node:MapNode) -> Vector2:
+	return _node_positions.get(node.grid_coordinates)
 
 #func _update_content_size() -> void:
 #	# Fit full map to viewport, left-to-right columns, vertically centered per column
