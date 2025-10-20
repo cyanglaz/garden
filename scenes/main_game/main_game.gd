@@ -22,7 +22,6 @@ const TOOL_APPLICATION_ERROR_HIDE_DELAY := 3.0
 @onready var gui_main_game: GUIMainGame = %GUIGameSession
 @onready var field_container: FieldContainer = %FieldContainer
 @onready var feedback_camera_2d: FeedbackCamera2D = %FeedbackCamera2D
-@onready var gui_map_main: GUIMapMain = %GUIMapMain
 
 var session_seed := 0
 
