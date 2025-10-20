@@ -7,7 +7,8 @@ var _layers:Array = []
 var _node_positions:Dictionary = {} # {Vector2i: Vector2}
 
 const LAYER_SPACING := 24
-const ROW_SPACING := 18
+const ROW_SPACING := 22
+const NODE_POSITION_NOISE := 4.0
 const NODE_RADIUS := 3
 const LINE_WIDTH := 1.0
 const BACKGROUND_COLOR := Constants.COLOR_GREEN5
@@ -43,7 +44,7 @@ func _recompute_positions() -> void:
 		for node:MapNode in layer_nodes:
 			var x := starting_x + node.grid_coordinates.x * LAYER_SPACING
 			var y := starting_y + node.grid_coordinates.y * ROW_SPACING
-			_node_positions[node.grid_coordinates] = Vector2(x, y)
+			_node_positions[node.grid_coordinates] = Vector2(x, y) + Vector2.ONE * randf_range(-NODE_POSITION_NOISE, NODE_POSITION_NOISE)
 
 func _draw() -> void:
 	if _layers.is_empty():

@@ -2,7 +2,7 @@ class_name MapGenerator
 extends RefCounted
 # Generation algorithm: https://steamcommunity.com/sharedfiles/filedetails/?id=2830078257
 
-const INTERNAL_LAYER_COUNT := 8
+const INTERNAL_LAYER_COUNT := 7
 const MAX_ROWS := 5
 const TOTAL_PATHS := 4
 
@@ -83,13 +83,36 @@ func generate(rand_seed:int = 0) -> void:
 	if rand_seed != 0:
 		rng.seed = rand_seed
 
+	_generate_nodes()
+	_fill_rooms(rng)
+
+func _generate_nodes() -> void:
+	@warning_ignore("integer_division")
+	var center_y := MAX_ROWS/2
+	# Always has one starting node.
 	var starting_node:MapNode = MapNode.new()
-	starting_node.grid_coordinates = Vector2i(0, MAX_ROWS/2)
+	starting_node.type = MapNode.NodeType.NORMAL
+	starting_node.grid_coordinates = Vector2i(0, center_y)
+
 	layers.append([starting_node])
 	for i in TOTAL_PATHS:
 		_generate_nodes_in_a_path(starting_node)
-	
-	_fill_rooms(rng)
+
+	# Always has one tavern node before the boss node
+	var last_before_boss_node:MapNode = MapNode.new()
+	last_before_boss_node.type = MapNode.NodeType.TAVERN
+	last_before_boss_node.grid_coordinates = Vector2i(INTERNAL_LAYER_COUNT + 1, center_y)
+	layers.append([last_before_boss_node])
+	for node in layers[INTERNAL_LAYER_COUNT]:
+		node.connect_to(last_before_boss_node)
+
+	# Always has one boss node
+	var boss_node:MapNode = MapNode.new()
+	boss_node.type = MapNode.NodeType.BOSS
+	boss_node.grid_coordinates = Vector2i(INTERNAL_LAYER_COUNT + 2, center_y)
+	layers.append([boss_node])
+	last_before_boss_node.connect_to(boss_node)
+
 
 func _generate_nodes_in_a_path(starting_node:MapNode) -> void:
 	var current_layer:int = 1
@@ -106,7 +129,8 @@ func _generate_nodes_in_a_path(starting_node:MapNode) -> void:
 		if !next_node:
 			next_node = MapNode.new()
 			next_node.grid_coordinates = new_node_coordinate
-		layers[current_layer].append(next_node)
+		if !layers[current_layer].has(next_node):
+			layers[current_layer].append(next_node)
 		if last_node:
 			last_node.connect_to(next_node)
 		last_node = next_node
