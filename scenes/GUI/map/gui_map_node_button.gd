@@ -47,10 +47,10 @@ func _set_node_state(val:MapNode.NodeState) -> void:
 		MapNode.NodeState.NORMAL:
 			state_indicator.region_rect.position = Vector2(0, 0)
 		MapNode.NodeState.CURRENT:
-			state_indicator.region_rect.position = Vector2(0, 12)
+			state_indicator.region_rect.position = Vector2(16, 0)
 		MapNode.NodeState.NEXT:
-			state_indicator.region_rect.position = Vector2(0, 24)
+			state_indicator.region_rect.position = Vector2(32, 0)
 		MapNode.NodeState.COMPLETED:
-			state_indicator.region_rect.position = Vector2(0, 36)
+			state_indicator.region_rect.position = Vector2(48, 0)
 		MapNode.NodeState.UNREACHABLE:
-			state_indicator.region_rect.position = Vector2(0, 48)
+			state_indicator.region_rect.position = Vector2(64, 0)

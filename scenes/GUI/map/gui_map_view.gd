@@ -1,6 +1,8 @@
 class_name GUIMapView
 extends Control
 
+signal node_button_pressed(node:MapNode)
+
 const MAP_NODE_BUTTON_SCENE := preload("res://scenes/GUI/map/gui_map_node_button.tscn")
 const MAP_LINE_SCENE := preload("res://scenes/GUI/map/gui_map_line.tscn")
 
@@ -19,9 +21,13 @@ func _ready() -> void:
 	queue_redraw()
 
 func update_with_map(layers:Array) -> void:
-	Util.remove_all_children(self)
 	_layers = layers
 	_recompute_positions()
+	_draw_lines()
+	_draw_nodes()
+
+func redraw_nodes() -> void:
+	Util.remove_all_children(self)
 	_draw_lines()
 	_draw_nodes()
 
@@ -46,6 +52,7 @@ func _draw_nodes() -> void:
 		for node in layer_nodes:
 			var gui_node:GUIMapNodeButton = MAP_NODE_BUTTON_SCENE.instantiate()
 			add_child(gui_node)
+			gui_node.pressed.connect(_on_node_pressed.bind(node))
 			gui_node.update_with_node(node)
 			gui_node.position = _get_node_position(node) - gui_node.size / 2.0
 
@@ -65,3 +72,8 @@ func _draw_line(from_p:Vector2, to_p:Vector2) -> void:
 
 func _get_node_position(node:MapNode) -> Vector2:
 	return _node_positions.get(node.grid_coordinates)
+
+func _on_node_pressed(node:MapNode) -> void:
+	node_button_pressed.emit(node)
+	node.node_state = MapNode.NodeState.COMPLETED
+	redraw_nodes()
