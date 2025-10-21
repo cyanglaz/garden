@@ -6,8 +6,6 @@ const INTERNAL_LAYER_COUNT := 7
 const MAX_ROWS := 5
 const TOTAL_PATHS := 4
 @warning_ignore("integer_division")
-const CHEST_ROW := (INTERNAL_LAYER_COUNT + 1)/2
-const NO_TAVERN_ROW := INTERNAL_LAYER_COUNT
 
 const DEFAULT_TYPE_CHANGES := {
 	MapNode.NodeType.NORMAL: 45,
@@ -21,15 +19,38 @@ const DEFAULT_TYPE_CHANGES := {
 const DEFAULT_MIN_LAYER := {
 	MapNode.NodeType.NORMAL: 0,
 	MapNode.NodeType.EVENT: 0,
-	MapNode.NodeType.ELITE: 5,
+	MapNode.NodeType.ELITE: 3,
 	MapNode.NodeType.SHOP: 0,
-	MapNode.NodeType.TAVERN: 5,
+	MapNode.NodeType.TAVERN: 3,
 	MapNode.NodeType.CHEST: 0,
 	MapNode.NodeType.BOSS: 0,
 }
 
+const MIN_NODE_COUNT = {
+	MapNode.NodeType.NORMAL: 0,
+	MapNode.NodeType.EVENT: 0,
+	MapNode.NodeType.ELITE: 3,
+	MapNode.NodeType.SHOP: 0,
+	MapNode.NodeType.TAVERN: 3,
+	MapNode.NodeType.CHEST: 0,
+}
+
+const MAX_NODE_COUNT = {
+	MapNode.NodeType.NORMAL: 999999,
+	MapNode.NodeType.EVENT: 999999,
+	MapNode.NodeType.ELITE: 6,
+	MapNode.NodeType.SHOP: 999999,
+	MapNode.NodeType.TAVERN: 999999,
+	MapNode.NodeType.CHEST: 999999,
+}
+
 # Smart constraints: types that cannot appear consecutively along any path
-var _no_consecutive_types:Array = [MapNode.NodeType.ELITE, MapNode.NodeType.SHOP, MapNode.NodeType.CHEST, MapNode.NodeType.TAVERN]
+const NO_CONSECUTIVE_TYPES:Array = [MapNode.NodeType.ELITE, MapNode.NodeType.SHOP, MapNode.NodeType.CHEST, MapNode.NodeType.TAVERN]
+# This layer is always chest nodes
+@warning_ignore("integer_division")
+const CHEST_LAYER := (INTERNAL_LAYER_COUNT + 1)/2
+# This layer is always not a tavern nodes
+const NO_TAVERN_ROW := INTERNAL_LAYER_COUNT
 
 var layers:Array = []
 
@@ -71,7 +92,6 @@ func _generate_nodes() -> void:
 	boss_node.grid_coordinates = Vector2i(INTERNAL_LAYER_COUNT + 2, center_y)
 	layers.append([boss_node])
 	last_before_boss_node.connect_to(boss_node)
-
 
 func _generate_nodes_in_a_path(starting_node:MapNode, path_index:int) -> void:
 	var current_layer:int = 1
@@ -130,19 +150,58 @@ func _fill_rooms() -> void:
 	for layer_index:int in range(1, INTERNAL_LAYER_COUNT):
 		var row:Array = layers[layer_index]
 		for node in row:
-			if node.grid_coordinates.x == CHEST_ROW:
+			if node.grid_coordinates.x == CHEST_LAYER:
 				node.type = MapNode.NodeType.CHEST
 			else:
 				node.type = MapNode.NodeType.NORMAL
 			var candidates:Dictionary = _get_candidates(node)
 			node.type = Util.weighted_roll(candidates.keys(), candidates.values())
+	_constraint_node_count()
+
+func _constraint_node_count() -> void:
+	var all_internal_rows:Array = layers.slice(1, INTERNAL_LAYER_COUNT)
+	var all_internal_nodes:Array = []
+	for row in all_internal_rows:
+		for node in row:
+			all_internal_nodes.append(node)
+	var default_node_types := [MapNode.NodeType.NORMAL, MapNode.NodeType.EVENT]
+	
+	# Ensure the minimum node count is met
+	for node_type:MapNode.NodeType in MIN_NODE_COUNT.keys():
+		var min_count:int = MIN_NODE_COUNT[node_type]
+		if min_count == 0:
+			# No minimum count for this type
+			continue
+		var type_nodes:Array = all_internal_nodes.filter(func(n): return n.type == node_type)
+		var difference:int = min_count - type_nodes.size()
+		if difference > 0:
+			# Update nodes one by one so each node can fit the constraints in `_get_candidates`
+			for i in difference:
+				var nodes_to_update := all_internal_nodes.filter(func(n:MapNode): 
+					return n.type in default_node_types && _get_candidates(n).has(node_type))
+				if nodes_to_update.size() == 0:
+					break
+				var node_to_update:MapNode = Util.unweighted_roll(nodes_to_update, 1).front()
+				node_to_update.type = node_type
+
+	# Ensure the maximum node count is met
+	for node_type:MapNode.NodeType in MAX_NODE_COUNT.keys():
+		var max_count:int = MAX_NODE_COUNT[node_type]
+		if max_count > 1000:
+			# No maximum count for this type
+			continue
+		var type_nodes:Array = all_internal_nodes.filter(func(n): return n.type == node_type)
+		var difference:int = type_nodes.size() - max_count
+		if difference > 0:
+			for i in difference:
+				var node_to_update:MapNode = Util.unweighted_roll(type_nodes, difference).front()
+				node_to_update.type = MapNode.NodeType.NORMAL
 
 func _get_candidates(node:MapNode) -> Dictionary:
 	var candidates:Dictionary = DEFAULT_TYPE_CHANGES.duplicate()
-	if _is_previous_node_of_type(node, MapNode.NodeType.TAVERN):
-		candidates.erase(MapNode.NodeType.TAVERN)
-	if _is_previous_node_of_type(node, MapNode.NodeType.ELITE):
-		candidates.erase(MapNode.NodeType.ELITE)
+	for type:MapNode.NodeType in NO_CONSECUTIVE_TYPES:
+		if _is_consecutive_type(node, type):
+			candidates.erase(type)
 	if node.grid_coordinates.x == NO_TAVERN_ROW:
 		candidates.erase(MapNode.NodeType.TAVERN)
 
@@ -153,8 +212,18 @@ func _get_candidates(node:MapNode) -> Dictionary:
 			candidates.erase(type)
 	return candidates
 
+
 func _is_previous_node_of_type(node:MapNode, type:MapNode.NodeType) -> bool:
 	return node.parent_node.type == type
+
+func _does_next_node_have_type(node:MapNode, type:MapNode.NodeType) -> bool:
+	for next_node in node.next_nodes:
+		if next_node.type == type:
+			return true
+	return false
+
+func _is_consecutive_type(node:MapNode, type:MapNode.NodeType) -> bool:
+	return _is_previous_node_of_type(node, type) || _does_next_node_have_type(node, type)
 
 func log() -> void:
 	for r in layers.size():
