@@ -5,73 +5,31 @@ extends RefCounted
 const INTERNAL_LAYER_COUNT := 7
 const MAX_ROWS := 5
 const TOTAL_PATHS := 4
+@warning_ignore("integer_division")
+const CHEST_ROW := (INTERNAL_LAYER_COUNT + 1)/2
+const NO_TAVERN_ROW := INTERNAL_LAYER_COUNT
 
-const ELITE_CHANCE := 0.15
-const SHOP_CHANCE := 0.1
-const TAVERN_CHANCE := 0.12
-const EVENT_CHANCE := 0.15
-const CHEST_CHANCE := 0.08
-
+const DEFAULT_TYPE_CHANGES := {
+	MapNode.NodeType.NORMAL: 45,
+	MapNode.NodeType.ELITE: 16,
+	MapNode.NodeType.SHOP: 5,
+	MapNode.NodeType.TAVERN: 12,
+	MapNode.NodeType.EVENT: 22,
+	MapNode.NodeType.CHEST: 0,
+}
 # Configurable restrictions (now for all types)
 const DEFAULT_MIN_LAYER := {
 	MapNode.NodeType.NORMAL: 0,
-	MapNode.NodeType.EVENT: 1,
-	MapNode.NodeType.ELITE: 3,
-	MapNode.NodeType.SHOP: 1,
-	MapNode.NodeType.TAVERN: 2,
-	MapNode.NodeType.CHEST: 3,
+	MapNode.NodeType.EVENT: 0,
+	MapNode.NodeType.ELITE: 5,
+	MapNode.NodeType.SHOP: 0,
+	MapNode.NodeType.TAVERN: 5,
+	MapNode.NodeType.CHEST: 0,
 	MapNode.NodeType.BOSS: 0,
 }
 
-var _min_layer_for_type:Dictionary = DEFAULT_MIN_LAYER.duplicate(true)
-
-const DEFAULT_MAX_COUNT := {
-	MapNode.NodeType.NORMAL: 999999,
-	MapNode.NodeType.EVENT: 999999,
-	MapNode.NodeType.ELITE: 6,
-	MapNode.NodeType.SHOP: 4,
-	MapNode.NodeType.TAVERN: 5,
-	MapNode.NodeType.CHEST: 6,
-	MapNode.NodeType.BOSS: 1,
-}
-
-const DEFAULT_MIN_COUNT := {
-	MapNode.NodeType.NORMAL: 0,
-	MapNode.NodeType.EVENT: 0,
-	MapNode.NodeType.ELITE: 4,
-	MapNode.NodeType.SHOP: 3,
-	MapNode.NodeType.TAVERN: 4,
-	MapNode.NodeType.CHEST: 5,
-	MapNode.NodeType.BOSS: 1,
-}
-
-var _max_count_for_type:Dictionary = DEFAULT_MAX_COUNT.duplicate(true)
-var _min_count_for_type:Dictionary = DEFAULT_MIN_COUNT.duplicate(true)
-
-# Per-path constraints
-const PER_PATH_MIN := {
-	MapNode.NodeType.NORMAL: 0,
-	MapNode.NodeType.EVENT: 0,
-	MapNode.NodeType.ELITE: 0,
-	MapNode.NodeType.SHOP: 1,
-	MapNode.NodeType.TAVERN: 1,
-	MapNode.NodeType.CHEST: 1,
-}
-
-const PER_PATH_MAX := {
-	MapNode.NodeType.NORMAL: 999999,
-	MapNode.NodeType.EVENT: 999999,
-	MapNode.NodeType.ELITE: 3,
-	MapNode.NodeType.SHOP: 2,
-	MapNode.NodeType.TAVERN: 3,
-	MapNode.NodeType.CHEST: 3,
-}
-
-var _per_path_min:Dictionary = PER_PATH_MIN.duplicate(true)
-var _per_path_max:Dictionary = PER_PATH_MAX.duplicate(true)
-
 # Smart constraints: types that cannot appear consecutively along any path
-var _no_consecutive_types:Array = [MapNode.NodeType.ELITE, MapNode.NodeType.SHOP, MapNode.NodeType.TAVERN, MapNode.NodeType.CHEST]
+var _no_consecutive_types:Array = [MapNode.NodeType.ELITE, MapNode.NodeType.SHOP, MapNode.NodeType.CHEST, MapNode.NodeType.TAVERN]
 
 var layers:Array = []
 
@@ -84,7 +42,7 @@ func generate(rand_seed:int = 0) -> void:
 		rng.seed = rand_seed
 
 	_generate_nodes()
-	_fill_rooms(rng)
+	_fill_rooms()
 
 func _generate_nodes() -> void:
 	@warning_ignore("integer_division")
@@ -96,7 +54,7 @@ func _generate_nodes() -> void:
 
 	layers.append([starting_node])
 	for i in TOTAL_PATHS:
-		_generate_nodes_in_a_path(starting_node)
+		_generate_nodes_in_a_path(starting_node, i)
 
 	# Always has one tavern node before the boss node
 	var last_before_boss_node:MapNode = MapNode.new()
@@ -106,6 +64,7 @@ func _generate_nodes() -> void:
 	for node in layers[INTERNAL_LAYER_COUNT]:
 		node.connect_to(last_before_boss_node)
 
+
 	# Always has one boss node
 	var boss_node:MapNode = MapNode.new()
 	boss_node.type = MapNode.NodeType.BOSS
@@ -114,7 +73,7 @@ func _generate_nodes() -> void:
 	last_before_boss_node.connect_to(boss_node)
 
 
-func _generate_nodes_in_a_path(starting_node:MapNode) -> void:
+func _generate_nodes_in_a_path(starting_node:MapNode, path_index:int) -> void:
 	var current_layer:int = 1
 	var last_node:MapNode = starting_node
 	while current_layer < INTERNAL_LAYER_COUNT + 1:
@@ -122,6 +81,15 @@ func _generate_nodes_in_a_path(starting_node:MapNode) -> void:
 		if layers.size() <= current_layer:
 			layers.append([])
 		var new_node_coordinate:Vector2i = _get_new_node_row_index(last_node)
+
+		# Ensure the path 0 and path 1 do not start with the same node
+		if path_index == 1 && current_layer == 1:
+			var path0_first_node:MapNode = layers[current_layer].front()
+			var try_times := 500
+			while(path0_first_node.grid_coordinates.y == new_node_coordinate.y && try_times > 0):
+				try_times -= 1
+				new_node_coordinate = _get_new_node_row_index(last_node)
+		
 		for node in layers[current_layer]:
 			if node.grid_coordinates == new_node_coordinate:
 				next_node = node
@@ -158,10 +126,35 @@ func _get_new_node_row_index(last_node:MapNode) -> Vector2i:
 		candidates.append(straight_path_coordinate + Vector2i.DOWN)
 	return Util.unweighted_roll(candidates, 1).front()
 
-func _fill_rooms(rng:RandomNumberGenerator) -> void:
-	for layer in layers:
-		for node in layer:
-			node.type = MapNode.NodeType.NORMAL
+func _fill_rooms() -> void:
+	for layer_index:int in range(1, INTERNAL_LAYER_COUNT):
+		var row:Array = layers[layer_index]
+		for node in row:
+			if node.grid_coordinates.x == CHEST_ROW:
+				node.type = MapNode.NodeType.CHEST
+			else:
+				node.type = MapNode.NodeType.NORMAL
+			var candidates:Dictionary = _get_candidates(node)
+			node.type = Util.weighted_roll(candidates.keys(), candidates.values())
+
+func _get_candidates(node:MapNode) -> Dictionary:
+	var candidates:Dictionary = DEFAULT_TYPE_CHANGES.duplicate()
+	if _is_previous_node_of_type(node, MapNode.NodeType.TAVERN):
+		candidates.erase(MapNode.NodeType.TAVERN)
+	if _is_previous_node_of_type(node, MapNode.NodeType.ELITE):
+		candidates.erase(MapNode.NodeType.ELITE)
+	if node.grid_coordinates.x == NO_TAVERN_ROW:
+		candidates.erase(MapNode.NodeType.TAVERN)
+
+	var layer_index:int = node.grid_coordinates.x
+
+	for type:MapNode.NodeType in candidates.keys():
+		if layer_index < DEFAULT_MIN_LAYER[type]:
+			candidates.erase(type)
+	return candidates
+
+func _is_previous_node_of_type(node:MapNode, type:MapNode.NodeType) -> bool:
+	return node.parent_node.type == type
 
 func log() -> void:
 	for r in layers.size():
