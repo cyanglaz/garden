@@ -3,7 +3,7 @@ extends PanelContainer
 
 const ICON_PATH_PREFIX := "res://resources/sprites/map/map_icon_"
 
-@onready var background: TextureRect = %Background
+@onready var background: GUIIcon = %Background
 @onready var icon: TextureRect = %Icon
 
 func update_with_node(node:MapNode) -> void:
