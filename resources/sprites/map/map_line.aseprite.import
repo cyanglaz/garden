@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bgumcgopaaiip"
+path="res://.godot/imported/map_line.aseprite-11c1f156f9778e5f6a1e3ce485e26641.res"
+
+[deps]
+
+source_file="res://resources/sprites/map/map_line.aseprite"
+dest_files=["res://.godot/imported/map_line.aseprite-11c1f156f9778e5f6a1e3ce485e26641.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

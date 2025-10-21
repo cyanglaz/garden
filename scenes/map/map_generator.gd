@@ -127,7 +127,7 @@ func _generate_nodes_in_a_path(starting_node:MapNode, path_index:int) -> void:
 func _get_new_node_row_index(last_node:MapNode) -> Vector2i:
 	var last_node_up_neighbor_coordinate:Vector2i = last_node.grid_coordinates + Vector2i.UP
 	var last_node_down_neighbor_coordinate:Vector2i = last_node.grid_coordinates + Vector2i.DOWN
-	var nodes_in_the_same_row:Array = layers[last_node.grid_coordinates.x - 1]
+	var nodes_in_the_same_row:Array = layers[last_node.grid_coordinates.x]
 	var upper_node_exists:bool = false
 	var lower_node_exists:bool = false
 	for node in nodes_in_the_same_row:
