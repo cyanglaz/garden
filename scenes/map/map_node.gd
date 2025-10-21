@@ -11,7 +11,16 @@ enum NodeType {
 	EVENT,
 }
 
+enum NodeState {
+	NORMAL,
+	CURRENT,
+	NEXT,
+	COMPLETED,
+	UNREACHABLE,
+}
+
 var type:NodeType
+var node_state:NodeState
 
 # Grid coordinates within the generated map
 var grid_coordinates:Vector2i = Vector2i.ZERO

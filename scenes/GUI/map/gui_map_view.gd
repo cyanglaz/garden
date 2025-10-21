@@ -1,7 +1,7 @@
 class_name GUIMapView
 extends Control
 
-const MAP_NODE_SCENE := preload("res://scenes/GUI/map/gui_map_node.tscn")
+const MAP_NODE_BUTTON_SCENE := preload("res://scenes/GUI/map/gui_map_node_button.tscn")
 const MAP_LINE_SCENE := preload("res://scenes/GUI/map/gui_map_line.tscn")
 
 var _layers:Array = []
@@ -44,7 +44,7 @@ func _draw_nodes() -> void:
 	for layer_index in _layers.size():
 		var layer_nodes:Array = _layers[layer_index]
 		for node in layer_nodes:
-			var gui_node:GUIMapNode = MAP_NODE_SCENE.instantiate()
+			var gui_node:GUIMapNodeButton = MAP_NODE_BUTTON_SCENE.instantiate()
 			add_child(gui_node)
 			gui_node.update_with_node(node)
 			gui_node.position = _get_node_position(node) - gui_node.size / 2.0
