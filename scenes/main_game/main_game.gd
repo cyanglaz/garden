@@ -199,6 +199,12 @@ func _start_new_chapter() -> void:
 	contract_generator.generate_contracts(chapter_manager.current_chapter)
 	gui_main_game.show_boss_icon(contract_generator.boss_contracts[0].boss_data)
 	_select_contract()
+
+func _call_deferred_scroll_to_bottom(scroll:ScrollContainer) -> void:
+	# Wait a frame so ScrollContainer measures child
+	await Util.create_scaled_timer(0.01).timeout
+	var vbar := scroll.get_v_scroll_bar()
+	vbar.value = vbar.max_value
 	#_selected_contract = contract_generator.pick_contracts(CONTRACT_COUNT, _level)[0]
 	#gui_main_game.animate_show_reward_main(_selected_contract)
 

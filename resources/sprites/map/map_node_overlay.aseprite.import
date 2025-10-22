@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bjyjhw88dhnw0"
+path="res://.godot/imported/map_node_overlay.aseprite-380dca6760257f03f3d477a86b82f82a.res"
+
+[deps]
+
+source_file="res://resources/sprites/map/map_node_overlay.aseprite"
+dest_files=["res://.godot/imported/map_node_overlay.aseprite-380dca6760257f03f3d477a86b82f82a.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

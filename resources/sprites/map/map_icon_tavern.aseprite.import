@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://drep3444j7bkf"
+path="res://.godot/imported/map_icon_tavern.aseprite-cf849456a881ebb49e35dbe53f064f45.res"
+
+[deps]
+
+source_file="res://resources/sprites/map/map_icon_tavern.aseprite"
+dest_files=["res://.godot/imported/map_icon_tavern.aseprite-cf849456a881ebb49e35dbe53f064f45.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

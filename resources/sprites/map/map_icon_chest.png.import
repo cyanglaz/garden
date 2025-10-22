@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c60ay2c6dp521"
-path="res://.godot/imported/action_indicator_dot.png-f35765e7d41f0a08e546361448ec713f.ctex"
+uid="uid://bj7xkcdlomxmm"
+path="res://.godot/imported/map_icon_chest.png-db3ed202a939ac4b1dbe95a81a864afa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/indicators/action_indicator_dot.png"
-dest_files=["res://.godot/imported/action_indicator_dot.png-f35765e7d41f0a08e546361448ec713f.ctex"]
+source_file="res://resources/sprites/map/map_icon_chest.png"
+dest_files=["res://.godot/imported/map_icon_chest.png-db3ed202a939ac4b1dbe95a81a864afa.ctex"]
 
 [params]
 
