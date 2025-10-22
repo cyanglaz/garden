@@ -70,12 +70,12 @@ func _draw_lines() -> void:
 			for nxt in node.next_nodes:
 				var from_p := _get_node_position(node)
 				var to_p := _get_node_position(nxt)
-				_draw_line(from_p, to_p)
+				_draw_line(from_p, to_p, node.node_state, nxt.node_state)
 
-func _draw_line(from_p:Vector2, to_p:Vector2) -> void:
+func _draw_line(from_p:Vector2, to_p:Vector2, from_node_state:MapNode.NodeState, to_node_state:MapNode.NodeState) -> void:
 	var gui_line:GUIMapLine = MAP_LINE_SCENE.instantiate()
 	add_child(gui_line)
-	gui_line.update_with_line(from_p, to_p)
+	gui_line.update_with_line(from_p, to_p, from_node_state, to_node_state)
 
 func _complete_node(node:MapNode) -> void:
 	for layer_nodes in _layers:
