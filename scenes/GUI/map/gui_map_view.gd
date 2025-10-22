@@ -23,8 +23,7 @@ func _ready() -> void:
 func update_with_map(layers:Array) -> void:
 	_layers = layers
 	_recompute_positions()
-	_draw_lines()
-	_draw_nodes()
+	redraw_nodes()
 
 func redraw_nodes() -> void:
 	Util.remove_all_children(self)

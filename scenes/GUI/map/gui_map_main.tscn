@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cbkqwquk0cubc"]
+[gd_scene load_steps=4 format=3 uid="uid://cbkqwquk0cubc"]
 
 [ext_resource type="Script" uid="uid://3lj4ql7lxair" path="res://scenes/GUI/map/gui_map_main.gd" id="1_2egmy"]
 [ext_resource type="PackedScene" uid="uid://c2pnc4ipmna2p" path="res://scenes/GUI/map/gui_map_view.tscn" id="1_v503x"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="3_ki2ph"]
 
 [node name="GUIMapMain" type="Control"]
 layout_mode = 3
@@ -15,3 +16,19 @@ script = ExtResource("1_2egmy")
 [node name="GUIMapView" parent="." instance=ExtResource("1_v503x")]
 unique_name_in_owner = true
 layout_mode = 1
+
+[node name="GUIRichTextButton" parent="." instance=ExtResource("3_ki2ph")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -38.0
+offset_top = -24.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+localization_text_key = "REDRAW"
