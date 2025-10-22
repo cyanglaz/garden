@@ -119,8 +119,7 @@ func _press_down():
 
 func _press_up():
 	button_state = ButtonState.NORMAL
-	_play_click_sound()
-	pressed.emit()
+	_handle_press_up()
 
 func _play_click_sound() -> void:
 	var stream := _get_click_sound()
@@ -129,6 +128,10 @@ func _play_click_sound() -> void:
 func _play_hover_sound() -> void:
 	var stream := _get_hover_sound()
 	GlobalSoundManager.play_sound(stream, "SFX", 0)
+
+func _handle_press_up() -> void:
+	_play_click_sound()
+	pressed.emit()
 
 #region setter/getter
 

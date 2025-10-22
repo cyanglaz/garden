@@ -31,6 +31,13 @@ func redraw_nodes() -> void:
 	_draw_lines()
 	_draw_nodes()
 
+func complete_node(node:MapNode) -> void:
+	# Order of the operations is important
+	_complete_node(node)
+	_mark_unreachable_nodes()
+	_mark_reachable_nodes(node)
+	redraw_nodes()
+
 func _recompute_positions() -> void:
 	_node_positions.clear()
 	if _layers.is_empty():
@@ -70,10 +77,32 @@ func _draw_line(from_p:Vector2, to_p:Vector2) -> void:
 	add_child(gui_line)
 	gui_line.update_with_line(from_p, to_p)
 
+func _complete_node(node:MapNode) -> void:
+	for layer_nodes in _layers:
+		for layer_node in layer_nodes:
+			if layer_node.node_state == MapNode.NodeState.CURRENT:
+				layer_node.node_state = MapNode.NodeState.COMPLETED
+			if layer_node.node_state == MapNode.NodeState.NEXT:
+				layer_node.node_state = MapNode.NodeState.UNREACHABLE
+	node.node_state = MapNode.NodeState.CURRENT
+	for nxt in node.next_nodes:
+		nxt.node_state = MapNode.NodeState.NEXT
+
+func _mark_unreachable_nodes() -> void:
+	for layer_nodes in _layers:
+		for layer_node in layer_nodes:
+			if layer_node.node_state == MapNode.NodeState.NORMAL:
+				layer_node.node_state = MapNode.NodeState.UNREACHABLE
+
+func _mark_reachable_nodes(current_node:MapNode) -> void:
+	for nxt in current_node.next_nodes:
+		if nxt.node_state == MapNode.NodeState.UNREACHABLE:
+			nxt.node_state = MapNode.NodeState.NORMAL
+		_mark_reachable_nodes(nxt)
+
 func _get_node_position(node:MapNode) -> Vector2:
 	return _node_positions.get(node.grid_coordinates)
 
 func _on_node_pressed(node:MapNode) -> void:
 	node_button_pressed.emit(node)
-	node.node_state = MapNode.NodeState.COMPLETED
-	redraw_nodes()
+	complete_node(node)

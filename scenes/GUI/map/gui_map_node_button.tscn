@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dulskrlufh4h3"]
+[gd_scene load_steps=9 format=3 uid="uid://dulskrlufh4h3"]
 
 [ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_we0g4"]
 [ext_resource type="Script" uid="uid://vqse2kirano5" path="res://scenes/GUI/map/gui_map_node_button.gd" id="2_6lnkn"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bisst2l3rws4a" path="res://resources/sprites/map/map_node_state_indicator.png" id="3_ov53k"]
 [ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="4_ov53k"]
 [ext_resource type="Texture2D" uid="uid://bob3mebvc55g" path="res://resources/sprites/map/map_node_background.png" id="5_be658"]
+[ext_resource type="Texture2D" uid="uid://cu34uoua636hb" path="res://resources/sprites/map/map_node_overlay.png" id="6_ov53k"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5fova"]
 resource_local_to_scene = true
@@ -40,7 +41,14 @@ unique_name_in_owner = true
 layout_mode = 2
 stretch_mode = 5
 
-[node name="StateIndicator" type="NinePatchRect" parent="." index="1"]
+[node name="Overlay" type="TextureRect" parent="." index="1"]
+unique_name_in_owner = true
+self_modulate = Color(0.07450981, 0.07450981, 0.07450981, 0.78431374)
+layout_mode = 2
+texture = ExtResource("6_ov53k")
+stretch_mode = 5
+
+[node name="StateIndicator" type="NinePatchRect" parent="." index="2"]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("3_ov53k")

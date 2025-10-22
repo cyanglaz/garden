@@ -6,6 +6,9 @@ const ICON_PATH_PREFIX := "res://resources/sprites/map/map_icon_"
 @onready var background: GUIIcon = %Background
 @onready var icon: TextureRect = %Icon
 @onready var state_indicator: NinePatchRect = %StateIndicator
+@onready var overlay: TextureRect = %Overlay
+
+var node_state:MapNode.NodeState = MapNode.NodeState.NORMAL: set = _set_node_state
 
 func update_with_node(node:MapNode) -> void:
 	match node.type:
@@ -30,19 +33,17 @@ func _set_button_state(val:ButtonState) -> void:
 	if !background:
 		return
 	background.has_outline = false
-	match button_state:
-		ButtonState.NORMAL:
-			pass
-		ButtonState.HOVERED:
-			background.has_outline = true
-		ButtonState.PRESSED:
-			pass
-		ButtonState.DISABLED:
-			pass
-		ButtonState.SELECTED:
-			pass
+	if button_state in [ButtonState.HOVERED, ButtonState.SELECTED]:
+		background.has_outline = true
+	else:
+		background.has_outline = false
 
 func _set_node_state(val:MapNode.NodeState) -> void:
+	node_state = val
+	if val in [MapNode.NodeState.COMPLETED, MapNode.NodeState.UNREACHABLE]:
+		overlay.show()
+	else:
+		overlay.hide()
 	match val:
 		MapNode.NodeState.NORMAL:
 			state_indicator.region_rect.position = Vector2(0, 0)
@@ -54,3 +55,13 @@ func _set_node_state(val:MapNode.NodeState) -> void:
 			state_indicator.region_rect.position = Vector2(48, 0)
 		MapNode.NodeState.UNREACHABLE:
 			state_indicator.region_rect.position = Vector2(64, 0)
+
+func _handle_press_up() -> void:
+	if node_state in [MapNode.NodeState.COMPLETED, MapNode.NodeState.UNREACHABLE, MapNode.NodeState.CURRENT]:
+		return
+	super._handle_press_up()
+
+func _play_hover_sound() -> void:
+	if node_state in [MapNode.NodeState.COMPLETED, MapNode.NodeState.UNREACHABLE, MapNode.NodeState.CURRENT]:
+		return
+	super._play_hover_sound()
