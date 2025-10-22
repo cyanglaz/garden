@@ -9,21 +9,21 @@ var _pending_actions:Array[ActionData] = []
 var _action_index:int = 0
 var _field_application_index_counter:int = 0
 
-func apply_tool(main_game:MainGame, fields:Array, field_index:int, tool_data:ToolData, secondary_card_datas:Array, tool_card:GUIToolCardButton) -> void:
+func apply_tool(combat_main:CombatMain, fields:Array, field_index:int, tool_data:ToolData, secondary_card_datas:Array, tool_card:GUIToolCardButton) -> void:
 	tool_application_started.emit(tool_data)
 	match tool_data.type:
 		ToolData.Type.SKILL:
 			if tool_data.tool_script:
-				await tool_data.tool_script.apply_tool(main_game, fields, field_index, tool_data, secondary_card_datas)
+				await tool_data.tool_script.apply_tool(combat_main, fields, field_index, tool_data, secondary_card_datas)
 			else:
 				_action_index = 0
 				_pending_actions = tool_data.actions.duplicate()
-				await _apply_next_action(main_game, fields, field_index, tool_data, secondary_card_datas, tool_card)
+				await _apply_next_action(combat_main, fields, field_index, tool_data, secondary_card_datas, tool_card)
 		ToolData.Type.POWER:
-			await main_game.update_power(tool_data.id, 1)
+			await combat_main.update_power(tool_data.id, 1)
 	tool_application_completed.emit(tool_data)
 
-func _apply_next_action(main_game:MainGame, fields:Array, field_index:int, tool_data:ToolData, secondary_card_datas:Array, tool_card:GUIToolCardButton) -> void:
+func _apply_next_action(combat_main:CombatMain, fields:Array, field_index:int, tool_data:ToolData, secondary_card_datas:Array, tool_card:GUIToolCardButton) -> void:
 	if _action_index >= _pending_actions.size():
 		_pending_actions.clear()
 		_action_index = 0
@@ -41,10 +41,10 @@ func _apply_next_action(main_game:MainGame, fields:Array, field_index:int, tool_
 			fields_to_apply.filter(func(field:Field): return field.is_action_applicable(action))
 			await _apply_field_tool_action(action, fields_to_apply, tool_card)
 		ActionData.ActionCategory.WEATHER:
-			await _apply_weather_tool_action(action, main_game)
+			await _apply_weather_tool_action(action, combat_main)
 		_:
-			await _apply_instant_use_tool_action(action, main_game, tool_data, secondary_card_datas)
-	await _apply_next_action(main_game, fields, field_index, tool_data, secondary_card_datas, tool_card)
+			await _apply_instant_use_tool_action(action, combat_main, tool_data, secondary_card_datas)
+	await _apply_next_action(combat_main, fields, field_index, tool_data, secondary_card_datas, tool_card)
 
 func _apply_field_tool_action(action:ActionData, fields:Array, tool_card:GUIToolCardButton) -> void:
 	_field_application_index_counter = fields.size()

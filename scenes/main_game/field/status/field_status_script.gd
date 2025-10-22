@@ -42,8 +42,8 @@ func handle_tool_discard_hook(plant:Plant, count:int) -> void:
 func has_end_day_hook(plant:Plant) -> bool:
 	return _has_end_day_hook(plant)
 
-func handle_end_day_hook(main_game:MainGame, plant:Plant) -> void:
-	await _handle_end_day_hook(main_game, plant)
+func handle_end_day_hook(combat_main:CombatMain, plant:Plant) -> void:
+	await _handle_end_day_hook(combat_main, plant)
 
 #region for override
 
@@ -77,7 +77,7 @@ func _handle_tool_discard_hook(_plant:Plant, _count:int) -> void:
 func _has_end_day_hook(_plant:Plant) -> bool:
 	return false
 
-func _handle_end_day_hook(_main_game:MainGame, _plant:Plant) -> void:
+func _handle_end_day_hook(_combat_main:CombatMain, _plant:Plant) -> void:
 	await Util.await_for_tiny_time()
 
 func _handle_add_water_hook(_plant:Plant) -> void:

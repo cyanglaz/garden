@@ -41,8 +41,8 @@ func can_harvest() -> bool:
 func harvest() -> void:
 	fsm.push("PlantStateHarvest")
 
-func trigger_ability(ability_type:AbilityType, main_game:MainGame) -> void:
-	await plant_ability_container.trigger_ability(ability_type, main_game, self)
+func trigger_ability(ability_type:AbilityType, combat_main:CombatMain) -> void:
+	await plant_ability_container.trigger_ability(ability_type, combat_main, self)
 #endregion
 
 func _set_data(value:PlantData) -> void:

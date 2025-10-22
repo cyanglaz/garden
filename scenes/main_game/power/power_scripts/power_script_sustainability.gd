@@ -1,14 +1,14 @@
 class_name PowerScriptSustainability
 extends PowerScript
 
-func _has_activation_hook(main_game:MainGame) -> bool:
-	return _find_graywaters(main_game.tool_manager.tool_deck.hand).size() > 0
+func _has_activation_hook(combat_main:CombatMain) -> bool:
+	return _find_graywaters(combat_main.tool_manager.tool_deck.hand).size() > 0
 
 func _has_card_added_to_hand_hook(tool_datas:Array) -> bool:
 	return _find_graywaters(tool_datas).size() > 0
 	
-func _handle_activation_hook(main_game:MainGame) -> void:
-	_update_cards(main_game.tool_manager.tool_deck.hand)
+func _handle_activation_hook(combat_main:CombatMain) -> void:
+	_update_cards(combat_main.tool_manager.tool_deck.hand)
 
 func _handle_card_added_to_hand_hook(tool_datas:Array) -> void:
 	_update_cards(tool_datas)

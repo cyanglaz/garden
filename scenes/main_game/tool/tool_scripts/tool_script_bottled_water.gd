@@ -3,7 +3,7 @@ extends ToolScript
 
 var _card_spawn_position:Vector2
 
-func apply_tool(_main_game:MainGame, fields:Array, field_index:int, tool_data:ToolData, _secondary_card_datas:Array) -> void:
+func apply_tool(_combat_main:CombatMain, fields:Array, field_index:int, tool_data:ToolData, _secondary_card_datas:Array) -> void:
 	var action_data:ActionData = ActionData.new()
 	var field:Field = fields[field_index]
 	action_data.type = ActionData.ActionType.WATER

@@ -1,10 +1,10 @@
 class_name ToolScriptRefill
 extends ToolScript
 
-func apply_tool(main_game:MainGame, _fields:Array, _field_index:int, _tool_data:ToolData, secondary_card_datas:Array) -> void:
+func apply_tool(combat_main:CombatMain, _fields:Array, _field_index:int, _tool_data:ToolData, secondary_card_datas:Array) -> void:
 	var empty_bottle_tool_data:ToolData = secondary_card_datas.front()
 	var bottled_water_tool_data:ToolData = MainDatabase.tool_database.get_data_by_id("bottled_water").get_duplicate()
-	main_game.tool_manager.update_tool_card(empty_bottle_tool_data, bottled_water_tool_data)
+	combat_main.tool_manager.update_tool_card(empty_bottle_tool_data, bottled_water_tool_data)
 	await Util.await_for_tiny_time()
 
 func need_select_field() -> bool:

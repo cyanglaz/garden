@@ -1,7 +1,7 @@
 class_name ToolScriptCollect
 extends ToolScript
 
-func apply_tool(_main_game:MainGame, fields:Array, field_index:int, _tool_data:ToolData, _secondary_card_datas:Array) -> void:
+func apply_tool(_combat_main:CombatMain, fields:Array, field_index:int, _tool_data:ToolData, _secondary_card_datas:Array) -> void:
 	var action_data:ActionData = ActionData.new()
 	var field:Field = fields[field_index]
 	action_data.type = ActionData.ActionType.WATER

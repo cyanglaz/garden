@@ -2,7 +2,7 @@
 class_name ToolScript
 extends RefCounted
 
-func apply_tool(_main_game:MainGame, _fields:Array, _field_index:int, _tool_data:ToolData, _secondary_card_datas:Array) -> void:
+func apply_tool(_combat_main:CombatMain, _fields:Array, _field_index:int, _tool_data:ToolData, _secondary_card_datas:Array) -> void:
 	await Util.await_for_tiny_time()
 
 func need_select_field() -> bool:

@@ -164,8 +164,8 @@ func handle_tool_application_hook() -> void:
 func handle_tool_discard_hook(count:int) -> void:
 	await status_manager.handle_tool_discard_hook(plant, count)
 
-func handle_end_day_hook(main_game:MainGame) -> void:
-	await status_manager.handle_end_day_hook(main_game, plant)
+func handle_end_day_hook(combat_main:CombatMain) -> void:
+	await status_manager.handle_end_day_hook(combat_main, plant)
 
 func clear_all_statuses() -> void:
 	status_manager.clear_all_statuses()

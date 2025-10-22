@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://r5p41d4bnvav"]
+
+[ext_resource type="PackedScene" uid="uid://byg0qymapjkn6" path="res://scenes/main_game/field/field_container.tscn" id="1_nckrh"]
+
+[node name="CombatMain" type="Node2D"]
+
+[node name="FieldContainer" parent="." instance=ExtResource("1_nckrh")]
+unique_name_in_owner = true
+position = Vector2(0, -11)

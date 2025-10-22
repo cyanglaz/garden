@@ -10,6 +10,8 @@
 script = ExtResource("1_yra6k")
 player = ExtResource("2_8ywsm")
 
+[node name="NodeContainer" type="Node2D" parent="."]
+
 [node name="FieldContainer" parent="." instance=ExtResource("1_075iw")]
 unique_name_in_owner = true
 position = Vector2(0, -11)
@@ -17,5 +19,5 @@ position = Vector2(0, -11)
 [node name="FeedbackCamera2D" parent="." instance=ExtResource("2_yra6k")]
 unique_name_in_owner = true
 
-[node name="GUIGameSession" parent="." instance=ExtResource("3_8ywsm")]
+[node name="GUIMainGame" parent="." instance=ExtResource("3_8ywsm")]
 unique_name_in_owner = true
