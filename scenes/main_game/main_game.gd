@@ -43,7 +43,7 @@ func _ready() -> void:
 	contract_generator.generate_bosses(1)
 
 	Events.request_rating_update.connect(_on_request_rating_update)
-	
+	update_gold(0, false)
 	_start_new_chapter()
 
 func _input(event: InputEvent) -> void:
@@ -110,7 +110,6 @@ func _game_over() -> void:
 
 func _set_gold(val:int) -> void:
 	_gold = val
-	gui_main_game.gui_shop_main.update_for_gold(_gold)
 
 func _set_hovered_data(val:ThingData) -> void:
 	hovered_data = val
