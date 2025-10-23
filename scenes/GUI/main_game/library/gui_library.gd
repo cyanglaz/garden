@@ -89,4 +89,4 @@ func _on_back_button_evoked() -> void:
 	animate_hide()
 
 func _on_icon_button_evoked(data:Resource) -> void:
-	Singletons.main_game.show_thing_info_view(data)
+	Events.request_show_info_view.emit(data)

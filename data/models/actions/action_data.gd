@@ -109,7 +109,7 @@ func get_calculated_x_value(target_field:Field) -> int:
 		XValueType.NUMBER:
 			base_x_value = _original_x_value
 		XValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
-			base_x_value = Singletons.main_game.tool_manager.tool_deck.hand.size() - 1
+			base_x_value = Singletons.main_game.combat_main.tool_manager.tool_deck.hand.size() - 1
 		XValueType.TARGET_LIGHT:
 			if target_field && target_field.plant:
 				base_x_value = target_field.plant.light.value

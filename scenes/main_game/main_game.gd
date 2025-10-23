@@ -35,22 +35,27 @@ func _ready() -> void:
 		card_pool = player.initial_tools
 	else:
 		card_pool = test_tools
-	
+
 	#gui main signals
 	gui_main_game.update_player(player)
 	gui_main_game.bind_with_rating(rating)
+	gui_main_game.bind_cards(card_pool)
 	
 	contract_generator.generate_bosses(1)
 
-	Events.request_rating_update.connect(_on_request_rating_update)
+	_register_global_events()
+
 	update_gold(0, false)
 	_start_new_chapter()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("view_detail"):
 		if hovered_data:
-			show_thing_info_view(hovered_data)
+			Events.request_show_info_view.emit(hovered_data)
 			hovered_data = null
+
+func _register_global_events() -> void:
+	Events.request_rating_update.connect(_on_request_rating_update)
 
 #endregion
 
@@ -76,9 +81,6 @@ func add_control_to_overlay(control:Control) -> void:
 
 func clear_all_tooltips() -> void:
 	gui_main_game.clear_all_tooltips()
-
-func show_thing_info_view(data:Resource) -> void:
-	gui_main_game.gui_thing_info_view.show_with_data(data)
 
 func show_warning(warning_type:WarningManager.WarningType) -> void:
 	_warning_manager.show_warning(warning_type)
@@ -122,8 +124,13 @@ func _set_hovered_data(val:ThingData) -> void:
 
 #endregion
 
+#region global events
+
 func _on_request_rating_update(val:int) -> void:
 	rating.value += val
 	await gui_main_game.rating_update_finished
 	if rating.value == 0:
 		_game_over()
+
+
+#endregion

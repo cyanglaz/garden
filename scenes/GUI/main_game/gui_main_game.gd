@@ -23,6 +23,11 @@ func _ready() -> void:
 	gui_top_bar.rating_update_finished.connect(func(value:int) -> void: rating_update_finished.emit(value))
 	gui_top_animation_overlay.setup(self)
 
+	_register_global_events()
+
+func _register_global_events() -> void:
+	Events.request_show_info_view.connect(_on_request_show_info_view)
+	Events.request_view_cards.connect(_on_request_view_cards)
 
 #region all ui
 func toggle_all_ui(on:bool) -> void:
@@ -60,9 +65,8 @@ func hide_current_contract() -> void:
 func update_player(player_data:PlayerData) -> void:
 	gui_top_bar.update_player(player_data)
 
-
 func bind_cards(cards:Array[ToolData]) -> void:
-	gui_top_bar.full_deck_button_evoked.connect(_on_deck_button_pressed.bind(cards, tr("FULL_DECK_TITLE"), GUIDeckButton.Type.ALL))
+	gui_top_bar.full_deck_button_evoked.connect(_on_request_view_cards.bind(cards, tr("FULL_DECK_TITLE")))
 
 #endregion
 
@@ -89,13 +93,20 @@ func clear_all_tooltips() -> void:
 
 #region events
 
-func _on_deck_button_pressed(cards:Array[ToolData], title:String, type: GUIDeckButton.Type) -> void:
-	Events.request_view_cards.emit(cards, title, type)
-
 func _on_settings_button_evoked() -> void:
 	_gui_settings_main.animate_show()
 
 func _on_library_button_evoked() -> void:
 	gui_library.animate_show()
+
+#endregion
+
+#region global events
+
+func _on_request_show_info_view(data:Resource) -> void:
+	gui_thing_info_view.show_with_data(data)
+
+func _on_request_view_cards(cards:Array, title:String) -> void:
+	_gui_tool_cards_viewer.animated_show_with_pool(cards, title)
 
 #endregion

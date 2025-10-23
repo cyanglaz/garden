@@ -124,6 +124,6 @@ func _on_deck_button_pressed(deck:Deck, title:String, type: GUIDeckButton.Type) 
 			cards = deck.pool
 		GUIDeckButton.Type.EXHAUST:
 			cards = deck.exhaust_pool
-	Events.request_view_cards.emit(cards, title, type)
+	Events.request_view_cards.emit(cards, title)
 
 #endregion
