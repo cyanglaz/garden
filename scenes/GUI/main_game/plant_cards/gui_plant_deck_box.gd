@@ -32,11 +32,11 @@ func get_icon_position(index:int) -> Vector2:
 func _on_mouse_entered(index:int) -> void:
 	var card:GUIPlantCard = _plant_card_container.get_child(index)
 	var plant_data = card.gui_plant_icon.plant_data
-	Singletons.main_game.hovered_data = plant_data
+	Events.update_hovered_data.emit(plant_data)
 	_weak_tooltip = weakref(Util.display_plant_tooltip(plant_data, card, false, GUITooltip.TooltipPosition.BOTTOM))
 
 func _on_mouse_exited(_index:int) -> void:
 	if _weak_tooltip.get_ref():
-		Singletons.main_game.hovered_data = null
+		Events.update_hovered_data.emit(null)
 		_weak_tooltip.get_ref().queue_free()
 		_weak_tooltip = weakref(null)

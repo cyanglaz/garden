@@ -131,7 +131,7 @@ func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	if activated:
 		if !library_mode:
-			Singletons.main_game.hovered_data = tool_data
+			Events.update_hovered_data.emit(tool_data)
 		await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
 		if mouse_in && !tool_data.actions.is_empty():
 			if _weak_actions_tooltip.get_ref():
@@ -140,7 +140,7 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
-	Singletons.main_game.hovered_data = null
+	Events.update_hovered_data.emit(null)
 	clear_tooltip()
 
 func _on_energy_tracker_value_updated(energy_tracker:ResourcePoint) -> void:

@@ -216,7 +216,7 @@ func _hide_custom_error(identifier:String) -> void:
 		var timer:SceneTreeTimer = _tool_application_error_timers[identifier]
 		timer.timeout.disconnect(_on_tool_application_error_timer_timeout)
 		_tool_application_error_timers.erase(identifier)
-	Singletons.main_game.hide_custom_error(identifier)
+	Events.request_hide_custom_error.emit(identifier)
 
 #endregion
 
@@ -268,7 +268,7 @@ func _on_tool_application_completed(tool_data:ToolData) -> void:
 
 func _on_tool_application_error(tool_data:ToolData, error_message:String) -> void:
 	_clear_tool_selection()
-	Singletons.main_game.show_custom_error(error_message, tool_data.id)
+	Events.request_show_custom_error.emit(error_message, tool_data.id)
 	if _tool_application_error_timers.has(tool_data.id):
 		var existing_timer:SceneTreeTimer = _tool_application_error_timers[tool_data.id]
 		existing_timer.timeout.disconnect(_on_tool_application_error_timer_timeout)

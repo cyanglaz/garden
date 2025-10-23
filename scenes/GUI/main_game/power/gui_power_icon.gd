@@ -37,7 +37,7 @@ func play_trigger_animation() -> void:
 func _on_mouse_entered() -> void:
 	is_highlighted = true
 	if !library_mode:
-		Singletons.main_game.hovered_data = _weak_power_data.get_ref()
+		Events.update_hovered_data.emit(_weak_power_data.get_ref())
 	if display_mode:
 		return
 	_weak_tooltip = weakref(Util.display_thing_data_tooltip(_weak_power_data.get_ref(), self, false, GUITooltip.TooltipPosition.TOP_RIGHT, true))
@@ -46,7 +46,7 @@ func _on_mouse_entered() -> void:
 func _on_mouse_exited() -> void:
 	is_highlighted = false
 	if !library_mode:
-		Singletons.main_game.hovered_data = null
+		Events.update_hovered_data.emit(null)
 	if display_mode:
 		return
 	if _weak_tooltip.get_ref():

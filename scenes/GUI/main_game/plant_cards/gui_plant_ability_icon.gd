@@ -33,7 +33,7 @@ func _on_mouse_entered() -> void:
 	is_highlighted = true
 	var data := MainDatabase.plant_ability_database.get_data_by_id(ability_id)
 	if !library_mode:
-		Singletons.main_game.hovered_data = data
+		Events.update_hovered_data.emit(data)
 	if display_mode:
 		return
 	_weak_tooltip = weakref(Util.display_thing_data_tooltip(data, self, false, GUITooltip.TooltipPosition.LEFT, true))
@@ -42,7 +42,7 @@ func _on_mouse_entered() -> void:
 func _on_mouse_exited() -> void:
 	is_highlighted = false
 	if !library_mode:
-		Singletons.main_game.hovered_data = null
+		Events.update_hovered_data.emit(null)
 	if display_mode:
 		return
 	if _weak_tooltip.get_ref():

@@ -112,13 +112,13 @@ func _combine_plant_datas(plant_datas:Array[PlantData]) -> Dictionary:
 
 func _on_mouse_entered_plant_icon(index:int, plant_data:PlantData) -> void:
 	var gui_contract_plant_icon:GUIContractPlaintIcon = plant_container.get_child(index)
-	Singletons.main_game.hovered_data = plant_data
+	Events.update_hovered_data.emit(plant_data)
 	gui_contract_plant_icon.gui_plant_icon.has_outline = true
 	_weak_tooltip = weakref(Util.display_plant_tooltip(plant_data, gui_contract_plant_icon.gui_plant_icon, false, GUITooltip.TooltipPosition.LEFT))
 
 func _on_mouse_exited_plant_icon(index:int) -> void:
 	var gui_contract_plant_icon:GUIContractPlaintIcon = plant_container.get_child(index)
-	Singletons.main_game.hovered_data = null
+	Events.update_hovered_data.emit(null)
 	gui_contract_plant_icon.gui_plant_icon.has_outline = false
 	if _weak_tooltip.get_ref():
 		_weak_tooltip.get_ref().queue_free()

@@ -18,9 +18,9 @@ func update_with_boss_data(boss_data:BossData) -> void:
 	rich_text_label.text = boss_data.get_display_description()
 
 func _on_mouse_entered() -> void:
-	Singletons.main_game.hovered_data = _weak_boss_data.get_ref()
+	Events.update_hovered_data.emit(_weak_boss_data.get_ref())
 	has_outline = true
 
 func _on_mouse_exited() -> void:
-	Singletons.main_game.hovered_data = null
+	Events.update_hovered_data.emit(null)
 	has_outline = false

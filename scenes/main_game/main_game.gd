@@ -3,8 +3,6 @@ extends Node2D
 
 const INITIAL_RATING_VALUE := 100
 const INITIAL_RATING_MAX_VALUE := 100
-const DETAIL_TOOLTIP_DELAY := 0.8
-
 
 @export var player:PlayerData
 @export var test_tools:Array[ToolData]
@@ -19,7 +17,6 @@ var session_seed := 0
 
 var chapter_manager:ChapterManager = ChapterManager.new()
 var contract_generator:ContractGenerator = ContractGenerator.new()
-var hovered_data:ThingData: set = _set_hovered_data
 var card_pool:Array[ToolData]
 var rating:ResourcePoint = ResourcePoint.new()
 var _gold:int = 0: set = _set_gold
@@ -50,12 +47,14 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("view_detail"):
-		if hovered_data:
-			Events.request_show_info_view.emit(hovered_data)
-			hovered_data = null
+		gui_main_game.show_info_view()
 
 func _register_global_events() -> void:
 	Events.request_rating_update.connect(_on_request_rating_update)
+	Events.request_show_warning.connect(_on_request_show_warning)
+	Events.request_hide_warning.connect(_on_request_hide_warning)
+	Events.request_show_custom_error.connect(_on_request_show_custom_error)
+	Events.request_hide_custom_error.connect(_on_request_hide_custom_error)
 
 #endregion
 
@@ -64,7 +63,6 @@ func add_card_to_deck(tool_data:ToolData) -> void:
 	card_pool.append(tool_data)
 
 #endregion
-
 
 #region gold
 
@@ -78,21 +76,6 @@ func update_gold(gold_diff:int, animated:bool) -> void:
 
 func add_control_to_overlay(control:Control) -> void:
 	gui_main_game.add_control_to_overlay(control)
-
-func clear_all_tooltips() -> void:
-	gui_main_game.clear_all_tooltips()
-
-func show_warning(warning_type:WarningManager.WarningType) -> void:
-	_warning_manager.show_warning(warning_type)
-
-func hide_warning(warning_type:WarningManager.WarningType) -> void:
-	_warning_manager.hide_warning(warning_type)
-
-func show_custom_error(message:String, id:String) -> void:
-	_warning_manager.show_custom_error(message, id)
-
-func hide_custom_error(id:String) -> void:
-	_warning_manager.hide_custom_error(id)
 
 #endregion
 
@@ -113,15 +96,6 @@ func _game_over() -> void:
 func _set_gold(val:int) -> void:
 	_gold = val
 
-func _set_hovered_data(val:ThingData) -> void:
-	hovered_data = val
-	if hovered_data:
-		await Util.create_scaled_timer(DETAIL_TOOLTIP_DELAY).timeout
-		if hovered_data:
-			show_warning(WarningManager.WarningType.DIALOGUE_THING_DETAIL)
-	else:
-		hide_warning(WarningManager.WarningType.DIALOGUE_THING_DETAIL)
-
 #endregion
 
 #region global events
@@ -131,6 +105,18 @@ func _on_request_rating_update(val:int) -> void:
 	await gui_main_game.rating_update_finished
 	if rating.value == 0:
 		_game_over()
+
+func _on_request_show_warning(warning_type:WarningManager.WarningType) -> void:
+	_warning_manager.show_warning(warning_type)
+
+func _on_request_hide_warning(warning_type:WarningManager.WarningType) -> void:
+	_warning_manager.hide_warning(warning_type)
+
+func _on_request_show_custom_error(message:String, id:String) -> void:
+	_warning_manager.show_custom_error(message, id)
+
+func _on_request_hide_custom_error(id:String) -> void:
+	_warning_manager.hide_custom_error(id)
 
 
 #endregion

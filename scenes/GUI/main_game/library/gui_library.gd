@@ -25,8 +25,6 @@ func _ready() -> void:
 	#animate_show(MainDatabase.plant_database.get_data_by_id("rose"))
 
 func animate_show() -> void:
-	if Singletons.main_game:
-		Singletons.main_game.clear_all_tooltips()
 	PauseManager.try_pause()
 	show()
 	update_with_category("card")

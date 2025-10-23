@@ -44,7 +44,7 @@ func clear() -> void:
 		return
 	for child:GUIToolCardButton in _container.get_children():
 		child.queue_free()
-	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
+	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 	_card_selection_container.end_selection()
 	_selected_secondary_cards.clear()
 
@@ -65,9 +65,9 @@ func clear_selection() -> void:
 		for i in _container.get_children().size():
 			var gui_card = _container.get_child(i)
 			gui_card.z_index = 0
-	Singletons.main_game.hide_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
-	Singletons.main_game.hide_warning(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
-	Singletons.main_game.hide_warning(WarningManager.WarningType.CARD_USE_LIMIT_REACHED)
+	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
+	Events.request_hide_warning.emit(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
+	Events.request_hide_warning.emit(WarningManager.WarningType.CARD_USE_LIMIT_REACHED)
 
 func add_card(tool_data:ToolData) -> GUIToolCardButton:
 	var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
@@ -225,7 +225,7 @@ func _hide_all_card_warnings() -> void:
 	for warning_type in [WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD, \
 						WarningManager.WarningType.CARD_USE_LIMIT_REACHED, \
 						WarningManager.WarningType.INSUFFICIENT_ENERGY]:
-		Singletons.main_game.hide_warning(warning_type)
+			Events.request_hide_warning.emit(warning_type)
 
 func _return_secondary_card_to_hand(card:GUIToolCardButton) -> void:
 	_card_selection_container.remove_selected_secondary_card(card)
@@ -255,11 +255,11 @@ func _on_tool_card_pressed(index:int) -> void:
 	# Select a main card from hand.
 	if selected_card.tool_data.get_final_energy_cost() < 0:
 		selected_card.play_error_shake_animation()
-		Singletons.main_game.show_warning(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
+		Events.request_show_warning.emit(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
 		return
 	if card_use_limit_reached:
 		selected_card.play_error_shake_animation()
-		Singletons.main_game.show_warning(WarningManager.WarningType.CARD_USE_LIMIT_REACHED)
+		Events.request_show_warning.emit(WarningManager.WarningType.CARD_USE_LIMIT_REACHED)
 		return
 	selected_index = index
 	
@@ -278,7 +278,7 @@ func _on_tool_card_pressed(index:int) -> void:
 	else:
 		selected_index = -1
 		selected_card.play_error_shake_animation()
-		Singletons.main_game.show_warning(WarningManager.WarningType.INSUFFICIENT_ENERGY)
+		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 
 func _on_tool_card_mouse_entered(index:int) -> void:
 	_hide_all_card_warnings()

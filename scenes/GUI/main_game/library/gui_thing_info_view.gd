@@ -18,8 +18,6 @@ func _ready() -> void:
 
 func show_with_data(data:Variant) -> void:
 	update_with_data(data, 0)
-	if Singletons.main_game:
-		Singletons.main_game.clear_all_tooltips()
 	PauseManager.try_pause()
 	show()
 
