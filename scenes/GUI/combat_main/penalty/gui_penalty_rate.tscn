@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://cs81yivlig7mc"]
 
-[ext_resource type="Script" uid="uid://c42x4dsabj362" path="res://scenes/GUI/main_game/top_bar/gui_level_title.gd" id="1_xsgu8"]
+[ext_resource type="Script" uid="uid://c42x4dsabj362" path="res://scenes/GUI/combat_main/penalty/gui_penalty_rate.gd" id="1_0n4xf"]
 
-[node name="CenterContainer" type="HBoxContainer"]
+[node name="GUIPenaltyRate" type="HBoxContainer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -16,14 +16,14 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 2
 alignment = 1
-script = ExtResource("1_xsgu8")
+script = ExtResource("1_0n4xf")
 
 [node name="PenaltyRateTitleLabel" type="Label" parent="."]
 unique_name_in_owner = true
-self_modulate = Color(0.9607843, 0.33333334, 0.3647059, 1)
+self_modulate = Color(1, 0, 0.2509804, 1)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_type_variation = &"HUD_mid"
+theme_type_variation = &"HUD_LARGE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -31,6 +31,6 @@ vertical_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
-theme_type_variation = &"HUD"
+theme_type_variation = &"HUD_LARGE"
 horizontal_alignment = 1
 vertical_alignment = 1

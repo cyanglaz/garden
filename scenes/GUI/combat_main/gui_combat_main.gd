@@ -16,6 +16,7 @@ signal mouse_exited_card(tool_data:ToolData)
 @onready var gui_boost_tracker: GUIBoostTracker = %GUIBoostTracker
 @onready var gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
 @onready var end_turn_button: GUIRichTextButton = %EndTurnButton
+@onready var gui_penalty_rate: GUILevelTitle = %GUIPenaltyRate
 
 @onready var gui_plant_deck_box: GUIPlantDeckBox = %GUIPlantDeckBox
 @onready var gui_plant_seed_animation_container: GUIPlantSeedAnimationContainer = %GUIPlantSeedAnimationContainer
@@ -62,7 +63,6 @@ func toggle_all_ui(on:bool) -> void:
 	else:
 		end_turn_button.button_state = GUIBasicButton.ButtonState.DISABLED
 
-
 #region tools
 func update_tools(tool_datas:Array[ToolData]) -> void:
 	gui_tool_card_container.update_tools(tool_datas)
@@ -104,10 +104,17 @@ func update_boost(boost:int) -> void:
 
 #endregion
 
+#region penalty
+
+func update_penalty_rate(val:int) -> void:
+	gui_penalty_rate.update_penalty(val)
+
+#endregion
+
 #region events
 
 func _on_deck_button_pressed(deck:Deck, title:String, type: GUIDeckButton.Type) -> void:
-	var cards:Array[ToolData]
+	var cards:Array
 	match type:
 		GUIDeckButton.Type.DRAW:
 			cards = deck.draw_pool

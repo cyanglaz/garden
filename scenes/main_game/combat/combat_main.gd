@@ -42,6 +42,7 @@ func start(field_count:int, card_pool:Array[ToolData], energy_cap:int, contract:
 	field_container.field_harvest_started.connect(_on_field_harvest_started)
 	field_container.field_harvest_completed.connect(_on_field_harvest_completed)
 
+	weather_manager.weathers_updated.connect(_on_weathers_updated)
 
 	tool_manager = ToolManager.new(card_pool.duplicate(), gui.gui_tool_card_container)
 	tool_manager.tool_application_started.connect(_on_tool_application_started)
@@ -113,6 +114,7 @@ func _start_day() -> void:
 	energy_tracker.setup(max_energy, max_energy)
 	day_manager.next_day()
 	gui.clear_tool_selection()
+	gui.update_penalty_rate(_contract.get_penalty_rate(day_manager.day))
 	if day_manager.day == 0:
 		await _contract.apply_boss_actions(self, BossScript.HookType.LEVEL_START)
 		await Util.create_scaled_timer(0.2).timeout

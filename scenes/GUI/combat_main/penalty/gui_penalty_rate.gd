@@ -18,7 +18,7 @@ func update_penalty(penalty:int) -> void:
 	var penalty_per_day_string := "0"
 	if penalty > 0:
 		penalty_per_day_string = str(penalty)
-		penalty_per_day_color = Constants.COLOR_RED1
+		penalty_per_day_color = Constants.COLOR_RED
 	else:
 		penalty_per_day_color = Constants.COLOR_WHITE
 	_penalty_rate_value_label.self_modulate = penalty_per_day_color
