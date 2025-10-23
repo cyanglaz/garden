@@ -19,6 +19,10 @@ var _gui_dialogue_window:GUIDialogueWindow: get = _get_gui_dialogue_window
 var _weak_energy_warning_tooltip:WeakRef = weakref(null)
 var _weak_gold_warning_tooltip:WeakRef = weakref(null)
 
+var _weak_main_game:WeakRef = weakref(null)
+
+func _init(main_game:MainGame) -> void:
+	_weak_main_game = weakref(main_game)
 
 func show_warning(warning_type:WarningType) -> void:
 	match warning_type:
@@ -59,10 +63,10 @@ func hide_custom_error(id:String) -> void:
 	_gui_dialogue_window.hide_custom_error(id)
 
 func _get_gui_energy_tracker() -> GUIEnergyTracker:
-	return Singletons.main_game.combat_main.gui.gui_energy_tracker
-
+	return _weak_main_game.get_ref().combat_main.gui.gui_energy_tracker
+				
 func _get_gui_gold() -> GUIGold:
-	return Singletons.main_game.gui_main_game.gui_top_bar.gui_gold
+	return _weak_main_game.get_ref().gui_main_game.gui_top_bar.gui_gold
 
 func _get_gui_dialogue_window() -> GUIDialogueWindow:
-	return Singletons.main_game.gui_main_game.gui_dialogue_window
+	return _weak_main_game.get_ref().gui_main_game.gui_dialogue_window

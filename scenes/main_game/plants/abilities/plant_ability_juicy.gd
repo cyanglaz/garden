@@ -8,4 +8,4 @@ func _trigger_ability_hook(ability_type:Plant.AbilityType, combat_main:CombatMai
 	assert(ability_type == Plant.AbilityType.HARVEST)
 	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id("water_cache").get_duplicate()
 	var from_position:Vector2 = Util.get_node_ui_position(combat_main.gui.gui_tool_card_container, self) - GUIToolCardButton.SIZE / 2
-	await combat_main.tool_manager.add_temp_tools_to_hand([tool_data], from_position, true)
+	await combat_main.add_temp_tools_to_hand([tool_data], from_position, true)

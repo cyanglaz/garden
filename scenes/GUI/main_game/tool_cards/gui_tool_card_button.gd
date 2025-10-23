@@ -51,6 +51,7 @@ var _weak_tool_data:WeakRef = weakref(null)
 var _container_offset:Vector2 = Vector2.ZERO: set = _set_container_offset
 
 var _weak_actions_tooltip:WeakRef = weakref(null)
+var _weak_mouse_field:WeakRef = weakref(null)
 
 func _ready() -> void:
 	super._ready()
@@ -83,6 +84,7 @@ func update_with_tool_data(td:ToolData) -> void:
 
 func update_mouse_field(field:Field) -> void:
 	_gui_action_list.update(tool_data.actions, field)
+	_weak_mouse_field = weakref(field)
 
 func play_move_sound() -> void:
 	_play_hover_sound()
@@ -136,7 +138,7 @@ func _on_mouse_entered() -> void:
 		if mouse_in && !tool_data.actions.is_empty():
 			if _weak_actions_tooltip.get_ref():
 				return
-			_weak_actions_tooltip = weakref(Util.display_tool_card_tooltip(tool_data, Singletons.main_game.combat_main.field_container.mouse_field, self, false, GUITooltip.TooltipPosition.RIGHT, true))
+			_weak_actions_tooltip = weakref(Util.display_tool_card_tooltip(tool_data, _weak_mouse_field.get_ref(), self, false, GUITooltip.TooltipPosition.RIGHT, true))
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()

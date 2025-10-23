@@ -20,7 +20,7 @@ var contract_generator:ContractGenerator = ContractGenerator.new()
 var card_pool:Array[ToolData]
 var rating:ResourcePoint = ResourcePoint.new()
 var _gold:int = 0: set = _set_gold
-var _warning_manager:WarningManager = WarningManager.new()
+var _warning_manager:WarningManager = WarningManager.new(self)
 
 func _ready() -> void:
 	Singletons.main_game = self
