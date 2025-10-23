@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://csrspsf8vl2ux"]
 
-[ext_resource type="Script" uid="uid://cnyi3oel6s8q7" path="res://scenes/GUI/main_game/momentum/gui_boost_tracker.gd" id="1_pjwk6"]
+[ext_resource type="Script" uid="uid://cnyi3oel6s8q7" path="res://scenes/GUI/combat_main/momentum/gui_boost_tracker.gd" id="1_pjwk6"]
 
 [node name="GUIBoostTracker" type="HBoxContainer"]
 theme_override_constants/separation = 1

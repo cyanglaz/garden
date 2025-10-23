@@ -15,7 +15,7 @@ func _play_harvest_animation() -> void:
 func _handle_ability() -> void:
 	# Must wait to make the operation async even if the plant does not have any ability hooks
 	await Util.await_for_tiny_time()
-	await plant.trigger_ability(Plant.AbilityType.HARVEST, Singletons.main_game)
+	await plant.trigger_ability(Plant.AbilityType.HARVEST, Singletons.main_game.combat_main)
 
 func _get_animation_name() -> String:
 	return "idle"

@@ -1,10 +1,10 @@
 [gd_scene load_steps=9 format=3 uid="uid://bst27xarx6b8r"]
 
-[ext_resource type="Script" uid="uid://b0gk878d4axnv" path="res://scenes/GUI/main_game/level_summary/gui_level_summary_main.gd" id="1_bf6q1"]
+[ext_resource type="Script" uid="uid://b0gk878d4axnv" path="res://scenes/GUI/combat_main/level_summary/gui_level_summary_main.gd" id="1_bf6q1"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="2_v8dyu"]
 [ext_resource type="Texture2D" uid="uid://b0nsc2v1cdqqd" path="res://resources/sprites/GUI/shared/panel_background_simple.png" id="3_l4mju"]
 [ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="4_bdoyl"]
-[ext_resource type="PackedScene" uid="uid://dypjo506mdbnc" path="res://scenes/GUI/main_game/level_summary/gui_summary_item.tscn" id="5_v8dyu"]
+[ext_resource type="PackedScene" uid="uid://dypjo506mdbnc" path="res://scenes/GUI/combat_main/level_summary/gui_summary_item.tscn" id="5_v8dyu"]
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="5_yjk5o"]
 [ext_resource type="PackedScene" uid="uid://bfye3pwakcidx" path="res://scenes/GUI/shared/descriptions/gui_tooltip_description_separator.tscn" id="6_l4mju"]
 [ext_resource type="PackedScene" uid="uid://dm1jpn72n0ue7" path="res://scenes/GUI/main_game/top_bar/gui_gold.tscn" id="7_kv3qy"]

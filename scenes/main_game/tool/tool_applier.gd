@@ -53,21 +53,21 @@ func _apply_field_tool_action(action:ActionData, fields:Array, tool_card:GUITool
 		field.apply_actions([action], tool_card)
 	await _all_field_action_application_completed
 
-func _apply_weather_tool_action(action:ActionData, main_game:MainGame) -> void:
-	var from_position := main_game.gui_main_game.gui_tool_card_container.get_center_position()
-	var weather_icon_position := main_game.gui_main_game.gui_weather_container.get_today_weather_icon().global_position
-	await main_game.weather_manager.apply_weather_tool_action(action, from_position, weather_icon_position)
+func _apply_weather_tool_action(action:ActionData, combat_main:CombatMain) -> void:
+	var from_position := combat_main.gui.gui_tool_card_container.get_center_position()
+	var weather_icon_position := combat_main.gui.gui_weather_container.get_today_weather_icon().global_position
+	await combat_main.weather_manager.apply_weather_tool_action(action, from_position, weather_icon_position)
 
-func _apply_instant_use_tool_action(action:ActionData, main_game:MainGame, tool_data:ToolData, secondary_card_datas:Array) -> void:
+func _apply_instant_use_tool_action(action:ActionData, combat_main:CombatMain, tool_data:ToolData, secondary_card_datas:Array) -> void:
 	match action.type:
 		ActionData.ActionType.DRAW_CARD:
-			await main_game.draw_cards(action.get_calculated_value(null))
+			await combat_main.draw_cards(action.get_calculated_value(null))
 		ActionData.ActionType.DISCARD_CARD:
-			await _handle_discard_card_action(action, main_game, tool_data, secondary_card_datas)
+			await _handle_discard_card_action(action, combat_main, tool_data, secondary_card_datas)
 		ActionData.ActionType.ENERGY:
-			main_game.energy_tracker.restore(action.get_calculated_value(null))
+			combat_main.energy_tracker.restore(action.get_calculated_value(null))
 		ActionData.ActionType.UPDATE_GOLD:
-			await main_game.update_gold(action.get_calculated_value(null), true)
+			await Singletons.main_game.update_gold(action.get_calculated_value(null), true)
 		ActionData.ActionType.UPDATE_X:
 			var x_action:ActionData
 			for action_data:ActionData in tool_data.actions:
@@ -76,17 +76,17 @@ func _apply_instant_use_tool_action(action:ActionData, main_game:MainGame, tool_
 					break
 			x_action.modified_x_value += action.get_calculated_value(null)
 
-func _handle_discard_card_action(action:ActionData, main_game:MainGame, tool_data:ToolData, secondary_card_datas:Array) -> void:
+func _handle_discard_card_action(action:ActionData, combat_main:CombatMain, tool_data:ToolData, secondary_card_datas:Array) -> void:
 	var random := action.value_type == ActionData.ValueType.RANDOM
 	var discard_size := action.get_calculated_value(null)
 	if random:
-		var tool_datas_to_discard:Array = main_game.tool_manager.discardable_cards()
+		var tool_datas_to_discard:Array = combat_main.tool_manager.discardable_cards()
 		tool_datas_to_discard.erase(tool_data)
 		if tool_datas_to_discard.is_empty():
 			return
 		secondary_card_datas= Util.unweighted_roll(tool_datas_to_discard, discard_size)
-	await main_game.discard_cards(secondary_card_datas)
-	await main_game.field_container.trigger_tool_discard_hook(discard_size)
+	await combat_main.discard_cards(secondary_card_datas)
+	await combat_main.field_container.trigger_tool_discard_hook(discard_size)
 
 func _on_field_action_application_completed(field:Field) -> void:
 	field.action_application_completed.disconnect(_on_field_action_application_completed.bind(field))

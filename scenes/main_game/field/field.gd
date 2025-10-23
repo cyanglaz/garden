@@ -80,7 +80,7 @@ func plant_seed(plant_data:PlantData) -> void:
 	plant.harvest_completed.connect(_on_plant_harvest_completed)
 	plant.field = self
 	_gui_plant_ability_icon_container.setup_with_plant(plant)
-	await plant.trigger_ability(Plant.AbilityType.ON_PLANT, Singletons.main_game)
+	await plant.trigger_ability(Plant.AbilityType.ON_PLANT, Singletons.main_game.combat_main)
 	new_plant_planted.emit()
 
 func remove_plant() -> void:
@@ -101,7 +101,7 @@ func remove_plant_preview() -> void:
 func apply_weather_actions(weather_data:WeatherData, from_gui:Control) -> void:
 	await apply_actions(weather_data.actions, from_gui)
 	if plant:
-		await plant.trigger_ability(Plant.AbilityType.WEATHER, Singletons.main_game)
+		await plant.trigger_ability(Plant.AbilityType.WEATHER, Singletons.main_game.combat_main)
 
 func is_action_applicable(action:ActionData) -> bool:
 	if action.type == ActionData.ActionType.LIGHT || action.type == ActionData.ActionType.WATER:
@@ -139,9 +139,9 @@ func apply_field_status(field_status_id:String, stack:int) -> void:
 		status_manager.update_status(field_status_id, 1)
 	if plant:
 		if stack > 0:
-			await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_INCREASE, Singletons.main_game)
+			await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_INCREASE, Singletons.main_game.combat_main)
 		else:
-			await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_DECREASE, Singletons.main_game)
+			await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_DECREASE, Singletons.main_game.combat_main)
 
 func show_harvest_popup() -> void:
 	_point_audio.play()
@@ -189,7 +189,7 @@ func _apply_light_action(action:ActionData) -> void:
 	if plant:
 		plant.light.value += true_value
 		if true_value > 0:
-			await plant.trigger_ability(Plant.AbilityType.LIGHT_GAIN, Singletons.main_game)
+			await plant.trigger_ability(Plant.AbilityType.LIGHT_GAIN, Singletons.main_game.combat_main)
 
 func _apply_water_action(action:ActionData) -> void:
 	var true_value := _get_action_true_value(action)
@@ -281,7 +281,7 @@ func _on_field_mouse_entered() -> void:
 	if plant:
 		Singletons.main_game.hovered_data = plant.data
 		field_hovered.emit(true)
-		if !Singletons.main_game.tool_manager.selected_tool:
+		if !Singletons.main_game.combat_main.tool_manager.selected_tool:
 			_weak_plant_tooltip = weakref(Util.display_plant_tooltip(plant.data, _gui_field_button, false, GUITooltip.TooltipPosition.LEFT_TOP, true))
 
 func _on_field_mouse_exited() -> void:

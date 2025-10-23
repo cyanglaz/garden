@@ -62,11 +62,11 @@ func _ready() -> void:
 	_animating_foreground.hide()
 
 func update_with_tool_data(td:ToolData) -> void:
-	if Singletons.main_game && !Singletons.main_game.field_container.mouse_field_updated.is_connected(_on_mouse_field_updated):
-		Singletons.main_game.field_container.mouse_field_updated.connect(_on_mouse_field_updated)
+	if Singletons.main_game.combat_main && !Singletons.main_game.combat_main.field_container.mouse_field_updated.is_connected(_on_mouse_field_updated):
+		Singletons.main_game.combat_main.field_container.mouse_field_updated.connect(_on_mouse_field_updated)
 
 	_weak_tool_data = weakref(td)
-	_gui_action_list.update(tool_data.actions, Singletons.main_game.field_container.mouse_field)
+	_gui_action_list.update(tool_data.actions, Singletons.main_game.combat_main.field_container.mouse_field)
 	if !tool_data.get_display_description().is_empty():
 		_rich_text_label.text = tool_data.get_display_description()
 	if tool_data.get_final_energy_cost() >= 0:
@@ -136,7 +136,7 @@ func _on_mouse_entered() -> void:
 		if mouse_in && !tool_data.actions.is_empty():
 			if _weak_actions_tooltip.get_ref():
 				return
-			_weak_actions_tooltip = weakref(Util.display_tool_card_tooltip(tool_data, Singletons.main_game.field_container.mouse_field, self, false, GUITooltip.TooltipPosition.RIGHT, true))
+			_weak_actions_tooltip = weakref(Util.display_tool_card_tooltip(tool_data, Singletons.main_game.combat_main.field_container.mouse_field, self, false, GUITooltip.TooltipPosition.RIGHT, true))
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
@@ -163,8 +163,8 @@ func _get_tool_data() -> ToolData:
 
 func _set_activated(value:bool) -> void:
 	activated = value
-	if !display_mode:
-		var energy_tracker := Singletons.main_game.energy_tracker
+	if !display_mode && Singletons.main_game.combat_main:
+		var energy_tracker := Singletons.main_game.combat_main.energy_tracker
 		_update_for_energy(energy_tracker.value)
 		energy_tracker.value_update.connect(_on_energy_tracker_value_updated.bind(energy_tracker))
 

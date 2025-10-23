@@ -20,3 +20,8 @@ signal request_zoom_out()
 signal camera_zoom_in_finished()
 @warning_ignore("unused_signal")
 signal camera_zoom_out_finished()
+
+@warning_ignore("unused_signal")
+signal request_rating_update(val:int)
+@warning_ignore("unused_signal")
+signal request_view_cards(cards:Array[ToolData], title:String, type: GUIDeckButton.Type)

@@ -1,81 +1,28 @@
 class_name GUIMainGame
 extends CanvasLayer
 
-signal end_turn_button_pressed()
-signal tool_selected(tool_data:ToolData)
-signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData)
 signal rating_update_finished(value:int)
-signal reward_finished(tool_data:ToolData)
-signal contract_selected(contract_data:ContractData)
-signal card_use_button_pressed(tool_data:ToolData)
-signal mouse_exited_card(tool_data:ToolData)
 
 @onready var gui_top_bar: GUITopBar = %GUITopBar
-@onready var game_container: PanelContainer = %GameContainer
 
-@onready var gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
-@onready var gui_tool_card_container: GUIToolCardContainer = %GUIToolCardContainer
-@onready var gui_draw_box_button: GUIDeckButton = %GUIDrawBoxButton
-@onready var gui_discard_box_button: GUIDeckButton = %GUIDiscardBoxButton
-@onready var gui_exhaust_box_button: GUIDeckButton = %GUIExhaustBoxButton
-@onready var gui_power_container: GUIPowerContainer = %GUIPowerContainer
-@onready var gui_boost_tracker: GUIBoostTracker = %GUIBoostTracker
-
-@onready var gui_plant_deck_box: GUIPlantDeckBox = %GUIPlantDeckBox
-@onready var gui_plant_seed_animation_container: GUIPlantSeedAnimationContainer = %GUIPlantSeedAnimationContainer
-
-@onready var gui_shop_main: GUIShopMain = %GUIShopMain
-@onready var gui_game_over_main: GUIGameOverMain = %GUIGameOverMain
-@onready var gui_demo_end_main: GUIDemoEndMain = %GUIDemoEndMain
 @onready var gui_library: GUILibrary = %GUILibrary
 @onready var gui_thing_info_view: GUIThingInfoView = %GUIThingInfoView
-@onready var gui_contract_selection_main: GUIContractSelectionMain = %GUIContractSelectionMain
-@onready var gui_reward_main: GUIRewardMain = %GUIRewardMain
 @onready var gui_top_animation_overlay: GUITopAnimationOverlay = %GUITopAnimationOverlay
+@onready var gui_dialogue_window: GUIDialogueWindow = %GUIDialogueWindow
 
+@onready var _overlay: Control = %Overlay
 @onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
-@onready var _overlay: Control = %Overlay
-@onready var _end_turn_button: GUIRichTextButton = %EndTurnButton
-@onready var _gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
-@onready var _gui_dialogue_window: GUIDialogueWindow = %GUIDialogueWindow
-@onready var _main_container: VBoxContainer = %MainContainer
-@onready var _gui_contract_view: GUIContractView = %GUIContractView
 
 var _toggle_ui_semaphore := 0
-var _warning_manager:WarningManager = WarningManager.new()
 
 func _ready() -> void:
 	_gui_tool_cards_viewer.hide()
-	_end_turn_button.pressed.connect(func() -> void: end_turn_button_pressed.emit())
-	gui_tool_card_container.tool_selected.connect(func(tool_data:ToolData) -> void: tool_selected.emit(tool_data))
-	gui_tool_card_container.card_use_button_pressed.connect(func(tool_data:ToolData) -> void: card_use_button_pressed.emit(tool_data))
-	gui_tool_card_container.setup(gui_draw_box_button, gui_discard_box_button)
-	gui_tool_card_container.mouse_exited_card.connect(func(tool_data:ToolData) -> void: mouse_exited_card.emit(tool_data))
 	gui_top_bar.setting_button_evoked.connect(_on_settings_button_evoked)
 	gui_top_bar.library_button_evoked.connect(_on_library_button_evoked)
 	gui_top_bar.rating_update_finished.connect(func(value:int) -> void: rating_update_finished.emit(value))
-	gui_top_bar.contract_button_evoked.connect(_on_contract_button_evoked)
-	gui_reward_main.reward_finished.connect(func(tool_data:ToolData) -> void: reward_finished.emit(tool_data))
-	gui_plant_seed_animation_container.draw_plant_card_completed.connect(func(field_index:int, plant_data:PlantData) -> void: plant_seed_drawn_animation_completed.emit(field_index, plant_data))
-	gui_shop_main.setup(gui_top_bar.gui_full_deck_button)
-	gui_contract_selection_main.contract_selected.connect(_on_contract_selected)
 	gui_top_animation_overlay.setup(self)
-	_warning_manager.setup(_gui_energy_tracker, gui_top_bar.gui_gold, _gui_dialogue_window)
 
-#region power
-
-func bind_power_manager(power_manager:PowerManager) -> void:
-	gui_power_container.bind_with_power_manager(power_manager)
-
-#endregion
-
-#region plants
-
-func update_with_plants(plants:Array[PlantData]) -> void:
-	gui_plant_deck_box.update_with_plants(plants)
-
-#endregion
 
 #region all ui
 func toggle_all_ui(on:bool) -> void:
@@ -90,14 +37,6 @@ func toggle_all_ui(on:bool) -> void:
 	else:
 		toggle_on = true
 	gui_top_bar.toggle_all_ui(toggle_on)
-	gui_tool_card_container.toggle_all_tool_cards(toggle_on)
-	if toggle_on:
-		_end_turn_button.button_state = GUIBasicButton.ButtonState.NORMAL
-	else:
-		_end_turn_button.button_state = GUIBasicButton.ButtonState.DISABLED
-
-func get_main_size() -> Vector2:
-	return _main_container.size
 
 #region topbar
 func update_level(level:int) -> void:
@@ -109,11 +48,6 @@ func update_gold(gold_diff:int, animated:bool) -> void:
 func bind_with_rating(rating:ResourcePoint) -> void:
 	gui_top_bar.bind_with_rating(rating)
 
-func show_boss_icon(boss_data:BossData) -> void:	
-	gui_top_bar.show_boss_icon(boss_data)
-
-func hide_boss_icon() -> void:
-	gui_top_bar.hide_boss_icon()
 
 func show_current_contract(contract_data:ContractData) -> void:
 	gui_top_bar.show_current_contract(contract_data)
@@ -126,28 +60,9 @@ func hide_current_contract() -> void:
 func update_player(player_data:PlayerData) -> void:
 	gui_top_bar.update_player(player_data)
 
-#region tools
-func update_tools(tool_datas:Array[ToolData]) -> void:
-	gui_tool_card_container.update_tools(tool_datas)
 
-func clear_tool_selection() -> void:
-	gui_tool_card_container.clear_selection()
-
-func bind_tool_deck(tool_deck:Deck) -> void:
-	gui_draw_box_button.bind_deck(tool_deck)
-	gui_discard_box_button.bind_deck(tool_deck)
-	gui_exhaust_box_button.bind_deck(tool_deck)
-	gui_top_bar.gui_full_deck_button.bind_deck(tool_deck)
-	gui_top_bar.full_deck_button_evoked.connect(_on_deck_button_pressed.bind(tool_deck, tr("FULL_DECK_TITLE"), GUIDeckButton.Type.ALL))
-	gui_draw_box_button.pressed.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DRAW_POOL_TITLE"), gui_draw_box_button.type))
-	gui_discard_box_button.pressed.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DISCARD_POOL_TITLE"), gui_discard_box_button.type))
-	gui_exhaust_box_button.pressed.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_EXHAUST_POOL_TITLE"), gui_exhaust_box_button.type))
-#endregion
-
-
-#region plants
-func setup_plant_seed_animation_container(field_container:FieldContainer) -> void:
-	gui_plant_seed_animation_container.setup(field_container, gui_plant_deck_box)
+func bind_cards(cards:Array[ToolData]) -> void:
+	gui_top_bar.full_deck_button_evoked.connect(_on_deck_button_pressed.bind(cards, tr("FULL_DECK_TITLE"), GUIDeckButton.Type.ALL))
 
 #endregion
 
@@ -155,56 +70,6 @@ func setup_plant_seed_animation_container(field_container:FieldContainer) -> voi
 func update_penalty(penalty:int) -> void:
 	gui_top_bar.update_penalty(penalty)
 
-func bind_energy(resource_point:ResourcePoint) -> void:
-	_gui_energy_tracker.bind_with_resource_point(resource_point)
-
-#region weathers
-func update_weathers(weather_manager:WeatherManager) -> void:
-	gui_weather_container.update_with_weather_manager(weather_manager)
-
-#endregion
-
-#region boost
-
-func update_boost(boost:int) -> void:
-	gui_boost_tracker.update_boost(boost)
-
-#endregion
-
-#region contract selection
-
-func animate_show_contract_selection(contracts:Array) -> void:
-	gui_weather_container.z_index = 10
-	gui_contract_selection_main.animate_show_with_contracts(contracts)
-
-#endregion
-
-#region level summary
-
-func animate_show_reward_main(contract_data:ContractData) -> void:
-	await gui_reward_main.show_with_contract_data(contract_data)
-
-#endregion
-
-#region gameover
-
-func animate_show_game_over(session_summary:SessionSummary) -> void:
-	await gui_game_over_main.animate_show(session_summary)
-
-#endregion
-
-#region shop
-func animate_show_shop(number_of_tools:int, gold:int) -> void:
-	await gui_shop_main.animate_show(number_of_tools, gold)
-
-#region utils
-
-#region demo
-
-func animate_show_demo_end() -> void:
-	gui_demo_end_main.animate_show()
-
-#endregion
 
 #region control
 
@@ -219,45 +84,18 @@ func clear_all_tooltips() -> void:
 #endregion
 
 #region warning
-
-func show_warning(warning_type:WarningManager.WarningType) -> void:
-	_warning_manager.show_warning(warning_type)
-
-func hide_warning(warning_type:WarningManager.WarningType) -> void:
-	_warning_manager.hide_warning(warning_type)
-
-func show_custom_error(message:String, id:String) -> void:
-	_warning_manager.show_custom_error(message, id)
-
-func hide_custom_error(id:String) -> void:
-	_warning_manager.hide_custom_error(id)
 	
 #endregion
 
 #region events
 
-func _on_deck_button_pressed(deck:Deck, title:String, type: GUIDeckButton.Type) -> void:
-	match type:
-		GUIDeckButton.Type.DRAW:
-			_gui_tool_cards_viewer.animated_show_with_pool(deck.draw_pool, title)
-		GUIDeckButton.Type.DISCARD:
-			_gui_tool_cards_viewer.animated_show_with_pool(deck.discard_pool, title)
-		GUIDeckButton.Type.ALL:
-			_gui_tool_cards_viewer.animated_show_with_pool(deck.pool, title)
-		GUIDeckButton.Type.EXHAUST:
-			_gui_tool_cards_viewer.animated_show_with_pool(deck.exhaust_pool, title)
+func _on_deck_button_pressed(cards:Array[ToolData], title:String, type: GUIDeckButton.Type) -> void:
+	Events.request_view_cards.emit(cards, title, type)
 
 func _on_settings_button_evoked() -> void:
 	_gui_settings_main.animate_show()
 
 func _on_library_button_evoked() -> void:
 	gui_library.animate_show()
-
-func _on_contract_button_evoked(contract_data:ContractData) -> void:
-	_gui_contract_view.show_with_contract_data(contract_data)
-
-func _on_contract_selected(contract_data:ContractData) -> void:
-	gui_weather_container.z_index = 0
-	contract_selected.emit(contract_data)
 
 #endregion

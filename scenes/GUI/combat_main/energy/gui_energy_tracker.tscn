@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bpirre4ebu4op"]
 
 [ext_resource type="Texture2D" uid="uid://cdiv1kes1q3cc" path="res://resources/sprites/GUI/icons/other_icons/energy_pool_background.png" id="1_mfn87"]
-[ext_resource type="Script" uid="uid://cfpx8ivqbu1w" path="res://scenes/GUI/main_game/energy/gui_energy_tracker.gd" id="1_sk4x4"]
+[ext_resource type="Script" uid="uid://cfpx8ivqbu1w" path="res://scenes/GUI/combat_main/energy/gui_energy_tracker.gd" id="1_sk4x4"]
 [ext_resource type="AudioStream" uid="uid://04xuhdaa8y11" path="res://resources/sounds/SFX/other/loot/item_no_collection_error.wav" id="3_siuu7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mfn87"]

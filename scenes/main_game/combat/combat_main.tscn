@@ -1,9 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://r5p41d4bnvav"]
+[gd_scene load_steps=4 format=3 uid="uid://r5p41d4bnvav"]
 
 [ext_resource type="PackedScene" uid="uid://byg0qymapjkn6" path="res://scenes/main_game/field/field_container.tscn" id="1_nckrh"]
+[ext_resource type="Script" uid="uid://bw2cm26cqa66" path="res://scenes/main_game/combat/combat_main.gd" id="1_yx5ui"]
+[ext_resource type="PackedScene" uid="uid://dl31u6exk8l35" path="res://scenes/GUI/combat_main/gui_combat_main.tscn" id="2_yx5ui"]
 
 [node name="CombatMain" type="Node2D"]
+script = ExtResource("1_yx5ui")
 
 [node name="FieldContainer" parent="." instance=ExtResource("1_nckrh")]
 unique_name_in_owner = true
 position = Vector2(0, -11)
+
+[node name="GUI" parent="." instance=ExtResource("2_yx5ui")]
+unique_name_in_owner = true
