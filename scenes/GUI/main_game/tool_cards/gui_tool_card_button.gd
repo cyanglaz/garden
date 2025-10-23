@@ -62,11 +62,8 @@ func _ready() -> void:
 	_animating_foreground.hide()
 
 func update_with_tool_data(td:ToolData) -> void:
-	if Singletons.main_game.combat_main && !Singletons.main_game.combat_main.field_container.mouse_field_updated.is_connected(_on_mouse_field_updated):
-		Singletons.main_game.combat_main.field_container.mouse_field_updated.connect(_on_mouse_field_updated)
-
 	_weak_tool_data = weakref(td)
-	_gui_action_list.update(tool_data.actions, Singletons.main_game.combat_main.field_container.mouse_field)
+	_gui_action_list.update(tool_data.actions, null)
 	if !tool_data.get_display_description().is_empty():
 		_rich_text_label.text = tool_data.get_display_description()
 	if tool_data.get_final_energy_cost() >= 0:
@@ -83,6 +80,9 @@ func update_with_tool_data(td:ToolData) -> void:
 		_specials_container.add_child(special_icon)
 	if !td.request_refresh.is_connected(_on_tool_data_refresh):
 		td.request_refresh.connect(_on_tool_data_refresh)
+
+func update_mouse_field(field:Field) -> void:
+	_gui_action_list.update(tool_data.actions, field)
 
 func play_move_sound() -> void:
 	_play_hover_sound()
@@ -258,8 +258,5 @@ func _on_tool_data_refresh() -> void:
 func _on_use_button_pressed() -> void:
 	_gui_use_card_button.hide()
 	use_card_button_pressed.emit()
-
-func _on_mouse_field_updated(field:Field) -> void:
-	_gui_action_list.update(tool_data.actions, field)
 
 #endregion

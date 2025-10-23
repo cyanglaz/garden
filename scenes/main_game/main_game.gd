@@ -84,7 +84,7 @@ func add_control_to_overlay(control:Control) -> void:
 func _start_new_chapter() -> void:
 	chapter_manager.next_chapter()
 	contract_generator.generate_contracts(chapter_manager.current_chapter)
-	combat_main.start(player.number_of_fields, card_pool, 3, contract_generator.common_contracts[0])
+	combat_main.start(player.number_of_fields, card_pool, 3, test_contract)
 
 func _game_over() -> void:
 	pass

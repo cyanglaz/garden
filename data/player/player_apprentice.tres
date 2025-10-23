@@ -1,13 +1,13 @@
 [gd_resource type="Resource" script_class="PlayerData" load_steps=9 format=3 uid="uid://d1jqracpdos0e"]
 
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_m7e3l"]
-[ext_resource type="Resource" uid="uid://dr13xwnk1wtam" path="res://data/tools/purchasable/tool_sunlight.tres" id="3_eiyk4"]
+[ext_resource type="Resource" uid="uid://dr13xwnk1wtam" path="res://data/tools/defaults/tool_sunlight.tres" id="3_eiyk4"]
 [ext_resource type="Resource" uid="uid://bbksfeisauffm" path="res://data/tools/purchasable/tool_bug_spray.tres" id="4_gxn42"]
 [ext_resource type="Resource" uid="uid://c6k0erxrqmrlg" path="res://data/tools/purchasable/tool_heat.tres" id="5_eiyk4"]
 [ext_resource type="Resource" uid="uid://b0udg0eb5nynr" path="res://data/tools/purchasable/tool_pop.tres" id="6_gxn42"]
 [ext_resource type="Resource" uid="uid://b0ckuxysbrafa" path="res://data/tools/purchasable/tool_photosynthesis.tres" id="6_xkk26"]
 [ext_resource type="Script" uid="uid://tci75sqv26ut" path="res://data/models/characters/player/player_data.gd" id="7_gxn42"]
-[ext_resource type="Resource" uid="uid://cd1g4filickxd" path="res://data/tools/purchasable/tool_drizzle.tres" id="7_xkk26"]
+[ext_resource type="Resource" uid="uid://cd1g4filickxd" path="res://data/tools/defaults/tool_drizzle.tres" id="7_xkk26"]
 
 [resource]
 script = ExtResource("7_gxn42")

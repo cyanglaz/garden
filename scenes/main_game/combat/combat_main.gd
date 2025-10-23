@@ -41,6 +41,7 @@ func start(field_count:int, card_pool:Array[ToolData], energy_cap:int, contract:
 	field_container.field_pressed.connect(_on_field_pressed)
 	field_container.field_harvest_started.connect(_on_field_harvest_started)
 	field_container.field_harvest_completed.connect(_on_field_harvest_completed)
+	field_container.mouse_field_updated.connect(_on_mouse_field_updated)
 
 	weather_manager.weathers_updated.connect(_on_weathers_updated)
 
@@ -295,6 +296,9 @@ func _on_weathers_updated() -> void:
 
 func _on_plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData) -> void:
 	await field_container.fields[field_index].plant_seed(plant_data)
+
+func _on_mouse_field_updated(field:Field) -> void:
+	gui.update_mouse_field(field)
 
 #endregion
 

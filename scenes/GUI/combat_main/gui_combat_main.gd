@@ -43,6 +43,9 @@ func bind_power_manager(power_manager:PowerManager) -> void:
 func update_with_plants(plants:Array[PlantData]) -> void:
 	gui_plant_deck_box.update_with_plants(plants)
 
+func update_mouse_field(field:Field) -> void:
+	gui_tool_card_container.update_mouse_field(field)
+
 #endregion
 
 #region all ui

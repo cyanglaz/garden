@@ -214,7 +214,7 @@ func _animate_add_card_to_draw_pile(animation_item:AnimationQueueItem) -> void:
 	for tool_data:ToolData in tool_datas:
 		var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
 		animating_cards.append(animating_card)
-		Singletons.main_game.add_control_to_overlay(animating_card)
+		add_child(animating_card)
 		animating_card.update_with_tool_data(tool_data)
 		animating_card.global_position = from_global_position
 		animating_card.mouse_disabled = true
@@ -252,7 +252,7 @@ func _animate_add_card_to_discard_pile(animation_item:AnimationQueueItem) -> voi
 	for tool_data:ToolData in tool_datas:
 		var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
 		animating_cards.append(animating_card)
-		Singletons.main_game.add_control_to_overlay(animating_card)
+		add_child(animating_card)
 		animating_card.update_with_tool_data(tool_data)
 		animating_card.global_position = from_global_position
 		animating_card.mouse_disabled = true
