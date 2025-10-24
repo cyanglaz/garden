@@ -6,6 +6,7 @@ const IN_USE_PAUSE := 0.2
 signal tool_application_started(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
 signal tool_application_error(tool_data:ToolData, warning_type:WarningManager.WarningType)
+signal hand_updated(hand:Array)
 signal _tool_lifecycle_completed(tool_data:ToolData)
 signal _tool_actions_completed(tool_data:ToolData)
 
@@ -183,9 +184,9 @@ func _on_tool_actions_completed(tool_data:ToolData) -> void:
 		_handle_tool_application_completed(tool_data)
 
 func _on_hand_updated() -> void:
+	hand_updated.emit(tool_deck.hand)
 	for tool_data in tool_deck.hand:
 		tool_data.request_refresh.emit()
-
 #endregion
 
 #region setters/getters

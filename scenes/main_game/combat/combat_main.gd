@@ -49,6 +49,7 @@ func start(field_count:int, card_pool:Array[ToolData], energy_cap:int, contract:
 	tool_manager.tool_application_started.connect(_on_tool_application_started)
 	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
 	tool_manager.tool_application_error.connect(_on_tool_application_error)
+	tool_manager.hand_updated.connect(_on_hand_updated)
 
 	gui.bind_power_manager(power_manager)
 	gui.bind_energy(energy_tracker)
@@ -279,6 +280,11 @@ func _on_tool_application_error(tool_data:ToolData, error_message:String) -> voi
 
 func _on_tool_application_error_timer_timeout(id:String) -> void:
 	_hide_custom_error(id)
+
+func _on_hand_updated(hand:Array) -> void:
+	for tool_data in hand:
+		for action in tool_data.actions:
+			action.combat_main = self
 
 func _on_field_harvest_started() -> void:
 	pass
