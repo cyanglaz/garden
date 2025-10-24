@@ -55,8 +55,7 @@ func _apply_field_tool_action(action:ActionData, fields:Array, combat_main:Comba
 
 func _apply_weather_tool_action(action:ActionData, combat_main:CombatMain) -> void:
 	var from_position := combat_main.gui.gui_tool_card_container.get_center_position()
-	var weather_icon_position := combat_main.gui.gui_weather_container.get_today_weather_icon().global_position
-	await combat_main.weather_manager.apply_weather_tool_action(action, from_position, weather_icon_position)
+	await combat_main.weather_manager.apply_weather_tool_action(action, from_position, combat_main)
 
 func _apply_instant_use_tool_action(action:ActionData, combat_main:CombatMain, tool_data:ToolData, secondary_card_datas:Array) -> void:
 	match action.type:
