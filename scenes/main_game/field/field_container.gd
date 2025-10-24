@@ -129,6 +129,13 @@ func get_plants(indices:Array[int]) -> Array[Plant]:
 		plants.append(fields[index].plant)
 	return plants
 
+func toggle_tooltip_for_field(index:int, on:bool) -> void:
+	var field:Field = _container.get_child(index)
+	if on:
+		field.show_tooltip()
+	else:
+		field.hide_tooltip()
+
 func _harvest_next_field(index:int, combat_main:CombatMain) -> void:
 	if index >= fields.size():
 		return

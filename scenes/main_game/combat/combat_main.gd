@@ -247,6 +247,8 @@ func _on_field_hovered(hovered:bool, index:int) -> void:
 				field_container.toggle_field_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT, tool_manager.selected_tool, index)
 		else:
 			field_container.toggle_all_field_selection_indicators(GUIFieldSelectionArrow.IndicatorState.READY)
+	else:
+		field_container.toggle_tooltip_for_field(index, hovered)
 
 func _on_field_pressed(index:int) -> void:
 	if !tool_manager.selected_tool || !tool_manager.selected_tool.need_select_field:

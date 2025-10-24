@@ -169,6 +169,13 @@ func handle_end_day_hook(combat_main:CombatMain) -> void:
 func clear_all_statuses() -> void:
 	status_manager.clear_all_statuses()
 
+func show_tooltip() -> void:
+	_tooltip_id = Util.get_uuid()
+	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.PLANT, plant.data, _tooltip_id, _gui_field_button, false, GUITooltip.TooltipPosition.LEFT_TOP, true)
+
+func hide_tooltip() -> void:
+	Events.request_hide_tooltip.emit(_tooltip_id)
+
 func _show_progress_bars(p:Plant) -> void:
 	assert(p.data)
 	_light_bar.bind_with_resource_point(p.light)
@@ -259,14 +266,10 @@ func _on_field_mouse_entered() -> void:
 	if plant:
 		Events.update_hovered_data.emit(plant.data)
 		field_hovered.emit(true)
-		if !Singletons.main_game.combat_main.tool_manager.selected_tool:
-			_tooltip_id = Util.get_uuid()
-			Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.PLANT, plant.data, _tooltip_id, _gui_field_button, false, GUITooltip.TooltipPosition.LEFT_TOP, true)
 
 func _on_field_mouse_exited() -> void:
 	Events.update_hovered_data.emit(null)
 	field_hovered.emit(false)
-	Events.request_hide_tooltip.emit(_tooltip_id)
 
 func _on_gui_field_button_pressed() -> void:
 	if plant:
