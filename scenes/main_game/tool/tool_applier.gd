@@ -39,18 +39,18 @@ func _apply_next_action(combat_main:CombatMain, fields:Array, field_index:int, t
 			else:
 				fields_to_apply.append(fields[field_index])
 			fields_to_apply.filter(func(field:Field): return field.is_action_applicable(action))
-			await _apply_field_tool_action(action, fields_to_apply, tool_card)
+			await _apply_field_tool_action(action, fields_to_apply, combat_main, tool_card)
 		ActionData.ActionCategory.WEATHER:
 			await _apply_weather_tool_action(action, combat_main)
 		_:
 			await _apply_instant_use_tool_action(action, combat_main, tool_data, secondary_card_datas)
 	await _apply_next_action(combat_main, fields, field_index, tool_data, secondary_card_datas, tool_card)
 
-func _apply_field_tool_action(action:ActionData, fields:Array, tool_card:GUIToolCardButton) -> void:
+func _apply_field_tool_action(action:ActionData, fields:Array, combat_main:CombatMain, _tool_card:GUIToolCardButton) -> void:
 	_field_application_index_counter = fields.size()
 	for field:Field in fields:
 		field.action_application_completed.connect(_on_field_action_application_completed.bind(field))
-		field.apply_actions([action], tool_card)
+		field.apply_actions([action], combat_main)
 	await _all_field_action_application_completed
 
 func _apply_weather_tool_action(action:ActionData, combat_main:CombatMain) -> void:

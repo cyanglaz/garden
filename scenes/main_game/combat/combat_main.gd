@@ -145,7 +145,7 @@ func _end_day() -> void:
 	tool_manager.card_use_limit_reached = false
 	await field_container.trigger_end_day_field_status_hooks(self)
 	await field_container.trigger_end_day_plant_abilities(self)
-	await weather_manager.apply_weather_actions(field_container.fields, gui.gui_weather_container.get_today_weather_icon())
+	await weather_manager.apply_weather_actions(field_container.fields, gui.gui_weather_container.get_today_weather_icon(), self)
 	await power_manager.handle_weather_application_hook(self, weather_manager.get_current_weather())
 	weather_manager.pass_day()
 	var won := await _harvest()
@@ -185,7 +185,7 @@ func _harvest() -> bool:
 	var harvestable_plant_datas:Array = field_container.get_plants(_harvesting_fields).map(func(plant:Plant): return plant.data)
 	if _harvesting_fields.is_empty():
 		return false
-	field_container.harvest_all_fields()
+	field_container.harvest_all_fields(self)
 	await _all_field_harvested
 	var number_of_fields_to_harvest := field_indices_to_harvest.size()
 	await plant_seed_manager.finish_plants(field_indices_to_harvest, harvestable_plant_datas, gui.gui_plant_seed_animation_container)
@@ -295,7 +295,7 @@ func _on_weathers_updated() -> void:
 	gui.update_weathers(weather_manager)
 
 func _on_plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData) -> void:
-	await field_container.fields[field_index].plant_seed(plant_data)
+	await field_container.plant_seed(plant_data, self, field_index)
 
 func _on_mouse_field_updated(field:Field) -> void:
 	gui.update_mouse_field(field)

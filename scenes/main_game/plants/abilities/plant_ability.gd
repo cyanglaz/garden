@@ -3,7 +3,7 @@ extends Node2D
 
 var ability_data:PlantAbilityData
 
-func has_ability_hook(ability_type:Plant.AbilityType, combat_main:CombatMain,plant:Plant) -> bool:
+func has_ability_hook(ability_type:Plant.AbilityType, combat_main:CombatMain, plant:Plant) -> bool:
 	return _has_ability_hook(ability_type, combat_main, plant)
 
 func trigger_ability_hook(ability_type:Plant.AbilityType, combat_main:CombatMain, plant:Plant) -> void:

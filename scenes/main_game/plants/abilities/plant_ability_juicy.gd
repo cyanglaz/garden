@@ -9,5 +9,4 @@ func _trigger_ability_hook(ability_type:Plant.AbilityType, combat_main:CombatMai
 	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id("water_cache").get_duplicate()
 	#var from_position:Vector2 = global_position - GUIToolCardButton.SIZE / 2
 	var from_position:Vector2 = get_global_transform_with_canvas().origin - GUIToolCardButton.SIZE / 2
-	print("from_position: ", from_position)
 	await combat_main.add_temp_tools_to_hand([tool_data], from_position, true)

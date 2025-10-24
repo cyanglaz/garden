@@ -38,8 +38,8 @@ func show_as_preview() -> void:
 func can_harvest() -> bool:
 	return light.is_full && water.is_full
 
-func harvest() -> void:
-	fsm.push("PlantStateHarvest")
+func harvest(combat_main:CombatMain) -> void:
+	fsm.push("PlantStateHarvest", {"combat_main": combat_main})
 
 func trigger_ability(ability_type:AbilityType, combat_main:CombatMain) -> void:
 	await plant_ability_container.trigger_ability(ability_type, combat_main, self)

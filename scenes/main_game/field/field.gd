@@ -30,7 +30,6 @@ signal new_plant_planted()
 @onready var _gui_field_status_container: GUIFieldStatusContainer = %GUIFieldStatusContainer
 @onready var _gui_plant_ability_icon_container: GUIPlantAbilityIconContainer = %GUIPlantAbilityIconContainer
 @onready var _plant_down_sound: AudioStreamPlayer2D = %PlantDownSound
-@onready var _action_move_sound: AudioStreamPlayer2D = %ActionMoveSound
 
 var _weak_plant_preview:WeakRef = weakref(null)
 var plant:Plant
@@ -67,7 +66,7 @@ func show_plant_preview(plant_data:PlantData) -> void:
 	_weak_plant_preview = weakref(plant_preview)
 	_show_progress_bars(plant_preview)
 
-func plant_seed(plant_data:PlantData) -> void:
+func plant_seed(plant_data:PlantData, combat_main:CombatMain) -> void:
 	assert(plant == null, "Plant already planted")
 	_plant_down_sound.play()
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
@@ -80,7 +79,7 @@ func plant_seed(plant_data:PlantData) -> void:
 	plant.harvest_completed.connect(_on_plant_harvest_completed)
 	plant.field = self
 	_gui_plant_ability_icon_container.setup_with_plant(plant)
-	await plant.trigger_ability(Plant.AbilityType.ON_PLANT, Singletons.main_game.combat_main)
+	await plant.trigger_ability(Plant.AbilityType.ON_PLANT, combat_main)
 	new_plant_planted.emit()
 
 func remove_plant() -> void:
@@ -98,10 +97,10 @@ func remove_plant_preview() -> void:
 		_weak_plant_preview.get_ref().queue_free()
 		_reset_progress_bars()
 
-func apply_weather_actions(weather_data:WeatherData, from_gui:Control) -> void:
-	await apply_actions(weather_data.actions, from_gui)
+func apply_weather_actions(weather_data:WeatherData, combat_main:CombatMain) -> void:
+	await apply_actions(weather_data.actions, combat_main)
 	if plant:
-		await plant.trigger_ability(Plant.AbilityType.WEATHER, Singletons.main_game.combat_main)
+		await plant.trigger_ability(Plant.AbilityType.WEATHER, combat_main)
 
 func is_action_applicable(action:ActionData) -> bool:
 	if action.type == ActionData.ActionType.LIGHT || action.type == ActionData.ActionType.WATER:
@@ -109,21 +108,21 @@ func is_action_applicable(action:ActionData) -> bool:
 	else:
 		return true
 
-func apply_actions(actions:Array[ActionData], _from_gui:Control) -> void:
+func apply_actions(actions:Array[ActionData], combat_main:CombatMain) -> void:
 	#await _play_action_from_gui_animation(action, from_gui)
 	for action in actions:
 		match action.type:
 			ActionData.ActionType.LIGHT:
-				await _apply_light_action(action)
+				await _apply_light_action(action, combat_main)
 			ActionData.ActionType.WATER:
-				await _apply_water_action(action)
+				await _apply_water_action(action, combat_main)
 			ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
-				await _apply_field_status_action(action)
+				await _apply_field_status_action(action, combat_main)
 			_:
 				pass
 	action_application_completed.emit()
 
-func apply_field_status(field_status_id:String, stack:int) -> void:
+func apply_field_status(field_status_id:String, stack:int, combat_main:CombatMain) -> void:
 	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(field_status_id, true)
 	if field_status_data.stackable:
 		var text := str(stack)
@@ -139,9 +138,9 @@ func apply_field_status(field_status_id:String, stack:int) -> void:
 		status_manager.update_status(field_status_id, 1)
 	if plant:
 		if stack > 0:
-			await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_INCREASE, Singletons.main_game.combat_main)
+			await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_INCREASE, combat_main)
 		else:
-			await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_DECREASE, Singletons.main_game.combat_main)
+			await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_DECREASE, combat_main)
 
 func show_harvest_popup() -> void:
 	_point_audio.play()
@@ -150,10 +149,10 @@ func show_harvest_popup() -> void:
 func can_harvest() -> bool:
 	return plant && plant.can_harvest()
 
-func harvest() -> void:
+func harvest(combat_main:CombatMain) -> void:
 	assert(plant, "No plant planted")
 	assert(can_harvest(), "Cannot harvest")
-	plant.harvest()
+	plant.harvest(combat_main)
 
 func handle_turn_end() -> void:
 	status_manager.handle_status_on_turn_end()
@@ -181,7 +180,7 @@ func _reset_progress_bars() -> void:
 	_water_bar.max_value = 0
 	_water_bar.current_value = 0
 
-func _apply_light_action(action:ActionData) -> void:
+func _apply_light_action(action:ActionData, combat_main:CombatMain) -> void:
 	var true_value := _get_action_true_value(action)
 	if action.operator_type == ActionData.OperatorType.EQUAL_TO && plant:
 		true_value = true_value - plant.light.value 
@@ -189,9 +188,9 @@ func _apply_light_action(action:ActionData) -> void:
 	if plant:
 		plant.light.value += true_value
 		if true_value > 0:
-			await plant.trigger_ability(Plant.AbilityType.LIGHT_GAIN, Singletons.main_game.combat_main)
+			await plant.trigger_ability(Plant.AbilityType.LIGHT_GAIN, combat_main)
 
-func _apply_water_action(action:ActionData) -> void:
+func _apply_water_action(action:ActionData, combat_main:CombatMain) -> void:
 	var true_value := _get_action_true_value(action)
 	if action.operator_type == ActionData.OperatorType.EQUAL_TO && plant:
 		true_value = true_value - plant.water.value
@@ -199,15 +198,15 @@ func _apply_water_action(action:ActionData) -> void:
 	if plant:
 		plant.water.value += true_value
 		if true_value > 0:
-			await status_manager.handle_add_water_hook(plant)
+			await status_manager.handle_add_water_hook(combat_main, plant)
 
-func _apply_field_status_action(action:ActionData) -> void:
+func _apply_field_status_action(action:ActionData, combat_main:CombatMain) -> void:
 	var resource_id := Util.get_action_id_with_action_type(action.type)
 	var true_value := _get_action_true_value(action)
 	var current_status := status_manager.get_status(resource_id)
 	if action.operator_type == ActionData.OperatorType.EQUAL_TO && current_status:
 		true_value = true_value - current_status.stack
-	await apply_field_status(resource_id, true_value)
+	await apply_field_status(resource_id, true_value, combat_main)
 
 func _show_popup_action_indicator(action_data:ActionData, true_value:int) -> void:
 	var text := str(true_value)

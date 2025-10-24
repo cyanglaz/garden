@@ -47,9 +47,9 @@ func toggle_plant_preview(on:bool, plant_data:PlantData, index:int) -> void:
 	else:
 		field.remove_plant_preview()
 
-func plant_seed(plant_data:PlantData, index:int) -> void:
+func plant_seed(plant_data:PlantData, combat_main:CombatMain, index:int) -> void:
 	var field:Field = _container.get_child(index)
-	await field.plant_seed(plant_data)
+	await field.plant_seed(plant_data, combat_main)
 
 func clear_previews() -> void:
 	for field:Field in _container.get_children():
@@ -92,9 +92,9 @@ func toggle_all_field_selection_indicators(indicator_state: GUIFieldSelectionArr
 	for field:Field in fields:
 		field.toggle_selection_indicator(indicator_state)
 
-func harvest_all_fields() -> void:
+func harvest_all_fields(combat_main:CombatMain) -> void:
 	assert(get_harvestable_fields().size() > 0, "No harvestable fields")
-	_harvest_next_field(0)
+	_harvest_next_field(0, combat_main)
 
 func handle_turn_end() -> void:
 	for field:Field in fields:
@@ -129,13 +129,13 @@ func get_plants(indices:Array[int]) -> Array[Plant]:
 		plants.append(fields[index].plant)
 	return plants
 
-func _harvest_next_field(index:int) -> void:
+func _harvest_next_field(index:int, combat_main:CombatMain) -> void:
 	if index >= fields.size():
 		return
 	var field:Field = fields[index]
 	if field.can_harvest():
-		field.harvest()
-	_harvest_next_field(index + 1)
+		field.harvest(combat_main)
+	_harvest_next_field(index + 1, combat_main)
 	
 func _layout_fields() -> void:
 	if fields.size() == 0:
