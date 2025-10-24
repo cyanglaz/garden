@@ -21,6 +21,7 @@ signal camera_zoom_in_finished()
 @warning_ignore("unused_signal")
 signal camera_zoom_out_finished()
 
+# Main game global events
 @warning_ignore("unused_signal")
 signal request_rating_update(val:int)
 @warning_ignore("unused_signal")
@@ -37,6 +38,8 @@ signal request_show_custom_error(message:String, id:String)
 signal request_hide_custom_error(id:String)
 @warning_ignore("unused_signal")
 signal update_hovered_data(data:Resource)
+@warning_ignore("unused_signal")
+signal request_update_gold(val:int, animated:bool)
 
 @warning_ignore("unused_signal")
 signal request_display_tooltip(tooltip_type:GUITooltipContainer.TooltipType, data:Variant, id:String, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool)

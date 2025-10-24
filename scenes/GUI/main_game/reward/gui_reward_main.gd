@@ -4,10 +4,10 @@ extends Control
 const REWARD_SOUND_1 := preload("res://resources/sounds/SFX/summary/reward_1.wav")
 const REWARD_SOUND_2 := preload("res://resources/sounds/SFX/summary/reward_2.wav")
 const REWARD_SOUND_3 := preload("res://resources/sounds/SFX/summary/reward_3.wav")
-const PAUSE_TIME_BETWEEN_REWARDS := 0.6
+const PAUSE_TIME_BETWEEN_REWARDS := 1.0
 const PAUSE_BEFORE_REWARD_ANIMATION := 0.4
 
-signal reward_finished(tool_data:ToolData)
+signal reward_finished(tool_data:ToolData, from_global_position:Vector2)
 
 @onready var title_label: Label = %TitleLabel
 @onready var gui_reward_gold: GUIRewardGold = %GUIRewardGold
@@ -49,13 +49,13 @@ func _collect_rewards(contract_data:ContractData) -> void:
 	_play_next_reward_sound()
 	gui_reward_gold.show()
 	await Util.create_scaled_timer(PAUSE_BEFORE_REWARD_ANIMATION).timeout
-	await Singletons.main_game.update_gold(contract_data.reward_gold, true)
+	Events.request_update_gold.emit(contract_data.reward_gold, true)
 	if contract_data.reward_rating > 0:
 		await Util.create_scaled_timer(PAUSE_TIME_BETWEEN_REWARDS).timeout
 		_play_next_reward_sound()
 		gui_reward_rating.show()
 		await Util.create_scaled_timer(PAUSE_BEFORE_REWARD_ANIMATION).timeout
-		await Singletons.main_game.update_rating(contract_data.reward_rating)
+		Events.request_rating_update.emit(contract_data.reward_rating)
 	await Util.create_scaled_timer(PAUSE_TIME_BETWEEN_REWARDS).timeout
 	_play_next_reward_sound()
 	_booster_pack_type = contract_data.reward_booster_pack_type
@@ -79,7 +79,5 @@ func _booster_pack_button_pressed() -> void:
 	gui_reward_cards_main.spawn_cards_with_pack_type(_booster_pack_type, gui_booster_pack_button.global_position)
 
 func _on_card_selected(tool_data:ToolData, from_global_position:Vector2) -> void:
-	if tool_data:
-		await Singletons.main_game.gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
+	reward_finished.emit(tool_data, from_global_position)
 	hide()
-	reward_finished.emit(tool_data)

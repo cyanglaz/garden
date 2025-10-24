@@ -66,7 +66,7 @@ func _apply_instant_use_tool_action(action:ActionData, combat_main:CombatMain, t
 		ActionData.ActionType.ENERGY:
 			combat_main.energy_tracker.restore(action.get_calculated_value(null))
 		ActionData.ActionType.UPDATE_GOLD:
-			await Singletons.main_game.update_gold(action.get_calculated_value(null), true)
+			Events.request_update_gold.emit(action.get_calculated_value(null), true)
 		ActionData.ActionType.UPDATE_X:
 			var x_action:ActionData
 			for action_data:ActionData in tool_data.actions:

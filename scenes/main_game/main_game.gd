@@ -42,7 +42,7 @@ func _ready() -> void:
 
 	_register_global_events()
 
-	update_gold(0, false)
+	Events.request_update_gold.emit(0, false)
 	_start_new_chapter()
 
 func _input(event: InputEvent) -> void:
@@ -51,24 +51,11 @@ func _input(event: InputEvent) -> void:
 
 func _register_global_events() -> void:
 	Events.request_rating_update.connect(_on_request_rating_update)
+	Events.request_update_gold.connect(_on_request_update_gold)
 	Events.request_show_warning.connect(_on_request_show_warning)
 	Events.request_hide_warning.connect(_on_request_hide_warning)
 	Events.request_show_custom_error.connect(_on_request_show_custom_error)
 	Events.request_hide_custom_error.connect(_on_request_hide_custom_error)
-
-#endregion
-
-#region cards
-func add_card_to_deck(tool_data:ToolData) -> void:
-	card_pool.append(tool_data)
-
-#endregion
-
-#region gold
-
-func update_gold(gold_diff:int, animated:bool) -> void:
-	_gold += gold_diff
-	await gui_main_game.update_gold(gold_diff, animated)
 
 #endregion
 
@@ -99,6 +86,10 @@ func _on_request_rating_update(val:int) -> void:
 	if rating.value == 0:
 		_game_over()
 
+func _on_request_update_gold(val:int, animated:bool) -> void:
+	_gold += val
+	await gui_main_game.update_gold(val, animated)
+
 func _on_request_show_warning(warning_type:WarningManager.WarningType) -> void:
 	_warning_manager.show_warning(warning_type)
 
@@ -113,3 +104,16 @@ func _on_request_hide_custom_error(id:String) -> void:
 
 
 #endregion
+
+#region reward events
+
+func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> void:
+	if tool_data:
+		card_pool.append(tool_data)
+	await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
+	# go to map
+	pass
+
+#endregion
+
+
