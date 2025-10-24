@@ -3,7 +3,8 @@ extends GUITooltip
 
 @onready var _description: RichTextLabel = %Description
 
-func setup(description:String) -> void:
+func _update_with_data() -> void:
+	var description:String = _data as String
 	_description.text = description
 	var line_count := _description.get_line_count()
 	if line_count > 1:

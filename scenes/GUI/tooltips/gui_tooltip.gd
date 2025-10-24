@@ -30,9 +30,16 @@ var has_outline:bool = false: set = _set_has_outline
 
 var _showing := false
 var triggering_global_rect:Rect2 = Rect2()
+var _data:Variant = null
 
 func _ready() -> void:
-	pass
+	_update_with_data()
+	_set_tooltip_position(tooltip_position)
+
+func update_with_data(data:Variant) -> void:
+	_data = data
+	if is_inside_tree():
+		_update_with_data()
 
 func show_tooltip() -> void:
 	show()
@@ -150,6 +157,13 @@ func _follow_mouse_position() -> void:
 			y_offset = - TOOLTIP_MOUSE_OFFSET
 	global_position = get_global_mouse_position() + Vector2(x_offset, y_offset)
 	adjust_positions()
+
+#region for override
+
+func _update_with_data() -> void:
+	pass
+
+#endregion
 
 #region events
 

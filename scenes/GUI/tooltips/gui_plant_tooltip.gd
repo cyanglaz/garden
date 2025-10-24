@@ -5,5 +5,6 @@ extends GUITooltip
 
 var library_mode := false
 
-func update_with_plant_data(plant_data:PlantData) -> void:
+func _update_with_data() -> void:
+	var plant_data:PlantData = _data as PlantData
 	_gui_plant_description.update_with_plant_data(plant_data)

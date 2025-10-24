@@ -12,12 +12,13 @@ var _weak_actions_tooltip:WeakRef = weakref(null)
 var _weak_weather_data:WeakRef = weakref(null)
 
 func _ready() -> void:
+	super._ready()
 	tool_tip_shown.connect(_on_tooltop_shown)
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 
-func update_with_weather_data(weather_data:WeatherData) -> void:
-	_weak_weather_data = weakref(weather_data)
+func _update_with_data() -> void:
+	var weather_data:WeatherData = _data as WeatherData
 	_name_label.text = weather_data.display_name
 	if weather_data.actions.is_empty():
 		_rich_text_label.text = weather_data.get_display_description()

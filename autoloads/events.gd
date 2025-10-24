@@ -37,3 +37,6 @@ signal request_show_custom_error(message:String, id:String)
 signal request_hide_custom_error(id:String)
 @warning_ignore("unused_signal")
 signal update_hovered_data(data:Resource)
+
+@warning_ignore("unused_signal")
+signal request_display_tooltip(gui_tool_tip:GUITooltip, on_control_node:Control, anchor_mouse:bool, world_space:bool)
