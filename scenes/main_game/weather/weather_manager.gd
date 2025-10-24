@@ -69,7 +69,7 @@ func _apply_weather_action_to_next_field(fields:Array[Field], field_index:int, t
 		Singletons.main_game.add_control_to_overlay(gui_weather_copy)
 		gui_weather_copy.global_position = today_weather_icon.global_position
 		gui_weather_copy.setup_with_weather_data(today_weather)
-		var target_position:Vector2 = Util.get_node_ui_position(gui_weather_copy, field) \
+		var target_position:Vector2 = Util.get_node_canvas_position(field) \
 				- gui_weather_copy.size/2 \
 				+ Vector2.UP * WEATHER_ICON_ANIMATION_HEIGHT
 		gui_weather_copy.play_flying_sound()

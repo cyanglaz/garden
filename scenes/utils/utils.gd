@@ -170,7 +170,7 @@ static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_m
 	var reference_position := on_control_node.global_position
 	if world_space:
 		assert(on_control_node)
-		reference_position = get_node_ui_position(tooltip, on_control_node)
+		reference_position = get_node_canvas_position(on_control_node)
 	tooltip.global_position = reference_position + Vector2(x_offset, y_offset)
 	if tooltip is GUITooltip:
 		_adjust_tooltip_position(tooltip, on_control_node, tooltip_position, world_space)
@@ -213,9 +213,8 @@ static func get_control_global_position(node:CanvasItem, control:Control) -> Vec
 	var screen_coords := control.get_viewport_transform() * control.global_position
 	return node.get_viewport_transform().affine_inverse() * screen_coords
 
-static func get_node_ui_position(control:Control, node:CanvasItem) -> Vector2:
-	var world_coords:Vector2 = node.get_viewport_transform() * node.global_position
-	return control.get_viewport_transform().affine_inverse() * world_coords
+static func get_node_canvas_position(node:CanvasItem) -> Vector2:
+	return node.get_global_transform_with_canvas().origin
 
 static func get_first_texture_from_sprite(sprite:Sprite2D) -> Texture2D:
 	@warning_ignore("integer_division")

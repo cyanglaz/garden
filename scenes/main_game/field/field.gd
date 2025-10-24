@@ -91,7 +91,7 @@ func remove_plant() -> void:
 		plant = null
 
 func get_preview_icon_global_position(preview_icon:Control) -> Vector2:
-	return Util.get_node_ui_position(preview_icon, _gui_field_button) + Vector2.RIGHT * (_gui_field_button.size.x/2 - preview_icon.size.x/2 ) + Vector2.UP * preview_icon.size.y/2
+	return Util.get_node_canvas_position(_gui_field_button) + Vector2.RIGHT * (_gui_field_button.size.x/2 - preview_icon.size.x/2 ) + Vector2.UP * preview_icon.size.y/2
 
 func remove_plant_preview() -> void:
 	if _weak_plant_preview.get_ref():
@@ -227,27 +227,6 @@ func _show_resource_icon_popup(icon_id:String, text:String) -> void:
 
 func _get_action_true_value(action_data:ActionData) -> int:
 	return action_data.get_calculated_value(self)
-
-func _play_action_from_gui_animation(action:ActionData, from_gui:Control) -> void:
-	var gui_action:GUIAction
-	_action_move_sound.play()
-	if action.action_category == ActionData.ActionCategory.WEATHER:
-		gui_action = GUI_WEATHER_ACTION_SCENE.instantiate()
-	else:
-		gui_action = GUI_GENERAL_ACTION_SCENE.instantiate()
-	Singletons.main_game.add_control_to_overlay(gui_action)
-	gui_action.update_with_action(action, null)
-	gui_action.global_position = from_gui.global_position + from_gui.size/2
-	gui_action.pivot_offset = gui_action.size/2
-	gui_action.scale = Vector2.ONE
-	gui_action.z_index = 20
-	var target_position:Vector2 = Util.get_node_ui_position(gui_action, self)
-	var tween:Tween = Util.create_scaled_tween(gui_action)
-	tween.set_parallel(true)
-	tween.tween_property(gui_action, "global_position", target_position, ACTION_ICON_MOVE_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(gui_action, "scale", Vector2.ONE * 0.3, ACTION_ICON_MOVE_TIME).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
-	await tween.finished
-	gui_action.queue_free()
 
 #region events
 

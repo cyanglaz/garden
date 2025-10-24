@@ -9,7 +9,7 @@ func apply_tool(_combat_main:CombatMain, fields:Array, field_index:int, tool_dat
 	action_data.type = ActionData.ActionType.WATER
 	var gain := tool_data.data["gain"] as int
 	action_data.value = gain
-	_card_spawn_position = Util.get_node_ui_position(Singletons.main_game.gui_main_game.gui_tool_card_container, field.plant) - GUIToolCardButton.SIZE / 2
+	_card_spawn_position = Util.get_node_canvas_position(field.plant) - GUIToolCardButton.SIZE / 2
 	await field.apply_actions([action_data], null)
 
 func need_select_field() -> bool:
