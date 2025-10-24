@@ -283,8 +283,8 @@ func _on_tool_application_error_timer_timeout(id:String) -> void:
 
 func _on_hand_updated(hand:Array) -> void:
 	for tool_data in hand:
-		for action in tool_data.actions:
-			action.combat_main = self
+		tool_data.combat_main = self
+		tool_data.request_refresh.emit()
 
 func _on_field_harvest_started() -> void:
 	pass

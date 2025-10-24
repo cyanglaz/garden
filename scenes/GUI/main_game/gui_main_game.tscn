@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://gi0c6au5p0sr" path="res://scenes/GUI/main_game/animation/gui_top_animation_overlay.tscn" id="23_32sqg"]
 
 [node name="GUIMainGame" type="CanvasLayer"]
+process_mode = 3
 script = ExtResource("1_48pcf")
 
 [node name="GUITopBar" parent="." instance=ExtResource("2_fu4tq")]

@@ -132,8 +132,6 @@ func _animate_card_drop() -> void:
 		tween.tween_property(child, "global_position", target_position, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(CARD_DROP_DELAY * i)
 	for i in cards_container.get_child_count():
 		var child:GUIToolCardButton = cards_container.get_child(i)
-		child.display_mode = true
-		child.activated = true
 		child.mouse_disabled = false
 	await tween.finished
 	choose_card_title.show()

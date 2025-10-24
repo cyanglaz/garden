@@ -24,7 +24,6 @@ func update_with_plant_data(plant_data:PlantData) -> void:
 	set_deferred("content_position_y", plant_icon.position.y + plant_icon.size.y + get_theme_constant("separation"))
 	var plant_tooltip:GUIPlantTooltip = GUI_PLANT_TOOLTIP_SCENE.instantiate()
 	plant_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	plant_tooltip.library_mode = true
 	add_child(plant_tooltip)
 	plant_tooltip.update_with_plant_data(plant_data)
 	_find_reference_pairs_and_add_buttons(plant_data.description)
@@ -36,9 +35,7 @@ func update_with_plant_data(plant_data:PlantData) -> void:
 func update_with_tool_data(tool_data:ToolData) -> void:
 	var card_button:GUIToolCardButton = GUI_TOOL_CARD_BUTTON_SCENE.instantiate()
 	add_child(card_button)
-	card_button.library_mode = true
-	card_button.display_mode = true
-	card_button.mouse_disabled = false
+	card_button.mouse_disabled = true
 	card_button.update_with_tool_data(tool_data)
 	card_button.mouse_entered.connect(func() -> void: card_button.card_state = GUIToolCardButton.CardState.HIGHLIGHTED)
 	card_button.mouse_exited.connect(func() -> void: card_button.card_state = GUIToolCardButton.CardState.NORMAL)
@@ -70,7 +67,6 @@ func update_with_special_data(special:ToolData.Special) -> void:
 func update_with_boss_data(boss_data:BossData) -> void:
 	var boss_tooltip:GUIBossTooltip = Util.GUI_BOSS_TOOLTIP_SCENE.instantiate()
 	add_child(boss_tooltip)
-	boss_tooltip.library_mode = true
 	boss_tooltip.update_with_boss_data(boss_data)
 	boss_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	_find_reference_pairs_and_add_buttons(boss_data.description)

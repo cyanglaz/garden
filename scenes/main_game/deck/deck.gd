@@ -5,7 +5,7 @@ signal draw_pool_updated(draw_pool:Array)
 signal discard_pool_updated(discard_pool:Array)
 signal exhaust_pool_updated(exhaust_pool:Array)
 signal pool_updated(pool:Array)
-signal hand_updated(hand:Array)
+signal hand_updated()
 
 var pool:Array
 var draw_pool:Array

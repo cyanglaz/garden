@@ -78,7 +78,6 @@ func add_card(tool_data:ToolData) -> GUIToolCardButton:
 	var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
 	_container.add_child(gui_card)
 	gui_card.update_with_tool_data(tool_data)
-	gui_card.activated = true
 	gui_card.use_card_button_pressed.connect(_on_tool_card_use_card_button_pressed.bind(tool_data))
 	if selected_index >= 0:
 		gui_card.card_state = GUIToolCardButton.CardState.UNSELECTED

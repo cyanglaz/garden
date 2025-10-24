@@ -5,7 +5,6 @@ extends GUIShopButton
 
 func update_with_tool_data(tool_data:ToolData) -> void:
 	gui_tool_card_button.update_with_tool_data(tool_data)
-	gui_tool_card_button.display_mode = true
 	cost = tool_data.cost
 
 func _set_highlighted(val:bool) -> void:
