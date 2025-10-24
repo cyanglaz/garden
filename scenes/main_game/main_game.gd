@@ -115,5 +115,3 @@ func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> vo
 	pass
 
 #endregion
-
-

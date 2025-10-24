@@ -15,7 +15,7 @@ func apply_tool(_combat_main:CombatMain, fields:Array, field_index:int, _tool_da
 	var cards:Array[ToolData] = []
 	for i in number_of_cards:
 		cards.append(tool_data.get_duplicate())
-	await Singletons.main_game.add_temp_tools_to_hand(cards, from_position, true)
+	await _combat_main.add_temp_tools_to_hand(cards, from_position, true)
 
 func need_select_field() -> bool:
 	return true

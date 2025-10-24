@@ -13,9 +13,9 @@
 [ext_resource type="Resource" uid="uid://hsjy22n36v8s" path="res://data/plants/chapter0/plant_data_rose.tres" id="5_ldk84"]
 [ext_resource type="Script" uid="uid://ektnj8rt6k0k" path="res://data/models/contracts/contract_data.gd" id="5_r81kp"]
 [ext_resource type="Resource" uid="uid://chcuewyamvaie" path="res://data/tools/purchasable/tool_recycle.tres" id="6_4y18v"]
-[ext_resource type="Resource" uid="uid://cd1g4filickxd" path="res://data/tools/defaults/tool_drizzle.tres" id="7_irrf2"]
+[ext_resource type="Resource" uid="uid://djqrg2tjtqt7" path="res://data/tools/purchasable/tool_bottled_water.tres" id="7_s87mg"]
+[ext_resource type="Resource" uid="uid://diu82b74no5rj" path="res://data/tools/purchasable/tool_collect.tres" id="8_ebk6p"]
 [ext_resource type="Resource" uid="uid://b457eg2twkey4" path="res://data/plants/chapter0/plant_data_tulip.tres" id="8_gl27v"]
-[ext_resource type="Resource" uid="uid://bwwawmwufgn1h" path="res://data/tools/purchasable/tool_clear_sky.tres" id="8_s87mg"]
 
 [sub_resource type="Resource" id="Resource_fetp2"]
 script = ExtResource("5_r81kp")
@@ -28,7 +28,7 @@ metadata/_custom_type_script = "uid://ektnj8rt6k0k"
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 player = ExtResource("2_8ywsm")
-test_tools = Array[ExtResource("3_b4n6q")]([ExtResource("4_gl27v"), ExtResource("5_4y18v"), ExtResource("6_4y18v"), ExtResource("7_irrf2"), ExtResource("8_s87mg")])
+test_tools = Array[ExtResource("3_b4n6q")]([ExtResource("4_gl27v"), ExtResource("5_4y18v"), ExtResource("6_4y18v"), ExtResource("7_s87mg"), ExtResource("8_ebk6p")])
 test_contract = SubResource("Resource_fetp2")
 
 [node name="NodeContainer" type="Node2D" parent="."]
