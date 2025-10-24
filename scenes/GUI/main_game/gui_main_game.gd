@@ -11,8 +11,8 @@ signal rating_update_finished(value:int)
 @onready var gui_thing_info_view: GUIThingInfoView = %GUIThingInfoView
 @onready var gui_top_animation_overlay: GUITopAnimationOverlay = %GUITopAnimationOverlay
 @onready var gui_dialogue_window: GUIDialogueWindow = %GUIDialogueWindow
+@onready var gui_tooltips_container: GUITooltipContainer = %GUITooltipsContainer
 
-@onready var _overlay: Control = %Overlay
 @onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
 
@@ -75,19 +75,10 @@ func bind_cards(cards:Array[ToolData]) -> void:
 func update_penalty(penalty:int) -> void:
 	gui_top_bar.update_penalty(penalty)
 
-#region control
-
-func add_control_to_overlay(control:Control) -> void:
-	_overlay.add_child(control)
-
-#endregion
-
 #region private
 
 func _clear_tooltips() -> void:
-	for child in _overlay.get_children():
-		if child is GUITooltip:
-			child.queue_free()
+	gui_tooltips_container.clear_all_tooltips()
 	gui_dialogue_window.clear_all_dialogue_items()
 
 func _show_info_view() -> void:

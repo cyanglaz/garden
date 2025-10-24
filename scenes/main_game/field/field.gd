@@ -37,7 +37,7 @@ var status_manager:FieldStatusManager = FieldStatusManager.new()
 var weak_left_field:WeakRef = weakref(null)
 var weak_right_field:WeakRef = weakref(null)
 
-var _weak_plant_tooltip = weakref(null)
+var _tooltip_id:String = ""
 
 func _ready() -> void:
 	_gui_field_button.state_updated.connect(_on_gui_field_button_state_updated)
@@ -260,13 +260,13 @@ func _on_field_mouse_entered() -> void:
 		Events.update_hovered_data.emit(plant.data)
 		field_hovered.emit(true)
 		if !Singletons.main_game.combat_main.tool_manager.selected_tool:
-			_weak_plant_tooltip = weakref(Util.display_plant_tooltip(plant.data, _gui_field_button, false, GUITooltip.TooltipPosition.LEFT_TOP, true))
+			_tooltip_id = Util.get_uuid()
+			Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.PLANT, plant.data, _tooltip_id, _gui_field_button, false, GUITooltip.TooltipPosition.LEFT_TOP, true)
 
 func _on_field_mouse_exited() -> void:
 	Events.update_hovered_data.emit(null)
 	field_hovered.emit(false)
-	if _weak_plant_tooltip.get_ref():
-		_weak_plant_tooltip.get_ref().queue_free()
+	Events.request_hide_tooltip.emit(_tooltip_id)
 
 func _on_gui_field_button_pressed() -> void:
 	if plant:

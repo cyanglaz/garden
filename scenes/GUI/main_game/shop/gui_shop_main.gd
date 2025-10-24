@@ -15,7 +15,7 @@ const TOOL_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/main_game/shop/shop_bu
 @onready var _title: Label = %Title
 @onready var _sub_title: Label = %SubTitle
 
-var _weak_tooltip:WeakRef = weakref(null)
+var _tooltip_id:String = ""
 
 var _full_deck_button:GUIDeckButton: get = _get_full_deck_button
 var _weak_full_deck_button:WeakRef = weakref(null)
@@ -103,10 +103,9 @@ func _on_next_level_button_pressed() -> void:
 
 func _on_shop_button_mouse_exited() -> void:
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
-	if _weak_tooltip.get_ref():
-		_weak_tooltip.get_ref().queue_free()
-		_weak_tooltip = weakref(null)
+	Events.request_hide_tooltip.emit(_tooltip_id)
 
 func _on_tool_shop_button_mouse_entered(tool_data:ToolData, control:Control) -> void:
 	if !tool_data.actions.is_empty():
-		_weak_tooltip = weakref(Util.display_tool_card_tooltip(tool_data, null, control, false, GUITooltip.TooltipPosition.RIGHT, false))
+		_tooltip_id = Util.get_uuid()
+		Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.TOOL_CARD, tool_data, _tooltip_id, control, false, GUITooltip.TooltipPosition.RIGHT, false)

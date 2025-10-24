@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dh754pccgiguh"]
-
-[ext_resource type="Script" uid="uid://bsp5wwsp8xnhm" path="res://scenes/GUI/main_game/top_bar/level_display/gui_level_display.gd" id="1_7h5f2"]
-
-[node name="GUILevelDisplay" type="HBoxContainer"]
-theme_override_constants/separation = 1
-script = ExtResource("1_7h5f2")

@@ -46,9 +46,9 @@ var tool_data:ToolData: get = _get_tool_data
 var hand_index:int = -1
 var _weak_tool_data:WeakRef = weakref(null)
 var _container_offset:Vector2 = Vector2.ZERO: set = _set_container_offset
+var _action_tooltip_id:String = ""
 
 var _in_hand := false
-var _weak_actions_tooltip:WeakRef = weakref(null)
 var _weak_mouse_field:WeakRef = weakref(null)
 
 func _ready() -> void:
@@ -111,11 +111,6 @@ func animated_transform(old_rarity:int) -> void:
 func play_error_shake_animation() -> void:
 	await Util.play_error_shake_animation(self, "_container_offset", Vector2.ZERO)
 
-func clear_tooltip() -> void:
-	if _weak_actions_tooltip.get_ref():
-		_weak_actions_tooltip.get_ref().queue_free()
-		_weak_actions_tooltip = weakref(null)
-
 func _update_for_energy(energy:int) -> void:
 	if !tool_data:
 		return
@@ -137,14 +132,15 @@ func _on_mouse_entered() -> void:
 		Events.update_hovered_data.emit(tool_data)
 	await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
 	if mouse_in && !tool_data.actions.is_empty():
-		if _weak_actions_tooltip.get_ref():
+		if _action_tooltip_id.is_empty():
 			return
-		_weak_actions_tooltip = weakref(Util.display_tool_card_tooltip(tool_data, _weak_mouse_field.get_ref(), self, false, GUITooltip.TooltipPosition.RIGHT, true))
+		_action_tooltip_id = Util.get_uuid()
+		Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.TOOL_CARD, tool_data, _action_tooltip_id, _weak_mouse_field.get_ref(), self, false, GUITooltip.TooltipPosition.RIGHT, true)
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
 	Events.update_hovered_data.emit(null)
-	clear_tooltip()
+	Events.request_hide_tooltip.emit(_action_tooltip_id)
 
 func _on_energy_tracker_value_updated(energy_tracker:ResourcePoint) -> void:
 	_update_for_energy(energy_tracker.value)

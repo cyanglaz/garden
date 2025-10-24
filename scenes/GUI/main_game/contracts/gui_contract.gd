@@ -22,7 +22,7 @@ const GUI_CONTRACT_PLANT_ICON_SCENE := preload("res://scenes/GUI/main_game/contr
 @onready var penalty_rate_title_label: Label = %PenaltyRateTitleLabel
 @onready var penalty_rate_value_label: Label = %PenaltyRateValueLabel
 
-var _weak_tooltip:WeakRef = weakref(null)
+var _tooltip_id:String = ""
 var _weak_contract_data:WeakRef = weakref(null)
 var _mouse_in:bool = false
 var has_outline:bool = false:set = _set_has_outline
@@ -114,49 +114,44 @@ func _on_mouse_entered_plant_icon(index:int, plant_data:PlantData) -> void:
 	var gui_contract_plant_icon:GUIContractPlaintIcon = plant_container.get_child(index)
 	Events.update_hovered_data.emit(plant_data)
 	gui_contract_plant_icon.gui_plant_icon.has_outline = true
-	_weak_tooltip = weakref(Util.display_plant_tooltip(plant_data, gui_contract_plant_icon.gui_plant_icon, false, GUITooltip.TooltipPosition.LEFT))
+	_tooltip_id = Util.get_uuid()
+	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.PLANT, plant_data, _tooltip_id, gui_contract_plant_icon.gui_plant_icon, false, GUITooltip.TooltipPosition.LEFT, false)
 
 func _on_mouse_exited_plant_icon(index:int) -> void:
 	var gui_contract_plant_icon:GUIContractPlaintIcon = plant_container.get_child(index)
 	Events.update_hovered_data.emit(null)
 	gui_contract_plant_icon.gui_plant_icon.has_outline = false
-	if _weak_tooltip.get_ref():
-		_weak_tooltip.get_ref().queue_free()
-		_weak_tooltip = weakref(null)
+	Events.request_hide_tooltip.emit(_tooltip_id)
 
 func _on_mouse_entered_penalty_rate_label() -> void:
-	_weak_tooltip = weakref(Util.display_rich_text_tooltip(Util.get_localized_string("CONTRACT_PENALTY_RATE_TOOL_TIP_TEXT"), penalty_rate_title_label, false, GUITooltip.TooltipPosition.LEFT))
+	_tooltip_id = Util.get_uuid()
+	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.RICH_TEXT, Util.get_localized_string("CONTRACT_PENALTY_RATE_TOOL_TIP_TEXT"), _tooltip_id, penalty_rate_title_label, false, GUITooltip.TooltipPosition.LEFT, false)
 
 func _on_mouse_exited_penalty_rate_label() -> void:
-	if _weak_tooltip.get_ref():
-		_weak_tooltip.get_ref().queue_free()
-		_weak_tooltip = weakref(null)
+	Events.request_hide_tooltip.emit(_tooltip_id)
 
 func _on_mouse_entered_booster_pack() -> void:
 	gui_reward_booster_pack.has_outline = true
-	_weak_tooltip = weakref(Util.display_booster_pack_tooltip(_weak_contract_data.get_ref().reward_booster_pack_type, gui_reward_booster_pack, false, GUITooltip.TooltipPosition.LEFT))
+	_tooltip_id = Util.get_uuid()
+	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.BOOSTER_PACK, _weak_contract_data.get_ref().reward_booster_pack_type, _tooltip_id, gui_reward_booster_pack, false, GUITooltip.TooltipPosition.LEFT, false)
 	
 func _on_mouse_exited_booster_pack() -> void:
 	gui_reward_booster_pack.has_outline = false
-	if _weak_tooltip.get_ref():
-		_weak_tooltip.get_ref().queue_free()
-		_weak_tooltip = weakref(null)
+	Events.request_hide_tooltip.emit(_tooltip_id)
 
 func _on_mouse_entered_total_resources() -> void:
-	_weak_tooltip = weakref(Util.display_rich_text_tooltip(Util.get_localized_string("CONTRACT_TOTAL_RESOURCES_TOOL_TIP_TEXT"), gui_contract_total_resources, false, GUITooltip.TooltipPosition.LEFT))
+	_tooltip_id = Util.get_uuid()
+	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.RICH_TEXT, Util.get_localized_string("CONTRACT_TOTAL_RESOURCES_TOOL_TIP_TEXT"), _tooltip_id, gui_contract_total_resources, false, GUITooltip.TooltipPosition.LEFT, false)
 
 func _on_mouse_exited_total_resources() -> void:
-	if _weak_tooltip.get_ref():
-		_weak_tooltip.get_ref().queue_free()
-		_weak_tooltip = weakref(null)
+	Events.request_hide_tooltip.emit(_tooltip_id)
 
 func _on_mouse_entered_reward_gold() -> void:
-	_weak_tooltip = weakref(Util.display_rich_text_tooltip(Util.get_localized_string("CONTRACT_REWARD_GOLD_TOOL_TIP_TEXT"), gui_reward_gold, false, GUITooltip.TooltipPosition.LEFT))
+	_tooltip_id = Util.get_uuid()
+	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.RICH_TEXT, Util.get_localized_string("CONTRACT_REWARD_GOLD_TOOL_TIP_TEXT"), _tooltip_id, gui_reward_gold, false, GUITooltip.TooltipPosition.LEFT, false)
 
 func _on_mouse_exited_reward_gold() -> void:
-	if _weak_tooltip.get_ref():
-		_weak_tooltip.get_ref().queue_free()
-		_weak_tooltip = weakref(null)
+	Events.request_hide_tooltip.emit(_tooltip_id)
 
 func _on_mouse_entered() -> void:
 	has_outline = true
@@ -174,6 +169,4 @@ func _set_has_outline(val:bool) -> void:
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
-		if _weak_tooltip.get_ref():
-			_weak_tooltip.get_ref().queue_free()
-			_weak_tooltip = weakref(null)
+		Events.request_hide_tooltip.emit(_tooltip_id)

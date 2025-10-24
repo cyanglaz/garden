@@ -3,7 +3,6 @@ extends GUITooltip
 
 @onready var gui_thing_data_description: GUIThingDataDescription = %GUIThingDataDescription
 
-var library_tooltip_position := GUITooltip.TooltipPosition.BOTTOM_RIGHT
 var library_mode := false
 
 func _update_with_data() -> void:

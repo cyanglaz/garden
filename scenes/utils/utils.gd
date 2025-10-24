@@ -3,19 +3,6 @@ extends RefCounted
 
 const GUI_ALERT_POPUP_SCENE := preload("res://scenes/GUI/containers/gui_popup_alert.tscn")
 
-const GUI_BUTTON_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_button_tooltip.tscn")
-const GUI_PLANT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_plant_tooltip.tscn")
-const GUI_WEATHER_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_weather_tooltip.tscn")
-const GUI_THING_DATA_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_thing_data_tooltip.tscn")
-const GUI_ACTIONS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_actions_tooltip.tscn")
-const GUI_WARNING_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_warning_tooltip.tscn")
-const GUI_RICH_TEXT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_rich_text_tooltip.tscn")
-const GUI_TOOL_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_tool_card_tooltip.tscn")
-const GUI_SHOW_DETAIL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_show_detail_tooltip.tscn")
-const GUI_BOOSTER_PACK_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_booster_pack_tooltip.tscn")
-const GUI_BOSS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_boss_tooltip.tscn")
-const GUI_CONTRACT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_contract_tooltip.tscn")
-
 const FIELD_STATUS_SCRIPT_PREFIX := "res://scenes/main_game/field/status/field_status_script_"
 const POWER_SCRIPT_PREFIX := "res://scenes/main_game/power/power_scripts/power_script_"
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
@@ -29,164 +16,15 @@ const TOOLTIP_OFFSET:float = 2.0
 const FLOAT_EQUAL_EPSILON:float = 0.001
 const ERROR_SHAKE_OFFSET := 1.0
 
+static func get_uuid() -> String:
+	return str(Time.get_unix_time_from_system()) + "_" + str(randi_range(0, 1000000)) + "_" + str(Time.get_ticks_msec())
+
 static func show_alert(title:String, message:String, close_button_title:String, by_pass_button_title:String) -> GUIPopupAlert:
 	var popup := GUI_ALERT_POPUP_SCENE.instantiate()
 	#Singletons.game_session.add_view_to_top_container(popup)
 	popup.setup(title, message, close_button_title, by_pass_button_title)
 	popup.animate_show()
 	return popup
-	
-static func display_button_tooltip(description:String, shortcut:String, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIButtonTooltip:
-	var button_tooltip:GUIButtonTooltip = GUI_BUTTON_TOOLTIP_SCENE.instantiate()
-	Singletons.main_game.add_control_to_overlay(button_tooltip)
-	button_tooltip.setup(description, shortcut)
-	_display_tool_tip.call_deferred(button_tooltip, on_control_node, anchor_mouse, tooltip_position)
-	return button_tooltip
-
-static func display_warning_tooltip(message:String, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIWarningTooltip:
-	var warning_tooltip:GUIWarningTooltip = GUI_WARNING_TOOLTIP_SCENE.instantiate()
-	Singletons.main_game.add_control_to_overlay(warning_tooltip)
-	warning_tooltip.setup_with_text(message)
-	_display_tool_tip.call_deferred(warning_tooltip, on_control_node, anchor_mouse, tooltip_position)
-	return warning_tooltip
-
-static func display_rich_text_tooltip(description:String, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIRichTextTooltip:
-	var rich_text_tooltip:GUIRichTextTooltip = GUI_RICH_TEXT_TOOLTIP_SCENE.instantiate()
-	Singletons.main_game.add_control_to_overlay(rich_text_tooltip)
-	# tooltip position needs to be set before binding data	
-	rich_text_tooltip.tooltip_position = tooltip_position
-	rich_text_tooltip.setup(description)
-	_display_tool_tip.call_deferred(rich_text_tooltip, on_control_node, anchor_mouse, tooltip_position)
-	return rich_text_tooltip
-
-static func display_plant_tooltip(plant_data:PlantData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP, world_space:bool = false) -> GUIPlantTooltip:
-	var plant_tooltip:GUIPlantTooltip = GUI_PLANT_TOOLTIP_SCENE.instantiate()
-	plant_tooltip.hide()
-	Singletons.main_game.add_control_to_overlay(plant_tooltip)
-	plant_tooltip.tooltip_position = tooltip_position
-	plant_tooltip.update_with_plant_data(plant_data)
-	_display_tool_tip.call_deferred(plant_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
-	return plant_tooltip
-
-static func display_weather_tooltip(weather_data:WeatherData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP) -> GUIWeatherTooltip:
-	var weather_tooltip:GUIWeatherTooltip = GUI_WEATHER_TOOLTIP_SCENE.instantiate()
-	Singletons.main_game.add_control_to_overlay(weather_tooltip)
-	weather_tooltip.tooltip_position = tooltip_position
-	weather_tooltip.update_with_weather_data(weather_data)
-	_display_tool_tip.call_deferred(weather_tooltip, on_control_node, anchor_mouse, tooltip_position)
-	return weather_tooltip
-
-static func display_thing_data_tooltip(thing_data:ThingData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool) -> GUIThingDataTooltip:
-	var thing_data_tooltip:GUIThingDataTooltip = GUI_THING_DATA_TOOLTIP_SCENE.instantiate()
-	Singletons.main_game.add_control_to_overlay(thing_data_tooltip)
-	thing_data_tooltip.tooltip_position = tooltip_position
-	thing_data_tooltip.update_with_thing_data(thing_data)
-	_display_tool_tip.call_deferred(thing_data_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
-	return thing_data_tooltip
-
-static func display_actions_tooltip(action_datas:Array[ActionData], target_field:Field, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool) -> GUIActionsTooltip:
-	var actions_tooltip:GUIActionsTooltip = GUI_ACTIONS_TOOLTIP_SCENE.instantiate()
-	Singletons.main_game.add_control_to_overlay(actions_tooltip)
-	actions_tooltip.tooltip_position = tooltip_position
-	actions_tooltip.update_with_actions(action_datas, target_field)
-	_display_tool_tip.call_deferred(actions_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
-	return actions_tooltip
-
-static func display_tool_card_tooltip(tool_data:ToolData, target_field:Field, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool) -> GUIToolCardTooltip:
-	var tool_card_tooltip:GUIToolCardTooltip = GUI_TOOL_CARD_TOOLTIP_SCENE.instantiate()
-	Singletons.main_game.add_control_to_overlay(tool_card_tooltip)
-	tool_card_tooltip.tooltip_position = tooltip_position
-	tool_card_tooltip.update_with_tool_data(tool_data, target_field)
-	_display_tool_tip.call_deferred(tool_card_tooltip, on_control_node, anchor_mouse, tooltip_position, world_space)
-	return tool_card_tooltip
-
-static func display_show_detail_tooltip(data:ThingData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition) -> GUIShowDetailTooltip:
-	var show_library_tooltip:GUIShowDetailTooltip = GUI_SHOW_DETAIL_TOOLTIP_SCENE.instantiate()
-	Singletons.main_game.add_control_to_overlay(show_library_tooltip)
-	show_library_tooltip.tooltip_position = tooltip_position
-	show_library_tooltip.update_with_data(data)
-	_display_tool_tip.call_deferred(show_library_tooltip, on_control_node, anchor_mouse, tooltip_position, false)
-	return show_library_tooltip
-
-static func display_booster_pack_tooltip(booster_pack_type:ContractData.BoosterPackType, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition) -> GUIBoosterPackTooltip:
-	var booster_pack_tooltip:GUIBoosterPackTooltip = GUI_BOOSTER_PACK_TOOLTIP_SCENE.instantiate()
-	Singletons.main_game.add_control_to_overlay(booster_pack_tooltip)
-	booster_pack_tooltip.tooltip_position = tooltip_position
-	booster_pack_tooltip.update_with_booster_pack_type(booster_pack_type)
-	_display_tool_tip.call_deferred(booster_pack_tooltip, on_control_node, anchor_mouse, tooltip_position, false)
-	return booster_pack_tooltip
-
-static func display_boss_tooltip(boss_data:BossData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition) -> GUIBossTooltip:
-	var boss_tooltip:GUIBossTooltip = GUI_BOSS_TOOLTIP_SCENE.instantiate()
-	Singletons.main_game.add_control_to_overlay(boss_tooltip)
-	boss_tooltip.tooltip_position = tooltip_position
-	boss_tooltip.update_with_boss_data(boss_data)
-	_display_tool_tip.call_deferred(boss_tooltip, on_control_node, anchor_mouse, tooltip_position, false)
-	return boss_tooltip
-
-static func display_contract_tooltip(contract_data:ContractData, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition) -> GUIContractTooltip:
-	var contract_tooltip:GUIContractTooltip = GUI_CONTRACT_TOOLTIP_SCENE.instantiate()
-	Singletons.main_game.add_control_to_overlay(contract_tooltip)
-	contract_tooltip.tooltip_position = tooltip_position
-	contract_tooltip.update_with_contract_data(contract_data)
-	_display_tool_tip.call_deferred(contract_tooltip, on_control_node, anchor_mouse, tooltip_position, false)
-	return contract_tooltip
-
-static func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP, world_space:bool = false) -> void:
-	tooltip.show()
-	if tooltip is GUITooltip:
-		tooltip.anchor_to_mouse = anchor_mouse
-		tooltip.show_tooltip()
-		tooltip.update_anchors()
-	if anchor_mouse && on_control_node:
-		tooltip.triggering_global_rect = on_control_node.get_global_rect()
-		return
-	if !on_control_node:
-		return
-	var y_offset:float = 0
-	var x_offset:float = 0
-	match tooltip_position:
-		GUITooltip.TooltipPosition.TOP_RIGHT:
-			x_offset = on_control_node.size.x + TOOLTIP_OFFSET
-			y_offset = - tooltip.size.y + on_control_node.size.y - TOOLTIP_OFFSET
-		GUITooltip.TooltipPosition.TOP:
-			x_offset = on_control_node.size.x/2 - tooltip.size.x/2
-			y_offset = - tooltip.size.y - TOOLTIP_OFFSET
-		GUITooltip.TooltipPosition.RIGHT:
-			x_offset = on_control_node.size.x + TOOLTIP_OFFSET
-		GUITooltip.TooltipPosition.LEFT_TOP:
-			x_offset = -tooltip.size.x - TOOLTIP_OFFSET
-			y_offset = - tooltip.size.y + on_control_node.size.y - TOOLTIP_OFFSET
-		GUITooltip.TooltipPosition.LEFT:
-			x_offset = -tooltip.size.x - TOOLTIP_OFFSET
-		GUITooltip.TooltipPosition.BOTTOM:
-			x_offset = on_control_node.size.x/2 - tooltip.size.x/2
-			y_offset = on_control_node.size.y + TOOLTIP_OFFSET
-		GUITooltip.TooltipPosition.BOTTOM_LEFT:
-			x_offset = -tooltip.size.x + on_control_node.size.x
-			y_offset = on_control_node.size.y + TOOLTIP_OFFSET
-		GUITooltip.TooltipPosition.BOTTOM_RIGHT:
-			y_offset = on_control_node.size.y + TOOLTIP_OFFSET
-	var reference_position := on_control_node.global_position
-	if world_space:
-		assert(on_control_node)
-		reference_position = get_node_canvas_position(on_control_node)
-	tooltip.global_position = reference_position + Vector2(x_offset, y_offset)
-	if tooltip is GUITooltip:
-		_adjust_tooltip_position(tooltip, on_control_node, tooltip_position, world_space)
-
-static func _adjust_tooltip_position(tooltip:GUITooltip, on_control_node:Control, tooltip_position: GUITooltip.TooltipPosition =  GUITooltip.TooltipPosition.TOP, world_space:bool = false) -> void:
-	match tooltip_position:
-		GUITooltip.TooltipPosition.TOP_RIGHT:
-			pass
-		GUITooltip.TooltipPosition.TOP:
-			if tooltip.get_screen_position().y < GUITooltip.OFFSCREEN_PADDING:
-				_display_tool_tip(tooltip, on_control_node, false, GUITooltip.TooltipPosition.BOTTOM, world_space)
-		GUITooltip.TooltipPosition.RIGHT:
-			pass
-		GUITooltip.TooltipPosition.BOTTOM:
-			pass
-	tooltip.adjust_positions()
 
 static func save_obj_array(array:Array) -> Array:
 	var result_array := []

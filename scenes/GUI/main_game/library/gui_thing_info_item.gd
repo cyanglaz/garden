@@ -51,28 +51,28 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	_add_reference_buttons(special_pairs)
 
 func update_with_action_data(action_data:ActionData) -> void:
-	var action_tooltip:GUIActionsTooltip = Util.GUI_ACTIONS_TOOLTIP_SCENE.instantiate()
+	var action_tooltip:GUIActionsTooltip = GUITooltipContainer.GUI_ACTIONS_TOOLTIP_SCENE.instantiate()
 	add_child(action_tooltip)
 	action_tooltip.update_with_actions([action_data], null)
 	action_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	_find_reference_pairs_and_add_buttons(ActionDescriptionFormulator.get_action_description(action_data, null))
 
 func update_with_special_data(special:ToolData.Special) -> void:
-	var special_tooltip:GUIActionsTooltip = Util.GUI_ACTIONS_TOOLTIP_SCENE.instantiate()
+	var special_tooltip:GUIActionsTooltip = GUITooltipContainer.GUI_ACTIONS_TOOLTIP_SCENE.instantiate()
 	add_child(special_tooltip)
 	special_tooltip.update_with_special(special)
 	special_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	_find_reference_pairs_and_add_buttons(ActionDescriptionFormulator.get_special_description(special))
 
 func update_with_boss_data(boss_data:BossData) -> void:
-	var boss_tooltip:GUIBossTooltip = Util.GUI_BOSS_TOOLTIP_SCENE.instantiate()
+	var boss_tooltip:GUIBossTooltip = GUITooltipContainer.GUI_BOSS_TOOLTIP_SCENE.instantiate()
 	add_child(boss_tooltip)
 	boss_tooltip.update_with_boss_data(boss_data)
 	boss_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	_find_reference_pairs_and_add_buttons(boss_data.description)
 
 func update_with_weather_data(weather_data:WeatherData) -> void:
-	var weather_tooltip:GUIWeatherTooltip = Util.GUI_WEATHER_TOOLTIP_SCENE.instantiate()
+	var weather_tooltip:GUIWeatherTooltip = GUITooltipContainer.GUI_WEATHER_TOOLTIP_SCENE.instantiate()
 	weather_tooltip.display_mode = false
 	weather_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	add_child(weather_tooltip)
@@ -84,7 +84,7 @@ func update_with_weather_data(weather_data:WeatherData) -> void:
 	_add_reference_buttons(action_pairs)
 
 func update_with_thing_data(thing_data:ThingData) -> void:
-	var thing_data_tooltip:GUIThingDataTooltip = Util.GUI_THING_DATA_TOOLTIP_SCENE.instantiate()
+	var thing_data_tooltip:GUIThingDataTooltip = GUITooltipContainer.GUI_THING_DATA_TOOLTIP_SCENE.instantiate()
 	add_child(thing_data_tooltip)
 	thing_data_tooltip.update_with_thing_data(thing_data)
 	thing_data_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN

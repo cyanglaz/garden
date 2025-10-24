@@ -150,4 +150,4 @@ static func _get_field_status_description(action_data:ActionData) -> String:
 	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(id)
 	if !field_status_data:
 		return ""
-	return field_status_data.description
+	return field_status_data.get_display_description()

@@ -6,7 +6,7 @@ const PLANT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_plant_toolti
 
 @onready var _plant_card_container: HBoxContainer = %PlantCardContainer
 
-var _weak_tooltip:WeakRef = weakref(null)
+var _tooltip_id:String = ""
 
 func update_with_plants(plants:Array[PlantData]) -> void:
 	Util.remove_all_children(_plant_card_container)
@@ -33,10 +33,9 @@ func _on_mouse_entered(index:int) -> void:
 	var card:GUIPlantCard = _plant_card_container.get_child(index)
 	var plant_data = card.gui_plant_icon.plant_data
 	Events.update_hovered_data.emit(plant_data)
-	_weak_tooltip = weakref(Util.display_plant_tooltip(plant_data, card, false, GUITooltip.TooltipPosition.BOTTOM))
+	_tooltip_id = Util.get_uuid()
+	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.PLANT, plant_data, _tooltip_id, card, false, GUITooltip.TooltipPosition.BOTTOM, false)
 
 func _on_mouse_exited(_index:int) -> void:
-	if _weak_tooltip.get_ref():
-		Events.update_hovered_data.emit(null)
-		_weak_tooltip.get_ref().queue_free()
-		_weak_tooltip = weakref(null)
+	Events.update_hovered_data.emit(null)
+	Events.request_hide_tooltip.emit(_tooltip_id)

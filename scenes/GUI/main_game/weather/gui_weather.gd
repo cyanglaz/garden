@@ -1,7 +1,6 @@
 class_name GUIWeather
 extends PanelContainer
 
-signal weather_tooltip_shown(tooltip:GUIWeatherTooltip)
 signal tooltips_removed()
 
 @export var has_tooltip:bool = false
@@ -11,7 +10,7 @@ signal tooltips_removed()
 
 var is_highlighted:bool = false:set = _set_is_highlighted
 var tooltip_anchor:Control
-var _weak_weather_tooltip:WeakRef = weakref(null)
+var _tooltip_id:String = ""
 var _weak_weather_data:WeakRef
 
 func _ready() -> void:
@@ -35,15 +34,13 @@ func _on_mouse_entered() -> void:
 	Events.update_hovered_data.emit(_weak_weather_data.get_ref())
 	is_highlighted = true
 	var anchor = tooltip_anchor if tooltip_anchor else self
-	_weak_weather_tooltip = weakref(Util.display_weather_tooltip(_weak_weather_data.get_ref(), anchor, false, GUITooltip.TooltipPosition.LEFT))
-	weather_tooltip_shown.emit(_weak_weather_tooltip.get_ref())
+	_tooltip_id = Util.get_uuid()
+	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.WEATHER, _weak_weather_data.get_ref(), _tooltip_id, anchor, false, GUITooltip.TooltipPosition.LEFT, false)
 
 func _on_mouse_exited() -> void:
 	is_highlighted = false
 	Events.update_hovered_data.emit(null)
-	if _weak_weather_tooltip.get_ref():
-		_weak_weather_tooltip.get_ref().queue_free()
-		_weak_weather_tooltip = weakref(null)
+	Events.request_hide_tooltip.emit(_tooltip_id)
 	tooltips_removed.emit()
 
 func _set_is_highlighted(val:bool) -> void:

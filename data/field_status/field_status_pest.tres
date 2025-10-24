@@ -9,7 +9,7 @@ stackable = true
 remove_on_trigger = true
 id = "pest"
 display_name = "Pest"
-description = "When the affected plant is harvested, -{value} {resource:rating} for each stack."
+description = "When the affected plant is harvested, reduce {value} {resource:rating} for each stack."
 data = {
 "value": "1"
 }

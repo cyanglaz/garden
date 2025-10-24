@@ -72,13 +72,6 @@ func update_gold(gold_diff:int, animated:bool) -> void:
 
 #endregion
 
-#region gui
-
-func add_control_to_overlay(control:Control) -> void:
-	gui_main_game.add_control_to_overlay(control)
-
-#endregion
-
 #region private
 
 func _start_new_chapter() -> void:
