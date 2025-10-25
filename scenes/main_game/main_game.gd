@@ -22,6 +22,7 @@ var session_seed := 0
 var combat_main:CombatMain
 var map_main:MapMain
 var _current_scene:Node2D
+var _current_map_node:MapNode
 
 var chapter_manager:ChapterManager = ChapterManager.new()
 var contract_generator:ContractGenerator = ContractGenerator.new()
@@ -96,6 +97,7 @@ func _start_combat_main_scene(contract:ContractData) -> void:
 		_current_scene.queue_free()
 	combat_main = COMBAT_MAIN_SCENE.instantiate()
 	node_container.add_child(combat_main)
+	combat_main.win.connect(_on_combat_main_win)
 	_current_scene = combat_main
 	combat_main.start(player.number_of_fields, card_pool, 3, contract)
 
@@ -104,6 +106,7 @@ func _start_map_main_scene() -> void:
 		_current_scene.queue_free()
 	map_main = MAP_MAIN_SCENE.instantiate()
 	node_container.add_child(map_main)
+	map_main.node_selected.connect(_on_map_node_selected)
 	_current_scene = map_main
 	map_main.update_with_map(map_generator.layers)
 
@@ -140,6 +143,25 @@ func _on_request_show_custom_error(message:String, id:String) -> void:
 func _on_request_hide_custom_error(id:String) -> void:
 	_warning_manager.hide_custom_error(id)
 
+#endregion
+
+#region map events
+
+func _on_map_node_selected(node:MapNode) -> void:
+	match node.type:
+		MapNode.NodeType.NORMAL:
+			_start_combat_main_scene(contract_generator.common_contracts.pop_back())
+		MapNode.NodeType.ELITE:
+			_start_combat_main_scene(contract_generator.elite_contracts.pop_back())
+		MapNode.NodeType.BOSS:
+			_start_combat_main_scene(contract_generator.boss_contracts.pop_back())
+		_:
+			_start_combat_main_scene(contract_generator.common_contracts.pop_back())
+	
+#region combat events
+
+func _on_combat_main_win(session_summary:SessionSummary, contract:ContractData) -> void:
+	_start_map_main_scene()
 
 #endregion
 
