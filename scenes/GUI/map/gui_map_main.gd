@@ -11,5 +11,5 @@ func _ready() -> void:
 func update_with_map(layers:Array) -> void:
 	gui_map_view.update_with_map.call_deferred(layers)
 
-func complete_node(node:MapNode) -> void:
-	gui_map_view.complete_node(node)
+func redraw(layers:Array) -> void:
+	gui_map_view.redraw(layers)

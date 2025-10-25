@@ -15,20 +15,17 @@ const INITIAL_RATING_MAX_VALUE := 100
 @onready var gui_main_game: GUIMainGame = %GUIMainGame
 @onready var feedback_camera_2d: FeedbackCamera2D = %FeedbackCamera2D
 @onready var node_container: Node2D = %NodeContainer
+@onready var map_main: MapMain = %MapMain
 
 var session_seed := 0
 
 #Scenes
-var combat_main:CombatMain
-var map_main:MapMain
-var _current_scene:Node2D
-var _current_map_node:MapNode
+var _current_scene:Node2D: get = _get_current_scene
 
 var chapter_manager:ChapterManager = ChapterManager.new()
 var contract_generator:ContractGenerator = ContractGenerator.new()
 var card_pool:Array[ToolData]
 var rating:ResourcePoint = ResourcePoint.new()
-var map_generator:MapGenerator = MapGenerator.new()
 var _gold:int = 0: set = _set_gold
 var _warning_manager:WarningManager = WarningManager.new(self)
 
@@ -49,7 +46,6 @@ func _ready() -> void:
 	gui_main_game.bind_cards(card_pool)
 	
 	contract_generator.generate_bosses(1)
-
 	_register_global_events()
 
 	Events.request_update_gold.emit(0, false)
@@ -72,17 +68,18 @@ func _register_global_events() -> void:
 #region private
 
 func _start_new_chapter() -> void:
-	map_generator.generate(session_seed)
 	chapter_manager.next_chapter()
+	_generate_chapter_data()
+
+	#_start_map_main_scene()
 	# Always start with a common node
-	_start_combat_main_scene(contract_generator.common_contracts.pop_back())
-	#combat_main.start(player.number_of_fields, card_pool, 3, test_contract)
+	_start_combat_main_scene.call_deferred(contract_generator.common_contracts.pop_back())
 
 func _generate_chapter_data() -> void:
-	map_generator.generate(session_seed)
-	var normal_node_count := map_generator.get_node_count(MapNode.NodeType.NORMAL) + map_generator.get_node_count(MapNode.NodeType.EVENT)
-	var elite_node_count := map_generator.get_node_count(MapNode.NodeType.ELITE)
-	var boss_node_count := map_generator.get_node_count(MapNode.NodeType.BOSS)
+	map_main.generate_map(session_seed)
+	var normal_node_count := map_main.get_node_count(MapNode.NodeType.NORMAL) + map_main.get_node_count(MapNode.NodeType.EVENT)
+	var elite_node_count := map_main.get_node_count(MapNode.NodeType.ELITE)
+	var boss_node_count := map_main.get_node_count(MapNode.NodeType.BOSS)
 	contract_generator.generate_contracts(chapter_manager.current_chapter, normal_node_count, elite_node_count, boss_node_count)
 
 func _game_over() -> void:
@@ -92,23 +89,16 @@ func _game_over() -> void:
 
 #region scenes
 
-func _start_combat_main_scene(contract:ContractData) -> void:
-	if _current_scene:
+func _remove_current_scene() -> void:
+	if _current_scene != null:
 		_current_scene.queue_free()
-	combat_main = COMBAT_MAIN_SCENE.instantiate()
+
+func _start_combat_main_scene(contract:ContractData) -> void:
+	map_main.hide_map()
+	var combat_main = COMBAT_MAIN_SCENE.instantiate()
 	node_container.add_child(combat_main)
 	combat_main.win.connect(_on_combat_main_win)
-	_current_scene = combat_main
 	combat_main.start(player.number_of_fields, card_pool, 3, contract)
-
-func _start_map_main_scene() -> void:
-	if _current_scene:
-		_current_scene.queue_free()
-	map_main = MAP_MAIN_SCENE.instantiate()
-	node_container.add_child(map_main)
-	map_main.node_selected.connect(_on_map_node_selected)
-	_current_scene = map_main
-	map_main.update_with_map(map_generator.layers)
 
 #endregion
 
@@ -145,6 +135,22 @@ func _on_request_hide_custom_error(id:String) -> void:
 
 #endregion
 
+#region main scene events
+
+func _on_combat_main_win(session_summary:SessionSummary, contract:ContractData) -> void:
+	map_main.complete_current_node()
+	_current_scene.queue_free()
+	map_main.show_map()
+
+func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> void:
+	if tool_data:
+		card_pool.append(tool_data)
+	await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
+	# go to map
+	pass
+
+#endregion 
+
 #region map events
 
 func _on_map_node_selected(node:MapNode) -> void:
@@ -157,21 +163,13 @@ func _on_map_node_selected(node:MapNode) -> void:
 			_start_combat_main_scene(contract_generator.boss_contracts.pop_back())
 		_:
 			_start_combat_main_scene(contract_generator.common_contracts.pop_back())
-	
-#region combat events
 
-func _on_combat_main_win(session_summary:SessionSummary, contract:ContractData) -> void:
-	_start_map_main_scene()
 
-#endregion
+# region getter
 
-#region reward events
-
-func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> void:
-	if tool_data:
-		card_pool.append(tool_data)
-	await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
-	# go to map
-	pass
+func _get_current_scene() -> Node2D:
+	if node_container.get_child_count() == 0:
+		return null
+	return node_container.get_child(0)
 
 #endregion

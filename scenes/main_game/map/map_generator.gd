@@ -52,24 +52,20 @@ const CHEST_LAYER := (INTERNAL_LAYER_COUNT + 1)/2
 # This layer is always not a tavern nodes
 const NO_TAVERN_ROW := INTERNAL_LAYER_COUNT
 
-var layers:Array = []
-
-func generate(rand_seed:int = 0) -> void:
+func generate(rand_seed:int = 0) -> Array:
 	# Minimal Cobalt Core-like generator: single start and boss, layered rows,
 	# non-crossing monotone connections with light branching. Configs removed for now.
-	layers.clear()
 	var rng := RandomNumberGenerator.new()
 	if rand_seed != 0:
 		rng.seed = rand_seed
 
-	_generate_nodes()
-	_fill_rooms()
-	log_map()
+	var layers:Array = []
+	_generate_nodes(layers)
+	_fill_rooms(layers)
+	log_map(layers)
+	return layers
 
-func get_node_count(node_type:MapNode.NodeType) -> int:
-	return layers.reduce(func(acc, layer): return acc + layer.filter(func(node): return node.type == node_type).size(), 0)
-
-func _generate_nodes() -> void:
+func _generate_nodes(layers:Array) -> void:
 	@warning_ignore("integer_division")
 	var center_y := MAX_ROWS/2
 	# Always has one starting node.
@@ -79,7 +75,7 @@ func _generate_nodes() -> void:
 
 	layers.append([starting_node])
 	for i in TOTAL_PATHS:
-		_generate_nodes_in_a_path(starting_node, i)
+		_generate_nodes_in_a_path(layers, starting_node, i)
 
 	# Always has one tavern node before the boss node
 	var last_before_boss_node:MapNode = MapNode.new()
@@ -97,14 +93,14 @@ func _generate_nodes() -> void:
 	layers.append([boss_node])
 	last_before_boss_node.connect_to(boss_node)
 
-func _generate_nodes_in_a_path(starting_node:MapNode, path_index:int) -> void:
+func _generate_nodes_in_a_path(layers:Array, starting_node:MapNode, path_index:int) -> void:
 	var current_layer:int = 1
 	var last_node:MapNode = starting_node
 	while current_layer < INTERNAL_LAYER_COUNT + 1:
 		var next_node:MapNode = null
 		if layers.size() <= current_layer:
 			layers.append([])
-		var new_node_coordinate:Vector2i = _get_new_node_row_index(last_node)
+		var new_node_coordinate:Vector2i = _get_new_node_row_index(layers, last_node)
 
 		# Ensure the path 0 and path 1 do not start with the same node
 		if path_index == 1 && current_layer == 1:
@@ -112,7 +108,7 @@ func _generate_nodes_in_a_path(starting_node:MapNode, path_index:int) -> void:
 			var try_times := 500
 			while(path0_first_node.grid_coordinates.y == new_node_coordinate.y && try_times > 0):
 				try_times -= 1
-				new_node_coordinate = _get_new_node_row_index(last_node)
+				new_node_coordinate = _get_new_node_row_index(layers, last_node)
 		
 		for node in layers[current_layer]:
 			if node.grid_coordinates == new_node_coordinate:
@@ -128,7 +124,7 @@ func _generate_nodes_in_a_path(starting_node:MapNode, path_index:int) -> void:
 		last_node = next_node
 		current_layer += 1
 
-func _get_new_node_row_index(last_node:MapNode) -> Vector2i:
+func _get_new_node_row_index(layers:Array, last_node:MapNode) -> Vector2i:
 	var last_node_up_neighbor_coordinate:Vector2i = last_node.grid_coordinates + Vector2i.UP
 	var last_node_down_neighbor_coordinate:Vector2i = last_node.grid_coordinates + Vector2i.DOWN
 	var nodes_in_the_same_row:Array = layers[last_node.grid_coordinates.x]
@@ -150,7 +146,7 @@ func _get_new_node_row_index(last_node:MapNode) -> Vector2i:
 		candidates.append(straight_path_coordinate + Vector2i.DOWN)
 	return Util.unweighted_roll(candidates, 1).front()
 
-func _fill_rooms() -> void:
+func _fill_rooms(layers:Array) -> void:
 	for layer_index:int in range(1, INTERNAL_LAYER_COUNT):
 		var row:Array = layers[layer_index]
 		for node in row:
@@ -160,9 +156,9 @@ func _fill_rooms() -> void:
 				node.type = MapNode.NodeType.NORMAL
 			var candidates:Dictionary = _get_candidates(node)
 			node.type = Util.weighted_roll(candidates.keys(), candidates.values())
-	_constraint_node_count()
+	_constraint_node_count(layers)
 
-func _constraint_node_count() -> void:
+func _constraint_node_count(layers:Array) -> void:
 	var all_internal_rows:Array = layers.slice(1, INTERNAL_LAYER_COUNT)
 	var all_internal_nodes:Array = []
 	for row in all_internal_rows:
@@ -216,7 +212,6 @@ func _get_candidates(node:MapNode) -> Dictionary:
 			candidates.erase(type)
 	return candidates
 
-
 func _is_previous_node_of_type(node:MapNode, type:MapNode.NodeType) -> bool:
 	return node.parent_node.type == type
 
@@ -229,7 +224,7 @@ func _does_next_node_have_type(node:MapNode, type:MapNode.NodeType) -> bool:
 func _is_consecutive_type(node:MapNode, type:MapNode.NodeType) -> bool:
 	return _is_previous_node_of_type(node, type) || _does_next_node_have_type(node, type)
 
-func log_map() -> void:
+func log_map(layers:Array) -> void:
 	for r in layers.size():
 		print("Layer r %s; size: %s:" % [r, layers[r].size()])
 		for node in layers[r]:

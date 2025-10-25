@@ -31,10 +31,11 @@ player = ExtResource("2_8ywsm")
 test_tools = Array[ExtResource("3_b4n6q")]([ExtResource("4_gl27v"), ExtResource("5_4y18v"), ExtResource("6_4y18v"), ExtResource("7_s87mg"), ExtResource("8_ebk6p")])
 test_contract = SubResource("Resource_fetp2")
 
-[node name="NodeContainer" type="Node2D" parent="."]
+[node name="MapMain" parent="." instance=ExtResource("14_s87mg")]
 unique_name_in_owner = true
 
-[node name="MapMain" parent="NodeContainer" instance=ExtResource("14_s87mg")]
+[node name="NodeContainer" type="Node2D" parent="."]
+unique_name_in_owner = true
 
 [node name="FeedbackCamera2D" parent="." instance=ExtResource("2_yra6k")]
 unique_name_in_owner = true

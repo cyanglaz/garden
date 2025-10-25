@@ -124,6 +124,7 @@ func _start_day() -> void:
 	await _contract.apply_boss_actions(self, BossScript.HookType.TURN_START)
 	await draw_cards(hand_size)
 	gui.toggle_all_ui(true)
+	_win()
 
 func _met_win_condition() -> bool:
 	return !field_container.has_plants() && !plant_seed_manager.has_more_plants()
