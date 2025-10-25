@@ -64,6 +64,10 @@ func generate(rand_seed:int = 0) -> void:
 
 	_generate_nodes()
 	_fill_rooms()
+	log_map()
+
+func get_node_count(node_type:MapNode.NodeType) -> int:
+	return layers.reduce(func(acc, layer): return acc + layer.filter(func(node): return node.type == node_type).size(), 0)
 
 func _generate_nodes() -> void:
 	@warning_ignore("integer_division")
@@ -225,8 +229,8 @@ func _does_next_node_have_type(node:MapNode, type:MapNode.NodeType) -> bool:
 func _is_consecutive_type(node:MapNode, type:MapNode.NodeType) -> bool:
 	return _is_previous_node_of_type(node, type) || _does_next_node_have_type(node, type)
 
-func log() -> void:
+func log_map() -> void:
 	for r in layers.size():
 		print("Layer r %s; size: %s:" % [r, layers[r].size()])
 		for node in layers[r]:
-			node.log()
+			node.log_node()

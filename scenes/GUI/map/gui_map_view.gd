@@ -18,14 +18,13 @@ const BACKGROUND_COLOR := Constants.COLOR_GREEN5
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	queue_redraw()
 
 func update_with_map(layers:Array) -> void:
 	_layers = layers
 	_recompute_positions()
-	redraw_nodes()
+	redraw()
 
-func redraw_nodes() -> void:
+func redraw() -> void:
 	Util.remove_all_children(self)
 	_draw_lines()
 	_draw_nodes()
@@ -35,16 +34,17 @@ func complete_node(node:MapNode) -> void:
 	_complete_node(node)
 	_mark_unreachable_nodes()
 	_mark_reachable_nodes(node)
-	redraw_nodes()
+	redraw()
 
 func _recompute_positions() -> void:
 	_node_positions.clear()
 	if _layers.is_empty():
 		return
 	var layers:int = _layers.size()
-	var total_width := layers * LAYER_SPACING
+	var total_width := (layers-1) * LAYER_SPACING
 	var starting_x := (size.x - total_width) / 2.0
-	var starting_y := (size.y - MapGenerator.MAX_ROWS * ROW_SPACING) / 2.0
+	var total_height := MapGenerator.MAX_ROWS * ROW_SPACING
+	var starting_y := (size.y - total_height) / 2.0
 	for layer_nodes:Array in _layers:
 		assert(layer_nodes.size() > 0)
 		for node:MapNode in layer_nodes:

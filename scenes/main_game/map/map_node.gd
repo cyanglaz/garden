@@ -50,7 +50,7 @@ func save() -> Dictionary:
 		})
 	}
 
-func log() -> void:
+func log_node() -> void:
 	var type_str := _type_to_string(type)
 	var next_coords := next_nodes.map(func(n): return "(%s,%s:%s)" % [str(n.grid_coordinates.x), str(n.grid_coordinates.y), _type_to_string(n.type)])
 	print("Node (", grid_coordinates.x, ",", grid_coordinates.y, ") ", type_str, " -> ", next_coords)
