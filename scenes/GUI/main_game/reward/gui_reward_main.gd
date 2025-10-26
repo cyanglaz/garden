@@ -80,4 +80,3 @@ func _booster_pack_button_pressed() -> void:
 
 func _on_card_selected(tool_data:ToolData, from_global_position:Vector2) -> void:
 	reward_finished.emit(tool_data, from_global_position)
-	hide()

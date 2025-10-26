@@ -6,6 +6,7 @@ signal tool_selected(tool_data:ToolData)
 signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData)
 signal card_use_button_pressed(tool_data:ToolData)
 signal mouse_exited_card(tool_data:ToolData)
+signal reward_finished(tool_data:ToolData, from_global_position:Vector2)
 
 @onready var gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
 @onready var gui_tool_card_container: GUIToolCardContainer = %GUIToolCardContainer
@@ -17,6 +18,7 @@ signal mouse_exited_card(tool_data:ToolData)
 @onready var gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
 @onready var end_turn_button: GUIRichTextButton = %EndTurnButton
 @onready var gui_penalty_rate: GUILevelTitle = %GUIPenaltyRate
+@onready var gui_reward_main: GUIRewardMain = %GUIRewardMain
 
 @onready var gui_plant_deck_box: GUIPlantDeckBox = %GUIPlantDeckBox
 @onready var gui_plant_seed_animation_container: GUIPlantSeedAnimationContainer = %GUIPlantSeedAnimationContainer
@@ -30,6 +32,7 @@ func _ready() -> void:
 	gui_tool_card_container.setup(gui_draw_box_button, gui_discard_box_button)
 	gui_tool_card_container.mouse_exited_card.connect(func(tool_data:ToolData) -> void: mouse_exited_card.emit(tool_data))
 	gui_plant_seed_animation_container.draw_plant_card_completed.connect(func(field_index:int, plant_data:PlantData) -> void: plant_seed_drawn_animation_completed.emit(field_index, plant_data))
+	gui_reward_main.reward_finished.connect(func(tool_data:ToolData, from_global_position:Vector2) -> void: reward_finished.emit(tool_data, from_global_position))
 
 #region power
 
@@ -111,6 +114,13 @@ func update_boost(boost:int) -> void:
 
 func update_penalty_rate(val:int) -> void:
 	gui_penalty_rate.update_penalty(val)
+
+#endregion
+
+#region reward
+
+func animate_show_reward_main(contract_data:ContractData) -> void:
+	await gui_reward_main.show_with_contract_data(contract_data)
 
 #endregion
 

@@ -2,7 +2,7 @@ class_name CombatMain
 extends Node2D
 
 signal _all_field_harvested()
-signal win(session_summary:SessionSummary, contract:ContractData)
+signal reward_finished(tool_data:ToolData, from_global_position:Vector2)
 
 var hand_size := 5
 const WIN_PAUSE_TIME := 0.4
@@ -60,6 +60,7 @@ func start(field_count:int, card_pool:Array[ToolData], energy_cap:int, contract:
 	gui.plant_seed_drawn_animation_completed.connect(_on_plant_seed_drawn_animation_completed)
 	gui.card_use_button_pressed.connect(_on_card_use_button_pressed)
 	gui.mouse_exited_card.connect(_on_mouse_exited_card)
+	gui.reward_finished.connect(_on_reward_finished)
 
 	combat_modifier_manager.setup(self)
 
@@ -137,8 +138,9 @@ func _win() -> void:
 	await _discard_all_tools()
 	_harvesting_fields.clear()
 	session_summary.total_days += day_manager.day
+	gui.animate_show_reward_main(_contract)
+	await gui.reward_finished
 	gui.toggle_all_ui(true)
-	win.emit(session_summary, _contract)
 
 func _end_day() -> void:
 	gui.toggle_all_ui(false)
@@ -255,6 +257,13 @@ func _on_field_pressed(index:int) -> void:
 	if !tool_manager.selected_tool || !tool_manager.selected_tool.need_select_field:
 		return
 	_handle_card_use(index)
+
+func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> void:
+	if _contract.contract_type == ContractData.ContractType.BOSS:
+		#beat demo
+		pass # TODO: beat demo
+	else:
+		reward_finished.emit(tool_data, from_global_position)
 
 #region other events
 

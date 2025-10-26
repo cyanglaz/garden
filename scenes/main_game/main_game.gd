@@ -99,7 +99,7 @@ func _start_combat_main_scene(contract:ContractData) -> void:
 	map_main.hide_map()
 	var combat_main = COMBAT_MAIN_SCENE.instantiate()
 	node_container.add_child(combat_main)
-	combat_main.win.connect(_on_combat_main_win)
+	combat_main.reward_finished.connect(_on_reward_finished)
 	combat_main.start(player.number_of_fields, card_pool, 3, contract)
 
 #endregion
@@ -139,17 +139,14 @@ func _on_request_hide_custom_error(id:String) -> void:
 
 #region main scene events
 
-func _on_combat_main_win(session_summary:SessionSummary, contract:ContractData) -> void:
-	map_main.complete_current_node()
-	_current_scene.queue_free()
-	map_main.show_map()
-
 func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> void:
 	if tool_data:
 		card_pool.append(tool_data)
-	await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
+		await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
 	# go to map
-	pass
+	map_main.complete_current_node()
+	_current_scene.queue_free()
+	map_main.show_map()
 
 #endregion 
 
