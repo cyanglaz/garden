@@ -64,6 +64,9 @@ offset_bottom = 19.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="GUITopAnimationOverlay" parent="." instance=ExtResource("23_32sqg")]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="GUITopAnimationOverlay" parent="CanvasLayer" instance=ExtResource("23_32sqg")]
 unique_name_in_owner = true
 mouse_filter = 2
