@@ -1,5 +1,5 @@
 class_name GUIRewardMain
-extends Control
+extends CanvasLayer
 
 const REWARD_SOUND_1 := preload("res://resources/sounds/SFX/summary/reward_1.wav")
 const REWARD_SOUND_2 := preload("res://resources/sounds/SFX/summary/reward_2.wav")
@@ -15,7 +15,7 @@ signal reward_finished(tool_data:ToolData, from_global_position:Vector2)
 @onready var reward_showing_audio: AudioStreamPlayer2D = %RewardShowingAudio
 @onready var gui_booster_pack_button: GUIBoosterPackButton = %GUIBoosterPackButton
 @onready var margin_container: MarginContainer = %MarginContainer
-@onready var gui_reward_cards_main: GUIRewardCardsMain = $GUIRewardCardsMain
+@onready var gui_reward_cards_main: GUIRewardCardsMain = %GUIRewardCardsMain
 
 var _reward_sound_index := 0
 var _booster_pack_type:ContractData.BoosterPackType

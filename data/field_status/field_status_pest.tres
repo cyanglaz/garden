@@ -11,6 +11,6 @@ id = "pest"
 display_name = "Pest"
 description = "When the affected plant is harvested, reduce {value} {resource:rating} for each stack."
 data = {
-"value": "1"
+"value": "-1"
 }
 metadata/_custom_type_script = "uid://ep5ey6gqhty1"
