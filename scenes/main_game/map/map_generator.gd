@@ -3,7 +3,7 @@ extends RefCounted
 # Generation algorithm: https://steamcommunity.com/sharedfiles/filedetails/?id=2830078257
 
 const INTERNAL_LAYER_COUNT := 7
-const MAX_ROWS := 5
+const MAX_ROWS := 6
 const TOTAL_PATHS := 4
 @warning_ignore("integer_division")
 
