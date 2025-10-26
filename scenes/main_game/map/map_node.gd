@@ -20,25 +20,23 @@ enum NodeState {
 }
 
 var type:NodeType
-var node_state:NodeState
+var node_state:NodeState = NodeState.NORMAL
 
 # Grid coordinates within the generated map
 var grid_coordinates:Vector2i = Vector2i.ZERO
 
 # Forward connections to the next row
 var next_nodes:Array = []
-var parent_node:MapNode = null:set = _set_parent_node, get = _get_parent_node
-
-var _weak_parent_node:WeakRef = weakref(null)
+var weak_parent_nodes:Array[WeakRef] = []
 
 func connect_to(next_node) -> void:
 	if next_node in next_nodes:
 		return
 	next_nodes.append(next_node)
-	next_node.parent_node = self
+	next_node.weak_parent_nodes.append(weakref(self))
 
 func is_connected_to(next_node) -> bool:
-	return next_node.parent_node == self
+	return next_node.weak_parent_nodes.any(func(n): return n.get_ref() == self)
 
 func save() -> Dictionary:
 	return {
@@ -73,9 +71,3 @@ func _type_to_string(t:NodeType) -> String:
 			return "EVENT"
 		_:
 			return "UNKNOWN"
-
-func _set_parent_node(value:MapNode) -> void:
-	_weak_parent_node = weakref(value)
-
-func _get_parent_node() -> MapNode:
-	return _weak_parent_node.get_ref()

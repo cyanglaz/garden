@@ -212,8 +212,8 @@ func _get_candidates(node:MapNode) -> Dictionary:
 			candidates.erase(type)
 	return candidates
 
-func _is_previous_node_of_type(node:MapNode, type:MapNode.NodeType) -> bool:
-	return node.parent_node.type == type
+func _does_previous_nodes_have_type(node:MapNode, type:MapNode.NodeType) -> bool:
+	return node.weak_parent_nodes.any(func(n): return n.get_ref().type == type)
 
 func _does_next_node_have_type(node:MapNode, type:MapNode.NodeType) -> bool:
 	for next_node in node.next_nodes:
@@ -222,7 +222,7 @@ func _does_next_node_have_type(node:MapNode, type:MapNode.NodeType) -> bool:
 	return false
 
 func _is_consecutive_type(node:MapNode, type:MapNode.NodeType) -> bool:
-	return _is_previous_node_of_type(node, type) || _does_next_node_have_type(node, type)
+	return _does_previous_nodes_have_type(node, type) || _does_next_node_have_type(node, type)
 
 func log_map(layers:Array) -> void:
 	for r in layers.size():

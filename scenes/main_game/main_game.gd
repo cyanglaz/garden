@@ -45,6 +45,8 @@ func _ready() -> void:
 	gui_main_game.bind_with_rating(rating)
 	gui_main_game.bind_cards(card_pool)
 	
+	map_main.node_selected.connect(_on_map_node_selected)
+	
 	contract_generator.generate_bosses(1)
 	_register_global_events()
 

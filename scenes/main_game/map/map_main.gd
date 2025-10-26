@@ -32,35 +32,35 @@ func get_node_count(node_type:MapNode.NodeType) -> int:
 func complete_current_node() -> void:
 	# Order of the operations is important
 	_mark_current_node_and_next_nodes(_current_map_node)
-	_mark_reachable_nodes(_current_map_node)
 	_mark_unreachable_nodes()
+	#_mark_reachable_nodes()
 	gui.redraw(layers)
 
 func _update_with_map() -> void:
 	gui.update_with_map(layers)
 
 func _mark_current_node_and_next_nodes(completed_node:MapNode) -> void:
-	for layer_nodes in layers:
-		for layer_node in layer_nodes:
-			if layer_node.node_state == MapNode.NodeState.CURRENT:
-				layer_node.node_state = MapNode.NodeState.COMPLETED
-			if layer_node.node_state == MapNode.NodeState.NEXT:
-				layer_node.node_state = MapNode.NodeState.UNREACHABLE
-	completed_node.node_state = MapNode.NodeState.CURRENT
-	for nxt in completed_node.next_nodes:
-		nxt.node_state = MapNode.NodeState.NEXT
+	var layer_index := completed_node.grid_coordinates.x
+	var same_layer_nodes:Array = layers[layer_index]
+	for node:MapNode in same_layer_nodes:
+		if node == completed_node:
+			node.node_state = MapNode.NodeState.CURRENT
+			for next_node:MapNode in node.next_nodes:
+				next_node.node_state = MapNode.NodeState.NEXT
+		else:
+			node.node_state = MapNode.NodeState.UNREACHABLE
 
 func _mark_unreachable_nodes() -> void:
 	for layer_nodes in layers:		
 		for layer_node in layer_nodes:
-			if layer_node.node_state == MapNode.NodeState.NORMAL:
+			if layer_node.weak_parent_nodes.size() > 0 && layer_node.weak_parent_nodes.all(func(weak_parent_node:WeakRef): return weak_parent_node.get_ref().node_state == MapNode.NodeState.UNREACHABLE):
 				layer_node.node_state = MapNode.NodeState.UNREACHABLE
 
-func _mark_reachable_nodes(current_node:MapNode) -> void:
-	for nxt in current_node.next_nodes:
-		if nxt.node_state == MapNode.NodeState.UNREACHABLE:
-			nxt.node_state = MapNode.NodeState.NORMAL
-		_mark_reachable_nodes(nxt)
+#func _mark_reachable_nodes() -> void:
+#	for layer_nodes in layers:
+#		for layer_node in layer_nodes:
+#			if layer_node.parent_node && layer_node.parent_node.node_state == MapNode.NodeState.NEXT:
+#				layer_node.node_state = MapNode.NodeState.NORMAL
 
 func _on_node_selected(node:MapNode) -> void:
 	_current_map_node = node
