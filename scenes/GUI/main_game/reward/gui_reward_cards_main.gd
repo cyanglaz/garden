@@ -4,6 +4,7 @@ extends Control
 const CARD_PADDING := 16
 const SCALE_FACTOR:float = 1.5
 const CARD_DROP_DELAY := 0.05
+const CARD_Y_OFFSET := 8.0
 
 const GUI_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
@@ -88,7 +89,7 @@ func _get_all_card_positions() -> Array[Vector2]:
 	# Calculate positions for each card
 	for i in range(child_count):
 		var child = cards_container.get_child(i)
-		var target_position: Vector2 = Vector2(current_x, (size.y - child.size.y) / 2.0)
+		var target_position: Vector2 = Vector2(current_x, (size.y - child.size.y) / 2.0 + CARD_Y_OFFSET)
 		positions.append(target_position)
 		current_x += child.size.x + CARD_PADDING
 

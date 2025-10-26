@@ -38,10 +38,7 @@ func show_with_contract_data(contract_data:ContractData) -> void:
 func _update_with_contract_data(contract_data:ContractData) -> void:
 	gui_reward_gold.update_with_value(contract_data.reward_gold)
 	if contract_data.reward_rating > 0:
-		gui_reward_rating.show()
 		gui_reward_rating.update_with_value(contract_data.reward_rating)
-	else:
-		gui_reward_rating.hide()
 	gui_booster_pack_button.update_with_booster_pack_type(contract_data.reward_booster_pack_type)
 
 func _collect_rewards(contract_data:ContractData) -> void:

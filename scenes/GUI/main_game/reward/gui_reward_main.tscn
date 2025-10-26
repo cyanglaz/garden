@@ -62,7 +62,13 @@ unique_name_in_owner = true
 stream = ExtResource("5_fcj0v")
 bus = &"SFX"
 
-[node name="GUIRewardCardsMain" parent="MainMarginContainer" instance=ExtResource("8_pi043")]
+[node name="GUIRewardCardsMain" parent="." instance=ExtResource("8_pi043")]
 unique_name_in_owner = true
 visible = false
-layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 4.0
+offset_top = 20.0
+offset_right = 316.0
+offset_bottom = 176.0
