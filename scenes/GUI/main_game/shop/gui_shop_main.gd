@@ -1,5 +1,5 @@
 class_name GUIShopMain
-extends Control
+extends CanvasLayer
 
 const ADD_CARD_TO_PILE_ANIMATION_TIME := 0.3
 
@@ -10,7 +10,7 @@ const ANIMATING_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_card
 const TOOL_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/main_game/shop/shop_buttons/gui_tool_shop_button.tscn")
 
 @onready var tool_container: HBoxContainer = %ToolContainer
-@onready var _main_panel: PanelContainer = $MainPanel
+@onready var _main_panel: PanelContainer = %MainPanel
 @onready var _next_level_button: GUIRichTextButton = %NextLevelButton
 @onready var _title: Label = %Title
 @onready var _sub_title: Label = %SubTitle
@@ -27,6 +27,7 @@ func _ready() -> void:
 	_next_level_button.pressed.connect(_on_next_level_button_pressed)
 	_title.text = Util.get_localized_string("SHOP_TITLE")
 	_sub_title.text = Util.get_localized_string("SHOP_SUBTITLE")
+	animate_show(0, 50)
 
 func setup(full_deck_button:GUIDeckButton) -> void:
 	_weak_full_deck_button = weakref(full_deck_button)
