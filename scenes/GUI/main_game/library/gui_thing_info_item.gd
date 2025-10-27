@@ -58,9 +58,9 @@ func update_with_action_data(action_data:ActionData) -> void:
 	_find_reference_pairs_and_add_buttons(ActionDescriptionFormulator.get_action_description(action_data, null))
 
 func update_with_special_data(special:ToolData.Special) -> void:
-	var special_tooltip:GUIActionsTooltip = GUITooltipContainer.GUI_ACTIONS_TOOLTIP_SCENE.instantiate()
+	var special_tooltip:GUISpecialsTooltip = GUITooltipContainer.GUI_SPECIALS_TOOLTIP_SCENE.instantiate()
 	add_child(special_tooltip)
-	special_tooltip.update_with_data(special)
+	special_tooltip.update_with_data([special])
 	special_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	_find_reference_pairs_and_add_buttons(ActionDescriptionFormulator.get_special_description(special))
 

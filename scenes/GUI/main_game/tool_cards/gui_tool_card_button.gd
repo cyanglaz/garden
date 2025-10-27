@@ -130,7 +130,7 @@ func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	Events.update_hovered_data.emit(tool_data)
 	await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
-	if mouse_in && !tool_data.actions.is_empty():
+	if mouse_in && (!tool_data.actions.is_empty() || !tool_data.specials.is_empty()):
 		_action_tooltip_id = Util.get_uuid()
 		Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.TOOL_CARD, tool_data, _action_tooltip_id, self, false, GUITooltip.TooltipPosition.RIGHT, true)
 

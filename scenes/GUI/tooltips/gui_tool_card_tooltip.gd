@@ -13,3 +13,6 @@ func _update_with_data() -> void:
 		gui_actions_description.update_with_actions(tool_data.actions, null)
 	if tool_data.specials.is_empty():
 		gui_tool_special_description.hide()
+	else:
+		gui_tool_special_description.show()
+		gui_tool_special_description.update_with_specials(tool_data.specials)

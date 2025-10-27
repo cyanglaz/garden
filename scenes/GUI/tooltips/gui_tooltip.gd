@@ -33,7 +33,8 @@ var triggering_global_rect:Rect2 = Rect2()
 var _data:Variant = null
 
 func _ready() -> void:
-	_update_with_data()
+	if _data:
+		_update_with_data()
 	_set_tooltip_position(tooltip_position)
 
 func update_with_data(data:Variant) -> void:

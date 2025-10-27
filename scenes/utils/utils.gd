@@ -251,6 +251,8 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 			return ActionData.ActionType.ENERGY
 		"update_x":
 			return ActionData.ActionType.UPDATE_X
+		"gain_gold":
+			return ActionData.ActionType.UPDATE_GOLD
 		"none":
 			return ActionData.ActionType.NONE
 	assert(false, "Invalid action id: " + action_id)

@@ -8,6 +8,7 @@ const GUI_PLANT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_plant_to
 const GUI_WEATHER_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_weather_tooltip.tscn")
 const GUI_THING_DATA_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_thing_data_tooltip.tscn")
 const GUI_ACTIONS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_actions_tooltip.tscn")
+const GUI_SPECIALS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_specials_tooltip.tscn")
 const GUI_WARNING_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_warning_tooltip.tscn")
 const GUI_RICH_TEXT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_rich_text_tooltip.tscn")
 const GUI_TOOL_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_tool_card_tooltip.tscn")
@@ -29,6 +30,7 @@ enum TooltipType {
 	BOOSTER_PACK,
 	CONTRACT,
 	TOOL_CARD,
+	SPECIALS,
 }
 
 var _tooltips:Dictionary = {}
@@ -74,6 +76,8 @@ func _on_request_display_tooltip(tooltip_type:TooltipType, data:Variant, id:Stri
 			gui_tooltip = GUI_CONTRACT_TOOLTIP_SCENE.instantiate()
 		TooltipType.TOOL_CARD:
 			gui_tooltip = GUI_TOOL_CARD_TOOLTIP_SCENE.instantiate()
+		TooltipType.SPECIALS:
+			gui_tooltip = GUI_SPECIALS_TOOLTIP_SCENE.instantiate()
 		_:
 			assert(false, "Invalid tooltip type: %s" % tooltip_type)
 			return
