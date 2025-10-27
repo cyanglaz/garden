@@ -6,8 +6,8 @@ extends GUITooltip
 func _update_with_data() -> void:
 	if _data is ToolData.Special:
 		_gui_actions_description.update_with_special(_data as ToolData.Special)
-	elif _data is Array[ActionData]:
-		_gui_actions_description.update_with_actions(_data as Array[ActionData], null)
+	elif _data is Array:
+		_gui_actions_description.update_with_actions(_data as Array, null)
 	else:
 		push_error("Invalid data type for actions tooltip")
 

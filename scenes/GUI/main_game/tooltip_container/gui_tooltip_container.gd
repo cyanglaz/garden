@@ -123,18 +123,4 @@ func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_mouse:bo
 		assert(on_control_node)
 		reference_position = Util.get_node_canvas_position(on_control_node)
 	tooltip.global_position = reference_position + Vector2(x_offset, y_offset)
-	if tooltip is GUITooltip:
-		_adjust_tooltip_position(tooltip, on_control_node, world_space)
-
-func _adjust_tooltip_position(tooltip:GUITooltip, on_control_node:Control, world_space:bool = false) -> void:
-	match tooltip.tooltip_position:
-		GUITooltip.TooltipPosition.TOP_RIGHT:
-			pass
-		GUITooltip.TooltipPosition.TOP:
-			if tooltip.get_screen_position().y < GUITooltip.OFFSCREEN_PADDING:
-				_display_tool_tip(tooltip, on_control_node, false, world_space)
-		GUITooltip.TooltipPosition.RIGHT:
-			pass
-		GUITooltip.TooltipPosition.BOTTOM:
-			pass
 	tooltip.adjust_positions()

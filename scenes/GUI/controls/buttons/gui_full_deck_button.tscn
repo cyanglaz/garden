@@ -12,6 +12,7 @@ offset_bottom = 14.0
 script = ExtResource("2_ml7rj")
 type = 0
 tool_tip_localized_string = "BUTTON_TOOLTIP_FULL_DECK"
+tooltip_position = 3
 
 [node name="MarginContainer2" type="MarginContainer" parent="." index="0"]
 layout_mode = 2

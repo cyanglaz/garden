@@ -128,14 +128,11 @@ func _play_hover_sound() -> void:
 
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
-	if _in_hand:
-		Events.update_hovered_data.emit(tool_data)
+	Events.update_hovered_data.emit(tool_data)
 	await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
 	if mouse_in && !tool_data.actions.is_empty():
-		if _action_tooltip_id.is_empty():
-			return
 		_action_tooltip_id = Util.get_uuid()
-		Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.TOOL_CARD, tool_data, _action_tooltip_id, _weak_mouse_field.get_ref(), self, false, GUITooltip.TooltipPosition.RIGHT, true)
+		Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.TOOL_CARD, tool_data, _action_tooltip_id, self, false, GUITooltip.TooltipPosition.RIGHT, true)
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()

@@ -72,3 +72,5 @@ offset_left = 4.0
 offset_top = 20.0
 offset_right = 316.0
 offset_bottom = 176.0
+grow_horizontal = 1
+grow_vertical = 1

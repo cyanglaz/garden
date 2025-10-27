@@ -53,10 +53,6 @@ func _ready() -> void:
 	Events.request_update_gold.emit(0, false)
 	_start_new_chapter()
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("view_detail"):
-		gui_main_game.show_info_view()
-
 func _register_global_events() -> void:
 	Events.request_rating_update.connect(_on_request_rating_update)
 	Events.request_update_gold.connect(_on_request_update_gold)

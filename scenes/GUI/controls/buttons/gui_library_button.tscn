@@ -10,6 +10,7 @@ offset_right = 11.0
 offset_bottom = 11.0
 script = ExtResource("2_lf4pl")
 tool_tip_localized_string = "BUTTON_TOOLTIP_LIBRARY"
+tooltip_position = 3
 
 [node name="NinePatchRect" type="NinePatchRect" parent="." index="0"]
 unique_name_in_owner = true

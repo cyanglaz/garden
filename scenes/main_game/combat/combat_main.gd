@@ -125,7 +125,6 @@ func _start_day() -> void:
 	await _contract.apply_boss_actions(self, BossScript.HookType.TURN_START)
 	await draw_cards(hand_size)
 	gui.toggle_all_ui(true)
-	_win()
 
 func _met_win_condition() -> bool:
 	return !field_container.has_plants() && !plant_seed_manager.has_more_plants()
@@ -161,7 +160,8 @@ func _end_day() -> void:
 		return #Harvest won the game, no need to discard tools or end the day
 	field_container.handle_turn_end()
 	Events.request_rating_update.emit( -_contract.get_penalty_rate(day_manager.day))
-	_start_day()
+	# _start_day()
+	_win()
 	
 func _discard_all_tools() -> void:
 	if tool_manager.tool_deck.hand.is_empty():

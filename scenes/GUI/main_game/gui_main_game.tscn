@@ -18,26 +18,29 @@ script = ExtResource("1_48pcf")
 unique_name_in_owner = true
 mouse_filter = 2
 
-[node name="GUITooltipsContainer" parent="." instance=ExtResource("3_ho5j6")]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="GUITooltipsContainer" parent="CanvasLayer" instance=ExtResource("3_ho5j6")]
 unique_name_in_owner = true
 
-[node name="GUIToolCardsViewer" parent="." instance=ExtResource("11_648op")]
-unique_name_in_owner = true
-visible = false
-
-[node name="GUILibrary" parent="." instance=ExtResource("18_kno36")]
-unique_name_in_owner = true
-visible = false
-
-[node name="GUIThingInfoView" parent="." instance=ExtResource("20_7fnwq")]
+[node name="GUIToolCardsViewer" parent="CanvasLayer" instance=ExtResource("11_648op")]
 unique_name_in_owner = true
 visible = false
 
-[node name="GUISettingsMain" parent="." instance=ExtResource("12_wnks3")]
+[node name="GUILibrary" parent="CanvasLayer" instance=ExtResource("18_kno36")]
 unique_name_in_owner = true
 visible = false
 
-[node name="DialogueOverlay" type="Control" parent="."]
+[node name="GUIThingInfoView" parent="CanvasLayer" instance=ExtResource("20_7fnwq")]
+unique_name_in_owner = true
+visible = false
+
+[node name="GUISettingsMain" parent="CanvasLayer" instance=ExtResource("12_wnks3")]
+unique_name_in_owner = true
+visible = false
+
+[node name="DialogueOverlay" type="Control" parent="CanvasLayer"]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
@@ -49,7 +52,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="GUIDialogueWindow" parent="DialogueOverlay" instance=ExtResource("13_di7a2")]
+[node name="GUIDialogueWindow" parent="CanvasLayer/DialogueOverlay" instance=ExtResource("13_di7a2")]
 unique_name_in_owner = true
 z_index = 101
 z_as_relative = false
@@ -63,9 +66,6 @@ offset_right = 14.0
 offset_bottom = 19.0
 grow_horizontal = 1
 grow_vertical = 1
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 3
 
 [node name="GUITopAnimationOverlay" parent="CanvasLayer" instance=ExtResource("23_32sqg")]
 unique_name_in_owner = true
