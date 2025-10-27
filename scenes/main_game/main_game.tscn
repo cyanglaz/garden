@@ -29,6 +29,7 @@ metadata/_custom_type_script = "uid://ektnj8rt6k0k"
 script = ExtResource("1_yra6k")
 player = ExtResource("2_8ywsm")
 test_tools = Array[ExtResource("3_b4n6q")]([ExtResource("4_gl27v"), ExtResource("5_4y18v"), ExtResource("6_4y18v"), ExtResource("7_s87mg"), ExtResource("8_s87mg")])
+test_number_of_fields = null
 test_contract = SubResource("Resource_fetp2")
 
 [node name="MapMain" parent="." instance=ExtResource("14_s87mg")]

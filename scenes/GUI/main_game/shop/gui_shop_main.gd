@@ -3,15 +3,15 @@ extends CanvasLayer
 
 const ADD_CARD_TO_PILE_ANIMATION_TIME := 0.3
 
-signal tool_shop_button_pressed(tool_data:ToolData)
-signal next_level_button_pressed()
+signal tool_shop_button_pressed(tool_data:ToolData, from_global_position:Vector2)
+signal finish_button_pressed()
 
 const ANIMATING_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const TOOL_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/main_game/shop/shop_buttons/gui_tool_shop_button.tscn")
 
 @onready var tool_container: HBoxContainer = %ToolContainer
+@onready var finish_button: GUIRichTextButton = %FinishButton
 @onready var _main_panel: PanelContainer = %MainPanel
-@onready var _next_level_button: GUIRichTextButton = %NextLevelButton
 @onready var _title: Label = %Title
 @onready var _sub_title: Label = %SubTitle
 
@@ -24,7 +24,7 @@ var _display_y := 0.0
 
 func _ready() -> void:
 	_display_y = _main_panel.position.y
-	_next_level_button.pressed.connect(_on_next_level_button_pressed)
+	finish_button.pressed.connect(_on_finish_button_pressed)
 	_title.text = Util.get_localized_string("SHOP_TITLE")
 	_sub_title.text = Util.get_localized_string("SHOP_SUBTITLE")
 	animate_show(0, 50)
@@ -61,11 +61,11 @@ func _play_show_animation() -> void:
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(_main_panel, "position:y", _display_y, Constants.SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	await tween.finished
-	_next_level_button.show()
+	finish_button.show()
 
 func animate_hide() -> void:
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
-	_next_level_button.hide()
+	finish_button.hide()
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(_main_panel, "position:y", Constants.PENEL_HIDE_Y, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	await tween.finished
@@ -92,15 +92,15 @@ func _get_full_deck_button() -> GUIDeckButton:
 func _on_tool_shop_button_pressed(gui_shop_button:GUIShopButton, tool_data:ToolData) -> void:
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
 	if gui_shop_button.sufficient_gold:
-		tool_shop_button_pressed.emit(tool_data)
+		tool_shop_button_pressed.emit(tool_data, gui_shop_button.global_position)
 		_animate_add_card_to_deck(gui_shop_button, tool_data)
 		gui_shop_button.queue_free()
 	else:
 		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
 
-func _on_next_level_button_pressed() -> void:
+func _on_finish_button_pressed() -> void:
 	await animate_hide()
-	next_level_button_pressed.emit()
+	finish_button_pressed.emit()
 
 func _on_shop_button_mouse_exited() -> void:
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
