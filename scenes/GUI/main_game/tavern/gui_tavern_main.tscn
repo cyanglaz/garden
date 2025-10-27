@@ -1,0 +1,74 @@
+[gd_scene load_steps=5 format=3 uid="uid://btg5np7yclg88"]
+
+[ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_8b4dr"]
+[ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="1_gq76p"]
+[ext_resource type="Texture2D" uid="uid://b0nsc2v1cdqqd" path="res://resources/sprites/GUI/shared/panel_background_simple.png" id="3_8n2oo"]
+[ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="4_6fnso"]
+
+[node name="GUITavernMain" type="CanvasLayer"]
+
+[node name="GUIOverlayBackground" parent="." instance=ExtResource("1_gq76p")]
+
+[node name="MainMarginContainer" parent="." instance=ExtResource("1_8b4dr")]
+
+[node name="Control" type="Control" parent="MainMarginContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MainMarginContainer/Control"]
+custom_minimum_size = Vector2(220, 120)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="NinePatchRect" parent="MainMarginContainer/Control/PanelContainer"]
+self_modulate = Color(0, 0.22352941, 0.42745098, 1)
+layout_mode = 2
+texture = ExtResource("3_8n2oo")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="Border" type="NinePatchRect" parent="MainMarginContainer/Control/PanelContainer"]
+self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
+layout_mode = 2
+texture = ExtResource("4_6fnso")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMarginContainer/Control/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMarginContainer/Control/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Titles" type="VBoxContainer" parent="MainMarginContainer/Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Title" type="Label" parent="MainMarginContainer/Control/PanelContainer/MarginContainer/VBoxContainer/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD"
+text = "Tavern"
+horizontal_alignment = 1
+
+[node name="DescriptionLabel" type="RichTextLabel" parent="MainMarginContainer/Control/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
