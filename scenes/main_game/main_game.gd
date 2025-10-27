@@ -27,7 +27,7 @@ var chapter_manager:ChapterManager = ChapterManager.new()
 var contract_generator:ContractGenerator = ContractGenerator.new()
 var card_pool:Array[ToolData]
 var rating:ResourcePoint = ResourcePoint.new()
-var _gold:int = 0: set = _set_gold
+var _gold:int = 0
 var _warning_manager:WarningManager = WarningManager.new(self)
 
 func _ready() -> void:
@@ -109,13 +109,6 @@ func _start_shop() -> void:
 
 #endregion
 
-#region setter/getter
-
-func _set_gold(val:int) -> void:
-	_gold = val
-
-#endregion
-
 #region global events
 
 func _on_request_rating_update(val:int) -> void:
@@ -126,6 +119,8 @@ func _on_request_rating_update(val:int) -> void:
 
 func _on_request_update_gold(val:int, animated:bool) -> void:
 	_gold += val
+	if _gold < 0:
+		_gold = 0
 	await gui_main_game.update_gold(val, animated)
 
 func _on_request_show_warning(warning_type:WarningManager.WarningType) -> void:
@@ -157,6 +152,8 @@ func _on_tool_shop_button_pressed(tool_data:ToolData, from_global_position:Vecto
 	if tool_data:
 		card_pool.append(tool_data)
 		await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
+	Events.request_update_gold.emit(-tool_data.cost, false)
+	(_current_scene as ShopMain).update_for_gold(_gold)
 
 func _on_finish_button_pressed() -> void:
 	map_main.complete_current_node()
@@ -175,6 +172,8 @@ func _on_map_node_selected(node:MapNode) -> void:
 			_start_combat_main_scene(contract_generator.elite_contracts.pop_back())
 		MapNode.NodeType.BOSS:
 			_start_combat_main_scene(contract_generator.boss_contracts.pop_back())
+		MapNode.NodeType.SHOP:
+			_start_shop()
 		_:
 			_start_combat_main_scene(contract_generator.common_contracts.pop_back())
 
