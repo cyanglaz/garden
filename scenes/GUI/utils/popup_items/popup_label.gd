@@ -3,14 +3,24 @@ extends PopupThing
 
 @onready var label: Label = %Label
 
+var _text:String
+var _text_color:Color
+var _font_size:int
+
 func _ready() -> void:
-	top_level = true
+	super._ready()
+	_setup()
 
-func animate_show_label(value:String, height:float, spread:float, time:float, color:Color):
-	label.text = value
-	label.add_theme_color_override("font_color", color)
-	await animate_show(height, spread, time)
+func setup(text:String, text_color:Color = Color.TRANSPARENT, font_size:int = -1) -> void:
+	_text = text
+	_text_color = text_color
+	_font_size = font_size
+	_setup()
 
-func animate_show_label_and_destroy(value:String, height:float, spread:float, show_time:float, destroy_time:float, color:Color) -> void:
-	await animate_show_label(value, height, spread, show_time, color)
-	animate_destroy(destroy_time)
+func _setup() -> void:
+	if label:
+		label.text = _text
+		if _text_color != Color.TRANSPARENT:
+			label.add_theme_color_override("font_color", _text_color)
+		if _font_size > 0:
+			label.add_theme_font_size_override("font_size", _font_size)

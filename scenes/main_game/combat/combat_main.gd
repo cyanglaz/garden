@@ -32,7 +32,6 @@ var chapter_manager:ChapterManager = ChapterManager.new()
 var _harvesting_fields:Array = []
 
 func start(field_count:int, card_pool:Array[ToolData], energy_cap:int, contract:ContractData) -> void:
-	PopupThing.clear_popup_things()
 
 	session_summary = SessionSummary.new(contract)
 

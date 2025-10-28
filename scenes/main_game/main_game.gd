@@ -33,7 +33,6 @@ var _warning_manager:WarningManager = WarningManager.new(self)
 
 func _ready() -> void:
 	Singletons.main_game = self
-	PopupThing.clear_popup_things()
 	
 	rating.setup(INITIAL_RATING_VALUE, INITIAL_RATING_MAX_VALUE)
 

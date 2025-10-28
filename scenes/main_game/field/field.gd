@@ -225,11 +225,11 @@ func _show_popup_action_indicator(action_data:ActionData, true_value:int) -> voi
 func _show_resource_icon_popup(icon_id:String, text:String) -> void:
 	_buff_sound.play()
 	var popup:PopupLabelIcon = POPUP_LABEL_ICON_SCENE.instantiate()
-	add_child(popup)
-	popup.global_position = _gui_field_button.global_position + _gui_field_button.size/2 + Vector2.RIGHT * 8
 	var color:Color = Constants.COLOR_WHITE
 	popup.setup(text, color, load(Util.get_image_path_for_resource_id(icon_id)))
-	await popup.animate_show_and_destroy(6, 3, POPUP_SHOW_TIME, POPUP_DESTROY_TIME)
+	var popup_location:Vector2 = Util.get_node_canvas_position(_gui_field_button) + Vector2.RIGHT * 8
+	Events.request_display_popup_things.emit(popup, 6, 3, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, popup_location)
+	await Util.create_scaled_timer(POPUP_SHOW_TIME).timeout
 
 func _get_action_true_value(action_data:ActionData) -> int:
 	return action_data.get_calculated_value(self)
@@ -252,15 +252,16 @@ func _on_plant_harvest_completed() -> void:
 
 func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
 	var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()
-	add_child(popup)
-	popup.global_position = _gui_field_button.global_position
 	var color:Color = Constants.COLOR_RED2
 	match status_data.type:
 		FieldStatusData.Type.BAD:
 			color = Constants.COLOR_RED2
 		FieldStatusData.Type.GOOD:
 			color = Constants.COLOR_YELLOW2
-	popup.animate_show_label_and_destroy(status_data.popup_message, 10, 1, POPUP_SHOW_TIME, POPUP_STATUS_DESTROY_TIME, color)
+	popup.setup(status_data.popup_message, color)
+	var popup_location:Vector2 = Util.get_node_canvas_position(_gui_field_button)
+	Events.request_display_popup_things.emit(popup, 10, 1, POPUP_SHOW_TIME, POPUP_STATUS_DESTROY_TIME, popup_location)
+	await Util.create_scaled_timer(POPUP_SHOW_TIME).timeout
 
 func _on_field_mouse_entered() -> void:
 	if plant:

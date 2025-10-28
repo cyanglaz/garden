@@ -64,9 +64,6 @@ func _on_rating_value_update(rating:ResourcePoint) -> void:
 
 func _play_animation(diff:int) -> void:
 	var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()
-	add_child(popup)
-	popup.label.add_theme_font_size_override("font_size", 10)
-	popup.global_position = gui_bordered_progress_bar.global_position + Vector2.RIGHT * gui_bordered_progress_bar.size.x
 	var color:Color = RATING_DECREASE_COLOR
 	if diff > 0:
 		color = RATING_INCREASE_COLOR
@@ -74,7 +71,8 @@ func _play_animation(diff:int) -> void:
 	elif diff < 0:
 		_play_rating_drop_animation()
 		color = RATING_DECREASE_COLOR
-	await popup.animate_show_label_and_destroy(str(diff), -10, 10, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, color)
+	popup.setup(str(diff), color, 10)
+	Events.request_display_popup_things.emit(popup, -10, 10, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, gui_bordered_progress_bar.global_position + Vector2.RIGHT * gui_bordered_progress_bar.size.x)
 
 func _play_rating_drop_animation() -> void:
 	_drop_sound.play()

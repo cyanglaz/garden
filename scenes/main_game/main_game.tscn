@@ -42,3 +42,4 @@ unique_name_in_owner = true
 
 [node name="GUIMainGame" parent="." instance=ExtResource("3_8ywsm")]
 unique_name_in_owner = true
+layer = 2

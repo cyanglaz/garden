@@ -4,7 +4,24 @@ extends PopupThing
 @onready var _label: Label = %Label
 @onready var _texture_rect: TextureRect = %TextureRect
 
-func setup(text:String, text_color:Color, icon:Texture2D) -> void:
-	_label.text = text
-	_label.add_theme_color_override("font_color", text_color)
-	_texture_rect.texture = icon
+var _text:String
+var _text_color:Color
+var _icon:Texture2D
+
+func _ready() -> void:
+	super._ready()
+	_setup()
+
+func setup(text:String, text_color:Color = Color.TRANSPARENT, icon:Texture2D = null) -> void:
+	_text = text
+	_text_color = text_color
+	_icon = icon
+	_setup()
+
+func _setup() -> void:
+	if _label:
+		_label.text = _text
+		if _text_color != Color.TRANSPARENT:
+			_label.add_theme_color_override("font_color", _text_color)
+	if _texture_rect && _icon:
+		_texture_rect.texture = _icon

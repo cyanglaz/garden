@@ -3,14 +3,14 @@ extends ToolScript
 
 var _card_spawn_position:Vector2
 
-func apply_tool(_combat_main:CombatMain, fields:Array, field_index:int, tool_data:ToolData, _secondary_card_datas:Array) -> void:
+func apply_tool(combat_main:CombatMain, fields:Array, field_index:int, tool_data:ToolData, _secondary_card_datas:Array) -> void:
 	var action_data:ActionData = ActionData.new()
 	var field:Field = fields[field_index]
 	action_data.type = ActionData.ActionType.WATER
 	var gain := tool_data.data["gain"] as int
 	action_data.value = gain
 	_card_spawn_position = Util.get_node_canvas_position(field.plant) - GUIToolCardButton.SIZE / 2
-	await field.apply_actions([action_data], null)
+	await field.apply_actions([action_data], combat_main)
 
 func need_select_field() -> bool:
 	return true

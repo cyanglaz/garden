@@ -62,7 +62,10 @@ func hide_custom_error(id:String) -> void:
 	_gui_dialogue_window.hide_custom_error(id)
 
 func _get_gui_energy_tracker() -> GUIEnergyTracker:
-	return _weak_main_game.get_ref().combat_main.gui.gui_energy_tracker
+	var combat_main:CombatMain = _weak_main_game.get_ref()._current_scene as CombatMain
+	if !combat_main:
+		return null
+	return combat_main.gui.gui_energy_tracker
 				
 func _get_gui_gold() -> GUIGold:
 	return _weak_main_game.get_ref().gui_main_game.gui_top_bar.gui_gold

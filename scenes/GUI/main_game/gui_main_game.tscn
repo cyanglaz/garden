@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://cyd2pmyuelacd"]
+[gd_scene load_steps=11 format=3 uid="uid://cyd2pmyuelacd"]
 
 [ext_resource type="Script" uid="uid://b3s0cai251tmf" path="res://scenes/GUI/main_game/gui_main_game.gd" id="1_48pcf"]
 [ext_resource type="PackedScene" uid="uid://bp2sap1brkhfa" path="res://scenes/GUI/main_game/top_bar/gui_top_bar.tscn" id="2_fu4tq"]
 [ext_resource type="PackedScene" uid="uid://bq3lko0j2o1es" path="res://scenes/GUI/main_game/tooltip_container/gui_tooltip_container.tscn" id="3_ho5j6"]
+[ext_resource type="PackedScene" uid="uid://crumb6vfkhk50" path="res://scenes/GUI/main_game/popup_container/gui_popup_things_container.tscn" id="10_fu4tq"]
 [ext_resource type="PackedScene" uid="uid://cq1vyx3yrtj8p" path="res://scenes/GUI/main_game/tool_cards/gui_tool_cards_viewer.tscn" id="11_648op"]
 [ext_resource type="PackedScene" uid="uid://3068uq3kyx0r" path="res://scenes/GUI/settings/gui_settings_main.tscn" id="12_wnks3"]
 [ext_resource type="PackedScene" uid="uid://bkdad5jox6bdj" path="res://scenes/GUI/main_game/warning/dialog/gui_dialogue_window.tscn" id="13_di7a2"]
@@ -70,3 +71,5 @@ grow_vertical = 1
 [node name="GUITopAnimationOverlay" parent="CanvasLayer" instance=ExtResource("23_32sqg")]
 unique_name_in_owner = true
 mouse_filter = 2
+
+[node name="GUIPopupThingsContainer" parent="CanvasLayer" instance=ExtResource("10_fu4tq")]

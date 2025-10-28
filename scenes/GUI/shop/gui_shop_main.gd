@@ -7,7 +7,7 @@ signal tool_shop_button_pressed(tool_data:ToolData, from_global_position:Vector2
 signal finish_button_pressed()
 
 const ANIMATING_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
-const TOOL_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/main_game/shop/shop_buttons/gui_tool_shop_button.tscn")
+const TOOL_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/shop/shop_buttons/gui_tool_shop_button.tscn")
 
 @onready var tool_container: HBoxContainer = %ToolContainer
 @onready var finish_button: GUIRichTextButton = %FinishButton
