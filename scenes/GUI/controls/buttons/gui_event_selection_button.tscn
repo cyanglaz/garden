@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://bcqmcv1l3x3vp"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_vntnn"]
+[ext_resource type="Script" uid="uid://c1gqxcje66os2" path="res://scenes/GUI/controls/buttons/gui_event_selection_button.gd" id="2_vntnn"]
+[ext_resource type="Texture2D" uid="uid://djhije0vwgctu" path="res://resources/sprites/GUI/theme/reference_button_border.png" id="3_8vg40"]
+
+[node name="GUIEventSelectionButton" instance=ExtResource("1_vntnn")]
+custom_minimum_size = Vector2(16, 14)
+offset_right = 25.0
+offset_bottom = 14.0
+size_flags_horizontal = 3
+script = ExtResource("2_vntnn")
+localized_text = ""
+
+[node name="Border" type="NinePatchRect" parent="." index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("3_8vg40")
+region_rect = Rect2(0, 0, 16, 16)
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="." index="1"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" index="0"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"HUD_mid"
+text = "123"
+vertical_alignment = 1
