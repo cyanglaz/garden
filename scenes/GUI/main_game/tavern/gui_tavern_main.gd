@@ -54,9 +54,9 @@ func _on_free_rating_button_pressed() -> void:
 
 func _on_paid_rating_button_pressed() -> void:
 	Events.request_rating_update.emit(RATING_GAIN_PAID)
-	Events.request_update_gold.emit(-RATING_GAIN_PAID_COST, false)
+	Events.request_update_gold.emit(-RATING_GAIN_PAID_COST, true)
 	_finish()
 
 func _on_gain_gold_button_pressed() -> void:
-	Events.request_update_gold.emit(GOLD_GAIN, false)
+	Events.request_update_gold.emit(GOLD_GAIN, true)
 	_finish()

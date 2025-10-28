@@ -130,8 +130,6 @@ func _on_request_update_gold(val:int, animated:bool) -> void:
 	if _gold + diff < 0:
 		diff = -_gold
 	_gold += diff
-	print("gold: ", _gold)
-	print("diff: ", diff)
 	await gui_main_game.update_gold(diff, animated)
 
 func _on_request_show_warning(warning_type:WarningManager.WarningType) -> void:
@@ -163,7 +161,7 @@ func _on_tool_shop_button_pressed(tool_data:ToolData, from_global_position:Vecto
 	if tool_data:
 		card_pool.append(tool_data)
 		await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
-	Events.request_update_gold.emit(-tool_data.cost, false)
+	Events.request_update_gold.emit(-tool_data.cost, true)
 	(_current_scene as ShopMain).update_for_gold(_gold)
 
 func _on_shop_finish_button_pressed() -> void:
@@ -182,8 +180,7 @@ func _on_tavern_finished() -> void:
 func _on_map_node_selected(node:MapNode) -> void:
 	match node.type:
 		MapNode.NodeType.NORMAL:
-			_start_tavern()
-			#_start_combat_main_scene(contract_generator.common_contracts.pop_back())
+			_start_combat_main_scene(contract_generator.common_contracts.pop_back())
 		MapNode.NodeType.ELITE:
 			_start_combat_main_scene(contract_generator.elite_contracts.pop_back())
 		MapNode.NodeType.BOSS:
