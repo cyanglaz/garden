@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://re4f6sgnrh27"
+path="res://.godot/imported/chest_button.aseprite-a4b675b6d6c98be54891e74e4175613c.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/chest_button.aseprite"
+dest_files=["res://.godot/imported/chest_button.aseprite-a4b675b6d6c98be54891e74e4175613c.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true
