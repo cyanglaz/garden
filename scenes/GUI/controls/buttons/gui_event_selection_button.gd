@@ -1,14 +1,8 @@
 class_name GUIEventSelectionButton
 extends GUIBasicButton
 
-@export var localized_text:String
-
 @onready var border: NinePatchRect = %Border
-@onready var texture_rect: TextureRect = %TextureRect
-@onready var label: Label = %Label
-
-func _ready() -> void:
-	label.text = Util.get_localized_string(localized_text)
+@onready var label: RichTextLabel = %Label
 
 func _set_button_state(val:ButtonState) -> void:
 	super._set_button_state(val)

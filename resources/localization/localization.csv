@@ -185,3 +185,8 @@ SECONDARY_CARD_SELECTION_TITLE, "Select %s cards."
 
 PUNCTUATION_COMMA,", "
 PUNCTUATION_PERIOD, ". "
+
+TAVERN_DESCRIPTION, "You push open the door of a lively tavern. The air is warm, filled with chatter, laughter, and the smell of roasted meat.\nAfter taking a brief rest by the fire, you decide it’s time to spread the word about your business. \n\nWhat do you do?"
+TAVERN_FREE_RATING, "Stand on a table and make an announcement. (+%s{resource:rating})"
+TAVERN_PAID_RATING, "Pay the bard to sing your praises. (+%s{resource:rating} -%s{resource:gold})"
+TAVERN_GAIN_GOLD, "Help the tavern owner clean up. (+%s{resource:gold})"
