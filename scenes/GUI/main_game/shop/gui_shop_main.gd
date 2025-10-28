@@ -32,6 +32,14 @@ func animate_show(number_of_tools:int, gold:int) -> void:
 	update_for_gold(gold)
 	await _play_show_animation()
 
+func animate_hide() -> void:
+	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
+	finish_button.hide()
+	var tween := Util.create_scaled_tween(self)
+	tween.tween_property(_main_panel, "position:y", Constants.PENEL_HIDE_Y, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
+	await tween.finished
+	hide()
+
 func update_for_gold(gold:int) -> void:
 	for gui_shop_button:GUIShopButton in tool_container.get_children():
 		gui_shop_button.update_for_gold(gold)
@@ -56,14 +64,6 @@ func _play_show_animation() -> void:
 	tween.tween_property(_main_panel, "position:y", _display_y, Constants.SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	await tween.finished
 	finish_button.show()
-
-func animate_hide() -> void:
-	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
-	finish_button.hide()
-	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(_main_panel, "position:y", Constants.PENEL_HIDE_Y, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
-	await tween.finished
-	hide()
 
 func _on_tool_shop_button_pressed(gui_shop_button:GUIShopButton, tool_data:ToolData) -> void:
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)

@@ -4,6 +4,7 @@ extends Node2D
 const MAP_MAIN_SCENE := preload("res://scenes/main_game/map/map_main.tscn")
 const COMBAT_MAIN_SCENE := preload("res://scenes/main_game/combat/combat_main.tscn")
 const SHOP_MAIN_SCENE := preload("res://scenes/main_game/shop/shop_main.tscn")
+const TAVERN_MAIN_SCENE := preload("res://scenes/main_game/tavern/tavern_main.tscn")
 
 const INITIAL_RATING_VALUE := 100
 const INITIAL_RATING_MAX_VALUE := 100
@@ -103,9 +104,16 @@ func _start_shop() -> void:
 	map_main.hide_map()
 	var shop_main = SHOP_MAIN_SCENE.instantiate()
 	shop_main.tool_shop_button_pressed.connect(_on_tool_shop_button_pressed)
-	shop_main.finish_button_pressed.connect(_on_finish_button_pressed)
+	shop_main.finish_button_pressed.connect(_on_shop_finish_button_pressed)
 	node_container.add_child(shop_main)
 	shop_main.start(_gold)
+
+func _start_tavern() -> void:
+	map_main.hide_map()
+	var tavern_main = TAVERN_MAIN_SCENE.instantiate()
+	tavern_main.tavern_finished.connect(_on_tavern_finished)
+	node_container.add_child(tavern_main)
+	tavern_main.animate_show()
 
 #endregion
 
@@ -118,10 +126,13 @@ func _on_request_rating_update(val:int) -> void:
 		_game_over()
 
 func _on_request_update_gold(val:int, animated:bool) -> void:
-	_gold += val
-	if _gold < 0:
-		_gold = 0
-	await gui_main_game.update_gold(val, animated)
+	var diff := val
+	if _gold + diff < 0:
+		diff = -_gold
+	_gold += diff
+	print("gold: ", _gold)
+	print("diff: ", diff)
+	await gui_main_game.update_gold(diff, animated)
 
 func _on_request_show_warning(warning_type:WarningManager.WarningType) -> void:
 	_warning_manager.show_warning(warning_type)
@@ -155,11 +166,15 @@ func _on_tool_shop_button_pressed(tool_data:ToolData, from_global_position:Vecto
 	Events.request_update_gold.emit(-tool_data.cost, false)
 	(_current_scene as ShopMain).update_for_gold(_gold)
 
-func _on_finish_button_pressed() -> void:
+func _on_shop_finish_button_pressed() -> void:
 	map_main.complete_current_node()
 	_current_scene.queue_free()
 	map_main.show_map()
 
+func _on_tavern_finished() -> void:
+	map_main.complete_current_node()
+	_current_scene.queue_free()
+	map_main.show_map()
 #endregion 
 
 #region map events
@@ -167,13 +182,16 @@ func _on_finish_button_pressed() -> void:
 func _on_map_node_selected(node:MapNode) -> void:
 	match node.type:
 		MapNode.NodeType.NORMAL:
-			_start_combat_main_scene(contract_generator.common_contracts.pop_back())
+			_start_tavern()
+			#_start_combat_main_scene(contract_generator.common_contracts.pop_back())
 		MapNode.NodeType.ELITE:
 			_start_combat_main_scene(contract_generator.elite_contracts.pop_back())
 		MapNode.NodeType.BOSS:
 			_start_combat_main_scene(contract_generator.boss_contracts.pop_back())
 		MapNode.NodeType.SHOP:
 			_start_shop()
+		MapNode.NodeType.TAVERN:
+			_start_tavern()
 		_:
 			_start_combat_main_scene(contract_generator.common_contracts.pop_back())
 
