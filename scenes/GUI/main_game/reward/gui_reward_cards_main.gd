@@ -110,7 +110,7 @@ func _animate_card_fly_up() -> void:
 	tween.set_parallel(true)
 	for i in cards_container.get_child_count():
 		var child := cards_container.get_child(i)
-		var initial_positions :Vector2 = gui_booster_pack_image.position + gui_booster_pack_image.size/2-child.size/2
+		var initial_positions :Vector2 = gui_booster_pack_image.position + (gui_booster_pack_image.size/2 -child.size/2) * SCALE_FACTOR
 		var target_position := Vector2(self.size.x/2 - child.size.x/2, 0 - child.size.y)
 		child.global_position = initial_positions
 		child.scale = Vector2.ONE * SCALE_FACTOR

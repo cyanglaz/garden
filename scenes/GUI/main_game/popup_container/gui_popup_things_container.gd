@@ -12,8 +12,8 @@ func _on_request_display_popup_things(thing:PopupThing, height:float, spread:flo
 	thing.global_position = global_location
 	_bump_up_overlapping_popup_things.call_deferred(thing)
 	await thing.animate_show(height, spread, show_time)
+	await thing.animate_destroy(destroy_time)
 	_all_popup_things.erase(thing)
-	thing.animate_destroy(destroy_time)
 
 func _find_overlapping_popup_things(new_thing:PopupThing) -> Array[PopupThing]:
 	var overlapping_popup_things:Array[PopupThing] = []
