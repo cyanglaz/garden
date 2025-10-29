@@ -1,0 +1,77 @@
+[gd_scene load_steps=9 format=3 uid="uid://80viyq40b6jc"]
+
+[ext_resource type="Script" uid="uid://b3n367w856dkv" path="res://scenes/main_game/chest/chest.gd" id="1_akmc0"]
+[ext_resource type="Shader" uid="uid://dgtm62e0x5jyk" path="res://scenes/main_game/chest/chest.gdshader" id="2_ealxs"]
+[ext_resource type="Texture2D" uid="uid://ce6ddhw7hfd3m" path="res://resources/sprites/chest/chest.png" id="2_sno4t"]
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="3_tnt3e"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3nie3"]
+resource_local_to_scene = true
+shader = ExtResource("2_ealxs")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tnt3e"]
+atlas = ExtResource("2_sno4t")
+region = Rect2(20, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ealxs"]
+atlas = ExtResource("2_sno4t")
+region = Rect2(0, 0, 20, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3nie3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tnt3e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ealxs")
+}],
+"loop": false,
+"name": &"close",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ealxs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tnt3e")
+}],
+"loop": false,
+"name": &"open",
+"speed": 10.0
+}]
+
+[node name="Chest" type="Node2D"]
+script = ExtResource("1_akmc0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+material = SubResource("ShaderMaterial_3nie3")
+sprite_frames = SubResource("SpriteFrames_3nie3")
+animation = &"open"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/chest/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/chest/chest.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "bc2825a5cb98774e59b9ef523e85ce61"
+
+[node name="GUIBasicButton" parent="." instance=ExtResource("3_tnt3e")]
+unique_name_in_owner = true
+offset_left = -8.0
+offset_top = -6.0
+offset_right = 8.0
+offset_bottom = 8.0
