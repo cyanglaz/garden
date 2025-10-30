@@ -4,8 +4,8 @@ extends CanvasLayer
 signal tavern_finished()
 
 const RATING_GAIN_FREE := 5
-const RATING_GAIN_PAID := 15
-const RATING_GAIN_PAID_COST := 12
+const RATING_GAIN_PAID := 12
+const RATING_GAIN_PAID_COST := 15
 const GOLD_GAIN := 18
 const EVENT_BUTTON_SCENE := preload("res://scenes/GUI/controls/buttons/gui_event_selection_button.tscn")
 
@@ -22,7 +22,7 @@ func _ready() -> void:
 	_display_y = _main_panel.position.y
 	description_label.text = Util.get_localized_string("TAVERN_DESCRIPTION")
 	free_rating_button.label.text = DescriptionParser.format_references(Util.get_localized_string("TAVERN_FREE_RATING") % RATING_GAIN_FREE, {}, {}, func(_reference_id:String) -> bool: return false)
-	paid_rating_button.label.text = DescriptionParser.format_references(Util.get_localized_string("TAVERN_PAID_RATING") % [RATING_GAIN_PAID_COST, RATING_GAIN_PAID], {}, {}, func(_reference_id:String) -> bool: return false)
+	paid_rating_button.label.text = DescriptionParser.format_references(Util.get_localized_string("TAVERN_PAID_RATING") % [RATING_GAIN_PAID, RATING_GAIN_PAID_COST], {}, {}, func(_reference_id:String) -> bool: return false)
 	gain_gold_button.label.text = DescriptionParser.format_references(Util.get_localized_string("TAVERN_GAIN_GOLD") % GOLD_GAIN, {}, {}, func(_reference_id:String) -> bool: return false)
 	free_rating_button.pressed.connect(_on_free_rating_button_pressed)
 	paid_rating_button.pressed.connect(_on_paid_rating_button_pressed)
