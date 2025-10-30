@@ -1,7 +1,7 @@
 class_name GUIChestMain
 extends CanvasLayer
 
-const BACKGROUND_SHOW_DELAY_TIME := 0.1
+const BACKGROUND_SHOW_DELAY_TIME := 0.3
 
 @onready var gui_chest_reward_container: GUIChestRewardContainer = %GUIChestRewardContainer
 @onready var gui_overlay_background: ColorRect = $GUIOverlayBackground

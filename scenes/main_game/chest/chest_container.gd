@@ -20,6 +20,9 @@ func update_with_number_of_chests(number_of_chests:int) -> void:
 		chest.selected.connect(_on_chest_selected.bind(i))
 		container.add_child(chest)
 	_layout_chests()
+
+func get_chest(index:int) -> Chest:
+	return container.get_child(index)
 	
 func _layout_chests() -> void:
 	if container.get_child_count() == 0:

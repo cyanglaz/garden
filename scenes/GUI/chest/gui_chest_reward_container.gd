@@ -27,9 +27,11 @@ func _animate_spawn(spawn_position:Vector2) -> void:
 		child.global_position = spawn_position
 		child.scale = Vector2.ONE * INITIAL_SCALE_FACTOR
 	var tween:Tween = Util.create_scaled_tween(self)
+	tween.set_parallel(true)
 	for i in range(get_child_count()):
 		var child = get_child(i)
 		var target_position: Vector2 = _get_all_reward_positions()[i]
+		Util.create_scaled_timer(SPAWN_DELAY*i).timeout.connect(func() -> void: child.show())
 		tween.tween_property(child, "global_position", target_position, SPAWN_TRANSITION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(SPAWN_DELAY * i)
 		tween.tween_property(child, "scale", Vector2.ONE, SPAWN_TRANSITION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(SPAWN_DELAY * i)
 	await tween.finished
