@@ -37,6 +37,7 @@ const HIGHLIGHTED_OFFSET := 1.0
 @onready var _animating_foreground: GUIToolCardBackground = %AnimatingForeground
 
 var mouse_disabled:bool = true: set = _set_mouse_disabled
+var mute_interaction_sounds:bool = false
 var card_state:CardState = CardState.NORMAL: set = _set_card_state
 var resource_sufficient := false: set = _set_resource_sufficient
 var animation_mode := false : set = _set_animation_mode
@@ -92,6 +93,8 @@ func play_move_sound() -> void:
 	_play_hover_sound()
 
 func play_use_sound() -> void:
+	if mute_interaction_sounds:
+		return
 	_use_sound.play()
 
 func play_exhaust_animation() -> void:
@@ -120,9 +123,16 @@ func _update_for_energy(energy:int) -> void:
 		resource_sufficient = false
 	
 func _play_hover_sound() -> void:
+	if mute_interaction_sounds:
+		return
 	if card_state == CardState.SELECTED:
 		return
 	super._play_hover_sound()
+
+func _play_click_sound() -> void:
+	if mute_interaction_sounds:
+		return
+	super._play_click_sound()
 
 #region events
 

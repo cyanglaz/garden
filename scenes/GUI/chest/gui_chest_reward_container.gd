@@ -1,7 +1,7 @@
 class_name GUIChestRewardContainer
 extends Control
 
-const PADDING := 16
+const PADDING := 32
 const INITIAL_SCALE_FACTOR:float = 0.5
 const CARD_DROP_DELAY := 0.05
 const Y_OFFSET := 8.0
@@ -21,6 +21,8 @@ func spawn_cards(number_of_cards:int, rarity:int, spawn_position:Vector2) -> voi
 		gui_reward_card.hide()
 		gui_reward_card.update_with_data(pick)
 	await _animate_spawn(spawn_position)
+	for gui_reward_card in get_children():
+		gui_reward_card.gui_tool_card_button.mouse_disabled = false
 
 func _animate_spawn(spawn_position:Vector2) -> void:
 	for child in get_children():
@@ -31,7 +33,10 @@ func _animate_spawn(spawn_position:Vector2) -> void:
 	for i in range(get_child_count()):
 		var child = get_child(i)
 		var target_position: Vector2 = _get_all_reward_positions()[i]
-		Util.create_scaled_timer(SPAWN_DELAY*i).timeout.connect(func() -> void: child.show())
+		Util.create_scaled_timer(SPAWN_DELAY*i).timeout.connect(func() -> void: 
+			child.show()
+			child.play_move_sound()
+		)
 		tween.tween_property(child, "global_position", target_position, SPAWN_TRANSITION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(SPAWN_DELAY * i)
 		tween.tween_property(child, "scale", Vector2.ONE, SPAWN_TRANSITION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(SPAWN_DELAY * i)
 	await tween.finished
