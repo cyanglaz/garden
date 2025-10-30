@@ -25,8 +25,6 @@ func _ready() -> void:
 	#animate_show(MainDatabase.plant_database.get_data_by_id("rose"))
 
 func animate_show() -> void:
-	if Singletons.main_game:
-		Singletons.main_game.clear_all_tooltips()
 	PauseManager.try_pause()
 	show()
 	update_with_category("card")
@@ -89,4 +87,4 @@ func _on_back_button_evoked() -> void:
 	animate_hide()
 
 func _on_icon_button_evoked(data:Resource) -> void:
-	Singletons.main_game.show_thing_info_view(data)
+	Events.request_show_info_view.emit(data)

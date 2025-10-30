@@ -1,7 +1,45 @@
-[gd_scene load_steps=3 format=3 uid="uid://bog57aqvjw5j1"]
+[gd_scene load_steps=6 format=3 uid="uid://bog57aqvjw5j1"]
 
 [ext_resource type="Texture2D" uid="uid://t7okm68hbj7k" path="res://resources/sprites/map/map_line.png" id="1_ohfyo"]
 [ext_resource type="Script" uid="uid://ut5pp55bb00k" path="res://scenes/GUI/map/gui_map_line.gd" id="1_oore3"]
+
+[sub_resource type="Animation" id="Animation_oore3"]
+resource_name = "blink_next"
+length = 1.2
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 0.78431374, 0.14509805, 1), Color(1, 1, 1, 1), Color(1, 0.78431374, 0.14509805, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_h2lg8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_h2lg8"]
+_data = {
+&"RESET": SubResource("Animation_h2lg8"),
+&"blink_next": SubResource("Animation_oore3")
+}
 
 [node name="GUIMapLine" type="PanelContainer"]
 custom_minimum_size = Vector2(5, 4)
@@ -17,3 +55,9 @@ patch_margin_left = 1
 patch_margin_top = 1
 patch_margin_right = 1
 patch_margin_bottom = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_h2lg8")
+}

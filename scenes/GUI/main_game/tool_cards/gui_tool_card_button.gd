@@ -37,20 +37,20 @@ const HIGHLIGHTED_OFFSET := 1.0
 @onready var _animating_foreground: GUIToolCardBackground = %AnimatingForeground
 
 var mouse_disabled:bool = true: set = _set_mouse_disabled
-var activated := false: set = _set_activated
+var mute_interaction_sounds:bool = false
 var card_state:CardState = CardState.NORMAL: set = _set_card_state
 var resource_sufficient := false: set = _set_resource_sufficient
 var animation_mode := false : set = _set_animation_mode
-var display_mode := false
-var library_mode := false
 var disabled:bool = false: set = _set_disabled
 var has_outline:bool = false: set = _set_has_outline
 var tool_data:ToolData: get = _get_tool_data
 var hand_index:int = -1
 var _weak_tool_data:WeakRef = weakref(null)
 var _container_offset:Vector2 = Vector2.ZERO: set = _set_container_offset
+var _action_tooltip_id:String = ""
 
-var _weak_actions_tooltip:WeakRef = weakref(null)
+var _in_hand := false
+var _weak_mouse_field:WeakRef = weakref(null)
 
 func _ready() -> void:
 	super._ready()
@@ -62,11 +62,8 @@ func _ready() -> void:
 	_animating_foreground.hide()
 
 func update_with_tool_data(td:ToolData) -> void:
-	if Singletons.main_game && !Singletons.main_game.field_container.mouse_field_updated.is_connected(_on_mouse_field_updated):
-		Singletons.main_game.field_container.mouse_field_updated.connect(_on_mouse_field_updated)
-
 	_weak_tool_data = weakref(td)
-	_gui_action_list.update(tool_data.actions, Singletons.main_game.field_container.mouse_field)
+	_gui_action_list.update(tool_data.actions, null)
 	if !tool_data.get_display_description().is_empty():
 		_rich_text_label.text = tool_data.get_display_description()
 	if tool_data.get_final_energy_cost() >= 0:
@@ -83,11 +80,21 @@ func update_with_tool_data(td:ToolData) -> void:
 		_specials_container.add_child(special_icon)
 	if !td.request_refresh.is_connected(_on_tool_data_refresh):
 		td.request_refresh.connect(_on_tool_data_refresh)
+	if tool_data.combat_main:
+		_on_combat_main_set(tool_data.combat_main)
+	else:
+		tool_data.combat_main_set.connect(_on_combat_main_set)
+
+func update_mouse_field(field:Field) -> void:
+	_gui_action_list.update(tool_data.actions, field)
+	_weak_mouse_field = weakref(field)
 
 func play_move_sound() -> void:
 	_play_hover_sound()
 
 func play_use_sound() -> void:
+	if mute_interaction_sounds:
+		return
 	_use_sound.play()
 
 func play_exhaust_animation() -> void:
@@ -107,11 +114,6 @@ func animated_transform(old_rarity:int) -> void:
 func play_error_shake_animation() -> void:
 	await Util.play_error_shake_animation(self, "_container_offset", Vector2.ZERO)
 
-func clear_tooltip() -> void:
-	if _weak_actions_tooltip.get_ref():
-		_weak_actions_tooltip.get_ref().queue_free()
-		_weak_actions_tooltip = weakref(null)
-
 func _update_for_energy(energy:int) -> void:
 	if !tool_data:
 		return
@@ -121,27 +123,31 @@ func _update_for_energy(energy:int) -> void:
 		resource_sufficient = false
 	
 func _play_hover_sound() -> void:
+	if mute_interaction_sounds:
+		return
 	if card_state == CardState.SELECTED:
 		return
 	super._play_hover_sound()
+
+func _play_click_sound() -> void:
+	if mute_interaction_sounds:
+		return
+	super._play_click_sound()
 
 #region events
 
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
-	if activated:
-		if !library_mode:
-			Singletons.main_game.hovered_data = tool_data
-		await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
-		if mouse_in && !tool_data.actions.is_empty():
-			if _weak_actions_tooltip.get_ref():
-				return
-			_weak_actions_tooltip = weakref(Util.display_tool_card_tooltip(tool_data, Singletons.main_game.field_container.mouse_field, self, false, GUITooltip.TooltipPosition.RIGHT, true))
+	Events.update_hovered_data.emit(tool_data)
+	await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
+	if mouse_in && (!tool_data.actions.is_empty() || !tool_data.specials.is_empty()):
+		_action_tooltip_id = Util.get_uuid()
+		Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.TOOL_CARD, tool_data, _action_tooltip_id, self, false, GUITooltip.TooltipPosition.RIGHT, true)
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
-	Singletons.main_game.hovered_data = null
-	clear_tooltip()
+	Events.update_hovered_data.emit(null)
+	Events.request_hide_tooltip.emit(_action_tooltip_id)
 
 func _on_energy_tracker_value_updated(energy_tracker:ResourcePoint) -> void:
 	_update_for_energy(energy_tracker.value)
@@ -150,8 +156,6 @@ func _on_energy_tracker_value_updated(energy_tracker:ResourcePoint) -> void:
 
 #region setters/getters
 func _set_mouse_disabled(value:bool) -> void:
-	if !activated:
-		return
 	mouse_disabled = value
 	if value:
 		mouse_filter = MOUSE_FILTER_IGNORE
@@ -160,13 +164,6 @@ func _set_mouse_disabled(value:bool) -> void:
 
 func _get_tool_data() -> ToolData:
 	return _weak_tool_data.get_ref()
-
-func _set_activated(value:bool) -> void:
-	activated = value
-	if !display_mode:
-		var energy_tracker := Singletons.main_game.energy_tracker
-		_update_for_energy(energy_tracker.value)
-		energy_tracker.value_update.connect(_on_energy_tracker_value_updated.bind(energy_tracker))
 
 func _set_animation_mode(value:bool) -> void:
 	animation_mode = value
@@ -226,7 +223,7 @@ func _set_resource_sufficient(value:bool) -> void:
 	if tool_data.get_total_energy_modifier() < 0:
 		sufficient_color = Constants.COST_REDUCED_COLOR
 	
-	if resource_sufficient || display_mode:
+	if resource_sufficient:
 		_cost_icon.self_modulate = sufficient_color
 	else:
 		_cost_icon.self_modulate = Constants.RESOURCE_INSUFFICIENT_COLOR
@@ -259,7 +256,11 @@ func _on_use_button_pressed() -> void:
 	_gui_use_card_button.hide()
 	use_card_button_pressed.emit()
 
-func _on_mouse_field_updated(field:Field) -> void:
-	_gui_action_list.update(tool_data.actions, field)
+func _on_combat_main_set(combat_main:CombatMain) -> void:
+	_in_hand = true
+	var energy_tracker := combat_main.energy_tracker
+	_update_for_energy(energy_tracker.value)
+	if !energy_tracker.value_update.is_connected(_on_energy_tracker_value_updated):
+		energy_tracker.value_update.connect(_on_energy_tracker_value_updated.bind(energy_tracker))
 
 #endregion

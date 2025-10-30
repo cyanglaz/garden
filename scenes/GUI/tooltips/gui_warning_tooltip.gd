@@ -3,5 +3,6 @@ extends GUITooltip
 
 @onready var _rich_text_label: RichTextLabel = %RichTextLabel
 
-func setup_with_text(val:String) -> void:
-	_rich_text_label.text = val
+func _update_with_data() -> void:
+	var text:String = _data as String
+	_rich_text_label.text = text

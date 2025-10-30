@@ -8,16 +8,16 @@ const ACTION_TOOLTIP_DELAY := 0.2
 @onready var _rich_text_label: RichTextLabel = %RichTextLabel
 
 var display_mode := false
-var _weak_actions_tooltip:WeakRef = weakref(null)
-var _weak_weather_data:WeakRef = weakref(null)
+var _tooltip_id:String = ""
 
 func _ready() -> void:
+	super._ready()
 	tool_tip_shown.connect(_on_tooltop_shown)
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 
-func update_with_weather_data(weather_data:WeatherData) -> void:
-	_weak_weather_data = weakref(weather_data)
+func _update_with_data() -> void:
+	var weather_data:WeatherData = _data as WeatherData
 	_name_label.text = weather_data.display_name
 	if weather_data.actions.is_empty():
 		_rich_text_label.text = weather_data.get_display_description()
@@ -39,14 +39,13 @@ func _on_mouse_exited() -> void:
 		_hide_actions_tooltip()
 
 func _show_actions_tooltip() -> void:
-	if _weak_weather_data.get_ref().actions.is_empty():
+	if (_data as WeatherData).actions.is_empty():
 		return
-	_weak_actions_tooltip = weakref(Util.display_actions_tooltip(_weak_weather_data.get_ref().actions, null, self, false, self.tooltip_position, false))
+	_tooltip_id = Util.get_uuid()
+	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.ACTIONS, _data.actions, _tooltip_id, self, false, self.tooltip_position, false)
 
 func _hide_actions_tooltip() -> void:
-	if _weak_actions_tooltip.get_ref():
-		_weak_actions_tooltip.get_ref().queue_free()
-		_weak_actions_tooltip = weakref(null)
+	Events.request_hide_tooltip.emit(_tooltip_id)
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:

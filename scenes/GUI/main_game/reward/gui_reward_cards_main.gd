@@ -4,6 +4,7 @@ extends Control
 const CARD_PADDING := 16
 const SCALE_FACTOR:float = 1.5
 const CARD_DROP_DELAY := 0.05
+const CARD_Y_OFFSET := 8.0
 
 const GUI_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
@@ -88,7 +89,7 @@ func _get_all_card_positions() -> Array[Vector2]:
 	# Calculate positions for each card
 	for i in range(child_count):
 		var child = cards_container.get_child(i)
-		var target_position: Vector2 = Vector2(current_x, (size.y - child.size.y) / 2.0)
+		var target_position: Vector2 = Vector2(current_x, (size.y - child.size.y) / 2.0 + CARD_Y_OFFSET)
 		positions.append(target_position)
 		current_x += child.size.x + CARD_PADDING
 
@@ -109,7 +110,7 @@ func _animate_card_fly_up() -> void:
 	tween.set_parallel(true)
 	for i in cards_container.get_child_count():
 		var child := cards_container.get_child(i)
-		var initial_positions :Vector2 = gui_booster_pack_image.position + gui_booster_pack_image.size/2-child.size/2
+		var initial_positions :Vector2 = gui_booster_pack_image.position + (gui_booster_pack_image.size/2 -child.size/2) * SCALE_FACTOR
 		var target_position := Vector2(self.size.x/2 - child.size.x/2, 0 - child.size.y)
 		child.global_position = initial_positions
 		child.scale = Vector2.ONE * SCALE_FACTOR
@@ -132,8 +133,6 @@ func _animate_card_drop() -> void:
 		tween.tween_property(child, "global_position", target_position, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(CARD_DROP_DELAY * i)
 	for i in cards_container.get_child_count():
 		var child:GUIToolCardButton = cards_container.get_child(i)
-		child.display_mode = true
-		child.activated = true
 		child.mouse_disabled = false
 	await tween.finished
 	choose_card_title.show()

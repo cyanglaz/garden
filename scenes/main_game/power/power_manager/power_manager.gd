@@ -37,23 +37,23 @@ func get_all_powers() -> Array[PowerData]:
 	return power_map.values()
 #region hooks
 
-func handle_activation_hook(main_game:MainGame) -> void:
+func handle_activation_hook(combat_main:CombatMain) -> void:
 	var all_power_ids := power_map.keys()
 	_activation_hook_queue = all_power_ids.filter(func(power_id:String) -> bool:
-		return power_map[power_id].power_script.has_activation_hook(main_game)
+		return power_map[power_id].power_script.has_activation_hook(combat_main)
 	)
 	_current_activation_hook_index = 0
-	await _handle_next_activation_hook(main_game)
+	await _handle_next_activation_hook(combat_main)
 
-func _handle_next_activation_hook(main_game:MainGame) -> void:
+func _handle_next_activation_hook(combat_main:CombatMain) -> void:
 	if _current_activation_hook_index >= _activation_hook_queue.size():
 		return
 	var power_id:String = _activation_hook_queue[_current_activation_hook_index]
 	var power_data := power_map[power_id]
 	_send_hook_animation_signals(power_data)
-	await power_data.power_script.handle_activation_hook(main_game)
+	await power_data.power_script.handle_activation_hook(combat_main)
 	_current_activation_hook_index += 1
-	await _handle_next_activation_hook(main_game)
+	await _handle_next_activation_hook(combat_main)
 
 func handle_card_added_to_hand_hook(tool_datas:Array) -> void:
 	var all_power_ids := power_map.keys()
@@ -76,39 +76,39 @@ func _handle_next_card_added_to_hand_hook(tool_datas:Array) -> void:
 func _send_hook_animation_signals(power_data:PowerData) -> void:
 	request_power_hook_animation.emit(power_data.id)
 
-func handle_tool_application_hook(main_game:MainGame, tool_data:ToolData) -> void:
+func handle_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
 	var all_power_ids := power_map.keys()
 	_tool_application_hook_queue = all_power_ids.filter(func(power_id:String) -> bool:
-		return power_map[power_id].power_script.has_tool_application_hook(main_game, tool_data)
+		return power_map[power_id].power_script.has_tool_application_hook(combat_main, tool_data)
 	)
 	_current_tool_application_hook_index = 0
-	await _handle_next_tool_application_hook(main_game, tool_data)
+	await _handle_next_tool_application_hook(combat_main, tool_data)
 
-func _handle_next_tool_application_hook(main_game:MainGame, tool_data:ToolData) -> void:
+func _handle_next_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
 	if _current_tool_application_hook_index >= _tool_application_hook_queue.size():
 		return
 	var power_id:String = _tool_application_hook_queue[_current_tool_application_hook_index]
 	var power_data := power_map[power_id]
 	_send_hook_animation_signals(power_data)
-	await power_data.power_script.handle_tool_application_hook(main_game, tool_data)
+	await power_data.power_script.handle_tool_application_hook(combat_main, tool_data)
 	_current_tool_application_hook_index += 1
-	await _handle_next_tool_application_hook(main_game, tool_data)
+	await _handle_next_tool_application_hook(combat_main, tool_data)
 
-func handle_weather_application_hook(main_game:MainGame, weather_data:WeatherData) -> void:
+func handle_weather_application_hook(combat_main:CombatMain, weather_data:WeatherData) -> void:
 	var all_power_ids := power_map.keys()
 	_weather_application_hook_queue = all_power_ids.filter(func(power_id:String) -> bool:
-		return power_map[power_id].power_script.has_weather_application_hook(main_game, weather_data)
+		return power_map[power_id].power_script.has_weather_application_hook(combat_main, weather_data)
 	)
 	_current_weather_application_hook_index = 0
-	await _handle_next_weather_application_hook(main_game, weather_data)
+	await _handle_next_weather_application_hook(combat_main, weather_data)
 
-func _handle_next_weather_application_hook(main_game:MainGame, weather_data:WeatherData) -> void:
+func _handle_next_weather_application_hook(combat_main:CombatMain, weather_data:WeatherData) -> void:
 	if _current_weather_application_hook_index >= _weather_application_hook_queue.size():
 		return
 	var power_id:String = _weather_application_hook_queue[_current_weather_application_hook_index]
 	var power_data := power_map[power_id]
 	_send_hook_animation_signals(power_data)
-	await power_data.power_script.handle_weather_application_hook(main_game, weather_data)
+	await power_data.power_script.handle_weather_application_hook(combat_main, weather_data)
 	_current_weather_application_hook_index += 1
-	await _handle_next_weather_application_hook(main_game, weather_data)
+	await _handle_next_weather_application_hook(combat_main, weather_data)
 #endregion

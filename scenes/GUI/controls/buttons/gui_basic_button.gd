@@ -4,6 +4,7 @@ extends PanelContainer
 const SHORT_CUT_ICON_SIZE := 16
 const SOUND_HOVER := preload("res://resources/sounds/GUI/button_hover.wav")
 const SOUND_CLICK := preload("res://resources/sounds/GUI/button_click.wav")
+const BUTTON_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_button_tooltip.tscn")
 
 signal pressed()
 signal state_updated(state:ButtonState)
@@ -34,7 +35,7 @@ var mouse_in:bool
 
 var _holding_start := false
 var _hold_time_count := 0.0
-var _weak_tooltip:WeakRef = weakref(null)
+var _tooltip_id:String = ""
 
 func _ready() -> void:
 	_set_short_cut(short_cut)
@@ -99,7 +100,8 @@ func _is_short_cut_released(input_event:InputEvent) -> bool:
 func _on_mouse_entered():
 	mouse_in = true
 	if !tool_tip_localized_string.is_empty():
-		_weak_tooltip = weakref(Util.display_button_tooltip(Util.get_localized_string(tool_tip_localized_string), short_cut, self, false, tooltip_position))
+		_tooltip_id = Util.get_uuid()
+		Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.BUTTON, {"description": Util.get_localized_string(tool_tip_localized_string), "shortcut": short_cut}, _tooltip_id, self, false, tooltip_position, false)
 	if button_state == ButtonState.DISABLED || button_state == ButtonState.SELECTED:
 		return
 	button_state = ButtonState.HOVERED
@@ -107,9 +109,7 @@ func _on_mouse_entered():
 
 func _on_mouse_exited():
 	mouse_in = false
-	if _weak_tooltip.get_ref():
-		_weak_tooltip.get_ref().queue_free()
-		_weak_tooltip = weakref(null)
+	Events.request_hide_tooltip.emit(_tooltip_id)
 	if button_state == ButtonState.DISABLED || button_state == ButtonState.SELECTED:
 		return
 	button_state = ButtonState.NORMAL

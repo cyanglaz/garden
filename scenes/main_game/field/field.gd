@@ -30,7 +30,6 @@ signal new_plant_planted()
 @onready var _gui_field_status_container: GUIFieldStatusContainer = %GUIFieldStatusContainer
 @onready var _gui_plant_ability_icon_container: GUIPlantAbilityIconContainer = %GUIPlantAbilityIconContainer
 @onready var _plant_down_sound: AudioStreamPlayer2D = %PlantDownSound
-@onready var _action_move_sound: AudioStreamPlayer2D = %ActionMoveSound
 
 var _weak_plant_preview:WeakRef = weakref(null)
 var plant:Plant
@@ -38,7 +37,7 @@ var status_manager:FieldStatusManager = FieldStatusManager.new()
 var weak_left_field:WeakRef = weakref(null)
 var weak_right_field:WeakRef = weakref(null)
 
-var _weak_plant_tooltip = weakref(null)
+var _tooltip_id:String = ""
 
 func _ready() -> void:
 	_gui_field_button.state_updated.connect(_on_gui_field_button_state_updated)
@@ -67,7 +66,7 @@ func show_plant_preview(plant_data:PlantData) -> void:
 	_weak_plant_preview = weakref(plant_preview)
 	_show_progress_bars(plant_preview)
 
-func plant_seed(plant_data:PlantData) -> void:
+func plant_seed(plant_data:PlantData, combat_main:CombatMain) -> void:
 	assert(plant == null, "Plant already planted")
 	_plant_down_sound.play()
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
@@ -80,7 +79,7 @@ func plant_seed(plant_data:PlantData) -> void:
 	plant.harvest_completed.connect(_on_plant_harvest_completed)
 	plant.field = self
 	_gui_plant_ability_icon_container.setup_with_plant(plant)
-	await plant.trigger_ability(Plant.AbilityType.ON_PLANT, Singletons.main_game)
+	await plant.trigger_ability(Plant.AbilityType.ON_PLANT, combat_main)
 	new_plant_planted.emit()
 
 func remove_plant() -> void:
@@ -91,17 +90,17 @@ func remove_plant() -> void:
 		plant = null
 
 func get_preview_icon_global_position(preview_icon:Control) -> Vector2:
-	return Util.get_node_ui_position(preview_icon, _gui_field_button) + Vector2.RIGHT * (_gui_field_button.size.x/2 - preview_icon.size.x/2 ) + Vector2.UP * preview_icon.size.y/2
+	return Util.get_node_canvas_position(_gui_field_button) + Vector2.RIGHT * (_gui_field_button.size.x/2 - preview_icon.size.x/2 ) + Vector2.UP * preview_icon.size.y/2
 
 func remove_plant_preview() -> void:
 	if _weak_plant_preview.get_ref():
 		_weak_plant_preview.get_ref().queue_free()
 		_reset_progress_bars()
 
-func apply_weather_actions(weather_data:WeatherData, from_gui:Control) -> void:
-	await apply_actions(weather_data.actions, from_gui)
+func apply_weather_actions(weather_data:WeatherData, combat_main:CombatMain) -> void:
+	await apply_actions(weather_data.actions, combat_main)
 	if plant:
-		await plant.trigger_ability(Plant.AbilityType.WEATHER, Singletons.main_game)
+		await plant.trigger_ability(Plant.AbilityType.WEATHER, combat_main)
 
 func is_action_applicable(action:ActionData) -> bool:
 	if action.type == ActionData.ActionType.LIGHT || action.type == ActionData.ActionType.WATER:
@@ -109,21 +108,21 @@ func is_action_applicable(action:ActionData) -> bool:
 	else:
 		return true
 
-func apply_actions(actions:Array[ActionData], _from_gui:Control) -> void:
+func apply_actions(actions:Array[ActionData], combat_main:CombatMain) -> void:
 	#await _play_action_from_gui_animation(action, from_gui)
 	for action in actions:
 		match action.type:
 			ActionData.ActionType.LIGHT:
-				await _apply_light_action(action)
+				await _apply_light_action(action, combat_main)
 			ActionData.ActionType.WATER:
-				await _apply_water_action(action)
+				await _apply_water_action(action, combat_main)
 			ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
-				await _apply_field_status_action(action)
+				await _apply_field_status_action(action, combat_main)
 			_:
 				pass
 	action_application_completed.emit()
 
-func apply_field_status(field_status_id:String, stack:int) -> void:
+func apply_field_status(field_status_id:String, stack:int, combat_main:CombatMain) -> void:
 	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(field_status_id, true)
 	if field_status_data.stackable:
 		var text := str(stack)
@@ -139,9 +138,9 @@ func apply_field_status(field_status_id:String, stack:int) -> void:
 		status_manager.update_status(field_status_id, 1)
 	if plant:
 		if stack > 0:
-			await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_INCREASE, Singletons.main_game)
+			await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_INCREASE, combat_main)
 		else:
-			await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_DECREASE, Singletons.main_game)
+			await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_DECREASE, combat_main)
 
 func show_harvest_popup() -> void:
 	_point_audio.play()
@@ -150,10 +149,10 @@ func show_harvest_popup() -> void:
 func can_harvest() -> bool:
 	return plant && plant.can_harvest()
 
-func harvest() -> void:
+func harvest(combat_main:CombatMain) -> void:
 	assert(plant, "No plant planted")
 	assert(can_harvest(), "Cannot harvest")
-	plant.harvest()
+	plant.harvest(combat_main)
 
 func handle_turn_end() -> void:
 	status_manager.handle_status_on_turn_end()
@@ -164,11 +163,18 @@ func handle_tool_application_hook() -> void:
 func handle_tool_discard_hook(count:int) -> void:
 	await status_manager.handle_tool_discard_hook(plant, count)
 
-func handle_end_day_hook(main_game:MainGame) -> void:
-	await status_manager.handle_end_day_hook(main_game, plant)
+func handle_end_day_hook(combat_main:CombatMain) -> void:
+	await status_manager.handle_end_day_hook(combat_main, plant)
 
 func clear_all_statuses() -> void:
 	status_manager.clear_all_statuses()
+
+func show_tooltip() -> void:
+	_tooltip_id = Util.get_uuid()
+	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.PLANT, plant.data, _tooltip_id, _gui_field_button, false, GUITooltip.TooltipPosition.LEFT_TOP, true)
+
+func hide_tooltip() -> void:
+	Events.request_hide_tooltip.emit(_tooltip_id)
 
 func _show_progress_bars(p:Plant) -> void:
 	assert(p.data)
@@ -181,7 +187,7 @@ func _reset_progress_bars() -> void:
 	_water_bar.max_value = 0
 	_water_bar.current_value = 0
 
-func _apply_light_action(action:ActionData) -> void:
+func _apply_light_action(action:ActionData, combat_main:CombatMain) -> void:
 	var true_value := _get_action_true_value(action)
 	if action.operator_type == ActionData.OperatorType.EQUAL_TO && plant:
 		true_value = true_value - plant.light.value 
@@ -189,9 +195,9 @@ func _apply_light_action(action:ActionData) -> void:
 	if plant:
 		plant.light.value += true_value
 		if true_value > 0:
-			await plant.trigger_ability(Plant.AbilityType.LIGHT_GAIN, Singletons.main_game)
+			await plant.trigger_ability(Plant.AbilityType.LIGHT_GAIN, combat_main)
 
-func _apply_water_action(action:ActionData) -> void:
+func _apply_water_action(action:ActionData, combat_main:CombatMain) -> void:
 	var true_value := _get_action_true_value(action)
 	if action.operator_type == ActionData.OperatorType.EQUAL_TO && plant:
 		true_value = true_value - plant.water.value
@@ -199,15 +205,15 @@ func _apply_water_action(action:ActionData) -> void:
 	if plant:
 		plant.water.value += true_value
 		if true_value > 0:
-			await status_manager.handle_add_water_hook(plant)
+			await status_manager.handle_add_water_hook(combat_main, plant)
 
-func _apply_field_status_action(action:ActionData) -> void:
+func _apply_field_status_action(action:ActionData, combat_main:CombatMain) -> void:
 	var resource_id := Util.get_action_id_with_action_type(action.type)
 	var true_value := _get_action_true_value(action)
 	var current_status := status_manager.get_status(resource_id)
 	if action.operator_type == ActionData.OperatorType.EQUAL_TO && current_status:
 		true_value = true_value - current_status.stack
-	await apply_field_status(resource_id, true_value)
+	await apply_field_status(resource_id, true_value, combat_main)
 
 func _show_popup_action_indicator(action_data:ActionData, true_value:int) -> void:
 	var text := str(true_value)
@@ -219,35 +225,14 @@ func _show_popup_action_indicator(action_data:ActionData, true_value:int) -> voi
 func _show_resource_icon_popup(icon_id:String, text:String) -> void:
 	_buff_sound.play()
 	var popup:PopupLabelIcon = POPUP_LABEL_ICON_SCENE.instantiate()
-	add_child(popup)
-	popup.global_position = _gui_field_button.global_position + _gui_field_button.size/2 + Vector2.RIGHT * 8
 	var color:Color = Constants.COLOR_WHITE
 	popup.setup(text, color, load(Util.get_image_path_for_resource_id(icon_id)))
-	await popup.animate_show_and_destroy(6, 3, POPUP_SHOW_TIME, POPUP_DESTROY_TIME)
+	var popup_location:Vector2 = Util.get_node_canvas_position(_gui_field_button) + Vector2.RIGHT * 8
+	Events.request_display_popup_things.emit(popup, 6, 3, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, popup_location)
+	await Util.create_scaled_timer(POPUP_SHOW_TIME).timeout
 
 func _get_action_true_value(action_data:ActionData) -> int:
 	return action_data.get_calculated_value(self)
-
-func _play_action_from_gui_animation(action:ActionData, from_gui:Control) -> void:
-	var gui_action:GUIAction
-	_action_move_sound.play()
-	if action.action_category == ActionData.ActionCategory.WEATHER:
-		gui_action = GUI_WEATHER_ACTION_SCENE.instantiate()
-	else:
-		gui_action = GUI_GENERAL_ACTION_SCENE.instantiate()
-	Singletons.main_game.add_control_to_overlay(gui_action)
-	gui_action.update_with_action(action, null)
-	gui_action.global_position = from_gui.global_position + from_gui.size/2
-	gui_action.pivot_offset = gui_action.size/2
-	gui_action.scale = Vector2.ONE
-	gui_action.z_index = 20
-	var target_position:Vector2 = Util.get_node_ui_position(gui_action, self)
-	var tween:Tween = Util.create_scaled_tween(gui_action)
-	tween.set_parallel(true)
-	tween.tween_property(gui_action, "global_position", target_position, ACTION_ICON_MOVE_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(gui_action, "scale", Vector2.ONE * 0.3, ACTION_ICON_MOVE_TIME).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
-	await tween.finished
-	gui_action.queue_free()
 
 #region events
 
@@ -267,28 +252,25 @@ func _on_plant_harvest_completed() -> void:
 
 func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
 	var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()
-	add_child(popup)
-	popup.global_position = _gui_field_button.global_position
 	var color:Color = Constants.COLOR_RED2
 	match status_data.type:
 		FieldStatusData.Type.BAD:
 			color = Constants.COLOR_RED2
 		FieldStatusData.Type.GOOD:
 			color = Constants.COLOR_YELLOW2
-	popup.animate_show_label_and_destroy(status_data.popup_message, 10, 1, POPUP_SHOW_TIME, POPUP_STATUS_DESTROY_TIME, color)
+	popup.setup(status_data.popup_message, color)
+	var popup_location:Vector2 = Util.get_node_canvas_position(_gui_field_button)
+	Events.request_display_popup_things.emit(popup, 10, 1, POPUP_SHOW_TIME, POPUP_STATUS_DESTROY_TIME, popup_location)
+	await Util.create_scaled_timer(POPUP_SHOW_TIME).timeout
 
 func _on_field_mouse_entered() -> void:
 	if plant:
-		Singletons.main_game.hovered_data = plant.data
+		Events.update_hovered_data.emit(plant.data)
 		field_hovered.emit(true)
-		if !Singletons.main_game.tool_manager.selected_tool:
-			_weak_plant_tooltip = weakref(Util.display_plant_tooltip(plant.data, _gui_field_button, false, GUITooltip.TooltipPosition.LEFT_TOP, true))
 
 func _on_field_mouse_exited() -> void:
-	Singletons.main_game.hovered_data = null
+	Events.update_hovered_data.emit(null)
 	field_hovered.emit(false)
-	if _weak_plant_tooltip.get_ref():
-		_weak_plant_tooltip.get_ref().queue_free()
 
 func _on_gui_field_button_pressed() -> void:
 	if plant:

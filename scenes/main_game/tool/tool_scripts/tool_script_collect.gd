@@ -1,7 +1,7 @@
 class_name ToolScriptCollect
 extends ToolScript
 
-func apply_tool(_main_game:MainGame, fields:Array, field_index:int, _tool_data:ToolData, _secondary_card_datas:Array) -> void:
+func apply_tool(_combat_main:CombatMain, fields:Array, field_index:int, _tool_data:ToolData, _secondary_card_datas:Array) -> void:
 	var action_data:ActionData = ActionData.new()
 	var field:Field = fields[field_index]
 	action_data.type = ActionData.ActionType.WATER
@@ -10,12 +10,12 @@ func apply_tool(_main_game:MainGame, fields:Array, field_index:int, _tool_data:T
 	await field.apply_actions([action_data], null)
 
 	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id("graywater").get_duplicate()
-	var from_position:Vector2 = Util.get_node_ui_position(Singletons.main_game.gui_main_game.gui_tool_card_container, field.plant) - GUIToolCardButton.SIZE / 2
+	var from_position:Vector2 = Util.get_node_canvas_position(field.plant) - GUIToolCardButton.SIZE / 2
 	var number_of_cards := water_to_reduce * (_tool_data.data["gain"] as int)
 	var cards:Array[ToolData] = []
 	for i in number_of_cards:
 		cards.append(tool_data.get_duplicate())
-	await Singletons.main_game.add_temp_tools_to_hand(cards, from_position, true)
+	await _combat_main.add_temp_tools_to_hand(cards, from_position, true)
 
 func need_select_field() -> bool:
 	return true

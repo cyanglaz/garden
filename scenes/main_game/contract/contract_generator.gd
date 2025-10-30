@@ -59,55 +59,12 @@ var _all_available_plants:Array = []
 func generate_bosses(number_of_bosses:int) -> void:
 	bosses = MainDatabase.boss_database.roll_bosses(number_of_bosses)
 
-func generate_contracts(chapter:int) -> void:
+func generate_contracts(chapter:int, number_of_common_contracts:int, number_of_elite_contracts:int, number_of_boss_contracts:int) -> void:
 	_all_available_plants = MainDatabase.plant_database.get_plants_by_chapter(chapter)
-	common_contracts = _generate_contracts(chapter, ContractData.ContractType.COMMON, TOTAL_COMMON_CONTRACTS_TO_GENERATE_PER_CHAPTER)
-	elite_contracts = _generate_contracts(chapter, ContractData.ContractType.ELITE, TOTAL_ELITE_CONTRACTS_TO_GENERATE_PER_CHAPTER)
-	boss_contracts = _generate_contracts(chapter, ContractData.ContractType.BOSS, TOTAL_BOSS_CONTRACTS_TO_GENERATE_PER_CHAPTER)
+	common_contracts = _generate_contracts(chapter, ContractData.ContractType.COMMON, number_of_common_contracts)
+	elite_contracts = _generate_contracts(chapter, ContractData.ContractType.ELITE, number_of_elite_contracts)
+	boss_contracts = _generate_contracts(chapter, ContractData.ContractType.BOSS, number_of_boss_contracts)
 	_log_contracts(chapter)
-
-func pick_contracts(number_of_contracts:int, level:int) -> Array:
-	var number_of_common_contracts := 0
-	var number_of_elite_contracts := 0
-	var number_of_boss_contracts := 0
-	if level == 0:
-		# First level are always common contracts
-		number_of_common_contracts = number_of_contracts
-	elif level == 1:
-		# Second level has a chance to have 1 elite contract
-		var rand := randf()
-		if rand < ELITE_CONTRACT_CHANCE:
-			number_of_elite_contracts = 1
-		number_of_common_contracts = number_of_contracts - number_of_elite_contracts
-	elif level == 2:
-		# Third level, roll twice for elite contract
-		var rand := randf()
-		if rand < ELITE_CONTRACT_CHANCE:
-			number_of_elite_contracts = 1
-		rand = randf()
-		if rand < ELITE_CONTRACT_CHANCE:
-			number_of_elite_contracts += 1
-		number_of_common_contracts = number_of_contracts - number_of_elite_contracts
-	elif level == BOSS_LEVEL:
-		# Fourth level is boss level
-		number_of_boss_contracts = 1
-	var picks := []
-	if number_of_common_contracts > 0:
-		var common_picks := Util.unweighted_roll(common_contracts, number_of_common_contracts)
-		for pick in common_picks:
-			common_contracts.erase(pick)
-		picks += common_picks
-	if number_of_elite_contracts > 0:
-		var elite_picks := Util.unweighted_roll(elite_contracts, number_of_elite_contracts)
-		for pick in elite_picks:
-			elite_contracts.erase(pick)
-		picks += elite_picks
-	if number_of_boss_contracts > 0:
-		var boss_picks := Util.unweighted_roll(boss_contracts, number_of_boss_contracts)
-		for pick in boss_picks:
-			boss_contracts.erase(pick)
-		picks += boss_picks
-	return picks
 
 func _generate_contracts(chapter:int, contract_type:ContractData.ContractType, count:int) -> Array[ContractData]:
 	var contracts:Array[ContractData] = []

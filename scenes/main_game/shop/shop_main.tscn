@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://mhc73t2dl3i1"]
+
+[ext_resource type="PackedScene" uid="uid://cu82s1rr2eqbq" path="res://scenes/GUI/shop/gui_shop_main.tscn" id="1_4sbs7"]
+[ext_resource type="Script" uid="uid://d8qky6yyn72d" path="res://scenes/main_game/shop/shop_main.gd" id="1_ihett"]
+
+[node name="ShopMain" type="Node2D"]
+script = ExtResource("1_ihett")
+
+[node name="GUIShopMain" parent="." instance=ExtResource("1_4sbs7")]
+unique_name_in_owner = true

@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbnmcao1m85rp"]
+
+[ext_resource type="Script" uid="uid://cpebx27f1hfmh" path="res://scenes/GUI/chest/gui_chest_reward_item.gd" id="1_1y3ad"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="1_hlohw"]
+
+[node name="GUIChestRewardItem" type="PanelContainer"]
+offset_right = 16.0
+offset_bottom = 12.0
+script = ExtResource("1_1y3ad")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="GUIRichTextButton" parent="VBoxContainer" instance=ExtResource("1_hlohw")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+localization_text_key = "BUTTON_GET"

@@ -5,7 +5,7 @@ signal draw_pool_updated(draw_pool:Array)
 signal discard_pool_updated(discard_pool:Array)
 signal exhaust_pool_updated(exhaust_pool:Array)
 signal pool_updated(pool:Array)
-signal hand_updated(hand:Array)
+signal hand_updated()
 
 var pool:Array
 var draw_pool:Array
@@ -13,7 +13,6 @@ var hand:Array
 var discard_pool:Array
 var exhaust_pool:Array
 var in_use_item:Variant = null
-var temp_items:Array = []
 
 func _init(initial_items:Array) -> void:
 	for item_data:Variant in initial_items:
@@ -34,18 +33,6 @@ func refresh() -> void:
 	exhaust_pool_updated.emit(exhaust_pool)
 	hand.clear()
 	hand_updated.emit()
-
-func cleanup_temp_items() -> void:
-	for item in temp_items:
-		pool.erase(item)
-		draw_pool.erase(item)
-		discard_pool.erase(item)
-		hand.erase(item)
-	pool_updated.emit(pool)
-	draw_pool_updated.emit(draw_pool)
-	discard_pool_updated.emit(discard_pool)
-	hand_updated.emit()
-	temp_items.clear()
 
 func shuffle_draw_pool() -> void:
 	draw_pool.append_array(discard_pool.duplicate())
@@ -102,10 +89,6 @@ func exhaust(items:Array) -> void:
 		elif draw_pool.has(item):
 			draw_pool.erase(item)
 			draw_pool_updated.emit(draw_pool)
-		elif temp_items.has(item):
-			temp_items.erase(item)
-			pool.erase(item)
-			pool_updated.emit(pool)
 		else:
 			assert(false, "exhausting item at wrong place" + str(item))
 	exhaust_pool.append_array(items)
@@ -124,19 +107,16 @@ func add_temp_items_to_draw_pile(items:Array, random_place:bool = true) -> void:
 			draw_pool.insert(0, item)
 	draw_pool_updated.emit(draw_pool)
 	pool_updated.emit(pool)
-	temp_items.append_array(items)
 
 func add_temp_items_to_discard_pile(items:Array) -> void:
 	pool.append_array(items)
 	discard_pool.append_array(items)
-	temp_items.append_array(items)
 	pool_updated.emit(pool)
 	discard_pool_updated.emit(discard_pool)
 
 func add_temp_items_to_hand(items:Array) -> void:
 	pool.append_array(items)
 	hand.append_array(items)
-	temp_items.append_array(items)
 	pool_updated.emit(pool)
 	hand_updated.emit()
 

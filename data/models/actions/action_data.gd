@@ -72,8 +72,10 @@ var card_selection_type:CardSelectionType: get = _get_card_selection_type
 var need_card_selection:bool: get = _get_need_card_selection
 var modified_value:int
 var modified_x_value:int
+var combat_main:CombatMain: get = _get_combat_main, set = _set_combat_main
 var _original_value:int
 var _original_x_value:int
+var _weak_combat_main:WeakRef = weakref(null)
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
@@ -109,7 +111,10 @@ func get_calculated_x_value(target_field:Field) -> int:
 		XValueType.NUMBER:
 			base_x_value = _original_x_value
 		XValueType.NUMBER_OF_TOOL_CARDS_IN_HAND:
-			base_x_value = Singletons.main_game.tool_manager.tool_deck.hand.size() - 1
+			if combat_main:
+				base_x_value = combat_main.tool_manager.tool_deck.hand.size() - 1
+			else:
+				base_x_value = 0
 		XValueType.TARGET_LIGHT:
 			if target_field && target_field.plant:
 				base_x_value = target_field.plant.light.value
@@ -149,3 +154,9 @@ func _get_card_selection_type() -> CardSelectionType:
 
 func _get_need_card_selection() -> bool:
 	return NEED_CARD_SELECTION.has(type)
+
+func _get_combat_main() -> CombatMain:
+	return _weak_combat_main.get_ref()
+
+func _set_combat_main(val:CombatMain) -> void:
+	_weak_combat_main = weakref(val)

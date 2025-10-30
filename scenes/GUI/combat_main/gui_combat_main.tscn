@@ -1,0 +1,181 @@
+[gd_scene load_steps=14 format=3 uid="uid://dl31u6exk8l35"]
+
+[ext_resource type="Script" uid="uid://tokn1oo5af3y" path="res://scenes/GUI/combat_main/gui_combat_main.gd" id="1_lrbaq"]
+[ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_sjsh0"]
+[ext_resource type="PackedScene" uid="uid://cb7rus2xat3us" path="res://scenes/GUI/main_game/plant_cards/gui_plant_deck_box.tscn" id="2_lrbaq"]
+[ext_resource type="PackedScene" uid="uid://b224jou4wqp13" path="res://scenes/GUI/main_game/weather/gui_weather_container.tscn" id="3_sauxh"]
+[ext_resource type="PackedScene" uid="uid://dknalx44eyqdt" path="res://scenes/GUI/main_game/power/gui_power_container.tscn" id="4_mu1du"]
+[ext_resource type="PackedScene" uid="uid://b8ixx2yg4dgov" path="res://scenes/GUI/controls/buttons/gui_deck_button.tscn" id="5_qa4s6"]
+[ext_resource type="PackedScene" uid="uid://bpirre4ebu4op" path="res://scenes/GUI/combat_main/energy/gui_energy_tracker.tscn" id="6_56cmi"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="7_y1ukl"]
+[ext_resource type="PackedScene" uid="uid://cra7g0krpvfvf" path="res://scenes/GUI/main_game/plant_cards/gui_plant_seed_animation_container.tscn" id="8_eh8k3"]
+[ext_resource type="PackedScene" uid="uid://csrspsf8vl2ux" path="res://scenes/GUI/combat_main/momentum/gui_boost_tracker.tscn" id="9_gub46"]
+[ext_resource type="PackedScene" uid="uid://cs81yivlig7mc" path="res://scenes/GUI/combat_main/penalty/gui_penalty_rate.tscn" id="11_4giq6"]
+[ext_resource type="PackedScene" uid="uid://canp4x5u3afyb" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_container.tscn" id="11_sauxh"]
+[ext_resource type="PackedScene" uid="uid://3rrhwgyv2qp3" path="res://scenes/GUI/main_game/reward/gui_reward_main.tscn" id="13_8tokl"]
+
+[node name="GUICombatMain" type="CanvasLayer"]
+script = ExtResource("1_lrbaq")
+
+[node name="BaseMainMarginContainer" parent="." instance=ExtResource("1_sjsh0")]
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="BaseMainMarginContainer/Container" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="Control" type="Control" parent="BaseMainMarginContainer/Container/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="GUIPlantDeckBox" parent="BaseMainMarginContainer/Container/MarginContainer/Control" instance=ExtResource("2_lrbaq")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -8.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+
+[node name="GUIWeatherContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control" instance=ExtResource("3_sauxh")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 292.0
+offset_right = 308.0
+offset_bottom = 24.0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="BottomLeftContainer" type="VBoxContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -20.0
+offset_right = 35.0
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="GUIPowerContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer/VBoxContainer" instance=ExtResource("4_mu1du")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="Container" type="Control" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="GUIDrawBoxButton" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer/VBoxContainer/Container" instance=ExtResource("5_qa4s6")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 19.0
+offset_top = -16.0
+offset_right = 31.0
+offset_bottom = 0.0
+grow_vertical = 0
+size_flags_vertical = 8
+
+[node name="GUIEnergyTracker" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer/VBoxContainer/Container" instance=ExtResource("6_56cmi")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -16.0
+offset_right = 16.0
+grow_vertical = 0
+size_flags_vertical = 8
+
+[node name="BottomRightContainer" type="VBoxContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -44.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/separation = 2
+alignment = 2
+
+[node name="GUIExhaustBoxButton" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomRightContainer" instance=ExtResource("5_qa4s6")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+type = 3
+
+[node name="GUIDiscardBoxButton" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomRightContainer" instance=ExtResource("5_qa4s6")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+type = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomRightContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="EndTurnButton" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomRightContainer/HBoxContainer" instance=ExtResource("7_y1ukl")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+localization_text_key = "ACTION_END_DAY"
+
+[node name="GUIPlantSeedAnimationContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control" instance=ExtResource("8_eh8k3")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 308.0
+offset_bottom = 156.0
+mouse_filter = 2
+
+[node name="GUIBoostTracker" parent="BaseMainMarginContainer/Container/MarginContainer/Control" instance=ExtResource("9_gub46")]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 3.0
+offset_bottom = 9.0
+
+[node name="GUIPenaltyRate" parent="BaseMainMarginContainer/Container/MarginContainer/Control" instance=ExtResource("11_4giq6")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -25.0
+offset_top = 0.0
+offset_right = -21.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 1
+
+[node name="GUIToolCardContainer" parent="." instance=ExtResource("11_sauxh")]
+unique_name_in_owner = true
+
+[node name="GUIRewardMain" parent="." instance=ExtResource("13_8tokl")]
+unique_name_in_owner = true
+visible = false
+
+[editable path="BaseMainMarginContainer"]

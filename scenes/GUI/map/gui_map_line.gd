@@ -1,6 +1,7 @@
 class_name GUIMapLine
 extends PanelContainer
 
+@export var color:Color:set = _set_color
 
 const NODE_STATE_COLORS:Dictionary = {
 	MapNode.NodeState.NORMAL: Constants.COLOR_BLUE_GRAY_1,
@@ -11,6 +12,7 @@ const NODE_STATE_COLORS:Dictionary = {
 }
 
 @onready var line: NinePatchRect = %Line
+@onready var animation_player: AnimationPlayer = %AnimationPlayer
 
 func update_with_line(from_p:Vector2, to_p:Vector2, from_node_state:MapNode.NodeState, to_node_state:MapNode.NodeState) -> void:
 	size.x = from_p.distance_to(to_p)
@@ -21,6 +23,12 @@ func update_with_line(from_p:Vector2, to_p:Vector2, from_node_state:MapNode.Node
 
 func _set_line_color(from_node_state:MapNode.NodeState, to_node_state:MapNode.NodeState) -> void:
 	if from_node_state == MapNode.NodeState.UNREACHABLE || to_node_state == MapNode.NodeState.UNREACHABLE:
-		line.modulate = NODE_STATE_COLORS[MapNode.NodeState.UNREACHABLE]
+		color = NODE_STATE_COLORS[MapNode.NodeState.UNREACHABLE]
+	elif to_node_state == MapNode.NodeState.NEXT:
+		animation_player.play("blink_next")
 	else:
-		line.modulate = NODE_STATE_COLORS[to_node_state]
+		color = NODE_STATE_COLORS[to_node_state]
+
+func _set_color(val:Color) -> void:
+	color = val
+	line.self_modulate = color

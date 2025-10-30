@@ -3,9 +3,6 @@ extends Control
 
 const TOOL_CARD_BUTTON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
-
-
-
 @onready var _grid_container: GridContainer = %GridContainer
 @onready var _back_button: GUIRichTextButton = %BackButton
 @onready var _main_container: VBoxContainer = %MainContainer
@@ -26,9 +23,7 @@ func animated_show_with_pool(pool:Array, title:String) -> void:
 	#var card_size := Vector2.ONE
 	for tool_data in pool:
 		var gui_tool_card: GUIToolCardButton = TOOL_CARD_BUTTON_SCENE.instantiate()
-		gui_tool_card.display_mode = true
 		_grid_container.add_child(gui_tool_card)
-		gui_tool_card.activated = true
 		gui_tool_card.mouse_disabled = false
 		gui_tool_card.update_with_tool_data(tool_data)
 		gui_tool_card.mouse_entered.connect(_on_mouse_entered.bind(gui_tool_card))
@@ -70,6 +65,7 @@ func _on_mouse_entered(gui_tool_card:GUIToolCardButton) -> void:
 			tool_card.card_state = GUIToolCardButton.CardState.HIGHLIGHTED
 			continue
 		tool_card.card_state = GUIToolCardButton.CardState.NORMAL
+	Events.update_hovered_data.emit(gui_tool_card.tool_data)
 	
 func _on_mouse_exited() -> void:
 	for tool_card:GUIToolCardButton in _grid_container.get_children():

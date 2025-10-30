@@ -5,6 +5,8 @@ const TOOL_SCRIPT_PATH := "res://scenes/main_game/tool/tool_scripts/tool_script_
 
 @warning_ignore("unused_signal")
 signal request_refresh()
+@warning_ignore("unused_signal")
+signal combat_main_set(combat_main:CombatMain)
 
 const COSTS := {
 	0: 6,
@@ -37,6 +39,8 @@ var cost:int : get = _get_cost
 var tool_script:ToolScript : get = _get_tool_script
 var turn_energy_modifier:int
 var level_energy_modifier:int
+var combat_main:CombatMain: get = _get_combat_main, set = _set_combat_main
+var _weak_combat_main:WeakRef = weakref(null)
 
 var _tool_script:ToolScript
 
@@ -136,3 +140,14 @@ func _get_description() -> String:
 	if type == Type.POWER:
 		return MainDatabase.power_database.get_data_by_id(id).description
 	return super._get_description()
+
+func _get_combat_main() -> CombatMain:
+	return _weak_combat_main.get_ref()
+
+func _set_combat_main(val:CombatMain) -> void:
+	if _weak_combat_main.get_ref() == val:
+		return
+	_weak_combat_main = weakref(val)
+	for action:ActionData in actions:
+		action.combat_main = val
+	combat_main_set.emit(val)

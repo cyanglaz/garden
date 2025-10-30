@@ -14,7 +14,7 @@ var is_highlighted:bool = false:set = _set_is_highlighted
 var display_mode := false: set = _set_display_mode
 var library_mode := false
 
-var _weak_tooltip:WeakRef = weakref(null)
+var _tooltip_id:String = ""
 var _weak_field_status_data:WeakRef = weakref(null)
 
 func _ready() -> void:
@@ -46,21 +46,19 @@ func play_trigger_animation() -> void:
 func _on_mouse_entered() -> void:
 	is_highlighted = true
 	if !library_mode:
-		Singletons.main_game.hovered_data = _weak_field_status_data.get_ref()
+		Events.update_hovered_data.emit(_weak_field_status_data.get_ref())
 	if display_mode:
 		return
-	_weak_tooltip = weakref(Util.display_thing_data_tooltip(_weak_field_status_data.get_ref(), self, false, GUITooltip.TooltipPosition.RIGHT, true))
-	_weak_tooltip.get_ref().library_tooltip_position = GUITooltip.TooltipPosition.BOTTOM_RIGHT
+	_tooltip_id = Util.get_uuid()
+	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.THING_DATA, _weak_field_status_data.get_ref(), _tooltip_id, self, false, GUITooltip.TooltipPosition.RIGHT, true)
 
 func _on_mouse_exited() -> void:
 	is_highlighted = false
 	if !library_mode:
-		Singletons.main_game.hovered_data = null
+		Events.update_hovered_data.emit(null)
 	if display_mode:
 		return
-	if _weak_tooltip && _weak_tooltip.get_ref():
-		_weak_tooltip.get_ref().queue_free()
-		_weak_tooltip = weakref(null)
+	Events.request_hide_tooltip.emit(_tooltip_id)
 	
 func _set_is_highlighted(val:bool) -> void:
 	is_highlighted = val

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxxsqpwfdsson"]
+
+[ext_resource type="Script" uid="uid://ddi822axbm4i0" path="res://scenes/main_game/chest/chest_container.gd" id="1_1udjy"]
+
+[node name="ChestContainer" type="Node2D"]
+script = ExtResource("1_1udjy")
+
+[node name="Container" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Camera2D" type="Camera2D" parent="."]

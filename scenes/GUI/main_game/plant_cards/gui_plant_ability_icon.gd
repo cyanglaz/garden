@@ -11,7 +11,7 @@ var ability_id:String
 var library_mode := false
 var display_mode := false
 
-var _weak_tooltip:WeakRef = weakref(null)
+var _tooltip_id:String = ""
 
 func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
@@ -33,18 +33,16 @@ func _on_mouse_entered() -> void:
 	is_highlighted = true
 	var data := MainDatabase.plant_ability_database.get_data_by_id(ability_id)
 	if !library_mode:
-		Singletons.main_game.hovered_data = data
+		Events.update_hovered_data.emit(data)
 	if display_mode:
 		return
-	_weak_tooltip = weakref(Util.display_thing_data_tooltip(data, self, false, GUITooltip.TooltipPosition.LEFT, true))
-	_weak_tooltip.get_ref().library_tooltip_position = GUITooltip.TooltipPosition.BOTTOM_RIGHT
+	_tooltip_id = Util.get_uuid()
+	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.THING_DATA, data, _tooltip_id, self, false, GUITooltip.TooltipPosition.LEFT, true)
 
 func _on_mouse_exited() -> void:
 	is_highlighted = false
 	if !library_mode:
-		Singletons.main_game.hovered_data = null
+		Events.update_hovered_data.emit(null)
 	if display_mode:
 		return
-	if _weak_tooltip.get_ref():
-		_weak_tooltip.get_ref().queue_free()
-		_weak_tooltip = weakref(null)
+	Events.request_hide_tooltip.emit(_tooltip_id)

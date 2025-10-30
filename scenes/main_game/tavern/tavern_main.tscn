@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpah64bt1dqyl"]
+
+[ext_resource type="PackedScene" uid="uid://btg5np7yclg88" path="res://scenes/GUI/tavern/gui_tavern_main.tscn" id="1_3edfl"]
+[ext_resource type="Script" uid="uid://cub5nykjo6l4f" path="res://scenes/main_game/tavern/tavern_main.gd" id="1_yr5n1"]
+
+[node name="TavernMain" type="Node2D"]
+script = ExtResource("1_yr5n1")
+
+[node name="GUITavernMain" parent="." instance=ExtResource("1_3edfl")]
+unique_name_in_owner = true

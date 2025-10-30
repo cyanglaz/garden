@@ -1,28 +1,20 @@
 class_name ActionDescriptionFormulator
 extends RefCounted
 
+const FIELD_STATUS_ACTION_TYPES := [ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP]
+
 const HIGHLIGHT_COLOR := Constants.COLOR_WHITE
 const X_DESCRIPTION_HIGHLIGHT_COLOR := Constants.COLOR_BLUE_2
 
 static func get_action_description(action_data:ActionData, target_field:Field) -> String:
-	var action_description := ""
-	match action_data.type:
-		ActionData.ActionType.LIGHT, ActionData.ActionType.WATER:
-			action_description = _get_field_action_description(action_data, target_field)
-		ActionData.ActionType.ENERGY, ActionData.ActionType.UPDATE_X, ActionData.ActionType.UPDATE_GOLD:
-			action_description = _get_resource_update_action_description(action_data, target_field)
-		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
-			#action_description = _get_field_action_description(action_data)
-			#action_description += "\n\n"
-			action_description = _get_field_status_description(action_data)
-		ActionData.ActionType.WEATHER_SUNNY, ActionData.ActionType.WEATHER_RAINY:
-			action_description = _get_weather_action_description(action_data)
-		ActionData.ActionType.DRAW_CARD:
-			action_description = _get_draw_card_action_description(action_data, target_field)
-		ActionData.ActionType.DISCARD_CARD:
-			action_description = _get_discard_card_action_description(action_data, target_field)
-		ActionData.ActionType.NONE:
-			pass
+	var thing_data:ThingData = action_data
+	if action_data.type in FIELD_STATUS_ACTION_TYPES:
+		var id := Util.get_action_id_with_action_type(action_data.type)
+		var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(id)
+		thing_data = field_status_data
+	var action_description := get_raw_action_description(action_data, target_field)
+	action_description = DescriptionParser.format_references(action_description, thing_data.data.duplicate(), thing_data.highlight_description_keys, func(_reference_id:String) -> bool: return false)
+
 	if action_description.contains("%s"):
 		action_description = action_description % _get_value_text(action_data, target_field)
 	
@@ -33,6 +25,25 @@ static func get_action_description(action_data:ActionData, target_field:Field) -
 	if !action_description.ends_with(period_string):
 		action_description += period_string
 	return action_description
+
+static func get_raw_action_description(action_data:ActionData, target_field:Field) -> String:
+	var raw_action_description := ""
+	match action_data.type:
+		ActionData.ActionType.LIGHT, ActionData.ActionType.WATER:
+			raw_action_description = _get_field_action_description(action_data, target_field)
+		ActionData.ActionType.ENERGY, ActionData.ActionType.UPDATE_X, ActionData.ActionType.UPDATE_GOLD:
+			raw_action_description = _get_resource_update_action_description(action_data, target_field)
+		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
+			raw_action_description = _get_field_status_description(action_data)
+		ActionData.ActionType.WEATHER_SUNNY, ActionData.ActionType.WEATHER_RAINY:
+			raw_action_description = _get_weather_action_description(action_data)
+		ActionData.ActionType.DRAW_CARD:
+			raw_action_description = _get_draw_card_action_description(action_data, target_field)
+		ActionData.ActionType.DISCARD_CARD:
+			raw_action_description = _get_discard_card_action_description(action_data, target_field)
+		ActionData.ActionType.NONE:
+			pass
+	return raw_action_description
 
 static func get_special_name(special:ToolData.Special) -> String:
 	var special_name := ""
