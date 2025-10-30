@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://bevoqqm4cn7i1"]
+
+[ext_resource type="PackedScene" uid="uid://bbnmcao1m85rp" path="res://scenes/GUI/chest/gui_chest_reward_item.tscn" id="1_ohwqc"]
+[ext_resource type="Script" uid="uid://xot78ppobvl" path="res://scenes/GUI/chest/gui_chest_reward_card.gd" id="2_yqou2"]
+[ext_resource type="PackedScene" uid="uid://bacvied61ghpe" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn" id="3_8abxr"]
+
+[node name="GUIChestRewardCard" instance=ExtResource("1_ohwqc")]
+offset_right = 39.0
+offset_bottom = 54.0
+script = ExtResource("2_yqou2")
+
+[node name="GUIToolCardButton" parent="VBoxContainer/MarginContainer" index="0" instance=ExtResource("3_8abxr")]
+unique_name_in_owner = true
+layout_mode = 2
