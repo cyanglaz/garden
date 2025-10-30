@@ -198,8 +198,7 @@ func _on_request_hide_custom_error(id:String) -> void:
 func _on_map_node_selected(node:MapNode) -> void:
 	match node.type:
 		MapNode.NodeType.NORMAL:
-			_start_chest()
-			#_start_combat_main_scene(contract_generator.common_contracts.pop_back())
+			_start_combat_main_scene(contract_generator.common_contracts.pop_back())
 		MapNode.NodeType.ELITE:
 			_start_combat_main_scene(contract_generator.elite_contracts.pop_back())
 		MapNode.NodeType.BOSS:
