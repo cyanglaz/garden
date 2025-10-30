@@ -56,13 +56,21 @@ func card_use_limit() -> int:
 func _apply_card_energy_cost_additive_modifier(modifier:CombatModifier) -> void:
 	for tool_data in _combat_main.tool_manager.tool_deck.hand:
 		if modifier.modifier_value > 0:
-			tool_data.energy_modifier += modifier.modifier_value
+			match modifier.timing:
+				CombatModifier.ModifierTiming.TURN:
+					tool_data.turn_energy_modifier += modifier.modifier_value
+				CombatModifier.ModifierTiming.LEVEL:
+					tool_data.level_energy_modifier += modifier.modifier_value
 	_combat_main.tool_manager.refresh_ui()
 
 func _apply_card_energy_cost_multiplicative_modifier(modifier:CombatModifier) -> void:
 	for tool_data in _combat_main.tool_manager.tool_deck.hand:
 		if modifier.modifier_value > 0:
-			tool_data.turn_energy_modifier += tool_data.energy_cost * (modifier.modifier_value-1)
+			match modifier.timing:
+				CombatModifier.ModifierTiming.TURN:
+					tool_data.turn_energy_modifier += tool_data.energy_cost * (modifier.modifier_value-1)
+				CombatModifier.ModifierTiming.LEVEL:
+					tool_data.level_energy_modifier += tool_data.energy_cost * (modifier.modifier_value-1)
 	_combat_main.tool_manager.refresh_ui()
 
 func _set_combat_main(val:CombatMain) -> void:
