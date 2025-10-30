@@ -1,6 +1,7 @@
 class_name GUIChestRewardCard
 extends GUIChestRewardItem
 
+
 @onready var gui_tool_card_button: GUIToolCardButton = %GUIToolCardButton
 
 func _ready() -> void:

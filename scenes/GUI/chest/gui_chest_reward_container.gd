@@ -1,6 +1,8 @@
 class_name GUIChestRewardContainer
 extends Control
 
+signal card_reward_selected(tool_data:ToolData, from_position:Vector2)
+
 const PADDING := 32
 const INITIAL_SCALE_FACTOR:float = 0.5
 const CARD_DROP_DELAY := 0.05
@@ -15,11 +17,14 @@ var _reward_datas:Array
 func spawn_cards(number_of_cards:int, rarity:int, spawn_position:Vector2) -> void:
 	_reward_datas = MainDatabase.tool_database.roll_tools(number_of_cards, rarity)
 	Util.remove_all_children(self)
+	var index := 0
 	for pick in _reward_datas:
 		var gui_reward_card: GUIChestRewardCard = GUI_CHEST_REWARD_CARD_SCENE.instantiate()
 		add_child(gui_reward_card)
 		gui_reward_card.hide()
 		gui_reward_card.update_with_data(pick)
+		gui_reward_card.get_button_pressed.connect(_on_card_reward_selected.bind(pick, index))
+		index += 1
 	await _animate_spawn(spawn_position)
 	for gui_reward_card in get_children():
 		gui_reward_card.gui_tool_card_button.mouse_disabled = false
@@ -65,3 +70,8 @@ func _get_all_reward_positions() -> Array[Vector2]:
 		current_x += child.size.x + PADDING
 
 	return positions
+
+func _on_card_reward_selected(tool_data:ToolData, index:int) -> void:
+	for child in get_children():
+		child.hide()
+	card_reward_selected.emit(tool_data, get_child(index).global_position)

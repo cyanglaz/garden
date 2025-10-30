@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bcabalm40spo5"]
+[gd_scene load_steps=6 format=3 uid="uid://bcabalm40spo5"]
 
 [ext_resource type="Script" uid="uid://dqbtvw5m2b31u" path="res://scenes/GUI/chest/gui_chest_main.gd" id="1_4jgan"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="1_4lroq"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="2_s7l4h"]
 [ext_resource type="PackedScene" uid="uid://buvmk7slt2yq6" path="res://scenes/GUI/chest/gui_chest_reward_container.tscn" id="3_whn2w"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="4_l6t8n"]
 
 [node name="GUIChestMain" type="CanvasLayer"]
 script = ExtResource("1_4jgan")
@@ -11,6 +12,40 @@ script = ExtResource("1_4jgan")
 [node name="GUIOverlayBackground" parent="." instance=ExtResource("1_4lroq")]
 
 [node name="MainMarginContainer" parent="." instance=ExtResource("2_s7l4h")]
+
+[node name="Container2" type="Control" parent="MainMarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TitleLabel" type="Label" parent="MainMarginContainer/Container2"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -160.0
+offset_top = 2.0
+offset_right = 160.0
+offset_bottom = 11.0
+grow_horizontal = 2
+theme_type_variation = &"HeaderMedium"
+horizontal_alignment = 1
+
+[node name="SkipButton" parent="MainMarginContainer/Container2" instance=ExtResource("4_l6t8n")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = -22.0
+offset_right = 15.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 0
+localization_text_key = "ACTION_SKIP"
 
 [node name="GUIChestRewardContainer" parent="MainMarginContainer" instance=ExtResource("3_whn2w")]
 unique_name_in_owner = true

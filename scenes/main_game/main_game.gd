@@ -5,6 +5,7 @@ const MAP_MAIN_SCENE := preload("res://scenes/main_game/map/map_main.tscn")
 const COMBAT_MAIN_SCENE := preload("res://scenes/main_game/combat/combat_main.tscn")
 const SHOP_MAIN_SCENE := preload("res://scenes/main_game/shop/shop_main.tscn")
 const TAVERN_MAIN_SCENE := preload("res://scenes/main_game/tavern/tavern_main.tscn")
+const CHEST_MAIN_SCENE := preload("res://scenes/main_game/chest/chest_main.tscn")
 
 const INITIAL_RATING_VALUE := 100
 const INITIAL_RATING_MAX_VALUE := 100
@@ -114,7 +115,54 @@ func _start_tavern() -> void:
 	node_container.add_child(tavern_main)
 	tavern_main.animate_show()
 
+func _start_chest() -> void:
+	map_main.hide_map()
+	var chest_main:ChestMain = CHEST_MAIN_SCENE.instantiate()
+	chest_main.card_reward_selected.connect(_on_chest_card_reward_selected)
+	chest_main.skipped.connect(_on_chest_reward_skipped)
+	node_container.add_child(chest_main)
+	chest_main.update_with_number_of_chests(3)
+
+func _complete_current_node() -> void:
+	map_main.complete_current_node()
+	_current_scene.queue_free()
+	map_main.show_map()
+
 #endregion
+
+#region main scene events
+
+func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> void:
+	if tool_data:
+		card_pool.append(tool_data)
+		await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
+	# go to map
+	map_main.complete_current_node()
+	_current_scene.queue_free()
+	map_main.show_map()
+
+func _on_tool_shop_button_pressed(tool_data:ToolData, from_global_position:Vector2) -> void:
+	if tool_data:
+		card_pool.append(tool_data)
+		await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
+	Events.request_update_gold.emit(-tool_data.cost, true)
+	(_current_scene as ShopMain).update_for_gold(_gold)
+
+func _on_shop_finish_button_pressed() -> void:
+	_complete_current_node()
+
+func _on_tavern_finished() -> void:
+	_complete_current_node()
+
+func _on_chest_card_reward_selected(tool_data:ToolData, from_global_position:Vector2) -> void:
+	if tool_data:
+		card_pool.append(tool_data)
+		await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
+	_complete_current_node()
+
+func _on_chest_reward_skipped() -> void:
+	_complete_current_node()
+#endregion 
 
 #region global events
 
@@ -145,41 +193,13 @@ func _on_request_hide_custom_error(id:String) -> void:
 
 #endregion
 
-#region main scene events
-
-func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> void:
-	if tool_data:
-		card_pool.append(tool_data)
-		await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
-	# go to map
-	map_main.complete_current_node()
-	_current_scene.queue_free()
-	map_main.show_map()
-
-func _on_tool_shop_button_pressed(tool_data:ToolData, from_global_position:Vector2) -> void:
-	if tool_data:
-		card_pool.append(tool_data)
-		await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
-	Events.request_update_gold.emit(-tool_data.cost, true)
-	(_current_scene as ShopMain).update_for_gold(_gold)
-
-func _on_shop_finish_button_pressed() -> void:
-	map_main.complete_current_node()
-	_current_scene.queue_free()
-	map_main.show_map()
-
-func _on_tavern_finished() -> void:
-	map_main.complete_current_node()
-	_current_scene.queue_free()
-	map_main.show_map()
-#endregion 
-
 #region map events
 
 func _on_map_node_selected(node:MapNode) -> void:
 	match node.type:
 		MapNode.NodeType.NORMAL:
-			_start_combat_main_scene(contract_generator.common_contracts.pop_back())
+			_start_chest()
+			#_start_combat_main_scene(contract_generator.common_contracts.pop_back())
 		MapNode.NodeType.ELITE:
 			_start_combat_main_scene(contract_generator.elite_contracts.pop_back())
 		MapNode.NodeType.BOSS:
@@ -188,6 +208,8 @@ func _on_map_node_selected(node:MapNode) -> void:
 			_start_shop()
 		MapNode.NodeType.TAVERN:
 			_start_tavern()
+		MapNode.NodeType.CHEST:
+			_start_chest()
 		_:
 			_start_combat_main_scene(contract_generator.common_contracts.pop_back())
 
