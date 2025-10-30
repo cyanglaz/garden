@@ -196,7 +196,12 @@ func _on_request_hide_custom_error(id:String) -> void:
 #region map events
 
 func _on_map_node_selected(node:MapNode) -> void:
-	match node.type:
+	var node_type:MapNode.NodeType = node.type
+	if node.type == MapNode.NodeType.EVENT:
+		# TODO: Add more event nodes
+		const EVENT_NODES := [MapNode.NodeType.CHEST, MapNode.NodeType.SHOP, MapNode.NodeType.TAVERN, MapNode.NodeType.NORMAL]
+		node_type = Util.unweighted_roll(EVENT_NODES, 1).front()
+	match node_type:
 		MapNode.NodeType.NORMAL:
 			_start_combat_main_scene(contract_generator.common_contracts.pop_back())
 		MapNode.NodeType.ELITE:
@@ -210,8 +215,7 @@ func _on_map_node_selected(node:MapNode) -> void:
 		MapNode.NodeType.CHEST:
 			_start_chest()
 		_:
-			_start_combat_main_scene(contract_generator.common_contracts.pop_back())
-
+			assert(false, "Invalid event node type: %s" % node_type)
 
 # region getter
 
