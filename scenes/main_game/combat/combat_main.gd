@@ -159,8 +159,7 @@ func _end_day() -> void:
 		return #Harvest won the game, no need to discard tools or end the day
 	field_container.handle_turn_end()
 	Events.request_rating_update.emit( -_contract.get_penalty_rate(day_manager.day))
-	# _start_day()
-	_win()
+	_start_day()
 	
 func _discard_all_tools() -> void:
 	if tool_manager.tool_deck.hand.is_empty():

@@ -62,7 +62,7 @@ func _apply_card_energy_cost_additive_modifier(modifier:CombatModifier) -> void:
 func _apply_card_energy_cost_multiplicative_modifier(modifier:CombatModifier) -> void:
 	for tool_data in _combat_main.tool_manager.tool_deck.hand:
 		if modifier.modifier_value > 0:
-			tool_data.energy_modifier += tool_data.energy_cost * (modifier.modifier_value-1)
+			tool_data.turn_energy_modifier += tool_data.energy_cost * (modifier.modifier_value-1)
 	_combat_main.tool_manager.refresh_ui()
 
 func _set_combat_main(val:CombatMain) -> void:
