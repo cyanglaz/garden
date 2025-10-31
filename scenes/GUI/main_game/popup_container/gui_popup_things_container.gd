@@ -11,7 +11,8 @@ func _on_request_display_popup_things(thing:PopupThing, height:float, spread:flo
 	add_child(thing)
 	thing.global_position = global_location
 	_bump_up_overlapping_popup_things.call_deferred(thing)
-	await thing.animate_show(height, spread, show_time)
+	thing.animate_show(height, spread, show_time)
+	await thing.position_tween_finished
 	await thing.animate_destroy(destroy_time)
 	_all_popup_things.erase(thing)
 

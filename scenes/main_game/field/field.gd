@@ -8,7 +8,7 @@ const GUI_GENERAL_ACTION_SCENE := preload("res://scenes/GUI/main_game/actions/gu
 const GUI_WEATHER_ACTION_SCENE := preload("res://scenes/GUI/main_game/actions/gui_weather_action.tscn")
 const point_LABEL_OFFSET := Vector2.RIGHT * 12
 const POPUP_SHOW_TIME := 0.3
-const POPUP_DESTROY_TIME:= 2.0
+const POPUP_DESTROY_TIME:= 1.2
 const ACTION_ICON_MOVE_TIME := 0.3
 
 signal field_pressed()
