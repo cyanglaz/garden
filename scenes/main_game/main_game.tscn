@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bbcxpceayay3"]
+[gd_scene load_steps=16 format=3 uid="uid://bbcxpceayay3"]
 
 [ext_resource type="Script" uid="uid://sc1eubamsw6x" path="res://scenes/main_game/main_game.gd" id="1_yra6k"]
 [ext_resource type="Resource" uid="uid://d1jqracpdos0e" path="res://data/player/player_apprentice.tres" id="2_8ywsm"]
@@ -6,9 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="3_i3kwu"]
 [ext_resource type="Resource" uid="uid://dveio5prp3e4b" path="res://data/tools/purchasable/tool_burn.tres" id="4_mijjq"]
-[ext_resource type="Resource" uid="uid://dhud5avy67nfx" path="res://data/tools/purchasable/tool_clean_energy.tres" id="5_mijjq"]
-[ext_resource type="Resource" uid="uid://fw57p6nrrvtr" path="res://data/tools/purchasable/tool_fungicide.tres" id="6_ldk84"]
+[ext_resource type="Resource" uid="uid://b0udg0eb5nynr" path="res://data/tools/purchasable/tool_pop.tres" id="6_b4n6q"]
+[ext_resource type="Resource" uid="uid://dr13xwnk1wtam" path="res://data/tools/defaults/tool_sunlight.tres" id="7_gl27v"]
 [ext_resource type="Resource" uid="uid://c6k0erxrqmrlg" path="res://data/tools/purchasable/tool_heat.tres" id="7_r81kp"]
+[ext_resource type="Resource" uid="uid://dyxnhfa0lax6i" path="res://data/tools/purchasable/tool_greenhouse.tres" id="8_4y18v"]
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="8_gl27v"]
 [ext_resource type="Resource" uid="uid://bjrbfog5cnb6a" path="res://data/plants/chapter0/plant_data_daffodil.tres" id="9_4y18v"]
 [ext_resource type="Script" uid="uid://ektnj8rt6k0k" path="res://data/models/contracts/contract_data.gd" id="10_irrf2"]
@@ -22,7 +23,7 @@ metadata/_custom_type_script = "uid://ektnj8rt6k0k"
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 player = ExtResource("2_8ywsm")
-test_tools = Array[ExtResource("3_i3kwu")]([ExtResource("4_mijjq"), ExtResource("5_mijjq"), ExtResource("6_ldk84"), ExtResource("7_r81kp")])
+test_tools = Array[ExtResource("3_i3kwu")]([ExtResource("4_mijjq"), ExtResource("8_4y18v"), ExtResource("6_b4n6q"), ExtResource("7_gl27v"), ExtResource("7_r81kp")])
 test_contract = SubResource("Resource_gl27v")
 
 [node name="MapMain" parent="." instance=ExtResource("14_s87mg")]
