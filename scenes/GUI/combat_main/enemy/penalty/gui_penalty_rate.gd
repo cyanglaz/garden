@@ -1,13 +1,9 @@
-class_name GUILevelTitle
+class_name GUIPenaltyRate
 extends HBoxContainer
 
-@onready var _penalty_rate_title_label: Label = %PenaltyRateTitleLabel
 @onready var _penalty_rate_value_label: Label = %PenaltyRateValueLabel
 
 var _current_penalty := 0
-
-func _ready() -> void:
-	_penalty_rate_title_label.text = Util.get_localized_string("PENALTY_RATE_TITLE")
 
 func update_penalty(penalty:int) -> void:
 	var tween := Util.create_scaled_tween(self)

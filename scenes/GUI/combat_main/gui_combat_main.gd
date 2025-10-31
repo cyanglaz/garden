@@ -17,7 +17,7 @@ signal reward_finished(tool_data:ToolData, from_global_position:Vector2)
 @onready var gui_boost_tracker: GUIBoostTracker = %GUIBoostTracker
 @onready var gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
 @onready var end_turn_button: GUIRichTextButton = %EndTurnButton
-@onready var gui_penalty_rate: GUILevelTitle = %GUIPenaltyRate
+@onready var gui_enemy: GUIEnemy = %GUIEnemy
 @onready var gui_reward_main: GUIRewardMain = %GUIRewardMain
 
 @onready var gui_plant_deck_box: GUIPlantDeckBox = %GUIPlantDeckBox
@@ -39,6 +39,13 @@ func _ready() -> void:
 
 func bind_power_manager(power_manager:PowerManager) -> void:
 	gui_power_container.bind_with_power_manager(power_manager)
+
+#endregion
+
+#region enemy
+
+func update_with_contract(contract:ContractData) -> void:
+	gui_enemy.update_with_contract(contract)
 
 #endregion
 
@@ -125,7 +132,7 @@ func update_boost(boost:int) -> void:
 #region penalty
 
 func update_penalty_rate(val:int) -> void:
-	gui_penalty_rate.update_penalty(val)
+	gui_enemy.update_penalty(val)
 
 #endregion
 

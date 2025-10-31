@@ -7,6 +7,7 @@ extends GUITooltip
 var library_mode := true
 
 func _ready() -> void:
+	super._ready()
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 

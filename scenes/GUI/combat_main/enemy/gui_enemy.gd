@@ -1,0 +1,26 @@
+class_name GUIEnemy
+extends VBoxContainer
+
+const BOSS_SCENE_PREFIX := "res://scenes/GUI/combat_main/enemy/boss/bosses/gui_boss_%s.tscn"
+const DEFAULT_BOSS_SCENE_PATH := "res://scenes/GUI/combat_main/enemy/boss/gui_boss.tscn"
+
+@onready var boss_container: PanelContainer = %BossContainer
+@onready var gui_penalty_rate: GUIPenaltyRate = %GUIPenaltyRate
+
+func update_with_contract(contract:ContractData) -> void:
+	if contract.contract_type != ContractData.ContractType.BOSS:
+		boss_container.hide()
+		return
+	var boss_id = contract.boss_data.id
+	var boss_scene_path := BOSS_SCENE_PREFIX % boss_id
+	var boss_scene:PackedScene = null
+	if ResourceLoader.exists(boss_scene_path):
+		boss_scene = load(boss_scene_path)
+	else:
+		boss_scene = load(DEFAULT_BOSS_SCENE_PATH)
+	var boss_instance:GUIBoss = boss_scene.instantiate()
+	boss_container.add_child(boss_instance)
+	boss_instance.update_with_boss_data(contract.boss_data)
+
+func update_penalty(penalty:int) -> void:
+	gui_penalty_rate.update_penalty(penalty)

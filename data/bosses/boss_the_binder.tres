@@ -7,7 +7,7 @@ script = ExtResource("1_4nmqe")
 primary_plant_id = "morning_glory"
 id = "the_binder"
 display_name = "The Binder"
-description = "You can only play {count} card each turn."
+description = "You can only play {count} cards each turn."
 data = {
 "count": "4"
 }

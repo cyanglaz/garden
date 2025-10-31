@@ -5,7 +5,6 @@ signal button_evoked(data:Resource)
 
 const GUI_TOOL_CARD_BUTTON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const PLANT_ICON_SCENE := preload("res://scenes/GUI/main_game/plant_cards/gui_plant_icon.tscn")
-const GUI_ENEMY_SCENE := preload("res://scenes/GUI/main_game/characters/gui_enemy.tscn")
 const GUI_FIELD_STATUS_ICON_SCENE := preload("res://scenes/main_game/field/gui_field_status_icon.tscn")
 const GUI_POWER_ICON_SCENE := preload("res://scenes/GUI/main_game/power/gui_power_icon.tscn")
 

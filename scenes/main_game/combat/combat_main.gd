@@ -107,6 +107,7 @@ func _start_new_level() -> void:
 	_number_of_plants = plant_seed_manager.plant_datas.size()
 	day_manager.start_new()
 	gui.update_with_plants(plant_seed_manager.plant_datas)
+	gui.update_with_contract(_contract)
 
 	_start_day()
 

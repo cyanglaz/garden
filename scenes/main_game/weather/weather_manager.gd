@@ -50,7 +50,7 @@ func apply_weather_tool_action(action:ActionData, icon_move_start_position:Vecto
 func _generate_next_weather(chapter:int) -> void:
 	var available_weathers := MainDatabase.weather_database.get_weathers_by_chapter(chapter)
 	var weather:WeatherData = available_weathers.pick_random().get_duplicate()
-	weathers.append(WEATHER_SUNNY.get_duplicate())
+	weathers.append(weather)
 
 func _apply_weather_action_to_next_field(fields:Array[Field], field_index:int, combat_main:CombatMain) -> void:
 	if field_index >= fields.size():
