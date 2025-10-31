@@ -170,7 +170,6 @@ alignment = 0
 
 [node name="GUIToolCardContainer" parent="BaseMainMarginContainer/Container" index="1" instance=ExtResource("11_sauxh")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 
 [node name="GUIRewardMain" parent="." instance=ExtResource("13_8tokl")]

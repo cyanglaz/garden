@@ -13,6 +13,7 @@ shader_parameter/blend_color = Color(1, 1, 1, 1)
 shader_parameter/blend_strength = 0.0
 
 [node name="GUIBoss" type="HBoxContainer"]
+theme_override_constants/separation = 2
 alignment = 2
 script = ExtResource("1_go5n6")
 

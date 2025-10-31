@@ -44,8 +44,8 @@ func bind_power_manager(power_manager:PowerManager) -> void:
 
 #region enemy
 
-func update_with_contract(contract:ContractData) -> void:
-	gui_enemy.update_with_contract(contract)
+func update_with_contract(contract:ContractData, combat_main:CombatMain) -> void:
+	gui_enemy.update_with_contract(contract, combat_main)
 
 #endregion
 

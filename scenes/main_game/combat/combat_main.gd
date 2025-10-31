@@ -2,6 +2,8 @@ class_name CombatMain
 extends Node2D
 
 signal reward_finished(tool_data:ToolData, from_global_position:Vector2)
+signal level_started()
+signal turn_started()
 
 var hand_size := 5
 const WIN_PAUSE_TIME := 0.5
@@ -107,8 +109,8 @@ func _start_new_level() -> void:
 	_number_of_plants = plant_seed_manager.plant_datas.size()
 	day_manager.start_new()
 	gui.update_with_plants(plant_seed_manager.plant_datas)
-	gui.update_with_contract(_contract)
-
+	gui.update_with_contract(_contract, self)
+	level_started.emit()
 	_start_day()
 
 func _start_day() -> void:
@@ -127,6 +129,7 @@ func _start_day() -> void:
 	await _contract.apply_boss_actions(self, BossScript.HookType.TURN_START)
 	await draw_cards(hand_size)
 	gui.toggle_all_ui(true)
+	turn_started.emit()
 
 func _met_win_condition() -> bool:
 	assert(_number_of_plants >= 0)
