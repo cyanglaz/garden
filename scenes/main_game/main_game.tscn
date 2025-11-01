@@ -6,9 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="3_i3kwu"]
 [ext_resource type="Resource" uid="uid://c5kykt5rgjgx3" path="res://data/tools/other/tool_graywater.tres" id="4_fetp2"]
+[ext_resource type="Resource" uid="uid://bfjvutu1dux0h" path="res://data/bosses/boss_the_bramble.tres" id="5_fetp2"]
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="8_gl27v"]
 [ext_resource type="Resource" uid="uid://bjrbfog5cnb6a" path="res://data/plants/chapter0/plant_data_daffodil.tres" id="9_4y18v"]
-[ext_resource type="Resource" uid="uid://bvk6ymex4dlcq" path="res://data/bosses/boss_the_binder.tres" id="9_irrf2"]
 [ext_resource type="Script" uid="uid://ektnj8rt6k0k" path="res://data/models/contracts/contract_data.gd" id="10_irrf2"]
 [ext_resource type="PackedScene" uid="uid://bqo51luu7itcc" path="res://scenes/main_game/map/map_main.tscn" id="14_s87mg"]
 
@@ -16,7 +16,7 @@
 script = ExtResource("10_irrf2")
 contract_type = 2
 plants = Array[ExtResource("8_gl27v")]([ExtResource("9_4y18v"), ExtResource("9_4y18v")])
-boss_data = ExtResource("9_irrf2")
+boss_data = ExtResource("5_fetp2")
 metadata/_custom_type_script = "uid://ektnj8rt6k0k"
 
 [node name="MainGame" type="Node2D"]
