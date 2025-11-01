@@ -74,7 +74,7 @@ func start(field_count:int, card_pool:Array[ToolData], energy_cap:int, contract:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("de-select"):
-		if tool_manager.selected_tool:
+		if tool_manager.selected_tool && !tool_manager.is_applying_tool:
 			_clear_tool_selection()
 
 #endregion

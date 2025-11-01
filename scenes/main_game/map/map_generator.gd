@@ -30,9 +30,9 @@ const MIN_NODE_COUNT = {
 	MapNode.NodeType.NORMAL: 0,
 	MapNode.NodeType.EVENT: 0,
 	MapNode.NodeType.ELITE: 3,
-	MapNode.NodeType.SHOP: 0,
+	MapNode.NodeType.SHOP: 3,
 	MapNode.NodeType.TAVERN: 3,
-	MapNode.NodeType.CHEST: 0,
+	MapNode.NodeType.CHEST: 3,
 }
 
 const MAX_NODE_COUNT = {

@@ -13,6 +13,7 @@ signal _tool_actions_completed(tool_data:ToolData, combat_main:CombatMain)
 var tool_deck:Deck
 var selected_tool_index:int: get = _get_selected_tool_index
 var selected_tool:ToolData
+var is_applying_tool:bool = false
 var number_of_card_used_this_turn:int = 0
 var card_use_limit_reached:bool = false: set = _set_card_use_limit_reached
 
@@ -82,6 +83,7 @@ func select_tool(tool_data:ToolData) -> void:
 	selected_tool = tool_data
 
 func apply_tool(combat_main:CombatMain, fields:Array, field_index:int) -> void:
+	is_applying_tool = true
 	var applying_tool = selected_tool
 	var number_of_cards_to_select := applying_tool.get_number_of_secondary_cards_to_select()
 	var random := applying_tool.get_is_random_secondary_card_selection()
@@ -93,6 +95,7 @@ func apply_tool(combat_main:CombatMain, fields:Array, field_index:int) -> void:
 			if applying_tool.get_card_selection_type() == ActionData.CardSelectionType.RESTRICTED:
 				_gui_tool_card_container.animate_card_error_shake(applying_tool)
 				tool_application_error.emit(applying_tool, applying_tool.get_card_selection_custom_error_message())
+				is_applying_tool = false
 				return
 		else:
 			if random:
@@ -170,6 +173,7 @@ func _handle_tool_application_completed(tool_data:ToolData, combat_main:CombatMa
 	if tool_data.tool_script:
 		await tool_data.tool_script.handle_post_application_hook(tool_data, combat_main)
 	tool_application_completed.emit(tool_data)
+	is_applying_tool = false
 
 #region events
 

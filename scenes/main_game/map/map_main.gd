@@ -14,6 +14,7 @@ func _ready() -> void:
 	gui.node_button_pressed.connect(_on_node_selected)
 	#map_generator.generate(randi())
 	#update_with_map(map_generator.layers)
+	generate_map(randi())
 
 func show_map() -> void:
 	gui.show()
