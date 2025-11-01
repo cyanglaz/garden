@@ -14,4 +14,4 @@ func _handle_hook(hook_type:HookType) -> void:
 	var cards:Array[ToolData] = []
 	for i in count:
 		cards.append(tool_data.get_duplicate())
-	await _combat_main.tool_manager.add_temp_tools_to_discard_pile(cards, starting_position, true)
+	await _combat_main.tool_manager.add_tools_to_discard_pile(cards, starting_position, true)

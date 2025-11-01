@@ -87,9 +87,9 @@ func draw_cards(count:int) -> void:
 func discard_cards(tools:Array) -> void:
 	await tool_manager.discard_cards(tools)
 
-func add_temp_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+func add_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
 	await power_manager.handle_card_added_to_hand_hook(tool_datas)
-	await tool_manager.add_temp_tools_to_hand(tool_datas, from_global_position, pause)
+	await tool_manager.add_tools_to_hand(tool_datas, from_global_position, pause)
 
 func add_card_to_deck(tool_data:ToolData) -> void:
 	tool_manager.add_tool_to_deck(tool_data)

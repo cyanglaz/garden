@@ -11,4 +11,4 @@ func _handle_add_water_hook(combat_main:CombatMain, plant:Plant) -> void:
 	var cards:Array[ToolData] = []
 	for i in number_of_cards:
 		cards.append(tool_data.get_duplicate())
-	await combat_main.add_temp_tools_to_hand(cards, from_position, true)
+	await combat_main.add_tools_to_hand(cards, from_position, true)

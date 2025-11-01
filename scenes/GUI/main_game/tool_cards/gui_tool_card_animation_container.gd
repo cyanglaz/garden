@@ -303,6 +303,7 @@ func _animate_add_card_to_hand(animation_item:AnimationQueueItem) -> void:
 			animating_card.hide()
 			animating_card.animation_mode = true
 			animating_card.global_position = from_global_position
+			animating_card.scale = Vector2.ONE * CARD_MIN_SCALE
 			delay_index = i - exiting_card_count + 1
 			if pause:
 				display_pause_time = ADD_CARD_TO_PILE_PAUSE_TIME
@@ -313,6 +314,7 @@ func _animate_add_card_to_hand(animation_item:AnimationQueueItem) -> void:
 				await Util.create_scaled_timer(display_pause_time).timeout
 				animating_card.play_move_sound())
 		tween.tween_property(animating_card, "global_position", target_global_position, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index + display_pause_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(animating_card, "scale", Vector2.ONE, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index + display_pause_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index + display_pause_time).timeout.connect(func(): 
 			animating_card.mouse_disabled = false
 			animating_card.animation_mode = false

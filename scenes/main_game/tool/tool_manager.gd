@@ -37,9 +37,6 @@ func refresh_deck() -> void:
 	for tool_data in tool_deck.pool:
 		tool_data.refresh_for_level()
 
-func cleanup_deck() -> void:
-	tool_deck.cleanup_temp_items()
-
 func cleanup_for_turn() -> void:
 	number_of_card_used_this_turn = 0
 	card_use_limit_reached = false
@@ -115,16 +112,16 @@ func discardable_cards() -> Array:
 func add_tool_to_deck(tool_data:ToolData) -> void:
 	tool_deck.add_item(tool_data)
 
-func add_temp_tools_to_draw_pile(tool_datas:Array[ToolData], from_global_position:Vector2, random_place:bool, pause:bool) -> void:
+func add_tools_to_draw_pile(tool_datas:Array[ToolData], from_global_position:Vector2, random_place:bool, pause:bool) -> void:
 	await _gui_tool_card_container.animate_add_cards_to_draw_pile(tool_datas, from_global_position, pause)
-	tool_deck.add_temp_items_to_draw_pile(tool_datas, random_place)
+	tool_deck.add_items_to_draw_pile(tool_datas, random_place)
 
-func add_temp_tools_to_discard_pile(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+func add_tools_to_discard_pile(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
 	await _gui_tool_card_container.animate_add_cards_to_discard_pile(tool_datas, from_global_position, pause)
-	tool_deck.add_temp_items_to_discard_pile(tool_datas)
+	tool_deck.add_items_discard_pile(tool_datas)
 
-func add_temp_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
-	tool_deck.add_temp_items_to_hand(tool_datas)
+func add_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+	tool_deck.add_items_to_hand(tool_datas)
 	await _gui_tool_card_container.animate_add_cards_to_hand(tool_deck.hand, tool_datas, from_global_position, pause)
 
 func update_tool_card(tool_data:ToolData, new_tool_data:ToolData) -> void:

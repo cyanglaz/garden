@@ -98,7 +98,7 @@ func add_item(item:Variant) -> void:
 	pool.append(item)
 	pool_updated.emit(pool)
 
-func add_temp_items_to_draw_pile(items:Array, random_place:bool = true) -> void:
+func add_items_to_draw_pile(items:Array, random_place:bool = true) -> void:
 	pool.append_array(items)
 	for item in items:
 		if random_place && draw_pool.size() > 0:
@@ -108,13 +108,13 @@ func add_temp_items_to_draw_pile(items:Array, random_place:bool = true) -> void:
 	draw_pool_updated.emit(draw_pool)
 	pool_updated.emit(pool)
 
-func add_temp_items_to_discard_pile(items:Array) -> void:
+func add_items_discard_pile(items:Array) -> void:
 	pool.append_array(items)
 	discard_pool.append_array(items)
 	pool_updated.emit(pool)
 	discard_pool_updated.emit(discard_pool)
 
-func add_temp_items_to_hand(items:Array) -> void:
+func add_items_to_hand(items:Array) -> void:
 	pool.append_array(items)
 	hand.append_array(items)
 	pool_updated.emit(pool)
