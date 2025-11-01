@@ -194,7 +194,6 @@ func _harvest(field_index:int) -> void:
 	var field:Field = field_container.get_field(field_index)
 	if field.can_harvest():
 		field.harvest(self)
-		_number_of_plants -= 1
 	
 func _remove_plants(field_indices:Array[int]) -> void:
 	for field_index:int in field_indices:
@@ -235,6 +234,7 @@ func _on_end_turn_button_pressed() -> void:
 	_end_day()
 
 func _on_field_hovered(hovered:bool, index:int) -> void:
+	_number_of_plants -= 1
 	if tool_manager.selected_tool && tool_manager.selected_tool.need_select_field:
 		if hovered:
 			if tool_manager.selected_tool.all_fields:
