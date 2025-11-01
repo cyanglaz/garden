@@ -1,5 +1,5 @@
-class_name BossScriptThorn
-extends BossScript
+class_name GUIBossTheBramble
+extends GUIBoss
 
 func _has_hook(hook_type:HookType) -> bool:
 	return hook_type == HookType.LEVEL_START

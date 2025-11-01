@@ -51,12 +51,6 @@ func get_duplicate() -> ContractData:
 	var dup:ContractData = ContractData.new()
 	dup.copy(self)
 	return dup
-
-func apply_boss_actions(combat_main:CombatMain, hook_type:BossScript.HookType) -> void:
-	if contract_type != ContractType.BOSS:
-		return
-	if boss_data.boss_script.has_hook(hook_type):
-		await boss_data.boss_script.handle_hook(hook_type, combat_main)
 	
 func get_penalty_rate(day:int) -> int:
 	@warning_ignore("integer_division")

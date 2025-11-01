@@ -1,11 +1,18 @@
 class_name GUIBoss
 extends HBoxContainer
 
+enum HookType {
+	LEVEL_START,
+	TURN_START,
+}
+
+
 @onready var gui_boss_icon: GUIBossIcon = %GUIBossIcon
 
 var _combat_main:CombatMain: set = _set_combat_main, get = _get_combat_main
 
 var _tooltip_id:String = ""
+var _boss_data:BossData: set = _set_boss_data, get = _get_boss_data
 var _weak_combat_main:WeakRef = weakref(null)
 var _weak_boss_data:WeakRef = weakref(null)
 
@@ -14,8 +21,23 @@ func _ready() -> void:
 	gui_boss_icon.mouse_exited.connect(_on_mouse_exited)
 
 func update_with_boss_data(boss_data:BossData, combat_main:CombatMain) -> void:
-	_weak_boss_data = weakref(boss_data)
+	_boss_data = boss_data
 	_combat_main = combat_main
+
+func has_hook(hook_type:HookType) -> bool:
+	return _has_hook(hook_type)
+
+func handle_hook(hook_type:HookType) -> void:
+	await _handle_hook(hook_type)
+
+#region for override
+func _has_hook(_hook_type:HookType) -> bool:
+	return false
+
+func _handle_hook(_hook_type:HookType) -> void:
+	await Util.await_for_tiny_time()
+
+#endregion
 
 func _on_mouse_entered() -> void:
 	gui_boss_icon.has_outline = true
@@ -33,3 +55,9 @@ func _set_combat_main(value:CombatMain) -> void:
 
 func _get_combat_main() -> CombatMain:
 	return _weak_combat_main.get_ref()
+
+func _set_boss_data(value:BossData) -> void:
+	_weak_boss_data = weakref(value)
+
+func _get_boss_data() -> BossData:
+	return _weak_boss_data.get_ref()

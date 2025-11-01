@@ -123,10 +123,10 @@ func _start_day() -> void:
 	gui.clear_tool_selection()
 	gui.update_penalty_rate(_contract.get_penalty_rate(day_manager.day))
 	if day_manager.day == 0:
-		await _contract.apply_boss_actions(self, BossScript.HookType.LEVEL_START)
+		await gui.apply_boss_actions(GUIBoss.HookType.LEVEL_START)
 		await Util.create_scaled_timer(0.2).timeout
 		await _plant_new_seeds()
-	await _contract.apply_boss_actions(self, BossScript.HookType.TURN_START)
+	await gui.apply_boss_actions(GUIBoss.HookType.TURN_START)
 	await draw_cards(hand_size)
 	gui.toggle_all_ui(true)
 	turn_started.emit()

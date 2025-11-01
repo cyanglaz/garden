@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://b4aplm3saacbl"]
+
+[ext_resource type="PackedScene" uid="uid://cmhfuassgjksd" path="res://scenes/GUI/combat_main/enemy/boss/gui_boss.tscn" id="1_fhd7r"]
+[ext_resource type="Script" uid="uid://dd5ahnmy2u5vu" path="res://scenes/GUI/combat_main/enemy/boss/gui_boss_the_bramble.gd" id="2_fhd7r"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="3_5btyj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_18elu"]
+resource_local_to_scene = true
+shader = ExtResource("3_5btyj")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
+
+[node name="GUIBossTheBramble" instance=ExtResource("1_fhd7r")]
+script = ExtResource("2_fhd7r")
+
+[node name="GUIBossIcon" parent="." index="0"]
+material = SubResource("ShaderMaterial_18elu")

@@ -47,6 +47,9 @@ func bind_power_manager(power_manager:PowerManager) -> void:
 func update_with_contract(contract:ContractData, combat_main:CombatMain) -> void:
 	gui_enemy.update_with_contract(contract, combat_main)
 
+func apply_boss_actions(hook_type:GUIBoss.HookType) -> void:
+	await gui_enemy.apply_boss_actions(hook_type)
+
 #endregion
 
 #region plants
