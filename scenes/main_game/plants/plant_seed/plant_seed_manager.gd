@@ -9,9 +9,6 @@ func _init(datas:Array[PlantData]) -> void:
 		plant_datas.append(plant_data.get_duplicate())
 	_current_index = 0
 
-func has_more_plants() -> bool:
-	return _current_index < plant_datas.size()
-
 func draw_plants(field_indices:Array, gui_plant_seed_animation_container:GUIPlantSeedAnimationContainer) -> void:
 	var count := field_indices.size()
 	var draw_slice_end := mini(plant_datas.size(), _current_index + count)

@@ -1,6 +1,8 @@
 class_name PopupThing
 extends PanelContainer
 
+signal position_tween_finished()
+
 const BUMP_UP_TIME := 0.2
 const BUMP_UP_DISTANCE := 2.0
 const BUMP_UP_SPREAD := 3.0
@@ -20,6 +22,10 @@ func animate_show(height:float, spread:float, time:float):
 	end_position = global_position + Vector2(end_x_position, -height)
 	modulate.a = 0.0
 	_position_tween = Util.create_scaled_tween(self)
+	_position_tween.finished.connect(func(): 
+		_position_tween = null
+		position_tween_finished.emit()
+	)
 	_position_tween.parallel().tween_property(self, "global_position", end_position, time).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	#tween.parallel().tween_property(self, "scale", Vector2(final_scale, final_scale), time).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	tween.parallel().tween_property(self, "modulate:a", 1.0, time/2).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
@@ -39,6 +45,10 @@ func bump_up(height:float) -> void:
 	if _position_tween && _position_tween.is_running():
 		_position_tween.kill()
 	_position_tween = Util.create_scaled_tween(self)
+	_position_tween.finished.connect(func(): 
+		_position_tween = null
+		position_tween_finished.emit()
+	)
 	_position_tween.parallel().tween_property(self, "global_position", end_position, BUMP_UP_TIME).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
 	_position_tween.play()
 	await _position_tween.finished

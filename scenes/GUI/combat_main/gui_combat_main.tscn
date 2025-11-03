@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="7_y1ukl"]
 [ext_resource type="PackedScene" uid="uid://cra7g0krpvfvf" path="res://scenes/GUI/main_game/plant_cards/gui_plant_seed_animation_container.tscn" id="8_eh8k3"]
 [ext_resource type="PackedScene" uid="uid://csrspsf8vl2ux" path="res://scenes/GUI/combat_main/momentum/gui_boost_tracker.tscn" id="9_gub46"]
-[ext_resource type="PackedScene" uid="uid://cs81yivlig7mc" path="res://scenes/GUI/combat_main/penalty/gui_penalty_rate.tscn" id="11_4giq6"]
+[ext_resource type="PackedScene" uid="uid://dn7qgrdxuu5fq" path="res://scenes/GUI/combat_main/enemy/gui_enemy.tscn" id="11_8tokl"]
 [ext_resource type="PackedScene" uid="uid://canp4x5u3afyb" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_container.tscn" id="11_sauxh"]
 [ext_resource type="PackedScene" uid="uid://3rrhwgyv2qp3" path="res://scenes/GUI/main_game/reward/gui_reward_main.tscn" id="13_8tokl"]
 
@@ -156,23 +156,21 @@ layout_mode = 1
 offset_right = 3.0
 offset_bottom = 9.0
 
-[node name="GUIPenaltyRate" parent="BaseMainMarginContainer/Container/MarginContainer/Control" instance=ExtResource("11_4giq6")]
+[node name="GUIEnemy" parent="BaseMainMarginContainer/Container/MarginContainer/Control" instance=ExtResource("11_8tokl")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
-anchor_top = 0.0
 anchor_right = 1.0
-anchor_bottom = 0.0
-offset_left = -25.0
-offset_top = 0.0
-offset_right = -21.0
+offset_left = -35.0
+offset_right = -18.0
 offset_bottom = 11.0
 grow_horizontal = 0
-grow_vertical = 1
+alignment = 0
 
-[node name="GUIToolCardContainer" parent="." instance=ExtResource("11_sauxh")]
+[node name="GUIToolCardContainer" parent="BaseMainMarginContainer/Container" index="1" instance=ExtResource("11_sauxh")]
 unique_name_in_owner = true
+layout_mode = 1
 
 [node name="GUIRewardMain" parent="." instance=ExtResource("13_8tokl")]
 unique_name_in_owner = true

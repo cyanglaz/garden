@@ -8,15 +8,14 @@ const GUI_GENERAL_ACTION_SCENE := preload("res://scenes/GUI/main_game/actions/gu
 const GUI_WEATHER_ACTION_SCENE := preload("res://scenes/GUI/main_game/actions/gui_weather_action.tscn")
 const point_LABEL_OFFSET := Vector2.RIGHT * 12
 const POPUP_SHOW_TIME := 0.3
-const POPUP_DESTROY_TIME:= 0.8
-const POPUP_STATUS_DESTROY_TIME := 1.2
+const POPUP_DESTROY_TIME:= 1.2
 const ACTION_ICON_MOVE_TIME := 0.3
 
 signal field_pressed()
 signal field_hovered(hovered:bool)
 signal action_application_completed()
 signal plant_harvest_started()
-signal plant_harvest_completed()
+signal plant_harvest_completed(plant_data:PlantData)
 signal new_plant_planted()
 
 @onready var _animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
@@ -76,7 +75,7 @@ func plant_seed(plant_data:PlantData, combat_main:CombatMain) -> void:
 	plant.data = plant_data
 	_show_progress_bars(plant)
 	plant.harvest_started.connect(func(): plant_harvest_started.emit())
-	plant.harvest_completed.connect(_on_plant_harvest_completed)
+	plant.harvest_completed.connect(_on_plant_harvest_completed.bind(plant_data))
 	plant.field = self
 	_gui_plant_ability_icon_container.setup_with_plant(plant)
 	await plant.trigger_ability(Plant.AbilityType.ON_PLANT, combat_main)
@@ -245,10 +244,11 @@ func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> vo
 		GUIBasicButton.ButtonState.PRESSED:
 			_animated_sprite_2d.play("pressed")
 
-func _on_plant_harvest_completed() -> void:
+func _on_plant_harvest_completed(plant_data:PlantData) -> void:
 	await status_manager.handle_harvest_hook(plant)
 	_reset_progress_bars()
-	plant_harvest_completed.emit()
+	plant_harvest_completed.emit(plant_data)
+	remove_plant()
 
 func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
 	var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()
@@ -260,7 +260,7 @@ func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
 			color = Constants.COLOR_YELLOW2
 	popup.setup(status_data.popup_message, color)
 	var popup_location:Vector2 = Util.get_node_canvas_position(_gui_field_button)
-	Events.request_display_popup_things.emit(popup, 10, 1, POPUP_SHOW_TIME, POPUP_STATUS_DESTROY_TIME, popup_location)
+	Events.request_display_popup_things.emit(popup, 10, 1, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, popup_location)
 	await Util.create_scaled_timer(POPUP_SHOW_TIME).timeout
 
 func _on_field_mouse_entered() -> void:

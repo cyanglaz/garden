@@ -1,13 +1,15 @@
-class_name GUILevelTitle
+class_name GUIPenaltyRate
 extends HBoxContainer
 
-@onready var _penalty_rate_title_label: Label = %PenaltyRateTitleLabel
 @onready var _penalty_rate_value_label: Label = %PenaltyRateValueLabel
+@onready var gui_icon: GUIIcon = %GUIIcon
 
 var _current_penalty := 0
+var _tooltip_id:String = ""
 
 func _ready() -> void:
-	_penalty_rate_title_label.text = Util.get_localized_string("PENALTY_RATE_TITLE")
+	gui_icon.mouse_entered.connect(_on_mouse_entered)
+	gui_icon.mouse_exited.connect(_on_mouse_exited)
 
 func update_penalty(penalty:int) -> void:
 	var tween := Util.create_scaled_tween(self)
@@ -33,3 +35,14 @@ func update_penalty(penalty:int) -> void:
 		await tween.finished
 	else:
 		tween.kill()
+
+func _on_mouse_entered() -> void:
+	gui_icon.has_outline = true
+	_tooltip_id = Util.get_uuid()
+	var penalty_rate_string := Util.convert_to_bbc_highlight_text(str(_current_penalty), Constants.COLOR_RED)
+	var text := DescriptionParser.format_references(Util.get_localized_string("PENALTY_RATE_DESCRIPTION") % [penalty_rate_string], {}, {}, func(_reference_id:String) -> bool: return false)
+	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.RICH_TEXT, text, _tooltip_id, self, false, GUITooltip.TooltipPosition.BOTTOM_LEFT, false)
+
+func _on_mouse_exited() -> void:
+	gui_icon.has_outline = false
+	Events.request_hide_tooltip.emit(_tooltip_id)

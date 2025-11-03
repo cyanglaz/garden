@@ -17,13 +17,14 @@ signal reward_finished(tool_data:ToolData, from_global_position:Vector2)
 @onready var gui_boost_tracker: GUIBoostTracker = %GUIBoostTracker
 @onready var gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
 @onready var end_turn_button: GUIRichTextButton = %EndTurnButton
-@onready var gui_penalty_rate: GUILevelTitle = %GUIPenaltyRate
+@onready var gui_enemy: GUIEnemy = %GUIEnemy
 @onready var gui_reward_main: GUIRewardMain = %GUIRewardMain
 
 @onready var gui_plant_deck_box: GUIPlantDeckBox = %GUIPlantDeckBox
 @onready var gui_plant_seed_animation_container: GUIPlantSeedAnimationContainer = %GUIPlantSeedAnimationContainer
 
 var _toggle_ui_semaphore := 0
+var _ui_perm_lock := false
 
 func _ready() -> void:
 	end_turn_button.pressed.connect(func() -> void: end_turn_button_pressed.emit())
@@ -41,6 +42,16 @@ func bind_power_manager(power_manager:PowerManager) -> void:
 
 #endregion
 
+#region enemy
+
+func update_with_contract(contract:ContractData, combat_main:CombatMain) -> void:
+	gui_enemy.update_with_contract(contract, combat_main)
+
+func apply_boss_actions(hook_type:GUIBoss.HookType) -> void:
+	await gui_enemy.apply_boss_actions(hook_type)
+
+#endregion
+
 #region plants
 
 func update_with_plants(plants:Array[PlantData]) -> void:
@@ -52,7 +63,14 @@ func update_mouse_field(field:Field) -> void:
 #endregion
 
 #region all ui
+
+func permanently_lock_all_ui() -> void:
+	_ui_perm_lock = true
+	_toggle_ui(false)
+
 func toggle_all_ui(on:bool) -> void:
+	if _ui_perm_lock:
+		return
 	if on:
 		_toggle_ui_semaphore -= 1
 	else:
@@ -63,11 +81,15 @@ func toggle_all_ui(on:bool) -> void:
 		toggle_on = false
 	else:
 		toggle_on = true
-	gui_tool_card_container.toggle_all_tool_cards(toggle_on)
-	if toggle_on:
+	_toggle_ui(toggle_on)
+
+func _toggle_ui(on:bool) -> void:
+	gui_tool_card_container.toggle_all_tool_cards(on)
+	if on:
 		end_turn_button.button_state = GUIBasicButton.ButtonState.NORMAL
 	else:
 		end_turn_button.button_state = GUIBasicButton.ButtonState.DISABLED
+
 
 #region tools
 func update_tools(tool_datas:Array[ToolData]) -> void:
@@ -113,7 +135,7 @@ func update_boost(boost:int) -> void:
 #region penalty
 
 func update_penalty_rate(val:int) -> void:
-	gui_penalty_rate.update_penalty(val)
+	gui_enemy.update_penalty(val)
 
 #endregion
 

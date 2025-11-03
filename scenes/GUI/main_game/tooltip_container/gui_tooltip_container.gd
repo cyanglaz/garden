@@ -16,6 +16,7 @@ const GUI_SHOW_DETAIL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_sh
 const GUI_BOOSTER_PACK_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_booster_pack_tooltip.tscn")
 const GUI_BOSS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_boss_tooltip.tscn")
 const GUI_CONTRACT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_contract_tooltip.tscn")
+const GUI_MAP_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_map_tooltip.tscn")
 
 enum TooltipType {
 	BUTTON,
@@ -31,6 +32,7 @@ enum TooltipType {
 	CONTRACT,
 	TOOL_CARD,
 	SPECIALS,
+	MAP,
 }
 
 var _tooltips:Dictionary = {}
@@ -78,6 +80,8 @@ func _on_request_display_tooltip(tooltip_type:TooltipType, data:Variant, id:Stri
 			gui_tooltip = GUI_TOOL_CARD_TOOLTIP_SCENE.instantiate()
 		TooltipType.SPECIALS:
 			gui_tooltip = GUI_SPECIALS_TOOLTIP_SCENE.instantiate()
+		TooltipType.MAP:
+			gui_tooltip = GUI_MAP_TOOLTIP_SCENE.instantiate()
 		_:
 			assert(false, "Invalid tooltip type: %s" % tooltip_type)
 			return

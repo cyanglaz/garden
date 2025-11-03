@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://cy8atcur5gyvi"]
+
+[ext_resource type="PackedScene" uid="uid://cmhfuassgjksd" path="res://scenes/GUI/combat_main/enemy/boss/gui_boss.tscn" id="1_6uc0x"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="2_71tpo"]
+[ext_resource type="Script" uid="uid://c6qohb6urkp4l" path="res://scenes/GUI/combat_main/enemy/boss/gui_boss_the_binder.gd" id="2_lrp61"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_18elu"]
+resource_local_to_scene = true
+shader = ExtResource("2_71tpo")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
+
+[node name="GUIBossTheBinder" instance=ExtResource("1_6uc0x")]
+script = ExtResource("2_lrp61")
+
+[node name="Label" type="Label" parent="." index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD_LARGE"
+text = "0"
+
+[node name="GUIBossIcon" parent="." index="1"]
+material = SubResource("ShaderMaterial_18elu")

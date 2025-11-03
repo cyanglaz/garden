@@ -13,6 +13,7 @@ signal _tool_actions_completed(tool_data:ToolData, combat_main:CombatMain)
 var tool_deck:Deck
 var selected_tool_index:int: get = _get_selected_tool_index
 var selected_tool:ToolData
+var is_applying_tool:bool = false
 var number_of_card_used_this_turn:int = 0
 var card_use_limit_reached:bool = false: set = _set_card_use_limit_reached
 
@@ -35,9 +36,6 @@ func refresh_deck() -> void:
 	tool_deck.refresh()
 	for tool_data in tool_deck.pool:
 		tool_data.refresh_for_level()
-
-func cleanup_deck() -> void:
-	tool_deck.cleanup_temp_items()
 
 func cleanup_for_turn() -> void:
 	number_of_card_used_this_turn = 0
@@ -82,6 +80,7 @@ func select_tool(tool_data:ToolData) -> void:
 	selected_tool = tool_data
 
 func apply_tool(combat_main:CombatMain, fields:Array, field_index:int) -> void:
+	is_applying_tool = true
 	var applying_tool = selected_tool
 	var number_of_cards_to_select := applying_tool.get_number_of_secondary_cards_to_select()
 	var random := applying_tool.get_is_random_secondary_card_selection()
@@ -93,6 +92,7 @@ func apply_tool(combat_main:CombatMain, fields:Array, field_index:int) -> void:
 			if applying_tool.get_card_selection_type() == ActionData.CardSelectionType.RESTRICTED:
 				_gui_tool_card_container.animate_card_error_shake(applying_tool)
 				tool_application_error.emit(applying_tool, applying_tool.get_card_selection_custom_error_message())
+				is_applying_tool = false
 				return
 		else:
 			if random:
@@ -112,16 +112,16 @@ func discardable_cards() -> Array:
 func add_tool_to_deck(tool_data:ToolData) -> void:
 	tool_deck.add_item(tool_data)
 
-func add_temp_tools_to_draw_pile(tool_datas:Array[ToolData], from_global_position:Vector2, random_place:bool, pause:bool) -> void:
+func add_tools_to_draw_pile(tool_datas:Array[ToolData], from_global_position:Vector2, random_place:bool, pause:bool) -> void:
 	await _gui_tool_card_container.animate_add_cards_to_draw_pile(tool_datas, from_global_position, pause)
-	tool_deck.add_temp_items_to_draw_pile(tool_datas, random_place)
+	tool_deck.add_items_to_draw_pile(tool_datas, random_place)
 
-func add_temp_tools_to_discard_pile(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+func add_tools_to_discard_pile(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
 	await _gui_tool_card_container.animate_add_cards_to_discard_pile(tool_datas, from_global_position, pause)
-	tool_deck.add_temp_items_to_discard_pile(tool_datas)
+	tool_deck.add_items_discard_pile(tool_datas)
 
-func add_temp_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
-	tool_deck.add_temp_items_to_hand(tool_datas)
+func add_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+	tool_deck.add_items_to_hand(tool_datas)
 	await _gui_tool_card_container.animate_add_cards_to_hand(tool_deck.hand, tool_datas, from_global_position, pause)
 
 func update_tool_card(tool_data:ToolData, new_tool_data:ToolData) -> void:
@@ -170,6 +170,7 @@ func _handle_tool_application_completed(tool_data:ToolData, combat_main:CombatMa
 	if tool_data.tool_script:
 		await tool_data.tool_script.handle_post_application_hook(tool_data, combat_main)
 	tool_application_completed.emit(tool_data)
+	is_applying_tool = false
 
 #region events
 

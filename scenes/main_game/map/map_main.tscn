@@ -8,3 +8,5 @@ script = ExtResource("1_suxv5")
 
 [node name="GUIMapMain" parent="." instance=ExtResource("1_51rvi")]
 unique_name_in_owner = true
+
+[node name="Camera2D" type="Camera2D" parent="."]

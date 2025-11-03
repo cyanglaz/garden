@@ -8,11 +8,11 @@ const TOTAL_PATHS := 4
 @warning_ignore("integer_division")
 
 const DEFAULT_TYPE_CHANGES := {
-	MapNode.NodeType.NORMAL: 45,
+	MapNode.NodeType.NORMAL: 40,
 	MapNode.NodeType.ELITE: 16,
 	MapNode.NodeType.SHOP: 5,
 	MapNode.NodeType.TAVERN: 12,
-	MapNode.NodeType.EVENT: 22,
+	MapNode.NodeType.EVENT: 27,
 	MapNode.NodeType.CHEST: 0,
 }
 # Configurable restrictions (now for all types)
@@ -22,7 +22,7 @@ const DEFAULT_MIN_LAYER := {
 	MapNode.NodeType.ELITE: 3,
 	MapNode.NodeType.SHOP: 0,
 	MapNode.NodeType.TAVERN: 3,
-	MapNode.NodeType.CHEST: 0,
+	MapNode.NodeType.CHEST: 3,
 	MapNode.NodeType.BOSS: 0,
 }
 
@@ -30,9 +30,9 @@ const MIN_NODE_COUNT = {
 	MapNode.NodeType.NORMAL: 0,
 	MapNode.NodeType.EVENT: 0,
 	MapNode.NodeType.ELITE: 3,
-	MapNode.NodeType.SHOP: 0,
-	MapNode.NodeType.TAVERN: 3,
-	MapNode.NodeType.CHEST: 0,
+	MapNode.NodeType.SHOP: 2,
+	MapNode.NodeType.TAVERN: 2,
+	MapNode.NodeType.CHEST: 2,
 }
 
 const MAX_NODE_COUNT = {

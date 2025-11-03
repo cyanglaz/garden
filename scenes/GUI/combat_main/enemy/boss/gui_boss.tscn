@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cmhfuassgjksd"]
+
+[ext_resource type="Script" uid="uid://b25dffb83b61t" path="res://scenes/GUI/combat_main/enemy/boss/gui_boss.gd" id="1_go5n6"]
+[ext_resource type="PackedScene" uid="uid://b5iut15shlmp5" path="res://scenes/GUI/combat_main/enemy/boss/gui_boss_icon.tscn" id="2_dlxw1"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="3_i15si"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_18elu"]
+resource_local_to_scene = true
+shader = ExtResource("3_i15si")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
+
+[node name="GUIBoss" type="HBoxContainer"]
+theme_override_constants/separation = 2
+alignment = 2
+script = ExtResource("1_go5n6")
+
+[node name="GUIBossIcon" parent="." instance=ExtResource("2_dlxw1")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_18elu")
+layout_mode = 2

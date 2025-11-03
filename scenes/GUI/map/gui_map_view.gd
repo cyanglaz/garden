@@ -2,6 +2,8 @@ class_name GUIMapView
 extends Control
 
 signal node_button_pressed(node:MapNode)
+signal node_mouse_entered(node:MapNode)
+signal node_mouse_exited(node:MapNode)
 
 const MAP_NODE_BUTTON_SCENE := preload("res://scenes/GUI/map/gui_map_node_button.tscn")
 const MAP_LINE_SCENE := preload("res://scenes/GUI/map/gui_map_line.tscn")
@@ -50,6 +52,8 @@ func _draw_nodes(layers:Array) -> void:
 			var gui_node:GUIMapNodeButton = MAP_NODE_BUTTON_SCENE.instantiate()
 			add_child(gui_node)
 			gui_node.pressed.connect(_on_node_pressed.bind(node))
+			gui_node.mouse_entered.connect(_on_node_mouse_entered.bind(node))
+			gui_node.mouse_exited.connect(_on_node_mouse_exited.bind(node))
 			gui_node.update_with_node(node)
 			gui_node.position = _get_node_position(node) - gui_node.size / 2.0
 
@@ -72,3 +76,9 @@ func _get_node_position(node:MapNode) -> Vector2:
 
 func _on_node_pressed(node:MapNode) -> void:
 	node_button_pressed.emit(node)
+
+func _on_node_mouse_entered(node:MapNode) -> void:
+	node_mouse_entered.emit(node)
+
+func _on_node_mouse_exited(node:MapNode) -> void:
+	node_mouse_exited.emit(node)

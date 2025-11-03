@@ -140,6 +140,10 @@ func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	Events.update_hovered_data.emit(tool_data)
 	await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
+	if !_action_tooltip_id.is_empty():
+		return
+	if is_queued_for_deletion():
+		return
 	if mouse_in && (!tool_data.actions.is_empty() || !tool_data.specials.is_empty()):
 		_action_tooltip_id = Util.get_uuid()
 		Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.TOOL_CARD, tool_data, _action_tooltip_id, self, false, GUITooltip.TooltipPosition.RIGHT, true)
@@ -148,6 +152,7 @@ func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
 	Events.update_hovered_data.emit(null)
 	Events.request_hide_tooltip.emit(_action_tooltip_id)
+	_action_tooltip_id = ""
 
 func _on_energy_tracker_value_updated(energy_tracker:ResourcePoint) -> void:
 	_update_for_energy(energy_tracker.value)
@@ -263,4 +268,8 @@ func _on_combat_main_set(combat_main:CombatMain) -> void:
 	if !energy_tracker.value_update.is_connected(_on_energy_tracker_value_updated):
 		energy_tracker.value_update.connect(_on_energy_tracker_value_updated.bind(energy_tracker))
 
+
+func _notification(what:int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		Events.request_hide_tooltip.emit(_action_tooltip_id)
 #endregion

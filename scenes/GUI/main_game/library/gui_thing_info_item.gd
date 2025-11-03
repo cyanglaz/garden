@@ -8,7 +8,6 @@ const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_
 const WEATHER_ICON_PREFIX := "res://resources/sprites/GUI/icons/weathers/icon_"
 const GUI_PLANT_ICON_SCENE := preload("res://scenes/GUI/main_game/plant_cards/gui_plant_icon.tscn")
 const CARD_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_card.png"
-const GUI_ENEMY_SCENE := preload("res://scenes/GUI/main_game/characters/gui_enemy.tscn")
 const GUI_WEATHER_SCENE := preload("res://scenes/GUI/main_game/weather/gui_weather.tscn")
 const PLANT_ABILITY_ICON_SCENE := preload("res://scenes/GUI/main_game/plant_cards/gui_plant_ability_icon.tscn")
 const ONE_ACTION_DESCRIPTION_SCENE := preload("res://scenes/GUI/shared/descriptions/shared_description/gui_one_action_description.tscn")

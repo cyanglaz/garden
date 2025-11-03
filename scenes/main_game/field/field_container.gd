@@ -3,7 +3,7 @@ extends Node2D
 
 signal mouse_field_updated(field:Field)
 signal field_harvest_started()
-signal field_harvest_completed(index:int)
+signal field_harvest_completed(index:int, plant_data:PlantData)
 signal field_hovered(hovered:bool, index:int)
 signal field_pressed(index:int)
 signal field_action_application_completed(index:int)
@@ -27,7 +27,7 @@ func update_with_number_of_fields(number_of_fields:int) -> void:
 		field.field_hovered.connect(_on_field_hovered.bind(i))
 		field.field_pressed.connect(func(): field_pressed.emit(i))
 		field.plant_harvest_started.connect(func(): field_harvest_started.emit())
-		field.plant_harvest_completed.connect(func(): field_harvest_completed.emit(i))
+		field.plant_harvest_completed.connect(func(plant_data:PlantData): field_harvest_completed.emit(i, plant_data))
 		field.action_application_completed.connect(func(): field_action_application_completed.emit(i))
 		if last_field:
 			field.weak_left_field = weakref(last_field)
@@ -91,10 +91,11 @@ func toggle_field_selection_indicator(indicator_state: GUIFieldSelectionArrow.In
 func toggle_all_field_selection_indicators(indicator_state: GUIFieldSelectionArrow.IndicatorState) -> void:
 	for field:Field in fields:
 		field.toggle_selection_indicator(indicator_state)
-
-func harvest_all_fields(combat_main:CombatMain) -> void:
-	assert(get_harvestable_fields().size() > 0, "No harvestable fields")
-	_harvest_next_field(0, combat_main)
+	
+func get_field(index:int) -> Field:
+	if fields.size() <= index:
+		return null
+	return fields[index]
 
 func handle_turn_end() -> void:
 	for field:Field in fields:
@@ -135,14 +136,6 @@ func toggle_tooltip_for_field(index:int, on:bool) -> void:
 		field.show_tooltip()
 	else:
 		field.hide_tooltip()
-
-func _harvest_next_field(index:int, combat_main:CombatMain) -> void:
-	if index >= fields.size():
-		return
-	var field:Field = fields[index]
-	if field.can_harvest():
-		field.harvest(combat_main)
-	_harvest_next_field(index + 1, combat_main)
 	
 func _layout_fields() -> void:
 	if fields.size() == 0:

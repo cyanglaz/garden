@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dr337eigojleo"
+path="res://.godot/imported/icon_penalty.aseprite-38e5233f80381217e2f8b6e17a75515b.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_penalty.aseprite"
+dest_files=["res://.godot/imported/icon_penalty.aseprite-38e5233f80381217e2f8b6e17a75515b.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
