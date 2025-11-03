@@ -1,0 +1,13 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://dcr3n4u3dmdbd"]
+
+[ext_resource type="Texture2D" uid="uid://c6fh0udy8eryv" path="res://resources/sprites/combat_scene/ground_meadow.png" id="1_lct7g"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uun3s"]
+texture = ExtResource("1_lct7g")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+0:1/0 = 0
+
+[resource]
+sources/0 = SubResource("TileSetAtlasSource_uun3s")

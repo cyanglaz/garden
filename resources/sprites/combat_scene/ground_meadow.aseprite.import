@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bg3r2oun341qr"
+path="res://.godot/imported/ground_meadow.aseprite-81038af87a324e0c31c4e5248d404acb.res"
+
+[deps]
+
+source_file="res://resources/sprites/combat_scene/ground_meadow.aseprite"
+dest_files=["res://.godot/imported/ground_meadow.aseprite-81038af87a324e0c31c4e5248d404acb.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
