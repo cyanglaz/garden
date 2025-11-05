@@ -10,7 +10,7 @@ func enter() -> void:
 	plant.harvest_completed.emit()
 
 func _play_harvest_animation() -> void:
-	plant.field.show_harvest_popup()
+	plant.show_harvest_popup()
 	exit("")
 
 func _handle_ability(combat_main:CombatMain) -> void:

@@ -184,7 +184,7 @@ func _plant_new_seeds() -> void:
 	var field_indices:Array[int] = field_container.get_all_field_indices()
 	assert(field_indices.size() == field_container.fields.size())
 	await Util.create_scaled_timer(0.2).timeout # If planting is needed, there would be a p update animation, wait for that animation to end before drawing new plants
-	await plant_seed_manager.draw_plants(field_indices, gui.gui_plant_seed_animation_container,)
+	await plant_seed_manager.draw_plants(field_indices, gui.gui_plant_seed_animation_container)
 
 func _handle_select_tool(tool_data:ToolData) -> void:
 	field_container.clear_tool_indicators()
@@ -244,7 +244,7 @@ func _on_field_hovered(hovered:bool, index:int) -> void:
 		else:
 			field_container.toggle_all_field_selection_indicators(GUIFieldSelectionArrow.IndicatorState.READY)
 	else:
-		field_container.toggle_tooltip_for_field(index, hovered)
+		field_container.toggle_tooltip_for_plant(index, hovered)
 
 func _on_field_pressed(index:int) -> void:
 	if !tool_manager.selected_tool || !tool_manager.selected_tool.need_select_field:
