@@ -1,0 +1,34 @@
+{ "frames": [
+   {
+    "filename": "plant_lily_of_the_valley 0.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 36, "h": 36 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 36, "h": 36 },
+    "sourceSize": { "w": 36, "h": 36 },
+    "duration": 400
+   },
+   {
+    "filename": "plant_lily_of_the_valley 1.aseprite",
+    "frame": { "x": 36, "y": 0, "w": 36, "h": 36 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 36, "h": 36 },
+    "sourceSize": { "w": 36, "h": 36 },
+    "duration": 400
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.3.14.4-arm64",
+  "image": "plant_lily_of_the_valley.png",
+  "format": "I8",
+  "size": { "w": 72, "h": 36 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "_idle", "from": 0, "to": 1, "direction": "forward", "color": "#000000ff" }
+  ],
+  "slices": [
+  ]
+ }
+}

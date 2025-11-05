@@ -1,7 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://dvx20utoq0vco"]
+[gd_scene load_steps=2 format=4 uid="uid://dvx20utoq0vco"]
 
-[ext_resource type="PackedScene" uid="uid://cv4is8f7v137b" path="res://scenes/main_game/combat/background/ground.tscn" id="1_lbkbk"]
+[ext_resource type="TileSet" uid="uid://dcr3n4u3dmdbd" path="res://scenes/main_game/combat/background/background_tile_set.tres" id="1_lbkbk"]
 
 [node name="Background" type="Node2D"]
 
-[node name="Ground" parent="." instance=ExtResource("1_lbkbk")]
+[node name="Ground" type="TileMapLayer" parent="."]
+position = Vector2(0, 10)
+tile_map_data = PackedByteArray("AAABAAIAAAAAAAAAAAAEAAIAAAAAAAAAAAAHAAIAAAAAAAAAAAAKAAIAAAAAAAAAAAD+/wIAAAAAAAAAAAD7/wIAAAAAAAAAAAD4/wIAAAAAAAAAAAD1/wIAAAAAAAAAAAA=")
+tile_set = ExtResource("1_lbkbk")
+
+[node name="Water" type="TileMapLayer" parent="."]
+position = Vector2(0, 10)
+tile_map_data = PackedByteArray("AAD+/wQAAAAAAAUAAAD7/wQAAAAAAAUAAAD4/wQAAAAAAAUAAAD1/wQAAAAAAAUAAAABAAQAAAAAAAUAAAAEAAQAAAAAAAUAAAAHAAQAAAAAAAUAAAAKAAQAAAAAAAUAAAA=")
+tile_set = ExtResource("1_lbkbk")
