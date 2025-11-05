@@ -101,7 +101,7 @@ func _start_combat_main_scene(contract:ContractData) -> void:
 	var combat_main = COMBAT_MAIN_SCENE.instantiate()
 	node_container.add_child(combat_main)
 	combat_main.reward_finished.connect(_on_reward_finished)
-	combat_main.start(player.number_of_fields, card_pool, 3, contract)
+	combat_main.start(card_pool, 3, contract)
 
 func _start_shop() -> void:
 	map_main.hide_map()

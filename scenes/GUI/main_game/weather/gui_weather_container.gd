@@ -27,14 +27,14 @@ func update_with_weather_manager(weather_manager:WeatherManager) -> void:
 		_forecast_container.add_child(gui_weather)
 		gui_weather.setup_with_weather_data(weather_data)
 
-func animate_weather_application(today_weather:WeatherData, field:Field) -> void:
+func animate_weather_application(today_weather:WeatherData, plant:Plant) -> void:
 	var gui_weather_copy := GUI_WEATHER_SCENE.instantiate()
 	var tween:Tween = Util.create_scaled_tween(gui_weather_copy)
 	_animation_container.add_child(gui_weather_copy)
 	var today_weather_icon:GUIWeather = get_today_weather_icon()
 	gui_weather_copy.global_position = today_weather_icon.global_position
 	gui_weather_copy.setup_with_weather_data(today_weather)
-	var target_position:Vector2 = Util.get_node_canvas_position(field) \
+	var target_position:Vector2 = Util.get_node_canvas_position(plant) \
 			- gui_weather_copy.size/2 \
 			+ Vector2.UP * WEATHER_ICON_ANIMATION_HEIGHT
 	gui_weather_copy.play_flying_sound()

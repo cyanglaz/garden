@@ -39,8 +39,6 @@ signal plant_pressed()
 @onready var _buff_sound: AudioStreamPlayer2D = %BuffSound
 @onready var _plant_down_sound: AudioStreamPlayer2D = %PlantDownSound
 @onready var _point_audio: AudioStreamPlayer2D = %PointAudio
-@onready var _action_move_sound: AudioStreamPlayer2D = %ActionMoveSound
-
 
 var light:ResourcePoint = ResourcePoint.new()
 var water:ResourcePoint = ResourcePoint.new()
@@ -50,7 +48,6 @@ var data:PlantData:set = _set_data
 var _tooltip_id:String = ""
 
 func _ready() -> void:
-	fsm.start()
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
 	_light_bar.hide()
@@ -63,15 +60,18 @@ func _ready() -> void:
 	_gui_plant_button.pressed.connect(_on_plant_button_pressed)
 	_gui_plant_button.mouse_entered.connect(_on_gui_plant_button_mouse_entered)
 	_gui_plant_button.mouse_exited.connect(_on_gui_plant_button_mouse_exited)
-	_gui_plant_ability_icon_container.setup_with_plant(self)
+	if plant_sprite.sprite_frames:
+		plant_sprite.position.y = -plant_sprite.sprite_frames.get_frame_texture("idle_0", 0).get_height()/2.0
 
 func plant_down(combat_main:CombatMain) -> void:
 	_plant_down_sound.play()
+	fsm.start()
 	_show_progress_bars()
+	_gui_plant_ability_icon_container.setup_with_plant(self)
 	await trigger_ability(Plant.AbilityType.ON_PLANT, combat_main)
 
 func can_harvest() -> bool:
-	return light.is_full && water.is_full
+	return is_grown()
 
 func harvest(combat_main:CombatMain) -> void:
 	fsm.push("PlantStateHarvest", {"combat_main": combat_main})
@@ -133,7 +133,7 @@ func toggle_selection_indicator(indicator_state:GUIFieldSelectionArrow.Indicator
 
 func show_tooltip() -> void:
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.PLANT, data, _tooltip_id, _gui_plant_button, false, GUITooltip.TooltipPosition.LEFT_TOP, true)
+	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.PLANT, data, _tooltip_id, _gui_plant_button, false, GUITooltip.TooltipPosition.TOP, true)
 
 func hide_tooltip() -> void:
 	Events.request_hide_tooltip.emit(_tooltip_id)
@@ -144,6 +144,9 @@ func show_harvest_popup() -> void:
 
 func get_preview_icon_global_position(preview_icon:Control) -> Vector2:
 	return Util.get_node_canvas_position(_gui_plant_button) + Vector2.RIGHT * (_gui_plant_button.size.x/2 - preview_icon.size.x/2 ) + Vector2.UP * preview_icon.size.y/2
+
+func is_grown() -> bool:
+	return light.is_full && water.is_full
 
 #region private methods
 

@@ -4,16 +4,14 @@ extends Node2D
 const PLANT_SCENE_PATH_PREFIX := "res://scenes/main_game/plants/plants/plant_"
 
 signal mouse_plant_updated(plant:Plant)
-signal field_harvest_started()
-signal field_harvest_completed(index:int, plant_data:PlantData)
+signal plant_harvest_started()
+signal plant_harvest_completed(index:int, plant_data:PlantData)
 signal plant_hovered(hovered:bool, index:int)
 signal plant_pressed(index:int)
-signal field_action_application_completed(index:int)
+signal plant_action_application_completed(index:int)
 
 const MAX_DISTANCE_BETWEEN_FIELDS := 15
 const MARGIN := 36
-
-const FIELD_SCENE := preload("res://scenes/main_game/field/field.tscn")
 
 @onready var _container: Node2D = %Container
 
@@ -30,15 +28,19 @@ func is_field_occupied(index:int) -> bool:
 	return plants[index] != null
 
 func plant_seed(plant_data:PlantData, combat_main:CombatMain) -> void:
-	assert(plants.size() < _plant_positions.size() - 1, "Plant index out of bounds")
+	assert(plants.size() < _plant_positions.size(), "Plant index out of bounds")
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
 	var scene := load(plant_scene_path)
 	var plant:Plant = scene.instantiate()
 	_container.add_child(plant)
 	plant.data = plant_data
 	var plant_index := plants.size()
+	plant.position = _plant_positions[plant_index]
 	plant.plant_pressed.connect(func(): plant_pressed.emit(plant_index))
 	plant.plant_hovered.connect(_on_plant_hovered.bind(plant_index))
+	plant.harvest_started.connect(func(): plant_harvest_started.emit())
+	plant.harvest_completed.connect(func(): plant_harvest_completed.emit(plant_index, plant_data))
+	plant.action_application_completed.connect(func(): plant_action_application_completed.emit(plant_index))
 	plants.append(plant)
 	await plant.plant_down(combat_main)
 
@@ -95,6 +97,10 @@ func toggle_plant_selection_indicator(indicator_state:GUIFieldSelectionArrow.Ind
 		for other_plant:Plant in plants:
 			if other_plant != plant:
 				other_plant.toggle_selection_indicator(GUIFieldSelectionArrow.IndicatorState.HIDE)
+
+func get_preview_icon_global_position(preview_icon:Control, index:int) -> Vector2:
+	var plant_position := _plant_positions[index]
+	return Util.get_node_canvas_position(self) + plant_position + Vector2.LEFT * preview_icon.size.x/2 + Vector2.UP * preview_icon.size.y/2
 	
 func _calculate_plant_positions(number_of_fields:int) -> Array[Vector2]:
 	if number_of_fields == 0:
@@ -128,12 +134,6 @@ func _calculate_plant_positions(number_of_fields:int) -> Array[Vector2]:
 		_plant_positions.append(plant_position)
 		current_x += plant_width + spacing
 	return _plant_positions
-
-func _get_fields() -> Array[Field]:
-	var result:Array[Field] = []
-	for field:Field in _container.get_children():
-		result.append(field)
-	return result
 
 func _get_mouse_plant() -> Plant:
 	return _weak_mouse_plant.get_ref()

@@ -35,8 +35,7 @@ func animate_draw(plant_datas:Array[PlantData], draw_results:Array, target_field
 		var delay_index := i
 		if delay_index >= 0:
 			Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index).timeout.connect(func(): animating_card.play_move_sound())
-		var field := _field_container.fields[target_field_indices[i]]
-		var target_position := _field_container.get_preview_icon_global_position(animating_card)
+		var target_position := _field_container.get_preview_icon_global_position(animating_card, target_field_indices[i])
 		tween.tween_property(animating_card, "visible", true, 0.01).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		tween.tween_property(animating_card, "global_position", target_position, Constants.PLANT_SEED_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 		var disappear_tween := tween.tween_property(animating_card, "modulate:a", 0, SEED_ICON_DISAPPEAR_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index + Constants.PLANT_SEED_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
@@ -53,14 +52,13 @@ func animate_finish(field_indices:Array, harvestable_plant_datas:Array, harvesta
 	discard_tween.set_parallel(true)
 	for i:int in field_indices.size():
 		var field_index:int = field_indices[i]
-		var field := _field_container.fields[field_index]
 		var card:GUIPlantIcon = ANIMATING_PLANT_SEED_SCENE.instantiate()
 		add_child(card)
 		var plant_data:PlantData = harvestable_plant_datas[i]
 		var plant_card_index:int = harvestable_card_indices[i]
 		card.update_with_plant_data(plant_data)
 		discarding_cards.append(card)
-		card.global_position = field.get_preview_icon_global_position(card)
+		card.global_position = _field_container.get_preview_icon_global_position(card, field_index)
 		var target_position := _plant_deck_box.get_icon_position(plant_card_index)
 		discard_tween.tween_property(card, "global_position", target_position, Constants.PLANT_SEED_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY).set_delay(Constants.CARD_ANIMATION_DELAY * i).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await discard_tween.finished

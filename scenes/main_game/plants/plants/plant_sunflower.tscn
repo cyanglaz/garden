@@ -1,25 +1,65 @@
-[gd_scene load_steps=7 format=3 uid="uid://dfbd0htm00fk6"]
+[gd_scene load_steps=9 format=3 uid="uid://dfbd0htm00fk6"]
 
 [ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plants/plant.tscn" id="1_a48oe"]
 [ext_resource type="Script" uid="uid://b6d7oer51715q" path="res://scenes/main_game/plants/plants/plant_sunflower.gd" id="2_a48oe"]
 [ext_resource type="Texture2D" uid="uid://bw127evybv6nv" path="res://resources/sprites/plants/plant_sunflower.png" id="3_a48oe"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hpldu"]
+[sub_resource type="Shader" id="Shader_hpldu"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform vec4 outline_color:source_color = vec4(1, 1, 1, 1); 
+uniform int outline_size = 0;
+
+varying vec4 modulate;
+
+void vertex() {
+	modulate = COLOR;
+}
+
+void fragment() {
+
+	vec4 base_color = COLOR;
+
+	float size_x = 1.0/float(textureSize(TEXTURE, 0).x);
+	float size_y = 1.0/float(textureSize(TEXTURE, 0).y);
+	vec4 sprite_color = texture(TEXTURE, UV);
+	float alpha  = -4.0 * sprite_color.a;
+	alpha += textureLod(TEXTURE, UV + vec2(size_x * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(-size_x * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, -size_y * float(outline_size)), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, size_y * float(outline_size)), 0).a;
+	sprite_color = mix(sprite_color, outline_color, clamp(alpha, 0.0, 1.0));
+	sprite_color = vec4(sprite_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
+	base_color = sprite_color;
+	
+	COLOR = base_color * modulate;
+
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_go2ad"]
+resource_local_to_scene = true
+shader = SubResource("Shader_hpldu")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qfn4b"]
 atlas = ExtResource("3_a48oe")
 region = Rect2(0, 0, 36, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_go2ad"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_q3t6l"]
 atlas = ExtResource("3_a48oe")
 region = Rect2(36, 0, 36, 36)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_qfn4b"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_6wost"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_hpldu")
+"texture": SubResource("AtlasTexture_qfn4b")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_go2ad")
+"texture": SubResource("AtlasTexture_q3t6l")
 }],
 "loop": true,
 "name": &"idle",
@@ -31,7 +71,8 @@ script = ExtResource("2_a48oe")
 
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_qfn4b")
+material = SubResource("ShaderMaterial_go2ad")
+sprite_frames = SubResource("SpriteFrames_6wost")
 animation = &"idle"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,

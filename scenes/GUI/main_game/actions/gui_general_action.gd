@@ -11,10 +11,10 @@ const MAX_ACTION_TEXT := "MAX"
 @onready var _field_application_icon: TextureRect = %FieldApplicationIcon
 @onready var _gui_action_value_icon: GUIActionValueIcon = %GUIActionValueIcon
 
-func update_with_action(action_data:ActionData, target_field:Field) -> void:
+func update_with_action(action_data:ActionData, target_plant:Plant) -> void:
 	_field_application_icon.hide()
 	_gui_action_type_icon.update_with_action_type(action_data.type)
-	_gui_action_value_icon.update_with_action(action_data, target_field)
+	_gui_action_value_icon.update_with_action(action_data, target_plant)
 
 	for special:ActionData.Special in action_data.specials:
 		match special:

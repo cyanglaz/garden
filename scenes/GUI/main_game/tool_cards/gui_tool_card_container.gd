@@ -39,10 +39,10 @@ func refresh_tool_cards() -> void:
 		var card:GUIToolCardButton = _container.get_child(i)
 		card.update_with_tool_data(card.tool_data)
 
-func update_mouse_field(field:Field) -> void:
+func update_mouse_plant(plant:Plant) -> void:
 	for i in get_card_count():
 		var card:GUIToolCardButton = _container.get_child(i)
-		card.update_mouse_field(field)
+		card.update_mouse_plant(plant)
 
 func clear() -> void:
 	if _container.get_children().size() == 0:

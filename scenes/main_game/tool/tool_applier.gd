@@ -38,7 +38,7 @@ func _apply_next_action(combat_main:CombatMain, plants:Array, plant_index:int, t
 				plants_to_apply = plants
 			else:
 				plants_to_apply.append(plants[plant_index])
-			plants_to_apply.filter(func(plant:Plant): return plant.is_action_applicable(action))
+			plants_to_apply.filter(func(plant:Plant): return !plant.is_grown())
 			await _apply_plant_tool_action(action, plants_to_apply, combat_main, tool_card)
 		ActionData.ActionCategory.WEATHER:
 			await _apply_weather_tool_action(action, combat_main)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://5hl240rod12d"]
+[gd_scene load_steps=19 format=3 uid="uid://5hl240rod12d"]
 
 [ext_resource type="Script" uid="uid://c3p4a5hat4001" path="res://scenes/main_game/plants/plants/plant.gd" id="1_k38v5"]
 [ext_resource type="PackedScene" uid="uid://c4uyy86onbdnu" path="res://scenes/state_machine/plants/plant_state_machine.tscn" id="2_o3cyj"]
@@ -16,13 +16,53 @@
 [ext_resource type="AudioStream" uid="uid://bs0jg061p4c2d" path="res://resources/sounds/SFX/field/field_buff.wav" id="14_gu4ic"]
 [ext_resource type="AudioStream" uid="uid://d1akur2jywp1n" path="res://resources/sounds/SFX/plants/plant_down.wav" id="15_odvlv"]
 [ext_resource type="AudioStream" uid="uid://t10sv74gr8qu" path="res://resources/sounds/SFX/other/points/points_collected.wav" id="16_txblc"]
-[ext_resource type="AudioStream" uid="uid://bgyg7vg7fsae6" path="res://resources/sounds/SFX/tool_cards/card_use.wav" id="17_5biw5"]
+
+[sub_resource type="Shader" id="Shader_odvlv"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform vec4 outline_color:source_color = vec4(1, 1, 1, 1); 
+uniform int outline_size = 0;
+
+varying vec4 modulate;
+
+void vertex() {
+	modulate = COLOR;
+}
+
+void fragment() {
+
+	vec4 base_color = COLOR;
+
+	float size_x = 1.0/float(textureSize(TEXTURE, 0).x);
+	float size_y = 1.0/float(textureSize(TEXTURE, 0).y);
+	vec4 sprite_color = texture(TEXTURE, UV);
+	float alpha  = -4.0 * sprite_color.a;
+	alpha += textureLod(TEXTURE, UV + vec2(size_x * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(-size_x * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, -size_y * float(outline_size)), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, size_y * float(outline_size)), 0).a;
+	sprite_color = mix(sprite_color, outline_color, clamp(alpha, 0.0, 1.0));
+	sprite_color = vec4(sprite_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
+	base_color = sprite_color;
+	
+	COLOR = base_color * modulate;
+
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_txblc"]
+resource_local_to_scene = true
+shader = SubResource("Shader_odvlv")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
 
 [node name="Plant" type="Node2D"]
 script = ExtResource("1_k38v5")
 
 [node name="PlantSprite" parent="." instance=ExtResource("2_rvdin")]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_txblc")
 
 [node name="PlantStateMachine" parent="." instance=ExtResource("2_o3cyj")]
 unique_name_in_owner = true
@@ -33,7 +73,7 @@ unique_name_in_owner = true
 [node name="GUIPlantButton" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 offset_left = -16.0
-offset_top = -11.0
+offset_top = -26.0
 offset_right = 16.0
 offset_bottom = 13.0
 script = ExtResource("5_qwo65")
@@ -44,9 +84,9 @@ metadata/_custom_type_script = "uid://c42mdjgajw0gi"
 [node name="ProgressBars" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
 offset_left = -18.0
-offset_top = -37.0
+offset_top = -42.0
 offset_right = 17.0
-offset_bottom = -23.0
+offset_bottom = -28.0
 theme_override_constants/separation = 0
 
 [node name="LightBar" parent="ProgressBars" instance=ExtResource("8_iycex")]
@@ -69,9 +109,7 @@ icon_size = Vector2(6, 6)
 [node name="GUIFieldStatusContainer" parent="." instance=ExtResource("11_5biw5")]
 unique_name_in_owner = true
 offset_left = 22.0
-offset_top = 11.0
 offset_right = 22.0
-offset_bottom = 11.0
 
 [node name="GUIPlantAbilityIconContainer" parent="." instance=ExtResource("12_h2few")]
 unique_name_in_owner = true
@@ -79,15 +117,13 @@ anchors_preset = 2
 anchor_left = 0.0
 anchor_right = 0.0
 offset_left = -22.0
-offset_top = 11.0
 offset_right = -22.0
-offset_bottom = 11.0
 grow_horizontal = 1
 
 [node name="GUIFieldSelectionArrow" parent="." instance=ExtResource("13_7i0c4")]
 unique_name_in_owner = true
-offset_top = -45.0
-offset_bottom = -45.0
+offset_top = -51.0
+offset_bottom = -51.0
 
 [node name="BuffSound" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
@@ -102,9 +138,4 @@ bus = &"SFX"
 [node name="PointAudio" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("16_txblc")
-bus = &"SFX"
-
-[node name="ActionMoveSound" type="AudioStreamPlayer2D" parent="."]
-unique_name_in_owner = true
-stream = ExtResource("17_5biw5")
 bus = &"SFX"

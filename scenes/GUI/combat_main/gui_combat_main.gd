@@ -57,8 +57,8 @@ func apply_boss_actions(hook_type:GUIBoss.HookType) -> void:
 func update_with_plants(plants:Array[PlantData]) -> void:
 	gui_plant_deck_box.update_with_plants(plants)
 
-func update_mouse_field(field:Field) -> void:
-	gui_tool_card_container.update_mouse_field(field)
+func update_mouse_plant(plant:Plant) -> void:
+	gui_tool_card_container.update_mouse_plant(plant)
 
 #endregion
 
