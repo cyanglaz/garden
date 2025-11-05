@@ -11,7 +11,6 @@ func enter() -> void:
 
 func _play_harvest_animation() -> void:
 	plant.show_harvest_popup()
-	exit("")
 
 func _handle_ability(combat_main:CombatMain) -> void:
 	# Must wait to make the operation async even if the plant does not have any ability hooks
@@ -19,4 +18,4 @@ func _handle_ability(combat_main:CombatMain) -> void:
 	await plant.trigger_ability(Plant.AbilityType.HARVEST, combat_main)
 
 func _get_animation_name() -> String:
-	return "idle"
+	return "harvest"

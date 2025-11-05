@@ -125,7 +125,7 @@ func _start_day() -> void:
 	if day_manager.day == 0:
 		await gui.apply_boss_actions(GUIBoss.HookType.LEVEL_START)
 		await Util.create_scaled_timer(0.2).timeout
-		await _plant_new_seeds(6)
+		await _plant_new_seeds(2)
 	await gui.apply_boss_actions(GUIBoss.HookType.TURN_START)
 	await draw_cards(hand_size)
 	gui.toggle_all_ui(true)

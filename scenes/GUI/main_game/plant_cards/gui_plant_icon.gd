@@ -30,6 +30,10 @@ func _set_has_outline(val:bool) -> void:
 		else:
 			_background.material.set_shader_parameter("outline_size", 0)
 
+func remove_texture() -> void:
+	_background.texture = null
+	_texture_rect.texture = null
+
 func _set_outline_color(val:Color) -> void:
 	outline_color = val
 	if _background:

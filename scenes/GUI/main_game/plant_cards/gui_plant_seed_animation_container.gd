@@ -19,7 +19,7 @@ func animate_draw(plant_datas:Array[PlantData], draw_results:Array, target_field
 	assert(draw_results.size() == target_field_indices.size())
 	if draw_results.size() == 0:
 		return
-	_plant_deck_box.set_mode(GUIPlantCard.Mode.ACTIVE, draw_results)
+	_plant_deck_box.remove_texture(draw_results)
 	var animating_cards:Array[GUIPlantIcon] = []
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
@@ -29,14 +29,12 @@ func animate_draw(plant_datas:Array[PlantData], draw_results:Array, target_field
 		var animating_card:GUIPlantIcon = ANIMATING_PLANT_SEED_SCENE.instantiate()
 		add_child(animating_card)
 		animating_card.update_with_plant_data(plant_data)
-		animating_card.hide()
 		animating_card.global_position = _plant_deck_box.get_icon_position(index)
 		animating_cards.append(animating_card)
 		var delay_index := i
 		if delay_index >= 0:
 			Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index).timeout.connect(func(): animating_card.play_move_sound())
 		var target_position := _field_container.get_preview_icon_global_position(animating_card, target_field_indices[i])
-		tween.tween_property(animating_card, "visible", true, 0.01).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		tween.tween_property(animating_card, "global_position", target_position, Constants.PLANT_SEED_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 		var disappear_tween := tween.tween_property(animating_card, "modulate:a", 0, SEED_ICON_DISAPPEAR_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index + Constants.PLANT_SEED_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 		disappear_tween.finished.connect(func():

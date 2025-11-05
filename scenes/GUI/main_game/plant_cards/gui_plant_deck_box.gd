@@ -19,12 +19,20 @@ func update_with_plants(plants:Array[PlantData]) -> void:
 		gui_plant_icon.mouse_exited.connect(_on_mouse_exited.bind(index))
 		index += 1
 
+func get_plant_card_by_index(index:int) -> GUIPlantCard:
+	return _plant_card_container.get_child(index)
+
 func set_mode(mode:GUIPlantCard.Mode, indeces:Array) -> void:
 	for i in indeces:
 		var card:GUIPlantCard = _plant_card_container.get_child(i)
 		if card.mode == GUIPlantCard.Mode.FINISHED:
 			continue
 		card.mode = mode
+
+func remove_texture(indeces:Array) -> void:
+	for i in indeces:
+		var card:GUIPlantCard = _plant_card_container.get_child(i)
+		card.remove_texture()
 
 func get_icon_position(index:int) -> Vector2:
 	return _plant_card_container.get_child(index).global_position

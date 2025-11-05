@@ -61,7 +61,7 @@ func _ready() -> void:
 	_gui_plant_button.mouse_entered.connect(_on_gui_plant_button_mouse_entered)
 	_gui_plant_button.mouse_exited.connect(_on_gui_plant_button_mouse_exited)
 	if plant_sprite.sprite_frames:
-		plant_sprite.position.y = -plant_sprite.sprite_frames.get_frame_texture("idle_0", 0).get_height()/2.0
+		plant_sprite.position.y = -plant_sprite.sprite_frames.get_frame_texture("idle", 0).get_height()/2.0
 
 func plant_down(combat_main:CombatMain) -> void:
 	_plant_down_sound.play()

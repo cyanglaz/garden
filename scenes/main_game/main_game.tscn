@@ -11,7 +11,7 @@
 
 [sub_resource type="Resource" id="Resource_fetp2"]
 script = ExtResource("5_r81kp")
-plants = Array[ExtResource("3_mijjq")]([ExtResource("4_ldk84"), ExtResource("4_ldk84"), ExtResource("4_ldk84"), ExtResource("4_ldk84"), ExtResource("4_ldk84"), ExtResource("4_ldk84")])
+plants = Array[ExtResource("3_mijjq")]([ExtResource("4_ldk84"), ExtResource("4_ldk84"), ExtResource("4_ldk84"), ExtResource("4_ldk84")])
 metadata/_custom_type_script = "uid://ektnj8rt6k0k"
 
 [node name="MainGame" type="Node2D"]

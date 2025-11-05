@@ -45,19 +45,19 @@ shader_parameter/outline_size = 0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_22f7b"]
 atlas = ExtResource("2_22f7b")
-region = Rect2(0, 36, 36, 36)
+region = Rect2(0, 0, 36, 36)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4ey25"]
 atlas = ExtResource("2_22f7b")
-region = Rect2(36, 36, 36, 36)
+region = Rect2(36, 0, 36, 36)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ehh0f"]
 atlas = ExtResource("2_22f7b")
-region = Rect2(0, 0, 36, 36)
+region = Rect2(0, 36, 36, 36)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aph8v"]
 atlas = ExtResource("2_22f7b")
-region = Rect2(36, 0, 36, 36)
+region = Rect2(36, 36, 36, 36)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_h06sa"]
 animations = [{
@@ -69,7 +69,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_4ey25")
 }],
 "loop": true,
-"name": &"idle_0",
+"name": &"grown",
 "speed": 3.0
 }, {
 "frames": [{
@@ -80,7 +80,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_aph8v")
 }],
 "loop": true,
-"name": &"idle_1",
+"name": &"idle",
 "speed": 3.0
 }]
 
@@ -90,7 +90,7 @@ animations = [{
 texture_filter = 1
 material = SubResource("ShaderMaterial_txblc")
 sprite_frames = SubResource("SpriteFrames_h06sa")
-animation = &"idle_0"
+animation = &"grown"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
 "pending_changes": {}
@@ -105,4 +105,4 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/plants/plant_daffodil.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "6c1b721c684d4e5f2ec333492275bd1a"
+metadata/_aseprite_wizard_source_file_hash_ = "cd606f3c6c0ed5dde2ce81e0f6e7f237"
