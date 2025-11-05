@@ -94,9 +94,9 @@ metadata/_custom_type_script = "uid://c42mdjgajw0gi"
 [node name="ProgressBars" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
 offset_left = -18.0
-offset_top = -54.0
+offset_top = -37.0
 offset_right = 17.0
-offset_bottom = -40.0
+offset_bottom = -23.0
 theme_override_constants/separation = 0
 
 [node name="LightBar" parent="ProgressBars" instance=ExtResource("4_bve5f")]
@@ -160,5 +160,5 @@ grow_horizontal = 1
 
 [node name="GUIFieldSelectionArrow" parent="." instance=ExtResource("4_50o30")]
 unique_name_in_owner = true
-offset_top = -30.0
-offset_bottom = -30.0
+offset_top = -45.0
+offset_bottom = -45.0
