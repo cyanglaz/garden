@@ -3,7 +3,7 @@ extends CanvasLayer
 
 signal end_turn_button_pressed()
 signal tool_selected(tool_data:ToolData)
-signal plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData)
+signal plant_seed_drawn_animation_completed(plant_data:PlantData)
 signal card_use_button_pressed(tool_data:ToolData)
 signal mouse_exited_card(tool_data:ToolData)
 signal reward_finished(tool_data:ToolData, from_global_position:Vector2)
@@ -32,7 +32,7 @@ func _ready() -> void:
 	gui_tool_card_container.card_use_button_pressed.connect(func(tool_data:ToolData) -> void: card_use_button_pressed.emit(tool_data))
 	gui_tool_card_container.setup(gui_draw_box_button, gui_discard_box_button)
 	gui_tool_card_container.mouse_exited_card.connect(func(tool_data:ToolData) -> void: mouse_exited_card.emit(tool_data))
-	gui_plant_seed_animation_container.draw_plant_card_completed.connect(func(field_index:int, plant_data:PlantData) -> void: plant_seed_drawn_animation_completed.emit(field_index, plant_data))
+	gui_plant_seed_animation_container.draw_plant_card_completed.connect(func(plant_data:PlantData) -> void: plant_seed_drawn_animation_completed.emit(plant_data))
 	gui_reward_main.reward_finished.connect(func(tool_data:ToolData, from_global_position:Vector2) -> void: reward_finished.emit(tool_data, from_global_position))
 
 #region power

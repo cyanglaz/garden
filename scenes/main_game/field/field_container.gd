@@ -57,6 +57,10 @@ func trigger_tool_application_hook() -> void:
 func trigger_tool_discard_hook(count:int) -> void:
 	for plant:Plant in plants:
 		await plant.handle_tool_discard_hook(count)
+	
+func handle_turn_end() -> void:
+	for plant:Plant in plants:
+		plant.handle_turn_end()
 
 func clear_tool_indicators() -> void:
 	for plant:Plant in plants:
@@ -67,6 +71,11 @@ func get_plant(index:int) -> Plant:
 		return null
 	return plants[index]
 
+func get_next_empty_field_indices(number_of_fields:int) -> Array[int]:
+	var result:Array[int] = []
+	for i in number_of_fields:
+		result.append(plants.size() + i)
+	return result
 
 func toggle_tooltip_for_plant(index:int, on:bool) -> void:
 	var plant:Plant = plants[index]
@@ -74,6 +83,18 @@ func toggle_tooltip_for_plant(index:int, on:bool) -> void:
 		plant.show_tooltip()
 	else:
 		plant.hide_tooltip()
+	
+func toggle_all_plants_selection_indicator(indicator_state:GUIFieldSelectionArrow.IndicatorState) -> void:
+	for plant:Plant in plants:
+		plant.toggle_selection_indicator(indicator_state)
+
+func toggle_plant_selection_indicator(indicator_state:GUIFieldSelectionArrow.IndicatorState, index:int) -> void:
+	var plant:Plant = plants[index]
+	plant.toggle_selection_indicator(indicator_state)
+	if indicator_state == GUIFieldSelectionArrow.IndicatorState.CURRENT:
+		for other_plant:Plant in plants:
+			if other_plant != plant:
+				other_plant.toggle_selection_indicator(GUIFieldSelectionArrow.IndicatorState.HIDE)
 	
 func _calculate_plant_positions(number_of_fields:int) -> Array[Vector2]:
 	if number_of_fields == 0:

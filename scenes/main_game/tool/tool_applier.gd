@@ -3,27 +3,27 @@ extends RefCounted
 
 signal tool_application_started(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
-signal _all_field_action_application_completed()
+signal _all_plant_action_application_completed()
 
 var _pending_actions:Array[ActionData] = []
 var _action_index:int = 0
-var _field_application_index_counter:int = 0
+var _plant_application_index_counter:int = 0
 
-func apply_tool(combat_main:CombatMain, fields:Array, field_index:int, tool_data:ToolData, secondary_card_datas:Array, tool_card:GUIToolCardButton) -> void:
+func apply_tool(combat_main:CombatMain, plants:Array, plant_index:int, tool_data:ToolData, secondary_card_datas:Array, tool_card:GUIToolCardButton) -> void:
 	tool_application_started.emit(tool_data)
 	match tool_data.type:
 		ToolData.Type.SKILL:
 			if tool_data.tool_script:
-				await tool_data.tool_script.apply_tool(combat_main, fields, field_index, tool_data, secondary_card_datas)
+				await tool_data.tool_script.apply_tool(combat_main, plants, plant_index, tool_data, secondary_card_datas)
 			else:
 				_action_index = 0
 				_pending_actions = tool_data.actions.duplicate()
-				await _apply_next_action(combat_main, fields, field_index, tool_data, secondary_card_datas, tool_card)
+				await _apply_next_action(combat_main, plants, plant_index, tool_data, secondary_card_datas, tool_card)
 		ToolData.Type.POWER:
 			await combat_main.update_power(tool_data.id, 1)
 	tool_application_completed.emit(tool_data)
 
-func _apply_next_action(combat_main:CombatMain, fields:Array, field_index:int, tool_data:ToolData, secondary_card_datas:Array, tool_card:GUIToolCardButton) -> void:
+func _apply_next_action(combat_main:CombatMain, plants:Array, plant_index:int, tool_data:ToolData, secondary_card_datas:Array, tool_card:GUIToolCardButton) -> void:
 	if _action_index >= _pending_actions.size():
 		_pending_actions.clear()
 		_action_index = 0
@@ -33,25 +33,25 @@ func _apply_next_action(combat_main:CombatMain, fields:Array, field_index:int, t
 	_action_index += 1
 	match action.action_category:
 		ActionData.ActionCategory.FIELD:
-			var fields_to_apply:Array = []
+			var plants_to_apply:Array = []
 			if action.specials.has(ActionData.Special.ALL_FIELDS):
-				fields_to_apply = fields
+				plants_to_apply = plants
 			else:
-				fields_to_apply.append(fields[field_index])
-			fields_to_apply.filter(func(field:Field): return field.is_action_applicable(action))
-			await _apply_field_tool_action(action, fields_to_apply, combat_main, tool_card)
+				plants_to_apply.append(plants[plant_index])
+			plants_to_apply.filter(func(plant:Plant): return plant.is_action_applicable(action))
+			await _apply_plant_tool_action(action, plants_to_apply, combat_main, tool_card)
 		ActionData.ActionCategory.WEATHER:
 			await _apply_weather_tool_action(action, combat_main)
 		_:
 			await _apply_instant_use_tool_action(action, combat_main, tool_data, secondary_card_datas)
-	await _apply_next_action(combat_main, fields, field_index, tool_data, secondary_card_datas, tool_card)
+	await _apply_next_action(combat_main, plants, plant_index, tool_data, secondary_card_datas, tool_card)
 
-func _apply_field_tool_action(action:ActionData, fields:Array, combat_main:CombatMain, _tool_card:GUIToolCardButton) -> void:
-	_field_application_index_counter = fields.size()
-	for field:Field in fields:
-		field.action_application_completed.connect(_on_field_action_application_completed.bind(field))
-		field.apply_actions([action], combat_main)
-	await _all_field_action_application_completed
+func _apply_plant_tool_action(action:ActionData, plants:Array, combat_main:CombatMain, _tool_card:GUIToolCardButton) -> void:
+	_plant_application_index_counter = plants.size()
+	for plant:Plant in plants:
+		plant.action_application_completed.connect(_on_plant_action_application_completed.bind(plant))
+		plant.apply_actions([action], combat_main)
+	await _all_plant_action_application_completed
 
 func _apply_weather_tool_action(action:ActionData, combat_main:CombatMain) -> void:
 	var from_position := combat_main.gui.gui_tool_card_container.get_center_position()
@@ -87,8 +87,8 @@ func _handle_discard_card_action(action:ActionData, combat_main:CombatMain, tool
 	await combat_main.discard_cards(secondary_card_datas)
 	await combat_main.field_container.trigger_tool_discard_hook(discard_size)
 
-func _on_field_action_application_completed(field:Field) -> void:
-	field.action_application_completed.disconnect(_on_field_action_application_completed.bind(field))
-	_field_application_index_counter -= 1
-	if _field_application_index_counter == 0:
-		_all_field_action_application_completed.emit()
+func _on_plant_action_application_completed(plant:Plant) -> void:
+	plant.action_application_completed.disconnect(_on_plant_action_application_completed.bind(plant))
+	_plant_application_index_counter -= 1
+	if _plant_application_index_counter == 0:
+		_all_plant_action_application_completed.emit()

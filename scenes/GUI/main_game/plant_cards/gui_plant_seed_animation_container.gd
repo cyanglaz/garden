@@ -1,7 +1,7 @@
 class_name GUIPlantSeedAnimationContainer
 extends Control
 
-signal draw_plant_card_completed(field_index:int, plant_data:PlantData)
+signal draw_plant_card_completed(plant_data:PlantData)
 
 const ANIMATING_PLANT_SEED_SCENE := preload("res://scenes/GUI/main_game/plant_cards/gui_plant_icon.tscn")
 const SEED_ICON_DISAPPEAR_TIME := 0.4
@@ -36,12 +36,12 @@ func animate_draw(plant_datas:Array[PlantData], draw_results:Array, target_field
 		if delay_index >= 0:
 			Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index).timeout.connect(func(): animating_card.play_move_sound())
 		var field := _field_container.fields[target_field_indices[i]]
-		var target_position := field.get_preview_icon_global_position(animating_card)
+		var target_position := _field_container.get_preview_icon_global_position(animating_card)
 		tween.tween_property(animating_card, "visible", true, 0.01).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		tween.tween_property(animating_card, "global_position", target_position, Constants.PLANT_SEED_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 		var disappear_tween := tween.tween_property(animating_card, "modulate:a", 0, SEED_ICON_DISAPPEAR_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index + Constants.PLANT_SEED_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 		disappear_tween.finished.connect(func():
-			draw_plant_card_completed.emit(target_field_indices[i], plant_data)
+			draw_plant_card_completed.emit(plant_data)
 		)
 	await tween.finished
 	for card in animating_cards:
