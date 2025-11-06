@@ -9,6 +9,7 @@ var hand_size := 5
 const WIN_PAUSE_TIME := 0.5
 const INSTANT_CARD_USE_DELAY := 0.3
 const TOOL_APPLICATION_ERROR_HIDE_DELAY := 3.0
+const INITIAL_NUMBER_OF_PLANTS := 2
 
 @onready var field_container: FieldContainer = %FieldContainer
 @onready var gui: GUICombatMain = %GUI
@@ -125,7 +126,7 @@ func _start_day() -> void:
 	if day_manager.day == 0:
 		await gui.apply_boss_actions(GUIBoss.HookType.LEVEL_START)
 		await Util.create_scaled_timer(0.2).timeout
-		await _plant_new_seeds(2)
+		await _plant_new_seeds(INITIAL_NUMBER_OF_PLANTS)
 	await gui.apply_boss_actions(GUIBoss.HookType.TURN_START)
 	await draw_cards(hand_size)
 	gui.toggle_all_ui(true)
@@ -181,8 +182,7 @@ func _clear_tool_selection() -> void:
 func _plant_new_seeds(number_of_plants:int) -> void:
 	if plant_seed_manager.is_all_plants_drawn():
 		return
-	var field_indices:Array[int] = field_container.get_next_empty_field_indices(number_of_plants)
-	await plant_seed_manager.draw_plants(field_indices, gui.gui_plant_seed_animation_container)
+	await plant_seed_manager.draw_plants(number_of_plants, gui.gui_plant_seed_animation_container)
 
 func _handle_select_tool(tool_data:ToolData) -> void:
 	field_container.clear_tool_indicators()

@@ -73,12 +73,6 @@ func get_plant(index:int) -> Plant:
 		return null
 	return plants[index]
 
-func get_next_empty_field_indices(number_of_fields:int) -> Array[int]:
-	var result:Array[int] = []
-	for i in number_of_fields:
-		result.append(plants.size() + i)
-	return result
-
 func toggle_tooltip_for_plant(index:int, on:bool) -> void:
 	var plant:Plant = plants[index]
 	if on:
