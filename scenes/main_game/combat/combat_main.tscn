@@ -13,7 +13,7 @@ script = ExtResource("1_yx5ui")
 
 [node name="FieldContainer" parent="." instance=ExtResource("1_nckrh")]
 unique_name_in_owner = true
-position = Vector2(0, -16)
+position = Vector2(0, -9)
 
 [node name="Water" parent="." instance=ExtResource("4_y1agf")]
 
