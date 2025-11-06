@@ -1,9 +1,9 @@
 [gd_resource type="TileSet" load_steps=3 format=3 uid="uid://dcr3n4u3dmdbd"]
 
-[ext_resource type="Texture2D" uid="uid://c6fh0udy8eryv" path="res://resources/sprites/combat_scene/background_tileset.png" id="1_s3o87"]
+[ext_resource type="Texture2D" uid="uid://c6fh0udy8eryv" path="res://resources/sprites/combat_scene/background_tileset.png" id="1_eddp8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uun3s"]
-texture = ExtResource("1_s3o87")
+texture = ExtResource("1_eddp8")
 0:0/size_in_atlas = Vector2i(3, 5)
 0:0/0 = 0
 3:0/size_in_atlas = Vector2i(3, 3)

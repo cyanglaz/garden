@@ -75,5 +75,4 @@ func _value_empty():
 	empty.emit()
 
 func _get_is_full() -> bool:
-	print("value: ", value, " max_value: ", max_value)
 	return value >= max_value

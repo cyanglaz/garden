@@ -1,8 +1,6 @@
 class_name PlantData
 extends ThingData
 
-const PLANT_SCENE_PATH_PREFIX:String = "res://scenes/main_game/plants/plant_"
-
 @export var light:int
 @export var water:int
 @export var difficulty:int

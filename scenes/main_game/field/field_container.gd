@@ -1,13 +1,13 @@
 class_name FieldContainer
 extends Node2D
 
-const PLANT_SCENE_PATH_PREFIX := "res://scenes/main_game/plants/plants/plant_"
+const FIELD_SCENE := preload("res://scenes/main_game/field/field.tscn")
 
 signal mouse_plant_updated(plant:Plant)
 signal plant_harvest_started()
 signal plant_harvest_completed()
-signal plant_hovered(hovered:bool, index:int)
-signal plant_pressed(index:int)
+signal field_hovered(hovered:bool, index:int)
+signal field_pressed(index:int)
 signal plant_action_application_completed(index:int)
 
 const MAX_DISTANCE_BETWEEN_FIELDS := 15
@@ -17,32 +17,34 @@ const MARGIN := 36
 
 # var fields:Array[Field]: get = _get_fields
 var plants:Array[Plant] = []
+var fields:Array[Field] = []
 var mouse_plant:Plant: get = _get_mouse_plant
 var _weak_mouse_plant:WeakRef = weakref(null)
-var _plant_positions:Array[Vector2] = []
 
 func update_with_number_of_fields(number_of_fields:int) -> void:
-	_plant_positions = _calculate_plant_positions(number_of_fields)
+	for i in number_of_fields:
+		var field:Field = FIELD_SCENE.instantiate()
+		field.field_hovered.connect(_on_field_hovered.bind(i))
+		field.field_pressed.connect(func(): field_pressed.emit(i))
+		field.plant_harvest_started.connect(func(): plant_harvest_started.emit())
+		field.plant_harvest_completed.connect(func(): plant_harvest_completed.emit())
+		field.action_application_completed.connect(func(): plant_action_application_completed.emit(i))
+		field.index = i
+		_container.add_child(field)
+		field.hide()
+		fields.append(field)
+	_layout_fields.call_deferred()
 
-func is_field_occupied(index:int) -> bool:
-	return plants[index] != null
+func show_next_fields(number_of_fields:int) -> void:
+	for i in range(plants.size(), plants.size() + number_of_fields):
+		fields[i].show()
 
 func plant_seed(plant_data:PlantData, combat_main:CombatMain) -> void:
-	assert(plants.size() < _plant_positions.size(), "Plant index out of bounds")
-	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
-	var scene := load(plant_scene_path)
-	var plant:Plant = scene.instantiate()
-	_container.add_child(plant)
-	plant.data = plant_data
+	assert(plants.size() < fields.size(), "Plant index out of bounds")
 	var plant_index := plants.size()
-	plant.position = _plant_positions[plant_index]
-	plant.plant_pressed.connect(func(): plant_pressed.emit(plant_index))
-	plant.plant_hovered.connect(_on_plant_hovered.bind(plant_index))
-	plant.harvest_started.connect(func(): plant_harvest_started.emit())
-	plant.harvest_completed.connect(func(): plant_harvest_completed.emit())
-	plant.action_application_completed.connect(func(): plant_action_application_completed.emit(plant_index))
-	plants.append(plant)
-	await plant.plant_down(combat_main)
+	var target_field:Field = fields[plant_index]
+	await target_field.plant_seed(plant_data, combat_main)
+	plants.append(target_field.plant)
 
 func trigger_end_day_field_status_hooks(combat_main:CombatMain) -> void:
 	for plant:Plant in plants:
@@ -65,78 +67,85 @@ func handle_turn_end() -> void:
 		plant.handle_turn_end()
 
 func clear_tool_indicators() -> void:
-	for plant:Plant in plants:
-		plant.toggle_selection_indicator(GUIFieldSelectionArrow.IndicatorState.HIDE)
+	for field:Field in fields:
+		field.toggle_selection_indicator(GUIFieldSelectionArrow.IndicatorState.HIDE)
 	
 func get_plant(index:int) -> Plant:
 	if plants.size() <= index:
 		return null
 	return plants[index]
 
+func get_field(index:int) -> Field:
+	if fields.size() <= index:
+		return null
+	return fields[index]
+
 func toggle_tooltip_for_plant(index:int, on:bool) -> void:
-	var plant:Plant = plants[index]
+	var field:Field = fields[index]
 	if on:
-		plant.show_tooltip()
+		field.show_tooltip()
 	else:
-		plant.hide_tooltip()
+		field.hide_tooltip()
 	
 func toggle_all_plants_selection_indicator(indicator_state:GUIFieldSelectionArrow.IndicatorState) -> void:
-	for plant:Plant in plants:
-		plant.toggle_selection_indicator(indicator_state)
+	for field:Field in fields:
+		field.toggle_selection_indicator(indicator_state)
 
 func toggle_plant_selection_indicator(indicator_state:GUIFieldSelectionArrow.IndicatorState, index:int) -> void:
-	var plant:Plant = plants[index]
-	plant.toggle_selection_indicator(indicator_state)
+	var field:Field = fields[index]
+	field.toggle_selection_indicator(indicator_state)
 	if indicator_state == GUIFieldSelectionArrow.IndicatorState.CURRENT:
-		for other_plant:Plant in plants:
-			if other_plant != plant:
-				other_plant.toggle_selection_indicator(GUIFieldSelectionArrow.IndicatorState.HIDE)
+		for other_field:Field in fields:
+			if other_field != field:
+				other_field.toggle_selection_indicator(GUIFieldSelectionArrow.IndicatorState.HIDE)
 
 func get_preview_icon_global_position(preview_icon:Control, index:int) -> Vector2:
-	var plant_position := _plant_positions[index]
-	return Util.get_node_canvas_position(self) + plant_position + Vector2.LEFT * preview_icon.size.x/2 + Vector2.UP * preview_icon.size.y/2
+	var field_position := fields[index].position
+	return Util.get_node_canvas_position(self) + field_position + Vector2.LEFT * preview_icon.size.x/2 + Vector2.UP * preview_icon.size.y/2
 	
-func _calculate_plant_positions(number_of_fields:int) -> Array[Vector2]:
-	if number_of_fields == 0:
-		return []
+func _layout_fields() -> void:
+	if fields.size() == 0:
+		return
 	
 	# Get screen size
 	var screen_size = get_viewport().get_visible_rect().size
 	
 	# Calculate total width needed for all fields
-	var total_plants_width = 0.0
-	var plant_width:float = Plant.WIDTH
-	total_plants_width = number_of_fields * plant_width
+	var total_fields_width = 0.0
+	var field_width:float = fields[0]._gui_field_button.size.x
+	for field:Field in fields:
+		total_fields_width += field_width
 	
 	# Calculate spacing between fields
 	var available_width = screen_size.x - MARGIN * 2  # Leave 20px margin on each side
 	var spacing = 0.0
 	
-	if number_of_fields > 1:
-		var total_spacing_needed = available_width - total_plants_width
-		spacing = min(total_spacing_needed / (number_of_fields - 1), MAX_DISTANCE_BETWEEN_FIELDS)
+	if fields.size() > 1:
+		var total_spacing_needed = available_width - total_fields_width
+		spacing = min(total_spacing_needed / (fields.size() - 1), MAX_DISTANCE_BETWEEN_FIELDS)
 	
 	# Position fields horizontally
 #	
 	# Calculate starting x position to center align fields
-	var total_width = total_plants_width + (spacing * (number_of_fields - 1))
-	var start_x = - total_width / 2 + plant_width/2
+	var total_width = total_fields_width + (spacing * (fields.size() - 1))
+	var start_x = - total_width / 2 + field_width/2
 	
 	var current_x = start_x
-	for i in number_of_fields:
-		var plant_position:Vector2 = Vector2(current_x, 0)
-		_plant_positions.append(plant_position)
-		current_x += plant_width + spacing
-	return _plant_positions
+	for field in fields:
+		field.position.x = current_x
+		field.position.y = 0
+		current_x += field_width + spacing
 
 func _get_mouse_plant() -> Plant:
 	return _weak_mouse_plant.get_ref()
 
-func _on_plant_hovered(hovered:bool, index:int) -> void:
+func _on_field_hovered(hovered:bool, index:int) -> void:
+	if index >= plants.size():
+		return
 	if hovered:
 		_weak_mouse_plant = weakref(plants[index])
 		mouse_plant_updated.emit(_weak_mouse_plant.get_ref())
 	else:
 		_weak_mouse_plant = weakref(null)
 		mouse_plant_updated.emit(null)
-	plant_hovered.emit(hovered, index)
+	field_hovered.emit(hovered, index)

@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=4 uid="uid://dvx20utoq0vco"]
+
+[ext_resource type="Script" uid="uid://jdivqbd2ly4w" path="res://scenes/main_game/combat/world/background.gd" id="1_nrtw4"]
+[ext_resource type="TileSet" uid="uid://dcr3n4u3dmdbd" path="res://scenes/main_game/combat/world/background_tileset.tres" id="2_pqrda"]
+
+[node name="Background" type="Node2D"]
+script = ExtResource("1_nrtw4")
+
+[node name="Background" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAABAP//AAADAAAAAAAEAP//AAADAAAAAAAHAP//AAADAAAAAAAKAP//AAADAAAAAAD+////AAADAAAAAAD7////AAADAAAAAAD4////AAADAAAAAAD1////AAADAAAAAAA=")
+tile_set = ExtResource("2_pqrda")
+
+[node name="FieldsContainer" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -16)
+
+[node name="Water" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD+/wIAAAAAAAUAAAD4/wIAAAAAAAUAAAD1/wIAAAAAAAUAAAABAAIAAAAAAAUAAAAEAAIAAAAAAAUAAAAHAAIAAAAAAAUAAAAKAAIAAAAAAAUAAAD7/wIAAAAAAAUAAAA=")
+tile_set = ExtResource("2_pqrda")

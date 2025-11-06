@@ -38,8 +38,8 @@ func start(card_pool:Array[ToolData], energy_cap:int, contract:ContractData) -> 
 
 	session_summary = SessionSummary.new(contract)
 
-	field_container.plant_hovered.connect(_on_plant_hovered)
-	field_container.plant_pressed.connect(_on_plant_pressed)
+	field_container.field_hovered.connect(_on_field_hovered)
+	field_container.field_pressed.connect(_on_field_pressed)
 	field_container.plant_harvest_started.connect(_on_plant_harvest_started)
 	field_container.plant_harvest_completed.connect(_on_plant_harvest_completed)
 	field_container.plant_action_application_completed.connect(_on_plant_action_application_completed)
@@ -182,6 +182,7 @@ func _clear_tool_selection() -> void:
 func _plant_new_seeds(number_of_plants:int) -> void:
 	if plant_seed_manager.is_all_plants_drawn():
 		return
+	field_container.show_next_fields(number_of_plants)
 	await plant_seed_manager.draw_plants(number_of_plants, gui.gui_plant_seed_animation_container)
 
 func _handle_select_tool(tool_data:ToolData) -> void:
@@ -189,9 +190,9 @@ func _handle_select_tool(tool_data:ToolData) -> void:
 	tool_manager.select_tool(tool_data)
 
 func _harvest(plant_index:int) -> void:
-	var plant:Plant = field_container.get_plant(plant_index)
-	if plant.can_harvest():
-		plant.harvest(self)
+	var field:Field = field_container.get_field(plant_index)
+	if field.can_harvest():
+		field.harvest(self)
 	
 func _handle_card_use(plant_index:int) -> void:
 	tool_manager.apply_tool(self, field_container.plants, plant_index)
@@ -226,7 +227,7 @@ func _on_card_use_button_pressed(tool_data:ToolData) -> void:
 func _on_end_turn_button_pressed() -> void:
 	_end_day()
 
-func _on_plant_hovered(hovered:bool, index:int) -> void:
+func _on_field_hovered(hovered:bool, index:int) -> void:
 	if tool_manager.selected_tool && tool_manager.selected_tool.need_select_field:
 		if hovered:
 			if tool_manager.selected_tool.all_fields:
@@ -238,7 +239,7 @@ func _on_plant_hovered(hovered:bool, index:int) -> void:
 	else:
 		field_container.toggle_tooltip_for_plant(index, hovered)
 
-func _on_plant_pressed(index:int) -> void:
+func _on_field_pressed(index:int) -> void:
 	if !tool_manager.selected_tool || !tool_manager.selected_tool.need_select_field:
 		return
 	_handle_card_use(index)

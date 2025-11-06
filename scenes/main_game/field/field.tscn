@@ -1,0 +1,148 @@
+[gd_scene load_steps=18 format=3 uid="uid://cyojxmvm4jvfn"]
+
+[ext_resource type="Script" uid="uid://2yt706pccsrm" path="res://scenes/main_game/field/field.gd" id="1_e1j0g"]
+[ext_resource type="Shader" uid="uid://bdhxjruma11hn" path="res://scenes/main_game/field/field.gdshader" id="1_foq2q"]
+[ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/field.png" id="1_wixvq"]
+[ext_resource type="Script" uid="uid://c42mdjgajw0gi" path="res://scenes/GUI/controls/buttons/gui_basic_button.gd" id="4_37mqm"]
+[ext_resource type="AudioStream" uid="uid://ctu3v3nqwt6d2" path="res://resources/sounds/SFX/field/field_hover.wav" id="5_vf3h2"]
+[ext_resource type="AudioStream" uid="uid://b00jsu3na1sj0" path="res://resources/sounds/SFX/field/field_click.wav" id="6_a40ln"]
+[ext_resource type="PackedScene" uid="uid://673wlt1ldg8q" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.tscn" id="7_2tk5f"]
+[ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/GUI/icons/resources/icon_light.png" id="8_2xfym"]
+[ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/icon_water.png" id="9_k8gd3"]
+[ext_resource type="PackedScene" uid="uid://e0jhp4mhrm81" path="res://scenes/main_game/field/gui_field_status_container.tscn" id="10_mv8sf"]
+[ext_resource type="Texture2D" uid="uid://dnma4y5ajsv2w" path="res://resources/sprites/GUI/icons/other_icons/check_icon_plant_complete.png" id="11_lhqi3"]
+[ext_resource type="PackedScene" uid="uid://jaeock3j73t2" path="res://scenes/main_game/field/gui_plant_ability_icon_container.tscn" id="12_6laml"]
+[ext_resource type="PackedScene" uid="uid://b0mxsb1ypllyg" path="res://scenes/main_game/field/gui_field_selection_arrow.tscn" id="13_tcec4"]
+[ext_resource type="AudioStream" uid="uid://d1akur2jywp1n" path="res://resources/sounds/SFX/plants/plant_down.wav" id="15_gsguy"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wixvq"]
+resource_local_to_scene = true
+shader = ExtResource("1_foq2q")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wixvq"]
+atlas = ExtResource("1_wixvq")
+region = Rect2(0, 0, 36, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_foq2q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wixvq")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[node name="Field" type="Node2D"]
+script = ExtResource("1_e1j0g")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+material = SubResource("ShaderMaterial_wixvq")
+position = Vector2(0, 3)
+sprite_frames = SubResource("SpriteFrames_foq2q")
+animation = &"idle"
+metadata/_aseprite_wizard_interface_config_ = {
+"layer_section": false,
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/objects/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/objects/field.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "32a50512dcf59ac47be8721f9d4ca8ce"
+
+[node name="GUIFieldButton" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+offset_left = -16.0
+offset_top = -26.0
+offset_right = 16.0
+offset_bottom = 13.0
+script = ExtResource("4_37mqm")
+hover_sound = ExtResource("5_vf3h2")
+click_sound = ExtResource("6_a40ln")
+metadata/_custom_type_script = "uid://c42mdjgajw0gi"
+
+[node name="ProgressBars" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+z_index = 1
+offset_left = -18.0
+offset_top = 14.0
+offset_right = 17.0
+offset_bottom = 28.0
+theme_override_constants/separation = 0
+
+[node name="LightBar" parent="ProgressBars" instance=ExtResource("7_2tk5f")]
+unique_name_in_owner = true
+z_index = 1
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+max_value = 2
+segment_color = Color(1, 0.784314, 0.145098, 1)
+icon_texture = ExtResource("8_2xfym")
+icon_size = Vector2(6, 6)
+
+[node name="WaterBar" parent="ProgressBars" instance=ExtResource("7_2tk5f")]
+unique_name_in_owner = true
+z_index = 1
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+max_value = 5
+icon_texture = ExtResource("9_k8gd3")
+icon_size = Vector2(6, 6)
+
+[node name="GUIFieldStatusContainer" parent="." instance=ExtResource("10_mv8sf")]
+unique_name_in_owner = true
+z_index = 1
+offset_left = 19.0
+offset_top = 11.0
+offset_right = 19.0
+offset_bottom = 11.0
+
+[node name="CompleteCheck" type="TextureRect" parent="."]
+unique_name_in_owner = true
+z_index = 1
+offset_left = -4.0
+offset_top = 15.0
+offset_right = 4.0
+offset_bottom = 23.0
+texture = ExtResource("11_lhqi3")
+stretch_mode = 5
+
+[node name="GUIPlantAbilityIconContainer" parent="." instance=ExtResource("12_6laml")]
+unique_name_in_owner = true
+z_index = 1
+anchors_preset = 2
+anchor_left = 0.0
+anchor_right = 0.0
+offset_left = -22.0
+offset_top = 11.0
+offset_right = -22.0
+offset_bottom = 11.0
+grow_horizontal = 1
+
+[node name="GUIFieldSelectionArrow" parent="." instance=ExtResource("13_tcec4")]
+unique_name_in_owner = true
+z_index = 1
+offset_top = -35.0
+offset_bottom = -35.0
+
+[node name="PlantDownSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("15_gsguy")
+bus = &"SFX"
+
+[node name="PlantContainer" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, 1)
