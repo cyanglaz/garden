@@ -179,6 +179,8 @@ func _clear_tool_selection() -> void:
 	field_container.clear_tool_indicators()
 
 func _plant_new_seeds(number_of_plants:int) -> void:
+	if plant_seed_manager.is_all_plants_drawn():
+		return
 	var field_indices:Array[int] = field_container.get_next_empty_field_indices(number_of_plants)
 	await plant_seed_manager.draw_plants(field_indices, gui.gui_plant_seed_animation_container)
 

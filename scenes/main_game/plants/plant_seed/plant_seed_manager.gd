@@ -15,6 +15,9 @@ func draw_plants(field_indices:Array, gui_plant_seed_animation_container:GUIPlan
 	var draw_results:Array = []
 	for i in range(_current_index, draw_slice_end):
 		draw_results.append(i)
+	_current_index += count
 	var planting_fields := field_indices.slice(0, draw_results.size())
 	await gui_plant_seed_animation_container.animate_draw(plant_datas, draw_results, planting_fields)
-	_current_index += count
+
+func is_all_plants_drawn() -> bool:
+	return _current_index >= plant_datas.size()
