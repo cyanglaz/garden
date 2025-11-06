@@ -289,6 +289,7 @@ func _on_plant_harvest_started() -> void:
 	gui.toggle_all_ui(false)
 
 func _on_plant_harvest_completed() -> void:
+	_number_of_plants -= 1
 	if _met_win_condition():
 		await _win()
 	else:
