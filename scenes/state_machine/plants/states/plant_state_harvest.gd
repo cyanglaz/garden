@@ -5,7 +5,6 @@ func enter() -> void:
 	super.enter()
 	var combat_main:CombatMain = params.get("combat_main")
 	plant.harvest_started.emit()
-	plant.hide_progress_bars()
 	await _handle_ability(combat_main)
 	_play_harvest_animation()
 	plant.harvest_completed.emit()

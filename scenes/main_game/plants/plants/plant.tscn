@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://5hl240rod12d"]
+[gd_scene load_steps=20 format=3 uid="uid://5hl240rod12d"]
 
 [ext_resource type="Script" uid="uid://c3p4a5hat4001" path="res://scenes/main_game/plants/plants/plant.gd" id="1_k38v5"]
 [ext_resource type="PackedScene" uid="uid://c4uyy86onbdnu" path="res://scenes/state_machine/plants/plant_state_machine.tscn" id="2_o3cyj"]
@@ -16,6 +16,7 @@
 [ext_resource type="AudioStream" uid="uid://bs0jg061p4c2d" path="res://resources/sounds/SFX/field/field_buff.wav" id="14_gu4ic"]
 [ext_resource type="AudioStream" uid="uid://d1akur2jywp1n" path="res://resources/sounds/SFX/plants/plant_down.wav" id="15_odvlv"]
 [ext_resource type="AudioStream" uid="uid://t10sv74gr8qu" path="res://resources/sounds/SFX/other/points/points_collected.wav" id="16_txblc"]
+[ext_resource type="Texture2D" uid="uid://dnma4y5ajsv2w" path="res://resources/sprites/GUI/icons/other_icons/check_icon_plant_complete.png" id="17_odvlv"]
 
 [sub_resource type="Shader" id="Shader_odvlv"]
 resource_local_to_scene = true
@@ -110,6 +111,15 @@ icon_size = Vector2(6, 6)
 unique_name_in_owner = true
 offset_left = 22.0
 offset_right = 22.0
+
+[node name="CompleteCheck" type="TextureRect" parent="."]
+unique_name_in_owner = true
+offset_left = -4.0
+offset_top = 4.0
+offset_right = 4.0
+offset_bottom = 12.0
+texture = ExtResource("17_odvlv")
+stretch_mode = 5
 
 [node name="GUIPlantAbilityIconContainer" parent="." instance=ExtResource("12_h2few")]
 unique_name_in_owner = true

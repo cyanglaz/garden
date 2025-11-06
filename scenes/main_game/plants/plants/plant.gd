@@ -36,6 +36,7 @@ signal plant_pressed()
 @onready var _light_bar: GUISegmentedProgressBar = %LightBar
 @onready var _water_bar: GUISegmentedProgressBar = %WaterBar
 @onready var _gui_plant_button: GUIBasicButton = %GUIPlantButton
+@onready var _complete_check: TextureRect = %CompleteCheck
 
 @onready var _buff_sound: AudioStreamPlayer2D = %BuffSound
 @onready var _plant_down_sound: AudioStreamPlayer2D = %PlantDownSound
@@ -53,6 +54,7 @@ func _ready() -> void:
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
 	_light_bar.hide()
 	_water_bar.hide()
+	_complete_check.hide()
 	_gui_field_status_container.bind_with_field_status_manager(status_manager)
 	status_manager.request_hook_message_popup.connect(_on_request_hook_message_popup)
 	_gui_field_selection_arrow.indicator_state = GUIFieldSelectionArrow.IndicatorState.HIDE
@@ -75,6 +77,12 @@ func can_harvest() -> bool:
 	return is_grown()
 
 func harvest(combat_main:CombatMain) -> void:
+	_progress_bars.hide()
+	_gui_plant_button.hide()
+	_gui_plant_ability_icon_container.hide()
+	_gui_field_status_container.hide()
+	_gui_field_selection_arrow.hide()
+	_complete_check.show()
 	fsm.push("PlantStateHarvest", {"combat_main": combat_main})
 
 func trigger_ability(ability_type:AbilityType, combat_main:CombatMain) -> void:
@@ -148,9 +156,6 @@ func get_preview_icon_global_position(preview_icon:Control) -> Vector2:
 
 func is_grown() -> bool:
 	return light.is_full && water.is_full
-
-func hide_progress_bars() -> void:
-	_progress_bars.hide()
 
 #region private methods
 

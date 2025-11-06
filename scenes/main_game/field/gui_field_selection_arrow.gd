@@ -16,14 +16,14 @@ func _set_indicator_state(value:IndicatorState) -> void:
 	indicator_state = value
 	match value:
 		IndicatorState.HIDE:
-			visible = false
+			arrow.visible = false
 		IndicatorState.READY:
-			visible = true
+			arrow.visible = true
 			if !animation_player.is_playing():
 				animation_player.play("active")
 			(arrow.texture as AtlasTexture).region.position = Vector2(16, 0)
 		IndicatorState.CURRENT:
-			visible = true
+			arrow.visible = true
 			if !animation_player.is_playing():
 				animation_player.play("active")
 			(arrow.texture as AtlasTexture).region.position = Vector2(0, 0)
