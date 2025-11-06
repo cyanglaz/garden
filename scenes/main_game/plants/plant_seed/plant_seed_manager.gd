@@ -18,7 +18,3 @@ func draw_plants(field_indices:Array, gui_plant_seed_animation_container:GUIPlan
 	var planting_fields := field_indices.slice(0, draw_results.size())
 	await gui_plant_seed_animation_container.animate_draw(plant_datas, draw_results, planting_fields)
 	_current_index += count
-
-func finish_plants(field_indices:Array, harvestable_plant_datas:Array, gui_plant_seed_animation_container:GUIPlantSeedAnimationContainer) -> void:
-	var harvestable_card_indices:Array = harvestable_plant_datas.map(func(plant_data:PlantData): return plant_datas.find(plant_data))
-	await gui_plant_seed_animation_container.animate_finish(field_indices, harvestable_plant_datas, harvestable_card_indices)

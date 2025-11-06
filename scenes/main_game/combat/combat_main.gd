@@ -286,12 +286,11 @@ func _on_plant_action_application_completed(index:int) -> void:
 func _on_plant_harvest_started() -> void:
 	gui.toggle_all_ui(false)
 
-func _on_plant_harvest_completed(index:int, plant_data:PlantData) -> void:
-	await plant_seed_manager.finish_plants([index], [plant_data], gui.gui_plant_seed_animation_container)
+func _on_plant_harvest_completed() -> void:
 	if _met_win_condition():
 		await _win()
 	else:
-		await plant_seed_manager.draw_plants([index], gui.gui_plant_seed_animation_container)
+		await _plant_new_seeds(1)
 		energy_tracker.restore(boost)
 		await draw_cards(boost)
 		boost += 1

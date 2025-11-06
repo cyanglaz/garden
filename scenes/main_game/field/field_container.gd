@@ -5,7 +5,7 @@ const PLANT_SCENE_PATH_PREFIX := "res://scenes/main_game/plants/plants/plant_"
 
 signal mouse_plant_updated(plant:Plant)
 signal plant_harvest_started()
-signal plant_harvest_completed(index:int, plant_data:PlantData)
+signal plant_harvest_completed()
 signal plant_hovered(hovered:bool, index:int)
 signal plant_pressed(index:int)
 signal plant_action_application_completed(index:int)
@@ -39,7 +39,7 @@ func plant_seed(plant_data:PlantData, combat_main:CombatMain) -> void:
 	plant.plant_pressed.connect(func(): plant_pressed.emit(plant_index))
 	plant.plant_hovered.connect(_on_plant_hovered.bind(plant_index))
 	plant.harvest_started.connect(func(): plant_harvest_started.emit())
-	plant.harvest_completed.connect(func(): plant_harvest_completed.emit(plant_index, plant_data))
+	plant.harvest_completed.connect(func(): plant_harvest_completed.emit())
 	plant.action_application_completed.connect(func(): plant_action_application_completed.emit(plant_index))
 	plants.append(plant)
 	await plant.plant_down(combat_main)

@@ -32,6 +32,7 @@ signal plant_pressed()
 @onready var _gui_plant_ability_icon_container: GUIPlantAbilityIconContainer = %GUIPlantAbilityIconContainer
 @onready var _gui_field_status_container: GUIFieldStatusContainer = %GUIFieldStatusContainer
 @onready var _gui_field_selection_arrow: GUIFieldSelectionArrow = %GUIFieldSelectionArrow
+@onready var _progress_bars: VBoxContainer = %ProgressBars
 @onready var _light_bar: GUISegmentedProgressBar = %LightBar
 @onready var _water_bar: GUISegmentedProgressBar = %WaterBar
 @onready var _gui_plant_button: GUIBasicButton = %GUIPlantButton
@@ -147,6 +148,9 @@ func get_preview_icon_global_position(preview_icon:Control) -> Vector2:
 
 func is_grown() -> bool:
 	return light.is_full && water.is_full
+
+func hide_progress_bars() -> void:
+	_progress_bars.hide()
 
 #region private methods
 
