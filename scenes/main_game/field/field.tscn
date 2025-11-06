@@ -63,6 +63,10 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "32a50512dcf59ac47be8721f9d4ca8ce"
 
+[node name="PlantContainer" type="Node2D" parent="AnimatedSprite2D"]
+unique_name_in_owner = true
+position = Vector2(0, -2)
+
 [node name="GUIFieldButton" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 offset_left = -16.0
@@ -142,7 +146,3 @@ offset_bottom = -35.0
 unique_name_in_owner = true
 stream = ExtResource("15_gsguy")
 bus = &"SFX"
-
-[node name="PlantContainer" type="Node2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(0, 1)

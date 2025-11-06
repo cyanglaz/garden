@@ -4,7 +4,7 @@ extends Node2D
 const PLANT_SCENE_PATH_PREFIX:String = "res://scenes/main_game/plants/plants/plant_"
 
 const WIDTH := 32
-
+const DIP_HEIGHT := 2
 
 signal field_pressed()
 signal field_hovered(hovered:bool)
@@ -111,4 +111,8 @@ func _on_gui_plant_button_mouse_exited() -> void:
 	field_hovered.emit(false)
 
 func _on_plant_button_pressed() -> void:
+	var tween := Util.create_scaled_tween(self)
+	var original_y := animated_sprite_2d.position.y
+	tween.tween_property(animated_sprite_2d, "position:y", original_y + DIP_HEIGHT, 0.1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(animated_sprite_2d, "position:y", original_y, 0.1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	field_pressed.emit()
