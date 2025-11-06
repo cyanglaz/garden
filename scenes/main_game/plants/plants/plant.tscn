@@ -85,9 +85,9 @@ metadata/_custom_type_script = "uid://c42mdjgajw0gi"
 [node name="ProgressBars" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
 offset_left = -18.0
-offset_top = -42.0
+offset_top = 4.0
 offset_right = 17.0
-offset_bottom = -28.0
+offset_bottom = 18.0
 theme_override_constants/separation = 0
 
 [node name="LightBar" parent="ProgressBars" instance=ExtResource("8_iycex")]
