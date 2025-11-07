@@ -6,7 +6,7 @@
 script = ExtResource("1_4ml5e")
 id = "repel"
 display_name = "Repel"
-description = "At the start of each turn, reduce {value} {field_status:pest} from adjacent lands.."
+description = "At the start of each turn, reduce {value} {field_status:pest} from adjacent lands."
 data = {
 "value": "1"
 }

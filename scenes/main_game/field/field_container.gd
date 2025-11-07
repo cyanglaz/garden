@@ -23,6 +23,7 @@ var _active_field_index := 0
 var _weak_mouse_plant:WeakRef = weakref(null)
 
 func update_with_number_of_fields(number_of_fields:int) -> void:
+	var current_field:Field = null
 	for i in number_of_fields:
 		var field:Field = FIELD_SCENE.instantiate()
 		field.field_hovered.connect(_on_field_hovered.bind(i))
@@ -34,6 +35,10 @@ func update_with_number_of_fields(number_of_fields:int) -> void:
 		_container.add_child(field)
 		field.hide()
 		fields.append(field)
+		if current_field:
+			field.left_field = current_field
+			current_field.right_field = field
+		current_field = field
 	_layout_fields.call_deferred()
 
 func show_next_fields(number_of_fields:int) -> void:
@@ -41,11 +46,11 @@ func show_next_fields(number_of_fields:int) -> void:
 		fields[i].show()
 		_active_field_index += 1
 
-func plant_seed(plant_data:PlantData, combat_main:CombatMain) -> void:
+func plant_seed(plant_data:PlantData) -> void:
 	assert(plants.size() < fields.size(), "Plant index out of bounds")
 	var plant_index := plants.size()
 	var target_field:Field = fields[plant_index]
-	await target_field.plant_seed(plant_data, combat_main)
+	target_field.plant_seed(plant_data)
 	plants.append(target_field.plant)
 
 func trigger_end_turn_hooks(combat_main:CombatMain) -> void:

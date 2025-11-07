@@ -27,7 +27,11 @@ signal new_plant_planted()
 
 var plant:Plant
 var index:int = -1
+var left_field:Field: get = _get_left_field, set = _set_left_field
+var right_field:Field: get = _get_right_field, set = _set_right_field
 var _tooltip_id:String = ""
+var _weak_left_field:WeakRef = weakref(null)
+var _weak_right_field:WeakRef = weakref(null)
 
 func _ready() -> void:
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
@@ -40,7 +44,7 @@ func _ready() -> void:
 	_gui_field_button.mouse_entered.connect(_on_gui_plant_button_mouse_entered)
 	_gui_field_button.mouse_exited.connect(_on_gui_plant_button_mouse_exited)
 
-func plant_seed(plant_data:PlantData, combat_main:CombatMain) -> void:
+func plant_seed(plant_data:PlantData) -> void:
 	assert(plant == null, "Plant already planted")
 	_plant_down_sound.play()
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
@@ -48,6 +52,7 @@ func plant_seed(plant_data:PlantData, combat_main:CombatMain) -> void:
 	plant = scene.instantiate()
 	_plant_container.add_child(plant)
 	plant.data = plant_data
+	plant.field = self
 	_progress_bars.show()
 	_light_bar.bind_with_resource_point(plant.light)
 	_water_bar.bind_with_resource_point(plant.water)
@@ -111,3 +116,21 @@ func _on_gui_plant_button_mouse_exited() -> void:
 func _on_plant_button_pressed() -> void:
 	_animation_player.play("dip")
 	field_pressed.emit()
+
+#endregion
+
+#region setter/getter
+
+func _get_left_field() -> Field:
+	return _weak_left_field.get_ref()
+
+func _get_right_field() -> Field:
+	return _weak_right_field.get_ref()
+
+func _set_left_field(field:Field) -> void:
+	_weak_left_field = weakref(field)
+
+func _set_right_field(field:Field) -> void:
+	_weak_right_field = weakref(field)
+
+#endregion

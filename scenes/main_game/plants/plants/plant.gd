@@ -26,6 +26,8 @@ signal action_application_completed()
 var light:ResourcePoint = ResourcePoint.new()
 var water:ResourcePoint = ResourcePoint.new()
 var status_manager:FieldStatusManager = FieldStatusManager.new()
+var field:Field: get = _get_field, set = _set_field
+var _weak_field:WeakRef = weakref(null)
 
 var data:PlantData:set = _set_data
 
@@ -71,7 +73,7 @@ func apply_actions(actions:Array[ActionData]) -> void:
 				pass
 	action_application_completed.emit()
 
-func apply_field_status(field_status_id:String, stack:InternalMode) -> void:
+func apply_field_status(field_status_id:String, stack:int) -> void:
 	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(field_status_id, true)
 	if field_status_data.stackable:
 		var text := str(stack)
@@ -135,16 +137,10 @@ func _apply_field_status_action(action:ActionData) -> void:
 	var current_status := status_manager.get_status(resource_id)
 	if action.operator_type == ActionData.OperatorType.EQUAL_TO && current_status:
 		true_value = true_value - current_status.stack
-	await _show_popup_action_indicator(action, true_value)
+	await apply_field_status(resource_id, true_value)
 
 func _get_action_true_value(action_data:ActionData) -> int:
 	return action_data.get_calculated_value(self)
-
-func _set_data(value:PlantData) -> void:
-	data = value
-	light.setup(0, data.light)
-	water.setup(0, data.water)
-	plant_ability_container.setup_with_plant_data(data)
 
 #region events
 func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
@@ -159,5 +155,21 @@ func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
 	var popup_location:Vector2 = Util.get_node_canvas_position(self) + Vector2.RIGHT * 8
 	Events.request_display_popup_things.emit(popup, 10, 1, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, popup_location)
 	await Util.create_scaled_timer(POPUP_SHOW_TIME).timeout
+
+#endregion
+
+#region setter/getter
+
+func _set_data(value:PlantData) -> void:
+	data = value
+	light.setup(0, data.light)
+	water.setup(0, data.water)
+	plant_ability_container.setup_with_plant_data(data)
+
+func _get_field() -> Field:
+	return _weak_field.get_ref()
+
+func _set_field(val:Field) -> void:
+	_weak_field = weakref(val)
 
 #endregion

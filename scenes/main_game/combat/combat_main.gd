@@ -304,7 +304,7 @@ func _on_weathers_updated() -> void:
 	gui.update_weathers(weather_manager)
 
 func _on_plant_seed_drawn_animation_completed(plant_data:PlantData) -> void:
-	await field_container.plant_seed(plant_data, self)
+	field_container.plant_seed(plant_data)
 
 func _on_mouse_plant_updated(plant:Plant) -> void:
 	gui.update_mouse_plant(plant)

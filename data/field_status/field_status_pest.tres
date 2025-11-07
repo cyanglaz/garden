@@ -6,7 +6,6 @@
 script = ExtResource("1_hiam4")
 popup_message = "Vitality Reduced"
 stackable = true
-remove_on_trigger = true
 id = "pest"
 display_name = "Pest"
 description = "At the end of turn, reduce {resource:vitality} by {value} per stack."
