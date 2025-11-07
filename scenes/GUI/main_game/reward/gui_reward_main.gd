@@ -11,7 +11,7 @@ signal reward_finished(tool_data:ToolData, from_global_position:Vector2)
 
 @onready var title_label: Label = %TitleLabel
 @onready var gui_reward_gold: GUIRewardGold = %GUIRewardGold
-@onready var gui_reward_rating: GUIRewardRating = %GUIRewardRating
+@onready var gui_reward_hp: GUIRewardHP = %GUIRewardHP
 @onready var reward_showing_audio: AudioStreamPlayer2D = %RewardShowingAudio
 @onready var gui_booster_pack_button: GUIBoosterPackButton = %GUIBoosterPackButton
 @onready var margin_container: MarginContainer = %MarginContainer
@@ -29,7 +29,7 @@ func show_with_contract_data(contract_data:ContractData) -> void:
 	margin_container.show()
 	title_label.show()
 	gui_reward_gold.hide()
-	gui_reward_rating.hide()
+	gui_reward_hp.hide()
 	gui_booster_pack_button.hide()
 	_update_with_contract_data(contract_data)
 	show()
@@ -37,8 +37,8 @@ func show_with_contract_data(contract_data:ContractData) -> void:
 
 func _update_with_contract_data(contract_data:ContractData) -> void:
 	gui_reward_gold.update_with_value(contract_data.reward_gold)
-	if contract_data.reward_rating > 0:
-		gui_reward_rating.update_with_value(contract_data.reward_rating)
+	if contract_data.reward_hp > 0:
+		gui_reward_hp.update_with_value(contract_data.reward_hp)
 	gui_booster_pack_button.update_with_booster_pack_type(contract_data.reward_booster_pack_type)
 
 func _collect_rewards(contract_data:ContractData) -> void:
@@ -47,12 +47,12 @@ func _collect_rewards(contract_data:ContractData) -> void:
 	gui_reward_gold.show()
 	await Util.create_scaled_timer(PAUSE_BEFORE_REWARD_ANIMATION).timeout
 	Events.request_update_gold.emit(contract_data.reward_gold, true)
-	if contract_data.reward_rating > 0:
+	if contract_data.reward_hp > 0:
 		await Util.create_scaled_timer(PAUSE_TIME_BETWEEN_REWARDS).timeout
 		_play_next_reward_sound()
-		gui_reward_rating.show()
+		gui_reward_hp.show()
 		await Util.create_scaled_timer(PAUSE_BEFORE_REWARD_ANIMATION).timeout
-		Events.request_rating_update.emit(contract_data.reward_rating)
+		Events.request_hp_update.emit(contract_data.reward_hp)
 	await Util.create_scaled_timer(PAUSE_TIME_BETWEEN_REWARDS).timeout
 	_play_next_reward_sound()
 	_booster_pack_type = contract_data.reward_booster_pack_type

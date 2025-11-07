@@ -7,8 +7,6 @@ const TOTAL_ELITE_CONTRACTS_TO_GENERATE_PER_CHAPTER := 4
 const TOTAL_BOSS_CONTRACTS_TO_GENERATE_PER_CHAPTER := 1
 const ELITE_CONTRACT_CHANCE := 0.5
 const REWARD_VALUE_CHAPTER_MULTIPLIER := 3
-const RATING_REWARD_CHANCE := 0.1
-const RATING_REWARD_RATE := 0.5
 
 const BOSS_LEVEL := 3
 
@@ -34,7 +32,7 @@ const BASE_REWARD_VALUE_FOR_EACH_PLANT_DIFFICULTY_TYPE := {
 	2: 6,
 }
 
-const BOSS_RATING_REWARD := 50
+const BOSS_HP_REWARD := 50
 
 const BASE_BOOSTER_PACK_TYPE_FOR_TYPE := {
 	ContractData.ContractType.COMMON: ContractData.BoosterPackType.COMMON,
@@ -81,7 +79,7 @@ func _generate_contracts(chapter:int, contract_type:ContractData.ContractType, c
 			contract.boss_data = null
 			contract.plants = _roll_plants(chapter, contract_type, contracts)
 
-		# Gold and rating rewards
+		# Gold
 		_roll_reward_values(contract, chapter)
 
 		# Booster pack rewards
@@ -197,16 +195,9 @@ func _roll_reward_values(contract:ContractData, chapter:int) -> void:
 	for plant:PlantData in contract.plants:
 		reward_value += BASE_REWARD_VALUE_FOR_EACH_PLANT_DIFFICULTY_TYPE[plant.difficulty]
 	reward_value += chapter * REWARD_VALUE_CHAPTER_MULTIPLIER
-	var has_rating_reward = randf() < RATING_REWARD_CHANCE && contract.contract_type != ContractData.ContractType.BOSS
-	if has_rating_reward:
-		@warning_ignore("integer_division")
-		contract.reward_rating = ceili((reward_value/2) * RATING_REWARD_RATE)
-		@warning_ignore("integer_division")
-		contract.reward_gold = floori(reward_value/2)
-	else:
-		contract.reward_gold = reward_value
+	contract.reward_gold = reward_value
 	if contract.contract_type == ContractData.ContractType.BOSS:
-		contract.reward_rating += BOSS_RATING_REWARD
+		contract.reward_hp += BOSS_HP_REWARD
 
 func _log_contracts(chapter:int) -> void:
 	print("chapter: ", chapter)

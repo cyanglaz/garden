@@ -32,7 +32,7 @@ const PENALTY_INCREASE_DAYS := 3
 @export var plants:Array[PlantData]
 @export var penalty_rate:int
 @export var reward_gold:int
-@export var reward_rating:int
+@export var reward_hp:int
 @export var reward_booster_pack_type:BoosterPackType
 @export var boss_data:BossData
 
@@ -43,7 +43,7 @@ func copy(other:ThingData) -> void:
 	plants = other_contract.plants.duplicate()
 	penalty_rate = other_contract.penalty_rate
 	reward_gold = other_contract.reward_gold
-	reward_rating = other_contract.reward_rating
+	reward_hp = other_contract.reward_hp
 	reward_booster_pack_type = other_contract.reward_booster_pack_type
 	boss_data = other_contract.boss_data.get_duplicate()
 
@@ -63,7 +63,7 @@ func log() -> void:
 		print("plant: ", plant.id)
 	print("penalty_rate: ", penalty_rate)
 	print("reward_gold: ", reward_gold)
-	print("reward_rating: ", reward_rating)
+	print("reward_hp: ", reward_hp)
 	print("reward_booster_pack_type: ", BoosterPackType.keys()[reward_booster_pack_type])
 	print("==========================================================")
 

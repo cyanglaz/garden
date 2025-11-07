@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ciockqmeym3li" path="res://scenes/GUI/main_game/reward/gui_reward_main.gd" id="1_axy1y"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="1_xloug"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="2_pi043"]
-[ext_resource type="PackedScene" uid="uid://dxtmp0p8vtdn6" path="res://scenes/GUI/main_game/reward/gui_reward_rating.tscn" id="2_qkwju"]
+[ext_resource type="PackedScene" uid="uid://dxtmp0p8vtdn6" path="res://scenes/GUI/main_game/reward/gui_reward_hp.tscn" id="2_qkwju"]
 [ext_resource type="PackedScene" uid="uid://c00mbn24rioim" path="res://scenes/GUI/main_game/reward/gui_reward_gold.tscn" id="3_axy1y"]
 [ext_resource type="AudioStream" uid="uid://di7p6vsbc3bl0" path="res://resources/sounds/SFX/summary/reward_1.wav" id="5_fcj0v"]
 [ext_resource type="PackedScene" uid="uid://ctjggegiourgw" path="res://scenes/GUI/controls/buttons/gui_booster_pack_button.tscn" id="5_rqta2"]
@@ -47,10 +47,9 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="GUIRewardRating" parent="MainMarginContainer/MarginContainer/VBoxContainer/RewardsContainer" instance=ExtResource("2_qkwju")]
+[node name="GUIRewardHP" parent="MainMarginContainer/MarginContainer/VBoxContainer/RewardsContainer" instance=ExtResource("2_qkwju")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
 
 [node name="GUIBoosterPackButton" parent="MainMarginContainer/MarginContainer/VBoxContainer/RewardsContainer" instance=ExtResource("5_rqta2")]
 unique_name_in_owner = true

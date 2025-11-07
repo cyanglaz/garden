@@ -45,19 +45,19 @@ shader_parameter/outline_size = 0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_22f7b"]
 atlas = ExtResource("2_22f7b")
-region = Rect2(0, 0, 36, 36)
+region = Rect2(0, 0, 31, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4ey25"]
 atlas = ExtResource("2_22f7b")
-region = Rect2(36, 0, 36, 36)
+region = Rect2(31, 0, 31, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ehh0f"]
 atlas = ExtResource("2_22f7b")
-region = Rect2(0, 36, 36, 36)
+region = Rect2(0, 64, 31, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aph8v"]
 atlas = ExtResource("2_22f7b")
-region = Rect2(36, 36, 36, 36)
+region = Rect2(31, 64, 31, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_h06sa"]
 animations = [{
@@ -105,4 +105,4 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/plants/plant_daffodil.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "cd606f3c6c0ed5dde2ce81e0f6e7f237"
+metadata/_aseprite_wizard_source_file_hash_ = "fd1880e9c7f70fe3c494d6786639fdf5"

@@ -8,7 +8,7 @@ popup_message = "Water Reduced."
 stackable = true
 id = "fungus"
 display_name = "Fungus"
-description = "The effected field reduces {resource:water} by {value} at the end of the day."
+description = "The effected plant reduces {resource:water} by {value} at the end of turn."
 data = {
 &"value": "1"
 }

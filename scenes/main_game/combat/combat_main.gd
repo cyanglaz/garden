@@ -166,7 +166,7 @@ func _end_day() -> void:
 		# _win() is called by _harvest()
 		return
 	field_container.handle_turn_end()
-	Events.request_rating_update.emit( -_contract.get_penalty_rate(day_manager.day))
+	Events.request_hp_update.emit( -_contract.get_penalty_rate(day_manager.day))
 	_start_day()
 	
 func _discard_all_tools() -> void:

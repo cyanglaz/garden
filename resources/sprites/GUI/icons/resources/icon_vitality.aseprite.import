@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c1dvsdbrqmjtp"
+path="res://.godot/imported/icon_vitality.aseprite-1cb96420c1eb5e0a7259d1fee27d80e0.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_vitality.aseprite"
+dest_files=["res://.godot/imported/icon_vitality.aseprite-1cb96420c1eb5e0a7259d1fee27d80e0.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

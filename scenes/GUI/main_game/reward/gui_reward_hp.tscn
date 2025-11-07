@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxtmp0p8vtdn6"]
+
+[ext_resource type="Script" uid="uid://ts17cipkpn5n" path="res://scenes/GUI/main_game/reward/gui_reward_hp.gd" id="1_471f4"]
+[ext_resource type="Texture2D" uid="uid://bhqydxgtda0mu" path="res://resources/sprites/GUI/icons/resources/icon_vitality.png" id="2_e5ami"]
+
+[node name="GUIRewardHP" type="HBoxContainer"]
+offset_right = 10.0
+offset_bottom = 10.0
+theme_override_constants/separation = 0
+script = ExtResource("1_471f4")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_e5ami")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD"
+vertical_alignment = 1

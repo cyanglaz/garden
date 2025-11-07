@@ -1,12 +1,12 @@
 [gd_scene load_steps=6 format=3 uid="uid://ps5vjsn1nr2c"]
 
-[ext_resource type="Script" uid="uid://d2wx3xn5vkqcm" path="res://scenes/GUI/main_game/top_bar/gui_rating.gd" id="1_2kdio"]
-[ext_resource type="Texture2D" uid="uid://bhqydxgtda0mu" path="res://resources/sprites/GUI/icons/resources/icon_rating.png" id="1_3v54s"]
+[ext_resource type="Script" uid="uid://d2wx3xn5vkqcm" path="res://scenes/GUI/main_game/top_bar/gui_hp.gd" id="1_2kdio"]
+[ext_resource type="Texture2D" uid="uid://bhqydxgtda0mu" path="res://resources/sprites/GUI/icons/resources/icon_vitality.png" id="1_3v54s"]
 [ext_resource type="PackedScene" uid="uid://drfnshalrvcp5" path="res://scenes/GUI/utils/progress_bar/gui_bordered_progress_bar.tscn" id="2_t87nv"]
-[ext_resource type="AudioStream" uid="uid://bv5cmeun7grfy" path="res://resources/sounds/SFX/rating/rating_drop.wav" id="4_p4iye"]
-[ext_resource type="AudioStream" uid="uid://jn6jsousg3qy" path="res://resources/sounds/SFX/rating/rating_up.wav" id="5_6trgl"]
+[ext_resource type="AudioStream" uid="uid://bv5cmeun7grfy" path="res://resources/sounds/SFX/hp/hp_drop.wav" id="4_p4iye"]
+[ext_resource type="AudioStream" uid="uid://jn6jsousg3qy" path="res://resources/sounds/SFX/hp/hp_up.wav" id="5_6trgl"]
 
-[node name="GUIRating" type="HBoxContainer"]
+[node name="GUIHP" type="HBoxContainer"]
 offset_right = 44.0
 offset_bottom = 11.0
 theme_override_constants/separation = 1
@@ -23,7 +23,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(42, 7)
 layout_mode = 2
 size_flags_vertical = 4
-tint_progress = Color(1, 0.78431374, 0.14509805, 1)
+tint_progress = Color(0.9607843, 0.33333334, 0.3647059, 1)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="GUIBorderedProgressBar"]
 unique_name_in_owner = true

@@ -7,7 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://bs0jg061p4c2d" path="res://resources/sounds/SFX/field/field_buff.wav" id="14_gu4ic"]
 [ext_resource type="AudioStream" uid="uid://t10sv74gr8qu" path="res://resources/sounds/SFX/other/points/points_collected.wav" id="16_txblc"]
 
-[sub_resource type="Shader" id="Shader_odvlv"]
+[sub_resource type="Shader" id="Shader_ykj75"]
 resource_local_to_scene = true
 code = "shader_type canvas_item;
 
@@ -43,7 +43,7 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_txblc"]
 resource_local_to_scene = true
-shader = SubResource("Shader_odvlv")
+shader = SubResource("Shader_ykj75")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 

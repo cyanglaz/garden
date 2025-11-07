@@ -1,4 +1,4 @@
-class_name GUIRewardRating
+class_name GUIRewardHP
 extends HBoxContainer
 
 @onready var label: Label = %Label

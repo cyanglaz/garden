@@ -36,8 +36,6 @@ var data:PlantData:set = _set_data
 
 func _ready() -> void:
 	fsm.start()
-	if plant_sprite.sprite_frames:
-		plant_sprite.position.y = -plant_sprite.sprite_frames.get_frame_texture("idle", 0).get_height()/2.0
 	status_manager.request_hook_message_popup.connect(_on_request_hook_message_popup)
 
 func trigger_ability(ability_type:AbilityType, combat_main:CombatMain) -> void:

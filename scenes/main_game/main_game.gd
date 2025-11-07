@@ -28,14 +28,14 @@ var _current_scene:Node2D: get = _get_current_scene
 var chapter_manager:ChapterManager = ChapterManager.new()
 var contract_generator:ContractGenerator = ContractGenerator.new()
 var card_pool:Array[ToolData]
-var rating:ResourcePoint = ResourcePoint.new()
+var hp:ResourcePoint = ResourcePoint.new()
 var _gold:int = 0
 var _warning_manager:WarningManager = WarningManager.new(self)
 
 func _ready() -> void:
 	Singletons.main_game = self
 	
-	rating.setup(INITIAL_RATING_VALUE, INITIAL_RATING_MAX_VALUE)
+	hp.setup(INITIAL_RATING_VALUE, INITIAL_RATING_MAX_VALUE)
 
 	if test_tools.is_empty():
 		card_pool = player.initial_tools
@@ -44,7 +44,7 @@ func _ready() -> void:
 
 	#gui main signals
 	gui_main_game.update_player(player)
-	gui_main_game.bind_with_rating(rating)
+	gui_main_game.bind_with_hp(hp)
 	gui_main_game.bind_cards(card_pool)
 	
 	map_main.node_selected.connect(_on_map_node_selected)
@@ -56,7 +56,7 @@ func _ready() -> void:
 	_start_new_chapter()
 
 func _register_global_events() -> void:
-	Events.request_rating_update.connect(_on_request_rating_update)
+	Events.request_hp_update.connect(_on_request_hp_update)
 	Events.request_update_gold.connect(_on_request_update_gold)
 	Events.request_show_warning.connect(_on_request_show_warning)
 	Events.request_hide_warning.connect(_on_request_hide_warning)
@@ -169,10 +169,10 @@ func _on_chest_reward_skipped() -> void:
 
 #region global events
 
-func _on_request_rating_update(val:int) -> void:
-	rating.value += val
-	await gui_main_game.rating_update_finished
-	if rating.value == 0:
+func _on_request_hp_update(val:int) -> void:
+	hp.value += val
+	await gui_main_game.hp_update_finished
+	if hp.value == 0:
 		_game_over()
 
 func _on_request_update_gold(val:int, animated:bool) -> void:
