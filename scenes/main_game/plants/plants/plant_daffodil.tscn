@@ -69,7 +69,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_4ey25")
 }],
 "loop": true,
-"name": &"grown",
+"name": &"bloom",
 "speed": 3.0
 }, {
 "frames": [{
@@ -90,7 +90,7 @@ animations = [{
 texture_filter = 1
 material = SubResource("ShaderMaterial_txblc")
 sprite_frames = SubResource("SpriteFrames_h06sa")
-animation = &"grown"
+animation = &"bloom"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
 "pending_changes": {}
@@ -105,4 +105,4 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/plants/plant_daffodil.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "fd1880e9c7f70fe3c494d6786639fdf5"
+metadata/_aseprite_wizard_source_file_hash_ = "d1cf8b20279ab6929dde6c3c517cd14d"

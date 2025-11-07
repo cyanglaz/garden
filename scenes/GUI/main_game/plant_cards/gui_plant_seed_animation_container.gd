@@ -44,26 +44,6 @@ func animate_draw(plant_datas:Array[PlantData], draw_results:Array, target_field
 	for card in animating_cards:
 		card.queue_free()
 
-func animate_finish(field_indices:Array, harvestable_plant_datas:Array, harvestable_card_indices:Array) -> void:
-	var discarding_cards:Array[GUIPlantIcon] = []
-	var discard_tween:Tween = Util.create_scaled_tween(self)
-	discard_tween.set_parallel(true)
-	for i:int in field_indices.size():
-		var field_index:int = field_indices[i]
-		var card:GUIPlantIcon = ANIMATING_PLANT_SEED_SCENE.instantiate()
-		add_child(card)
-		var plant_data:PlantData = harvestable_plant_datas[i]
-		var plant_card_index:int = harvestable_card_indices[i]
-		card.update_with_plant_data(plant_data)
-		discarding_cards.append(card)
-		card.global_position = _field_container.get_preview_icon_global_position(card, field_index)
-		var target_position := _plant_deck_box.get_icon_position(plant_card_index)
-		discard_tween.tween_property(card, "global_position", target_position, Constants.PLANT_SEED_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY).set_delay(Constants.CARD_ANIMATION_DELAY * i).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	await discard_tween.finished
-	_plant_deck_box.set_mode(GUIPlantCard.Mode.FINISHED, harvestable_card_indices)
-	for discarding_card in discarding_cards:
-		discarding_card.queue_free()
-
 func _get_field_container() -> FieldContainer:
 	return _weak_field_container.get_ref()
 

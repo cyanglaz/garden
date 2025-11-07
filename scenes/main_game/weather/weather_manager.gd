@@ -68,7 +68,7 @@ func _apply_weather_action_to_next_plant(plants:Array[Plant], plant_index:int, c
 func _should_weather_be_applied(weather_data:WeatherData, plant:Plant) -> bool:
 	if weather_data.actions.is_empty():
 		return false
-	if plant.is_grown():
+	if plant.is_bloom():
 		return false
 	for action:ActionData in weather_data.actions:
 		return true

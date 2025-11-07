@@ -4,8 +4,8 @@ extends Node2D
 const FIELD_SCENE := preload("res://scenes/main_game/field/field.tscn")
 
 signal mouse_plant_updated(plant:Plant)
-signal plant_harvest_started()
-signal plant_harvest_completed()
+signal plant_bloom_started()
+signal plant_bloom_completed()
 signal field_hovered(hovered:bool, index:int)
 signal field_pressed(index:int)
 signal plant_action_application_completed(index:int)
@@ -19,6 +19,7 @@ const MARGIN := 36
 var plants:Array[Plant] = []
 var fields:Array[Field] = []
 var mouse_plant:Plant: get = _get_mouse_plant
+var _active_field_index := 0
 var _weak_mouse_plant:WeakRef = weakref(null)
 
 func update_with_number_of_fields(number_of_fields:int) -> void:
@@ -26,8 +27,8 @@ func update_with_number_of_fields(number_of_fields:int) -> void:
 		var field:Field = FIELD_SCENE.instantiate()
 		field.field_hovered.connect(_on_field_hovered.bind(i))
 		field.field_pressed.connect(func(): field_pressed.emit(i))
-		field.plant_harvest_started.connect(func(): plant_harvest_started.emit())
-		field.plant_harvest_completed.connect(func(): plant_harvest_completed.emit())
+		field.plant_bloom_started.connect(func(): plant_bloom_started.emit())
+		field.plant_bloom_completed.connect(func(): plant_bloom_completed.emit())
 		field.action_application_completed.connect(func(): plant_action_application_completed.emit(i))
 		field.index = i
 		_container.add_child(field)
@@ -36,8 +37,9 @@ func update_with_number_of_fields(number_of_fields:int) -> void:
 	_layout_fields.call_deferred()
 
 func show_next_fields(number_of_fields:int) -> void:
-	for i in range(plants.size(), plants.size() + number_of_fields):
+	for i in range(_active_field_index, _active_field_index + number_of_fields):
 		fields[i].show()
+		_active_field_index += 1
 
 func plant_seed(plant_data:PlantData, combat_main:CombatMain) -> void:
 	assert(plants.size() < fields.size(), "Plant index out of bounds")
@@ -46,13 +48,13 @@ func plant_seed(plant_data:PlantData, combat_main:CombatMain) -> void:
 	await target_field.plant_seed(plant_data, combat_main)
 	plants.append(target_field.plant)
 
-func trigger_end_day_field_status_hooks(combat_main:CombatMain) -> void:
+func trigger_end_turn_hooks(combat_main:CombatMain) -> void:
 	for plant:Plant in plants:
-		await plant.handle_end_day_hook(combat_main)
+		await plant.handle_end_turn_hook(combat_main)
 
-func trigger_end_day_plant_abilities(combat_main:CombatMain) -> void:
+func trigger_start_turn_hooks(combat_main:CombatMain) -> void:
 	for plant:Plant in plants:
-		await plant.trigger_ability(Plant.AbilityType.END_DAY, combat_main)
+		await plant.handle_start_turn_hook(combat_main)
 
 func trigger_tool_application_hook() -> void:
 	for plant:Plant in plants:

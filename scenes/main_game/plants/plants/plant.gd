@@ -7,8 +7,9 @@ const POPUP_LABEL_ICON_SCENE := preload("res://scenes/GUI/utils/popup_items/popu
 const POPUP_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label.tscn")
 
 enum AbilityType {
-	HARVEST,
-	END_DAY,
+	BLOOM,
+	END_TURN,
+	START_TURN,
 	LIGHT_GAIN,
 	WEATHER,
 	FIELD_STATUS_INCREASE,
@@ -17,9 +18,9 @@ enum AbilityType {
 }
 
 @warning_ignore("unused_signal")
-signal harvest_started()
+signal bloom_started()
 @warning_ignore("unused_signal")
-signal harvest_completed()
+signal bloom_completed()
 signal action_application_completed()
 
 @onready var plant_sprite: AnimatedSprite2D = %PlantSprite
@@ -50,8 +51,12 @@ func handle_tool_application_hook() -> void:
 func handle_tool_discard_hook(count:int) -> void:
 	await status_manager.handle_tool_discard_hook(self, count)
 
-func handle_end_day_hook(combat_main:CombatMain) -> void:
-	await status_manager.handle_end_day_hook(combat_main, self)
+func handle_start_turn_hook(combat_main:CombatMain) -> void:
+	await trigger_ability(Plant.AbilityType.START_TURN, combat_main)
+
+func handle_end_turn_hook(combat_main:CombatMain) -> void:
+	await status_manager.handle_end_turn_hook(combat_main, self)
+	await trigger_ability(Plant.AbilityType.END_TURN, combat_main)
 
 func apply_weather_actions(weather_data:WeatherData, combat_main:CombatMain) -> void:
 	await apply_actions(weather_data.actions, combat_main)
@@ -90,13 +95,13 @@ func apply_field_status(field_status_id:String, stack:int, combat_main:CombatMai
 	else:
 		await trigger_ability(Plant.AbilityType.FIELD_STATUS_DECREASE, combat_main)
 
-func is_grown() -> bool:
+func is_bloom() -> bool:
 	return light.is_full && water.is_full
 
-func harvest(combat_main:CombatMain) -> void:
-	fsm.push("PlantStateHarvest", {"combat_main": combat_main})
+func bloom(combat_main:CombatMain) -> void:
+	fsm.push("PlantStateBloom", {"combat_main": combat_main})
 
-func show_harvest_popup() -> void:
+func show_bloom_popup() -> void:
 	_point_audio.play()
 	# TODO:
 

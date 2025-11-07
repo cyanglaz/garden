@@ -8,8 +8,8 @@ const WIDTH := 32
 signal field_pressed()
 signal field_hovered(hovered:bool)
 signal action_application_completed()
-signal plant_harvest_started()
-signal plant_harvest_completed()
+signal plant_bloom_started()
+signal plant_bloom_completed()
 signal new_plant_planted()
 
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
@@ -51,8 +51,8 @@ func plant_seed(plant_data:PlantData, combat_main:CombatMain) -> void:
 	_progress_bars.show()
 	_light_bar.bind_with_resource_point(plant.light)
 	_water_bar.bind_with_resource_point(plant.water)
-	plant.harvest_started.connect(func(): plant_harvest_started.emit())
-	plant.harvest_completed.connect(func(): plant_harvest_completed.emit())
+	plant.bloom_started.connect(func(): plant_bloom_started.emit())
+	plant.bloom_completed.connect(func(): plant_bloom_completed.emit())
 	plant.action_application_completed.connect(func(): action_application_completed.emit())
 	_gui_plant_ability_icon_container.setup_with_plant(plant)
 	_gui_field_status_container.bind_with_field_status_manager(plant.status_manager)
@@ -72,17 +72,16 @@ func hide_tooltip() -> void:
 func get_preview_icon_global_position(preview_icon:Control) -> Vector2:
 	return Util.get_node_canvas_position(_gui_field_button) + Vector2.RIGHT * (_gui_field_button.size.x/2 - preview_icon.size.x/2 ) + Vector2.UP * preview_icon.size.y/2
 
-func can_harvest() -> bool:
-	return plant.is_grown()
+func can_bloom() -> bool:
+	return plant.is_bloom()
 
-func harvest(combat_main:CombatMain) -> void:
+func bloom(combat_main:CombatMain) -> void:
 	_progress_bars.hide()
 	_gui_field_button.hide()
-	_gui_plant_ability_icon_container.hide()
 	_gui_field_status_container.hide()
 	_gui_field_selection_arrow.hide()
 	_complete_check.show()
-	plant.harvest(combat_main)
+	plant.bloom(combat_main)
 
 #region events
 

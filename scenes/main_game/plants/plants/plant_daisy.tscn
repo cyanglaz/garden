@@ -69,7 +69,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_ohi4o")
 }],
 "loop": true,
-"name": &"grown",
+"name": &"bloom",
 "speed": 3.0
 }, {
 "frames": [{
@@ -105,4 +105,4 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/plants/plant_daisy.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "6c8a1b0bc90101033d80eacaf2adde6c"
+metadata/_aseprite_wizard_source_file_hash_ = "26e0b1a88db554b7da18d772d37c9382"

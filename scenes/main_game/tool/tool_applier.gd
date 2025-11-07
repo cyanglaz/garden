@@ -36,7 +36,7 @@ func _apply_next_action(combat_main:CombatMain, plants:Array, plant_index:int, t
 			var plants_to_apply:Array = []
 			if action.specials.has(ActionData.Special.ALL_FIELDS):
 				plants_to_apply = plants
-				plants_to_apply = plants_to_apply.filter(func(plant:Plant): return !plant.is_grown())
+				plants_to_apply = plants_to_apply.filter(func(plant:Plant): return !plant.is_bloom())
 			else:
 				plants_to_apply.append(plants[plant_index])
 			await _apply_plant_tool_action(action, plants_to_apply, combat_main, tool_card)

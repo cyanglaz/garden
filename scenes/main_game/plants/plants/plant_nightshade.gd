@@ -2,10 +2,10 @@ class_name PlantNightshade
 extends Plant
 
 #func _has_ability(ability_type:AbilityType) -> bool:
-#	return ability_type == AbilityType.HARVEST
+#	return ability_type == AbilityType.BLOOM
 
 #func _trigger_ability(ability_type:AbilityType, _main_game:MainGame) -> void:
-#	assert(ability_type == AbilityType.HARVEST)
+#	assert(ability_type == AbilityType.BLOOM)
 #	var adjacent_fields := _find_adjacent_fields()
 #	var pest_stack := 0
 #	for adjacent_field:Field in adjacent_fields:

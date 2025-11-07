@@ -4,8 +4,7 @@
 
 [resource]
 script = ExtResource("1_p3yhp")
-light = 5
-water = 3
+light = 1
 difficulty = 2
 chapters = Array[int]([0])
 abilities = Array[String](["tangled"])

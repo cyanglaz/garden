@@ -40,8 +40,8 @@ func start(card_pool:Array[ToolData], energy_cap:int, contract:ContractData) -> 
 
 	field_container.field_hovered.connect(_on_field_hovered)
 	field_container.field_pressed.connect(_on_field_pressed)
-	field_container.plant_harvest_started.connect(_on_plant_harvest_started)
-	field_container.plant_harvest_completed.connect(_on_plant_harvest_completed)
+	field_container.plant_bloom_started.connect(_on_plant_bloom_started)
+	field_container.plant_bloom_completed.connect(_on_plant_bloom_completed)
 	field_container.plant_action_application_completed.connect(_on_plant_action_application_completed)
 	field_container.mouse_plant_updated.connect(_on_mouse_plant_updated)
 
@@ -129,6 +129,7 @@ func _start_day() -> void:
 		await _plant_new_seeds(INITIAL_NUMBER_OF_PLANTS)
 	await gui.apply_boss_actions(GUIBoss.HookType.TURN_START)
 	await draw_cards(hand_size)
+	await field_container.trigger_start_turn_hooks(self)
 	gui.toggle_all_ui(true)
 	turn_started.emit()
 
@@ -146,15 +147,14 @@ func _win() -> void:
 	session_summary.total_days += day_manager.day
 	gui.animate_show_reward_main(_contract)
 
-func _end_day() -> void:
+func _end_turn() -> void:
 	gui.toggle_all_ui(false)
 	_clear_tool_selection()
 	await _discard_all_tools()
 	if _met_win_condition():
 		return
 	tool_manager.card_use_limit_reached = false
-	await field_container.trigger_end_day_field_status_hooks(self)
-	await field_container.trigger_end_day_plant_abilities(self)
+	await field_container.trigger_end_turn_hooks(self)
 	await weather_manager.apply_weather_actions(field_container.plants, self)
 	await power_manager.handle_weather_application_hook(self, weather_manager.get_current_weather())
 	weather_manager.pass_day()
@@ -163,7 +163,7 @@ func _end_day() -> void:
 	power_manager.remove_single_turn_powers()
 	gui.toggle_all_ui(true)
 	if _met_win_condition():
-		# _win() is called by _harvest()
+		# _win() is called by _bloom()
 		return
 	field_container.handle_turn_end()
 	Events.request_hp_update.emit( -_contract.get_penalty_rate(day_manager.day))
@@ -189,10 +189,10 @@ func _handle_select_tool(tool_data:ToolData) -> void:
 	field_container.clear_tool_indicators()
 	tool_manager.select_tool(tool_data)
 
-func _harvest(plant_index:int) -> void:
+func _bloom(plant_index:int) -> void:
 	var field:Field = field_container.get_field(plant_index)
-	if field.can_harvest():
-		field.harvest(self)
+	if field.can_bloom():
+		field.bloom(self)
 	
 func _handle_card_use(plant_index:int) -> void:
 	tool_manager.apply_tool(self, field_container.plants, plant_index)
@@ -225,7 +225,7 @@ func _on_card_use_button_pressed(tool_data:ToolData) -> void:
 	_handle_card_use(0)
 
 func _on_end_turn_button_pressed() -> void:
-	_end_day()
+	_end_turn()
 
 func _on_field_hovered(hovered:bool, index:int) -> void:
 	if tool_manager.selected_tool && tool_manager.selected_tool.need_select_field:
@@ -284,12 +284,12 @@ func _on_hand_updated(hand:Array) -> void:
 		tool_data.request_refresh.emit()
 	
 func _on_plant_action_application_completed(index:int) -> void:
-	_harvest(index)
+	_bloom(index)
 
-func _on_plant_harvest_started() -> void:
+func _on_plant_bloom_started() -> void:
 	gui.toggle_all_ui(false)
 
-func _on_plant_harvest_completed() -> void:
+func _on_plant_bloom_completed() -> void:
 	_number_of_plants -= 1
 	if _met_win_condition():
 		await _win()

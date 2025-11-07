@@ -7,16 +7,16 @@ signal request_hook_message_popup(status_data:FieldStatusData)
 
 var field_status_map:Dictionary[String, FieldStatusData]
 
-var _harvest_hook_queue:Array[String] = []
-var _current_harvest_hook_index:int = 0
+var _bloom_hook_queue:Array[String] = []
+var _current_bloom_hook_index:int = 0
 var _ability_hook_queue:Array[String] = []
 var _current_ability_hook_index:int = 0
 var _tool_application_hook_queue:Array[String] = []
 var _current_tool_application_hook_index:int = 0
 var _tool_discard_hook_queue:Array[String] = []
 var _current_tool_discard_hook_index:int = 0
-var _end_day_hook_queue:Array[String] = []
-var _current_end_day_hook_index:int = 0
+var _end_turn_hook_queue:Array[String] = []
+var _current_end_turn_hook_index:int = 0
 var _add_water_hook_queue:Array[String] = []
 var _current_add_water_hook_index:int = 0
 
@@ -76,24 +76,24 @@ func _handle_next_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> v
 	await status_data.status_script.handle_ability_hook(ability_type, plant)
 	await _handle_next_ability_hook(ability_type, plant)
 
-func handle_harvest_hook(plant:Plant) -> void:
+func handle_bloom_hook(plant:Plant) -> void:
 	var all_status_ids := field_status_map.keys()
-	_harvest_hook_queue = all_status_ids.filter(func(status_id:String) -> bool:
-		return field_status_map[status_id].status_script.has_harvest_hook(plant)
+	_bloom_hook_queue = all_status_ids.filter(func(status_id:String) -> bool:
+		return field_status_map[status_id].status_script.has_bloom_hook(plant)
 	)
-	_current_harvest_hook_index = 0
-	await _handle_next_harvest_hook(plant)
+	_current_bloom_hook_index = 0
+	await _handle_next_bloom_hook(plant)
 
-func _handle_next_harvest_hook(plant:Plant) -> void:
-	if _current_harvest_hook_index >= _harvest_hook_queue.size():
+func _handle_next_bloom_hook(plant:Plant) -> void:
+	if _current_bloom_hook_index >= _bloom_hook_queue.size():
 		return
-	var status_id:String = _harvest_hook_queue[_current_harvest_hook_index]
+	var status_id:String = _bloom_hook_queue[_current_bloom_hook_index]
 	var status_data := field_status_map[status_id]
 	await _send_hook_animation_signals(status_data)
-	await status_data.status_script.handle_harvest_hook(plant)
+	await status_data.status_script.handle_bloom_hook(plant)
 	_handle_status_on_trigger(status_data)
-	_current_harvest_hook_index += 1
-	await _handle_next_harvest_hook(plant)
+	_current_bloom_hook_index += 1
+	await _handle_next_bloom_hook(plant)
 
 func handle_tool_application_hook(plant:Plant) -> void:
 	var all_status_ids := field_status_map.keys()
@@ -133,24 +133,24 @@ func _handle_next_tool_discard_hook(plant:Plant, count:int) -> void:
 	_current_tool_discard_hook_index += 1
 	await _handle_next_tool_discard_hook(plant, count)
 
-func handle_end_day_hook(combat_main:CombatMain, plant:Plant) -> void:
+func handle_end_turn_hook(combat_main:CombatMain, plant:Plant) -> void:
 	var all_status_ids := field_status_map.keys()
-	_end_day_hook_queue = all_status_ids.filter(func(status_id:String) -> bool:
-		return field_status_map[status_id].status_script.has_end_day_hook(plant)
+	_end_turn_hook_queue = all_status_ids.filter(func(status_id:String) -> bool:
+		return field_status_map[status_id].status_script.has_end_turn_hook(plant)
 	)
-	_current_end_day_hook_index = 0
-	await _handle_next_end_day_hook(combat_main, plant)
+	_current_end_turn_hook_index = 0
+	await _handle_next_end_turn_hook(combat_main, plant)
 
-func _handle_next_end_day_hook(combat_main:CombatMain, plant:Plant) -> void:
-	if _current_end_day_hook_index >= _end_day_hook_queue.size():
+func _handle_next_end_turn_hook(combat_main:CombatMain, plant:Plant) -> void:
+	if _current_end_turn_hook_index >= _end_turn_hook_queue.size():
 		return
-	var status_id:String = _end_day_hook_queue[_current_end_day_hook_index]
+	var status_id:String = _end_turn_hook_queue[_current_end_turn_hook_index]
 	var status_data := field_status_map[status_id]
 	await _send_hook_animation_signals(status_data)
-	await status_data.status_script.handle_end_day_hook(combat_main, plant)
+	await status_data.status_script.handle_end_turn_hook(combat_main, plant)
 	_handle_status_on_trigger(status_data)
-	_current_end_day_hook_index += 1
-	await _handle_next_end_day_hook(combat_main, plant)
+	_current_end_turn_hook_index += 1
+	await _handle_next_end_turn_hook(combat_main, plant)
 
 func handle_add_water_hook(combat_main:CombatMain, plant:Plant) -> void:
 	var all_status_ids := field_status_map.keys()
