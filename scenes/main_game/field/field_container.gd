@@ -12,6 +12,7 @@ signal plant_action_application_completed(index:int)
 
 const MAX_DISTANCE_BETWEEN_FIELDS := 15
 const MARGIN := 36
+const PLANT_ICON_OFFSET := Vector2.UP * 4
 
 @onready var _container: Node2D = %Container
 
@@ -108,7 +109,7 @@ func toggle_plant_selection_indicator(indicator_state:GUIFieldSelectionArrow.Ind
 
 func get_preview_icon_global_position(preview_icon:Control, index:int) -> Vector2:
 	var field_position := fields[index].position
-	return Util.get_node_canvas_position(self) + field_position + Vector2.LEFT * preview_icon.size.x/2 + Vector2.UP * preview_icon.size.y/2
+	return Util.get_node_canvas_position(self) + field_position + Vector2.LEFT * preview_icon.size.x/2 + Vector2.UP * preview_icon.size.y + PLANT_ICON_OFFSET
 	
 func _layout_fields() -> void:
 	if fields.size() == 0:
