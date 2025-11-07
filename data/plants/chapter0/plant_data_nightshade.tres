@@ -10,7 +10,7 @@ difficulty = 1
 chapters = Array[int]([1])
 id = "nightshade"
 display_name = "Nightshade"
-description = "On harvest, +{value}{resource:gold} for each stack of {field_status:pest} on adjacent fields."
+description = "On harvest, +{value}{resource:gold} for each stack of {field_status:pest} on adjacent plants."
 data = {
 "value": "1"
 }

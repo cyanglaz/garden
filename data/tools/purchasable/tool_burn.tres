@@ -22,5 +22,5 @@ actions = Array[ExtResource("1_l00fl")]([SubResource("Resource_l00fl"), SubResou
 id = "burn"
 display_name = "Burn"
 note = "discard random card
-+1 light to all fields"
++1 light to all lands"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

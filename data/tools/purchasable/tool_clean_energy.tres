@@ -12,5 +12,5 @@ display_name = "Clean Energy"
 data = {
 "value": "1"
 }
-note = "This turn, when a cost 0 card is used, all fields +{value} {resource:light}."
+note = "This turn, when a cost 0 card is used, all lands +{value} {resource:light}."
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

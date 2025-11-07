@@ -23,5 +23,5 @@ actions = Array[ExtResource("1_xnxx8")]([SubResource("Resource_xnxx8"), SubResou
 id = "alphid_alert"
 display_name = "Alphid Alert"
 note = "Draw 2 cards
-+1 pest to all fields"
++1 pest to all lands"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"
