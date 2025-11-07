@@ -192,7 +192,7 @@ func _handle_select_tool(tool_data:ToolData) -> void:
 func _bloom(plant_index:int) -> void:
 	var field:Field = field_container.get_field(plant_index)
 	if field.can_bloom():
-		field.bloom(self)
+		field.bloom()
 	
 func _handle_card_use(plant_index:int) -> void:
 	tool_manager.apply_tool(self, field_container.plants, plant_index)

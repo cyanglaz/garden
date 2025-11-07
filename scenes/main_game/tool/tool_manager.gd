@@ -101,10 +101,10 @@ func apply_tool(combat_main:CombatMain, plants:Array, plant_index:int) -> void:
 				# Some actions need to select cards, for example discard, compost
 				secondary_card_datas = await _gui_tool_card_container.select_secondary_cards(actual_number_of_cards_to_select, selecting_from_cards)
 	number_of_card_used_this_turn += 1
-	_run_card_actions(combat_main, plants, plant_index, applying_tool, secondary_card_datas)
-	_run_card_lifecycle(applying_tool, combat_main)
 	_tool_application_queue.append(applying_tool)
 	tool_application_started.emit(applying_tool)
+	_run_card_actions(combat_main, plants, plant_index, applying_tool, secondary_card_datas)
+	_run_card_lifecycle(applying_tool, combat_main)
 
 func discardable_cards() -> Array:
 	return tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return tool_data != selected_tool)

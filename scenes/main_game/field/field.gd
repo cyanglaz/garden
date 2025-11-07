@@ -56,7 +56,6 @@ func plant_seed(plant_data:PlantData, combat_main:CombatMain) -> void:
 	plant.action_application_completed.connect(func(): action_application_completed.emit())
 	_gui_plant_ability_icon_container.setup_with_plant(plant)
 	_gui_field_status_container.bind_with_field_status_manager(plant.status_manager)
-	await plant.trigger_ability(Plant.AbilityType.ON_PLANT, combat_main)
 	new_plant_planted.emit()
 
 func toggle_selection_indicator(indicator_state:GUIFieldSelectionArrow.IndicatorState) -> void:
@@ -75,13 +74,13 @@ func get_preview_icon_global_position(preview_icon:Control) -> Vector2:
 func can_bloom() -> bool:
 	return plant.is_bloom()
 
-func bloom(combat_main:CombatMain) -> void:
+func bloom() -> void:
 	_progress_bars.hide()
 	_gui_field_button.hide()
 	_gui_field_status_container.hide()
 	_gui_field_selection_arrow.hide()
 	_complete_check.show()
-	plant.bloom(combat_main)
+	plant.bloom()
 
 #region events
 

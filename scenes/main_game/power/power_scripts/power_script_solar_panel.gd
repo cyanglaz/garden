@@ -16,7 +16,7 @@ func _handle_weather_application_hook(combat_main:CombatMain, _weather_data:Weat
 	assert(_action_count > 0)
 	for plant:Plant in combat_main.field_container.plants:
 		plant.action_application_completed.connect(_on_action_application_completed.bind(plant))
-		plant.apply_actions([action_data], null)
+		plant.apply_actions([action_data])
 	await _all_action_application_completed
 
 func _on_action_application_completed(plant:Plant) -> void:

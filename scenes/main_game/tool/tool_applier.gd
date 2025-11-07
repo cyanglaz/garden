@@ -39,18 +39,18 @@ func _apply_next_action(combat_main:CombatMain, plants:Array, plant_index:int, t
 				plants_to_apply = plants_to_apply.filter(func(plant:Plant): return !plant.is_bloom())
 			else:
 				plants_to_apply.append(plants[plant_index])
-			await _apply_plant_tool_action(action, plants_to_apply, combat_main, tool_card)
+			await _apply_plant_tool_action(action, plants_to_apply, tool_card)
 		ActionData.ActionCategory.WEATHER:
 			await _apply_weather_tool_action(action, combat_main)
 		_:
 			await _apply_instant_use_tool_action(action, combat_main, tool_data, secondary_card_datas)
 	await _apply_next_action(combat_main, plants, plant_index, tool_data, secondary_card_datas, tool_card)
 
-func _apply_plant_tool_action(action:ActionData, plants:Array, combat_main:CombatMain, _tool_card:GUIToolCardButton) -> void:
+func _apply_plant_tool_action(action:ActionData, plants:Array, _tool_card:GUIToolCardButton) -> void:
 	_plant_application_index_counter = plants.size()
 	for plant:Plant in plants:
 		plant.action_application_completed.connect(_on_plant_action_application_completed.bind(plant))
-		plant.apply_actions([action], combat_main)
+		plant.apply_actions([action])
 	await _all_plant_action_application_completed
 
 func _apply_weather_tool_action(action:ActionData, combat_main:CombatMain) -> void:

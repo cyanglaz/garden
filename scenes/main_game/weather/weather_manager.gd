@@ -62,7 +62,7 @@ func _apply_weather_action_to_next_plant(plants:Array[Plant], plant_index:int, c
 		await _apply_weather_action_to_next_plant(plants, plant_index + 1, combat_main)
 	else:
 		await combat_main.gui.gui_weather_container.animate_weather_application(today_weather, plant)
-		await plant.apply_weather_actions(today_weather, combat_main)
+		await plant.apply_weather_actions(today_weather)
 		await _apply_weather_action_to_next_plant(plants, plant_index + 1, combat_main)
 
 func _should_weather_be_applied(weather_data:WeatherData, plant:Plant) -> bool:

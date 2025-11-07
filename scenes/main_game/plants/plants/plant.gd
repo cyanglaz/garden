@@ -7,14 +7,8 @@ const POPUP_LABEL_ICON_SCENE := preload("res://scenes/GUI/utils/popup_items/popu
 const POPUP_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label.tscn")
 
 enum AbilityType {
-	BLOOM,
 	END_TURN,
 	START_TURN,
-	LIGHT_GAIN,
-	WEATHER,
-	FIELD_STATUS_INCREASE,
-	FIELD_STATUS_DECREASE,
-	ON_PLANT,
 }
 
 @warning_ignore("unused_signal")
@@ -52,31 +46,32 @@ func handle_tool_discard_hook(count:int) -> void:
 	await status_manager.handle_tool_discard_hook(self, count)
 
 func handle_start_turn_hook(combat_main:CombatMain) -> void:
-	await trigger_ability(Plant.AbilityType.START_TURN, combat_main)
+	if is_bloom():
+		await trigger_ability(Plant.AbilityType.START_TURN, combat_main)
 
 func handle_end_turn_hook(combat_main:CombatMain) -> void:
 	await status_manager.handle_end_turn_hook(combat_main, self)
-	await trigger_ability(Plant.AbilityType.END_TURN, combat_main)
+	if is_bloom():
+		await trigger_ability(Plant.AbilityType.END_TURN, combat_main)
 
-func apply_weather_actions(weather_data:WeatherData, combat_main:CombatMain) -> void:
-	await apply_actions(weather_data.actions, combat_main)
-	await trigger_ability(Plant.AbilityType.WEATHER, combat_main)
+func apply_weather_actions(weather_data:WeatherData) -> void:
+	await apply_actions(weather_data.actions)
 
-func apply_actions(actions:Array[ActionData], combat_main:CombatMain) -> void:
+func apply_actions(actions:Array[ActionData]) -> void:
 	#await _play_action_from_gui_animation(action, from_gui)
 	for action in actions:
 		match action.type:
 			ActionData.ActionType.LIGHT:
-				await _apply_light_action(action, combat_main)
+				await _apply_light_action(action)
 			ActionData.ActionType.WATER:
-				await _apply_water_action(action, combat_main)
+				await _apply_water_action(action)
 			ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
-				await _apply_field_status_action(action, combat_main)
+				await _apply_field_status_action(action)
 			_:
 				pass
 	action_application_completed.emit()
 
-func apply_field_status(field_status_id:String, stack:int, combat_main:CombatMain) -> void:
+func apply_field_status(field_status_id:String, stack:InternalMode) -> void:
 	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(field_status_id, true)
 	if field_status_data.stackable:
 		var text := str(stack)
@@ -90,16 +85,12 @@ func apply_field_status(field_status_id:String, stack:int, combat_main:CombatMai
 			text = "-"
 		await _show_resource_icon_popup(field_status_id, text)
 		status_manager.update_status(field_status_id, 1)
-	if stack > 0:
-		await trigger_ability(Plant.AbilityType.FIELD_STATUS_INCREASE, combat_main)
-	else:
-		await trigger_ability(Plant.AbilityType.FIELD_STATUS_DECREASE, combat_main)
 
 func is_bloom() -> bool:
 	return light.is_full && water.is_full
 
-func bloom(combat_main:CombatMain) -> void:
-	fsm.push("PlantStateBloom", {"combat_main": combat_main})
+func bloom() -> void:
+	fsm.push("PlantStateBloom")
 
 func show_bloom_popup() -> void:
 	_point_audio.play()
@@ -124,31 +115,27 @@ func _show_popup_action_indicator(action_data:ActionData, true_value:int) -> voi
 	var resource_id := Util.get_action_id_with_action_type(action_data.type)
 	await _show_resource_icon_popup(resource_id, text)
 
-func _apply_light_action(action:ActionData, combat_main:CombatMain) -> void:
+func _apply_light_action(action:ActionData) -> void:
 	var true_value := _get_action_true_value(action)
 	if action.operator_type == ActionData.OperatorType.EQUAL_TO:
 		true_value = true_value - light.value 
 	await _show_popup_action_indicator(action, true_value)
 	light.value += true_value
-	if true_value > 0:
-		await trigger_ability(Plant.AbilityType.LIGHT_GAIN, combat_main)
 
-func _apply_water_action(action:ActionData, combat_main:CombatMain) -> void:
+func _apply_water_action(action:ActionData) -> void:
 	var true_value := _get_action_true_value(action)
 	if action.operator_type == ActionData.OperatorType.EQUAL_TO:
 		true_value = true_value - water.value
 	await _show_popup_action_indicator(action, true_value)
 	water.value += true_value
-	if true_value > 0:
-		await status_manager.handle_add_water_hook(combat_main, self)
 
-func _apply_field_status_action(action:ActionData, combat_main:CombatMain) -> void:
+func _apply_field_status_action(action:ActionData) -> void:
 	var resource_id := Util.get_action_id_with_action_type(action.type)
 	var true_value := _get_action_true_value(action)
 	var current_status := status_manager.get_status(resource_id)
 	if action.operator_type == ActionData.OperatorType.EQUAL_TO && current_status:
 		true_value = true_value - current_status.stack
-	await apply_field_status(resource_id, true_value, combat_main)
+	await _show_popup_action_indicator(action, true_value)
 
 func _get_action_true_value(action_data:ActionData) -> int:
 	return action_data.get_calculated_value(self)

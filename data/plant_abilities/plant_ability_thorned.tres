@@ -6,5 +6,5 @@
 script = ExtResource("1_p8ojn")
 id = "thorned"
 display_name = "Thorned"
-description = "When bloom, shuffle a {card:thorn} into the discard pile at the end of a turn."
+description = "At the start of each turn, shuffle a {card:thorn} into the discard pile at the end of a turn."
 metadata/_custom_type_script = "uid://jejwqju653m5"

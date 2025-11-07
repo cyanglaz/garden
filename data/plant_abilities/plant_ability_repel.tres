@@ -6,5 +6,8 @@
 script = ExtResource("1_4ml5e")
 id = "repel"
 display_name = "Repel"
-description = "Immune to {field_status:pest}."
+description = "At the start of each turn, reduce {value} {field_status:pest} from adjacent lands.."
+data = {
+"value": "1"
+}
 metadata/_custom_type_script = "uid://jejwqju653m5"
