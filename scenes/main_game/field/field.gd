@@ -53,9 +53,7 @@ func plant_seed(plant_data:PlantData) -> void:
 	_plant_container.add_child(plant)
 	plant.data = plant_data
 	plant.field = self
-	_progress_bars.show()
-	_light_bar.bind_with_resource_point(plant.light)
-	_water_bar.bind_with_resource_point(plant.water)
+	_show_progress_bars(plant)
 	plant.bloom_started.connect(func(): plant_bloom_started.emit())
 	plant.bloom_completed.connect(func(): plant_bloom_completed.emit())
 	plant.action_application_completed.connect(func(): action_application_completed.emit())
@@ -86,6 +84,17 @@ func bloom() -> void:
 	_gui_field_selection_arrow.hide()
 	_complete_check.show()
 	plant.bloom()
+
+#region private methods
+
+func _show_progress_bars(plant:Plant) -> void:
+	_progress_bars.show()
+	_light_bar.bind_with_resource_point(plant.light)
+	_water_bar.bind_with_resource_point(plant.water)
+	if plant.light.max_value <= 0:
+		_light_bar.hide()
+	if plant.water.max_value <= 0:
+		_water_bar.hide()
 
 #region events
 

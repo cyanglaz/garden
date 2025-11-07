@@ -147,9 +147,9 @@ icon_size = Vector2(6, 6)
 [node name="GUIFieldStatusContainer" parent="." instance=ExtResource("10_mv8sf")]
 unique_name_in_owner = true
 z_index = 1
-offset_left = 19.0
+offset_left = 22.0
 offset_top = 11.0
-offset_right = 19.0
+offset_right = 22.0
 offset_bottom = 11.0
 
 [node name="CompleteCheck" type="TextureRect" parent="."]
