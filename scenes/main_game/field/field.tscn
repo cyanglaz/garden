@@ -21,15 +21,15 @@ shader = ExtResource("1_foq2q")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wixvq"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ipwbb"]
 atlas = ExtResource("1_wixvq")
 region = Rect2(0, 0, 36, 22)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_foq2q"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_rw11e"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wixvq")
+"texture": SubResource("AtlasTexture_ipwbb")
 }],
 "loop": false,
 "name": &"idle",
@@ -82,7 +82,7 @@ unique_name_in_owner = true
 texture_filter = 1
 material = SubResource("ShaderMaterial_wixvq")
 position = Vector2(0, 3)
-sprite_frames = SubResource("SpriteFrames_foq2q")
+sprite_frames = SubResource("SpriteFrames_rw11e")
 animation = &"idle"
 metadata/_aseprite_wizard_interface_config_ = {
 "layer_section": false,
@@ -99,7 +99,7 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/objects/field.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "32a50512dcf59ac47be8721f9d4ca8ce"
+metadata/_aseprite_wizard_source_file_hash_ = "a3f92ca90f4635d81644a9e5d3e0ecaa"
 
 [node name="PlantContainer" type="Node2D" parent="AnimatedSprite2D"]
 unique_name_in_owner = true
