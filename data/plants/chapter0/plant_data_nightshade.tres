@@ -4,10 +4,11 @@
 
 [resource]
 script = ExtResource("1_1q5i1")
-light = 3
+light = 4
 water = 4
 difficulty = 1
 chapters = Array[int]([1])
+abilities = Array[String](["repel"])
 id = "nightshade"
 display_name = "Nightshade"
 description = "On harvest, +{value}{resource:gold} for each stack of {field_status:pest} on adjacent plants."
