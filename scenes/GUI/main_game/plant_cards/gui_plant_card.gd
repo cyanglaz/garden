@@ -22,6 +22,9 @@ func _ready() -> void:
 func update_with_plant_data(pd:PlantData) -> void:
 	gui_plant_icon.update_with_plant_data(pd)
 
+func remove_texture() -> void:
+	gui_plant_icon.remove_texture()
+
 func _set_mode(val:Mode) -> void:
 	mode = val
 	match mode:

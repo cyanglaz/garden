@@ -50,7 +50,7 @@ var _container_offset:Vector2 = Vector2.ZERO: set = _set_container_offset
 var _action_tooltip_id:String = ""
 
 var _in_hand := false
-var _weak_mouse_field:WeakRef = weakref(null)
+var _weak_mouse_plant:WeakRef = weakref(null)
 
 func _ready() -> void:
 	super._ready()
@@ -85,9 +85,9 @@ func update_with_tool_data(td:ToolData) -> void:
 	else:
 		tool_data.combat_main_set.connect(_on_combat_main_set)
 
-func update_mouse_field(field:Field) -> void:
-	_gui_action_list.update(tool_data.actions, field)
-	_weak_mouse_field = weakref(field)
+func update_mouse_plant(plant:Plant) -> void:
+	_gui_action_list.update(tool_data.actions, plant)
+	_weak_mouse_plant = weakref(plant)
 
 func play_move_sound() -> void:
 	_play_hover_sound()

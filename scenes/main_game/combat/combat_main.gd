@@ -9,6 +9,7 @@ var hand_size := 5
 const WIN_PAUSE_TIME := 0.5
 const INSTANT_CARD_USE_DELAY := 0.3
 const TOOL_APPLICATION_ERROR_HIDE_DELAY := 3.0
+const INITIAL_NUMBER_OF_PLANTS := 2
 
 @onready var field_container: FieldContainer = %FieldContainer
 @onready var gui: GUICombatMain = %GUI
@@ -33,17 +34,16 @@ var is_finished:bool = false
 var max_energy := 3
 var chapter_manager:ChapterManager = ChapterManager.new()
 
-func start(field_count:int, card_pool:Array[ToolData], energy_cap:int, contract:ContractData) -> void:
+func start(card_pool:Array[ToolData], energy_cap:int, contract:ContractData) -> void:
 
 	session_summary = SessionSummary.new(contract)
 
-	field_container.update_with_number_of_fields(field_count)
 	field_container.field_hovered.connect(_on_field_hovered)
 	field_container.field_pressed.connect(_on_field_pressed)
-	field_container.field_harvest_started.connect(_on_field_harvest_started)
-	field_container.field_harvest_completed.connect(_on_field_harvest_completed)
-	field_container.field_action_application_completed.connect(_on_field_action_application_completed)
-	field_container.mouse_field_updated.connect(_on_mouse_field_updated)
+	field_container.plant_bloom_started.connect(_on_plant_bloom_started)
+	field_container.plant_bloom_completed.connect(_on_plant_bloom_completed)
+	field_container.plant_action_application_completed.connect(_on_plant_action_application_completed)
+	field_container.mouse_plant_updated.connect(_on_mouse_plant_updated)
 
 	weather_manager.weathers_updated.connect(_on_weathers_updated)
 
@@ -107,6 +107,7 @@ func _start_new_level() -> void:
 	boost = 1
 	plant_seed_manager = PlantSeedManager.new(_contract.plants)
 	_number_of_plants = plant_seed_manager.plant_datas.size()
+	field_container.update_with_number_of_fields(_number_of_plants)
 	day_manager.start_new()
 	gui.update_with_plants(plant_seed_manager.plant_datas)
 	gui.update_with_contract(_contract, self)
@@ -125,9 +126,10 @@ func _start_day() -> void:
 	if day_manager.day == 0:
 		await gui.apply_boss_actions(GUIBoss.HookType.LEVEL_START)
 		await Util.create_scaled_timer(0.2).timeout
-		await _plant_new_seeds()
+		await _plant_new_seeds(INITIAL_NUMBER_OF_PLANTS)
 	await gui.apply_boss_actions(GUIBoss.HookType.TURN_START)
 	await draw_cards(hand_size)
+	await field_container.trigger_start_turn_hooks(self)
 	gui.toggle_all_ui(true)
 	turn_started.emit()
 
@@ -141,22 +143,19 @@ func _win() -> void:
 	is_finished = true
 	gui.permanently_lock_all_ui()
 	await Util.create_scaled_timer(WIN_PAUSE_TIME).timeout
-	for field:Field in field_container.fields:
-		field.remove_plant()
 	await _discard_all_tools()
 	session_summary.total_days += day_manager.day
 	gui.animate_show_reward_main(_contract)
 
-func _end_day() -> void:
+func _end_turn() -> void:
 	gui.toggle_all_ui(false)
 	_clear_tool_selection()
 	await _discard_all_tools()
 	if _met_win_condition():
 		return
 	tool_manager.card_use_limit_reached = false
-	await field_container.trigger_end_day_field_status_hooks(self)
-	await field_container.trigger_end_day_plant_abilities(self)
-	await weather_manager.apply_weather_actions(field_container.fields, self)
+	await field_container.trigger_end_turn_hooks(self)
+	await weather_manager.apply_weather_actions(field_container.plants, self)
 	await power_manager.handle_weather_application_hook(self, weather_manager.get_current_weather())
 	weather_manager.pass_day()
 	tool_manager.cleanup_for_turn()
@@ -164,10 +163,10 @@ func _end_day() -> void:
 	power_manager.remove_single_turn_powers()
 	gui.toggle_all_ui(true)
 	if _met_win_condition():
-		# _win() is called by _harvest()
+		# _win() is called by _bloom()
 		return
 	field_container.handle_turn_end()
-	Events.request_rating_update.emit( -_contract.get_penalty_rate(day_manager.day))
+	Events.request_hp_update.emit( -_contract.get_penalty_rate(day_manager.day))
 	_start_day()
 	
 func _discard_all_tools() -> void:
@@ -180,28 +179,23 @@ func _clear_tool_selection() -> void:
 	gui.clear_tool_selection()
 	field_container.clear_tool_indicators()
 
-func _plant_new_seeds() -> void:
-	var field_indices:Array[int] = field_container.get_all_field_indices()
-	assert(field_indices.size() == field_container.fields.size())
-	await Util.create_scaled_timer(0.2).timeout # If planting is needed, there would be a p update animation, wait for that animation to end before drawing new plants
-	await plant_seed_manager.draw_plants(field_indices, gui.gui_plant_seed_animation_container,)
+func _plant_new_seeds(number_of_plants:int) -> void:
+	if plant_seed_manager.is_all_plants_drawn():
+		return
+	field_container.show_next_fields(number_of_plants)
+	await plant_seed_manager.draw_plants(number_of_plants, gui.gui_plant_seed_animation_container)
 
 func _handle_select_tool(tool_data:ToolData) -> void:
 	field_container.clear_tool_indicators()
 	tool_manager.select_tool(tool_data)
 
-func _harvest(field_index:int) -> void:
-	var field:Field = field_container.get_field(field_index)
-	if field.can_harvest():
-		field.harvest(self)
+func _bloom(plant_index:int) -> void:
+	var field:Field = field_container.get_field(plant_index)
+	if field.can_bloom():
+		field.bloom()
 	
-func _remove_plants(field_indices:Array[int]) -> void:
-	for field_index:int in field_indices:
-		var field:Field = field_container.fields[field_index]
-		field.remove_plant()
-	
-func _handle_card_use(field_index:int) -> void:
-	tool_manager.apply_tool(self, field_container.fields, field_index)
+func _handle_card_use(plant_index:int) -> void:
+	tool_manager.apply_tool(self, field_container.plants, plant_index)
 	await tool_manager.tool_application_completed
 
 #endregion
@@ -221,7 +215,7 @@ func _hide_custom_error(identifier:String) -> void:
 func _on_tool_selected(tool_data:ToolData) -> void:
 	_handle_select_tool(tool_data)
 	if tool_data.need_select_field:
-		field_container.toggle_all_field_selection_indicators(GUIFieldSelectionArrow.IndicatorState.READY)
+		field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.READY)
 
 func _on_mouse_exited_card(tool_data:ToolData) -> void:
 	_hide_custom_error(tool_data.id)
@@ -231,20 +225,19 @@ func _on_card_use_button_pressed(tool_data:ToolData) -> void:
 	_handle_card_use(0)
 
 func _on_end_turn_button_pressed() -> void:
-	_end_day()
+	_end_turn()
 
 func _on_field_hovered(hovered:bool, index:int) -> void:
-	_number_of_plants -= 1
 	if tool_manager.selected_tool && tool_manager.selected_tool.need_select_field:
 		if hovered:
 			if tool_manager.selected_tool.all_fields:
-				field_container.toggle_all_field_selection_indicators(GUIFieldSelectionArrow.IndicatorState.CURRENT)
+				field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT)
 			else:
-				field_container.toggle_field_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT, tool_manager.selected_tool, index)
+				field_container.toggle_plant_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT, index)
 		else:
-			field_container.toggle_all_field_selection_indicators(GUIFieldSelectionArrow.IndicatorState.READY)
+			field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.READY)
 	else:
-		field_container.toggle_tooltip_for_field(index, hovered)
+		field_container.toggle_tooltip_for_plant(index, hovered)
 
 func _on_field_pressed(index:int) -> void:
 	if !tool_manager.selected_tool || !tool_manager.selected_tool.need_select_field:
@@ -290,18 +283,18 @@ func _on_hand_updated(hand:Array) -> void:
 		tool_data.combat_main = self
 		tool_data.request_refresh.emit()
 	
-func _on_field_action_application_completed(index:int) -> void:
-	_harvest(index)
+func _on_plant_action_application_completed(index:int) -> void:
+	_bloom(index)
 
-func _on_field_harvest_started() -> void:
+func _on_plant_bloom_started() -> void:
 	gui.toggle_all_ui(false)
 
-func _on_field_harvest_completed(index:int, plant_data:PlantData) -> void:
-	await plant_seed_manager.finish_plants([index], [plant_data], gui.gui_plant_seed_animation_container)
+func _on_plant_bloom_completed() -> void:
+	_number_of_plants -= 1
 	if _met_win_condition():
 		await _win()
 	else:
-		await plant_seed_manager.draw_plants([index], gui.gui_plant_seed_animation_container)
+		await _plant_new_seeds(1)
 		energy_tracker.restore(boost)
 		await draw_cards(boost)
 		boost += 1
@@ -310,11 +303,11 @@ func _on_field_harvest_completed(index:int, plant_data:PlantData) -> void:
 func _on_weathers_updated() -> void:
 	gui.update_weathers(weather_manager)
 
-func _on_plant_seed_drawn_animation_completed(field_index:int, plant_data:PlantData) -> void:
-	await field_container.plant_seed(plant_data, self, field_index)
+func _on_plant_seed_drawn_animation_completed(plant_data:PlantData) -> void:
+	field_container.plant_seed(plant_data)
 
-func _on_mouse_field_updated(field:Field) -> void:
-	gui.update_mouse_field(field)
+func _on_mouse_plant_updated(plant:Plant) -> void:
+	gui.update_mouse_plant(plant)
 
 #endregion
 

@@ -1,71 +1,50 @@
 class_name Field
 extends Node2D
 
-const PLANT_SCENE_PATH_PREFIX := "res://scenes/main_game/plants/plants/plant_"
-const POPUP_LABEL_ICON_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label_icon.tscn")
-const POPUP_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label.tscn")
-const GUI_GENERAL_ACTION_SCENE := preload("res://scenes/GUI/main_game/actions/gui_general_action.tscn")
-const GUI_WEATHER_ACTION_SCENE := preload("res://scenes/GUI/main_game/actions/gui_weather_action.tscn")
-const point_LABEL_OFFSET := Vector2.RIGHT * 12
-const POPUP_SHOW_TIME := 0.3
-const POPUP_DESTROY_TIME:= 1.2
-const ACTION_ICON_MOVE_TIME := 0.3
+const PLANT_SCENE_PATH_PREFIX:String = "res://scenes/main_game/plants/plants/plant_"
+
+const WIDTH := 32
 
 signal field_pressed()
 signal field_hovered(hovered:bool)
 signal action_application_completed()
-signal plant_harvest_started()
-signal plant_harvest_completed(plant_data:PlantData)
+signal plant_bloom_started()
+signal plant_bloom_completed()
 signal new_plant_planted()
 
-@onready var _animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
+@onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 @onready var _gui_field_button: GUIBasicButton = %GUIFieldButton
+@onready var _progress_bars: VBoxContainer = %ProgressBars
 @onready var _light_bar: GUISegmentedProgressBar = %LightBar
 @onready var _water_bar: GUISegmentedProgressBar = %WaterBar
-@onready var _plant_container: Node2D = %PlantContainer
-@onready var _buff_sound: AudioStreamPlayer2D = %BuffSound
-@onready var _point_audio: AudioStreamPlayer2D = %PointAudio
-@onready var _gui_field_selection_arrow: GUIFieldSelectionArrow = %GUIFieldSelectionArrow
 @onready var _gui_field_status_container: GUIFieldStatusContainer = %GUIFieldStatusContainer
+@onready var _complete_check: TextureRect = %CompleteCheck
 @onready var _gui_plant_ability_icon_container: GUIPlantAbilityIconContainer = %GUIPlantAbilityIconContainer
+@onready var _gui_field_selection_arrow: GUIFieldSelectionArrow = %GUIFieldSelectionArrow
 @onready var _plant_down_sound: AudioStreamPlayer2D = %PlantDownSound
+@onready var _plant_container: Node2D = %PlantContainer
+@onready var _animation_player: AnimationPlayer = %AnimationPlayer
 
-var _weak_plant_preview:WeakRef = weakref(null)
 var plant:Plant
-var status_manager:FieldStatusManager = FieldStatusManager.new()
-var weak_left_field:WeakRef = weakref(null)
-var weak_right_field:WeakRef = weakref(null)
-
+var index:int = -1
+var left_field:Field: get = _get_left_field, set = _set_left_field
+var right_field:Field: get = _get_right_field, set = _set_right_field
 var _tooltip_id:String = ""
+var _weak_left_field:WeakRef = weakref(null)
+var _weak_right_field:WeakRef = weakref(null)
 
 func _ready() -> void:
-	_gui_field_button.state_updated.connect(_on_gui_field_button_state_updated)
-	_gui_field_button.pressed.connect(_on_gui_field_button_pressed)
-	_gui_field_button.mouse_entered.connect(_on_field_mouse_entered)
-	_gui_field_button.mouse_exited.connect(_on_field_mouse_exited)
-	_gui_field_status_container.bind_with_field_status_manager(status_manager)
-	status_manager.request_hook_message_popup.connect(_on_request_hook_message_popup)
-	#status_manager.update_status("pest", 1)
-	_animated_sprite_2d.play("idle")
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
+	_progress_bars.hide()
+	_complete_check.hide()
 	_gui_field_selection_arrow.indicator_state = GUIFieldSelectionArrow.IndicatorState.HIDE
-	_reset_progress_bars()
+	_gui_field_button.state_updated.connect(_on_gui_field_button_state_updated)
+	_gui_field_button.pressed.connect(_on_plant_button_pressed)
+	_gui_field_button.mouse_entered.connect(_on_gui_plant_button_mouse_entered)
+	_gui_field_button.mouse_exited.connect(_on_gui_plant_button_mouse_exited)
 
-func toggle_selection_indicator(indicator_state:GUIFieldSelectionArrow.IndicatorState) -> void:
-	_gui_field_selection_arrow.indicator_state = indicator_state
- 
-func show_plant_preview(plant_data:PlantData) -> void:
-	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
-	var scene := load(plant_scene_path)
-	var plant_preview:Plant = scene.instantiate()
-	plant_preview.data = plant_data
-	_plant_container.add_child(plant_preview)
-	plant_preview.show_as_preview()
-	_weak_plant_preview = weakref(plant_preview)
-	_show_progress_bars(plant_preview)
-
-func plant_seed(plant_data:PlantData, combat_main:CombatMain) -> void:
+func plant_seed(plant_data:PlantData) -> void:
 	assert(plant == null, "Plant already planted")
 	_plant_down_sound.play()
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
@@ -73,205 +52,94 @@ func plant_seed(plant_data:PlantData, combat_main:CombatMain) -> void:
 	plant = scene.instantiate()
 	_plant_container.add_child(plant)
 	plant.data = plant_data
-	_show_progress_bars(plant)
-	plant.harvest_started.connect(func(): plant_harvest_started.emit())
-	plant.harvest_completed.connect(_on_plant_harvest_completed.bind(plant_data))
 	plant.field = self
+	_show_progress_bars(plant)
+	plant.bloom_started.connect(func(): plant_bloom_started.emit())
+	plant.bloom_completed.connect(func(): plant_bloom_completed.emit())
+	plant.action_application_completed.connect(func(): action_application_completed.emit())
 	_gui_plant_ability_icon_container.setup_with_plant(plant)
-	await plant.trigger_ability(Plant.AbilityType.ON_PLANT, combat_main)
+	_gui_field_status_container.bind_with_field_status_manager(plant.status_manager)
 	new_plant_planted.emit()
 
-func remove_plant() -> void:
-	if plant:
-		_gui_plant_ability_icon_container.remove_all()
-		plant.removed_from_field.emit()
-		plant.queue_free()
-		plant = null
-
-func get_preview_icon_global_position(preview_icon:Control) -> Vector2:
-	return Util.get_node_canvas_position(_gui_field_button) + Vector2.RIGHT * (_gui_field_button.size.x/2 - preview_icon.size.x/2 ) + Vector2.UP * preview_icon.size.y/2
-
-func remove_plant_preview() -> void:
-	if _weak_plant_preview.get_ref():
-		_weak_plant_preview.get_ref().queue_free()
-		_reset_progress_bars()
-
-func apply_weather_actions(weather_data:WeatherData, combat_main:CombatMain) -> void:
-	await apply_actions(weather_data.actions, combat_main)
-	if plant:
-		await plant.trigger_ability(Plant.AbilityType.WEATHER, combat_main)
-
-func is_action_applicable(action:ActionData) -> bool:
-	if action.type == ActionData.ActionType.LIGHT || action.type == ActionData.ActionType.WATER:
-		return plant != null
-	else:
-		return true
-
-func apply_actions(actions:Array[ActionData], combat_main:CombatMain) -> void:
-	#await _play_action_from_gui_animation(action, from_gui)
-	for action in actions:
-		match action.type:
-			ActionData.ActionType.LIGHT:
-				await _apply_light_action(action, combat_main)
-			ActionData.ActionType.WATER:
-				await _apply_water_action(action, combat_main)
-			ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
-				await _apply_field_status_action(action, combat_main)
-			_:
-				pass
-	action_application_completed.emit()
-
-func apply_field_status(field_status_id:String, stack:int, combat_main:CombatMain) -> void:
-	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(field_status_id, true)
-	if field_status_data.stackable:
-		var text := str(stack)
-		if stack > 0:
-			text = "+" + str(stack)
-		await _show_resource_icon_popup(field_status_id, text)
-		status_manager.update_status(field_status_id, stack)
-	else:
-		var text := "+"
-		if stack < 0:
-			text = "-"
-		await _show_resource_icon_popup(field_status_id, text)
-		status_manager.update_status(field_status_id, 1)
-	if plant:
-		if stack > 0:
-			await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_INCREASE, combat_main)
-		else:
-			await plant.trigger_ability(Plant.AbilityType.FIELD_STATUS_DECREASE, combat_main)
-
-func show_harvest_popup() -> void:
-	_point_audio.play()
-	# TODO:
-
-func can_harvest() -> bool:
-	return plant && plant.can_harvest()
-
-func harvest(combat_main:CombatMain) -> void:
-	assert(plant, "No plant planted")
-	assert(can_harvest(), "Cannot harvest")
-	plant.harvest(combat_main)
-
-func handle_turn_end() -> void:
-	status_manager.handle_status_on_turn_end()
-
-func handle_tool_application_hook() -> void:
-	await status_manager.handle_tool_application_hook(plant)
-
-func handle_tool_discard_hook(count:int) -> void:
-	await status_manager.handle_tool_discard_hook(plant, count)
-
-func handle_end_day_hook(combat_main:CombatMain) -> void:
-	await status_manager.handle_end_day_hook(combat_main, plant)
-
-func clear_all_statuses() -> void:
-	status_manager.clear_all_statuses()
+func toggle_selection_indicator(indicator_state:GUIFieldSelectionArrow.IndicatorState) -> void:
+	_gui_field_selection_arrow.indicator_state = indicator_state
 
 func show_tooltip() -> void:
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.PLANT, plant.data, _tooltip_id, _gui_field_button, false, GUITooltip.TooltipPosition.LEFT_TOP, true)
+	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.PLANT, plant.data, _tooltip_id, _gui_field_button, false, GUITooltip.TooltipPosition.BOTTOM, true)
 
 func hide_tooltip() -> void:
 	Events.request_hide_tooltip.emit(_tooltip_id)
 
-func _show_progress_bars(p:Plant) -> void:
-	assert(p.data)
-	_light_bar.bind_with_resource_point(p.light)
-	_water_bar.bind_with_resource_point(p.water)
+func get_preview_icon_global_position(preview_icon:Control) -> Vector2:
+	return Util.get_node_canvas_position(_gui_field_button) + Vector2.RIGHT * (_gui_field_button.size.x/2 - preview_icon.size.x/2 ) + Vector2.UP * preview_icon.size.y/2
 
-func _reset_progress_bars() -> void:
-	_light_bar.max_value = 0
-	_light_bar.current_value = 0
-	_water_bar.max_value = 0
-	_water_bar.current_value = 0
+func can_bloom() -> bool:
+	return plant.is_bloom()
 
-func _apply_light_action(action:ActionData, combat_main:CombatMain) -> void:
-	var true_value := _get_action_true_value(action)
-	if action.operator_type == ActionData.OperatorType.EQUAL_TO && plant:
-		true_value = true_value - plant.light.value 
-	await _show_popup_action_indicator(action, true_value)
-	if plant:
-		plant.light.value += true_value
-		if true_value > 0:
-			await plant.trigger_ability(Plant.AbilityType.LIGHT_GAIN, combat_main)
+func bloom() -> void:
+	_progress_bars.hide()
+	_gui_field_button.hide()
+	_gui_field_status_container.hide()
+	_gui_field_selection_arrow.hide()
+	_complete_check.show()
+	plant.bloom()
 
-func _apply_water_action(action:ActionData, combat_main:CombatMain) -> void:
-	var true_value := _get_action_true_value(action)
-	if action.operator_type == ActionData.OperatorType.EQUAL_TO && plant:
-		true_value = true_value - plant.water.value
-	await _show_popup_action_indicator(action, true_value)
-	if plant:
-		plant.water.value += true_value
-		if true_value > 0:
-			await status_manager.handle_add_water_hook(combat_main, plant)
+#region private methods
 
-func _apply_field_status_action(action:ActionData, combat_main:CombatMain) -> void:
-	var resource_id := Util.get_action_id_with_action_type(action.type)
-	var true_value := _get_action_true_value(action)
-	var current_status := status_manager.get_status(resource_id)
-	if action.operator_type == ActionData.OperatorType.EQUAL_TO && current_status:
-		true_value = true_value - current_status.stack
-	await apply_field_status(resource_id, true_value, combat_main)
-
-func _show_popup_action_indicator(action_data:ActionData, true_value:int) -> void:
-	var text := str(true_value)
-	if true_value > 0:
-		text = "+" + text
-	var resource_id := Util.get_action_id_with_action_type(action_data.type)
-	await _show_resource_icon_popup(resource_id, text)
-
-func _show_resource_icon_popup(icon_id:String, text:String) -> void:
-	_buff_sound.play()
-	var popup:PopupLabelIcon = POPUP_LABEL_ICON_SCENE.instantiate()
-	var color:Color = Constants.COLOR_WHITE
-	popup.setup(text, color, load(Util.get_image_path_for_resource_id(icon_id)))
-	var popup_location:Vector2 = Util.get_node_canvas_position(_gui_field_button) + Vector2.RIGHT * 8
-	Events.request_display_popup_things.emit(popup, 6, 3, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, popup_location)
-	await Util.create_scaled_timer(POPUP_SHOW_TIME).timeout
-
-func _get_action_true_value(action_data:ActionData) -> int:
-	return action_data.get_calculated_value(self)
+func _show_progress_bars(plant:Plant) -> void:
+	_progress_bars.show()
+	_light_bar.bind_with_resource_point(plant.light)
+	_water_bar.bind_with_resource_point(plant.water)
+	if plant.light.max_value <= 0:
+		_light_bar.hide()
+	if plant.water.max_value <= 0:
+		_water_bar.hide()
 
 #region events
 
 func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> void:
 	match state:
 		GUIBasicButton.ButtonState.NORMAL, GUIBasicButton.ButtonState.DISABLED, GUIBasicButton.ButtonState.SELECTED:
-			_animated_sprite_2d.play("idle")
+			if plant:
+				plant.plant_sprite.material.set_shader_parameter("outline_size", 0)
+			animated_sprite_2d.material.set_shader_parameter("outline_size", 0)
 		GUIBasicButton.ButtonState.HOVERED:
-			_animated_sprite_2d.play("hover")
+			if plant:
+				plant.plant_sprite.material.set_shader_parameter("outline_size", 1)
+			animated_sprite_2d.material.set_shader_parameter("outline_size", 1)
 		GUIBasicButton.ButtonState.PRESSED:
-			_animated_sprite_2d.play("pressed")
+			if plant:
+				plant.plant_sprite.material.set_shader_parameter("outline_size", 0)
+			animated_sprite_2d.material.set_shader_parameter("outline_size", 0)
 
-func _on_plant_harvest_completed(plant_data:PlantData) -> void:
-	await status_manager.handle_harvest_hook(plant)
-	_reset_progress_bars()
-	plant_harvest_completed.emit(plant_data)
-	remove_plant()
-
-func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
-	var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()
-	var color:Color = Constants.COLOR_RED2
-	match status_data.type:
-		FieldStatusData.Type.BAD:
-			color = Constants.COLOR_RED2
-		FieldStatusData.Type.GOOD:
-			color = Constants.COLOR_YELLOW2
-	popup.setup(status_data.popup_message, color)
-	var popup_location:Vector2 = Util.get_node_canvas_position(_gui_field_button)
-	Events.request_display_popup_things.emit(popup, 10, 1, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, popup_location)
-	await Util.create_scaled_timer(POPUP_SHOW_TIME).timeout
-
-func _on_field_mouse_entered() -> void:
+func _on_gui_plant_button_mouse_entered() -> void:
 	if plant:
 		Events.update_hovered_data.emit(plant.data)
-		field_hovered.emit(true)
+	field_hovered.emit(true)
 
-func _on_field_mouse_exited() -> void:
+func _on_gui_plant_button_mouse_exited() -> void:
 	Events.update_hovered_data.emit(null)
 	field_hovered.emit(false)
 
-func _on_gui_field_button_pressed() -> void:
-	if plant:
-		field_pressed.emit()
+func _on_plant_button_pressed() -> void:
+	_animation_player.play("dip")
+	field_pressed.emit()
+
+#endregion
+
+#region setter/getter
+
+func _get_left_field() -> Field:
+	return _weak_left_field.get_ref()
+
+func _get_right_field() -> Field:
+	return _weak_right_field.get_ref()
+
+func _set_left_field(field:Field) -> void:
+	_weak_left_field = weakref(field)
+
+func _set_right_field(field:Field) -> void:
+	_weak_right_field = weakref(field)
+
+#endregion

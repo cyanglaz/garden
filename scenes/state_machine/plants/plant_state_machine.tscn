@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://c4uyy86onbdnu"]
+[gd_scene load_steps=5 format=3 uid="uid://c4uyy86onbdnu"]
 
 [ext_resource type="PackedScene" uid="uid://cn3w8y1wumrmq" path="res://scenes/state_machine/finite_state_machine.tscn" id="1_n4sve"]
 [ext_resource type="Script" uid="uid://qniw484lk4rt" path="res://scenes/state_machine/plants/plant_state_machine.gd" id="2_fxefu"]
 [ext_resource type="PackedScene" uid="uid://bsknni2ebxkkv" path="res://scenes/state_machine/plants/states/plant_state_idle.tscn" id="3_d4jv5"]
-[ext_resource type="PackedScene" uid="uid://dm6v207exqewn" path="res://scenes/state_machine/plants/states/plant_state_preview.tscn" id="4_4vwa7"]
-[ext_resource type="PackedScene" uid="uid://dbgtdql6o365o" path="res://scenes/state_machine/plants/states/plant_state_harvest.tscn" id="5_77tq4"]
+[ext_resource type="PackedScene" uid="uid://dbgtdql6o365o" path="res://scenes/state_machine/plants/states/plant_state_grown.tscn" id="5_77tq4"]
 
 [node name="PlantStateMachine" node_paths=PackedStringArray("default_state") instance=ExtResource("1_n4sve")]
 script = ExtResource("2_fxefu")
@@ -12,6 +11,4 @@ default_state = NodePath("States/PlantStateIdle")
 
 [node name="PlantStateIdle" parent="States" index="0" instance=ExtResource("3_d4jv5")]
 
-[node name="PlantStatePreview" parent="States" index="1" instance=ExtResource("4_4vwa7")]
-
-[node name="PlantStateHarvest" parent="States" index="2" instance=ExtResource("5_77tq4")]
+[node name="PlantStateBloom" parent="States" index="1" instance=ExtResource("5_77tq4")]

@@ -13,7 +13,7 @@ const GUI_CONTRACT_PLANT_ICON_SCENE := preload("res://scenes/GUI/main_game/contr
 @onready var type_title_label: Label = %TypeTitleLabel
 @onready var type_value_label: Label = %TypeValueLabel
 @onready var gui_reward_gold: GUIContractGold = %GUIContractGold
-@onready var gui_reward_rating: GUIContractRating = %GUIContractRating
+@onready var gui_reward_hp: GUIContractRating = %GUIContractRating
 @onready var gui_reward_booster_pack: GUIIcon = %GUIRewardBoosterPack
 @onready var gui_contract_total_resources: GUIContractTotalResources = %GUIContractTotalResources
 @onready var background: NinePatchRect = %Background
@@ -93,10 +93,10 @@ func update_with_contract_data(contract:ContractData) -> void:
 	penalty_rate_value_label.modulate = theme_color
 	
 	gui_reward_gold.update_with_value(contract.reward_gold)
-	if contract.reward_rating > 0:
-		gui_reward_rating.update_with_value(contract.reward_rating)
+	if contract.reward_hp > 0:
+		gui_reward_hp.update_with_value(contract.reward_hp)
 	else:
-		gui_reward_rating.hide()
+		gui_reward_hp.hide()
 	gui_reward_booster_pack.texture = load(BOOSTER_PACK_ICON_MAP[contract.reward_booster_pack_type])
 
 func _combine_plant_datas(plant_datas:Array[PlantData]) -> Dictionary:

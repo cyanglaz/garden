@@ -9,6 +9,8 @@ resource_local_to_scene = true
 shader = ExtResource("3_fksbn")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
 
 [node name="GUIContractRating" type="HBoxContainer"]
 mouse_filter = 0

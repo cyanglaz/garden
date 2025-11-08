@@ -4,13 +4,12 @@
 
 [resource]
 script = ExtResource("1_hiam4")
-popup_message = "Rating Reduced"
+popup_message = "Vitality Reduced"
 stackable = true
-remove_on_trigger = true
 id = "pest"
 display_name = "Pest"
-description = "When the affected plant is harvested, reduce {value} {resource:rating} for each stack."
+description = "At the end of turn, reduce {resource:vitality} by {value} per stack."
 data = {
-"value": "-1"
+"value": "1"
 }
 metadata/_custom_type_script = "uid://ep5ey6gqhty1"

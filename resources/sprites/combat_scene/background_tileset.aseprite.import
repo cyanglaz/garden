@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bg3r2oun341qr"
+path="res://.godot/imported/background_tileset.aseprite-30de36cdb2f4cac32b33831ab3c4f43f.res"
+
+[deps]
+
+source_file="res://resources/sprites/combat_scene/background_tileset.aseprite"
+dest_files=["res://.godot/imported/background_tileset.aseprite-30de36cdb2f4cac32b33831ab3c4f43f.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

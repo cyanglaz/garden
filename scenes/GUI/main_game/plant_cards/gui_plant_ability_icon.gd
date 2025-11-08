@@ -37,7 +37,7 @@ func _on_mouse_entered() -> void:
 	if display_mode:
 		return
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.THING_DATA, data, _tooltip_id, self, false, GUITooltip.TooltipPosition.LEFT, true)
+	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.THING_DATA, data, _tooltip_id, self, false, GUITooltip.TooltipPosition.BOTTOM_LEFT, true)
 
 func _on_mouse_exited() -> void:
 	is_highlighted = false

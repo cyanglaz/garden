@@ -94,7 +94,7 @@ func get_duplicate() -> ThingData:
 	action_data.copy(self)
 	return action_data
 
-func get_calculated_value(target_field:Field) -> int:
+func get_calculated_value(target_plant:Plant) -> int:
 	var base_value := 0
 	match value_type:
 		ValueType.NUMBER:
@@ -102,10 +102,10 @@ func get_calculated_value(target_field:Field) -> int:
 		ValueType.RANDOM:
 			base_value = _original_value
 		ValueType.X:
-			base_value = get_calculated_x_value(target_field)
+			base_value = get_calculated_x_value(target_plant)
 	return modified_value + base_value
 
-func get_calculated_x_value(target_field:Field) -> int:
+func get_calculated_x_value(target_plant:Plant) -> int:
 	var base_x_value := 0
 	match x_value_type:
 		XValueType.NUMBER:
@@ -116,8 +116,8 @@ func get_calculated_x_value(target_field:Field) -> int:
 			else:
 				base_x_value = 0
 		XValueType.TARGET_LIGHT:
-			if target_field && target_field.plant:
-				base_x_value = target_field.plant.light.value
+			if target_plant:
+				base_x_value = target_plant.light.value
 			else:
 				base_x_value = 0
 	return modified_x_value + base_x_value

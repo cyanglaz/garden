@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://jn6jsousg3qy"
-path="res://.godot/imported/rating_up.wav-4b4161fe50a48c9a0fc70cf08d596e49.sample"
+path="res://.godot/imported/hp_up.wav-7951f9704dad750a149327aa738bc116.sample"
 
 [deps]
 
-source_file="res://resources/sounds/SFX/rating/rating_up.wav"
-dest_files=["res://.godot/imported/rating_up.wav-4b4161fe50a48c9a0fc70cf08d596e49.sample"]
+source_file="res://resources/sounds/SFX/hp/hp_up.wav"
+dest_files=["res://.godot/imported/hp_up.wav-7951f9704dad750a149327aa738bc116.sample"]
 
 [params]
 

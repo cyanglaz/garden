@@ -141,7 +141,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
-localization_text_key = "ACTION_END_DAY"
+localization_text_key = "ACTION_END_TURN"
 
 [node name="GUIPlantSeedAnimationContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control" instance=ExtResource("8_eh8k3")]
 unique_name_in_owner = true

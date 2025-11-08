@@ -79,7 +79,7 @@ func use_card(tool_data:ToolData) -> void:
 func select_tool(tool_data:ToolData) -> void:
 	selected_tool = tool_data
 
-func apply_tool(combat_main:CombatMain, fields:Array, field_index:int) -> void:
+func apply_tool(combat_main:CombatMain, plants:Array, plant_index:int) -> void:
 	is_applying_tool = true
 	var applying_tool = selected_tool
 	var number_of_cards_to_select := applying_tool.get_number_of_secondary_cards_to_select()
@@ -101,10 +101,10 @@ func apply_tool(combat_main:CombatMain, fields:Array, field_index:int) -> void:
 				# Some actions need to select cards, for example discard, compost
 				secondary_card_datas = await _gui_tool_card_container.select_secondary_cards(actual_number_of_cards_to_select, selecting_from_cards)
 	number_of_card_used_this_turn += 1
-	_run_card_actions(combat_main, fields, field_index, applying_tool, secondary_card_datas)
-	_run_card_lifecycle(applying_tool, combat_main)
 	_tool_application_queue.append(applying_tool)
 	tool_application_started.emit(applying_tool)
+	_run_card_actions(combat_main, plants, plant_index, applying_tool, secondary_card_datas)
+	_run_card_lifecycle(applying_tool, combat_main)
 
 func discardable_cards() -> Array:
 	return tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return tool_data != selected_tool)
@@ -150,10 +150,10 @@ func _run_card_lifecycle(tool_data:ToolData, combat_main:CombatMain) -> void:
 	_tool_lifecycle_queue.erase(tool_data)
 	_tool_lifecycle_completed.emit(tool_data, combat_main)
 
-func _run_card_actions(combat_main:CombatMain, fields:Array, field_index:int, tool_data:ToolData, secondary_card_datas:Array) -> void:
+func _run_card_actions(combat_main:CombatMain, plants:Array, plant_index:int, tool_data:ToolData, secondary_card_datas:Array) -> void:
 	_tool_actions_queue.append(tool_data)
 	await combat_main.field_container.trigger_tool_application_hook()
-	await _tool_applier.apply_tool(combat_main, fields, field_index, tool_data, secondary_card_datas, null)
+	await _tool_applier.apply_tool(combat_main, plants, plant_index, tool_data, secondary_card_datas, null)
 	_tool_actions_queue.erase(tool_data)
 	_tool_actions_completed.emit(tool_data, combat_main)
 

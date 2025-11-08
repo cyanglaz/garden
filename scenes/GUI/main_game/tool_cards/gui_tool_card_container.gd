@@ -39,10 +39,10 @@ func refresh_tool_cards() -> void:
 		var card:GUIToolCardButton = _container.get_child(i)
 		card.update_with_tool_data(card.tool_data)
 
-func update_mouse_field(field:Field) -> void:
+func update_mouse_plant(plant:Plant) -> void:
 	for i in get_card_count():
 		var card:GUIToolCardButton = _container.get_child(i)
-		card.update_mouse_field(field)
+		card.update_mouse_plant(plant)
 
 func clear() -> void:
 	if _container.get_children().size() == 0:
@@ -204,16 +204,15 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 	for i in number_of_cards:
 		var target_position := Vector2(start_x + i*_card_size + i*card_space, target_y)
 		result.append(target_position)
-	result.reverse() # First card is at the end of the array.
+	#result.reverse() # First card is at the end of the array.
 	for i in result.size():
 		if selected_index >= 0:
 			if card_space < 0.0:
 				var pos = result[i]
 				if i < selected_index:
-					# The positions are reversed
-					pos.x += 1 - card_space # Push right cards 4 pixels left
+					pos.x -= 1 - card_space # Push left cards 4 pixels left
 				elif i > selected_index:
-					pos.x -= 1 - card_space # Push left cards 4 pixels right
+					pos.x += 1 - card_space # Push right cards 4 pixels right
 				result[i] = pos
 	return result
 
@@ -296,7 +295,7 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	if positions.size() < 2:
 		return
-	var card_padding := positions[0].x - positions[1].x - _card_size
+	var card_padding := positions[1].x - positions[0].x - _card_size
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
 	tween.set_ease(Tween.EASE_IN)
@@ -308,10 +307,9 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 		if card_padding < 0.0:
 			var pos = positions[i]
 			if i < index:
-				# The positions are reversed
-				pos.x += 1 - card_padding # Push right cards 4 pixels left
+				pos.x -= 1 - card_padding # Push left cards 4 pixels left
 			elif i > index:
-				pos.x -= 1 - card_padding # Push left cards 4 pixels right
+				pos.x += 1 - card_padding # Push left cards 4 pixels right
 			tween.tween_property(gui_card, "position", pos, REPOSITION_DURATION)
 			animated = true
 	if !animated:

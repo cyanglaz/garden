@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bhqydxgtda0mu"
-path="res://.godot/imported/icon_rating.png-24c50db33aa48a7952f408acd520a4c6.ctex"
+uid="uid://c6fh0udy8eryv"
+path="res://.godot/imported/background_tileset.png-d32812f75b8671367ad174add7d35ae0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/GUI/icons/resources/icon_rating.png"
-dest_files=["res://.godot/imported/icon_rating.png-24c50db33aa48a7952f408acd520a4c6.ctex"]
+source_file="res://resources/sprites/combat_scene/background_tileset.png"
+dest_files=["res://.godot/imported/background_tileset.png-d32812f75b8671367ad174add7d35ae0.ctex"]
 
 [params]
 

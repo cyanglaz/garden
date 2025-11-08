@@ -11,7 +11,7 @@ const SIGN_ICON_PATH := "res://resources/sprites/GUI/icons/cards/signs/icon_"
 @onready var _x_value_label: Label = %XValueLabel
 @onready var _number_sign_icon: TextureRect = %NumberSignIcon
 
-func update_with_action(action_data:ActionData, target_field:Field) -> void:
+func update_with_action(action_data:ActionData, target_plant:Plant) -> void:
 	_sign_icon.hide()
 	_value_icon.hide()
 	_random_icon.hide()
@@ -19,19 +19,19 @@ func update_with_action(action_data:ActionData, target_field:Field) -> void:
 	_number_sign_icon.hide()
 	match action_data.value_type:
 		ActionData.ValueType.NUMBER:
-			if action_data.get_calculated_value(target_field) == 0:
+			if action_data.get_calculated_value(target_plant) == 0:
 				_value_icon.hide()
 			else:
 				_value_icon.show()
-				var value_id := _get_value_id(action_data.get_calculated_value(target_field))
+				var value_id := _get_value_id(action_data.get_calculated_value(target_plant))
 				var icon_path := VALUE_ICON_PATH + value_id + ".png"
 				_value_icon.texture = load(icon_path)
-				if action_data.get_calculated_value(target_field) < 0:
+				if action_data.get_calculated_value(target_plant) < 0:
 					_sign_icon.show()
 					_sign_icon.texture = load(SIGN_ICON_PATH + "minus.png")
 		ActionData.ValueType.RANDOM:
 			_value_icon.show()
-			var value_id := _get_value_id(action_data.get_calculated_value(target_field))
+			var value_id := _get_value_id(action_data.get_calculated_value(target_plant))
 			var icon_path := VALUE_ICON_PATH + value_id + ".png"
 			_value_icon.texture = load(icon_path)
 			_random_icon.show()
@@ -39,7 +39,7 @@ func update_with_action(action_data:ActionData, target_field:Field) -> void:
 			_value_icon.show()
 			_value_icon.texture = load(VALUE_ICON_PATH + "x.png")
 			_x_value_label.show()
-			_x_value_label.text = "(%s)"%[_get_x_value(action_data, target_field)]
+			_x_value_label.text = "(%s)"%[_get_x_value(action_data, target_plant)]
 	if action_data.modified_value > 0:
 		_value_icon.modulate = Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
 	elif action_data.modified_value < 0:
@@ -48,7 +48,7 @@ func update_with_action(action_data:ActionData, target_field:Field) -> void:
 		_value_icon.modulate = Color.WHITE
 	
 	if action_data.operator_type == ActionData.OperatorType.EQUAL_TO:
-		assert(action_data.get_calculated_value(target_field) >= 0, "Value must be greater than 0 for equal to operator")
+		assert(action_data.get_calculated_value(target_plant) >= 0, "Value must be greater than 0 for equal to operator")
 		_sign_icon.show()
 		_sign_icon.texture = load(SIGN_ICON_PATH + "equals.png")
 
@@ -81,8 +81,8 @@ func update_for_x(x_value:int, x_value_type:ActionData.XValueType) -> void:
 	else:
 		show()
 
-func _get_x_value(action_data:ActionData, target_field:Field) -> String:
-	return str(action_data.get_calculated_x_value(target_field))	
+func _get_x_value(action_data:ActionData, target_plant:Plant) -> String:
+	return str(action_data.get_calculated_x_value(target_plant))	
 
 func _get_value_id(value:int) -> String:
 	var value_id := str(abs(value))

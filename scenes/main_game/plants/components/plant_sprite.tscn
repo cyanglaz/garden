@@ -1,3 +1,12 @@
-[gd_scene format=3 uid="uid://c2pseu3ojv2f5"]
+[gd_scene load_steps=3 format=3 uid="uid://c2pseu3ojv2f5"]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+[ext_resource type="Shader" uid="uid://c3ymn2cfgtmx7" path="res://scenes/main_game/plants/components/plant_sprite.gdshader" id="1_7bq2r"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dqod2"]
+resource_local_to_scene = true
+shader = ExtResource("1_7bq2r")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+
+[node name="PlantSprite" type="AnimatedSprite2D"]
+material = SubResource("ShaderMaterial_dqod2")

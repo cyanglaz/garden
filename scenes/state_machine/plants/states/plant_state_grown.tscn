@@ -1,11 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://dbgtdql6o365o"]
 
-[ext_resource type="Script" uid="uid://b0qdja7puepuf" path="res://scenes/state_machine/plants/states/plant_state_harvest.gd" id="1_l6d2v"]
+[ext_resource type="Script" uid="uid://b0qdja7puepuf" path="res://scenes/state_machine/plants/states/plant_state_grown.gd" id="1_l6d2v"]
 [ext_resource type="AudioStream" uid="uid://dltl3v7ibygxt" path="res://resources/sounds/SFX/field/collect_coin.wav" id="2_wctnb"]
 
-[node name="PlantStateHarvest" type="Node2D"]
+[node name="PlantStateBloom" type="Node2D"]
 script = ExtResource("1_l6d2v")
-log_state = null
 
 [node name="GoldAudio" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true

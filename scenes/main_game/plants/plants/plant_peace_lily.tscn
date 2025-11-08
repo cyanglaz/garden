@@ -1,17 +1,65 @@
-[gd_scene load_steps=6 format=3 uid="uid://cnj2y433duoni"]
+[gd_scene load_steps=10 format=3 uid="uid://cnj2y433duoni"]
 
 [ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plants/plant.tscn" id="1_36t4u"]
 [ext_resource type="Texture2D" uid="uid://bn7irm5luatjg" path="res://resources/sprites/plants/plant_peace_lily.png" id="3_fusfv"]
 
+[sub_resource type="Shader" id="Shader_empxe"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform vec4 outline_color:source_color = vec4(1, 1, 1, 1); 
+uniform int outline_size = 0;
+
+varying vec4 modulate;
+
+void vertex() {
+	modulate = COLOR;
+}
+
+void fragment() {
+
+	vec4 base_color = COLOR;
+
+	float size_x = 1.0/float(textureSize(TEXTURE, 0).x);
+	float size_y = 1.0/float(textureSize(TEXTURE, 0).y);
+	vec4 sprite_color = texture(TEXTURE, UV);
+	float alpha  = -4.0 * sprite_color.a;
+	alpha += textureLod(TEXTURE, UV + vec2(size_x * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(-size_x * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, -size_y * float(outline_size)), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, size_y * float(outline_size)), 0).a;
+	sprite_color = mix(sprite_color, outline_color, clamp(alpha, 0.0, 1.0));
+	sprite_color = vec4(sprite_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
+	base_color = sprite_color;
+	
+	COLOR = base_color * modulate;
+
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_txblc"]
+resource_local_to_scene = true
+shader = SubResource("Shader_empxe")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_empxe"]
 atlas = ExtResource("3_fusfv")
-region = Rect2(0, 0, 36, 36)
+region = Rect2(0, 0, 31, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a171i"]
 atlas = ExtResource("3_fusfv")
-region = Rect2(36, 0, 36, 36)
+region = Rect2(31, 0, 31, 64)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_j3o6h"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_j3o6h"]
+atlas = ExtResource("3_fusfv")
+region = Rect2(0, 64, 31, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jwibv"]
+atlas = ExtResource("3_fusfv")
+region = Rect2(31, 64, 31, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_awiv4"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -19,6 +67,17 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_a171i")
+}],
+"loop": true,
+"name": &"bloom",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j3o6h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jwibv")
 }],
 "loop": true,
 "name": &"idle",
@@ -29,8 +88,9 @@ animations = [{
 
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_j3o6h")
-animation = &"idle"
+material = SubResource("ShaderMaterial_txblc")
+sprite_frames = SubResource("SpriteFrames_awiv4")
+animation = &"bloom"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
 "pending_changes": {}
@@ -45,4 +105,4 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/plants/plant_peace_lily.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "b2250f78109d84bd091944ce271e0fa0"
+metadata/_aseprite_wizard_source_file_hash_ = "cf2652a2f6f1da60f485c69fcccdc91f"

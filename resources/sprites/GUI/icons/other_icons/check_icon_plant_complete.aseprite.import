@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dy5itf7sjvx3f"
+path="res://.godot/imported/check_icon_plant_complete.aseprite-87161163d23bce927e35dcf6397f7e24.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/check_icon_plant_complete.aseprite"
+dest_files=["res://.godot/imported/check_icon_plant_complete.aseprite-87161163d23bce927e35dcf6397f7e24.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,25 +1,84 @@
-[gd_scene load_steps=7 format=3 uid="uid://cpworapnddk3i"]
+[gd_scene load_steps=11 format=3 uid="uid://cpworapnddk3i"]
 
 [ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plants/plant.tscn" id="1_nxqpn"]
 [ext_resource type="Script" uid="uid://dbq620ta86csr" path="res://scenes/main_game/plants/plants/plant_nightshade.gd" id="2_nxqpn"]
 [ext_resource type="Texture2D" uid="uid://ch27gjpu3t6oo" path="res://resources/sprites/plants/plant_nightshade.png" id="3_nxqpn"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_nxqpn"]
-atlas = ExtResource("3_nxqpn")
-region = Rect2(0, 0, 36, 36)
+[sub_resource type="Shader" id="Shader_nxqpn"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform vec4 outline_color:source_color = vec4(1, 1, 1, 1); 
+uniform int outline_size = 0;
+
+varying vec4 modulate;
+
+void vertex() {
+	modulate = COLOR;
+}
+
+void fragment() {
+
+	vec4 base_color = COLOR;
+
+	float size_x = 1.0/float(textureSize(TEXTURE, 0).x);
+	float size_y = 1.0/float(textureSize(TEXTURE, 0).y);
+	vec4 sprite_color = texture(TEXTURE, UV);
+	float alpha  = -4.0 * sprite_color.a;
+	alpha += textureLod(TEXTURE, UV + vec2(size_x * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(-size_x * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, -size_y * float(outline_size)), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, size_y * float(outline_size)), 0).a;
+	sprite_color = mix(sprite_color, outline_color, clamp(alpha, 0.0, 1.0));
+	sprite_color = vec4(sprite_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
+	base_color = sprite_color;
+	
+	COLOR = base_color * modulate;
+
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_txblc"]
+resource_local_to_scene = true
+shader = SubResource("Shader_nxqpn")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7jnm3"]
 atlas = ExtResource("3_nxqpn")
-region = Rect2(36, 0, 36, 36)
+region = Rect2(0, 0, 31, 64)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_t8qer"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8qer"]
+atlas = ExtResource("3_nxqpn")
+region = Rect2(31, 0, 31, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_whpb5"]
+atlas = ExtResource("3_nxqpn")
+region = Rect2(0, 64, 31, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1kt6j"]
+atlas = ExtResource("3_nxqpn")
+region = Rect2(31, 64, 31, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g60ue"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_nxqpn")
+"texture": SubResource("AtlasTexture_7jnm3")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_7jnm3")
+"texture": SubResource("AtlasTexture_t8qer")
+}],
+"loop": true,
+"name": &"bloom",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_whpb5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1kt6j")
 }],
 "loop": true,
 "name": &"idle",
@@ -31,7 +90,8 @@ script = ExtResource("2_nxqpn")
 
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_t8qer")
+material = SubResource("ShaderMaterial_txblc")
+sprite_frames = SubResource("SpriteFrames_g60ue")
 animation = &"idle"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
@@ -47,4 +107,4 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/plants/plant_nightshade.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "4fd8c8315a756439cd73b39f433604ab"
+metadata/_aseprite_wizard_source_file_hash_ = "db743582dfee5315b871115ca7b63354"

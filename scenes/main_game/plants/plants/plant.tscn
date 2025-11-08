@@ -1,18 +1,71 @@
-[gd_scene load_steps=5 format=3 uid="uid://5hl240rod12d"]
+[gd_scene load_steps=9 format=3 uid="uid://5hl240rod12d"]
 
 [ext_resource type="Script" uid="uid://c3p4a5hat4001" path="res://scenes/main_game/plants/plants/plant.gd" id="1_k38v5"]
 [ext_resource type="PackedScene" uid="uid://c4uyy86onbdnu" path="res://scenes/state_machine/plants/plant_state_machine.tscn" id="2_o3cyj"]
 [ext_resource type="PackedScene" uid="uid://c2pseu3ojv2f5" path="res://scenes/main_game/plants/components/plant_sprite.tscn" id="2_rvdin"]
 [ext_resource type="PackedScene" uid="uid://ch73pnku1ejr5" path="res://scenes/main_game/plants/components/plant_ability_container.tscn" id="4_7q2y3"]
+[ext_resource type="AudioStream" uid="uid://bs0jg061p4c2d" path="res://resources/sounds/SFX/field/field_buff.wav" id="14_gu4ic"]
+[ext_resource type="AudioStream" uid="uid://t10sv74gr8qu" path="res://resources/sounds/SFX/other/points/points_collected.wav" id="16_txblc"]
+
+[sub_resource type="Shader" id="Shader_ykj75"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform vec4 outline_color:source_color = vec4(1, 1, 1, 1); 
+uniform int outline_size = 0;
+
+varying vec4 modulate;
+
+void vertex() {
+	modulate = COLOR;
+}
+
+void fragment() {
+
+	vec4 base_color = COLOR;
+
+	float size_x = 1.0/float(textureSize(TEXTURE, 0).x);
+	float size_y = 1.0/float(textureSize(TEXTURE, 0).y);
+	vec4 sprite_color = texture(TEXTURE, UV);
+	float alpha  = -4.0 * sprite_color.a;
+	alpha += textureLod(TEXTURE, UV + vec2(size_x * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(-size_x * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, -size_y * float(outline_size)), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, size_y * float(outline_size)), 0).a;
+	sprite_color = mix(sprite_color, outline_color, clamp(alpha, 0.0, 1.0));
+	sprite_color = vec4(sprite_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
+	base_color = sprite_color;
+	
+	COLOR = base_color * modulate;
+
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_txblc"]
+resource_local_to_scene = true
+shader = SubResource("Shader_ykj75")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
 
 [node name="Plant" type="Node2D"]
 script = ExtResource("1_k38v5")
 
 [node name="PlantSprite" parent="." instance=ExtResource("2_rvdin")]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_txblc")
 
 [node name="PlantStateMachine" parent="." instance=ExtResource("2_o3cyj")]
 unique_name_in_owner = true
 
 [node name="PlantAbilityContainer" parent="." instance=ExtResource("4_7q2y3")]
 unique_name_in_owner = true
+
+[node name="BuffSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("14_gu4ic")
+bus = &"SFX"
+
+[node name="PointAudio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("16_txblc")
+bus = &"SFX"

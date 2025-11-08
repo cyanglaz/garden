@@ -23,7 +23,7 @@ signal camera_zoom_out_finished()
 
 # Main game global events
 @warning_ignore("unused_signal")
-signal request_rating_update(val:int)
+signal request_hp_update(val:int)
 @warning_ignore("unused_signal")
 signal request_view_cards(cards:Array, title:String)
 @warning_ignore("unused_signal")
