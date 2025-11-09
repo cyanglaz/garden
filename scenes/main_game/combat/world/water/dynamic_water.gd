@@ -7,20 +7,30 @@ const SPLASH_SPEED := {
 	"field": 0.7,
 }
 
+@export_group("Water Body")
+@export var water_color:Color = Constants.COLOR_BLUE_4
+@export var depth := 200
+
+@export_group("Physics")
 @export var k := 0.015
 @export var d := 0.1 # How fast recovers from the spring
 @export var spread := 0.0002
-@export var distance_between_springs := 16
 @export var spring_number := 22
-@export var depth := 200
+@export var distance_between_springs := 16
+
+@export_group("Outer Border")
 @export var outer_border_thickness := 2
+@export var outer_border_color:Color = Constants.COLOR_WHITE
+@export var outer_border_texture:Texture2D = null
+
+@export_group("Inner Border")
 @export var inner_border_thickness := 0
-@export var outer_border_color:Color = Constants.COLOR_BLUE_2
-@export var inner_border_color:Color = Constants.COLOR_BLUE_1
+@export var inner_border_color:Color = Constants.COLOR_WHITE
+@export var inner_border_texture:Texture2D = null
 
 @onready var water_polygon: Polygon2D = %WaterPolygon
-@onready var water_border: SmoothPath = %WaterBorder
-@onready var water_border_2: SmoothPath = %WaterBorder2
+@onready var water_border: SmoothLine = %WaterBorder
+@onready var water_border_2: SmoothLine = %WaterBorder2
 @onready var spring_container: Node2D = %SpringContainer
 
 var target_height := global_position.y
@@ -30,11 +40,14 @@ var springs := []
 var passes = 8
 
 func _ready() -> void:
-	water_border.line_width = outer_border_thickness
-	water_border.color = outer_border_color
+	water_polygon.color = water_color
+	water_border.width = outer_border_thickness
+	water_border.default_color = outer_border_color
+	water_border.texture = outer_border_texture
 	if inner_border_thickness > 0:
-		water_border_2.line_width = inner_border_thickness
-		water_border_2.color = inner_border_color
+		water_border_2.width = inner_border_thickness
+		water_border_2.default_color = inner_border_color
+		water_border_2.texture = inner_border_texture
 	var starting_x := -distance_between_springs * (spring_number / 2.0)
 	for i in spring_number:
 		var x_position := starting_x + distance_between_springs * i
@@ -45,8 +58,8 @@ func _ready() -> void:
 		water_spring.position.x = x_position
 		water_spring.set_collision_width(distance_between_springs)
 		water_spring.area_entered.connect(_on_water_spring_area_entered.bind(i))
-	#splash(5, 5)
-	#splash(4, 5)
+	splash(5, 5)
+	splash(4, 5)
 	#splash(6, 5)
 	#splash(7, 5)
 
@@ -99,7 +112,7 @@ func draw_border() -> void:
 		curve.add_point(surface_points[i])
 	water_border.curve = curve
 	water_border.smooth()
-	water_border.queue_redraw()
+	water_border.queue_update()
 
 	if inner_border_thickness > 0:
 		var curve_2 := Curve2D.new()
@@ -107,7 +120,7 @@ func draw_border() -> void:
 			curve_2.add_point(surface_points[i]+Vector2.DOWN * inner_border_thickness)
 		water_border_2.curve = curve_2
 		water_border_2.smooth()
-		water_border_2.queue_redraw()
+		water_border_2.queue_update()
 	
 func _on_water_spring_area_entered(_area: Area2D, index: int) -> void:
 	#var speed = 0

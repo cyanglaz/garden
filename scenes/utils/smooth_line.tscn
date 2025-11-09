@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1ujm2wuf48gv"]
+
+[ext_resource type="Texture2D" uid="uid://cktfeqa0c7xw5" path="res://resources/sprites/combat_scene/water_border.png" id="1_qpdn5"]
+[ext_resource type="Script" uid="uid://v6852dsbu1po" path="res://scenes/utils/smooth_line.gd" id="1_rv056"]
+
+[node name="SmoothLine" type="Line2D"]
+texture_repeat = 2
+texture = ExtResource("1_qpdn5")
+texture_mode = 1
+script = ExtResource("1_rv056")

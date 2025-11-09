@@ -1,15 +1,14 @@
 @tool
-class_name SmoothPath
-extends Path2D
+class_name SmoothLine
+extends Line2D
 
 @export var spline_length: float = 10
-@export var line_width := 1.0
-@export var color:Color = Constants.COLOR_WHITE
 
-func _draw() -> void:
-	var points = curve.get_baked_points()
-	if points.size() > 0:
-		draw_polyline(points, color, line_width, false)
+var curve:Curve2D = Curve2D.new()
+
+func queue_update() -> void:
+	points.clear()
+	points = curve.get_baked_points()
 
 func straighten() -> void:
 	for i in curve.get_point_count():
