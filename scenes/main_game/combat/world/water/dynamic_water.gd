@@ -34,9 +34,11 @@ func _ready() -> void:
 		water_spring.initialize()
 		water_spring.position.x = x_position
 		water_spring.set_collision_width(distance_between_springs)
-		water_spring.body_entered.connect(_on_water_spring_body_entered.bind(i))
+		water_spring.area_entered.connect(_on_water_spring_area_entered.bind(i))
 	#splash(5, 5)
 	#splash(4, 5)
+	#splash(6, 5)
+	#splash(7, 5)
 
 func _physics_process(_delta: float) -> void:
 	for water_spring:WaterSpring in springs:
@@ -89,9 +91,10 @@ func draw_border() -> void:
 	water_border.smooth()
 	water_border.queue_redraw()
 	
-func _on_water_spring_body_entered(index: int, body: Node2D) -> void:
-	var speed = 0
-	var water_spring = springs[index]
-	if body is CharacterBody2D:
-		speed = (body as CharacterBody2D).velocity.y * water_spring.motion_factor
-	splash(index, speed)
+func _on_water_spring_area_entered(area: Area2D, index: int) -> void:
+	#var speed = 0
+	#var water_spring = springs[index]
+	#if body is CharacterBody2D:
+		#speed = (body as CharacterBody2D).velocity.y * water_spring.motion_factor
+	splash(index, 1.0)
+	pass

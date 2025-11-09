@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dkmhkwq3u12wy" path="res://resources/sprites/indicators/arsenal_line_indicator_dot.png" id="1_mchnv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_76wge"]
+size = Vector2(20, 3)
 
 [node name="WaterSpring" type="Node2D"]
 script = ExtResource("1_76wge")
@@ -14,7 +15,9 @@ texture = ExtResource("1_mchnv")
 
 [node name="Area2D" type="Area2D" parent="."]
 unique_name_in_owner = true
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 unique_name_in_owner = true
+position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_76wge")

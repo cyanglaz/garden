@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cyojxmvm4jvfn"]
+[gd_scene load_steps=22 format=3 uid="uid://cyojxmvm4jvfn"]
 
 [ext_resource type="Script" uid="uid://2yt706pccsrm" path="res://scenes/main_game/field/field.gd" id="1_e1j0g"]
 [ext_resource type="Shader" uid="uid://bdhxjruma11hn" path="res://scenes/main_game/field/field.gdshader" id="1_foq2q"]
@@ -35,6 +35,9 @@ animations = [{
 "name": &"idle",
 "speed": 10.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ipwbb"]
+size = Vector2(34, 7)
 
 [sub_resource type="Animation" id="Animation_rw11e"]
 length = 0.001
@@ -104,6 +107,13 @@ metadata/_aseprite_wizard_source_file_hash_ = "a3f92ca90f4635d81644a9e5d3e0ecaa"
 [node name="PlantContainer" type="Node2D" parent="AnimatedSprite2D"]
 unique_name_in_owner = true
 position = Vector2(0, -2)
+
+[node name="Area2D" type="Area2D" parent="AnimatedSprite2D"]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/Area2D"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_ipwbb")
 
 [node name="GUIFieldButton" type="PanelContainer" parent="."]
 unique_name_in_owner = true

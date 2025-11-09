@@ -1,7 +1,9 @@
 class_name WaterSpring
 extends Node2D
 
-signal body_entered(body: Node2D)
+const COLLISION_DISABLED_TIME := 0.5
+
+signal area_entered(body: Node2D)
 
 @onready var collision_shape_2d: CollisionShape2D = %CollisionShape2D
 @onready var area_2d: Area2D = %Area2D
@@ -13,7 +15,7 @@ var target_height := 0.0
 var motion_factor = 0.02
 
 func _ready() -> void:
-	area_2d.body_entered.connect(_on_body_entered)
+	area_2d.area_entered.connect(_on_area_entered)
 	
 func initialize() -> void:
 	height = position.y
@@ -35,5 +37,11 @@ func set_collision_width(w:float) -> void:
 	var shape_size := (collision_shape_2d.shape as RectangleShape2D).size
 	collision_shape_2d.shape.size = Vector2(w, shape_size.y)
 
-func _on_body_entered(body: Node2D) -> void:
-	body_entered.emit(body)
+func _on_area_entered(area: Area2D) -> void:
+	#collision_shape_2d.set_deferred("disabled", true)
+	area_entered.emit(area)
+	#collision_shape_2d.set_deferred("disabled", true)
+	#Util.create_scaled_timer(COLLISION_DISABLED_TIME).timeout.connect(func() -> void:
+	#	if collision_shape_2d:
+	#		collision_shape_2d.set_deferred("disabled", false)
+	#)
