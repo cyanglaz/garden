@@ -3,6 +3,10 @@ extends Node2D
 
 const SPRING_SCENE := preload("res://scenes/main_game/combat/world/water/water_spring.tscn")
 
+const SPLASH_SPEED := {
+	"field": 0.7,
+}
+
 @export var k := 0.015
 @export var d := 0.1 # How fast recovers from the spring
 @export var spread := 0.0002
@@ -96,5 +100,6 @@ func _on_water_spring_area_entered(_area: Area2D, index: int) -> void:
 	#var water_spring = springs[index]
 	#if body is CharacterBody2D:
 		#speed = (body as CharacterBody2D).velocity.y * water_spring.motion_factor
-	splash(index, 0.7)
+	var speed = SPLASH_SPEED["field"]
+	splash(index, speed)
 	pass
