@@ -16,6 +16,13 @@ color = Color(0, 0.59607846, 0.8627451, 1)
 unique_name_in_owner = true
 curve = SubResource("Curve2D_rcll4")
 script = ExtResource("2_0176y")
+color = Color(0, 0.4117647, 0.6666667, 1)
+metadata/_custom_type_script = "uid://v6852dsbu1po"
+
+[node name="WaterBorder2" type="Path2D" parent="."]
+unique_name_in_owner = true
+curve = SubResource("Curve2D_rcll4")
+script = ExtResource("2_0176y")
 color = Color(0.5803922, 0.99215686, 1, 1)
 metadata/_custom_type_script = "uid://v6852dsbu1po"
 
