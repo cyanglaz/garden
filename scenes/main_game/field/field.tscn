@@ -23,7 +23,7 @@ shader_parameter/outline_size = 0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ipwbb"]
 atlas = ExtResource("1_wixvq")
-region = Rect2(0, 0, 36, 22)
+region = Rect2(0, 0, 36, 36)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_rw11e"]
 animations = [{
@@ -56,7 +56,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_ipwbb"]
 resource_name = "dip"
-length = 0.25
+length = 0.3
 step = 0.01
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -65,7 +65,7 @@ tracks/0/path = NodePath("AnimatedSprite2D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.08, 0.17, 0.25),
+"times": PackedFloat32Array(0, 0.09, 0.18, 0.3),
 "transitions": PackedFloat32Array(0.5, 0.5, 2, 1),
 "update": 0,
 "values": [Vector2(0, 3), Vector2(0, 6), Vector2(0, 2), Vector2(0, 3)]
@@ -102,7 +102,7 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/objects/field.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "a3f92ca90f4635d81644a9e5d3e0ecaa"
+metadata/_aseprite_wizard_source_file_hash_ = "9faadb5015691615c2249d42dd0289de"
 
 [node name="PlantContainer" type="Node2D" parent="AnimatedSprite2D"]
 unique_name_in_owner = true

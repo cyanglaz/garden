@@ -3,7 +3,6 @@ extends Node2D
 
 const PLANT_SCENE_PATH_PREFIX:String = "res://scenes/main_game/plants/plants/plant_"
 
-const WIDTH := 32
 
 signal field_pressed()
 signal field_hovered(hovered:bool)
@@ -43,6 +42,7 @@ func _ready() -> void:
 	_gui_field_button.pressed.connect(_on_plant_button_pressed)
 	_gui_field_button.mouse_entered.connect(_on_gui_plant_button_mouse_entered)
 	_gui_field_button.mouse_exited.connect(_on_gui_plant_button_mouse_exited)
+
 
 func plant_seed(plant_data:PlantData) -> void:
 	assert(plant == null, "Plant already planted")

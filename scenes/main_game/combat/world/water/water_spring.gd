@@ -3,7 +3,7 @@ extends Node2D
 
 const COLLISION_DISABLED_TIME := 0.5
 
-signal area_entered(body: Node2D)
+signal area_entered(area: Area2D)
 
 @onready var collision_shape_2d: CollisionShape2D = %CollisionShape2D
 @onready var area_2d: Area2D = %Area2D
@@ -37,11 +37,5 @@ func set_collision_width(w:float) -> void:
 	var shape_size := (collision_shape_2d.shape as RectangleShape2D).size
 	collision_shape_2d.shape.size = Vector2(w, shape_size.y)
 
-func _on_area_entered(area: Area2D) -> void:
-	#collision_shape_2d.set_deferred("disabled", true)
-	area_entered.emit(area)
-	#collision_shape_2d.set_deferred("disabled", true)
-	#Util.create_scaled_timer(COLLISION_DISABLED_TIME).timeout.connect(func() -> void:
-	#	if collision_shape_2d:
-	#		collision_shape_2d.set_deferred("disabled", false)
-	#)
+func _on_area_entered(body: Node2D) -> void:
+	area_entered.emit(area_2d)
