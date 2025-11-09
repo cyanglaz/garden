@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cid4t4lf8q12j"
-path="res://.godot/imported/particle_5.png-d61ee2ea7a9e4641bdf5ed4a1a7a34e6.ctex"
+uid="uid://bimh485w1wjhp"
+path="res://.godot/imported/particle_water_splash.png-b6484fb749b3a6cf2796862d5ce545da.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/effects/particles/particle_5.png"
-dest_files=["res://.godot/imported/particle_5.png-d61ee2ea7a9e4641bdf5ed4a1a7a34e6.ctex"]
+source_file="res://resources/sprites/effects/particles/particle_water_splash.png"
+dest_files=["res://.godot/imported/particle_water_splash.png-b6484fb749b3a6cf2796862d5ce545da.ctex"]
 
 [params]
 

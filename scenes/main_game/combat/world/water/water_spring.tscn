@@ -21,3 +21,5 @@ collision_layer = 2
 unique_name_in_owner = true
 position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_76wge")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]

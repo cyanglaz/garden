@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cyojxmvm4jvfn"]
+[gd_scene load_steps=23 format=3 uid="uid://cyojxmvm4jvfn"]
 
 [ext_resource type="Script" uid="uid://2yt706pccsrm" path="res://scenes/main_game/field/field.gd" id="1_e1j0g"]
 [ext_resource type="Shader" uid="uid://bdhxjruma11hn" path="res://scenes/main_game/field/field.gdshader" id="1_foq2q"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://jaeock3j73t2" path="res://scenes/main_game/field/gui_plant_ability_icon_container.tscn" id="12_6laml"]
 [ext_resource type="PackedScene" uid="uid://b0mxsb1ypllyg" path="res://scenes/main_game/field/gui_field_selection_arrow.tscn" id="13_tcec4"]
 [ext_resource type="AudioStream" uid="uid://d1akur2jywp1n" path="res://resources/sounds/SFX/plants/plant_down.wav" id="15_gsguy"]
+[ext_resource type="PackedScene" uid="uid://bou1sgg1ly1u1" path="res://scenes/main_game/combat/world/water/WaterSplashParticleEmitter.tscn" id="15_rw11e"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wixvq"]
 resource_local_to_scene = true
@@ -200,3 +201,7 @@ unique_name_in_owner = true
 libraries = {
 &"": SubResource("AnimationLibrary_rw11e")
 }
+
+[node name="SplashParticleEmitter" parent="." instance=ExtResource("15_rw11e")]
+unique_name_in_owner = true
+position = Vector2(0, 13)

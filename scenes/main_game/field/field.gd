@@ -23,6 +23,7 @@ signal new_plant_planted()
 @onready var _plant_down_sound: AudioStreamPlayer2D = %PlantDownSound
 @onready var _plant_container: Node2D = %PlantContainer
 @onready var _animation_player: AnimationPlayer = %AnimationPlayer
+@onready var _splash_particle_emitter: GPUParticles2D = %SplashParticleEmitter
 
 var plant:Plant
 var index:int = -1
@@ -124,6 +125,7 @@ func _on_gui_plant_button_mouse_exited() -> void:
 
 func _on_plant_button_pressed() -> void:
 	_animation_player.play("dip")
+	_splash_particle_emitter.restart()
 	field_pressed.emit()
 
 #endregion
