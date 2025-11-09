@@ -37,5 +37,5 @@ func set_collision_width(w:float) -> void:
 	var shape_size := (collision_shape_2d.shape as RectangleShape2D).size
 	collision_shape_2d.shape.size = Vector2(w, shape_size.y)
 
-func _on_area_entered(body: Node2D) -> void:
+func _on_area_entered(_area: Area2D) -> void:
 	area_entered.emit(area_2d)
