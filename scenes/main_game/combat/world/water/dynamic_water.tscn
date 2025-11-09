@@ -2,12 +2,14 @@
 
 [ext_resource type="Script" uid="uid://bpm1x1fpc8xot" path="res://scenes/main_game/combat/world/water/dynamic_water.gd" id="1_0176y"]
 [ext_resource type="PackedScene" uid="uid://d1ujm2wuf48gv" path="res://scenes/utils/smooth_line.tscn" id="2_0176y"]
-[ext_resource type="Texture2D" uid="uid://d2axs68vanroe" path="res://resources/sprites/combat_scene/water_tile.png" id="2_rcll4"]
+[ext_resource type="Texture2D" uid="uid://cktfeqa0c7xw5" path="res://resources/sprites/combat_scene/water_border.png" id="2_rcll4"]
 
 [node name="DynamicWater" type="Node2D"]
 script = ExtResource("1_0176y")
 outer_border_thickness = 1
 outer_border_texture = ExtResource("2_rcll4")
+
+[node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="WaterPolygon" type="Polygon2D" parent="."]
 unique_name_in_owner = true
@@ -18,8 +20,6 @@ unique_name_in_owner = true
 
 [node name="WaterBorder2" parent="." instance=ExtResource("2_0176y")]
 unique_name_in_owner = true
-
-[node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="SpringContainer" type="Node2D" parent="."]
 unique_name_in_owner = true

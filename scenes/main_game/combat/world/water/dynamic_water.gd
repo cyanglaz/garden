@@ -58,8 +58,6 @@ func _ready() -> void:
 		water_spring.position.x = x_position
 		water_spring.set_collision_width(distance_between_springs)
 		water_spring.area_entered.connect(_on_water_spring_area_entered.bind(i))
-	splash(5, 5)
-	splash(4, 5)
 	#splash(6, 5)
 	#splash(7, 5)
 
