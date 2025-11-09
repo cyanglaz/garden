@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://bra6ykdxlekwc"]
+[gd_scene load_steps=4 format=3 uid="uid://bra6ykdxlekwc"]
 
 [ext_resource type="Script" uid="uid://bdkaor2roljy7" path="res://scenes/main_game/combat/world/water/water_spring.gd" id="1_76wge"]
 [ext_resource type="Texture2D" uid="uid://dkmhkwq3u12wy" path="res://resources/sprites/indicators/arsenal_line_indicator_dot.png" id="1_mchnv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_76wge"]
 
 [node name="WaterSpring" type="Node2D"]
 script = ExtResource("1_76wge")
@@ -11,3 +13,8 @@ visible = false
 texture = ExtResource("1_mchnv")
 
 [node name="Area2D" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_76wge")

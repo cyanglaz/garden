@@ -7,8 +7,6 @@
 
 [node name="DynamicWater" type="Node2D"]
 script = ExtResource("1_0176y")
-distance_between_springs = 16
-border_thickness = 2
 
 [node name="WaterPolygon" type="Polygon2D" parent="."]
 unique_name_in_owner = true
@@ -18,7 +16,10 @@ color = Color(0, 0.59607846, 0.8627451, 1)
 unique_name_in_owner = true
 curve = SubResource("Curve2D_rcll4")
 script = ExtResource("2_0176y")
-spline_length = 50.0
+color = Color(0.5803922, 0.99215686, 1, 1)
 metadata/_custom_type_script = "uid://v6852dsbu1po"
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="SpringContainer" type="Node2D" parent="."]
+unique_name_in_owner = true
