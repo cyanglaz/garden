@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1ujm2wuf48gv"]
+
+[ext_resource type="Script" uid="uid://v6852dsbu1po" path="res://scenes/utils/smooth_path.gd" id="1_bpiga"]
+
+[sub_resource type="Curve2D" id="Curve2D_vamew"]
+
+[node name="SmoothPath" type="Path2D"]
+curve = SubResource("Curve2D_vamew")
+script = ExtResource("1_bpiga")
+spline_length = 80.0

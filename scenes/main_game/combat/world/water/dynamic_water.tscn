@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://b5vvjdyudqxkf"]
+
+[ext_resource type="Script" uid="uid://bpm1x1fpc8xot" path="res://scenes/main_game/combat/world/water/dynamic_water.gd" id="1_0176y"]
+[ext_resource type="Script" uid="uid://v6852dsbu1po" path="res://scenes/utils/smooth_path.gd" id="2_0176y"]
+
+[sub_resource type="Curve2D" id="Curve2D_rcll4"]
+
+[node name="DynamicWater" type="Node2D"]
+script = ExtResource("1_0176y")
+distance_between_springs = 16
+border_thickness = 2
+
+[node name="WaterPolygon" type="Polygon2D" parent="."]
+unique_name_in_owner = true
+color = Color(0, 0.59607846, 0.8627451, 1)
+
+[node name="WaterBorder" type="Path2D" parent="."]
+unique_name_in_owner = true
+curve = SubResource("Curve2D_rcll4")
+script = ExtResource("2_0176y")
+spline_length = 50.0
+metadata/_custom_type_script = "uid://v6852dsbu1po"
+
+[node name="Camera2D" type="Camera2D" parent="."]
