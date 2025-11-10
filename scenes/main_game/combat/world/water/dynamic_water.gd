@@ -4,7 +4,8 @@ extends Node2D
 const SPRING_SCENE := preload("res://scenes/main_game/combat/world/water/water_spring.tscn")
 
 const SPLASH_SPEED := {
-	"field": 0.7,
+	"field": 0.5,
+	"droplet": 0.2,
 }
 
 @export_group("Water Body")
@@ -120,11 +121,17 @@ func draw_border() -> void:
 		water_border_2.smooth()
 		water_border_2.queue_update()
 	
-func _on_water_spring_area_entered(_area: Area2D, index: int) -> void:
-	#var speed = 0
-	#var water_spring = springs[index]
-	#if body is CharacterBody2D:
-		#speed = (body as CharacterBody2D).velocity.y * water_spring.motion_factor
-	var speed = SPLASH_SPEED["field"]
+func _on_water_spring_area_entered(area: Area2D, index: int) -> void:
+	var collider_type := ""
+	var collision_layer := area.collision_layer
+	if Util.is_collision_layer_bit_set(collision_layer, Constants.COLLISION_LAYER_WATER_DROPPLET_BIT):
+		collider_type = "droplet"
+		var droplet := area.get_parent() as WaterDroplet
+		if droplet.velocity.y < 0:
+			return
+	elif Util.is_collision_layer_bit_set(collision_layer, Constants.COLLISION_LAYER_FIELD_BIT):
+		collider_type = "field"
+	else:
+		assert(false, "Unknown collider type: %s" % area.get_collision_layer_value(Constants.COLLISION_LAYER_WATER_DROPPLET))
+	var speed = SPLASH_SPEED[collider_type]
 	splash(index, speed)
-	pass

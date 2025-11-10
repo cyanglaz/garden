@@ -173,7 +173,8 @@ locale/translations=PackedStringArray("res://resources/localization/localization
 2d_render/layer_4="Loot"
 2d_render/layer_5="Camera"
 2d_physics/layer_1="field"
-2d_physics/layer_2="water"
+2d_physics/layer_2="water_body"
+2d_physics/layer_3="water_droplet"
 
 [physics]
 

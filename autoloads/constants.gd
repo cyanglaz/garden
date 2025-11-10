@@ -174,15 +174,6 @@ const PENEL_HIDE_Y := 200.0
 const DEFAULT_ORDER_INDEX := -99 # 99 is the default value, which is reserved for player controlled character
 const DEFAULT_INDICATOR_COLOR := Constants.COLOR_YELLOW1 # 99 is the default value, which is reserved for player controlled character
 
-const INDICATOR_COLOR := {
-	0: Color("ff004d"), # Bright red
-	1: Color("7bff00"), # Lime
-	2: Color("b14cff"), # Purple
-	3: Color("29adff"), # Sky blue
-	4: Color("ff6c24"), # Orange
-	5: Color("ff4dae"), # Pink
-}
-
 var TEST_DISPLAYING_SEQUENCE:Array[int] = []
 #var TEST_DISPLAYING_SEQUENCE:Array[int] = [0, 1, 2, 3, 5, 6 ,7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 24]
 # var TEST_DISPLAYING_SEQUENCE := [0, 5, 10, 15, 21, 22, 23, 24, 20] # Left column then bottom row, double bingo.
@@ -191,3 +182,6 @@ var TEST_DISPLAYING_SEQUENCE:Array[int] = []
 
 
 # 1: Color("00b543"), # Bright green
+
+const COLLISION_LAYER_WATER_DROPPLET_BIT := 2
+const COLLISION_LAYER_FIELD_BIT := 0

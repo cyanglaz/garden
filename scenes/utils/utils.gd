@@ -90,6 +90,9 @@ static func get_current_image_from_sprite(sprite:Sprite2D, used_region_only:bool
 	var used_rect := current_sprite_image.get_used_rect()
 	var sprite_pixels := current_sprite_image.get_region(used_rect)
 	return sprite_pixels
+
+static func is_collision_layer_bit_set(collision_layer:int, bit:int) -> bool:
+	return collision_layer & bit == bit
 	
 static func remove_all_children(node:Node):
 	for n in node.get_children():
