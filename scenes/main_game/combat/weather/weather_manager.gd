@@ -14,14 +14,19 @@ const GUI_WEATHER_SCENE := preload("res://scenes/GUI/main_game/weather/gui_weath
 #var level:int
 var weathers:Array[WeatherData]
 var forecast_days := 4
+var _chapter:int
 
-func generate_next_weathers(chapter:int) -> void:
-	for _day in forecast_days - weathers.size():
-		_generate_next_weather(chapter)
-	weathers_updated.emit()
+func start(chapter:int) -> void:
+	_chapter = chapter
+	_generate_next_weathers(_chapter)
 
 func pass_day() -> void:
 	weathers.pop_front()
+	_generate_next_weathers(_chapter)
+
+func _generate_next_weathers(chapter:int) -> void:
+	for _day in forecast_days - weathers.size():
+		_generate_next_weather(chapter)
 	weathers_updated.emit()
 
 func get_current_weather() -> WeatherData:

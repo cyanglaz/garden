@@ -9,5 +9,8 @@ script = ExtResource("1_yf2n6")
 [node name="WeatherSky" parent="." instance=ExtResource("2_gyin3")]
 unique_name_in_owner = true
 
-[node name="WeatherCnontainer" type="Node2D" parent="."]
+[node name="WeatherContainer" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
 unique_name_in_owner = true

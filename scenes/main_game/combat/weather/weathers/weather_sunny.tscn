@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://bebn30tijjptd"]
 
 [ext_resource type="PackedScene" uid="uid://46meqpaq3a76" path="res://scenes/main_game/combat/weather/weathers/weather.tscn" id="1_t0o64"]
-[ext_resource type="PackedScene" uid="uid://m8w8chwsipqf" path="res://scenes/main_game/combat/weather/weather_components/weahter_component_sun.tscn" id="2_e3erc"]
+[ext_resource type="PackedScene" uid="uid://m8w8chwsipqf" path="res://scenes/main_game/combat/weather/weather_components/weather_component_sun.tscn" id="2_e3erc"]
 
 [node name="WeatherSunny" instance=ExtResource("1_t0o64")]
 
-[node name="WeahterComponentSun" parent="ComponentsContainer" index="0" instance=ExtResource("2_e3erc")]
-position = Vector2(-97, -55)
+[node name="WeahterComponentSun" parent="WeatherComponentContainer" index="0" instance=ExtResource("2_e3erc")]
+position = Vector2(-97, -59)

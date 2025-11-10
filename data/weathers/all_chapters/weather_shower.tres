@@ -12,6 +12,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 [resource]
 script = ExtResource("2_eqbcn")
 actions = Array[ExtResource("1_ickju")]([SubResource("Resource_51kjc")])
+sky_color = Color(0, 0.59607846, 0.8627451, 1)
 id = "shower"
 display_name = "Shower"
 note = "water +1

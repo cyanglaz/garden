@@ -112,12 +112,12 @@ func _start_new_level() -> void:
 	gui.update_with_plants(plant_seed_manager.plant_datas)
 	gui.update_with_contract(_contract, self)
 	level_started.emit()
+	await weather_main.start(chapter_manager.current_chapter)
 	_start_day()
 
 func _start_day() -> void:
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.TURN)
 	boost = maxi(boost - 1, 1)
-	weather_main.generate_next_weathers(chapter_manager.current_chapter)
 	gui.toggle_all_ui(false)
 	energy_tracker.setup(max_energy, max_energy)
 	day_manager.next_day()
@@ -157,7 +157,6 @@ func _end_turn() -> void:
 	await field_container.trigger_end_turn_hooks(self)
 	await weather_main.apply_weather_actions(field_container.plants, self)
 	await power_manager.handle_weather_application_hook(self, weather_main.get_current_weather())
-	weather_main.pass_day()
 	tool_manager.cleanup_for_turn()
 	combat_modifier_manager.clear_for_turn()
 	power_manager.remove_single_turn_powers()
@@ -167,6 +166,7 @@ func _end_turn() -> void:
 		return
 	field_container.handle_turn_end()
 	Events.request_hp_update.emit( -_contract.get_penalty_rate(day_manager.day))
+	await weather_main.pass_day()
 	_start_day()
 	
 func _discard_all_tools() -> void:
