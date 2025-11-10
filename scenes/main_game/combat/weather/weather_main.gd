@@ -1,13 +1,15 @@
-class_name WeatherContainer
+class_name WeatherMain
 extends Node2D
 
-const WEATHER_SCENE_PATH_PREFIX := "res://scenes/main_game/weather/weathers/weather_%s.tscn"
+const WEATHER_CONTAINER_SCENE_PREFIX := "res://scenes/main_game/combat/weather/weathers/weather_%s.tscn"
 
 signal weathers_updated()
 
+@onready var weather_cnontainer: Node2D = %WeatherCnontainer
+
 var weather_manager:WeatherManager = WeatherManager.new()
 
-var _current_weather_scene:Weather
+var _current_weather:Weather
 
 func apply_weather_actions(plants:Array[Plant], combat_main:CombatMain) -> void:
 	await weather_manager.apply_weather_actions(plants, combat_main)
@@ -25,10 +27,10 @@ func get_current_weather() -> WeatherData:
 	return weather_manager.get_current_weather()
 
 func _update_weather_scene() -> void:
-	if _current_weather_scene:
-		_current_weather_scene.queue_free()
+	if _current_weather:
+		_current_weather.queue_free()
 	var current_weather_id := weather_manager.get_current_weather().id
-	var new_weather_scene := load(str(WEATHER_SCENE_PATH_PREFIX % current_weather_id))
-	_current_weather_scene = new_weather_scene.instantiate()
-	add_child(_current_weather_scene)
+	var new_weather_container_scene := load(str(WEATHER_CONTAINER_SCENE_PREFIX % current_weather_id))
+	_current_weather = new_weather_container_scene.instantiate()
+	weather_cnontainer.add_child(_current_weather)
 	weathers_updated.emit()

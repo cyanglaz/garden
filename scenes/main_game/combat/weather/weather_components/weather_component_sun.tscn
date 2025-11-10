@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://gwpr2luj5bd3"]
+
+[node name="WeatherComponentSun" type="Node2D"]

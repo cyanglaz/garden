@@ -11,7 +11,7 @@ const INSTANT_CARD_USE_DELAY := 0.3
 const TOOL_APPLICATION_ERROR_HIDE_DELAY := 3.0
 const INITIAL_NUMBER_OF_PLANTS := 2
 
-@onready var weather_container: WeatherContainer = %WeatherContainer
+@onready var weather_main: WeatherMain = %WeatherMain
 @onready var field_container: FieldContainer = %FieldContainer
 @onready var gui: GUICombatMain = %GUI
 
@@ -45,7 +45,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, contract:ContractData) -> 
 	field_container.plant_action_application_completed.connect(_on_plant_action_application_completed)
 	field_container.mouse_plant_updated.connect(_on_mouse_plant_updated)
 
-	weather_container.weathers_updated.connect(_on_weathers_updated)
+	weather_main.weathers_updated.connect(_on_weathers_updated)
 
 	tool_manager = ToolManager.new(card_pool.duplicate(), gui.gui_tool_card_container)
 	tool_manager.tool_application_started.connect(_on_tool_application_started)
@@ -117,7 +117,7 @@ func _start_new_level() -> void:
 func _start_day() -> void:
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.TURN)
 	boost = maxi(boost - 1, 1)
-	weather_container.generate_next_weathers(chapter_manager.current_chapter)
+	weather_main.generate_next_weathers(chapter_manager.current_chapter)
 	gui.toggle_all_ui(false)
 	energy_tracker.setup(max_energy, max_energy)
 	day_manager.next_day()
@@ -155,9 +155,9 @@ func _end_turn() -> void:
 		return
 	tool_manager.card_use_limit_reached = false
 	await field_container.trigger_end_turn_hooks(self)
-	await weather_container.apply_weather_actions(field_container.plants, self)
-	await power_manager.handle_weather_application_hook(self, weather_container.get_current_weather())
-	weather_container.pass_day()
+	await weather_main.apply_weather_actions(field_container.plants, self)
+	await power_manager.handle_weather_application_hook(self, weather_main.get_current_weather())
+	weather_main.pass_day()
 	tool_manager.cleanup_for_turn()
 	combat_modifier_manager.clear_for_turn()
 	power_manager.remove_single_turn_powers()
@@ -301,7 +301,7 @@ func _on_plant_bloom_completed() -> void:
 	gui.toggle_all_ui(true)
 
 func _on_weathers_updated() -> void:
-	gui.update_weathers(weather_container.weather_manager)
+	gui.update_weathers(weather_main.weather_manager)
 
 func _on_plant_seed_drawn_animation_completed(plant_data:PlantData) -> void:
 	field_container.plant_seed(plant_data)

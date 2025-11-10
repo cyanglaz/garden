@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://4p4u6myuj4oc"]
+
+[ext_resource type="Script" uid="uid://dqo06644qavfm" path="res://scenes/main_game/combat/weather/weather_main.gd" id="1_yf2n6"]
+[ext_resource type="PackedScene" uid="uid://066t5y2fum3l" path="res://scenes/main_game/combat/weather/weather_components/weather_component_sky.tscn" id="2_gyin3"]
+
+[node name="WeatherMain" type="Node2D"]
+script = ExtResource("1_yf2n6")
+
+[node name="WeatherSky" parent="." instance=ExtResource("2_gyin3")]
+unique_name_in_owner = true
+
+[node name="WeatherCnontainer" type="Node2D" parent="."]
+unique_name_in_owner = true
