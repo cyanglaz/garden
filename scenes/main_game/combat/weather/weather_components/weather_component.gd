@@ -9,13 +9,16 @@ signal animated_out_finished()
 
 func _ready() -> void:
 	_animated_sprite_2d.play("idle")
+	_animated_sprite_2d.hide()
 
 func animate_in() -> void:
+	_animated_sprite_2d.show()
 	await _animate_in()
 	animated_in_finished.emit()
 
 func animate_out() -> void:
 	await _animate_out()
+	_animated_sprite_2d.hide()
 	animated_out_finished.emit()
 #region for override
 func _animate_in() -> void:
