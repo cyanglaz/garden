@@ -1,4 +1,4 @@
-class_name WeatherComponentSky
+class_name WeatherSky
 extends Polygon2D
 
 @export var sky_color:Color = Constants.COLOR_BLUE_4

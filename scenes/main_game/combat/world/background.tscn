@@ -7,5 +7,5 @@
 script = ExtResource("1_nrtw4")
 
 [node name="Background" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAABAP//AAADAAAAAAAEAP//AAADAAAAAAAHAP//AAADAAAAAAAKAP//AAADAAAAAAD+////AAADAAAAAAD7////AAADAAAAAAD4////AAADAAAAAAD1////AAADAAAAAAA=")
+tile_map_data = PackedByteArray("AAD+////AAADAAAAAAABAP//AAADAAAAAAAEAP//AAADAAAAAAAHAP//AAADAAAAAAAKAP//AAADAAAAAAD7////AAADAAAAAAD4////AAADAAAAAAD1////AAADAAAAAAA=")
 tile_set = ExtResource("2_pqrda")

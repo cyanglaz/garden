@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://m8w8chwsipqf"]
+
+[ext_resource type="PackedScene" uid="uid://ieecod0b1fen" path="res://scenes/main_game/combat/weather/weather_components/weahter_component.tscn" id="1_ra1xn"]
+[ext_resource type="Texture2D" uid="uid://bbvttypgwlbvw" path="res://resources/sprites/combat_scene/weather/weather_component_sun.png" id="2_rxbj6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rxbj6"]
+atlas = ExtResource("2_rxbj6")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3jo8q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rxbj6")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[node name="WeahterComponentSun" instance=ExtResource("1_ra1xn")]
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_3jo8q")
+animation = &"idle"
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/combat_scene/weather/",
+"o_name": "",
+"only_visible": false,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/combat_scene/weather/weather_component_sun.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "a3ff3229450a23804b4eb0cb3da3f683"
