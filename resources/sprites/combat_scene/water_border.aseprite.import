@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cf68ry8on0ujy"
+path="res://.godot/imported/water_border.aseprite-950c28b7b10f55dff8b04a2d524fcd38.res"
+
+[deps]
+
+source_file="res://resources/sprites/combat_scene/water_border.aseprite"
+dest_files=["res://.godot/imported/water_border.aseprite-950c28b7b10f55dff8b04a2d524fcd38.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

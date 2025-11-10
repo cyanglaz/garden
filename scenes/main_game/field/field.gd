@@ -3,7 +3,6 @@ extends Node2D
 
 const PLANT_SCENE_PATH_PREFIX:String = "res://scenes/main_game/plants/plants/plant_"
 
-const WIDTH := 32
 
 signal field_pressed()
 signal field_hovered(hovered:bool)
@@ -24,6 +23,7 @@ signal new_plant_planted()
 @onready var _plant_down_sound: AudioStreamPlayer2D = %PlantDownSound
 @onready var _plant_container: Node2D = %PlantContainer
 @onready var _animation_player: AnimationPlayer = %AnimationPlayer
+@onready var _water_droplet_emitter: WaterDropletEmitter = %WaterDropletEmitter
 
 var plant:Plant
 var index:int = -1
@@ -44,6 +44,7 @@ func _ready() -> void:
 	_gui_field_button.mouse_entered.connect(_on_gui_plant_button_mouse_entered)
 	_gui_field_button.mouse_exited.connect(_on_gui_plant_button_mouse_exited)
 
+
 func plant_seed(plant_data:PlantData) -> void:
 	assert(plant == null, "Plant already planted")
 	_plant_down_sound.play()
@@ -53,7 +54,7 @@ func plant_seed(plant_data:PlantData) -> void:
 	_plant_container.add_child(plant)
 	plant.data = plant_data
 	plant.field = self
-	_show_progress_bars(plant)
+	_show_progress_bars()
 	plant.bloom_started.connect(func(): plant_bloom_started.emit())
 	plant.bloom_completed.connect(func(): plant_bloom_completed.emit())
 	plant.action_application_completed.connect(func(): action_application_completed.emit())
@@ -87,7 +88,7 @@ func bloom() -> void:
 
 #region private methods
 
-func _show_progress_bars(plant:Plant) -> void:
+func _show_progress_bars() -> void:
 	_progress_bars.show()
 	_light_bar.bind_with_resource_point(plant.light)
 	_water_bar.bind_with_resource_point(plant.water)
@@ -125,6 +126,10 @@ func _on_gui_plant_button_mouse_exited() -> void:
 func _on_plant_button_pressed() -> void:
 	_animation_player.play("dip")
 	field_pressed.emit()
+
+func _on_dip_down() -> void:
+	# Called in animation player
+	_water_droplet_emitter.emit_droplets()
 
 #endregion
 

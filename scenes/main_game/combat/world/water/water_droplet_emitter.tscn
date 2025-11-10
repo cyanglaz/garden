@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ddb85df6v6lo4"]
+
+[ext_resource type="Script" uid="uid://bi212lb47vrh1" path="res://scenes/main_game/combat/world/water/water_droplet_emitter.gd" id="1_v0ods"]
+
+[node name="WaterDropletEmitter" type="Node2D"]
+script = ExtResource("1_v0ods")
+
+[node name="Camera2D" type="Camera2D" parent="."]

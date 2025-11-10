@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://bou1sgg1ly1u1"]
+
+[ext_resource type="Shader" uid="uid://tiv2qi5ofgel" path="res://scenes/main_game/combat/world/water/water_splash_particle_emitter.gdshader" id="1_wuqyr"]
+[ext_resource type="Texture2D" uid="uid://bimh485w1wjhp" path="res://resources/sprites/effects/particles/particle_water_splash.png" id="2_vmq81"]
+[ext_resource type="Script" uid="uid://drn86mc85kfcx" path="res://scenes/main_game/combat/world/water/water_splash_particle_emitter.gd" id="3_4rygb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1f43t"]
+shader = ExtResource("1_wuqyr")
+shader_parameter/transparency = 0.5
+shader_parameter/color_to_transparent = Color(0.5803922, 0.99215686, 1, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_arr8x"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(8, 1, 1)
+direction = Vector3(0, -1, 0)
+spread = 25.0
+initial_velocity_min = 80.0
+initial_velocity_max = 85.0
+angular_velocity_min = -90.000015
+angular_velocity_max = 89.999985
+gravity = Vector3(0, 150, 0)
+
+[node name="WaterSplashParticleEmitter" type="GPUParticles2D"]
+material = SubResource("ShaderMaterial_1f43t")
+texture = ExtResource("2_vmq81")
+explosiveness = 1.0
+randomness = 0.14
+process_material = SubResource("ParticleProcessMaterial_arr8x")
+script = ExtResource("3_4rygb")

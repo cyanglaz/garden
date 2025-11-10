@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dcbbxkxepaglf"
+path="res://.godot/imported/water_tile.aseprite-d76d31c79d1bcda49972d7b72e07c808.res"
+
+[deps]
+
+source_file="res://resources/sprites/combat_scene/water_tile.aseprite"
+dest_files=["res://.godot/imported/water_tile.aseprite-d76d31c79d1bcda49972d7b72e07c808.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=4 uid="uid://cmcojoafbcbut"]
 
-[ext_resource type="Script" uid="uid://ciu7tqm5wnlnt" path="res://scenes/main_game/combat/world/water.gd" id="1_g3jhj"]
+[ext_resource type="Script" uid="uid://ciu7tqm5wnlnt" path="res://scenes/main_game/combat/world/water/water.gd" id="1_g3jhj"]
 [ext_resource type="TileSet" uid="uid://dcr3n4u3dmdbd" path="res://scenes/main_game/combat/world/background_tileset.tres" id="2_lkw1s"]
 
 [node name="Water" type="Node2D"]

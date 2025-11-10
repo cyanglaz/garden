@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://dbtng0x3irux5"]
+
+[ext_resource type="Script" uid="uid://bsrn5vc81wd0d" path="res://scenes/main_game/combat/world/water/water_droplet.gd" id="1_apiha"]
+[ext_resource type="Shader" uid="uid://cpdo5koj3uv1l" path="res://scenes/main_game/combat/world/water/water_droplet.gdshader" id="2_64tr7"]
+[ext_resource type="Texture2D" uid="uid://bimh485w1wjhp" path="res://resources/sprites/effects/particles/particle_water_splash.png" id="2_niyol"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_64tr7"]
+size = Vector2(6, 6)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pjj2y"]
+shader = ExtResource("2_64tr7")
+shader_parameter/transparency = 0.5
+shader_parameter/color_to_transparent = Color(0.5803922, 0.99215686, 1, 1)
+
+[node name="WaterDroplet" type="Node2D"]
+script = ExtResource("1_apiha")
+
+[node name="Area2D" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_64tr7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_pjj2y")
+texture = ExtResource("2_niyol")

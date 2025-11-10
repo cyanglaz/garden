@@ -3,6 +3,7 @@ extends Node2D
 
 const POPUP_SHOW_TIME := 0.3
 const POPUP_DESTROY_TIME:= 1.2
+const POPUP_OFFSET := Vector2.RIGHT * 8 + Vector2.UP * 12
 const POPUP_LABEL_ICON_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label_icon.tscn")
 const POPUP_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label.tscn")
 
@@ -106,7 +107,7 @@ func _show_resource_icon_popup(icon_id:String, text:String) -> void:
 	var popup:PopupLabelIcon = POPUP_LABEL_ICON_SCENE.instantiate()
 	var color:Color = Constants.COLOR_WHITE
 	popup.setup(text, color, load(Util.get_image_path_for_resource_id(icon_id)))
-	var popup_location:Vector2 = Util.get_node_canvas_position(self) + Vector2.RIGHT * 8
+	var popup_location:Vector2 = Util.get_node_canvas_position(self) + POPUP_OFFSET
 	Events.request_display_popup_things.emit(popup, 6, 3, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, popup_location)
 	await Util.create_scaled_timer(POPUP_SHOW_TIME).timeout
 
@@ -152,7 +153,7 @@ func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
 		FieldStatusData.Type.GOOD:
 			color = Constants.COLOR_YELLOW2
 	popup.setup(status_data.popup_message, color)
-	var popup_location:Vector2 = Util.get_node_canvas_position(self) + Vector2.RIGHT * 8
+	var popup_location:Vector2 = Util.get_node_canvas_position(self) + POPUP_OFFSET
 	Events.request_display_popup_things.emit(popup, 10, 1, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, popup_location)
 	await Util.create_scaled_timer(POPUP_SHOW_TIME).timeout
 
