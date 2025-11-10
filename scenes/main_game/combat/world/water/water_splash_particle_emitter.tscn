@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://bou1sgg1ly1u1"]
 
 [ext_resource type="Shader" uid="uid://tiv2qi5ofgel" path="res://scenes/main_game/combat/world/water/water_splash_particle_emitter.gdshader" id="1_wuqyr"]
-[ext_resource type="Texture2D" uid="uid://bimh485w1wjhp" path="res://resources/sprites/effects/particles/particle_water_splash.png" id="2_vmq81"]
+[ext_resource type="Texture2D" uid="uid://bimh485w1wjhp" path="res://resources/sprites/effects/particles/water_droplet.png" id="2_vmq81"]
 [ext_resource type="Script" uid="uid://drn86mc85kfcx" path="res://scenes/main_game/combat/world/water/water_splash_particle_emitter.gd" id="3_4rygb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1f43t"]

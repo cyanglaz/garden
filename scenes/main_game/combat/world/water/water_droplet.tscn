@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bsrn5vc81wd0d" path="res://scenes/main_game/combat/world/water/water_droplet.gd" id="1_apiha"]
 [ext_resource type="Shader" uid="uid://cpdo5koj3uv1l" path="res://scenes/main_game/combat/world/water/water_droplet.gdshader" id="2_64tr7"]
-[ext_resource type="Texture2D" uid="uid://bimh485w1wjhp" path="res://resources/sprites/effects/particles/particle_water_splash.png" id="2_niyol"]
+[ext_resource type="Texture2D" uid="uid://bimh485w1wjhp" path="res://resources/sprites/effects/particles/water_droplet.png" id="2_niyol"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_64tr7"]
 size = Vector2(6, 6)

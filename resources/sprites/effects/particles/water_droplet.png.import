@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bimh485w1wjhp"
-path="res://.godot/imported/particle_water_splash.png-b6484fb749b3a6cf2796862d5ce545da.ctex"
+path="res://.godot/imported/water_droplet.png-8216d1d27bc97a2e3a56d35a1bfcf288.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/effects/particles/particle_water_splash.png"
-dest_files=["res://.godot/imported/particle_water_splash.png-b6484fb749b3a6cf2796862d5ce545da.ctex"]
+source_file="res://resources/sprites/effects/particles/water_droplet.png"
+dest_files=["res://.godot/imported/water_droplet.png-8216d1d27bc97a2e3a56d35a1bfcf288.ctex"]
 
 [params]
 
