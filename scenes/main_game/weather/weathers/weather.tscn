@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bn60bowiccufs"]
+
+[ext_resource type="Script" uid="uid://cajvxkq0l3638" path="res://scenes/main_game/weather/weathers/weather.gd" id="1_es604"]
+[ext_resource type="PackedScene" uid="uid://066t5y2fum3l" path="res://scenes/main_game/weather/weather_components/weather_sky.tscn" id="2_tbhfv"]
+
+[node name="Weather" type="Node2D"]
+script = ExtResource("1_es604")
+
+[node name="WeatherSky" parent="." instance=ExtResource("2_tbhfv")]
+unique_name_in_owner = true
