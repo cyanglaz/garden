@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bvalvwwpfab57"
+path="res://.godot/imported/weather_component_cloud.aseprite-6f9334b178ecd59275afbeb723926db3.res"
+
+[deps]
+
+source_file="res://resources/sprites/combat_scene/weather/weather_component_cloud.aseprite"
+dest_files=["res://.godot/imported/weather_component_cloud.aseprite-6f9334b178ecd59275afbeb723926db3.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

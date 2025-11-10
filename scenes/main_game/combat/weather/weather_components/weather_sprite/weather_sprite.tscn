@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://ieecod0b1fen"]
 
-[ext_resource type="Script" uid="uid://cafcyd1tpm16b" path="res://scenes/main_game/combat/weather/weather_components/weather_component.gd" id="1_qffkl"]
+[ext_resource type="Script" uid="uid://cafcyd1tpm16b" path="res://scenes/main_game/combat/weather/weather_components/weather_sprite/weather_sprite.gd" id="1_ynvte"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_iwpwr"]
 resource_local_to_scene = true
 
-[node name="WeatherComponent" type="Node2D"]
-script = ExtResource("1_qffkl")
+[node name="WeatherSprite" type="Node2D"]
+script = ExtResource("1_ynvte")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
@@ -16,13 +16,7 @@ metadata/_aseprite_wizard_interface_config_ = {
 "layer_section": false,
 "output_section": true,
 "pending_changes": {
-"layers": [],
-"o_ex_p": "",
 "o_folder": "",
-"o_name": "",
-"only_visible": true,
-"should_round_fps": true,
-"slice": "",
 "source": ""
 },
 "slice_section": false
