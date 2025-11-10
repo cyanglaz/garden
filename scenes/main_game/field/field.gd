@@ -125,8 +125,11 @@ func _on_gui_plant_button_mouse_exited() -> void:
 
 func _on_plant_button_pressed() -> void:
 	_animation_player.play("dip")
-	_water_droplet_emitter.emit_droplets()
 	field_pressed.emit()
+
+func _on_dip_down() -> void:
+	# Called in animation player
+	_water_droplet_emitter.emit_droplets()
 
 #endregion
 
