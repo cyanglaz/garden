@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dt2fxmkfu6dtp"]
+[gd_scene load_steps=9 format=3 uid="uid://dt2fxmkfu6dtp"]
 
 [ext_resource type="PackedScene" uid="uid://d2jug2d2xn2pl" path="res://scenes/main_game/combat/weather/weather_components/weather_particles/weather_particles.tscn" id="1_myaud"]
 [ext_resource type="Texture2D" uid="uid://b6fadmxtlddko" path="res://resources/sprites/effects/particles/particle_rain.png" id="2_frbj1"]
+[ext_resource type="AudioStream" uid="uid://byhdfjsseo6cj" path="res://resources/sounds/SFX/weather/shower.wav" id="3_udqoh"]
 
 [sub_resource type="Curve" id="Curve_frbj1"]
 _data = [Vector2(0, 0.5), 0.0, 0.0, 0, 1, Vector2(1, 0.5), 0.0, 0.0, 1, 0]
@@ -39,3 +40,7 @@ texture = ExtResource("2_frbj1")
 preprocess = 10.0
 collision_base_size = 8.0
 process_material = SubResource("ParticleProcessMaterial_myaud")
+
+[node name="AudioStreamPlayer2D" parent="." index="0"]
+stream = ExtResource("3_udqoh")
+volume_db = -5.0
