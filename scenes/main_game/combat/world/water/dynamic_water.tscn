@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://b5vvjdyudqxkf"]
+[gd_scene load_steps=5 format=3 uid="uid://b5vvjdyudqxkf"]
 
 [ext_resource type="Script" uid="uid://bpm1x1fpc8xot" path="res://scenes/main_game/combat/world/water/dynamic_water.gd" id="1_0176y"]
 [ext_resource type="PackedScene" uid="uid://d1ujm2wuf48gv" path="res://scenes/utils/smooth_line.tscn" id="2_0176y"]
 [ext_resource type="Texture2D" uid="uid://cktfeqa0c7xw5" path="res://resources/sprites/combat_scene/water_border.png" id="2_rcll4"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_rcll4"]
 
 [node name="DynamicWater" type="Node2D"]
 script = ExtResource("1_0176y")
@@ -23,3 +25,7 @@ unique_name_in_owner = true
 
 [node name="SpringContainer" type="Node2D" parent="."]
 unique_name_in_owner = true
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+unique_name_in_owner = true
+occluder = SubResource("OccluderPolygon2D_rcll4")

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://46meqpaq3a76"]
+[gd_scene load_steps=5 format=3 uid="uid://46meqpaq3a76"]
 
 [ext_resource type="Script" uid="uid://106k3c8vc6fo" path="res://scenes/main_game/combat/weather/weathers/weather.gd" id="1_2pf37"]
 [ext_resource type="PackedScene" uid="uid://066t5y2fum3l" path="res://scenes/main_game/combat/weather/weather_components/weather_sky.tscn" id="2_x4671"]
 [ext_resource type="PackedScene" uid="uid://bnulor7r75mkf" path="res://scenes/main_game/combat/weather/weather_sprite_container.tscn" id="3_tpg6x"]
+[ext_resource type="PackedScene" uid="uid://bcmfkg36lyymx" path="res://scenes/main_game/combat/weather/weather_particle_container.tscn" id="4_pu8y5"]
 
 [node name="Weather" type="Node2D"]
 script = ExtResource("1_2pf37")
@@ -11,4 +12,7 @@ script = ExtResource("1_2pf37")
 unique_name_in_owner = true
 
 [node name="WeatherSpriteContainer" parent="." instance=ExtResource("3_tpg6x")]
+unique_name_in_owner = true
+
+[node name="WeatherParticleContainer" parent="." instance=ExtResource("4_pu8y5")]
 unique_name_in_owner = true

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jby6kl3yvgfv"
-path="res://.godot/imported/player_dash_particle.png-a47e885b0996136bbb360207f1ea0702.ctex"
+uid="uid://b6fadmxtlddko"
+path="res://.godot/imported/particle_rain.png-3940d71d52ec290c4ac333c15f566fe2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/effects/particles/player_dash_particle.png"
-dest_files=["res://.godot/imported/player_dash_particle.png-a47e885b0996136bbb360207f1ea0702.ctex"]
+source_file="res://resources/sprites/effects/particles/particle_rain.png"
+dest_files=["res://.godot/imported/particle_rain.png-3940d71d52ec290c4ac333c15f566fe2.ctex"]
 
 [params]
 

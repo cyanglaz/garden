@@ -33,6 +33,7 @@ const SPLASH_SPEED := {
 @onready var water_border: SmoothLine = %WaterBorder
 @onready var water_border_2: SmoothLine = %WaterBorder2
 @onready var spring_container: Node2D = %SpringContainer
+@onready var light_occluder_2d: LightOccluder2D = %LightOccluder2D
 
 var target_height := global_position.y
 var bottom := target_height + depth
@@ -100,6 +101,7 @@ func draw_water_body(border_curve: Curve2D) -> void:
 	water_polygon_points.append(Vector2(points[first_index].x, bottom))
 	
 	water_polygon.polygon = water_polygon_points
+	light_occluder_2d.occluder.polygon = water_polygon_points
  
 func draw_border() -> void:
 	var curve := Curve2D.new()

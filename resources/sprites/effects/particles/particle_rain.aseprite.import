@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://blo6dl21lgqjd"
+path="res://.godot/imported/particle_rain.aseprite-bde4638d28c260117c2196a690585309.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/particles/particle_rain.aseprite"
+dest_files=["res://.godot/imported/particle_rain.aseprite-bde4638d28c260117c2196a690585309.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
