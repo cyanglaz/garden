@@ -18,7 +18,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 [resource]
 script = ExtResource("2_padls")
 actions = Array[ExtResource("1_51kjc")]([SubResource("Resource_51kjc"), SubResource("Resource_uhv40")])
-sky_color = Color(0.047058824, 0.94509804, 1, 1)
+sky_color = Color(0, 0.8039216, 0.9764706, 1)
 id = "sunny"
 display_name = "Sunny"
 note = "+1 light

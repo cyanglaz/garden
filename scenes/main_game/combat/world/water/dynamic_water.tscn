@@ -6,7 +6,7 @@
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_rcll4"]
 
-[node name="DynamicWater" type="Node2D"]
+[node name="DynamicWater" type="Node2D" groups=["dynamic_water"]]
 script = ExtResource("1_0176y")
 outer_border_thickness = 1
 outer_border_texture = ExtResource("2_rcll4")

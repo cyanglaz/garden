@@ -2,10 +2,11 @@ class_name DynamicWater
 extends Node2D
 
 const SPRING_SCENE := preload("res://scenes/main_game/combat/world/water/water_spring.tscn")
+const CONSTANT_WATER_WAVE_FREQUENCY := 0.1
 
 const SPLASH_SPEED := {
-	"field": 0.5,
-	"droplet": 0.2,
+	"field": 0.3,
+	"droplet": 0.1,
 }
 
 @export_group("Water Body")
@@ -40,8 +41,11 @@ var bottom := target_height + depth
 
 var springs := []
 var passes = 8
+var _constant_water_wave_speed := 0.05
+var _constant_water_wave_time_count := 0.0
 
 func _ready() -> void:
+	Events.request_constant_water_wave_update.connect(_on_request_constant_water_wave_update)
 	water_polygon.color = water_color
 	water_border.width = outer_border_thickness
 	water_border.default_color = outer_border_color
@@ -63,7 +67,7 @@ func _ready() -> void:
 	#splash(6, 5)
 	#splash(7, 5)
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	for water_spring:WaterSpring in springs:
 		water_spring.water_update(k, d)
 	var left_deltas := []
@@ -84,6 +88,8 @@ func _physics_process(_delta: float) -> void:
 	
 	draw_border()
 	draw_water_body(water_border.curve)
+
+	_apply_constant_water_wave(delta)
 
 func splash(index, speed) -> void:
 	assert(index >= 0 && index < springs.size())
@@ -122,7 +128,13 @@ func draw_border() -> void:
 		water_border_2.curve = curve_2
 		water_border_2.smooth()
 		water_border_2.queue_update()
-	
+
+func _apply_constant_water_wave(delta: float) -> void:
+	_constant_water_wave_time_count += delta
+	if _constant_water_wave_time_count > CONSTANT_WATER_WAVE_FREQUENCY:
+		splash(randi_range(0, springs.size() - 1), _constant_water_wave_speed)
+		_constant_water_wave_time_count = 0.0
+
 func _on_water_spring_area_entered(area: Area2D, index: int) -> void:
 	var collider_type := ""
 	var collision_layer := area.collision_layer
@@ -136,4 +148,8 @@ func _on_water_spring_area_entered(area: Area2D, index: int) -> void:
 	else:
 		assert(false, "Unknown collider type: %s" % area.get_collision_layer_value(Constants.COLLISION_LAYER_WATER_DROPPLET))
 	var speed = SPLASH_SPEED[collider_type]
+	speed -= _constant_water_wave_speed
 	splash(index, speed)
+
+func _on_request_constant_water_wave_update(speed:float) -> void:
+	_constant_water_wave_speed += speed

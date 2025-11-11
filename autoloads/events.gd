@@ -47,3 +47,6 @@ signal request_display_tooltip(tooltip_type:GUITooltipContainer.TooltipType, dat
 signal request_hide_tooltip(id:String)
 @warning_ignore("unused_signal")
 signal request_display_popup_things(thing:PopupThing, height:float, spread:float, show_time:float, destroy_time:float, global_position:Vector2)
+
+@warning_ignore("unused_signal")
+signal request_constant_water_wave_update(speed:float)

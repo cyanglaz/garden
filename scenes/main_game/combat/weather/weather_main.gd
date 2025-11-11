@@ -3,6 +3,7 @@ extends Node2D
 
 const NIGHT_CANVAS_MODULATE_COLOR := Constants.COLOR_GRAY4
 const DAY_CANVAS_MODULATE_COLOR := Constants.COLOR_WHITE
+const WEATHER_TRASITION_TIME := 0.3
 
 const WEATHER_SCENE_PREFIX := "res://scenes/main_game/combat/weather/weathers/weather_%s.tscn"
 
@@ -47,10 +48,10 @@ func _animate_transition_to_weather(new_weather:WeatherData) -> void:
 		_current_weather.queue_free()
 	_add_new_weather(new_weather)
 	var tween_night:Tween = Util.create_scaled_tween(_canvas_modulate)
-	tween_night.tween_property(_canvas_modulate, "color", NIGHT_CANVAS_MODULATE_COLOR, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween_night.tween_property(_canvas_modulate, "color", NIGHT_CANVAS_MODULATE_COLOR, WEATHER_TRASITION_TIME/2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await tween_night.finished
 	var tween_day:Tween = Util.create_scaled_tween(_canvas_modulate)
-	tween_day.tween_property(_canvas_modulate, "color", DAY_CANVAS_MODULATE_COLOR, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	tween_day.tween_property(_canvas_modulate, "color", DAY_CANVAS_MODULATE_COLOR, WEATHER_TRASITION_TIME/2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	await tween_day.finished
 	await _current_weather.animate_in()
 

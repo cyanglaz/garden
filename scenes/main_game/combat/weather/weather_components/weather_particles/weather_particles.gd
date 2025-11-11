@@ -4,7 +4,7 @@ extends GPUParticles2D
 @onready var audio_stream_player_2d: AudioStreamPlayer2D = %AudioStreamPlayer2D
 
 func _ready() -> void:
-	emitting = true
+	emitting = false
 
 func start() -> void:
 	audio_stream_player_2d.play()

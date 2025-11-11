@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://dvm7goq7lba48"]
+[gd_scene load_steps=13 format=3 uid="uid://dvm7goq7lba48"]
 
 [ext_resource type="PackedScene" uid="uid://46meqpaq3a76" path="res://scenes/main_game/combat/weather/weathers/weather.tscn" id="1_san1a"]
+[ext_resource type="Script" uid="uid://0g7481mw6sym" path="res://scenes/main_game/combat/weather/weathers/weather_shower.gd" id="2_c0o0h"]
 [ext_resource type="PackedScene" uid="uid://d2yc6ykdqlb2a" path="res://scenes/main_game/combat/weather/weather_components/weather_sprite/weather_sprite_cloud.tscn" id="2_nkafw"]
 [ext_resource type="PackedScene" uid="uid://dt2fxmkfu6dtp" path="res://scenes/main_game/combat/weather/weather_components/weather_particles/weather_particles_shower.tscn" id="3_j6shx"]
 
@@ -31,8 +32,29 @@ gravity = Vector3(0, 0, 0)
 color_initial_ramp = SubResource("GradientTexture1D_udqoh")
 alpha_curve = SubResource("CurveTexture_udqoh")
 collision_mode = 2
+sub_emitter_mode = 3
+sub_emitter_amount_at_collision = 1
+
+[sub_resource type="Curve" id="Curve_j6shx"]
+_data = [Vector2(0, 0.21107745), 0.0, 0.0, 0, 0, Vector2(0.49850297, 0.55223316), 0.0, 0.0, 0, 0, Vector2(1, 0.21927828), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_j6shx"]
+curve = SubResource("Curve_j6shx")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mu551"]
+resource_local_to_scene = true
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 5.0
+initial_velocity_min = 50.0
+initial_velocity_max = 60.0
+gravity = Vector3(0, 200, 0)
+alpha_curve = SubResource("CurveTexture_j6shx")
+collision_mode = 2
 
 [node name="WeatherShower" instance=ExtResource("1_san1a")]
+script = ExtResource("2_c0o0h")
 
 [node name="WeahterSpriteCloud" parent="WeatherSpriteContainer" index="0" instance=ExtResource("2_nkafw")]
 position = Vector2(-65, -67)
@@ -68,4 +90,15 @@ color_type = 1
 
 [node name="WeatherParticlesShower" parent="WeatherParticleContainer" index="0" instance=ExtResource("3_j6shx")]
 position = Vector2(0, -90)
+sub_emitter = NodePath("../../SplashParticles")
 process_material = SubResource("ParticleProcessMaterial_c0o0h")
+
+[node name="SplashParticles" type="GPUParticles2D" parent="." index="3"]
+unique_name_in_owner = true
+top_level = true
+position = Vector2(0, 24)
+emitting = false
+amount = 6
+randomness = 0.57
+collision_base_size = 2.0
+process_material = SubResource("ParticleProcessMaterial_mu551")
