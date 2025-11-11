@@ -1,12 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://bqo51luu7itcc"]
+[gd_scene load_steps=4 format=3 uid="uid://bqo51luu7itcc"]
 
 [ext_resource type="PackedScene" uid="uid://cbkqwquk0cubc" path="res://scenes/GUI/map/gui_map_main.tscn" id="1_51rvi"]
 [ext_resource type="Script" uid="uid://3p86yes83wr5" path="res://scenes/main_game/map/map_main.gd" id="1_suxv5"]
+[ext_resource type="PackedScene" uid="uid://70ga6ahwrb1j" path="res://scenes/main_game/map/map_water.tscn" id="2_d5la8"]
 
 [node name="MapMain" type="Node2D"]
 script = ExtResource("1_suxv5")
 
+[node name="MapWater" parent="." instance=ExtResource("2_d5la8")]
+
 [node name="GUIMapMain" parent="." instance=ExtResource("1_51rvi")]
 unique_name_in_owner = true
+visible = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
