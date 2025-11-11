@@ -25,6 +25,7 @@ var _selected_secondary_cards:Array[GUIToolCardButton] = []
 
 func _ready() -> void:
 	_card_size = GUIToolCardButton.SIZE.x
+	_card_selection_container.hide()
 
 func setup(draw_box_button:GUIDeckButton, discard_box_button:GUIDeckButton) -> void:
 	_gui_tool_card_animation_container.setup(self, draw_box_button, discard_box_button)
