@@ -84,6 +84,10 @@ folder_colors={
 
 import/blender/enabled=false
 
+[global_group]
+
+dynamic_water=""
+
 [gui]
 
 common/snap_controls_to_pixels=false

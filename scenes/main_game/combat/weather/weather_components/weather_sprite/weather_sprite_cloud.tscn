@@ -1,0 +1,102 @@
+[gd_scene load_steps=11 format=3 uid="uid://d2yc6ykdqlb2a"]
+
+[ext_resource type="PackedScene" uid="uid://ieecod0b1fen" path="res://scenes/main_game/combat/weather/weather_components/weather_sprite/weather_sprite.tscn" id="1_eey85"]
+[ext_resource type="Script" uid="uid://bw5ov77pqhx21" path="res://scenes/main_game/combat/weather/weather_components/weather_sprite/weather_sprite_cloud.gd" id="2_560pr"]
+[ext_resource type="Texture2D" uid="uid://clajt3yfhxkaq" path="res://resources/sprites/combat_scene/weather/weather_component_cloud.png" id="3_eey85"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eey85"]
+atlas = ExtResource("3_eey85")
+region = Rect2(0, 10, 18, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_560pr"]
+atlas = ExtResource("3_eey85")
+region = Rect2(18, 10, 18, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xyjvb"]
+atlas = ExtResource("3_eey85")
+region = Rect2(36, 10, 18, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uv8l5"]
+atlas = ExtResource("3_eey85")
+region = Rect2(0, 0, 18, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kaby5"]
+atlas = ExtResource("3_eey85")
+region = Rect2(18, 0, 18, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kmq05"]
+atlas = ExtResource("3_eey85")
+region = Rect2(36, 0, 18, 10)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_no6o5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eey85")
+}],
+"loop": true,
+"name": &"idle_gray_0",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_560pr")
+}],
+"loop": true,
+"name": &"idle_gray_1",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xyjvb")
+}],
+"loop": true,
+"name": &"idle_gray_2",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uv8l5")
+}],
+"loop": true,
+"name": &"idle_white_0",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kaby5")
+}],
+"loop": true,
+"name": &"idle_white_1",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kmq05")
+}],
+"loop": true,
+"name": &"idle_white_2",
+"speed": 10.0
+}]
+
+[node name="WeahterSpriteCloud" instance=ExtResource("1_eey85")]
+z_index = 1
+script = ExtResource("2_560pr")
+color_type = 0
+transition_type = 2
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_no6o5")
+animation = &"idle_white_0"
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/combat_scene/weather/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/combat_scene/weather/weather_component_cloud.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "f62e42948667a8b97e3fe7de02be957a"

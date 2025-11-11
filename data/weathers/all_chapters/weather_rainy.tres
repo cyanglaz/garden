@@ -24,6 +24,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 [resource]
 script = ExtResource("2_pndmv")
 actions = Array[ExtResource("1_81tfl")]([SubResource("Resource_51kjc"), SubResource("Resource_81tfl"), SubResource("Resource_cmjpk")])
+sky_color = Color(0, 0.4117647, 0.6666667, 1)
 id = "rainy"
 display_name = "Rainy"
 note = "water + 2

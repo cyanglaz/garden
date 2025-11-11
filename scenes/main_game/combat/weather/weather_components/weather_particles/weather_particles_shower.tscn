@@ -1,0 +1,46 @@
+[gd_scene load_steps=9 format=3 uid="uid://dt2fxmkfu6dtp"]
+
+[ext_resource type="PackedScene" uid="uid://d2jug2d2xn2pl" path="res://scenes/main_game/combat/weather/weather_components/weather_particles/weather_particles.tscn" id="1_myaud"]
+[ext_resource type="Texture2D" uid="uid://b6fadmxtlddko" path="res://resources/sprites/effects/particles/particle_rain.png" id="2_frbj1"]
+[ext_resource type="AudioStream" uid="uid://byhdfjsseo6cj" path="res://resources/sounds/SFX/weather/shower.wav" id="3_udqoh"]
+
+[sub_resource type="Curve" id="Curve_frbj1"]
+_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 1, Vector2(1, 0.5), 0.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_udqoh"]
+curve = SubResource("Curve_frbj1")
+
+[sub_resource type="Gradient" id="Gradient_frbj1"]
+colors = PackedColorArray(0.57254905, 0.6313726, 0.7254902, 1, 0.78039217, 0.8117647, 0.8666667, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_udqoh"]
+gradient = SubResource("Gradient_frbj1")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_myaud"]
+resource_local_to_scene = true
+particle_flag_align_y = true
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(160, 1, 1)
+direction = Vector3(-0.1, 1, 0)
+spread = 1.0
+initial_velocity_min = 200.0
+initial_velocity_max = 200.0
+gravity = Vector3(0, 0, 0)
+color_initial_ramp = SubResource("GradientTexture1D_udqoh")
+alpha_curve = SubResource("CurveTexture_udqoh")
+collision_mode = 2
+sub_emitter_mode = 2
+sub_emitter_amount_at_end = 1
+
+[node name="WeatherParticlesShower" instance=ExtResource("1_myaud")]
+amount = 100
+texture = ExtResource("2_frbj1")
+preprocess = 10.0
+collision_base_size = 8.0
+process_material = SubResource("ParticleProcessMaterial_myaud")
+
+[node name="AudioStreamPlayer2D" parent="." index="0"]
+stream = ExtResource("3_udqoh")
+volume_db = -5.0

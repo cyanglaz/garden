@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cyojxmvm4jvfn"]
+[gd_scene load_steps=24 format=3 uid="uid://cyojxmvm4jvfn"]
 
 [ext_resource type="Script" uid="uid://2yt706pccsrm" path="res://scenes/main_game/field/field.gd" id="1_e1j0g"]
 [ext_resource type="Shader" uid="uid://bdhxjruma11hn" path="res://scenes/main_game/field/field.gdshader" id="1_foq2q"]
@@ -91,6 +91,9 @@ _data = {
 &"RESET": SubResource("Animation_rw11e"),
 &"dip": SubResource("Animation_ipwbb")
 }
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_rw11e"]
+polygon = PackedVector2Array(-16, 1, 16, 1, 16, 18, -16, 18)
 
 [node name="Field" type="Node2D"]
 script = ExtResource("1_e1j0g")
@@ -220,3 +223,6 @@ libraries = {
 unique_name_in_owner = true
 z_index = 1
 position = Vector2(0, 16)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_rw11e")

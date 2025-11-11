@@ -1,0 +1,2 @@
+class_name WeatherSky
+extends Polygon2D

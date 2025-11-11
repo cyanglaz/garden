@@ -18,6 +18,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 [resource]
 script = ExtResource("2_uen8h")
 actions = Array[ExtResource("1_o58v4")]([SubResource("Resource_o7rbg"), SubResource("Resource_j7lt1")])
+sky_color = Color(0, 0.8039216, 0.9764706, 1)
 id = "cloudy"
 display_name = "Cloudy"
 description = "Nothing happens."

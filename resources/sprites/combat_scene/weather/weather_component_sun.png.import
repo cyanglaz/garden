@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bimh485w1wjhp"
-path="res://.godot/imported/particle_water_splash.png-b6484fb749b3a6cf2796862d5ce545da.ctex"
+uid="uid://bbvttypgwlbvw"
+path="res://.godot/imported/weather_component_sun.png-e082a2ac5dcf71bf55bc81848363c9ad.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/effects/particles/particle_water_splash.png"
-dest_files=["res://.godot/imported/particle_water_splash.png-b6484fb749b3a6cf2796862d5ce545da.ctex"]
+source_file="res://resources/sprites/combat_scene/weather/weather_component_sun.png"
+dest_files=["res://.godot/imported/weather_component_sun.png-e082a2ac5dcf71bf55bc81848363c9ad.ctex"]
 
 [params]
 

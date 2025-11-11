@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://066t5y2fum3l"]
+
+[ext_resource type="Script" uid="uid://bu8whm42yjier" path="res://scenes/main_game/combat/weather/weather_components/weather_sky.gd" id="1_y7vrj"]
+
+[node name="WeatherSky" type="Polygon2D"]
+polygon = PackedVector2Array(-160, -90, 160, -90, 160, 0, -160, 0)
+script = ExtResource("1_y7vrj")

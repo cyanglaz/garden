@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcmfkg36lyymx"]
+
+[ext_resource type="Script" uid="uid://dyp4fau0r513s" path="res://scenes/main_game/combat/weather/weather_particle_container.gd" id="1_ge17w"]
+
+[node name="WeatherParticleContainer" type="Node2D"]
+script = ExtResource("1_ge17w")

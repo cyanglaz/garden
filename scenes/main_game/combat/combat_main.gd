@@ -11,11 +11,11 @@ const INSTANT_CARD_USE_DELAY := 0.3
 const TOOL_APPLICATION_ERROR_HIDE_DELAY := 3.0
 const INITIAL_NUMBER_OF_PLANTS := 2
 
+@onready var weather_main: WeatherMain = %WeatherMain
 @onready var field_container: FieldContainer = %FieldContainer
 @onready var gui: GUICombatMain = %GUI
 
 var energy_tracker:ResourcePoint = ResourcePoint.new()
-var weather_manager:WeatherManager = WeatherManager.new()
 var contract_generator:ContractGenerator = ContractGenerator.new()
 var power_manager:PowerManager = PowerManager.new()
 var tool_manager:ToolManager
@@ -45,7 +45,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, contract:ContractData) -> 
 	field_container.plant_action_application_completed.connect(_on_plant_action_application_completed)
 	field_container.mouse_plant_updated.connect(_on_mouse_plant_updated)
 
-	weather_manager.weathers_updated.connect(_on_weathers_updated)
+	weather_main.weathers_updated.connect(_on_weathers_updated)
 
 	tool_manager = ToolManager.new(card_pool.duplicate(), gui.gui_tool_card_container)
 	tool_manager.tool_application_started.connect(_on_tool_application_started)
@@ -112,12 +112,12 @@ func _start_new_level() -> void:
 	gui.update_with_plants(plant_seed_manager.plant_datas)
 	gui.update_with_contract(_contract, self)
 	level_started.emit()
+	await weather_main.start(chapter_manager.current_chapter)
 	_start_day()
 
 func _start_day() -> void:
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.TURN)
 	boost = maxi(boost - 1, 1)
-	weather_manager.generate_next_weathers(chapter_manager.current_chapter)
 	gui.toggle_all_ui(false)
 	energy_tracker.setup(max_energy, max_energy)
 	day_manager.next_day()
@@ -155,9 +155,8 @@ func _end_turn() -> void:
 		return
 	tool_manager.card_use_limit_reached = false
 	await field_container.trigger_end_turn_hooks(self)
-	await weather_manager.apply_weather_actions(field_container.plants, self)
-	await power_manager.handle_weather_application_hook(self, weather_manager.get_current_weather())
-	weather_manager.pass_day()
+	await weather_main.apply_weather_actions(field_container.plants, self)
+	await power_manager.handle_weather_application_hook(self, weather_main.get_current_weather())
 	tool_manager.cleanup_for_turn()
 	combat_modifier_manager.clear_for_turn()
 	power_manager.remove_single_turn_powers()
@@ -167,6 +166,7 @@ func _end_turn() -> void:
 		return
 	field_container.handle_turn_end()
 	Events.request_hp_update.emit( -_contract.get_penalty_rate(day_manager.day))
+	await weather_main.pass_day()
 	_start_day()
 	
 func _discard_all_tools() -> void:
@@ -301,7 +301,7 @@ func _on_plant_bloom_completed() -> void:
 	gui.toggle_all_ui(true)
 
 func _on_weathers_updated() -> void:
-	gui.update_weathers(weather_manager)
+	gui.update_weathers(weather_main.weather_manager)
 
 func _on_plant_seed_drawn_animation_completed(plant_data:PlantData) -> void:
 	field_container.plant_seed(plant_data)
