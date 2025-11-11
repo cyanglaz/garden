@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dt2fxmkfu6dtp"]
+[gd_scene load_steps=11 format=3 uid="uid://dt2fxmkfu6dtp"]
 
 [ext_resource type="PackedScene" uid="uid://d2jug2d2xn2pl" path="res://scenes/main_game/combat/weather/weather_components/weather_particles/weather_particles.tscn" id="1_myaud"]
 [ext_resource type="Texture2D" uid="uid://b6fadmxtlddko" path="res://resources/sprites/effects/particles/particle_rain.png" id="2_frbj1"]
@@ -30,9 +30,37 @@ gravity = Vector3(0, 0, 0)
 color_initial_ramp = SubResource("GradientTexture1D_udqoh")
 alpha_curve = SubResource("CurveTexture_udqoh")
 collision_mode = 2
+sub_emitter_mode = 3
+sub_emitter_amount_at_collision = 2
+
+[sub_resource type="Curve" id="Curve_udqoh"]
+_data = [Vector2(0, 0.11102694), 0.0, 0.0, 0, 0, Vector2(0.50149703, 0.50958866), 0.0, 0.0, 0, 0, Vector2(0.989521, 0.08806455), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_frbj1"]
+curve = SubResource("Curve_udqoh")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_frbj1"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 5.0
+initial_velocity_min = 50.0
+initial_velocity_max = 70.0
+gravity = Vector3(0, 200, 0)
+alpha_curve = SubResource("CurveTexture_frbj1")
 
 [node name="WeatherParticlesShower" instance=ExtResource("1_myaud")]
 amount = 100
+sub_emitter = NodePath("SplashParticles")
 texture = ExtResource("2_frbj1")
+preprocess = 10.0
 collision_base_size = 8.0
 process_material = SubResource("ParticleProcessMaterial_myaud")
+
+[node name="SplashParticles" type="GPUParticles2D" parent="." index="1"]
+position = Vector2(0, 110)
+amount = 2
+explosiveness = 1.0
+randomness = 0.57
+collision_base_size = 0.0
+process_material = SubResource("ParticleProcessMaterial_frbj1")
