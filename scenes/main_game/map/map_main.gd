@@ -4,6 +4,7 @@ extends Node2D
 signal node_selected(node:MapNode)
 
 @onready var gui: GUIMapMain = %GUIMapMain
+@onready var map_node_container: MapNodeContainer = %MapNodeContainer
 
 var map_generator:MapGenerator = MapGenerator.new()
 var root_node:MapNode:get = _get_root_node
@@ -12,7 +13,7 @@ var _current_map_node:MapNode
 
 func _ready() -> void:
 	gui.node_button_pressed.connect(_on_node_selected)
-	#map_generator.generate(randi())
+	map_generator.generate(randi())
 	#update_with_map(map_generator.layers)
 	generate_map(randi())
 
@@ -25,7 +26,7 @@ func hide_map() -> void:
 func generate_map(rand_seed:int = 0) -> void:
 	layers = map_generator.generate(rand_seed)
 	_current_map_node = root_node
-	_update_with_map.call_deferred()
+	_update_with_map()
 
 func get_node_count(node_type:MapNode.NodeType) -> int:
 	return layers.reduce(func(acc, layer): return acc + layer.filter(func(node): return node.type == node_type).size(), 0)
@@ -38,7 +39,10 @@ func complete_current_node() -> void:
 	gui.redraw(layers)
 
 func _update_with_map() -> void:
-	gui.update_with_map(layers)
+	map_node_container.update_with_map_nodes(layers)
+	map_node_container.node_button_pressed.connect(_on_node_selected)
+	map_node_container.node_hovered.connect(_on_node_hovered)
+	#gui.update_with_map(layers)
 
 func _mark_current_node_and_next_nodes(completed_node:MapNode) -> void:
 	var layer_index := completed_node.grid_coordinates.x
@@ -66,6 +70,9 @@ func _mark_unreachable_nodes() -> void:
 func _on_node_selected(node:MapNode) -> void:
 	_current_map_node = node
 	node_selected.emit(node)
+
+func _on_node_hovered(hovered:bool, node:MapNode) -> void:
+	pass
 
 func _get_root_node() -> MapNode:
 	assert(layers.size() > 0, "map not generated, root node not available")

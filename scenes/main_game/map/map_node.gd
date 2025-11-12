@@ -1,5 +1,8 @@
 class_name MapNode
-extends RefCounted
+extends Node2D
+
+signal pressed()
+signal hovered(hovered:bool)
 
 enum NodeType {
 	NORMAL,
@@ -19,6 +22,9 @@ enum NodeState {
 	UNREACHABLE,
 }
 
+@onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
+@onready var gui_map_node_button: GUIMapNodeButton = %GUIMapNodeButton
+
 var type:NodeType
 var node_state:NodeState = NodeState.NORMAL
 
@@ -28,6 +34,9 @@ var grid_coordinates:Vector2i = Vector2i.ZERO
 # Forward connections to the next row
 var next_nodes:Array = []
 var weak_parent_nodes:Array[WeakRef] = []
+
+func update_button() -> void:
+	gui_map_node_button.update_with_node(self)
 
 func connect_to(next_node) -> void:
 	if next_node in next_nodes:

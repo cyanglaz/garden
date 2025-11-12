@@ -2,6 +2,8 @@ class_name MapGenerator
 extends RefCounted
 # Generation algorithm: https://steamcommunity.com/sharedfiles/filedetails/?id=2830078257
 
+const MAP_NODE_SCENE := preload("res://scenes/main_game/map/map_node.tscn")
+
 const INTERNAL_LAYER_COUNT := 7
 const MAX_ROWS := 6
 const TOTAL_PATHS := 4
@@ -69,7 +71,7 @@ func _generate_nodes(layers:Array) -> void:
 	@warning_ignore("integer_division")
 	var center_y := MAX_ROWS/2
 	# Always has one starting node.
-	var starting_node:MapNode = MapNode.new()
+	var starting_node:MapNode = MAP_NODE_SCENE.instantiate()
 	starting_node.type = MapNode.NodeType.NORMAL
 	starting_node.grid_coordinates = Vector2i(0, center_y)
 
@@ -78,7 +80,7 @@ func _generate_nodes(layers:Array) -> void:
 		_generate_nodes_in_a_path(layers, starting_node, i)
 
 	# Always has one tavern node before the boss node
-	var last_before_boss_node:MapNode = MapNode.new()
+	var last_before_boss_node:MapNode = MAP_NODE_SCENE.instantiate()
 	last_before_boss_node.type = MapNode.NodeType.TAVERN
 	last_before_boss_node.grid_coordinates = Vector2i(INTERNAL_LAYER_COUNT + 1, center_y)
 	layers.append([last_before_boss_node])
@@ -87,7 +89,7 @@ func _generate_nodes(layers:Array) -> void:
 
 
 	# Always has one boss node
-	var boss_node:MapNode = MapNode.new()
+	var boss_node:MapNode = MAP_NODE_SCENE.instantiate()
 	boss_node.type = MapNode.NodeType.BOSS
 	boss_node.grid_coordinates = Vector2i(INTERNAL_LAYER_COUNT + 2, center_y)
 	layers.append([boss_node])
@@ -115,7 +117,7 @@ func _generate_nodes_in_a_path(layers:Array, starting_node:MapNode, path_index:i
 				next_node = node
 				break
 		if !next_node:
-			next_node = MapNode.new()
+			next_node = MAP_NODE_SCENE.instantiate()
 			next_node.grid_coordinates = new_node_coordinate
 		if !layers[current_layer].has(next_node):
 			layers[current_layer].append(next_node)

@@ -3,7 +3,6 @@ extends GUIBasicButton
 
 const ICON_PATH_PREFIX := "res://resources/sprites/map/map_icon_"
 
-@onready var background: GUIIcon = %Background
 @onready var icon: TextureRect = %Icon
 @onready var state_indicator: NinePatchRect = %StateIndicator
 @onready var overlay: TextureRect = %Overlay
@@ -28,22 +27,22 @@ func update_with_node(node:MapNode) -> void:
 			icon.texture = load(ICON_PATH_PREFIX + "event.png")
 	_set_node_state(node.node_state)
 
-func _set_button_state(val:ButtonState) -> void:
-	super._set_button_state(val)
-	if !background:
-		return
-	background.has_outline = false
-	if button_state in [ButtonState.HOVERED, ButtonState.SELECTED]:
-		background.has_outline = true
-	else:
-		background.has_outline = false
+#func _set_button_state(val:ButtonState) -> void:
+	#super._set_button_state(val)
+	#if !background:
+		#return
+	#background.has_outline = false
+	#if button_state in [ButtonState.HOVERED, ButtonState.SELECTED]:
+		#background.has_outline = true
+	#else:
+		#background.has_outline = false
 
 func _set_node_state(val:MapNode.NodeState) -> void:
 	node_state = val
-	if val in [MapNode.NodeState.COMPLETED, MapNode.NodeState.UNREACHABLE]:
-		overlay.show()
-	else:
-		overlay.hide()
+	#if val in [MapNode.NodeState.COMPLETED, MapNode.NodeState.UNREACHABLE]:
+		#overlay.show()
+	#else:
+		#overlay.hide()
 	match val:
 		MapNode.NodeState.NORMAL:
 			state_indicator.region_rect.position = Vector2(0, 0)
