@@ -1,40 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://bs0a78lk7n55g"]
+[gd_scene load_steps=3 format=3 uid="uid://bs0a78lk7n55g"]
 
 [ext_resource type="TileSet" uid="uid://bc6mseav12ueo" path="res://scenes/main_game/map/map_tileset.tres" id="1_gvt1d"]
 [ext_resource type="Script" uid="uid://dn33xd4jgydkm" path="res://scenes/main_game/map/water/water_tile_map_layer.gd" id="2_m8oso"]
-[ext_resource type="Shader" uid="uid://bq7cgtxkg0gpn" path="res://scenes/main_game/map/water/water_tile_map_layer.gdshader" id="3_m8oso"]
-[ext_resource type="Texture2D" uid="uid://c8muoajenhtho" path="res://resources/sprites/map/CausticTextureHighlights.png" id="4_5n13g"]
-[ext_resource type="Texture2D" uid="uid://n2jdgk7wo242" path="res://resources/sprites/map/CausticTexture.png" id="5_ig74w"]
-[ext_resource type="Texture2D" uid="uid://yx0f1vx5k1my" path="res://resources/sprites/4px.png" id="6_5n13g"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_obfqh"]
-shader = ExtResource("3_m8oso")
-shader_parameter/aspectRatio = 1.0
-shader_parameter/pixelization = 2048.0
-shader_parameter/causticColor = Vector4(0.455, 0.773, 0.765, 1)
-shader_parameter/causticHighlightColor = Vector4(0.741, 0.894, 0.898, 1)
-shader_parameter/causticTexture = ExtResource("5_ig74w")
-shader_parameter/causticHighlightTexture = ExtResource("4_5n13g")
-shader_parameter/causticScale = 12.0
-shader_parameter/causticSpeed = 0.005
-shader_parameter/causticMovementAmount = 0.15
-shader_parameter/causticFaderMultiplier = 1.45
-shader_parameter/specularColor = Vector4(1, 1, 1, 1)
-shader_parameter/specularThreshold = 0.35
-shader_parameter/specularSpeed = 0.025
-shader_parameter/specularScale = 15.0
-shader_parameter/foamColor = Vector4(1, 1, 1, 1)
-shader_parameter/foamIntensity = 0.2
-shader_parameter/foamScale = 15.0
-shader_parameter/outlineColor = Vector4(0.675, 0.86, 1, 1)
-shader_parameter/generalTransparency = 1.0
 
 [node name="WaterTileMapLayer" type="TileMapLayer"]
 tile_set = ExtResource("1_gvt1d")
 script = ExtResource("2_m8oso")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-
-[node name="Node2D" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_obfqh")
-texture = ExtResource("6_5n13g")
