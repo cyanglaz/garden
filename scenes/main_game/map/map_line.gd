@@ -19,6 +19,7 @@ func _set_line_color(from_node_state:MapNode.NodeState, to_node_state:MapNode.No
 	if from_node_state == MapNode.NodeState.UNREACHABLE || to_node_state == MapNode.NodeState.UNREACHABLE:
 		default_color = NODE_STATE_COLORS[MapNode.NodeState.UNREACHABLE]
 	elif to_node_state == MapNode.NodeState.NEXT:
-		animation_player.play("blink_next")
+		
+		pass
 	else:
 		default_color = NODE_STATE_COLORS[to_node_state]
