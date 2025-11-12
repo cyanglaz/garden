@@ -5,8 +5,8 @@ uniform float pixelization = 2048.0f;
 
 uniform sampler2D waterDepthGradient : hint_default_black;
 
-uniform vec4 causticColor = vec4(0.455f, 0.773f, 0.765f, 1.0f);
-uniform vec4 causticHighlightColor = vec4(0.741f, 0.894f, 0.898f, 1.0f);
+uniform vec4 causticColor:source_color = vec4(0.455f, 0.773f, 0.765f, 1.0f);
+uniform vec4 causticHighlightColor:source_color = vec4(0.741f, 0.894f, 0.898f, 1.0f);
 uniform sampler2D causticTexture : hint_default_white, repeat_enable;
 uniform sampler2D causticHighlightTexture : hint_default_white, repeat_enable;
 uniform sampler2D causticNoiseTexture : hint_default_white, repeat_enable;
@@ -16,7 +16,7 @@ uniform float causticSpeed = 0.005f;
 uniform float causticMovementAmount = 0.15f;
 uniform float causticFaderMultiplier = 1.45f;
 
-uniform vec4 specularColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+uniform vec4 specularColor:source_color = vec4(1.0f, 1.0f, 1.0f, 0.0f);
 uniform sampler2D specularNoiseTexture : hint_default_white, repeat_enable;
 uniform sampler2D specularMovementLeftNoiseTexture : hint_default_white, repeat_enable;
 uniform sampler2D specularMovementRightNoiseTexture : hint_default_white, repeat_enable;
@@ -24,7 +24,7 @@ uniform float specularThreshold = 0.35f;
 uniform float specularSpeed = 0.025f;
 uniform float specularScale = 15.0f;
 
-uniform vec4 foamColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+uniform vec4 foamColor:source_color = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 uniform sampler2D foamTexture : hint_default_white, repeat_enable;
 uniform float foamIntensity = 0.2f;
 uniform float foamScale = 15.0f;

@@ -5,8 +5,8 @@ uniform float pixelization = 2048.0f;
 
 uniform sampler2D waterDepthGradient : hint_default_black;
 
-uniform vec4 causticColor = vec4(0.455f, 0.773f, 0.765f, 1.0f);
-uniform vec4 causticHighlightColor = vec4(0.741f, 0.494f, 0.898f, 1.0f);
+uniform vec4 causticColor:source_color = vec4(0.455f, 0.773f, 0.765f, 1.0f);
+uniform vec4 causticHighlightColor:source_color = vec4(0.741f, 0.494f, 0.898f, 1.0f);
 uniform sampler2D causticTexture : hint_default_white, repeat_enable;
 uniform sampler2D causticHighlightTexture : hint_default_white, repeat_enable;
 uniform sampler2D causticNoiseTexture : hint_default_white, repeat_enable;

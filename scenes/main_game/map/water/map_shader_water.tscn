@@ -1,0 +1,60 @@
+[gd_scene load_steps=11 format=3 uid="uid://ckay660vbkp0n"]
+
+[ext_resource type="Shader" uid="uid://bq7cgtxkg0gpn" path="res://scenes/main_game/map/water/water_tile_map_layer.gdshader" id="1_7akxj"]
+[ext_resource type="Texture2D" uid="uid://dl3vu0tj5f8dg" path="res://resources/sprites/map/water/noiseTexture.png" id="2_4bgts"]
+[ext_resource type="Texture2D" uid="uid://cuex2xyrii6r3" path="res://resources/sprites/map/water/CausticTextureHighlights.png" id="3_fotnd"]
+[ext_resource type="Texture2D" uid="uid://d67houyvtsqw" path="res://resources/sprites/map/water/cloudnoise_1.webp" id="4_hu4py"]
+[ext_resource type="Texture2D" uid="uid://bo58hbmrc2rsj" path="res://resources/sprites/map/water/CausticTexture.png" id="5_pclq4"]
+[ext_resource type="TileSet" uid="uid://dxudrpmlf80p4" path="res://scenes/main_game/map/water/map_water_tileset.tres" id="6_7akxj"]
+
+[sub_resource type="Gradient" id="Gradient_e0n8r"]
+colors = PackedColorArray(0, 0.4117647, 0.6666667, 1, 0.1882353, 0.011764706, 0.8509804, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_irtoj"]
+gradient = SubResource("Gradient_e0n8r")
+width = 16
+height = 16
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5b732"]
+shader = ExtResource("1_7akxj")
+shader_parameter/aspectRatio = 1.0
+shader_parameter/pixelization = 256.0
+shader_parameter/waterDepthGradient = SubResource("GradientTexture2D_irtoj")
+shader_parameter/causticColor = Color(0.5803922, 0.99215686, 1, 1)
+shader_parameter/causticHighlightColor = Color(1, 1, 1, 1)
+shader_parameter/causticTexture = ExtResource("5_pclq4")
+shader_parameter/causticHighlightTexture = ExtResource("3_fotnd")
+shader_parameter/causticNoiseTexture = ExtResource("4_hu4py")
+shader_parameter/causticFadeNoiseTexture = ExtResource("2_4bgts")
+shader_parameter/causticScale = 1.6
+shader_parameter/causticSpeed = 0.005
+shader_parameter/causticMovementAmount = 0.05
+shader_parameter/causticFaderMultiplier = -0.1
+shader_parameter/specularColor = Color(0, 2.494968, 5.1429734, 0.23200001)
+shader_parameter/specularNoiseTexture = ExtResource("2_4bgts")
+shader_parameter/specularThreshold = 0.35
+shader_parameter/specularSpeed = 0.025
+shader_parameter/specularScale = 1.0
+shader_parameter/foamColor = Color(1, 1, 1, 1)
+shader_parameter/foamTexture = ExtResource("4_hu4py")
+shader_parameter/foamIntensity = 3.0
+shader_parameter/foamScale = 15.0
+shader_parameter/outlineColor = Vector4(0.675, 0.86, -1.53, 1)
+shader_parameter/generalTransparency = 3.01
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_0cvb3"]
+viewport_path = NodePath("SubViewport")
+
+[node name="MapWater" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_5b732")
+texture = SubResource("ViewportTexture_0cvb3")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+handle_input_locally = false
+size = Vector2i(320, 180)
+render_target_update_mode = 4
+
+[node name="TileMapLayer" type="TileMapLayer" parent="SubViewport"]
+tile_set = ExtResource("6_7akxj")
