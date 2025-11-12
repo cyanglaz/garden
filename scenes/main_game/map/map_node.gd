@@ -35,6 +35,11 @@ var grid_coordinates:Vector2i = Vector2i.ZERO
 var next_nodes:Array = []
 var weak_parent_nodes:Array[WeakRef] = []
 
+func _ready() -> void:
+	gui_map_node_button.pressed.connect(func() -> void: pressed.emit())
+	gui_map_node_button.mouse_entered.connect(func() -> void: hovered.emit(true))
+	gui_map_node_button.mouse_entered.connect(func() -> void: hovered.emit(false))
+
 func update_button() -> void:
 	gui_map_node_button.update_with_node(self)
 

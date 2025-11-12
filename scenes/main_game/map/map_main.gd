@@ -12,7 +12,8 @@ var layers:Array
 var _current_map_node:MapNode
 
 func _ready() -> void:
-	gui.node_button_pressed.connect(_on_node_selected)
+	map_node_container.node_button_pressed.connect(_on_node_selected)
+	map_node_container.node_hovered.connect(_on_node_hovered)
 	map_generator.generate(randi())
 	#update_with_map(map_generator.layers)
 	generate_map(randi())
@@ -40,8 +41,6 @@ func complete_current_node() -> void:
 
 func _update_with_map() -> void:
 	map_node_container.update_with_map_nodes(layers)
-	map_node_container.node_button_pressed.connect(_on_node_selected)
-	map_node_container.node_hovered.connect(_on_node_hovered)
 	#gui.update_with_map(layers)
 
 func _mark_current_node_and_next_nodes(completed_node:MapNode) -> void:
@@ -72,7 +71,7 @@ func _on_node_selected(node:MapNode) -> void:
 	node_selected.emit(node)
 
 func _on_node_hovered(hovered:bool, node:MapNode) -> void:
-	pass
+	gui.update_tooltip(node, hovered)
 
 func _get_root_node() -> MapNode:
 	assert(layers.size() > 0, "map not generated, root node not available")

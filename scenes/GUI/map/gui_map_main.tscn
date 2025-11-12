@@ -1,27 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://cbkqwquk0cubc"]
+[gd_scene load_steps=3 format=3 uid="uid://cbkqwquk0cubc"]
 
 [ext_resource type="Script" uid="uid://3lj4ql7lxair" path="res://scenes/GUI/map/gui_map_main.gd" id="1_2egmy"]
-[ext_resource type="PackedScene" uid="uid://c2pnc4ipmna2p" path="res://scenes/GUI/map/gui_map_view.tscn" id="1_v503x"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="3_kaojc"]
 
 [node name="GUIMapMain" type="CanvasLayer"]
 script = ExtResource("1_2egmy")
 
-[node name="Background" type="ColorRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.11764706, 0.43529412, 0.3137255, 1)
-
 [node name="MainMarginContainer" parent="." instance=ExtResource("3_kaojc")]
 
-[node name="GUIMapView" parent="MainMarginContainer/Container" index="0" instance=ExtResource("1_v503x")]
-unique_name_in_owner = true
-layout_mode = 1
-
-[node name="TooltipAnchor" type="Control" parent="MainMarginContainer/Container" index="1"]
+[node name="TooltipAnchor" type="Control" parent="MainMarginContainer/Container" index="0"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 1

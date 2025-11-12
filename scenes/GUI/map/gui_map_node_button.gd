@@ -5,7 +5,6 @@ const ICON_PATH_PREFIX := "res://resources/sprites/map/map_icon_"
 
 @onready var icon: TextureRect = %Icon
 @onready var state_indicator: NinePatchRect = %StateIndicator
-@onready var overlay: TextureRect = %Overlay
 
 var node_state:MapNode.NodeState = MapNode.NodeState.NORMAL: set = _set_node_state
 
@@ -27,15 +26,15 @@ func update_with_node(node:MapNode) -> void:
 			icon.texture = load(ICON_PATH_PREFIX + "event.png")
 	_set_node_state(node.node_state)
 
-#func _set_button_state(val:ButtonState) -> void:
-	#super._set_button_state(val)
-	#if !background:
-		#return
-	#background.has_outline = false
-	#if button_state in [ButtonState.HOVERED, ButtonState.SELECTED]:
-		#background.has_outline = true
-	#else:
-		#background.has_outline = false
+func _set_button_state(val:ButtonState) -> void:
+	super._set_button_state(val)
+	if !icon:
+		return
+	icon.has_outline = false
+	if button_state in [ButtonState.HOVERED, ButtonState.SELECTED]:
+		icon.has_outline = true
+	else:
+		icon.has_outline = false
 
 func _set_node_state(val:MapNode.NodeState) -> void:
 	node_state = val
