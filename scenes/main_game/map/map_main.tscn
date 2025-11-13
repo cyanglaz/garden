@@ -1,60 +1,14 @@
-[gd_scene load_steps=13 format=3 uid="uid://bqo51luu7itcc"]
+[gd_scene load_steps=5 format=3 uid="uid://bqo51luu7itcc"]
 
 [ext_resource type="PackedScene" uid="uid://cbkqwquk0cubc" path="res://scenes/GUI/map/gui_map_main.tscn" id="1_51rvi"]
 [ext_resource type="Script" uid="uid://3p86yes83wr5" path="res://scenes/main_game/map/map_main.gd" id="1_suxv5"]
-[ext_resource type="Shader" uid="uid://66agj4306atu" path="res://scenes/main_game/map/map_main.gdshader" id="3_4wwon"]
 [ext_resource type="PackedScene" uid="uid://bs0a78lk7n55g" path="res://scenes/main_game/map/water/water_tile_map_layer.tscn" id="3_d5la8"]
 [ext_resource type="PackedScene" uid="uid://c5mdj261gnwqt" path="res://scenes/main_game/map/map_node_container.tscn" id="4_1nl2s"]
-
-[sub_resource type="Gradient" id="Gradient_evc3w"]
-colors = PackedColorArray(0, 0.4117647, 0.6666667, 1, 0, 0.8039216, 0.9764706, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_ujgu0"]
-gradient = SubResource("Gradient_evc3w")
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_4wwon"]
-noise_type = 4
-seed = 2
-frequency = 0.0049
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4wwon"]
-width = 320
-height = 180
-noise = SubResource("FastNoiseLite_4wwon")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_evc3w"]
-shader = ExtResource("3_4wwon")
-shader_parameter/noise_tex = SubResource("NoiseTexture2D_4wwon")
-shader_parameter/noise_tex_size = Vector2(256, 256)
-shader_parameter/color_ramp = SubResource("GradientTexture1D_ujgu0")
-shader_parameter/color_amount = 5
-shader_parameter/wave_speed = 0.1
-shader_parameter/frequency_x = 5.0
-shader_parameter/frequency_y = 5.0
-shader_parameter/amplitude_x = 0.01
-shader_parameter/amplitude_y = 0.01
-shader_parameter/pixel_amount = 100.0
-
-[sub_resource type="Gradient" id="Gradient_4wwon"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_evc3w"]
-gradient = SubResource("Gradient_4wwon")
-width = 320
-height = 180
-fill = 1
-fill_from = Vector2(0.5060241, 0.5097724)
 
 [node name="MapMain" type="Node2D"]
 script = ExtResource("1_suxv5")
 
 [node name="WaterTileMapLayer" parent="." instance=ExtResource("3_d5la8")]
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-material = SubResource("ShaderMaterial_evc3w")
-position = Vector2(0, 4.7683716e-07)
-scale = Vector2(1.08125, 1.1333334)
-texture = SubResource("GradientTexture2D_evc3w")
 
 [node name="GUIMapMain" parent="." instance=ExtResource("1_51rvi")]
 unique_name_in_owner = true
