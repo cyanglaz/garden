@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ffex8nedo0sw"
-path="res://.godot/imported/map_node.png-e90267f0865d4ec89b623c7f3db4fe47.ctex"
+uid="uid://3d0qx16gkm48"
+path="res://.godot/imported/map_node_water.png-f720df37a255789f2d3a3b96d6a75b7b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/map/water/map_node.png"
-dest_files=["res://.godot/imported/map_node.png-e90267f0865d4ec89b623c7f3db4fe47.ctex"]
+source_file="res://resources/sprites/map/map_node_water.png"
+dest_files=["res://.godot/imported/map_node_water.png-f720df37a255789f2d3a3b96d6a75b7b.ctex"]
 
 [params]
 

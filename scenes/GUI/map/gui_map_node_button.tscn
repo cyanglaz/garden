@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dulskrlufh4h3"]
+[gd_scene load_steps=8 format=3 uid="uid://dulskrlufh4h3"]
 
 [ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_we0g4"]
 [ext_resource type="Script" uid="uid://vqse2kirano5" path="res://scenes/GUI/map/gui_map_node_button.gd" id="2_6lnkn"]
 [ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="3_1lvg7"]
 [ext_resource type="Texture2D" uid="uid://bisst2l3rws4a" path="res://resources/sprites/map/map_node_state_indicator.png" id="3_ov53k"]
 [ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="4_ov53k"]
+[ext_resource type="Texture2D" uid="uid://b2vycpeodbahl" path="res://resources/sprites/map/map_icon_normal.png" id="5_1lvg7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6lnkn"]
 resource_local_to_scene = true
@@ -20,16 +21,30 @@ offset_right = 16.0
 offset_bottom = 16.0
 script = ExtResource("2_6lnkn")
 
-[node name="CenterContainer" type="CenterContainer" parent="." index="0"]
+[node name="CenterContainer" type="Control" parent="." index="0"]
 layout_mode = 2
+mouse_filter = 2
 
-[node name="Icon" parent="CenterContainer" index="0" instance=ExtResource("3_1lvg7")]
+[node name="IconContainer" type="Control" parent="CenterContainer" index="0"]
+anchors_preset = 0
+offset_right = 16.0
+offset_bottom = 16.0
+mouse_filter = 2
+
+[node name="Icon" parent="CenterContainer/IconContainer" index="0" instance=ExtResource("3_1lvg7")]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_6lnkn")
-layout_mode = 2
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 14.0
+offset_bottom = 14.0
+texture = ExtResource("5_1lvg7")
 
-[node name="StateIndicator" type="NinePatchRect" parent="." index="1"]
+[node name="StateIndicator" type="NinePatchRect" parent="CenterContainer/IconContainer" index="1"]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
 texture = ExtResource("3_ov53k")
 region_rect = Rect2(32, 0, 16, 16)

@@ -37,9 +37,9 @@ var next_nodes:Array = []
 var weak_parent_nodes:Array[WeakRef] = []
 
 func _ready() -> void:
-	gui_map_node_button.pressed.connect(func() -> void: pressed.emit())
-	gui_map_node_button.mouse_entered.connect(func() -> void: hovered.emit(true))
-	gui_map_node_button.mouse_entered.connect(func() -> void: hovered.emit(false))
+	gui_map_node_button.pressed.connect(_on_pressed)
+	gui_map_node_button.mouse_entered.connect(_on_hovered.bind(true))
+	gui_map_node_button.mouse_exited.connect(_on_hovered.bind(false))
 
 func update_button() -> void:
 	gui_map_node_button.update_with_node(self)
@@ -86,3 +86,10 @@ func _type_to_string(t:NodeType) -> String:
 			return "EVENT"
 		_:
 			return "UNKNOWN"
+
+func _on_pressed() -> void:
+	animation_player.play("dip")
+	pressed.emit()
+
+func _on_hovered(val:bool) -> void:
+	hovered.emit(val)
