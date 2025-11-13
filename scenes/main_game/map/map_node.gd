@@ -24,6 +24,7 @@ enum NodeState {
 
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 @onready var gui_map_node_button: GUIMapNodeButton = %GUIMapNodeButton
+@onready var animation_player: AnimationPlayer = %AnimationPlayer
 
 var type:NodeType
 var node_state:NodeState = NodeState.NORMAL
