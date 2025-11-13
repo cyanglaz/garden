@@ -153,3 +153,5 @@ unique_name_in_owner = true
 libraries = {
 &"": SubResource("AnimationLibrary_px28w")
 }
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
