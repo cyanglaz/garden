@@ -1,9 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://b5uthh0qeeff2"]
+[gd_scene load_steps=17 format=3 uid="uid://b5uthh0qeeff2"]
 
 [ext_resource type="Script" uid="uid://chw2gjm7d37l4" path="res://scenes/main_game/map/map_node.gd" id="1_uwda7"]
+[ext_resource type="Shader" uid="uid://djc27i8fdp0f8" path="res://scenes/main_game/map/map_node.gdshader" id="2_12d16"]
 [ext_resource type="PackedScene" uid="uid://dulskrlufh4h3" path="res://scenes/GUI/map/gui_map_node_button.tscn" id="2_64566"]
 [ext_resource type="Texture2D" uid="uid://b6ootin11uiqd" path="res://resources/sprites/map/map_node.png" id="2_khsrn"]
 [ext_resource type="Texture2D" uid="uid://3d0qx16gkm48" path="res://resources/sprites/map/map_node_water.png" id="3_px28w"]
+[ext_resource type="Texture2D" uid="uid://cvang14ekqdkm" path="res://resources/sprites/map/map_node_reflection.png" id="5_pmmg4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pmmg4"]
 atlas = ExtResource("2_khsrn")
@@ -29,6 +31,34 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_12d16")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pmmg4"]
+shader = ExtResource("2_12d16")
+shader_parameter/shift_min = -1
+shader_parameter/shift_max = 1
+shader_parameter/shift_per_block = 0
+shader_parameter/offset = 0
+shader_parameter/lines_per_block = 2
+shader_parameter/block_delay_time = 0.2000000095
+shader_parameter/cycle_duration = 1.5
+shader_parameter/noise_scale = 0.3
+shader_parameter/noise_speed = 1.0
+shader_parameter/block_seed_offset = 7.47
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_glwgf"]
+atlas = ExtResource("5_pmmg4")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6qpa7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_glwgf")
 }],
 "loop": true,
 "name": &"idle",
@@ -102,6 +132,7 @@ script = ExtResource("1_uwda7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
+z_index = 1
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_glwgf")
 animation = &"idle"
@@ -122,6 +153,7 @@ metadata/_aseprite_wizard_config_ = {
 metadata/_aseprite_wizard_source_file_hash_ = "d6165f33c5de3d261d6191b04ad6a439"
 
 [node name="WaterSprite" type="AnimatedSprite2D" parent="."]
+z_index = 1
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_pmmg4")
 animation = &"idle"
@@ -141,8 +173,31 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "c7cf32f47141ae18ac9fc003766ef899"
 
+[node name="Reflection" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+material = SubResource("ShaderMaterial_pmmg4")
+position = Vector2(0, 10)
+sprite_frames = SubResource("SpriteFrames_6qpa7")
+animation = &"idle"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/map/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/map/map_node_reflection.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "d6165f33c5de3d261d6191b04ad6a439"
+
 [node name="GUIMapNodeButton" parent="." instance=ExtResource("2_64566")]
 unique_name_in_owner = true
+z_index = 1
 offset_left = -8.0
 offset_top = -13.0
 offset_right = 8.0
