@@ -48,9 +48,9 @@ fill_from = Vector2(0.5060241, 0.5097724)
 script = ExtResource("1_suxv5")
 
 [node name="WaterTileMapLayer" parent="." instance=ExtResource("3_d5la8")]
-visible = false
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_evc3w")
 position = Vector2(0, 4.7683716e-07)
 scale = Vector2(1.08125, 1.1333334)

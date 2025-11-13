@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b5uthh0qeeff2"]
+[gd_scene load_steps=29 format=3 uid="uid://b5uthh0qeeff2"]
 
 [ext_resource type="Script" uid="uid://chw2gjm7d37l4" path="res://scenes/main_game/map/map_node.gd" id="1_uwda7"]
 [ext_resource type="Shader" uid="uid://djc27i8fdp0f8" path="res://scenes/main_game/map/map_node.gdshader" id="2_12d16"]
@@ -6,6 +6,38 @@
 [ext_resource type="Texture2D" uid="uid://b6ootin11uiqd" path="res://resources/sprites/map/map_node.png" id="2_khsrn"]
 [ext_resource type="Texture2D" uid="uid://3d0qx16gkm48" path="res://resources/sprites/map/map_node_water.png" id="3_px28w"]
 [ext_resource type="Texture2D" uid="uid://cvang14ekqdkm" path="res://resources/sprites/map/map_node_reflection.png" id="5_pmmg4"]
+[ext_resource type="Texture2D" uid="uid://cq7xguvqht76g" path="res://resources/sprites/effects/particles/island_water_ripple_particle.png" id="7_glwgf"]
+[ext_resource type="Texture2D" uid="uid://3um6qxu8rxoj" path="res://resources/sprites/effects/particles/water_droplet_map.png" id="8_6qpa7"]
+
+[sub_resource type="Curve" id="Curve_pmmg4"]
+_data = [Vector2(0, 0.8622256), 0.0, -1.0956352, 0, 0, Vector2(1, 0.04213977), -0.26295218, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_glwgf"]
+curve = SubResource("Curve_pmmg4")
+
+[sub_resource type="Curve" id="Curve_glwgf"]
+_data = [Vector2(0, 0.32424927), 0.0, 1.8063172, 0, 0, Vector2(0.99251497, 1), 0.11932668, 0.11932668, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_6qpa7"]
+curve = SubResource("Curve_glwgf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pmmg4"]
+particle_flag_disable_z = true
+angle_min = 1.0728835e-05
+angle_max = 1.0728835e-05
+radial_velocity_min = -2.2351742e-05
+radial_velocity_max = -2.2351742e-05
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -2.2351742e-06
+radial_accel_max = -2.2351742e-06
+tangential_accel_min = -2.2351742e-06
+tangential_accel_max = -2.2351742e-06
+scale_min = 1.5
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_6qpa7")
+alpha_curve = SubResource("CurveTexture_glwgf")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pmmg4"]
 atlas = ExtResource("2_khsrn")
@@ -44,11 +76,15 @@ shader_parameter/shift_max = 1
 shader_parameter/shift_per_block = 0
 shader_parameter/offset = 0
 shader_parameter/lines_per_block = 2
-shader_parameter/block_delay_time = 0.2000000095
-shader_parameter/cycle_duration = 1.5
-shader_parameter/noise_scale = 0.3
-shader_parameter/noise_speed = 1.0
-shader_parameter/block_seed_offset = 7.47
+shader_parameter/block_delay_time = 0.0
+shader_parameter/cycle_duration = 1.00000004587006
+shader_parameter/shifting_row_min = 6
+shader_parameter/shifting_row_max = 1000
+shader_parameter/noise_scale = 0.30000001355148
+shader_parameter/noise_speed = 1.50000007055148
+shader_parameter/block_seed_offset = 0.0
+shader_parameter/water_reflection_color = Color(0, 0.4117647, 0.6666667, 1)
+shader_parameter/water_blend_amount = 0.8270000392825
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_glwgf"]
 atlas = ExtResource("5_pmmg4")
@@ -89,9 +125,35 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.04, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"transitions": PackedFloat32Array(2, 0.5, 2, 1),
 "update": 0,
-"values": [Vector2(-8, -13), Vector2(-8, -12), Vector2(-8, -14), Vector2(-8, -13)]
+"values": [Vector2(-8, -13), Vector2(-8, -11), Vector2(-8, -15), Vector2(-8, -13)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Reflection:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.04, 0.3, 0.4),
+"transitions": PackedFloat32Array(0.5, 2, 0.5, 1),
+"update": 0,
+"values": [Vector2(0, 10), Vector2(0, 9), Vector2(0, 10.5), Vector2(0, 10)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_on_dip_down"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_px28w"]
@@ -120,6 +182,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector2(-8, -13)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Reflection:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 10)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_px28w"]
 _data = {
@@ -127,12 +201,61 @@ _data = {
 &"dip": SubResource("Animation_khsrn")
 }
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_6qpa7"]
+particles_animation = true
+particles_anim_h_frames = 2
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_6qpa7"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.7993677, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_0nykw"]
+curve = SubResource("Curve_6qpa7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0nykw"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 8, 1)
+direction = Vector3(-0.5, -1, 0)
+spread = 18.347
+initial_velocity_min = 20.0
+initial_velocity_max = 30.0
+gravity = Vector3(0, 98, 0)
+alpha_curve = SubResource("CurveTexture_0nykw")
+anim_offset_max = 1.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6qpa7"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 8, 1)
+direction = Vector3(0.5, -1, 0)
+spread = 18.347
+initial_velocity_min = 20.0
+initial_velocity_max = 30.0
+gravity = Vector3(0, 98, 0)
+alpha_curve = SubResource("CurveTexture_0nykw")
+anim_offset_max = 1.0
+
 [node name="MapNode" type="Node2D"]
 script = ExtResource("1_uwda7")
 
+[node name="RippleParticleEmitter" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+emitting = false
+amount = 1
+texture = ExtResource("7_glwgf")
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+trail_lifetime = 0.09999999999999999
+process_material = SubResource("ParticleProcessMaterial_pmmg4")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
-z_index = 1
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_glwgf")
 animation = &"idle"
@@ -150,10 +273,10 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/map/map_node.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "d6165f33c5de3d261d6191b04ad6a439"
+metadata/_aseprite_wizard_source_file_hash_ = "17605fd0f77cb0b502da5bb520f00d5a"
 
 [node name="WaterSprite" type="AnimatedSprite2D" parent="."]
-z_index = 1
+visible = false
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_pmmg4")
 animation = &"idle"
@@ -193,11 +316,10 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/map/map_node_reflection.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "d6165f33c5de3d261d6191b04ad6a439"
+metadata/_aseprite_wizard_source_file_hash_ = "41920bfc613a1d1bd3d6f7057b2637f1"
 
 [node name="GUIMapNodeButton" parent="." instance=ExtResource("2_64566")]
 unique_name_in_owner = true
-z_index = 1
 offset_left = -8.0
 offset_top = -13.0
 offset_right = 8.0
@@ -209,4 +331,28 @@ libraries = {
 &"": SubResource("AnimationLibrary_px28w")
 }
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+[node name="WaterDropletEmitterLeft" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+material = SubResource("CanvasItemMaterial_6qpa7")
+position = Vector2(-5, 0)
+emitting = false
+amount = 6
+texture = ExtResource("8_6qpa7")
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_0nykw")
+
+[node name="WaterDropletEmitterRight" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+material = SubResource("CanvasItemMaterial_6qpa7")
+position = Vector2(5, 0)
+emitting = false
+amount = 6
+texture = ExtResource("8_6qpa7")
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_6qpa7")

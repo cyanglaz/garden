@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://2f6pt5a47nl"
+path="res://.godot/imported/water_droplet_map.aseprite-da4e6e2b33b1c40a39550ba5fd86b471.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/particles/water_droplet_map.aseprite"
+dest_files=["res://.godot/imported/water_droplet_map.aseprite-da4e6e2b33b1c40a39550ba5fd86b471.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

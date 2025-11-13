@@ -5,12 +5,12 @@ const TILESET_SOURCE_ID := 0
 const WATER_TILE_COLUMN_INDEX := 0
 
 const WATER_TILE_WEIGHTS := {
-	0:90,
-	1:2,
-	2:2,
-	3:2,
-	4:2,
-	5:2,
+	0:100,
+	#1:2,
+	#2:2,
+	#3:2,
+	#4:2,
+	#5:2,
 }
 
 func _ready() -> void:
