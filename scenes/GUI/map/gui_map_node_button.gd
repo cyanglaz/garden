@@ -4,7 +4,6 @@ extends GUIBasicButton
 const ICON_PATH_PREFIX := "res://resources/sprites/map/map_icon_"
 
 @onready var icon: TextureRect = %Icon
-@onready var state_indicator: NinePatchRect = %StateIndicator
 
 var node_state:MapNode.NodeState = MapNode.NodeState.NORMAL: set = _set_node_state
 
@@ -42,17 +41,17 @@ func _set_node_state(val:MapNode.NodeState) -> void:
 		#overlay.show()
 	#else:
 		#overlay.hide()
-	match val:
-		MapNode.NodeState.NORMAL:
-			state_indicator.region_rect.position = Vector2(0, 0)
-		MapNode.NodeState.CURRENT:
-			state_indicator.region_rect.position = Vector2(16, 0)
-		MapNode.NodeState.NEXT:
-			state_indicator.region_rect.position = Vector2(32, 0)
-		MapNode.NodeState.COMPLETED:
-			state_indicator.region_rect.position = Vector2(48, 0)
-		MapNode.NodeState.UNREACHABLE:
-			state_indicator.region_rect.position = Vector2(64, 0)
+	#match val:
+		#MapNode.NodeState.NORMAL:
+			#state_indicator.region_rect.position = Vector2(0, 0)
+		#MapNode.NodeState.CURRENT:
+			#state_indicator.region_rect.position = Vector2(16, 0)
+		#MapNode.NodeState.NEXT:
+			#state_indicator.region_rect.position = Vector2(32, 0)
+		#MapNode.NodeState.COMPLETED:
+			#state_indicator.region_rect.position = Vector2(48, 0)
+		#MapNode.NodeState.UNREACHABLE:
+			#state_indicator.region_rect.position = Vector2(64, 0)
 
 func _handle_press_up() -> void:
 	if node_state in [MapNode.NodeState.COMPLETED, MapNode.NodeState.UNREACHABLE, MapNode.NodeState.CURRENT]:

@@ -6,6 +6,9 @@ signal node_hovered(hovered:bool, node:MapNode)
 
 const MAP_LINE_SCENE := preload("res://scenes/main_game/map/map_line.tscn")
 
+@onready var lines_container: Node2D = %LinesContainer
+@onready var nodes_container: Node2D = %NodesContainer
+
 const LAYER_SPACING := 24
 const ROW_SPACING := 22
 const NODE_POSITION_NOISE := 1.0
@@ -14,12 +17,24 @@ const LINE_WIDTH := 1.0
 
 var _node_positions:Dictionary = {} # {Vector2i: Vector2}
 
+func _ready() -> void:
+	lines_container.y_sort_enabled = true
+	nodes_container.y_sort_enabled = true
+
+
 func update_with_map_nodes(layers:Array) -> void:
 	_recompute_positions(layers)
-	redraw(layers)
+	_initialize_nodes(layers)
 
-func redraw(layers:Array) -> void:
-	Util.remove_all_children(self)
+func update_nodes(layers:Array) -> void:
+	for layer_index in layers.size():
+		var layer_nodes:Array = layers[layer_index]
+		for node in layer_nodes:
+			node.update_button()
+	Util.remove_all_children(lines_container)
+	_draw_lines(layers)
+
+func _initialize_nodes(layers:Array) -> void:
 	_draw_lines(layers)
 	_draw_nodes(layers)
 
@@ -43,7 +58,7 @@ func _draw_nodes(layers:Array) -> void:
 	for layer_index in layers.size():
 		var layer_nodes:Array = layers[layer_index]
 		for node in layer_nodes:
-			add_child(node)
+			nodes_container.add_child(node)
 			node.pressed.connect(_on_node_pressed.bind(node))
 			node.hovered.connect(_on_node_hovered.bind(node))
 			node.update_button()
@@ -60,7 +75,7 @@ func _draw_lines(layers:Array) -> void:
 
 func _draw_line(from_p:Vector2, to_p:Vector2, from_node_state:MapNode.NodeState, to_node_state:MapNode.NodeState) -> void:
 	var gui_line:MapLine = MAP_LINE_SCENE.instantiate()
-	add_child(gui_line)
+	lines_container.add_child(gui_line)
 	gui_line.update_with_line(from_p, to_p, from_node_state, to_node_state)
 
 func _get_node_position(node:MapNode) -> Vector2:

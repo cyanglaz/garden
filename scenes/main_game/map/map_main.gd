@@ -34,10 +34,11 @@ func get_node_count(node_type:MapNode.NodeType) -> int:
 
 func complete_current_node() -> void:
 	# Order of the operations is important
+	_current_map_node.node_state = MapNode.NodeState.COMPLETED
 	_mark_current_node_and_next_nodes(_current_map_node)
 	_mark_unreachable_nodes()
 	#_mark_reachable_nodes()
-	gui.redraw(layers)
+	map_node_container.update_nodes(layers)
 
 func _update_with_map() -> void:
 	map_node_container.update_with_map_nodes(layers)
@@ -68,7 +69,8 @@ func _mark_unreachable_nodes() -> void:
 
 func _on_node_selected(node:MapNode) -> void:
 	_current_map_node = node
-	node_selected.emit(node)
+	complete_current_node()
+	#node_selected.emit(node)
 
 func _on_node_hovered(hovered:bool, node:MapNode) -> void:
 	gui.update_tooltip(node, hovered)
