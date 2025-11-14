@@ -83,6 +83,8 @@ func _get_node_position(node:MapNode) -> Vector2:
 	return _node_positions.get(node.grid_coordinates)
 
 func _on_node_pressed(node:MapNode) -> void:
+	if node.node_state in [MapNode.NodeState.COMPLETED, MapNode.NodeState.UNREACHABLE, MapNode.NodeState.CURRENT, MapNode.NodeState.NORMAL]:
+		return
 	node_button_pressed.emit(node)
 
 func _on_node_hovered(hovered:bool, node:MapNode) -> void:

@@ -52,13 +52,3 @@ func _set_node_state(val:MapNode.NodeState) -> void:
 			#state_indicator.region_rect.position = Vector2(48, 0)
 		#MapNode.NodeState.UNREACHABLE:
 			#state_indicator.region_rect.position = Vector2(64, 0)
-
-func _handle_press_up() -> void:
-	if node_state in [MapNode.NodeState.COMPLETED, MapNode.NodeState.UNREACHABLE, MapNode.NodeState.CURRENT]:
-		return
-	super._handle_press_up()
-
-func _play_hover_sound() -> void:
-	if node_state in [MapNode.NodeState.COMPLETED, MapNode.NodeState.UNREACHABLE, MapNode.NodeState.CURRENT]:
-		return
-	super._play_hover_sound()
