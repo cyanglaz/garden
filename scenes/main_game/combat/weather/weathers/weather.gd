@@ -19,3 +19,7 @@ func animate_out() -> void:
 	weather_particle_container.stop()
 	await weather_sprite_container.animate_sprites_out()
 	weather_sprite_container.hide()
+
+func stop() -> void:
+	weather_particle_container.stop_sounds()
+	#weather_sprite_container.hide()

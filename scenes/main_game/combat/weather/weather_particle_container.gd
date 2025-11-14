@@ -15,3 +15,7 @@ func start() -> void:
 func stop() -> void:
 	for particle in _particles:
 		particle.stop()
+
+func stop_sounds() -> void:
+	for particle in _particles:
+		particle.fade_out_sounds()

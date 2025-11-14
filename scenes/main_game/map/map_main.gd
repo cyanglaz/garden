@@ -65,8 +65,8 @@ func _on_node_selected(node:MapNode) -> void:
 	if node.node_state in [MapNode.NodeState.COMPLETED, MapNode.NodeState.UNREACHABLE, MapNode.NodeState.CURRENT, MapNode.NodeState.NORMAL]:
 		return
 	_current_map_node = node
-	#complete_current_node()
 	node_selected.emit(node)
+	#complete_current_node()
 
 func _on_node_hovered(hovered:bool, node:MapNode) -> void:
 	gui.update_tooltip(node, hovered)

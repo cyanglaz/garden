@@ -132,7 +132,7 @@ func _start_day() -> void:
 	await field_container.trigger_start_turn_hooks(self)
 	gui.toggle_all_ui(true)
 	turn_started.emit()
-	_win()
+	#_win()
 
 func _met_win_condition() -> bool:
 	assert(_number_of_plants >= 0)
@@ -145,6 +145,7 @@ func _win() -> void:
 	gui.permanently_lock_all_ui()
 	await Util.create_scaled_timer(WIN_PAUSE_TIME).timeout
 	await _discard_all_tools()
+	weather_main.level_end_stop()
 	session_summary.total_days += day_manager.day
 	gui.animate_show_reward_main(_contract)
 

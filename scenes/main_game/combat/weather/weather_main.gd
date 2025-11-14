@@ -28,6 +28,9 @@ func start(chapter:int) -> void:
 	await _current_weather.animate_in()
 	weathers_updated.emit()
 
+func level_end_stop() -> void:
+	_current_weather.stop()
+
 func pass_day() -> void:
 	weather_manager.pass_day()
 	await _update_weather_scene()
