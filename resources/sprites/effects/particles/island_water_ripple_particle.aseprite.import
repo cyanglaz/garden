@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://ce4brff6o1cro"
+path="res://.godot/imported/island_water_ripple_particle.aseprite-996e63ae16177ca7c9b0e88058cfc318.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/particles/island_water_ripple_particle.aseprite"
+dest_files=["res://.godot/imported/island_water_ripple_particle.aseprite-996e63ae16177ca7c9b0e88058cfc318.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

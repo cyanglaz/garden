@@ -97,39 +97,45 @@ func _remove_current_scene() -> void:
 		_current_scene.queue_free()
 
 func _start_combat_main_scene(contract:ContractData) -> void:
-	map_main.hide_map()
 	var combat_main = COMBAT_MAIN_SCENE.instantiate()
 	node_container.add_child(combat_main)
 	combat_main.reward_finished.connect(_on_reward_finished)
+	start_scene_transition()
 	combat_main.start(card_pool, 3, contract)
 
 func _start_shop() -> void:
-	map_main.hide_map()
 	var shop_main = SHOP_MAIN_SCENE.instantiate()
 	shop_main.tool_shop_button_pressed.connect(_on_tool_shop_button_pressed)
 	shop_main.finish_button_pressed.connect(_on_shop_finish_button_pressed)
 	node_container.add_child(shop_main)
+	start_scene_transition()
 	shop_main.start(_gold)
 
 func _start_tavern() -> void:
-	map_main.hide_map()
 	var tavern_main = TAVERN_MAIN_SCENE.instantiate()
 	tavern_main.tavern_finished.connect(_on_tavern_finished)
 	node_container.add_child(tavern_main)
+	start_scene_transition()
 	tavern_main.animate_show()
 
 func _start_chest() -> void:
-	map_main.hide_map()
 	var chest_main:ChestMain = CHEST_MAIN_SCENE.instantiate()
 	chest_main.card_reward_selected.connect(_on_chest_card_reward_selected)
 	chest_main.skipped.connect(_on_chest_reward_skipped)
 	node_container.add_child(chest_main)
+	start_scene_transition()
 	chest_main.update_with_number_of_chests(3)
+
+func start_scene_transition() -> void:
+	map_main.hide()
+	await gui_main_game.transition(TransitionOverlay.Type.FADE_IN, 0.4)
 
 func _complete_current_node() -> void:
 	map_main.complete_current_node()
+	await gui_main_game.transition(TransitionOverlay.Type.FADE_OUT)
 	_current_scene.queue_free()
-	map_main.show_map()
+	map_main.show()
+	await gui_main_game.transition(TransitionOverlay.Type.FADE_IN)
 
 #endregion
 
@@ -140,9 +146,7 @@ func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> vo
 		card_pool.append(tool_data)
 		await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
 	# go to map
-	map_main.complete_current_node()
-	_current_scene.queue_free()
-	map_main.show_map()
+	_complete_current_node()
 
 func _on_tool_shop_button_pressed(tool_data:ToolData, from_global_position:Vector2) -> void:
 	if tool_data:
@@ -204,6 +208,7 @@ func _on_map_node_selected(node:MapNode) -> void:
 		# TODO: Add more event nodes
 		const EVENT_NODES := [MapNode.NodeType.CHEST, MapNode.NodeType.SHOP, MapNode.NodeType.TAVERN, MapNode.NodeType.NORMAL]
 		node_type = Util.unweighted_roll(EVENT_NODES, 1).front()
+	await gui_main_game.transition(TransitionOverlay.Type.FADE_OUT, 0.4)
 	match node_type:
 		MapNode.NodeType.NORMAL:
 			_start_combat_main_scene(contract_generator.common_contracts.pop_back())

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://d8cgx84ynktl"]
+
+[ext_resource type="Texture2D" uid="uid://de16o3orqpkc1" path="res://resources/sprites/map/map_line_dots.png" id="1_fkxpp"]
+[ext_resource type="Script" uid="uid://dp5c3cp5pyx5x" path="res://scenes/main_game/map/map_line.gd" id="2_fkxpp"]
+
+[node name="MapLine" type="Line2D"]
+texture_repeat = 2
+width = 1.0
+texture = ExtResource("1_fkxpp")
+texture_mode = 1
+script = ExtResource("2_fkxpp")

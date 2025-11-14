@@ -1,0 +1,2 @@
+class_name MapNodeIndicator
+extends Control

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bbow20jmy7f1y"
+path="res://.godot/imported/map_node_splash_emitter_shape.aseprite-afc3b69cad90fd7006b9208acf712644.res"
+
+[deps]
+
+source_file="res://resources/sprites/map/map_node_splash_emitter_shape.aseprite"
+dest_files=["res://.godot/imported/map_node_splash_emitter_shape.aseprite-afc3b69cad90fd7006b9208acf712644.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

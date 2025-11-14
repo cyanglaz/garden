@@ -11,6 +11,7 @@ const DROPLET_SCENE := preload("res://scenes/main_game/combat/world/water/water_
 @export var number_of_droplets := 8
 @export var droplet_spread_degrees := 25.0
 @export var droplet_position_range := 30.0
+@export var droplet_texture: Texture2D = null
 
 func _ready() -> void:
 	pass
@@ -18,6 +19,8 @@ func _ready() -> void:
 func emit_droplets() -> void:
 	for i in number_of_droplets:
 		var droplet := DROPLET_SCENE.instantiate()
+		if droplet_texture:
+			droplet.texture = droplet_texture
 		droplet.initial_up_velocity = randf_range(min_initial_up_velocity, max_initial_up_velocity)
 		droplet.gravity = gravity
 		droplet.rotation_velocity = randf_range(min_rotation_velocity, max_rotation_velocity)

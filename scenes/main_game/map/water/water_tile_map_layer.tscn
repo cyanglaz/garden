@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bs0a78lk7n55g"]
+
+[ext_resource type="TileSet" uid="uid://bc6mseav12ueo" path="res://scenes/main_game/map/map_tileset.tres" id="1_gvt1d"]
+[ext_resource type="Script" uid="uid://dn33xd4jgydkm" path="res://scenes/main_game/map/water/water_tile_map_layer.gd" id="2_m8oso"]
+
+[node name="WaterTileMapLayer" type="TileMapLayer"]
+tile_set = ExtResource("1_gvt1d")
+script = ExtResource("2_m8oso")
+
+[node name="Camera2D" type="Camera2D" parent="."]

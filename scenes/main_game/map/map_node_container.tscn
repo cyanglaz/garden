@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5mdj261gnwqt"]
+
+[ext_resource type="Script" uid="uid://bnyuh1h1dytw5" path="res://scenes/main_game/map/map_node_container.gd" id="1_ptvxp"]
+
+[node name="MapNodeContainer" type="Node2D"]
+script = ExtResource("1_ptvxp")
+
+[node name="LinesContainer" type="Node2D" parent="."]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="NodesContainer" type="Node2D" parent="."]
+unique_name_in_owner = true
+y_sort_enabled = true

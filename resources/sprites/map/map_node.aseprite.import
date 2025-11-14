@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://chafmwym14kny"
+path="res://.godot/imported/map_node.aseprite-98bfaf20cb62a0e9786cc68e0cf9f919.res"
+
+[deps]
+
+source_file="res://resources/sprites/map/map_node.aseprite"
+dest_files=["res://.godot/imported/map_node.aseprite-98bfaf20cb62a0e9786cc68e0cf9f919.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

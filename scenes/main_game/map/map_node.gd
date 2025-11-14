@@ -1,5 +1,8 @@
 class_name MapNode
-extends RefCounted
+extends Node2D
+
+signal pressed()
+signal hovered(hovered:bool)
 
 enum NodeType {
 	NORMAL,
@@ -19,6 +22,15 @@ enum NodeState {
 	UNREACHABLE,
 }
 
+@onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
+@onready var reflection: AnimatedSprite2D = %Reflection
+@onready var gui_map_node_button: GUIMapNodeButton = %GUIMapNodeButton
+@onready var animation_player: AnimationPlayer = %AnimationPlayer
+@onready var ripple_particle_emitter: GPUParticles2D = %RippleParticleEmitter
+@onready var water_droplet_emitter_left: GPUParticles2D = %WaterDropletEmitterLeft
+@onready var water_droplet_emitter_right: GPUParticles2D = %WaterDropletEmitterRight
+@onready var map_node_indicator: MapNodeIndicator = %MapNodeIndicator
+
 var type:NodeType
 var node_state:NodeState = NodeState.NORMAL
 
@@ -28,6 +40,35 @@ var grid_coordinates:Vector2i = Vector2i.ZERO
 # Forward connections to the next row
 var next_nodes:Array = []
 var weak_parent_nodes:Array[WeakRef] = []
+
+func _ready() -> void:
+	gui_map_node_button.pressed.connect(_on_pressed)
+	gui_map_node_button.mouse_entered.connect(_on_hovered.bind(true))
+	gui_map_node_button.mouse_exited.connect(_on_hovered.bind(false))
+
+func update_button() -> void:
+	gui_map_node_button.update_with_node(self)
+	match node_state:
+		NodeState.NORMAL:
+			animated_sprite_2d.play("idle")
+			reflection.play("idle")
+		NodeState.CURRENT:
+			animated_sprite_2d.play("complete")
+			reflection.play("complete")
+		NodeState.NEXT:
+			animated_sprite_2d.play("idle")
+			reflection.play("idle")
+		NodeState.COMPLETED:
+			animated_sprite_2d.play("complete")
+			reflection.play("complete")
+		NodeState.UNREACHABLE:
+			animated_sprite_2d.play("unreachable")
+			reflection.play("unreachable")
+	if node_state == NodeState.NEXT:
+		map_node_indicator.show()
+	else:
+		map_node_indicator.hide()
+	
 
 func connect_to(next_node) -> void:
 	if next_node in next_nodes:
@@ -71,3 +112,20 @@ func _type_to_string(t:NodeType) -> String:
 			return "EVENT"
 		_:
 			return "UNKNOWN"
+
+func _on_pressed() -> void:
+	water_droplet_emitter_left.restart()
+	water_droplet_emitter_right.restart()
+	ripple_particle_emitter.restart()
+	animation_player.play("dip")
+	pressed.emit()
+
+func _on_hovered(val:bool) -> void:
+	hovered.emit(val)
+	if val:
+		animated_sprite_2d.material.set_shader_parameter("outline_size", 1)
+	else:
+		animated_sprite_2d.material.set_shader_parameter("outline_size", 0)
+
+func _on_dip_down() -> void:
+	pass

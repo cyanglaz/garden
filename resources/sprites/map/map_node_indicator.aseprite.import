@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://fanydp3ybrvp"
+path="res://.godot/imported/map_node_indicator.aseprite-c547d6941922040c43fb9bd6b4070e9d.res"
+
+[deps]
+
+source_file="res://resources/sprites/map/map_node_indicator.aseprite"
+dest_files=["res://.godot/imported/map_node_indicator.aseprite-c547d6941922040c43fb9bd6b4070e9d.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

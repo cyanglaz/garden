@@ -15,6 +15,7 @@ signal hp_update_finished(value:int)
 
 @onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
+@onready var _transition_overlay: TransitionOverlay = %TransitionOverlay
 
 var _toggle_ui_semaphore := 0
 var _hovered_data:ThingData
@@ -68,6 +69,13 @@ func update_player(player_data:PlayerData) -> void:
 
 func bind_cards(cards:Array[ToolData]) -> void:
 	gui_top_bar.full_deck_button_evoked.connect(_on_request_view_cards.bind(cards, tr("FULL_DECK_TITLE")))
+
+#endregion
+
+#region transitions
+
+func transition(type:TransitionOverlay.Type, duration:float = 1.0) -> void:
+	await _transition_overlay.transition(type, duration)
 
 #endregion
 

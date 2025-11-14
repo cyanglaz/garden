@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://du2ui7peoke2m"]
+
+[ext_resource type="PackedScene" uid="uid://bs0a78lk7n55g" path="res://scenes/main_game/map/water/water_tile_map_layer.tscn" id="1_hqy2l"]
+
+[node name="MapWater" type="Node2D"]
+
+[node name="WaterTileMapLayer" parent="." instance=ExtResource("1_hqy2l")]
