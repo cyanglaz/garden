@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://b5uthh0qeeff2"]
+[gd_scene load_steps=28 format=3 uid="uid://b5uthh0qeeff2"]
 
 [ext_resource type="Script" uid="uid://chw2gjm7d37l4" path="res://scenes/main_game/map/map_node.gd" id="1_uwda7"]
 [ext_resource type="Shader" uid="uid://djc27i8fdp0f8" path="res://scenes/main_game/map/map_node.gdshader" id="2_12d16"]
@@ -9,19 +9,18 @@
 [ext_resource type="Texture2D" uid="uid://cq7xguvqht76g" path="res://resources/sprites/effects/particles/island_water_ripple_particle.png" id="7_glwgf"]
 [ext_resource type="Texture2D" uid="uid://3um6qxu8rxoj" path="res://resources/sprites/effects/particles/water_droplet_map.png" id="8_6qpa7"]
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_0nykw"]
+particles_animation = true
+particles_anim_h_frames = 8
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
 [sub_resource type="Curve" id="Curve_pmmg4"]
-_data = [Vector2(0, 0.8622256), 0.0, -1.0956352, 0, 0, Vector2(1, 0.04213977), -0.26295218, 0.0, 0, 0]
+_data = [Vector2(0, 0.94751453), 0.0, -0.5254578, 0, 0, Vector2(1, 0.04213977), -0.6374601, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_glwgf"]
 curve = SubResource("Curve_pmmg4")
-
-[sub_resource type="Curve" id="Curve_glwgf"]
-_data = [Vector2(0, 0.32424927), 0.0, 1.8063172, 0, 0, Vector2(0.99251497, 1), 0.11932668, 0.11932668, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_6qpa7"]
-curve = SubResource("Curve_glwgf")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pmmg4"]
 particle_flag_disable_z = true
@@ -34,10 +33,9 @@ radial_accel_min = -2.2351742e-06
 radial_accel_max = -2.2351742e-06
 tangential_accel_min = -2.2351742e-06
 tangential_accel_max = -2.2351742e-06
-scale_min = 1.5
-scale_max = 1.5
-scale_curve = SubResource("CurveTexture_6qpa7")
 alpha_curve = SubResource("CurveTexture_glwgf")
+anim_speed_min = 1.0
+anim_speed_max = 1.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pmmg4"]
 atlas = ExtResource("2_khsrn")
@@ -225,7 +223,8 @@ initial_velocity_min = 20.0
 initial_velocity_max = 30.0
 gravity = Vector3(0, 98, 0)
 alpha_curve = SubResource("CurveTexture_0nykw")
-anim_offset_max = 1.0
+anim_speed_min = 1.0
+anim_speed_max = 1.0
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6qpa7"]
 particle_flag_align_y = true
@@ -245,12 +244,13 @@ script = ExtResource("1_uwda7")
 
 [node name="RippleParticleEmitter" type="GPUParticles2D" parent="."]
 unique_name_in_owner = true
+material = SubResource("CanvasItemMaterial_0nykw")
 emitting = false
 amount = 1
 texture = ExtResource("7_glwgf")
+lifetime = 0.6
 one_shot = true
 explosiveness = 1.0
-randomness = 1.0
 trail_lifetime = 0.09999999999999999
 process_material = SubResource("ParticleProcessMaterial_pmmg4")
 
@@ -336,7 +336,7 @@ unique_name_in_owner = true
 material = SubResource("CanvasItemMaterial_6qpa7")
 position = Vector2(-5, 0)
 emitting = false
-amount = 6
+amount = 4
 texture = ExtResource("8_6qpa7")
 lifetime = 0.6
 one_shot = true
@@ -349,7 +349,7 @@ unique_name_in_owner = true
 material = SubResource("CanvasItemMaterial_6qpa7")
 position = Vector2(5, 0)
 emitting = false
-amount = 6
+amount = 4
 texture = ExtResource("8_6qpa7")
 lifetime = 0.6
 one_shot = true
