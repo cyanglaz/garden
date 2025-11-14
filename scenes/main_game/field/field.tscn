@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cyojxmvm4jvfn"]
+[gd_scene load_steps=25 format=3 uid="uid://cyojxmvm4jvfn"]
 
 [ext_resource type="Script" uid="uid://2yt706pccsrm" path="res://scenes/main_game/field/field.gd" id="1_e1j0g"]
 [ext_resource type="Shader" uid="uid://bdhxjruma11hn" path="res://scenes/main_game/field/field.gdshader" id="1_foq2q"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://b0mxsb1ypllyg" path="res://scenes/main_game/field/gui_field_selection_arrow.tscn" id="13_tcec4"]
 [ext_resource type="AudioStream" uid="uid://d1akur2jywp1n" path="res://resources/sounds/SFX/plants/plant_down.wav" id="15_gsguy"]
 [ext_resource type="PackedScene" uid="uid://ddb85df6v6lo4" path="res://scenes/main_game/combat/world/water/water_droplet_emitter.tscn" id="15_rw11e"]
+[ext_resource type="Texture2D" uid="uid://bimh485w1wjhp" path="res://resources/sprites/effects/particles/water_droplet.png" id="16_37mqm"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wixvq"]
 resource_local_to_scene = true
@@ -221,6 +222,7 @@ libraries = {
 unique_name_in_owner = true
 z_index = 1
 position = Vector2(0, 16)
+droplet_texture = ExtResource("16_37mqm")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_rw11e")

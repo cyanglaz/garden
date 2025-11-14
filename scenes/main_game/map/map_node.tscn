@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://b5uthh0qeeff2"]
+[gd_scene load_steps=33 format=3 uid="uid://b5uthh0qeeff2"]
 
 [ext_resource type="Script" uid="uid://chw2gjm7d37l4" path="res://scenes/main_game/map/map_node.gd" id="1_uwda7"]
 [ext_resource type="Shader" uid="uid://djc27i8fdp0f8" path="res://scenes/main_game/map/map_node_reflection.gdshader" id="2_12d16"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://cvang14ekqdkm" path="res://resources/sprites/map/map_node_reflection.png" id="5_pmmg4"]
 [ext_resource type="Texture2D" uid="uid://cq7xguvqht76g" path="res://resources/sprites/effects/particles/island_water_ripple_particle.png" id="7_glwgf"]
 [ext_resource type="Texture2D" uid="uid://3um6qxu8rxoj" path="res://resources/sprites/effects/particles/water_droplet_map.png" id="8_6qpa7"]
+[ext_resource type="AudioStream" uid="uid://573dtym8ldy3" path="res://resources/sounds/GUI/button_hover.wav" id="8_ip7dk"]
+[ext_resource type="AudioStream" uid="uid://oxhbysv1esve" path="res://resources/sounds/GUI/button_click.wav" id="9_0u4t5"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_0nykw"]
 particles_animation = true
@@ -344,6 +346,14 @@ offset_left = -8.0
 offset_top = -13.0
 offset_right = 8.0
 offset_bottom = 9.0
+short_cut = ""
+action_type = 0
+hold_time = 0.0
+button_state = 0
+tool_tip_localized_string = ""
+tooltip_position = 2
+hover_sound = ExtResource("8_ip7dk")
+click_sound = ExtResource("9_0u4t5")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
