@@ -69,8 +69,8 @@ func _mark_unreachable_nodes() -> void:
 
 func _on_node_selected(node:MapNode) -> void:
 	_current_map_node = node
-	complete_current_node()
-	#node_selected.emit(node)
+	#complete_current_node()
+	node_selected.emit(node)
 
 func _on_node_hovered(hovered:bool, node:MapNode) -> void:
 	gui.update_tooltip(node, hovered)

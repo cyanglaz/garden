@@ -9,8 +9,6 @@
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 player = ExtResource("2_8ywsm")
-test_tools = null
-test_number_of_fields = null
 
 [node name="MapMain" parent="." instance=ExtResource("14_s87mg")]
 unique_name_in_owner = true
