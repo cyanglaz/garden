@@ -74,7 +74,7 @@ func bind_cards(cards:Array[ToolData]) -> void:
 
 #region transitions
 
-func transition(type:TransitionOverlay.Type, duration:float = 1.0) -> void:
+func transition(type:TransitionOverlay.Type, duration:float = 0.4) -> void:
 	await _transition_overlay.transition(type, duration)
 
 #endregion

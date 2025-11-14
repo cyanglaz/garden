@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://d07xoskgg1bxi" path="res://scenes/GUI/main_game/reward/gui_reward_cards_main.tscn" id="8_pi043"]
 
 [node name="GUIRewardMain" type="CanvasLayer"]
+process_mode = 2
 layer = 2
 script = ExtResource("1_axy1y")
 
@@ -17,7 +18,7 @@ script = ExtResource("1_axy1y")
 
 [node name="GUIOverlayBackground" parent="MainMarginContainer" instance=ExtResource("1_xloug")]
 layout_mode = 2
-color = Color(0, 0.4117647, 0.6666667, 1)
+color = Color(0.52156866, 0.52156866, 0.52156866, 0.9411765)
 
 [node name="MarginContainer" type="MarginContainer" parent="MainMarginContainer"]
 unique_name_in_owner = true
@@ -50,6 +51,7 @@ size_flags_horizontal = 4
 [node name="GUIRewardHP" parent="MainMarginContainer/MarginContainer/VBoxContainer/RewardsContainer" instance=ExtResource("2_qkwju")]
 unique_name_in_owner = true
 layout_mode = 2
+alignment = 1
 
 [node name="GUIBoosterPackButton" parent="MainMarginContainer/MarginContainer/VBoxContainer/RewardsContainer" instance=ExtResource("5_rqta2")]
 unique_name_in_owner = true

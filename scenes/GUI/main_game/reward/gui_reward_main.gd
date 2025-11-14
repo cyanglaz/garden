@@ -33,6 +33,7 @@ func show_with_contract_data(contract_data:ContractData) -> void:
 	gui_booster_pack_button.hide()
 	_update_with_contract_data(contract_data)
 	show()
+	PauseManager.try_pause()
 	await _collect_rewards(contract_data)
 
 func _update_with_contract_data(contract_data:ContractData) -> void:
@@ -76,4 +77,5 @@ func _booster_pack_button_pressed() -> void:
 	gui_reward_cards_main.spawn_cards_with_pack_type(_booster_pack_type, gui_booster_pack_button.global_position)
 
 func _on_card_selected(tool_data:ToolData, from_global_position:Vector2) -> void:
+	PauseManager.try_unpause()
 	reward_finished.emit(tool_data, from_global_position)

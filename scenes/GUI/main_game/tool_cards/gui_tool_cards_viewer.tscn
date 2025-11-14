@@ -18,7 +18,7 @@ script = ExtResource("1_fr6vb")
 
 [node name="GUIOverlayBackground" parent="." instance=ExtResource("2_kgyom")]
 layout_mode = 1
-color = Color(0.0470588, 0.180392, 0.266667, 0.901961)
+color = Color(0.52156866, 0.52156866, 0.52156866, 0.9411765)
 
 [node name="MainContainer" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
