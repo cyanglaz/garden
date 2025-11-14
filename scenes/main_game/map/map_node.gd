@@ -29,6 +29,7 @@ enum NodeState {
 @onready var ripple_particle_emitter: GPUParticles2D = %RippleParticleEmitter
 @onready var water_droplet_emitter_left: GPUParticles2D = %WaterDropletEmitterLeft
 @onready var water_droplet_emitter_right: GPUParticles2D = %WaterDropletEmitterRight
+@onready var map_node_indicator: MapNodeIndicator = %MapNodeIndicator
 
 var type:NodeType
 var node_state:NodeState = NodeState.NORMAL
@@ -63,6 +64,11 @@ func update_button() -> void:
 		NodeState.UNREACHABLE:
 			animated_sprite_2d.play("unreachable")
 			reflection.play("unreachable")
+	if node_state == NodeState.NEXT:
+		map_node_indicator.show()
+	else:
+		map_node_indicator.hide()
+	
 
 func connect_to(next_node) -> void:
 	if next_node in next_nodes:

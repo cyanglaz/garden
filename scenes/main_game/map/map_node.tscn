@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://b5uthh0qeeff2"]
+[gd_scene load_steps=34 format=3 uid="uid://b5uthh0qeeff2"]
 
 [ext_resource type="Script" uid="uid://chw2gjm7d37l4" path="res://scenes/main_game/map/map_node.gd" id="1_uwda7"]
 [ext_resource type="Shader" uid="uid://djc27i8fdp0f8" path="res://scenes/main_game/map/map_node_reflection.gdshader" id="2_12d16"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://3um6qxu8rxoj" path="res://resources/sprites/effects/particles/water_droplet_map.png" id="8_6qpa7"]
 [ext_resource type="AudioStream" uid="uid://573dtym8ldy3" path="res://resources/sounds/GUI/button_hover.wav" id="8_ip7dk"]
 [ext_resource type="AudioStream" uid="uid://oxhbysv1esve" path="res://resources/sounds/GUI/button_click.wav" id="9_0u4t5"]
+[ext_resource type="PackedScene" uid="uid://csjkd2bp6w2g0" path="res://scenes/main_game/map/map_node_indicator.tscn" id="11_0u4t5"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_0nykw"]
 particles_animation = true
@@ -386,3 +387,8 @@ one_shot = true
 explosiveness = 1.0
 randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_6qpa7")
+
+[node name="MapNodeIndicator" parent="." instance=ExtResource("11_0u4t5")]
+unique_name_in_owner = true
+offset_top = -11.0
+offset_bottom = 29.0

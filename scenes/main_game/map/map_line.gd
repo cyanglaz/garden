@@ -8,7 +8,7 @@ const DEFAULT_WIDTH := 1
 const DOUBLE_WIDTH := 2
 
 const NODE_STATE_COLORS:Dictionary = {
-	MapNode.NodeState.NORMAL: Constants.COLOR_BLUE_GRAY_1,
+	MapNode.NodeState.NORMAL: Constants.COLOR_WHITE,
 	MapNode.NodeState.CURRENT: Constants.COLOR_GREEN1,
 	MapNode.NodeState.COMPLETED: Constants.COLOR_GREEN1,
 	MapNode.NodeState.NEXT: Constants.COLOR_YELLOW2,
