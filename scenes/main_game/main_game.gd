@@ -127,14 +127,14 @@ func _start_chest() -> void:
 	chest_main.update_with_number_of_chests(3)
 
 func start_scene_transition() -> void:
-	map_main.hide_map()
+	map_main.hide()
 	await gui_main_game.transition(TransitionOverlay.Type.FADE_IN, 0.4)
 
 func _complete_current_node() -> void:
 	map_main.complete_current_node()
 	await gui_main_game.transition(TransitionOverlay.Type.FADE_OUT)
 	_current_scene.queue_free()
-	map_main.show_map()
+	map_main.show()
 	await gui_main_game.transition(TransitionOverlay.Type.FADE_IN)
 
 #endregion
@@ -146,9 +146,7 @@ func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> vo
 		card_pool.append(tool_data)
 		await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
 	# go to map
-	map_main.complete_current_node()
-	_current_scene.queue_free()
-	map_main.show_map()
+	_complete_current_node()
 
 func _on_tool_shop_button_pressed(tool_data:ToolData, from_global_position:Vector2) -> void:
 	if tool_data:

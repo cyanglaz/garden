@@ -14,15 +14,9 @@ var _current_map_node:MapNode
 func _ready() -> void:
 	map_node_container.node_button_pressed.connect(_on_node_selected)
 	map_node_container.node_hovered.connect(_on_node_hovered)
-	map_generator.generate(randi())
+	#map_generator.generate(randi())
 	#update_with_map(map_generator.layers)
-	generate_map(randi())
-
-func show_map() -> void:
-	gui.show()
-
-func hide_map() -> void:
-	gui.hide()
+	#generate_map(randi())
 
 func generate_map(rand_seed:int = 0) -> void:
 	layers = map_generator.generate(rand_seed)

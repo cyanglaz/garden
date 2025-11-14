@@ -14,6 +14,7 @@ const ROW_SPACING := 22
 const NODE_POSITION_NOISE := 1.0
 const NODE_RADIUS := 3
 const LINE_WIDTH := 1.0
+const MAP_Y_OFFSET := 16 # Offset to center the map vertically, this is the height of the top bar.
 
 var _node_positions:Dictionary = {} # {Vector2i: Vector2}
 
@@ -46,7 +47,7 @@ func _recompute_positions(layers:Array) -> void:
 	var total_width := (layer_count-1) * LAYER_SPACING
 	var starting_x := - total_width / 2.0
 	var total_height := MapGenerator.MAX_ROWS * ROW_SPACING
-	var starting_y := - total_height / 2.0
+	var starting_y := - total_height / 2.0 + MAP_Y_OFFSET
 	for layer_nodes:Array in layers:
 		assert(layer_nodes.size() > 0)
 		for node:MapNode in layer_nodes:

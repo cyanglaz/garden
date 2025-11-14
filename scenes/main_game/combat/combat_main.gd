@@ -132,6 +132,7 @@ func _start_day() -> void:
 	await field_container.trigger_start_turn_hooks(self)
 	gui.toggle_all_ui(true)
 	turn_started.emit()
+	_win()
 
 func _met_win_condition() -> bool:
 	assert(_number_of_plants >= 0)
