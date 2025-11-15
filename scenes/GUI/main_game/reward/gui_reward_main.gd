@@ -24,6 +24,9 @@ func _ready() -> void:
 	title_label.text = Util.get_localized_string("REWARD_MAIN_TITLE_TEXT")
 	gui_booster_pack_button.pressed.connect(_booster_pack_button_pressed)
 	gui_reward_cards_main.card_selected.connect(_on_card_selected)
+	
+	var contract_data = ContractData.new()
+	show_with_contract_data(contract_data)
 
 func show_with_contract_data(contract_data:ContractData) -> void:
 	margin_container.show()
