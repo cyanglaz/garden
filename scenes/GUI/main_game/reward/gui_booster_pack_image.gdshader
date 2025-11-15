@@ -23,6 +23,15 @@ void fragment() {
 	alpha += textureLod(TEXTURE, UV + vec2(0, size_y * float(outline_size)), 0).a;
 	sprite_color = mix(sprite_color, outline_color, clamp(alpha, 0.0, 1.0));
 	sprite_color = vec4(sprite_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
+	
+	// Booster pack opening animation: reveal top rows from left to right
+	if (UV.y < top_rows) {
+		// If this pixel is in the top section and hasn't been revealed yet, hide it
+		if (UV.x > progress) {
+			sprite_color.a = 0.0;
+		}
+	}
+	
 	base_color = sprite_color;
 
 	COLOR = base_color * modulate;

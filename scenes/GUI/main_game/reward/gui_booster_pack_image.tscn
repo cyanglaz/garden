@@ -1,15 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://cp4hifbli0slg"]
+[gd_scene load_steps=5 format=3 uid="uid://cp4hifbli0slg"]
 
 [ext_resource type="Shader" uid="uid://bxaetpcw72v7e" path="res://scenes/GUI/main_game/reward/gui_booster_pack_image.gdshader" id="1_mexut"]
 [ext_resource type="Script" uid="uid://cqr1nsy2ofabr" path="res://scenes/GUI/main_game/reward/gui_booster_pack_image.gd" id="2_ac46u"]
+[ext_resource type="Texture2D" uid="uid://b26rpyvy6fljt" path="res://resources/sprites/booster_packs/booster_pack_common.png" id="2_i1l1f"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_72lfy"]
 resource_local_to_scene = true
 shader = ExtResource("1_mexut")
-shader_parameter/outline_color = Color(1, 1, 1, 1)
-shader_parameter/outline_size = 0
 
 [node name="GUIBoosterPackImage" type="TextureRect"]
 material = SubResource("ShaderMaterial_72lfy")
+texture = ExtResource("2_i1l1f")
 stretch_mode = 5
 script = ExtResource("2_ac46u")
