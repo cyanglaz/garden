@@ -16,7 +16,10 @@ var _noise_y = 0
 var _decay := 0.5
 var _noise = FastNoiseLite.new()
 
+var _parent_initial_position:Vector2
+
 func start(trauma:float = 0.6, amplitude:Vector2 = SHAKE_AMPLITUDE, rotation:float = 0.05, decay:float = 1, priority := 0):
+	_parent_initial_position = _parent.position
 	assert(trauma > 0.0 && trauma <= 1.0)
 	Input.start_joy_vibration(1, 1, 1, 1)
 	# Smaller random seed to prevent stack overflow
@@ -43,8 +46,6 @@ func _add_trauma(amount:float):
 func _shake():
 	_noise_y += NOISE_SPEED
 	var amount = pow(_trauma, TRAUMA_POWER)
-	_parent.position.x = _amplitude.x * amount * _noise.get_noise_2d(_noise.seed, _noise_y)
-	_parent.position.y= _amplitude.y * amount * _noise.get_noise_2d(_noise.seed*2, _noise_y)
+	_parent.position.x = _amplitude.x * amount * _noise.get_noise_2d(_noise.seed, _noise_y) + _parent_initial_position.x
+	_parent.position.y= _amplitude.y * amount * _noise.get_noise_2d(_noise.seed*2, _noise_y) + _parent_initial_position.y
 	_parent.rotation = _rotation * amount * _noise.get_noise_2d(_noise.seed*3, _noise_y)
-	print(_parent.position.x)
-	print(_parent.position.y)

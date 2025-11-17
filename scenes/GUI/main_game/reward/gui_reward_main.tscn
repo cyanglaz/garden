@@ -53,7 +53,10 @@ unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
 
-[node name="GUIBoosterPackButton" parent="MainMarginContainer/MarginContainer/VBoxContainer/RewardsContainer" instance=ExtResource("5_rqta2")]
+[node name="CenterContainer" type="CenterContainer" parent="MainMarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="GUIBoosterPackButton" parent="MainMarginContainer/MarginContainer/CenterContainer" instance=ExtResource("5_rqta2")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
