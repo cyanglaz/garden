@@ -1,15 +1,68 @@
-[gd_scene load_steps=5 format=3 uid="uid://cp4hifbli0slg"]
+[gd_scene load_steps=9 format=3 uid="uid://cp4hifbli0slg"]
 
 [ext_resource type="Shader" uid="uid://bxaetpcw72v7e" path="res://scenes/GUI/main_game/reward/gui_booster_pack_image.gdshader" id="1_mexut"]
 [ext_resource type="Script" uid="uid://cqr1nsy2ofabr" path="res://scenes/GUI/main_game/reward/gui_booster_pack_image.gd" id="2_ac46u"]
 [ext_resource type="Texture2D" uid="uid://b26rpyvy6fljt" path="res://resources/sprites/booster_packs/booster_pack_common.png" id="2_i1l1f"]
+[ext_resource type="Script" uid="uid://cm3abed122s44" path="res://scenes/utils/shake.gd" id="4_i1l1f"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_72lfy"]
 resource_local_to_scene = true
 shader = ExtResource("1_mexut")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/sensitivity = 0.0
+
+[sub_resource type="Animation" id="Animation_ac46u"]
+resource_name = "dissolve"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/sensitivity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.96666664),
+"transitions": PackedFloat32Array(2, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_i1l1f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/sensitivity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0trs1"]
+_data = {
+&"RESET": SubResource("Animation_i1l1f"),
+&"dissolve": SubResource("Animation_ac46u")
+}
 
 [node name="GUIBoosterPackImage" type="TextureRect"]
 material = SubResource("ShaderMaterial_72lfy")
 texture = ExtResource("2_i1l1f")
 stretch_mode = 5
 script = ExtResource("2_ac46u")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_0trs1")
+}
+
+[node name="Shake" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_i1l1f")
+metadata/_custom_type_script = "uid://cm3abed122s44"
+
+[node name="Camera2D" type="Camera2D" parent="."]
