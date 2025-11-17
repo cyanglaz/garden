@@ -14,8 +14,8 @@ func _ready() -> void:
 	play_open_animation()
 
 func play_open_animation() -> void:
-	shake.start(1.0,Vector2(100, 100), 0.01, 0.01, 1)
-	#animation_player.play("dissolve")
+	shake.start(1.0,Vector2(1, 1), 0.01, 0.0, 1)
+	animation_player.play("dissolve")
 
 func update_with_booster_pack_type(booster_pack_type:ContractData.BoosterPackType) -> void:
 	match booster_pack_type:

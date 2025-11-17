@@ -66,3 +66,6 @@ script = ExtResource("4_i1l1f")
 metadata/_custom_type_script = "uid://cm3abed122s44"
 
 [node name="Camera2D" type="Camera2D" parent="."]
+top_level = true
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]

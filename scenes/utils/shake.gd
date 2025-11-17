@@ -46,3 +46,5 @@ func _shake():
 	_parent.position.x = _amplitude.x * amount * _noise.get_noise_2d(_noise.seed, _noise_y)
 	_parent.position.y= _amplitude.y * amount * _noise.get_noise_2d(_noise.seed*2, _noise_y)
 	_parent.rotation = _rotation * amount * _noise.get_noise_2d(_noise.seed*3, _noise_y)
+	print(_parent.position.x)
+	print(_parent.position.y)
