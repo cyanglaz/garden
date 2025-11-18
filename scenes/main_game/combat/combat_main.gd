@@ -10,10 +10,12 @@ const WIN_PAUSE_TIME := 0.5
 const INSTANT_CARD_USE_DELAY := 0.3
 const TOOL_APPLICATION_ERROR_HIDE_DELAY := 3.0
 const INITIAL_NUMBER_OF_PLANTS := 2
+const BACKGROUND_MUSIC_FADE_IN_TIME := 1.0
 
 @onready var weather_main: WeatherMain = %WeatherMain
 @onready var field_container: FieldContainer = %FieldContainer
 @onready var gui: GUICombatMain = %GUI
+@onready var background_music_player: AudioStreamPlayer2D = %BackgroundMusicPlayer
 
 var energy_tracker:ResourcePoint = ResourcePoint.new()
 var contract_generator:ContractGenerator = ContractGenerator.new()
@@ -68,6 +70,8 @@ func start(card_pool:Array[ToolData], energy_cap:int, contract:ContractData) -> 
 
 	max_energy = energy_cap
 	energy_tracker.capped = false
+
+	background_music_player.volume_db = -80
 
 	_contract = contract
 	_start_new_level()
@@ -124,6 +128,7 @@ func _start_day() -> void:
 	gui.clear_tool_selection()
 	gui.update_penalty_rate(_contract.get_penalty_rate(day_manager.day))
 	if day_manager.day == 0:
+		await _fade_music(true)
 		await gui.apply_boss_actions(GUIBoss.HookType.LEVEL_START)
 		await Util.create_scaled_timer(0.2).timeout
 		await _plant_new_seeds(INITIAL_NUMBER_OF_PLANTS)
@@ -132,7 +137,7 @@ func _start_day() -> void:
 	await field_container.trigger_start_turn_hooks(self)
 	gui.toggle_all_ui(true)
 	turn_started.emit()
-	_win()
+	#_win()
 
 func _met_win_condition() -> bool:
 	assert(_number_of_plants >= 0)
@@ -143,6 +148,7 @@ func _win() -> void:
 		return
 	is_finished = true
 	gui.permanently_lock_all_ui()
+	await _fade_music(false)
 	await Util.create_scaled_timer(WIN_PAUSE_TIME).timeout
 	await _discard_all_tools()
 	weather_main.level_end_stop()
@@ -200,6 +206,15 @@ func _handle_card_use(plant_index:int) -> void:
 	tool_manager.apply_tool(self, field_container.plants, plant_index)
 	await tool_manager.tool_application_completed
 
+func _fade_music(fade_in:bool) -> void:
+	if fade_in:
+		background_music_player.play()
+	var target_volume_db:float = 0 if fade_in else -80
+	var tween:Tween = Util.create_scaled_tween(self)
+	tween.tween_property(background_music_player, "volume_db", target_volume_db, BACKGROUND_MUSIC_FADE_IN_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	await tween.finished
+	if !fade_in:
+		background_music_player.stop()
 #endregion
 
 #region gui
