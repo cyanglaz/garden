@@ -60,6 +60,7 @@ func _ready() -> void:
 	_gui_use_card_button.pressed.connect(_on_use_button_pressed)
 	_gui_use_card_button.hide()
 	_animating_foreground.hide()
+	animation_mode = false
 
 func update_with_tool_data(td:ToolData) -> void:
 	_weak_tool_data = weakref(td)
