@@ -1,9 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://cp4hifbli0slg"]
+[gd_scene load_steps=14 format=3 uid="uid://cp4hifbli0slg"]
 
 [ext_resource type="Shader" uid="uid://bxaetpcw72v7e" path="res://scenes/GUI/main_game/reward/gui_booster_pack_image.gdshader" id="1_mexut"]
 [ext_resource type="Script" uid="uid://cqr1nsy2ofabr" path="res://scenes/GUI/main_game/reward/gui_booster_pack_image.gd" id="2_ac46u"]
 [ext_resource type="Texture2D" uid="uid://b26rpyvy6fljt" path="res://resources/sprites/booster_packs/booster_pack_common.png" id="2_i1l1f"]
 [ext_resource type="Script" uid="uid://cm3abed122s44" path="res://scenes/utils/shake.gd" id="4_i1l1f"]
+[ext_resource type="AudioStream" uid="uid://bebtnif22cnll" path="res://resources/sounds/SFX/tool_cards/pack_shaking.wav" id="5_ju2c4"]
+[ext_resource type="AudioStream" uid="uid://dw8hyk2sx7bnv" path="res://resources/sounds/SFX/tool_cards/pack_open.wav" id="6_ju2c4"]
 
 [sub_resource type="Animation" id="Animation_i1l1f"]
 length = 0.001
@@ -86,6 +88,37 @@ tracks/3/keys = {
 "update": 1,
 "values": [true, false]
 }
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("%TextureRect/../ShakeSound")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.43333334),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}, {
+"args": [],
+"method": &"stop"
+}]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("%TextureRect/../ExplodeSound")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.43333334),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0trs1"]
 _data = {
@@ -151,3 +184,9 @@ material = SubResource("ShaderMaterial_72lfy")
 layout_mode = 2
 texture = ExtResource("2_i1l1f")
 stretch_mode = 5
+
+[node name="ShakeSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_ju2c4")
+
+[node name="ExplodeSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_ju2c4")

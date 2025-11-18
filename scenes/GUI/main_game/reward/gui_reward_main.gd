@@ -1,11 +1,7 @@
 class_name GUIRewardMain
 extends CanvasLayer
 
-const REWARD_SOUND_1 := preload("res://resources/sounds/SFX/summary/reward_1.wav")
-const REWARD_SOUND_2 := preload("res://resources/sounds/SFX/summary/reward_2.wav")
-const REWARD_SOUND_3 := preload("res://resources/sounds/SFX/summary/reward_3.wav")
-const PAUSE_TIME_BETWEEN_REWARDS := 1.0
-const PAUSE_BEFORE_REWARD_ANIMATION := 0.4
+const SHOW_ANIMATION_TIME := 0.5
 
 signal reward_finished(tool_data:ToolData, from_global_position:Vector2)
 
@@ -16,14 +12,17 @@ signal reward_finished(tool_data:ToolData, from_global_position:Vector2)
 @onready var gui_booster_pack_button: GUIBoosterPackButton = %GUIBoosterPackButton
 @onready var margin_container: MarginContainer = %MarginContainer
 @onready var gui_reward_cards_main: GUIRewardCardsMain = %GUIRewardCardsMain
+@onready var panel_container: PanelContainer = %PanelContainer
 
-var _reward_sound_index := 0
 var _booster_pack_type:ContractData.BoosterPackType
+
+var _original_panel_y:float
 
 func _ready() -> void:
 	title_label.text = Util.get_localized_string("REWARD_MAIN_TITLE_TEXT")
 	gui_booster_pack_button.pressed.connect(_booster_pack_button_pressed)
 	gui_reward_cards_main.card_selected.connect(_on_card_selected)
+	_original_panel_y = panel_container.position.y
 	
 	var contract_data = ContractData.new()
 	show_with_contract_data(contract_data)
@@ -37,7 +36,15 @@ func show_with_contract_data(contract_data:ContractData) -> void:
 	_update_with_contract_data(contract_data)
 	show()
 	PauseManager.try_pause()
-	await _collect_rewards(contract_data)
+	_collect_rewards(contract_data)
+	panel_container.position.y = get_viewport().size.y
+	reward_showing_audio.play()
+	var tween := Util.create_scaled_tween(self)
+	tween.tween_property(panel_container, "position:y", _original_panel_y, SHOW_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	await tween.finished
+	Events.request_update_gold.emit(contract_data.reward_gold, true)
+	if contract_data.reward_hp > 0:
+		Events.request_hp_update.emit(contract_data.reward_hp)
 
 func _update_with_contract_data(contract_data:ContractData) -> void:
 	gui_reward_gold.update_with_value(contract_data.reward_gold)
@@ -46,34 +53,11 @@ func _update_with_contract_data(contract_data:ContractData) -> void:
 	gui_booster_pack_button.update_with_booster_pack_type(contract_data.reward_booster_pack_type)
 
 func _collect_rewards(contract_data:ContractData) -> void:
-	await Util.create_scaled_timer(PAUSE_TIME_BETWEEN_REWARDS).timeout
-	_play_next_reward_sound()
 	gui_reward_gold.show()
-	await Util.create_scaled_timer(PAUSE_BEFORE_REWARD_ANIMATION).timeout
-	Events.request_update_gold.emit(contract_data.reward_gold, true)
 	if contract_data.reward_hp > 0:
-		await Util.create_scaled_timer(PAUSE_TIME_BETWEEN_REWARDS).timeout
-		_play_next_reward_sound()
 		gui_reward_hp.show()
-		await Util.create_scaled_timer(PAUSE_BEFORE_REWARD_ANIMATION).timeout
-		Events.request_hp_update.emit(contract_data.reward_hp)
-	await Util.create_scaled_timer(PAUSE_TIME_BETWEEN_REWARDS).timeout
-	_play_next_reward_sound()
 	_booster_pack_type = contract_data.reward_booster_pack_type
 	gui_booster_pack_button.show()
-
-func _play_next_reward_sound() -> void:
-	var stream:AudioStream
-	match _reward_sound_index:
-		0:
-			stream = REWARD_SOUND_1
-		1:
-			stream = REWARD_SOUND_2
-		2:
-			stream = REWARD_SOUND_3
-	reward_showing_audio.stream = stream
-	reward_showing_audio.play()
-	_reward_sound_index += 1
 
 func _booster_pack_button_pressed() -> void:
 	margin_container.hide()
