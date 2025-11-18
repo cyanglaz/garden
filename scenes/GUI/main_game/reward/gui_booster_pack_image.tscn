@@ -39,7 +39,7 @@ resource_name = "dissolve"
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../Shake")
+tracks/0/path = NodePath("Shake")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -161,11 +161,6 @@ libraries = {
 &"": SubResource("AnimationLibrary_0trs1")
 }
 
-[node name="Shake" type="Node" parent="."]
-unique_name_in_owner = true
-script = ExtResource("4_i1l1f")
-metadata/_custom_type_script = "uid://cm3abed122s44"
-
 [node name="Camera2D" type="Camera2D" parent="."]
 top_level = true
 
@@ -184,6 +179,11 @@ material = SubResource("ShaderMaterial_72lfy")
 layout_mode = 2
 texture = ExtResource("2_i1l1f")
 stretch_mode = 5
+
+[node name="Shake" type="Node" parent="TextureRect"]
+unique_name_in_owner = true
+script = ExtResource("4_i1l1f")
+metadata/_custom_type_script = "uid://cm3abed122s44"
 
 [node name="ShakeSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_ju2c4")

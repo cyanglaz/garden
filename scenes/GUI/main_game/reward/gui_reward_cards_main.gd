@@ -3,6 +3,7 @@ extends Control
 
 const CARD_PADDING := 16
 const SCALE_FACTOR:float = 1.5
+const CENTER_PACK_IMAGE_ANIMATION_TIME := 0.2
 
 const GUI_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
@@ -86,6 +87,7 @@ func _get_all_card_positions() -> Array[Vector2]:
 	# Calculate positions for each card
 	for i in range(child_count):
 		var child = cards_container.get_child(i)
+		print(child.size)
 		var target_position: Vector2 = Vector2(current_x, (size.y - child.size.y) / 2.0)
 		positions.append(target_position)
 		current_x += child.size.x + CARD_PADDING
@@ -98,6 +100,10 @@ func _animate_pack_open(booster_pack_type:ContractData.BoosterPackType, g_positi
 	gui_booster_pack_image.global_position = g_position
 	gui_booster_pack_image.pivot_offset = gui_booster_pack_image.size/2
 	gui_booster_pack_image.has_outline = true
+	var tween:Tween = Util.create_scaled_tween(self)
+	print(gui_booster_pack_image.size)
+	var final_position_y:float = (size.y - gui_booster_pack_image.size.y)/2
+	tween.tween_property(gui_booster_pack_image, "position:y", final_position_y, CENTER_PACK_IMAGE_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await gui_booster_pack_image.play_open_animation()
 
 func _animate_card_fly_out() -> void:
@@ -108,9 +114,9 @@ func _animate_card_fly_out() -> void:
 		var child := cards_container.get_child(i)
 		child.animation_mode = true
 		child.size = gui_booster_pack_image.size
-		var initial_positions :Vector2 = gui_booster_pack_image.position + (gui_booster_pack_image.size/2)
+		var initial_positions :Vector2 = gui_booster_pack_image.position
 		var target_position := final_positions[i]
-		child.global_position = initial_positions
+		child.position = initial_positions
 		child.visible = true
 		tween.tween_property(child, "position", target_position, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		tween.tween_property(child, "size", GUIToolCardButton.SIZE, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)

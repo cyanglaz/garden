@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://c00mbn24rioim" path="res://scenes/GUI/main_game/reward/gui_reward_gold.tscn" id="3_axy1y"]
 [ext_resource type="Texture2D" uid="uid://pjdyj2bfffr6" path="res://resources/sprites/GUI/theme/contract_background.png" id="4_jo3ev"]
 [ext_resource type="PackedScene" uid="uid://ctjggegiourgw" path="res://scenes/GUI/controls/buttons/gui_booster_pack_button.tscn" id="5_rqta2"]
-[ext_resource type="AudioStream" uid="uid://dir7ruadko01f" path="res://resources/sounds/SFX/summary/reward_show.wav" id="8_jo3ev"]
+[ext_resource type="AudioStream" uid="uid://dnjnf11sfdhai" path="res://resources/sounds/SFX/summary/reward_3.wav" id="8_jo3ev"]
 [ext_resource type="PackedScene" uid="uid://d07xoskgg1bxi" path="res://scenes/GUI/main_game/reward/gui_reward_cards_main.tscn" id="8_pi043"]
 
 [node name="GUIRewardMain" type="CanvasLayer"]
@@ -16,6 +16,7 @@ layer = 2
 script = ExtResource("1_axy1y")
 
 [node name="MainMarginContainer" parent="." instance=ExtResource("2_pi043")]
+unique_name_in_owner = true
 
 [node name="GUIOverlayBackground" parent="MainMarginContainer" instance=ExtResource("1_xloug")]
 layout_mode = 2
@@ -99,6 +100,7 @@ size_flags_horizontal = 4
 [node name="RewardShowingAudio" type="AudioStreamPlayer2D" parent="MainMarginContainer"]
 unique_name_in_owner = true
 stream = ExtResource("8_jo3ev")
+volume_db = 5.0
 bus = &"SFX"
 
 [node name="GUIRewardCardsMain" parent="." instance=ExtResource("8_pi043")]

@@ -13,6 +13,7 @@ signal reward_finished(tool_data:ToolData, from_global_position:Vector2)
 @onready var margin_container: MarginContainer = %MarginContainer
 @onready var gui_reward_cards_main: GUIRewardCardsMain = %GUIRewardCardsMain
 @onready var panel_container: PanelContainer = %PanelContainer
+@onready var main_margin_container: MarginContainer = %MainMarginContainer
 
 var _booster_pack_type:ContractData.BoosterPackType
 
@@ -24,8 +25,8 @@ func _ready() -> void:
 	gui_reward_cards_main.card_selected.connect(_on_card_selected)
 	_original_panel_y = panel_container.position.y
 	
-	var contract_data = ContractData.new()
-	show_with_contract_data(contract_data)
+	#var contract_data = ContractData.new()
+	#show_with_contract_data(contract_data)
 
 func show_with_contract_data(contract_data:ContractData) -> void:
 	margin_container.show()
@@ -37,10 +38,11 @@ func show_with_contract_data(contract_data:ContractData) -> void:
 	show()
 	PauseManager.try_pause()
 	_collect_rewards(contract_data)
-	panel_container.position.y = get_viewport().size.y
+	panel_container.position.y = main_margin_container.size.y
 	reward_showing_audio.play()
 	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(panel_container, "position:y", _original_panel_y, SHOW_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(panel_container, "position:y", _original_panel_y, SHOW_ANIMATION_TIME).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+
 	await tween.finished
 	Events.request_update_gold.emit(contract_data.reward_gold, true)
 	if contract_data.reward_hp > 0:
