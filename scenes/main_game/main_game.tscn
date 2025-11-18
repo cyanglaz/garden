@@ -1,21 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://bbcxpceayay3"]
+[gd_scene load_steps=6 format=3 uid="uid://bbcxpceayay3"]
 
 [ext_resource type="Script" uid="uid://sc1eubamsw6x" path="res://scenes/main_game/main_game.gd" id="1_yra6k"]
 [ext_resource type="Resource" uid="uid://d1jqracpdos0e" path="res://data/player/player_apprentice.tres" id="2_8ywsm"]
 [ext_resource type="PackedScene" uid="uid://drjaux1gtvc31" path="res://scenes/utils/camera/feedback_camera_2d.tscn" id="2_yra6k"]
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
-[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="3_mijjq"]
-[ext_resource type="Script" uid="uid://ektnj8rt6k0k" path="res://data/models/contracts/contract_data.gd" id="5_r81kp"]
 [ext_resource type="PackedScene" uid="uid://bqo51luu7itcc" path="res://scenes/main_game/map/map_main.tscn" id="14_s87mg"]
-
-[sub_resource type="Resource" id="Resource_mijjq"]
-script = ExtResource("5_r81kp")
-metadata/_custom_type_script = "uid://ektnj8rt6k0k"
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 player = ExtResource("2_8ywsm")
-test_contract = SubResource("Resource_mijjq")
 
 [node name="MapMain" parent="." instance=ExtResource("14_s87mg")]
 unique_name_in_owner = true

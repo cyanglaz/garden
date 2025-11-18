@@ -90,7 +90,7 @@ func apply_field_status(field_status_id:String, stack:int) -> void:
 		status_manager.update_status(field_status_id, 1)
 
 func is_bloom() -> bool:
-	return (light.max_value > 0 && light.is_full) && (water.max_value > 0 && water.is_full)
+	return (light.max_value <=0 || light.is_full) && (water.max_value <=0 || water.is_full)
 
 func bloom() -> void:
 	fsm.push("PlantStateBloom")
