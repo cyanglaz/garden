@@ -36,8 +36,8 @@ func _ready() -> void:
 	fsm.start()
 	status_manager.request_hook_message_popup.connect(_on_request_hook_message_popup)
 
-func trigger_ability(ability_type:AbilityType, combat_main:CombatMain) -> void:
-	await plant_ability_container.trigger_ability(ability_type, combat_main, self)
+func trigger_ability(ability_type:AbilityType) -> void:
+	await plant_ability_container.trigger_ability(ability_type, self)
 
 func handle_turn_end() -> void:
 	status_manager.handle_status_on_turn_end()
@@ -48,14 +48,14 @@ func handle_tool_application_hook() -> void:
 func handle_tool_discard_hook(count:int) -> void:
 	await status_manager.handle_tool_discard_hook(self, count)
 
-func handle_start_turn_hook(combat_main:CombatMain) -> void:
+func handle_start_turn_hook(_combat_main:CombatMain) -> void:
 	if is_bloom():
-		await trigger_ability(Plant.AbilityType.START_TURN, combat_main)
+		await trigger_ability(Plant.AbilityType.START_TURN)
 
 func handle_end_turn_hook(combat_main:CombatMain) -> void:
 	await status_manager.handle_end_turn_hook(combat_main, self)
 	if is_bloom():
-		await trigger_ability(Plant.AbilityType.END_TURN, combat_main)
+		await trigger_ability(Plant.AbilityType.END_TURN)
 
 func apply_weather_actions(weather_data:WeatherData) -> void:
 	await apply_actions(weather_data.actions)

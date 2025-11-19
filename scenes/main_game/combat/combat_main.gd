@@ -38,6 +38,8 @@ var chapter_manager:ChapterManager = ChapterManager.new()
 
 func _ready() -> void:
 	Events.request_add_tools_to_hand.connect(_on_request_add_tools_to_hand)
+	Events.request_add_tools_to_discard_pile.connect(_on_request_add_tools_to_discard_pile)
+	Events.request_modify_hand_cards.connect(_on_request_modify_hand_cards)
 
 func start(card_pool:Array[ToolData], energy_cap:int, contract:ContractData) -> void:
 
@@ -332,6 +334,17 @@ func _on_mouse_plant_updated(plant:Plant) -> void:
 func _on_request_add_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
 	gui.toggle_all_ui(false)
 	await add_tools_to_hand(tool_datas, from_global_position, pause)
+	gui.toggle_all_ui(true)
+
+func _on_request_add_tools_to_discard_pile(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+	gui.toggle_all_ui(false)
+	await tool_manager.add_tools_to_discard_pile(tool_datas, from_global_position, pause)
+	gui.toggle_all_ui(true)
+
+func _on_request_modify_hand_cards(callable:Callable) -> void:
+	gui.toggle_all_ui(false)
+	await callable.call(tool_manager.tool_deck.hand)
+	tool_manager.refresh_ui()
 	gui.toggle_all_ui(true)
 
 #endregion
