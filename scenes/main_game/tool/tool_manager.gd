@@ -176,12 +176,12 @@ func _handle_tool_application_completed(tool_data:ToolData, combat_main:CombatMa
 
 func _on_tool_lifecycle_completed(tool_data:ToolData, combat_main:CombatMain) -> void:
 	assert(!_tool_lifecycle_queue.has(tool_data))
-	if !_tool_lifecycle_queue.has(tool_data) && _tool_application_queue.has(tool_data):
+	if !_tool_actions_queue.has(tool_data) && _tool_application_queue.has(tool_data):
 		_handle_tool_application_completed(tool_data, combat_main)
 
 func _on_tool_actions_completed(tool_data:ToolData, combat_main:CombatMain) -> void:
 	assert(!_tool_actions_queue.has(tool_data))
-	if !_tool_actions_queue.has(tool_data) && _tool_application_queue.has(tool_data):
+	if !_tool_lifecycle_queue.has(tool_data) && _tool_application_queue.has(tool_data):
 		_handle_tool_application_completed(tool_data, combat_main)
 #endregion
 

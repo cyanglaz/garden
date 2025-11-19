@@ -50,3 +50,6 @@ signal request_display_popup_things(thing:PopupThing, height:float, spread:float
 
 @warning_ignore("unused_signal")
 signal request_constant_water_wave_update(speed:float)
+
+@warning_ignore("unused_signal")
+signal request_add_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool)

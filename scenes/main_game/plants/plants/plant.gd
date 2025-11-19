@@ -131,6 +131,8 @@ func _apply_water_action(action:ActionData) -> void:
 		true_value = true_value - water.value
 	await _show_popup_action_indicator(action, true_value)
 	water.value += true_value
+	if true_value > 0:
+		await status_manager.handle_add_water_hook(self)
 
 func _apply_field_status_action(action:ActionData) -> void:
 	var resource_id := Util.get_action_id_with_action_type(action.type)

@@ -36,6 +36,9 @@ var is_finished:bool = false
 var max_energy := 3
 var chapter_manager:ChapterManager = ChapterManager.new()
 
+func _ready() -> void:
+	Events.request_add_tools_to_hand.connect(_on_request_add_tools_to_hand)
+
 func start(card_pool:Array[ToolData], energy_cap:int, contract:ContractData) -> void:
 
 	session_summary = SessionSummary.new(contract)
@@ -325,6 +328,11 @@ func _on_plant_seed_drawn_animation_completed(plant_data:PlantData) -> void:
 
 func _on_mouse_plant_updated(plant:Plant) -> void:
 	gui.update_mouse_plant(plant)
+
+func _on_request_add_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+	gui.toggle_all_ui(false)
+	await add_tools_to_hand(tool_datas, from_global_position, pause)
+	gui.toggle_all_ui(true)
 
 #endregion
 
