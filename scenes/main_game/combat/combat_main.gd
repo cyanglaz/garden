@@ -125,9 +125,9 @@ func _start_new_level() -> void:
 	gui.update_with_contract(_contract, self)
 	level_started.emit()
 	await weather_main.start(chapter_manager.current_chapter)
-	_start_day()
+	_start_turn()
 
-func _start_day() -> void:
+func _start_turn() -> void:
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.TURN)
 	boost = maxi(boost - 1, 1)
 	gui.toggle_all_ui(false)
@@ -147,6 +147,28 @@ func _start_day() -> void:
 	turn_started.emit()
 	#_win()
 
+func _end_turn() -> void:
+	gui.toggle_all_ui(false)
+	_clear_tool_selection()
+	await _discard_all_tools()
+	if _met_win_condition():
+		return
+	tool_manager.card_use_limit_reached = false
+	await field_container.trigger_end_turn_hooks(self)
+	await weather_main.apply_weather_actions(field_container.plants, self)
+	await power_manager.handle_weather_application_hook(self, weather_main.get_current_weather())
+	tool_manager.cleanup_for_turn()
+	combat_modifier_manager.clear_for_turn()
+	power_manager.remove_single_turn_powers()
+	if _met_win_condition():
+		# _win() is called by _bloom()
+		return
+	field_container.handle_turn_end()
+	Events.request_hp_update.emit( -_contract.get_penalty_rate(day_manager.day))
+	await weather_main.pass_day()
+	gui.toggle_all_ui(true)
+	_start_turn()
+
 func _met_win_condition() -> bool:
 	assert(_number_of_plants >= 0)
 	return _number_of_plants == 0
@@ -162,28 +184,6 @@ func _win() -> void:
 	weather_main.level_end_stop()
 	session_summary.total_days += day_manager.day
 	gui.animate_show_reward_main(_contract)
-
-func _end_turn() -> void:
-	gui.toggle_all_ui(false)
-	_clear_tool_selection()
-	await _discard_all_tools()
-	if _met_win_condition():
-		return
-	tool_manager.card_use_limit_reached = false
-	await field_container.trigger_end_turn_hooks(self)
-	await weather_main.apply_weather_actions(field_container.plants, self)
-	await power_manager.handle_weather_application_hook(self, weather_main.get_current_weather())
-	tool_manager.cleanup_for_turn()
-	combat_modifier_manager.clear_for_turn()
-	power_manager.remove_single_turn_powers()
-	gui.toggle_all_ui(true)
-	if _met_win_condition():
-		# _win() is called by _bloom()
-		return
-	field_container.handle_turn_end()
-	Events.request_hp_update.emit( -_contract.get_penalty_rate(day_manager.day))
-	await weather_main.pass_day()
-	_start_day()
 	
 func _discard_all_tools() -> void:
 	if tool_manager.tool_deck.hand.is_empty():
