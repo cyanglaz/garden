@@ -127,6 +127,7 @@ func _apply_light_action(action:ActionData) -> void:
 func _apply_water_action(action:ActionData) -> void:
 	var true_value := _get_action_true_value(action)
 	await _show_popup_action_indicator(action)
+	var old_water_value := water.value
 	match action.operator_type:
 		ActionData.OperatorType.INCREASE:
 			water.value += true_value
@@ -134,23 +135,22 @@ func _apply_water_action(action:ActionData) -> void:
 			water.value -= true_value
 		ActionData.OperatorType.EQUAL_TO:
 			water.value = true_value
-	if action.operator_type == ActionData.OperatorType.EQUAL_TO && true_value > 0:
+	var water_increasing := water.value - old_water_value > 0
+	if water_increasing:
 		await status_manager.handle_add_water_hook(self)
 
 func _apply_field_status_action(action:ActionData) -> void:
 	var field_status_id := Util.get_action_id_with_action_type(action.type)
 	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(field_status_id, true)
 	var true_value := _get_action_true_value(action)
-	var equal := false
 	match action.operator_type:
 		ActionData.OperatorType.INCREASE:
 			field_status_data.stack += true_value
 		ActionData.OperatorType.DECREASE:
 			field_status_data.stack -= true_value
 		ActionData.OperatorType.EQUAL_TO:
-			equal = true
 			field_status_data.stack = true_value
-	await _show_resource_icon_popup(field_status_id, str(true_value), equal)
+	await _show_popup_action_indicator(action)
 	status_manager.update_status(field_status_id, field_status_data.stack)
 
 func _get_action_true_value(action_data:ActionData) -> int:
