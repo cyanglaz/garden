@@ -48,8 +48,7 @@ var hand_index:int = -1
 var _weak_tool_data:WeakRef = weakref(null)
 var _container_offset:Vector2 = Vector2.ZERO: set = _set_container_offset
 var _card_tooltip_id:String = ""
-var _weak_reference_card_tooltip_anchor:WeakRef = weakref(null)
-var _reference_card_tooltip_ids:Array[String] = []
+var _reference_card_tooltip_id:String = ""
 
 var _in_hand := false
 var _weak_mouse_plant:WeakRef = weakref(null)
@@ -121,7 +120,9 @@ func toggle_tooltip(on:bool) -> void:
 	if on && tool_data.has_tooltip && _card_tooltip_id.is_empty():
 		_card_tooltip_id = Util.get_uuid()
 		Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.TOOL_CARD, tool_data, _card_tooltip_id, self, false, GUITooltip.TooltipPosition.RIGHT, false)
+		_toggle_reference_card_tooltip(true)
 	else:
+		_toggle_reference_card_tooltip(false)
 		Events.request_hide_tooltip.emit(_card_tooltip_id)
 		_card_tooltip_id = ""
 
@@ -129,14 +130,14 @@ func toggle_tooltip(on:bool) -> void:
 
 func _toggle_reference_card_tooltip(on:bool) -> void:
 	if on:
-		_reference_card_tooltip_ids = _find_card_references()
-		_weak_reference_card_tooltip_anchor = weakref(self)
-		for reference_card_id in _reference_card_tooltip_ids:
+		_reference_card_tooltip_id = Util.get_uuid()
+		var reference_card_ids = _find_card_references()
+		for reference_card_id in reference_card_ids:
 			var reference_card_data := MainDatabase.tool_database.get_data_by_id(reference_card_id)
-			Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.REFERENCE_CARD, reference_card_data, reference_card_id, _weak_reference_card_tooltip_anchor.get_ref(), self, false, GUITooltip.TooltipPosition.LEFT, false)
+			Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.REFERENCE_CARD, reference_card_data, _reference_card_tooltip_id, self, false, GUITooltip.TooltipPosition.LEFT, false)
 	else:
-		for reference_card_id in _reference_card_tooltip_ids:
-			Events.request_hide_tooltip.emit(reference_card_id)
+		Events.request_hide_tooltip.emit(_reference_card_tooltip_id)
+		_reference_card_tooltip_id = ""
 
 func _find_card_references() -> Array[String]:
 	var card_references:Array[String] = []
