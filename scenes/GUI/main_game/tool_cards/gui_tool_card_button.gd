@@ -48,6 +48,8 @@ var hand_index:int = -1
 var _weak_tool_data:WeakRef = weakref(null)
 var _container_offset:Vector2 = Vector2.ZERO: set = _set_container_offset
 var _card_tooltip_id:String = ""
+var _weak_reference_card_tooltip_anchor:WeakRef = weakref(null)
+var _reference_card_tooltip_ids:Array[String] = []
 
 var _in_hand := false
 var _weak_mouse_plant:WeakRef = weakref(null)
@@ -123,6 +125,27 @@ func toggle_tooltip(on:bool) -> void:
 		Events.request_hide_tooltip.emit(_card_tooltip_id)
 		_card_tooltip_id = ""
 
+#region private
+
+func _toggle_reference_card_tooltip(on:bool) -> void:
+	if on:
+		_reference_card_tooltip_ids = _find_card_references()
+		_weak_reference_card_tooltip_anchor = weakref(self)
+		for reference_card_id in _reference_card_tooltip_ids:
+			var reference_card_data := MainDatabase.tool_database.get_data_by_id(reference_card_id)
+			Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.REFERENCE_CARD, reference_card_data, reference_card_id, _weak_reference_card_tooltip_anchor.get_ref(), self, false, GUITooltip.TooltipPosition.LEFT, false)
+	else:
+		for reference_card_id in _reference_card_tooltip_ids:
+			Events.request_hide_tooltip.emit(reference_card_id)
+
+func _find_card_references() -> Array[String]:
+	var card_references:Array[String] = []
+	var reference_pairs:Array = DescriptionParser.find_all_reference_pairs(tool_data.description)
+	for reference_pair:Array in reference_pairs:
+		if reference_pair[0] == "card":
+			card_references.append(reference_pair[1])
+	return card_references
+
 func _update_for_energy(energy:int) -> void:
 	if !tool_data:
 		return
@@ -142,6 +165,8 @@ func _play_click_sound() -> void:
 	if mute_interaction_sounds:
 		return
 	super._play_click_sound()
+
+#endregion
 
 #region events
 
