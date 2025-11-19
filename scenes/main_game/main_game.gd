@@ -74,10 +74,11 @@ func _start_new_chapter() -> void:
 
 	#_start_map_main_scene()
 	# Always start with a common node
-	if test_contract:
-		_start_combat_main_scene.call_deferred(test_contract)
-	else:
-		_start_combat_main_scene.call_deferred(contract_generator.common_contracts.pop_back())
+	#if test_contract:
+	#	_start_combat_main_scene.call_deferred(test_contract)
+	#else:
+	#	_start_combat_main_scene.call_deferred(contract_generator.common_contracts.pop_back())
+	_start_shop()
 
 func _generate_chapter_data() -> void:
 	map_main.generate_map(session_seed)

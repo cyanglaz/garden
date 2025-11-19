@@ -145,7 +145,7 @@ func _on_mouse_entered() -> void:
 		return
 	if is_queued_for_deletion():
 		return
-	if mouse_in && (!tool_data.actions.is_empty() || !tool_data.specials.is_empty()):
+	if mouse_in && tool_data.has_tooltip:
 		_action_tooltip_id = Util.get_uuid()
 		Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.TOOL_CARD, tool_data, _action_tooltip_id, self, false, GUITooltip.TooltipPosition.RIGHT, true)
 

@@ -15,8 +15,6 @@ const TOOL_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/shop/shop_buttons/gui_
 @onready var _title: Label = %Title
 @onready var _sub_title: Label = %SubTitle
 
-var _tooltip_id:String = ""
-
 var _display_y := 0.0
 
 func _ready() -> void:
@@ -56,7 +54,6 @@ func _populate_tools(number_of_tools) -> void:
 		tool_shop_button.update_with_tool_data(tool_data)
 		tool_shop_button.pressed.connect(_on_tool_shop_button_pressed.bind(tool_shop_button, tool_data))
 		tool_shop_button.mouse_exited.connect(_on_shop_button_mouse_exited.bind())
-		tool_shop_button.mouse_entered.connect(_on_tool_shop_button_mouse_entered.bind(tool_data, tool_shop_button))
 
 func _play_show_animation() -> void:
 	_main_panel.position.y = Constants.PENEL_HIDE_Y
@@ -79,9 +76,3 @@ func _on_finish_button_pressed() -> void:
 
 func _on_shop_button_mouse_exited() -> void:
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
-	Events.request_hide_tooltip.emit(_tooltip_id)
-
-func _on_tool_shop_button_mouse_entered(tool_data:ToolData, control:Control) -> void:
-	if !tool_data.actions.is_empty():
-		_tooltip_id = Util.get_uuid()
-		Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.TOOL_CARD, tool_data, _tooltip_id, control, false, GUITooltip.TooltipPosition.RIGHT, false)

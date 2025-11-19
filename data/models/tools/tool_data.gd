@@ -42,6 +42,7 @@ var tool_script:ToolScript : get = _get_tool_script
 var turn_energy_modifier:int
 var level_energy_modifier:int
 var combat_main:CombatMain: get = _get_combat_main, set = _set_combat_main
+var has_tooltip:bool: get = _get_has_tooltip
 var _weak_combat_main:WeakRef = weakref(null)
 
 var _tool_script:ToolScript
@@ -153,3 +154,6 @@ func _set_combat_main(val:CombatMain) -> void:
 	for action:ActionData in actions:
 		action.combat_main = val
 	combat_main_set.emit(val)
+
+func _get_has_tooltip() -> bool:
+	return !actions.is_empty() || !specials.is_empty()
