@@ -10,6 +10,7 @@ func _has_tool_application_hook(_combat_main:CombatMain, tool_data:ToolData) -> 
 func _handle_tool_application_hook(combat_main:CombatMain, _tool_data:ToolData) -> void:
 	var action_data:ActionData = ActionData.new()
 	action_data.type = ActionData.ActionType.LIGHT
+	action_data.operator_type = ActionData.OperatorType.INCREASE
 	action_data.value = power_data.stack
 	action_data.specials.append(ActionData.Special.ALL_FIELDS)
 	_action_count = combat_main.field_container.plants.size()

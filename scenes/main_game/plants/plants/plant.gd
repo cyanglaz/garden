@@ -74,21 +74,6 @@ func apply_actions(actions:Array[ActionData]) -> void:
 				pass
 	action_application_completed.emit()
 
-func apply_field_status(field_status_id:String, stack:int) -> void:
-	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(field_status_id, true)
-	if field_status_data.stackable:
-		var text := str(stack)
-		if stack > 0:
-			text = "+" + str(stack)
-		await _show_resource_icon_popup(field_status_id, text)
-		status_manager.update_status(field_status_id, stack)
-	else:
-		var text := "+"
-		if stack < 0:
-			text = "-"
-		await _show_resource_icon_popup(field_status_id, text)
-		status_manager.update_status(field_status_id, 1)
-
 func is_bloom() -> bool:
 	return (light.max_value <=0 || light.is_full) && (water.max_value <=0 || water.is_full)
 
@@ -102,45 +87,71 @@ func show_bloom_popup() -> void:
 #endregion
 
 #region private functions
-func _show_resource_icon_popup(icon_id:String, text:String) -> void:
+func _show_resource_icon_popup(icon_id:String, text:String, equal:bool) -> void:
 	_buff_sound.play()
 	var popup:PopupLabelIcon = POPUP_LABEL_ICON_SCENE.instantiate()
+	if equal:
+		popup.switch_icon_label = true
 	var color:Color = Constants.COLOR_WHITE
 	popup.setup(text, color, load(Util.get_image_path_for_resource_id(icon_id)))
 	var popup_location:Vector2 = Util.get_node_canvas_position(self) + POPUP_OFFSET
 	Events.request_display_popup_things.emit(popup, 6, 3, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, popup_location)
 	await Util.create_scaled_timer(POPUP_SHOW_TIME).timeout
 
-func _show_popup_action_indicator(action_data:ActionData, true_value:int) -> void:
+func _show_popup_action_indicator(action_data:ActionData) -> void:
+	var true_value := _get_action_true_value(action_data)
 	var text := str(true_value)
-	if true_value > 0:
-		text = "+" + text
+	var equal := false
+	match action_data.operator_type:
+		ActionData.OperatorType.INCREASE:
+			text = "+" + text
+		ActionData.OperatorType.DECREASE:
+			text = "-" + text
+		ActionData.OperatorType.EQUAL_TO:
+			equal = true
+			text = "=" + text
 	var resource_id := Util.get_action_id_with_action_type(action_data.type)
-	await _show_resource_icon_popup(resource_id, text)
+	await _show_resource_icon_popup(resource_id, text, equal)
 
 func _apply_light_action(action:ActionData) -> void:
 	var true_value := _get_action_true_value(action)
-	if action.operator_type == ActionData.OperatorType.EQUAL_TO:
-		true_value = true_value - light.value 
-	await _show_popup_action_indicator(action, true_value)
-	light.value += true_value
+	await _show_popup_action_indicator(action)
+	match action.operator_type:
+		ActionData.OperatorType.INCREASE:
+			light.value += true_value
+		ActionData.OperatorType.DECREASE:
+			light.value -= true_value
+		ActionData.OperatorType.EQUAL_TO:
+			light.value = true_value
 
 func _apply_water_action(action:ActionData) -> void:
 	var true_value := _get_action_true_value(action)
-	if action.operator_type == ActionData.OperatorType.EQUAL_TO:
-		true_value = true_value - water.value
-	await _show_popup_action_indicator(action, true_value)
-	water.value += true_value
-	if true_value > 0:
+	await _show_popup_action_indicator(action)
+	match action.operator_type:
+		ActionData.OperatorType.INCREASE:
+			water.value += true_value
+		ActionData.OperatorType.DECREASE:
+			water.value -= true_value
+		ActionData.OperatorType.EQUAL_TO:
+			water.value = true_value
+	if action.operator_type == ActionData.OperatorType.EQUAL_TO && true_value > 0:
 		await status_manager.handle_add_water_hook(self)
 
 func _apply_field_status_action(action:ActionData) -> void:
-	var resource_id := Util.get_action_id_with_action_type(action.type)
+	var field_status_id := Util.get_action_id_with_action_type(action.type)
+	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(field_status_id, true)
 	var true_value := _get_action_true_value(action)
-	var current_status := status_manager.get_status(resource_id)
-	if action.operator_type == ActionData.OperatorType.EQUAL_TO && current_status:
-		true_value = true_value - current_status.stack
-	await apply_field_status(resource_id, true_value)
+	var equal := false
+	match action.operator_type:
+		ActionData.OperatorType.INCREASE:
+			field_status_data.stack += true_value
+		ActionData.OperatorType.DECREASE:
+			field_status_data.stack -= true_value
+		ActionData.OperatorType.EQUAL_TO:
+			equal = true
+			field_status_data.stack = true_value
+	await _show_resource_icon_popup(field_status_id, str(true_value), equal)
+	status_manager.update_status(field_status_id, field_status_data.stack)
 
 func _get_action_true_value(action_data:ActionData) -> int:
 	return action_data.get_calculated_value(self)

@@ -58,22 +58,45 @@ func _apply_weather_tool_action(action:ActionData, combat_main:CombatMain) -> vo
 	await combat_main.weather_manager.apply_weather_tool_action(action, from_position, combat_main)
 
 func _apply_instant_use_tool_action(action:ActionData, combat_main:CombatMain, tool_data:ToolData, secondary_card_datas:Array) -> void:
+	var calculated_value := action.get_calculated_value(null)
 	match action.type:
 		ActionData.ActionType.DRAW_CARD:
-			await combat_main.draw_cards(action.get_calculated_value(null))
+			assert(calculated_value >= 0, "Draw card action value must be greater than 0")
+			await combat_main.draw_cards(calculated_value)
 		ActionData.ActionType.DISCARD_CARD:
+			assert(calculated_value >= 0, "Discard card action value must be greater than 0")
 			await _handle_discard_card_action(action, combat_main, tool_data, secondary_card_datas)
 		ActionData.ActionType.ENERGY:
-			combat_main.energy_tracker.restore(action.get_calculated_value(null))
+			match action.operator_type:
+				ActionData.OperatorType.INCREASE:
+					combat_main.energy_tracker.restore(calculated_value)
+				ActionData.OperatorType.DECREASE:
+					combat_main.energy_tracker.spend(calculated_value)
+				ActionData.OperatorType.EQUAL_TO:
+					combat_main.energy_tracker.value = calculated_value
 		ActionData.ActionType.UPDATE_GOLD:
-			Events.request_update_gold.emit(action.get_calculated_value(null), true)
+			var real_value := calculated_value
+			match action.operator_type:
+				ActionData.OperatorType.INCREASE:
+					real_value = calculated_value
+				ActionData.OperatorType.DECREASE:
+					real_value = -calculated_value
+				ActionData.OperatorType.EQUAL_TO:
+					real_value = calculated_value
+			Events.request_update_gold.emit(real_value, true)
 		ActionData.ActionType.UPDATE_X:
 			var x_action:ActionData
 			for action_data:ActionData in tool_data.actions:
 				if action_data.value_type == ActionData.ValueType.X:
 					x_action = action_data
 					break
-			x_action.modified_x_value += action.get_calculated_value(null)
+			match action.operator_type:
+				ActionData.OperatorType.INCREASE:
+					x_action.modified_x_value += calculated_value
+				ActionData.OperatorType.DECREASE:
+					x_action.modified_x_value -= calculated_value
+				ActionData.OperatorType.EQUAL_TO:
+					x_action.modified_x_value = calculated_value
 
 func _handle_discard_card_action(action:ActionData, combat_main:CombatMain, tool_data:ToolData, secondary_card_datas:Array) -> void:
 	var random := action.value_type == ActionData.ValueType.RANDOM

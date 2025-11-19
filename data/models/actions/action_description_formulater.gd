@@ -72,29 +72,54 @@ static func get_special_description(special:ToolData.Special) -> String:
 	return special_description
 
 static func _get_field_action_description(action_data:ActionData, target_plant:Plant) -> String:
-	var main_description := _get_action_value_update_description(action_data, target_plant)
+	var main_description := _get_action_plant_value_update_description(action_data, target_plant)
 	var field_string := ""
 	if action_data.specials.has(ActionData.Special.ALL_FIELDS):
-		field_string = Util.get_localized_string("ACTION_ALL_FIELDS_TEXT")
+		if action_data.get_calculated_value(target_plant) >= 0:
+			field_string = Util.get_localized_string("ACTION_ADD_TO_ALL_FIELDS_TEXT")
+		else:
+			field_string = Util.get_localized_string("ACTION_REDUCE_FROM_ALL_FIELDS_TEXT")
 	else:
-		field_string = Util.get_localized_string("ACTION_ONE_FIELDS_TEXT")
+		if action_data.get_calculated_value(target_plant) >= 0:
+			field_string = Util.get_localized_string("ACTION_ADD_TO_ONE_FIELDS_TEXT")
+		else:
+			field_string = Util.get_localized_string("ACTION_REDUCE_FROM_ONE_FIELDS_TEXT")
 	main_description += Util.convert_to_bbc_highlight_text(field_string, HIGHLIGHT_COLOR)
 	return main_description
 
-static func _get_resource_update_action_description(action_data:ActionData, target_plant:Plant) -> String:
-	var main_description := _get_action_value_update_description(action_data, target_plant)
-	return main_description
-
-static func _get_action_value_update_description(action_data:ActionData, target_plant:Plant) -> String:
+static func _get_action_plant_value_update_description(action_data:ActionData, target_plant:Plant) -> String:
 	var main_description := ""
-	match action_data.operator_type:
-		ActionData.OperatorType.UPDATE_BY:
-			main_description = Util.get_localized_string("ACTION_VALUE_DESCRIPTION_UPDATE")
-		ActionData.OperatorType.EQUAL_TO:
-			main_description = Util.get_localized_string("ACTION_VALUE_DESCRIPTION_EQUAL")
 	var action_name := Util.get_action_name_from_action_type(action_data.type)
 	action_name = Util.convert_to_bbc_highlight_text(action_name, HIGHLIGHT_COLOR)
-	main_description = main_description % [action_name, _get_value_text(action_data, target_plant)]
+	match action_data.operator_type:
+		ActionData.OperatorType.INCREASE:
+			main_description = Util.get_localized_string("ACTION_PLANT_VALUE_DESCRIPTION_INCREASE")
+			main_description = main_description % [_get_value_text(action_data, target_plant), action_name]
+		ActionData.OperatorType.DECREASE:
+			main_description = Util.get_localized_string("ACTION_PLANT_VALUE_DESCRIPTION_DECREASE")
+			main_description = main_description % [_get_value_text(action_data, target_plant), action_name]
+		ActionData.OperatorType.EQUAL_TO:
+			main_description = Util.get_localized_string("ACTION_VALUE_DESCRIPTION_EQUAL")
+			main_description = main_description % [action_name, _get_value_text(action_data, target_plant)]
+	return main_description
+
+static func _get_resource_update_action_description(action_data:ActionData, target_plant:Plant) -> String:
+	var main_description := _get_action_resource_value_update_description(action_data, target_plant)
+	return main_description
+
+static func _get_action_resource_value_update_description(action_data:ActionData, target_plant:Plant) -> String:
+	var main_description := ""
+	var action_name := Util.get_action_name_from_action_type(action_data.type)
+	action_name = Util.convert_to_bbc_highlight_text(action_name, HIGHLIGHT_COLOR)
+	match action_data.operator_type:
+		ActionData.OperatorType.INCREASE:
+			main_description = Util.get_localized_string("ACTION_RESOURCE_VALUE_DESCRIPTION_INCREASE")
+			main_description = main_description % [action_name, _get_value_text(action_data, target_plant)]
+		ActionData.OperatorType.DECREASE:
+			main_description = Util.get_localized_string("ACTION_RESOURCE_VALUE_DESCRIPTION_DECREASE")
+			main_description = main_description % [action_name, _get_value_text(action_data, target_plant)]
+		ActionData.OperatorType.EQUAL_TO:
+			main_description = Util.get_localized_string("ACTION_VALUE_DESCRIPTION_EQUAL")
 	return main_description
 
 static func _get_weather_action_description(action_data:ActionData) -> String:
@@ -130,9 +155,12 @@ static func _get_value_text(action_data:ActionData, target_plant:Plant) -> Strin
 		highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_RED
 	match action_data.value_type:
 		ActionData.ValueType.NUMBER:
-			value_text = Util.convert_to_bbc_highlight_text(str(action_data.get_calculated_value(target_plant)), highlight_color)
+			var abs_value:int = action_data.get_calculated_value(target_plant)
+			value_text = Util.convert_to_bbc_highlight_text(str(abs_value), highlight_color)
 		ActionData.ValueType.RANDOM:
-			value_text = Util.convert_to_bbc_highlight_text(str(action_data.get_calculated_value(target_plant)), HIGHLIGHT_COLOR)
+			var abs_value:int = action_data.get_calculated_value(target_plant)
+			assert(abs_value > 0, "Random value must be greater than 0")
+			value_text = Util.convert_to_bbc_highlight_text(str(abs_value), HIGHLIGHT_COLOR)
 			value_text += Util.convert_to_bbc_highlight_text(Util.get_localized_string("ACTION_VALUE_RANDOM"), highlight_color)
 		ActionData.ValueType.X:
 			value_text = Util.convert_to_bbc_highlight_text(Util.get_localized_string("ACTION_VALUE_X"), X_DESCRIPTION_HIGHLIGHT_COLOR)

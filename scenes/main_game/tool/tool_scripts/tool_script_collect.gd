@@ -6,7 +6,8 @@ func apply_tool(_combat_main:CombatMain, plants:Array, field_index:int, _tool_da
 	var plant:Plant = plants[field_index]
 	action_data.type = ActionData.ActionType.WATER
 	var water_to_reduce := plant.water.value
-	action_data.value = -water_to_reduce
+	action_data.operator_type = ActionData.OperatorType.EQUAL_TO
+	action_data.value = 0
 	await plant.apply_actions([action_data])
 
 	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id("graywater").get_duplicate()

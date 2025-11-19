@@ -11,6 +11,7 @@ func _handle_weather_application_hook(combat_main:CombatMain, _weather_data:Weat
 	var action_data:ActionData = ActionData.new()
 	action_data.type = ActionData.ActionType.LIGHT
 	action_data.value = power_data.stack
+	action_data.operator_type = ActionData.OperatorType.INCREASE
 	action_data.specials.append(ActionData.Special.ALL_FIELDS)
 	_action_count = combat_main.field_container.plants.size()
 	assert(_action_count > 0)
