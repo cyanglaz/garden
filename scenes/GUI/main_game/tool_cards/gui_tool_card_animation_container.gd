@@ -85,11 +85,11 @@ func animate_discard(tool_datas:Array) -> void:
 		var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_DISCARD, [in_hand_cards])
 		await item.finished
 
-func animate_add_cards_to_draw_pile(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+func animate_add_cards_to_draw_pile(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
 	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_ADD_CARD_TO_DRAW_PILE, [tool_datas, from_global_position, pause])
 	await item.finished
 
-func animate_add_cards_to_discard_pile(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+func animate_add_cards_to_discard_pile(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
 	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_ADD_CARD_TO_DISCARD_PILE, [tool_datas, from_global_position, pause])
 	await item.finished
 
@@ -203,7 +203,7 @@ func _animate_exhaust(animation_item:AnimationQueueItem) -> void:
 	_animation_queue_item_finished.emit(animation_item)
 
 func _animate_add_card_to_draw_pile(animation_item:AnimationQueueItem) -> void:
-	var tool_datas:Array[ToolData] = animation_item.animation_args[0]
+	var tool_datas:Array = animation_item.animation_args[0]
 	var from_global_position:Vector2 = animation_item.animation_args[1]
 	var pause:bool = animation_item.animation_args[2]
 	var animating_cards:Array[GUIToolCardButton] = []
@@ -241,7 +241,7 @@ func _animate_add_card_to_draw_pile(animation_item:AnimationQueueItem) -> void:
 	_animation_queue_item_finished.emit(animation_item)
 
 func _animate_add_card_to_discard_pile(animation_item:AnimationQueueItem) -> void:
-	var tool_datas:Array[ToolData] = animation_item.animation_args[0]
+	var tool_datas:Array = animation_item.animation_args[0]
 	var from_global_position:Vector2 = animation_item.animation_args[1]
 	var pause:bool = animation_item.animation_args[2]
 	var animating_cards:Array[GUIToolCardButton] = []

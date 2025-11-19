@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bbcxpceayay3"]
+[gd_scene load_steps=15 format=3 uid="uid://bbcxpceayay3"]
 
 [ext_resource type="Script" uid="uid://sc1eubamsw6x" path="res://scenes/main_game/main_game.gd" id="1_yra6k"]
 [ext_resource type="Resource" uid="uid://d1jqracpdos0e" path="res://data/player/player_apprentice.tres" id="2_8ywsm"]
@@ -10,18 +10,20 @@
 [ext_resource type="Resource" uid="uid://cd1g4filickxd" path="res://data/tools/defaults/tool_drizzle.tres" id="5_ldk84"]
 [ext_resource type="Script" uid="uid://ektnj8rt6k0k" path="res://data/models/contracts/contract_data.gd" id="5_r81kp"]
 [ext_resource type="Resource" uid="uid://pdqakkphtgxv" path="res://data/tools/purchasable/tool_sustainability.tres" id="6_ldk84"]
-[ext_resource type="Resource" uid="uid://bo0md1siwv4eu" path="res://data/plants/chapter0/plant_data_morning_glory.tres" id="8_b4n6q"]
+[ext_resource type="Resource" uid="uid://hsjy22n36v8s" path="res://data/plants/chapter0/plant_data_rose.tres" id="9_gl27v"]
+[ext_resource type="Resource" uid="uid://cbvas0c5a6cc7" path="res://data/weathers/all_chapters/weather_sunny.tres" id="10_gl27v"]
 [ext_resource type="PackedScene" uid="uid://bqo51luu7itcc" path="res://scenes/main_game/map/map_main.tscn" id="14_s87mg"]
 
 [sub_resource type="Resource" id="Resource_gl27v"]
 script = ExtResource("5_r81kp")
-plants = Array[ExtResource("3_mijjq")]([ExtResource("8_b4n6q"), ExtResource("8_b4n6q"), ExtResource("8_b4n6q")])
+plants = Array[ExtResource("3_mijjq")]([ExtResource("9_gl27v"), ExtResource("9_gl27v"), ExtResource("9_gl27v")])
 metadata/_custom_type_script = "uid://ektnj8rt6k0k"
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 player = ExtResource("2_8ywsm")
 test_tools = Array[ExtResource("3_i3kwu")]([ExtResource("4_mijjq"), ExtResource("5_ldk84"), ExtResource("6_ldk84")])
+test_weather = ExtResource("10_gl27v")
 test_contract = SubResource("Resource_gl27v")
 
 [node name="MapMain" parent="." instance=ExtResource("14_s87mg")]

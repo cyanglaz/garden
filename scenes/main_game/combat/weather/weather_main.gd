@@ -9,6 +9,8 @@ const WEATHER_SCENE_PREFIX := "res://scenes/main_game/combat/weather/weathers/we
 
 signal weathers_updated()
 
+@export var test_weather:WeatherData
+
 @onready var _weather_container: Node2D = %WeatherContainer
 @onready var _weather_sky: WeatherSky = %WeatherSky
 @onready var _canvas_modulate: CanvasModulate = %CanvasModulate
@@ -21,6 +23,7 @@ func apply_weather_actions(plants:Array[Plant], combat_main:CombatMain) -> void:
 	await weather_manager.apply_weather_actions(plants, combat_main)
 
 func start(chapter:int) -> void:
+	weather_manager.test_weather = test_weather
 	weather_manager.start(chapter)
 	assert(_current_weather == null)
 	var current_weather := weather_manager.get_current_weather()

@@ -13,7 +13,7 @@ const SCENE_TRANSITION_TIME := 0.2
 
 @export var player:PlayerData
 @export var test_tools:Array[ToolData]
-@export var test_number_of_fields := 0
+@export var test_weather:WeatherData
 @export var test_contract:ContractData
 
 @onready var gui_main_game: GUIMainGame = %GUIMainGame
@@ -98,7 +98,8 @@ func _remove_current_scene() -> void:
 		_current_scene.queue_free()
 
 func _start_combat_main_scene(contract:ContractData) -> void:
-	var combat_main = COMBAT_MAIN_SCENE.instantiate()
+	var combat_main:CombatMain = COMBAT_MAIN_SCENE.instantiate()
+	combat_main.test_weather = test_weather
 	node_container.add_child(combat_main)
 	combat_main.reward_finished.connect(_on_reward_finished)
 	start_scene_transition()

@@ -11,6 +11,8 @@ const WEATHER_APPLICATION_ICON_START_DELAY := 0.05
 
 const GUI_WEATHER_SCENE := preload("res://scenes/GUI/main_game/weather/gui_weather.tscn")
 
+var test_weather:WeatherData
+
 #var level:int
 var weathers:Array[WeatherData]
 var forecast_days := 4
@@ -53,6 +55,9 @@ func apply_weather_tool_action(action:ActionData, icon_move_start_position:Vecto
 	weathers_updated.emit()
 
 func _generate_next_weather(chapter:int) -> void:
+	if test_weather:
+		weathers.append(test_weather.get_duplicate())
+		return
 	var available_weathers := MainDatabase.weather_database.get_weathers_by_chapter(chapter)
 	var weather:WeatherData = available_weathers.pick_random().get_duplicate()
 	weathers.append(weather)

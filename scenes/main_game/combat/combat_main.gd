@@ -12,6 +12,8 @@ const TOOL_APPLICATION_ERROR_HIDE_DELAY := 3.0
 const INITIAL_NUMBER_OF_PLANTS := 2
 const BACKGROUND_MUSIC_FADE_IN_TIME := 1.0
 
+@export var test_weather:WeatherData
+
 @onready var weather_main: WeatherMain = %WeatherMain
 @onready var field_container: FieldContainer = %FieldContainer
 @onready var gui: GUICombatMain = %GUI
@@ -53,6 +55,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, contract:ContractData) -> 
 	field_container.mouse_plant_updated.connect(_on_mouse_plant_updated)
 
 	weather_main.weathers_updated.connect(_on_weathers_updated)
+	weather_main.test_weather = test_weather
 
 	tool_manager = ToolManager.new(card_pool.duplicate(), gui.gui_tool_card_container)
 	tool_manager.tool_application_started.connect(_on_tool_application_started)
@@ -96,7 +99,7 @@ func draw_cards(count:int) -> void:
 func discard_cards(tools:Array) -> void:
 	await tool_manager.discard_cards(tools)
 
-func add_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+func add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
 	await power_manager.handle_card_added_to_hand_hook(tool_datas)
 	await tool_manager.add_tools_to_hand(tool_datas, from_global_position, pause)
 
@@ -331,12 +334,12 @@ func _on_plant_seed_drawn_animation_completed(plant_data:PlantData) -> void:
 func _on_mouse_plant_updated(plant:Plant) -> void:
 	gui.update_mouse_plant(plant)
 
-func _on_request_add_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+func _on_request_add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
 	gui.toggle_all_ui(false)
 	await add_tools_to_hand(tool_datas, from_global_position, pause)
 	gui.toggle_all_ui(true)
 
-func _on_request_add_tools_to_discard_pile(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+func _on_request_add_tools_to_discard_pile(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
 	gui.toggle_all_ui(false)
 	await tool_manager.add_tools_to_discard_pile(tool_datas, from_global_position, pause)
 	gui.toggle_all_ui(true)

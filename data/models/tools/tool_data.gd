@@ -7,6 +7,8 @@ const TOOL_SCRIPT_PATH := "res://scenes/main_game/tool/tool_scripts/tool_script_
 signal request_refresh()
 @warning_ignore("unused_signal")
 signal combat_main_set(combat_main:CombatMain)
+@warning_ignore("unused_signal")
+signal adding_to_deck_finished()
 
 const COSTS := {
 	0: 6,
