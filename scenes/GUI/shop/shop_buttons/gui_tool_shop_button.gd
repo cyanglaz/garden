@@ -36,9 +36,11 @@ func _on_mouse_entered() -> void:
 	highlighted = true
 	gold_icon.has_outline = true
 	gui_tool_card_button.toggle_tooltip(true)
+	Events.update_hovered_data.emit(_weak_tool_data.get_ref())
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
 	highlighted = false
 	gold_icon.has_outline = false
 	gui_tool_card_button.toggle_tooltip(false)
+	Events.update_hovered_data.emit(null)
