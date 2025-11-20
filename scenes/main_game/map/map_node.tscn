@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://b5uthh0qeeff2"]
+[gd_scene load_steps=35 format=3 uid="uid://b5uthh0qeeff2"]
 
 [ext_resource type="Script" uid="uid://chw2gjm7d37l4" path="res://scenes/main_game/map/map_node.gd" id="1_uwda7"]
 [ext_resource type="Shader" uid="uid://djc27i8fdp0f8" path="res://scenes/main_game/map/map_node_reflection.gdshader" id="2_12d16"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b6ootin11uiqd" path="res://resources/sprites/map/map_node.png" id="2_khsrn"]
 [ext_resource type="Shader" uid="uid://6ke1miplus58" path="res://scenes/main_game/map/map_node.gdshader" id="5_6qpa7"]
 [ext_resource type="Texture2D" uid="uid://cvang14ekqdkm" path="res://resources/sprites/map/map_node_reflection.png" id="5_pmmg4"]
+[ext_resource type="Texture2D" uid="uid://dkwpw5i54giwt" path="res://resources/sprites/map/map_node_clipper.png" id="5_y6epv"]
 [ext_resource type="Texture2D" uid="uid://cq7xguvqht76g" path="res://resources/sprites/effects/particles/island_water_ripple_particle.png" id="7_glwgf"]
 [ext_resource type="Texture2D" uid="uid://3um6qxu8rxoj" path="res://resources/sprites/effects/particles/water_droplet_map.png" id="8_6qpa7"]
 [ext_resource type="AudioStream" uid="uid://573dtym8ldy3" path="res://resources/sounds/GUI/button_hover.wav" id="8_ip7dk"]
@@ -146,7 +147,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/path = NodePath("ClippingNode/AnimatedSprite2D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -179,6 +180,18 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector2(0, 10)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ClippingNode/AnimatedSprite2D:material:shader_parameter/cutoff_y_pixel")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [16.0]
+}
 
 [sub_resource type="Animation" id="Animation_khsrn"]
 resource_name = "dip"
@@ -187,14 +200,14 @@ step = 0.01
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/path = NodePath("ClippingNode/AnimatedSprite2D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.04, 0.3, 0.4),
 "transitions": PackedFloat32Array(0.5, 2, 0.5, 1),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(0, 1), Vector2(0, -0.5), Vector2(0, 0)]
+"values": [Vector2(0, 0), Vector2(0, 2), Vector2(0, -0.5), Vector2(0, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -206,7 +219,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.04, 0.3, 0.4),
 "transitions": PackedFloat32Array(2, 0.5, 2, 1),
 "update": 0,
-"values": [Vector2(-8, -13), Vector2(-8, -11), Vector2(-8, -15), Vector2(-8, -13)]
+"values": [Vector2(-8, -13), Vector2(-8, -10), Vector2(-8, -16), Vector2(-8, -13)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -233,6 +246,18 @@ tracks/3/keys = {
 "args": [],
 "method": &"_on_dip_down"
 }]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ClippingNode/AnimatedSprite2D:material:shader_parameter/cutoff_y_pixel")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [16.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_px28w"]
@@ -320,7 +345,11 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "991504d3136456e8e899c8cb14780873"
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="ClippingNode" type="Sprite2D" parent="."]
+clip_children = 1
+texture = ExtResource("5_y6epv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ClippingNode"]
 unique_name_in_owner = true
 texture_filter = 1
 material = SubResource("ShaderMaterial_glwgf")

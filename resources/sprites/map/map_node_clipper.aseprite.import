@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://4674agarwl1r"
+path="res://.godot/imported/map_node_clipper.aseprite-ebc4d4c6dfb932c32b7712763fe982b1.res"
+
+[deps]
+
+source_file="res://resources/sprites/map/map_node_clipper.aseprite"
+dest_files=["res://.godot/imported/map_node_clipper.aseprite-ebc4d4c6dfb932c32b7712763fe982b1.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

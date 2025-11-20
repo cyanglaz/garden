@@ -15,6 +15,7 @@ void fragment() {
 
 	float size_x = 1.0/float(textureSize(TEXTURE, 0).x);
 	float size_y = 1.0/float(textureSize(TEXTURE, 0).y);
+
 	vec4 sprite_color = texture(TEXTURE, UV);
 	float alpha  = -4.0 * sprite_color.a;
 	alpha += textureLod(TEXTURE, UV + vec2(size_x * float(outline_size), 0), 0).a;
