@@ -52,6 +52,7 @@ var _reference_card_tooltip_id:String = ""
 
 var _in_hand := false
 var _weak_mouse_plant:WeakRef = weakref(null)
+var _default_state:CardState = CardState.NORMAL
 
 func _ready() -> void:
 	super._ready()
@@ -174,6 +175,8 @@ func _play_click_sound() -> void:
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	Events.update_hovered_data.emit(tool_data)
+	if card_state == CardState.NORMAL || card_state == GUIToolCardButton.CardState.UNSELECTED:
+		card_state = CardState.HIGHLIGHTED
 	await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
 	if is_queued_for_deletion():
 		return
@@ -181,6 +184,8 @@ func _on_mouse_entered() -> void:
 		toggle_tooltip(true)
 
 func _on_mouse_exited() -> void:
+	if card_state == CardState.HIGHLIGHTED:
+		card_state = _default_state
 	super._on_mouse_exited()
 	Events.update_hovered_data.emit(null)
 	toggle_tooltip(false)
@@ -219,6 +224,7 @@ func _set_card_state(value:CardState) -> void:
 			_overlay.hide()
 			_gui_use_card_button.hide()
 			z_index = 0
+			_default_state = CardState.NORMAL
 		CardState.SELECTED:
 			_container_offset = Vector2.UP * SELECTED_OFFSET
 			has_outline = true
@@ -240,6 +246,7 @@ func _set_card_state(value:CardState) -> void:
 			_overlay.show()
 			_gui_use_card_button.hide()
 			z_index = 0
+			_default_state = CardState.UNSELECTED
 		CardState.WAITING:
 			_container_offset = Vector2.UP * SELECTED_OFFSET
 			has_outline = true

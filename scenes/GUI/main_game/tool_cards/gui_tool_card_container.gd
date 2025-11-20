@@ -289,8 +289,6 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 	var mouse_over_card = _container.get_child(index)
 	if !is_instance_valid(mouse_over_card):
 		return
-	if mouse_over_card.card_state == GUIToolCardButton.CardState.NORMAL || mouse_over_card.card_state == GUIToolCardButton.CardState.UNSELECTED:
-		mouse_over_card.card_state = GUIToolCardButton.CardState.HIGHLIGHTED
 	if selected_index >= 0:
 		return
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
@@ -324,11 +322,6 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 	mouse_exited_card.emit(mouse_exit_card.tool_data)
 	if !is_instance_valid(mouse_exit_card):
 		return
-	if mouse_exit_card.card_state == GUIToolCardButton.CardState.HIGHLIGHTED:
-		if selected_index >= 0 && !card_selection_mode:
-			mouse_exit_card.card_state = GUIToolCardButton.CardState.UNSELECTED
-		else:
-			mouse_exit_card.card_state = GUIToolCardButton.CardState.NORMAL
 	if selected_index >= 0:
 		return
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
