@@ -1,11 +1,13 @@
 class_name GUIReferenceCardTooltip
 extends GUITooltip
 
+const SCALE := 0.95
+
 @onready var gui_tool_card_button: GUIToolCardButton = %GUIToolCardButton
 
 func _ready() -> void:
 	super._ready()
-	scale = Vector2(0.9, 0.9)
+	scale = Vector2(SCALE, SCALE)
 	gui_tool_card_button.card_state = GUIToolCardButton.CardState.HIGHLIGHTED
 	gui_tool_card_button.resource_sufficient = true
 	

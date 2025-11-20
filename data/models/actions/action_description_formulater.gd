@@ -4,7 +4,7 @@ extends RefCounted
 const FIELD_STATUS_ACTION_TYPES := [ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP]
 
 const HIGHLIGHT_COLOR := Constants.COLOR_WHITE
-const X_DESCRIPTION_HIGHLIGHT_COLOR := Constants.COLOR_BLUE_2
+const X_DESCRIPTION_HIGHLIGHT_COLOR := Constants.COLOR_BLUE_3
 
 static func get_action_description(action_data:ActionData, target_plant:Plant) -> String:
 	var thing_data:ThingData = action_data
