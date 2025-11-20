@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://bacvied61ghpe" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn" id="3_6wvtr"]
 
 [node name="GUIReferenceCardTooltip" instance=ExtResource("1_yoqb2")]
+offset_right = 40.0
+offset_bottom = 54.0
 script = ExtResource("2_6wvtr")
 
 [node name="Border" parent="." index="0"]

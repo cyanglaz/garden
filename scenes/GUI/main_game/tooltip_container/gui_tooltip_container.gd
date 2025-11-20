@@ -117,28 +117,30 @@ func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_mouse:bo
 		return
 	var y_offset:float = 0
 	var x_offset:float = 0
+	var real_tooltip_size := tooltip.size * tooltip.scale
+	var real_on_control_node_size := on_control_node.size * on_control_node.scale
 	match tooltip.tooltip_position:
 		GUITooltip.TooltipPosition.TOP_RIGHT:
-			x_offset = on_control_node.size.x + TOOLTIP_OFFSET
-			y_offset = - tooltip.size.y + on_control_node.size.y - TOOLTIP_OFFSET
+			x_offset = real_on_control_node_size.x + TOOLTIP_OFFSET
+			y_offset = - real_tooltip_size.y + real_on_control_node_size.y - TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.TOP:
-			x_offset = on_control_node.size.x/2 - tooltip.size.x/2
-			y_offset = - tooltip.size.y - TOOLTIP_OFFSET
+			x_offset = real_on_control_node_size.x/2 - real_tooltip_size.x/2
+			y_offset = - real_tooltip_size.y - TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.RIGHT:
-			x_offset = on_control_node.size.x + TOOLTIP_OFFSET
+			x_offset = real_on_control_node_size.x + TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.LEFT_TOP:
-			x_offset = -tooltip.size.x - TOOLTIP_OFFSET
-			y_offset = - tooltip.size.y + on_control_node.size.y - TOOLTIP_OFFSET
+			x_offset = - real_tooltip_size.x - TOOLTIP_OFFSET
+			y_offset = - real_tooltip_size.y + real_on_control_node_size.y - TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.LEFT:
-			x_offset = -tooltip.size.x - TOOLTIP_OFFSET
+			x_offset = -real_tooltip_size.x - TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.BOTTOM:
-			x_offset = on_control_node.size.x/2 - tooltip.size.x/2
-			y_offset = on_control_node.size.y + TOOLTIP_OFFSET
+			x_offset = real_on_control_node_size.x/2 - real_tooltip_size.x/2
+			y_offset = real_on_control_node_size.y + TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.BOTTOM_LEFT:
-			x_offset = -tooltip.size.x + on_control_node.size.x
-			y_offset = on_control_node.size.y + TOOLTIP_OFFSET
+			x_offset = -real_tooltip_size.x + real_on_control_node_size.x
+			y_offset = real_on_control_node_size.y + TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.BOTTOM_RIGHT:
-			y_offset = on_control_node.size.y + TOOLTIP_OFFSET
+			y_offset = real_on_control_node_size.y + TOOLTIP_OFFSET
 	var reference_position := on_control_node.global_position
 	if world_space:
 		assert(on_control_node)
