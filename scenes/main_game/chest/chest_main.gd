@@ -4,12 +4,14 @@ extends Node2D
 signal card_reward_selected(tool_data:ToolData, from_position:Vector2)
 signal skipped()
 
-const CHEST_OPEN_DELAY := 0.4
+const CHEST_OPEN_DELAY := 0.6
 
 @onready var gui_chest_main: GUIChestMain = %GUIChestMain
 @onready var weather_main: WeatherMain = %WeatherMain
 @onready var field: Field = $Field
 @onready var chest: Chest = %Chest
+
+var _opened := false
 
 func _ready() -> void:
 	gui_chest_main.card_reward_selected.connect(_on_card_reward_selected)
@@ -34,6 +36,9 @@ func _on_field_hovered(hovered:bool) -> void:
 		chest.highlighted = false
 
 func _on_field_pressed() -> void:
+	if _opened:
+		return
+	_opened = true
 	chest.open()
 	await Util.create_scaled_timer(CHEST_OPEN_DELAY).timeout
 	gui_chest_main.spawn_cards(4, 2, Util.get_node_canvas_position(chest))

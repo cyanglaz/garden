@@ -3,6 +3,7 @@ extends Node2D
 
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 @onready var confetti_emitter: GPUParticles2D = %ConfettiEmitter
+@onready var audio_stream_player_2d: AudioStreamPlayer2D = %AudioStreamPlayer2D
 
 var highlighted := false: set = _set_highlighted
 
@@ -13,6 +14,7 @@ func _ready() -> void:
 func open() -> void:
 	animated_sprite_2d.play("open")
 	confetti_emitter.restart()
+	audio_stream_player_2d.play()
 
 func _set_highlighted(val:bool) -> void:
 	highlighted = val
