@@ -74,11 +74,12 @@ func _start_new_chapter() -> void:
 
 	#_start_map_main_scene()
 	# Always start with a common node
-	#if test_contract:
-	#	_start_combat_main_scene.call_deferred(test_contract)
-	#else:
-	#	_start_combat_main_scene.call_deferred(contract_generator.common_contracts.pop_back())
-	_start_shop()
+	if test_contract:
+		_start_combat_main_scene.call_deferred(test_contract)
+	else:
+		_start_combat_main_scene.call_deferred(contract_generator.common_contracts.pop_back())
+	#_start_shop()
+	#_start_chest()
 
 func _generate_chapter_data() -> void:
 	map_main.generate_map(session_seed)
@@ -127,7 +128,6 @@ func _start_chest() -> void:
 	chest_main.skipped.connect(_on_chest_reward_skipped)
 	node_container.add_child(chest_main)
 	start_scene_transition()
-	chest_main.update_with_number_of_chests(3)
 
 func start_scene_transition() -> void:
 	map_main.hide()
