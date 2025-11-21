@@ -72,6 +72,7 @@ func bloom() -> void:
 	_gui_field_selection_arrow.hide()
 	_complete_check.show()
 	plant.bloom()
+	_gui_plant_ability_icon_container.activate_abilities()
 
 #region private methods
 

@@ -12,6 +12,10 @@ func setup_with_plant(plant:Plant) -> void:
 	
 	plant.plant_ability_container.request_ability_hook_animation.connect(_on_ability_hook_animation_requested)
 
+func activate_abilities() -> void:
+	for ability_icon:GUIPlantAbilityIcon in get_children():
+		ability_icon.active = true
+
 func remove_all() -> void:
 	Util.remove_all_children(self)
 
