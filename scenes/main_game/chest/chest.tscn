@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://80viyq40b6jc"]
+[gd_scene load_steps=16 format=3 uid="uid://80viyq40b6jc"]
 
 [ext_resource type="Script" uid="uid://b3n367w856dkv" path="res://scenes/main_game/chest/chest.gd" id="1_akmc0"]
 [ext_resource type="Shader" uid="uid://dgtm62e0x5jyk" path="res://scenes/main_game/chest/chest.gdshader" id="2_ealxs"]
@@ -11,33 +11,36 @@ shader = ExtResource("2_ealxs")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_tnt3e"]
-atlas = ExtResource("2_sno4t")
-region = Rect2(20, 0, 20, 20)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_ealxs"]
 atlas = ExtResource("2_sno4t")
-region = Rect2(0, 0, 20, 20)
+region = Rect2(0, 0, 27, 24)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_3nie3"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_3nie3"]
+atlas = ExtResource("2_sno4t")
+region = Rect2(27, 0, 27, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qa0an"]
+atlas = ExtResource("2_sno4t")
+region = Rect2(0, 24, 27, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nm5ti"]
+atlas = ExtResource("2_sno4t")
+region = Rect2(27, 24, 27, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lv1of"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_tnt3e")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ealxs")
-}],
-"loop": false,
-"name": &"close",
-"speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_ealxs")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_tnt3e")
+"texture": SubResource("AtlasTexture_3nie3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qa0an")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nm5ti")
 }],
 "loop": false,
 "name": &"open",
@@ -81,7 +84,7 @@ script = ExtResource("1_akmc0")
 unique_name_in_owner = true
 texture_filter = 1
 material = SubResource("ShaderMaterial_3nie3")
-sprite_frames = SubResource("SpriteFrames_3nie3")
+sprite_frames = SubResource("SpriteFrames_lv1of")
 animation = &"open"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
@@ -97,7 +100,7 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/chest/chest.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "bc2825a5cb98774e59b9ef523e85ce61"
+metadata/_aseprite_wizard_source_file_hash_ = "ae7ac9e9b6e6c203a750cb9f6649578b"
 
 [node name="ConfettiEmitter" type="GPUParticles2D" parent="."]
 unique_name_in_owner = true
