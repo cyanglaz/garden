@@ -13,9 +13,9 @@ func _handle_tool_application_hook(combat_main:CombatMain, _tool_data:ToolData) 
 	action_data.operator_type = ActionData.OperatorType.INCREASE
 	action_data.value = power_data.stack
 	action_data.specials.append(ActionData.Special.ALL_FIELDS)
-	_action_count = combat_main.field_container.plants.size()
+	_action_count = combat_main.plant_field_container.plants.size()
 	assert(_action_count > 0)
-	for plant:Plant in combat_main.field_container.plants:
+	for plant:Plant in combat_main.plant_field_container.plants:
 		plant.action_application_completed.connect(_on_action_application_completed.bind(plant))
 		plant.apply_actions([action_data])
 	await _all_action_application_completed

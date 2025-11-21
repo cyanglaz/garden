@@ -6,13 +6,13 @@ signal draw_plant_card_completed(plant_data:PlantData)
 const ANIMATING_PLANT_SEED_SCENE := preload("res://scenes/GUI/main_game/plant_cards/gui_plant_icon.tscn")
 const SEED_ICON_DISAPPEAR_TIME := 0.4
 
-var _field_container:FieldContainer: get = _get_field_container
+var _plant_field_container:PlantFieldContainer: get = _get_plant_field_container
 var _plant_deck_box:GUIPlantDeckBox: get = _get_plant_deck_box
 var _weak_plant_deck_box:WeakRef = weakref(null)
-var _weak_field_container:WeakRef = weakref(null)
+var _weak_plant_field_container:WeakRef = weakref(null)
 
-func setup(field_container:FieldContainer, plant_deck_box:GUIPlantDeckBox) -> void:
-	_weak_field_container = weakref(field_container)
+func setup(plant_field_container:PlantFieldContainer, plant_deck_box:GUIPlantDeckBox) -> void:
+	_weak_plant_field_container = weakref(plant_field_container)
 	_weak_plant_deck_box = weakref(plant_deck_box)
 
 func animate_draw(plant_datas:Array[PlantData], draw_results:Array, target_field_indices:Array) -> void:
@@ -34,7 +34,7 @@ func animate_draw(plant_datas:Array[PlantData], draw_results:Array, target_field
 		var delay_index := i
 		if delay_index >= 0:
 			Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index).timeout.connect(func(): animating_card.play_move_sound())
-		var target_position := _field_container.get_preview_icon_global_position(animating_card, target_field_indices[i])
+		var target_position := _plant_field_container.get_preview_icon_global_position(animating_card, target_field_indices[i])
 		tween.tween_property(animating_card, "global_position", target_position, Constants.PLANT_SEED_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 		var disappear_tween := tween.tween_property(animating_card, "modulate:a", 0, SEED_ICON_DISAPPEAR_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index + Constants.PLANT_SEED_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 		disappear_tween.finished.connect(func():
@@ -44,8 +44,8 @@ func animate_draw(plant_datas:Array[PlantData], draw_results:Array, target_field
 	for card in animating_cards:
 		card.queue_free()
 
-func _get_field_container() -> FieldContainer:
-	return _weak_field_container.get_ref()
+func _get_plant_field_container() -> PlantFieldContainer:
+	return _weak_plant_field_container.get_ref()
 
 func _get_plant_deck_box() -> GUIPlantDeckBox:
 	return _weak_plant_deck_box.get_ref()

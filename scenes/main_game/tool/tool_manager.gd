@@ -158,7 +158,7 @@ func _run_card_lifecycle(tool_data:ToolData, combat_main:CombatMain) -> void:
 
 func _run_card_actions(combat_main:CombatMain, plants:Array, plant_index:int, tool_data:ToolData, secondary_card_datas:Array) -> void:
 	_tool_actions_queue.append(tool_data)
-	await combat_main.field_container.trigger_tool_application_hook()
+	await combat_main.plant_field_container.trigger_tool_application_hook()
 	await _tool_applier.apply_tool(combat_main, plants, plant_index, tool_data, secondary_card_datas, null)
 	_tool_actions_queue.erase(tool_data)
 	_tool_actions_completed.emit(tool_data, combat_main)

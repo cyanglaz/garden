@@ -108,7 +108,7 @@ func _handle_discard_card_action(action:ActionData, combat_main:CombatMain, tool
 			return
 		secondary_card_datas= Util.unweighted_roll(tool_datas_to_discard, discard_size)
 	await combat_main.discard_cards(secondary_card_datas)
-	await combat_main.field_container.trigger_tool_discard_hook(discard_size)
+	await combat_main.plant_field_container.trigger_tool_discard_hook(discard_size)
 
 func _on_plant_action_application_completed(plant:Plant) -> void:
 	plant.action_application_completed.disconnect(_on_plant_action_application_completed.bind(plant))
