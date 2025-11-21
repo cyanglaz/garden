@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dns3h5raq26f5"
+path="res://.godot/imported/plant_field.aseprite-6e1549f72b928a5431d10b3603690cda.res"
+
+[deps]
+
+source_file="res://resources/sprites/objects/plant_field.aseprite"
+dest_files=["res://.godot/imported/plant_field.aseprite-6e1549f72b928a5431d10b3603690cda.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

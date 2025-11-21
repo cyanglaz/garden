@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bwg4lndgnlnd" path="res://scenes/main_game/field/field.gd" id="1_vyjhb"]
 [ext_resource type="Shader" uid="uid://bdhxjruma11hn" path="res://scenes/main_game/field/field.gdshader" id="2_84ps5"]
-[ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/field.png" id="3_vqeok"]
+[ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/plant_field.png" id="3_vqeok"]
 [ext_resource type="Script" uid="uid://c42mdjgajw0gi" path="res://scenes/GUI/controls/buttons/gui_basic_button.gd" id="4_hk5wf"]
 [ext_resource type="AudioStream" uid="uid://ctu3v3nqwt6d2" path="res://resources/sounds/SFX/field/field_hover.wav" id="5_skov6"]
 [ext_resource type="AudioStream" uid="uid://b00jsu3na1sj0" path="res://resources/sounds/SFX/field/field_click.wav" id="6_1knfj"]
@@ -33,6 +33,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ipwbb"]
+resource_local_to_scene = true
 size = Vector2(34, 6)
 
 [sub_resource type="Animation" id="Animation_rw11e"]
@@ -112,6 +113,7 @@ _data = {
 }
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_rw11e"]
+resource_local_to_scene = true
 polygon = PackedVector2Array(-16, 1, 16, 1, 16, 18, -16, 18)
 
 [node name="Field" type="Node2D"]

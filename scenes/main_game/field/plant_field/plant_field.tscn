@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://ln50r4xpe1ai" path="res://scenes/main_game/field/field.tscn" id="1_gmygf"]
 [ext_resource type="Script" uid="uid://yxngfsmw1toa" path="res://scenes/main_game/field/plant_field/plant_field.gd" id="2_cw3i7"]
 [ext_resource type="Shader" uid="uid://bdhxjruma11hn" path="res://scenes/main_game/field/field.gdshader" id="3_ixwb0"]
-[ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/field.png" id="4_t6yqf"]
+[ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/plant_field.png" id="4_t6yqf"]
 [ext_resource type="PackedScene" uid="uid://673wlt1ldg8q" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.tscn" id="5_rdxdm"]
 [ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/GUI/icons/resources/icon_light.png" id="6_qfgpi"]
 [ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/icon_water.png" id="7_suj65"]
@@ -18,16 +18,15 @@ shader = ExtResource("3_ixwb0")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ipwbb"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_2jnt3"]
 atlas = ExtResource("4_t6yqf")
 region = Rect2(0, 0, 36, 36)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_h8l7o"]
-resource_local_to_scene = true
+[sub_resource type="SpriteFrames" id="SpriteFrames_sh3mw"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ipwbb")
+"texture": SubResource("AtlasTexture_2jnt3")
 }],
 "loop": false,
 "name": &"idle",
@@ -39,7 +38,18 @@ script = ExtResource("2_cw3i7")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_f5hss")
-sprite_frames = SubResource("SpriteFrames_h8l7o")
+sprite_frames = SubResource("SpriteFrames_sh3mw")
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/objects/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/objects/plant_field.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "9445fb3bbe91d94728a3d197411d7161"
 
 [node name="ProgressBars" type="VBoxContainer" parent="." index="7"]
 unique_name_in_owner = true

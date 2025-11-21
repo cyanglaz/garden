@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1l356n6od8ma"
-path="res://.godot/imported/field.png-723fdcf18d0a1924c2094d3139848f85.ctex"
+uid="uid://bun3h0ckucwn"
+path="res://.godot/imported/chest_field.png-6551ed16eda7bff9499007939e40a06b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/objects/field.png"
-dest_files=["res://.godot/imported/field.png-723fdcf18d0a1924c2094d3139848f85.ctex"]
+source_file="res://resources/sprites/objects/chest_field.png"
+dest_files=["res://.godot/imported/chest_field.png-6551ed16eda7bff9499007939e40a06b.ctex"]
 
 [params]
 
