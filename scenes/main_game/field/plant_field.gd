@@ -1,29 +1,21 @@
 class_name Field
-extends Node2D
+extends Land
 
 const PLANT_SCENE_PATH_PREFIX:String = "res://scenes/main_game/plants/plants/plant_"
 
 
-signal field_pressed()
-signal field_hovered(hovered:bool)
 signal action_application_completed()
 signal plant_bloom_started()
 signal plant_bloom_completed()
 signal new_plant_planted()
 
-@onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
-@onready var _gui_field_button: GUIBasicButton = %GUIFieldButton
 @onready var _progress_bars: VBoxContainer = %ProgressBars
 @onready var _light_bar: GUISegmentedProgressBar = %LightBar
 @onready var _water_bar: GUISegmentedProgressBar = %WaterBar
 @onready var _gui_field_status_container: GUIFieldStatusContainer = %GUIFieldStatusContainer
 @onready var _complete_check: TextureRect = %CompleteCheck
 @onready var _gui_plant_ability_icon_container: GUIPlantAbilityIconContainer = %GUIPlantAbilityIconContainer
-@onready var _gui_field_selection_arrow: GUIFieldSelectionArrow = %GUIFieldSelectionArrow
 @onready var _plant_down_sound: AudioStreamPlayer2D = %PlantDownSound
-@onready var _plant_container: Node2D = %PlantContainer
-@onready var _animation_player: AnimationPlayer = %AnimationPlayer
-@onready var _water_droplet_emitter: WaterDropletEmitter = %WaterDropletEmitter
 
 var plant:Plant
 var index:int = -1
@@ -44,14 +36,13 @@ func _ready() -> void:
 	_gui_field_button.mouse_entered.connect(_on_gui_plant_button_mouse_entered)
 	_gui_field_button.mouse_exited.connect(_on_gui_plant_button_mouse_exited)
 
-
 func plant_seed(plant_data:PlantData) -> void:
 	assert(plant == null, "Plant already planted")
 	_plant_down_sound.play()
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
 	var scene := load(plant_scene_path)
 	plant = scene.instantiate()
-	_plant_container.add_child(plant)
+	_container.add_child(plant)
 	plant.data = plant_data
 	plant.field = self
 	_show_progress_bars()
@@ -61,9 +52,6 @@ func plant_seed(plant_data:PlantData) -> void:
 	_gui_plant_ability_icon_container.setup_with_plant(plant)
 	_gui_field_status_container.bind_with_field_status_manager(plant.status_manager)
 	new_plant_planted.emit()
-
-func toggle_selection_indicator(indicator_state:GUIFieldSelectionArrow.IndicatorState) -> void:
-	_gui_field_selection_arrow.indicator_state = indicator_state
 
 func show_tooltip() -> void:
 	_tooltip_id = Util.get_uuid()
@@ -100,36 +88,23 @@ func _show_progress_bars() -> void:
 #region events
 
 func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> void:
+	super._on_gui_field_button_state_updated(state)
+	if !plant:
+		return
 	match state:
-		GUIBasicButton.ButtonState.NORMAL, GUIBasicButton.ButtonState.DISABLED, GUIBasicButton.ButtonState.SELECTED:
-			if plant:
-				plant.plant_sprite.material.set_shader_parameter("outline_size", 0)
-			animated_sprite_2d.material.set_shader_parameter("outline_size", 0)
+		GUIBasicButton.ButtonState.NORMAL, GUIBasicButton.ButtonState.DISABLED, GUIBasicButton.ButtonState.SELECTED, GUIBasicButton.ButtonState.PRESSED:
+			plant.plant_sprite.material.set_shader_parameter("outline_size", 0)
 		GUIBasicButton.ButtonState.HOVERED:
-			if plant:
-				plant.plant_sprite.material.set_shader_parameter("outline_size", 1)
-			animated_sprite_2d.material.set_shader_parameter("outline_size", 1)
-		GUIBasicButton.ButtonState.PRESSED:
-			if plant:
-				plant.plant_sprite.material.set_shader_parameter("outline_size", 0)
-			animated_sprite_2d.material.set_shader_parameter("outline_size", 0)
+			plant.plant_sprite.material.set_shader_parameter("outline_size", 1)
 
 func _on_gui_plant_button_mouse_entered() -> void:
 	if plant:
 		Events.update_hovered_data.emit(plant.data)
-	field_hovered.emit(true)
+	super._on_gui_plant_button_mouse_entered()
 
 func _on_gui_plant_button_mouse_exited() -> void:
 	Events.update_hovered_data.emit(null)
-	field_hovered.emit(false)
-
-func _on_plant_button_pressed() -> void:
-	_animation_player.play("dip")
-	field_pressed.emit()
-
-func _on_dip_down() -> void:
-	# Called in animation player
-	_water_droplet_emitter.emit_droplets()
+	super._on_gui_plant_button_mouse_exited()
 
 #endregion
 

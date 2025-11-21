@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bcabalm40spo5" path="res://scenes/GUI/chest/gui_chest_main.tscn" id="2_bxqva"]
 [ext_resource type="PackedScene" uid="uid://4p4u6myuj4oc" path="res://scenes/main_game/combat/weather/weather_main.tscn" id="2_jsprl"]
 [ext_resource type="PackedScene" uid="uid://b5vvjdyudqxkf" path="res://scenes/main_game/combat/world/water/dynamic_water.tscn" id="4_hy7bp"]
-[ext_resource type="PackedScene" uid="uid://cyojxmvm4jvfn" path="res://scenes/main_game/field/field.tscn" id="4_tn6cl"]
+[ext_resource type="PackedScene" uid="uid://cyojxmvm4jvfn" path="res://scenes/main_game/field/plant_field.tscn" id="4_tn6cl"]
 [ext_resource type="PackedScene" uid="uid://dvx20utoq0vco" path="res://scenes/main_game/combat/world/background.tscn" id="5_yhjel"]
 [ext_resource type="PackedScene" uid="uid://80viyq40b6jc" path="res://scenes/main_game/chest/chest.tscn" id="6_2w5x8"]
 [ext_resource type="Shader" uid="uid://bdhxjruma11hn" path="res://scenes/main_game/field/field.gdshader" id="6_yhjel"]

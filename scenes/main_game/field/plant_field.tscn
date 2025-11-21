@@ -1,30 +1,30 @@
 [gd_scene load_steps=25 format=3 uid="uid://cyojxmvm4jvfn"]
 
-[ext_resource type="Script" uid="uid://2yt706pccsrm" path="res://scenes/main_game/field/field.gd" id="1_e1j0g"]
-[ext_resource type="Shader" uid="uid://bdhxjruma11hn" path="res://scenes/main_game/field/field.gdshader" id="1_foq2q"]
-[ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/field.png" id="1_wixvq"]
-[ext_resource type="Script" uid="uid://c42mdjgajw0gi" path="res://scenes/GUI/controls/buttons/gui_basic_button.gd" id="4_37mqm"]
-[ext_resource type="AudioStream" uid="uid://ctu3v3nqwt6d2" path="res://resources/sounds/SFX/field/field_hover.wav" id="5_vf3h2"]
-[ext_resource type="AudioStream" uid="uid://b00jsu3na1sj0" path="res://resources/sounds/SFX/field/field_click.wav" id="6_a40ln"]
-[ext_resource type="PackedScene" uid="uid://673wlt1ldg8q" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.tscn" id="7_2tk5f"]
-[ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/GUI/icons/resources/icon_light.png" id="8_2xfym"]
-[ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/icon_water.png" id="9_k8gd3"]
-[ext_resource type="PackedScene" uid="uid://e0jhp4mhrm81" path="res://scenes/main_game/field/gui_field_status_container.tscn" id="10_mv8sf"]
-[ext_resource type="Texture2D" uid="uid://dnma4y5ajsv2w" path="res://resources/sprites/GUI/icons/other_icons/check_icon_plant_complete.png" id="11_lhqi3"]
-[ext_resource type="PackedScene" uid="uid://jaeock3j73t2" path="res://scenes/main_game/field/gui_plant_ability_icon_container.tscn" id="12_6laml"]
-[ext_resource type="PackedScene" uid="uid://b0mxsb1ypllyg" path="res://scenes/main_game/field/gui_field_selection_arrow.tscn" id="13_tcec4"]
-[ext_resource type="AudioStream" uid="uid://d1akur2jywp1n" path="res://resources/sounds/SFX/plants/plant_down.wav" id="15_gsguy"]
-[ext_resource type="PackedScene" uid="uid://ddb85df6v6lo4" path="res://scenes/main_game/combat/world/water/water_droplet_emitter.tscn" id="15_rw11e"]
-[ext_resource type="Texture2D" uid="uid://bimh485w1wjhp" path="res://resources/sprites/effects/particles/water_droplet.png" id="16_37mqm"]
+[ext_resource type="Script" uid="uid://2yt706pccsrm" path="res://scenes/main_game/field/plant_field.gd" id="1_04ar3"]
+[ext_resource type="Shader" uid="uid://bdhxjruma11hn" path="res://scenes/main_game/field/field.gdshader" id="2_jfm75"]
+[ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/field.png" id="3_emh4m"]
+[ext_resource type="Script" uid="uid://c42mdjgajw0gi" path="res://scenes/GUI/controls/buttons/gui_basic_button.gd" id="4_fk2lr"]
+[ext_resource type="AudioStream" uid="uid://ctu3v3nqwt6d2" path="res://resources/sounds/SFX/field/field_hover.wav" id="5_fp0dq"]
+[ext_resource type="AudioStream" uid="uid://b00jsu3na1sj0" path="res://resources/sounds/SFX/field/field_click.wav" id="6_evec7"]
+[ext_resource type="PackedScene" uid="uid://673wlt1ldg8q" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.tscn" id="7_sfsql"]
+[ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/GUI/icons/resources/icon_light.png" id="8_emgb6"]
+[ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/icon_water.png" id="9_8i7db"]
+[ext_resource type="PackedScene" uid="uid://e0jhp4mhrm81" path="res://scenes/main_game/field/gui_field_status_container.tscn" id="10_fylmi"]
+[ext_resource type="Texture2D" uid="uid://dnma4y5ajsv2w" path="res://resources/sprites/GUI/icons/other_icons/check_icon_plant_complete.png" id="11_3trt6"]
+[ext_resource type="PackedScene" uid="uid://jaeock3j73t2" path="res://scenes/main_game/field/gui_plant_ability_icon_container.tscn" id="12_smriq"]
+[ext_resource type="PackedScene" uid="uid://b0mxsb1ypllyg" path="res://scenes/main_game/field/gui_field_selection_arrow.tscn" id="13_n7xek"]
+[ext_resource type="AudioStream" uid="uid://d1akur2jywp1n" path="res://resources/sounds/SFX/plants/plant_down.wav" id="14_fxfu4"]
+[ext_resource type="PackedScene" uid="uid://ddb85df6v6lo4" path="res://scenes/main_game/combat/world/water/water_droplet_emitter.tscn" id="15_ig7gu"]
+[ext_resource type="Texture2D" uid="uid://bimh485w1wjhp" path="res://resources/sprites/effects/particles/water_droplet.png" id="16_4f167"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wixvq"]
 resource_local_to_scene = true
-shader = ExtResource("1_foq2q")
+shader = ExtResource("2_jfm75")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ipwbb"]
-atlas = ExtResource("1_wixvq")
+atlas = ExtResource("3_emh4m")
 region = Rect2(0, 0, 36, 36)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_rw11e"]
@@ -121,7 +121,7 @@ _data = {
 polygon = PackedVector2Array(-16, 1, 16, 1, 16, 18, -16, 18)
 
 [node name="Field" type="Node2D"]
-script = ExtResource("1_e1j0g")
+script = ExtResource("1_04ar3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
@@ -162,9 +162,9 @@ offset_left = -17.0
 offset_top = -26.0
 offset_right = 17.0
 offset_bottom = 15.0
-script = ExtResource("4_37mqm")
-hover_sound = ExtResource("5_vf3h2")
-click_sound = ExtResource("6_a40ln")
+script = ExtResource("4_fk2lr")
+hover_sound = ExtResource("5_fp0dq")
+click_sound = ExtResource("6_evec7")
 metadata/_custom_type_script = "uid://c42mdjgajw0gi"
 
 [node name="ProgressBars" type="VBoxContainer" parent="."]
@@ -176,26 +176,26 @@ offset_right = 17.0
 offset_bottom = 28.0
 theme_override_constants/separation = 0
 
-[node name="LightBar" parent="ProgressBars" instance=ExtResource("7_2tk5f")]
+[node name="LightBar" parent="ProgressBars" instance=ExtResource("7_sfsql")]
 unique_name_in_owner = true
 z_index = 1
 custom_minimum_size = Vector2(0, 7)
 layout_mode = 2
 max_value = 2
 segment_color = Color(1, 0.784314, 0.145098, 1)
-icon_texture = ExtResource("8_2xfym")
+icon_texture = ExtResource("8_emgb6")
 icon_size = Vector2(6, 6)
 
-[node name="WaterBar" parent="ProgressBars" instance=ExtResource("7_2tk5f")]
+[node name="WaterBar" parent="ProgressBars" instance=ExtResource("7_sfsql")]
 unique_name_in_owner = true
 z_index = 1
 custom_minimum_size = Vector2(0, 7)
 layout_mode = 2
 max_value = 5
-icon_texture = ExtResource("9_k8gd3")
+icon_texture = ExtResource("9_8i7db")
 icon_size = Vector2(6, 6)
 
-[node name="GUIFieldStatusContainer" parent="." instance=ExtResource("10_mv8sf")]
+[node name="GUIFieldStatusContainer" parent="." instance=ExtResource("10_fylmi")]
 unique_name_in_owner = true
 z_index = 1
 offset_left = 22.0
@@ -210,10 +210,10 @@ offset_left = -4.0
 offset_top = 15.0
 offset_right = 4.0
 offset_bottom = 23.0
-texture = ExtResource("11_lhqi3")
+texture = ExtResource("11_3trt6")
 stretch_mode = 5
 
-[node name="GUIPlantAbilityIconContainer" parent="." instance=ExtResource("12_6laml")]
+[node name="GUIPlantAbilityIconContainer" parent="." instance=ExtResource("12_smriq")]
 unique_name_in_owner = true
 z_index = 1
 anchors_preset = 2
@@ -225,7 +225,7 @@ offset_right = -22.0
 offset_bottom = 11.0
 grow_horizontal = 1
 
-[node name="GUIFieldSelectionArrow" parent="." instance=ExtResource("13_tcec4")]
+[node name="GUIFieldSelectionArrow" parent="." instance=ExtResource("13_n7xek")]
 unique_name_in_owner = true
 z_index = 1
 offset_top = -35.0
@@ -233,7 +233,7 @@ offset_bottom = -35.0
 
 [node name="PlantDownSound" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("15_gsguy")
+stream = ExtResource("14_fxfu4")
 bus = &"SFX"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -242,11 +242,11 @@ libraries = {
 &"": SubResource("AnimationLibrary_rw11e")
 }
 
-[node name="WaterDropletEmitter" parent="." instance=ExtResource("15_rw11e")]
+[node name="WaterDropletEmitter" parent="." instance=ExtResource("15_ig7gu")]
 unique_name_in_owner = true
 z_index = 1
 position = Vector2(0, 16)
-droplet_texture = ExtResource("16_37mqm")
+droplet_texture = ExtResource("16_4f167")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_rw11e")

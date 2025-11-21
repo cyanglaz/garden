@@ -6,7 +6,6 @@
 [resource]
 script = ExtResource("2_w68dx")
 energy_cost = 0
-rarity = 1
 specials = Array[int]([1])
 id = "bottled_water"
 display_name = "Bottled Water"
