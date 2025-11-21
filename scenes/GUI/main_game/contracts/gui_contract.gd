@@ -115,7 +115,7 @@ func _on_mouse_entered_plant_icon(index:int, plant_data:PlantData) -> void:
 	Events.update_hovered_data.emit(plant_data)
 	gui_contract_plant_icon.gui_plant_icon.has_outline = true
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.PLANT, plant_data, _tooltip_id, gui_contract_plant_icon.gui_plant_icon, false, GUITooltip.TooltipPosition.LEFT, false)
+	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.PLANT, plant_data, _tooltip_id, gui_contract_plant_icon.gui_plant_icon, GUITooltip.TooltipPosition.LEFT))
 
 func _on_mouse_exited_plant_icon(index:int) -> void:
 	var gui_contract_plant_icon:GUIContractPlaintIcon = plant_container.get_child(index)
@@ -125,7 +125,7 @@ func _on_mouse_exited_plant_icon(index:int) -> void:
 
 func _on_mouse_entered_penalty_rate_label() -> void:
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.RICH_TEXT, Util.get_localized_string("CONTRACT_PENALTY_RATE_TOOL_TIP_TEXT"), _tooltip_id, penalty_rate_title_label, false, GUITooltip.TooltipPosition.LEFT, false)
+	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.RICH_TEXT, Util.get_localized_string("CONTRACT_PENALTY_RATE_TOOL_TIP_TEXT"), _tooltip_id, penalty_rate_title_label, GUITooltip.TooltipPosition.LEFT))
 
 func _on_mouse_exited_penalty_rate_label() -> void:
 	Events.request_hide_tooltip.emit(_tooltip_id)
@@ -133,7 +133,7 @@ func _on_mouse_exited_penalty_rate_label() -> void:
 func _on_mouse_entered_booster_pack() -> void:
 	gui_reward_booster_pack.has_outline = true
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.BOOSTER_PACK, _weak_contract_data.get_ref().reward_booster_pack_type, _tooltip_id, gui_reward_booster_pack, false, GUITooltip.TooltipPosition.LEFT, false)
+	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.BOOSTER_PACK, _weak_contract_data.get_ref().reward_booster_pack_type, _tooltip_id, gui_reward_booster_pack, GUITooltip.TooltipPosition.LEFT))
 	
 func _on_mouse_exited_booster_pack() -> void:
 	gui_reward_booster_pack.has_outline = false
@@ -141,14 +141,14 @@ func _on_mouse_exited_booster_pack() -> void:
 
 func _on_mouse_entered_total_resources() -> void:
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.RICH_TEXT, Util.get_localized_string("CONTRACT_TOTAL_RESOURCES_TOOL_TIP_TEXT"), _tooltip_id, gui_contract_total_resources, false, GUITooltip.TooltipPosition.LEFT, false)
+	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.RICH_TEXT, Util.get_localized_string("CONTRACT_TOTAL_RESOURCES_TOOL_TIP_TEXT"), _tooltip_id, gui_contract_total_resources, GUITooltip.TooltipPosition.LEFT))
 
 func _on_mouse_exited_total_resources() -> void:
 	Events.request_hide_tooltip.emit(_tooltip_id)
 
 func _on_mouse_entered_reward_gold() -> void:
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.RICH_TEXT, Util.get_localized_string("CONTRACT_REWARD_GOLD_TOOL_TIP_TEXT"), _tooltip_id, gui_reward_gold, false, GUITooltip.TooltipPosition.LEFT, false)
+	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.RICH_TEXT, Util.get_localized_string("CONTRACT_REWARD_GOLD_TOOL_TIP_TEXT"), _tooltip_id, gui_reward_gold, GUITooltip.TooltipPosition.LEFT))
 
 func _on_mouse_exited_reward_gold() -> void:
 	Events.request_hide_tooltip.emit(_tooltip_id)

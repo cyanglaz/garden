@@ -42,7 +42,7 @@ func _on_mouse_entered(index:int) -> void:
 	var plant_data = card.gui_plant_icon.plant_data
 	Events.update_hovered_data.emit(plant_data)
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.PLANT, plant_data, _tooltip_id, card, false, GUITooltip.TooltipPosition.BOTTOM, false)
+	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.PLANT, plant_data, _tooltip_id, card, GUITooltip.TooltipPosition.BOTTOM))
 
 func _on_mouse_exited(_index:int) -> void:
 	Events.update_hovered_data.emit(null)

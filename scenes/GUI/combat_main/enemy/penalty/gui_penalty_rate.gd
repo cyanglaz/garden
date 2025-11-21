@@ -41,7 +41,7 @@ func _on_mouse_entered() -> void:
 	_tooltip_id = Util.get_uuid()
 	var penalty_rate_string := Util.convert_to_bbc_highlight_text(str(_current_penalty), Constants.COLOR_RED)
 	var text := DescriptionParser.format_references(Util.get_localized_string("PENALTY_RATE_DESCRIPTION") % [penalty_rate_string], {}, {}, func(_reference_id:String) -> bool: return false)
-	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.RICH_TEXT, text, _tooltip_id, self, false, GUITooltip.TooltipPosition.BOTTOM_LEFT, false)
+	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.RICH_TEXT, text, _tooltip_id, self, GUITooltip.TooltipPosition.BOTTOM_LEFT))
 
 func _on_mouse_exited() -> void:
 	gui_icon.has_outline = false

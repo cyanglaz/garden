@@ -7,6 +7,7 @@ func setup_with_plant(plant:Plant) -> void:
 	Util.remove_all_children(self)
 	for ability_id:String in plant.data.abilities:
 		var ability_icon:GUIPlantAbilityIcon = PLANT_ABILITY_ICON_SCENE.instantiate()
+		ability_icon.active = false
 		add_child(ability_icon)
 		ability_icon.update_with_plant_ability_id(ability_id)
 	

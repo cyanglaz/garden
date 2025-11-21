@@ -35,7 +35,7 @@ func _on_mouse_entered() -> void:
 	is_highlighted = true
 	var anchor = tooltip_anchor if tooltip_anchor else self
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.WEATHER, _weak_weather_data.get_ref(), _tooltip_id, anchor, false, GUITooltip.TooltipPosition.LEFT, false)
+	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.WEATHER, _weak_weather_data.get_ref(), _tooltip_id, anchor, GUITooltip.TooltipPosition.LEFT))
 
 func _on_mouse_exited() -> void:
 	is_highlighted = false

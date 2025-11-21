@@ -44,30 +44,30 @@ shader = SubResource("Shader_nxqpn")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7jnm3"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_nxqpn"]
 atlas = ExtResource("3_nxqpn")
 region = Rect2(0, 0, 31, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_t8qer"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_7jnm3"]
 atlas = ExtResource("3_nxqpn")
 region = Rect2(31, 0, 31, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_whpb5"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8qer"]
 atlas = ExtResource("3_nxqpn")
 region = Rect2(0, 64, 31, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1kt6j"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_whpb5"]
 atlas = ExtResource("3_nxqpn")
 region = Rect2(31, 64, 31, 64)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_g60ue"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_1kt6j"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_7jnm3")
+"texture": SubResource("AtlasTexture_nxqpn")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_t8qer")
+"texture": SubResource("AtlasTexture_7jnm3")
 }],
 "loop": true,
 "name": &"bloom",
@@ -75,10 +75,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_whpb5")
+"texture": SubResource("AtlasTexture_t8qer")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1kt6j")
+"texture": SubResource("AtlasTexture_whpb5")
 }],
 "loop": true,
 "name": &"idle",
@@ -91,7 +91,7 @@ script = ExtResource("2_nxqpn")
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
 material = SubResource("ShaderMaterial_txblc")
-sprite_frames = SubResource("SpriteFrames_g60ue")
+sprite_frames = SubResource("SpriteFrames_1kt6j")
 animation = &"idle"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,

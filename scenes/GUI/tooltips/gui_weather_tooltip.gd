@@ -42,7 +42,7 @@ func _show_actions_tooltip() -> void:
 	if (_data as WeatherData).actions.is_empty():
 		return
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.ACTIONS, _data.actions, _tooltip_id, self, false, self.tooltip_position, false)
+	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.ACTIONS, _data.actions, _tooltip_id, self, self.tooltip_position))
 
 func _hide_actions_tooltip() -> void:
 	Events.request_hide_tooltip.emit(_tooltip_id)

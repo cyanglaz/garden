@@ -101,7 +101,7 @@ func _on_mouse_entered():
 	mouse_in = true
 	if !tool_tip_localized_string.is_empty():
 		_tooltip_id = Util.get_uuid()
-		Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.BUTTON, {"description": Util.get_localized_string(tool_tip_localized_string), "shortcut": short_cut}, _tooltip_id, self, false, tooltip_position, false)
+		Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.BUTTON, {"description": Util.get_localized_string(tool_tip_localized_string), "shortcut": short_cut}, _tooltip_id, self, tooltip_position))
 	if button_state == ButtonState.DISABLED || button_state == ButtonState.SELECTED:
 		return
 	button_state = ButtonState.HOVERED

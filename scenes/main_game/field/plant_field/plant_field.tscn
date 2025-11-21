@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://ccfwnjpit55o7"]
+[gd_scene load_steps=17 format=3 uid="uid://ccfwnjpit55o7"]
 
 [ext_resource type="PackedScene" uid="uid://ln50r4xpe1ai" path="res://scenes/main_game/field/field.tscn" id="1_gmygf"]
 [ext_resource type="Script" uid="uid://yxngfsmw1toa" path="res://scenes/main_game/field/plant_field/plant_field.gd" id="2_cw3i7"]
@@ -33,6 +33,14 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2jnt3"]
+resource_local_to_scene = true
+size = Vector2(34, 6)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_sh3mw"]
+resource_local_to_scene = true
+polygon = PackedVector2Array(-16, 1, 16, 1, 16, 18, -16, 18)
+
 [node name="PlantField" instance=ExtResource("1_gmygf")]
 script = ExtResource("2_cw3i7")
 
@@ -50,6 +58,12 @@ metadata/_aseprite_wizard_config_ = {
 "source": "res://resources/sprites/objects/plant_field.aseprite"
 }
 metadata/_aseprite_wizard_source_file_hash_ = "9445fb3bbe91d94728a3d197411d7161"
+
+[node name="CollisionShape2D" parent="AnimatedSprite2D/Area2D" index="0"]
+shape = SubResource("RectangleShape2D_2jnt3")
+
+[node name="LightOccluder2D" parent="." index="6"]
+occluder = SubResource("OccluderPolygon2D_sh3mw")
 
 [node name="ProgressBars" type="VBoxContainer" parent="." index="7"]
 unique_name_in_owner = true

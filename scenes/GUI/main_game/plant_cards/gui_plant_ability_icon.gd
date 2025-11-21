@@ -10,7 +10,7 @@ const ANIMATION_OFFSET := 3
 @onready var _good_animation_audio: AudioStreamPlayer2D = %GoodAnimationAudio
 
 var ability_id:String
-var active:bool = false: set = _set_active
+var active:bool = true: set = _set_active
 var library_mode := false
 var display_mode := false
 
@@ -41,7 +41,7 @@ func _on_mouse_entered() -> void:
 	if display_mode:
 		return
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.THING_DATA, data, _tooltip_id, self, false, GUITooltip.TooltipPosition.BOTTOM_LEFT, true)
+	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.THING_DATA, data, _tooltip_id, self, GUITooltip.TooltipPosition.BOTTOM_LEFT))
 
 func _on_mouse_exited() -> void:
 	is_highlighted = false

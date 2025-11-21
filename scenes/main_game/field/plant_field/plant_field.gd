@@ -54,7 +54,7 @@ func plant_seed(plant_data:PlantData) -> void:
 
 func show_tooltip() -> void:
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.PLANT, plant.data, _tooltip_id, _gui_field_button, false, GUITooltip.TooltipPosition.BOTTOM, true)
+	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.PLANT, plant.data, _tooltip_id, _gui_field_button, GUITooltip.TooltipPosition.BOTTOM))
 
 func hide_tooltip() -> void:
 	Events.request_hide_tooltip.emit(_tooltip_id)

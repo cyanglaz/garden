@@ -28,13 +28,13 @@ func show_warning(warning_type:WarningType) -> void:
 		WarningType.INSUFFICIENT_ENERGY:
 			var energy_warning_string := Util.get_localized_string("WARNING_INSUFFICIENT_ENERGY")
 			_energy_warning_tooltip_id = Util.get_uuid()
-			Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.WARNING, energy_warning_string, _energy_warning_tooltip_id, _gui_energy_tracker, false, GUITooltip.TooltipPosition.TOP, false)
+			Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.WARNING, energy_warning_string, _energy_warning_tooltip_id, _gui_energy_tracker, GUITooltip.TooltipPosition.TOP))
 			_gui_energy_tracker.play_insufficient_energy_animation()
 		WarningType.INSUFFICIENT_GOLD:
 			var gold_icon_string := str("[img=6x6]", GOLD_ICON_PATH, "[/img]")
 			var gold_warning_string := Util.get_localized_string("WARNING_INSUFFICIENT_GOLD") % gold_icon_string
 			_gold_warning_tooltip_id = Util.get_uuid()
-			Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.WARNING, gold_warning_string, _gold_warning_tooltip_id, _gui_gold, false, GUITooltip.TooltipPosition.BOTTOM, false)
+			Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.WARNING, gold_warning_string, _gold_warning_tooltip_id, _gui_gold, GUITooltip.TooltipPosition.BOTTOM))
 		WarningType.DIALOGUE_THING_DETAIL:
 			_gui_dialogue_window.show_with_type(GUIDialogueItem.DialogueType.THING_DETAIL)
 		WarningType.DIALOGUE_CANNOT_USE_CARD:
