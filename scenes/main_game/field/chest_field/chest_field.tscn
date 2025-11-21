@@ -65,5 +65,12 @@ offset_left = -23.0
 offset_right = 23.0
 offset_bottom = 17.0
 
+[node name="WaterDropletEmitter" parent="." index="5"]
+max_initial_up_velocity = 100.0
+min_initial_up_velocity = 95.0
+number_of_droplets = 16
+droplet_spread_degrees = 35.0
+droplet_position_range = 60.0
+
 [node name="LightOccluder2D" parent="." index="6"]
 occluder = SubResource("OccluderPolygon2D_d750v")
