@@ -20,6 +20,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 [resource]
 script = ExtResource("2_g05ep")
 actions = Array[ExtResource("1_0glle")]([SubResource("Resource_icjug"), SubResource("Resource_6xxhp")])
+rarity = 1
 id = "solar_battery"
 display_name = "Solar Battery"
 data = {
