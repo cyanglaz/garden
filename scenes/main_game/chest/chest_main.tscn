@@ -1,19 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://crd7i622oq4dq"]
+[gd_scene load_steps=7 format=3 uid="uid://crd7i622oq4dq"]
 
 [ext_resource type="Script" uid="uid://c3ffy06c1n3um" path="res://scenes/main_game/chest/chest_main.gd" id="1_1igly"]
 [ext_resource type="PackedScene" uid="uid://bcabalm40spo5" path="res://scenes/GUI/chest/gui_chest_main.tscn" id="2_bxqva"]
 [ext_resource type="PackedScene" uid="uid://4p4u6myuj4oc" path="res://scenes/main_game/combat/weather/weather_main.tscn" id="2_jsprl"]
 [ext_resource type="PackedScene" uid="uid://b5vvjdyudqxkf" path="res://scenes/main_game/combat/world/water/dynamic_water.tscn" id="4_hy7bp"]
-[ext_resource type="PackedScene" uid="uid://cyojxmvm4jvfn" path="res://scenes/main_game/field/plant_field.tscn" id="4_tn6cl"]
 [ext_resource type="PackedScene" uid="uid://dvx20utoq0vco" path="res://scenes/main_game/combat/world/background.tscn" id="5_yhjel"]
-[ext_resource type="PackedScene" uid="uid://80viyq40b6jc" path="res://scenes/main_game/chest/chest.tscn" id="6_2w5x8"]
-[ext_resource type="Shader" uid="uid://bdhxjruma11hn" path="res://scenes/main_game/field/field.gdshader" id="6_yhjel"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wftl5"]
-resource_local_to_scene = true
-shader = ExtResource("6_yhjel")
-shader_parameter/outline_color = Color(1, 1, 1, 1)
-shader_parameter/outline_size = 0
+[ext_resource type="PackedScene" uid="uid://ianwld66dkf" path="res://scenes/main_game/field/chest_field/chest_field.tscn" id="6_jsprl"]
 
 [node name="ChestMain" type="Node2D"]
 script = ExtResource("1_1igly")
@@ -23,19 +15,11 @@ unique_name_in_owner = true
 
 [node name="Background" parent="." instance=ExtResource("5_yhjel")]
 
-[node name="Field" parent="." instance=ExtResource("4_tn6cl")]
-position = Vector2(0, -8)
-
-[node name="AnimatedSprite2D" parent="Field" index="0"]
-material = SubResource("ShaderMaterial_wftl5")
-
-[node name="Chest" parent="Field/PlantContainer" index="0" instance=ExtResource("6_2w5x8")]
+[node name="ChestField" parent="." instance=ExtResource("6_jsprl")]
 unique_name_in_owner = true
-position = Vector2(0, -8)
+position = Vector2(0, -10)
 
 [node name="DynamicWater" parent="." instance=ExtResource("4_hy7bp")]
 
 [node name="GUIChestMain" parent="." instance=ExtResource("2_bxqva")]
 unique_name_in_owner = true
-
-[editable path="Field"]

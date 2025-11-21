@@ -1,0 +1,40 @@
+[gd_scene load_steps=9 format=3 uid="uid://ianwld66dkf"]
+
+[ext_resource type="PackedScene" uid="uid://ln50r4xpe1ai" path="res://scenes/main_game/field/field.tscn" id="1_heivs"]
+[ext_resource type="Script" uid="uid://bvjs76b4ujdqu" path="res://scenes/main_game/field/chest_field/chest_field.gd" id="2_iy0nv"]
+[ext_resource type="Shader" uid="uid://bdhxjruma11hn" path="res://scenes/main_game/field/field.gdshader" id="2_s0wlv"]
+[ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/field.png" id="3_iy0nv"]
+[ext_resource type="PackedScene" uid="uid://80viyq40b6jc" path="res://scenes/main_game/chest/chest.tscn" id="4_s0wlv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ilsi6"]
+resource_local_to_scene = true
+shader = ExtResource("2_s0wlv")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ipwbb"]
+atlas = ExtResource("3_iy0nv")
+region = Rect2(0, 0, 36, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e3ei4"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ipwbb")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[node name="ChestField" instance=ExtResource("1_heivs")]
+script = ExtResource("2_iy0nv")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+material = SubResource("ShaderMaterial_ilsi6")
+sprite_frames = SubResource("SpriteFrames_e3ei4")
+
+[node name="Chest" parent="Container" index="0" instance=ExtResource("4_s0wlv")]
+unique_name_in_owner = true
+position = Vector2(0, -8)

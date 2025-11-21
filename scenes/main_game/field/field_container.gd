@@ -1,7 +1,7 @@
 class_name FieldContainer
 extends Node2D
 
-const FIELD_SCENE := preload("res://scenes/main_game/field/plant_field.tscn")
+const FIELD_SCENE := preload("res://scenes/main_game/field/plant_field/plant_field.tscn")
 
 signal mouse_plant_updated(plant:Plant)
 signal plant_bloom_started()

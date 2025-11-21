@@ -1,8 +1,7 @@
-class_name Field
-extends Land
+class_name PlantField
+extends Field
 
 const PLANT_SCENE_PATH_PREFIX:String = "res://scenes/main_game/plants/plants/plant_"
-
 
 signal action_application_completed()
 signal plant_bloom_started()
