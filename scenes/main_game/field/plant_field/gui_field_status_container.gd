@@ -1,7 +1,7 @@
 class_name GUIFieldStatusContainer
 extends VBoxContainer
 
-const STATUS_ICON_SCENE := preload("res://scenes/main_game/field/gui_field_status_icon.tscn")
+const STATUS_ICON_SCENE := preload("res://scenes/main_game/field/plant_field/gui_field_status_icon.tscn")
 
 func bind_with_field_status_manager(field_status_manager:FieldStatusManager) -> void:
 	field_status_manager.status_updated.connect(_on_status_updated.bind(field_status_manager))

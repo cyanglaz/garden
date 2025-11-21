@@ -109,7 +109,7 @@ func bind_tool_deck(tool_deck:Deck) -> void:
 
 
 #region plants
-func setup_plant_seed_animation_container(field_container:FieldContainer) -> void:
+func setup_plant_seed_animation_container(field_container:PlantFieldContainer) -> void:
 	gui_plant_seed_animation_container.setup(field_container, gui_plant_deck_box)
 
 #endregion

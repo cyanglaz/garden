@@ -1,4 +1,4 @@
-class_name FieldContainer
+class_name PlantFieldContainer
 extends Node2D
 
 const FIELD_SCENE := preload("res://scenes/main_game/field/plant_field/plant_field.tscn")
