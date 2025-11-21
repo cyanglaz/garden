@@ -7,6 +7,8 @@ const TOOL_SCRIPT_PATH := "res://scenes/main_game/tool/tool_scripts/tool_script_
 signal request_refresh()
 @warning_ignore("unused_signal")
 signal combat_main_set(combat_main:CombatMain)
+@warning_ignore("unused_signal")
+signal adding_to_deck_finished()
 
 const COSTS := {
 	0: 6,
@@ -40,6 +42,7 @@ var tool_script:ToolScript : get = _get_tool_script
 var turn_energy_modifier:int
 var level_energy_modifier:int
 var combat_main:CombatMain: get = _get_combat_main, set = _set_combat_main
+var has_tooltip:bool: get = _get_has_tooltip
 var _weak_combat_main:WeakRef = weakref(null)
 
 var _tool_script:ToolScript
@@ -151,3 +154,6 @@ func _set_combat_main(val:CombatMain) -> void:
 	for action:ActionData in actions:
 		action.combat_main = val
 	combat_main_set.emit(val)
+
+func _get_has_tooltip() -> bool:
+	return !actions.is_empty() || !specials.is_empty()

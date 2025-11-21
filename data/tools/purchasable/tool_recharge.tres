@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_01e7c")
 energy_cost = 0
-rarity = 2
+rarity = 1
 specials = Array[int]([1])
 id = "recharge"
 display_name = "Recharge"

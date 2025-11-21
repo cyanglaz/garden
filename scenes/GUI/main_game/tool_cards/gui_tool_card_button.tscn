@@ -279,6 +279,7 @@ layout_mode = 2
 
 [node name="CardContent" type="Control" parent="CardContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 mouse_filter = 2
 

@@ -9,14 +9,14 @@ const CHEST_MAIN_SCENE := preload("res://scenes/main_game/chest/chest_main.tscn"
 
 const INITIAL_RATING_VALUE := 100
 const INITIAL_RATING_MAX_VALUE := 100
+const SCENE_TRANSITION_TIME := 0.2
 
 @export var player:PlayerData
 @export var test_tools:Array[ToolData]
-@export var test_number_of_fields := 0
+@export var test_weather:WeatherData
 @export var test_contract:ContractData
 
 @onready var gui_main_game: GUIMainGame = %GUIMainGame
-@onready var feedback_camera_2d: FeedbackCamera2D = %FeedbackCamera2D
 @onready var node_container: Node2D = %NodeContainer
 @onready var map_main: MapMain = %MapMain
 
@@ -77,6 +77,8 @@ func _start_new_chapter() -> void:
 		_start_combat_main_scene.call_deferred(test_contract)
 	else:
 		_start_combat_main_scene.call_deferred(contract_generator.common_contracts.pop_back())
+	#_start_shop()
+	#_start_chest()
 
 func _generate_chapter_data() -> void:
 	map_main.generate_map(session_seed)
@@ -97,7 +99,8 @@ func _remove_current_scene() -> void:
 		_current_scene.queue_free()
 
 func _start_combat_main_scene(contract:ContractData) -> void:
-	var combat_main = COMBAT_MAIN_SCENE.instantiate()
+	var combat_main:CombatMain = COMBAT_MAIN_SCENE.instantiate()
+	combat_main.test_weather = test_weather
 	node_container.add_child(combat_main)
 	combat_main.reward_finished.connect(_on_reward_finished)
 	start_scene_transition()
@@ -124,18 +127,17 @@ func _start_chest() -> void:
 	chest_main.skipped.connect(_on_chest_reward_skipped)
 	node_container.add_child(chest_main)
 	start_scene_transition()
-	chest_main.update_with_number_of_chests(3)
 
 func start_scene_transition() -> void:
 	map_main.hide()
-	await gui_main_game.transition(TransitionOverlay.Type.FADE_IN, 0.4)
+	await gui_main_game.transition(TransitionOverlay.Type.FADE_IN, SCENE_TRANSITION_TIME)
 
 func _complete_current_node() -> void:
 	map_main.complete_current_node()
-	await gui_main_game.transition(TransitionOverlay.Type.FADE_OUT)
+	await gui_main_game.transition(TransitionOverlay.Type.FADE_OUT, SCENE_TRANSITION_TIME)
 	_current_scene.queue_free()
 	map_main.show()
-	await gui_main_game.transition(TransitionOverlay.Type.FADE_IN)
+	await gui_main_game.transition(TransitionOverlay.Type.FADE_IN, SCENE_TRANSITION_TIME)
 
 #endregion
 
@@ -208,7 +210,7 @@ func _on_map_node_selected(node:MapNode) -> void:
 		# TODO: Add more event nodes
 		const EVENT_NODES := [MapNode.NodeType.CHEST, MapNode.NodeType.SHOP, MapNode.NodeType.TAVERN, MapNode.NodeType.NORMAL]
 		node_type = Util.unweighted_roll(EVENT_NODES, 1).front()
-	await gui_main_game.transition(TransitionOverlay.Type.FADE_OUT, 0.4)
+	await gui_main_game.transition(TransitionOverlay.Type.FADE_OUT, SCENE_TRANSITION_TIME)
 	match node_type:
 		MapNode.NodeType.NORMAL:
 			_start_combat_main_scene(contract_generator.common_contracts.pop_back())

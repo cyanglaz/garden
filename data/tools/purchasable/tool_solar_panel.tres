@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("2_0iyne")
-rarity = 1
+rarity = 2
 specials = Array[int]([1])
 type = 1
 id = "solar_panel"

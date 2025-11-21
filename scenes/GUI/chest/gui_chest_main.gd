@@ -15,6 +15,7 @@ func _ready() -> void:
 	gui_overlay_background.hide()
 	title_label.text = Util.get_localized_string("CHEST_MAIN_TITLE_TEXT")
 	skip_button.hide()
+	title_label.hide()
 	skip_button.pressed.connect(_on_skip_button_pressed)
 	gui_chest_reward_container.card_reward_selected.connect(_on_card_reward_selected)
 
@@ -25,6 +26,7 @@ func spawn_cards(number_of_cards:int, rarity:int, spawn_position:Vector2) -> voi
 	)
 	await gui_chest_reward_container.spawn_cards(number_of_cards, rarity, spawn_position)
 	skip_button.show()
+	title_label.show()
 
 func _on_skip_button_pressed() -> void:
 	skipped.emit()

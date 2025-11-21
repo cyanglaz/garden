@@ -17,6 +17,7 @@ const GUI_BOOSTER_PACK_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_b
 const GUI_BOSS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_boss_tooltip.tscn")
 const GUI_CONTRACT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_contract_tooltip.tscn")
 const GUI_MAP_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_map_tooltip.tscn")
+const GUI_REFERENCE_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_reference_card_tooltip.tscn")
 
 enum TooltipType {
 	BUTTON,
@@ -33,6 +34,7 @@ enum TooltipType {
 	TOOL_CARD,
 	SPECIALS,
 	MAP,
+	REFERENCE_CARD,
 }
 
 var _tooltips:Dictionary = {}
@@ -42,54 +44,65 @@ func _ready() -> void:
 	Events.request_hide_tooltip.connect(_on_request_hide_tooltip)
 
 func clear_all_tooltips() -> void:
-	for tooltip in _tooltips.values():
-		tooltip.queue_free()
+	for tooltips in _tooltips.values():
+		for tooltip in tooltips:
+			tooltip.queue_free()
 	_tooltips.clear()
 
 func _on_request_hide_tooltip(id:String) -> void:
 	if _tooltips.has(id):
-		_tooltips[id].queue_free()
+		for tooltip in _tooltips[id]:
+			tooltip.queue_free()
 		_tooltips.erase(id)
 
 func _on_request_display_tooltip(tooltip_type:TooltipType, data:Variant, id:String, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool) -> void:
-	var gui_tooltip:GUITooltip
-	match tooltip_type:
-		TooltipType.BUTTON:
-			gui_tooltip = GUI_BUTTON_TOOLTIP_SCENE.instantiate()
-		TooltipType.WARNING:
-			gui_tooltip = GUI_WARNING_TOOLTIP_SCENE.instantiate()
-		TooltipType.RICH_TEXT:
-			gui_tooltip = GUI_RICH_TEXT_TOOLTIP_SCENE.instantiate()
-		TooltipType.PLANT:
-			gui_tooltip = GUI_PLANT_TOOLTIP_SCENE.instantiate()
-		TooltipType.WEATHER:
-			gui_tooltip = GUI_WEATHER_TOOLTIP_SCENE.instantiate()
-		TooltipType.THING_DATA:
-			gui_tooltip = GUI_THING_DATA_TOOLTIP_SCENE.instantiate()
-		TooltipType.ACTIONS:
-			gui_tooltip = GUI_ACTIONS_TOOLTIP_SCENE.instantiate()
-		TooltipType.VIEW_DETAIL:
-			gui_tooltip = GUI_SHOW_DETAIL_TOOLTIP_SCENE.instantiate()
-		TooltipType.BOSS:
-			gui_tooltip = GUI_BOSS_TOOLTIP_SCENE.instantiate()
-		TooltipType.BOOSTER_PACK:
-			gui_tooltip = GUI_BOOSTER_PACK_TOOLTIP_SCENE.instantiate()
-		TooltipType.CONTRACT:
-			gui_tooltip = GUI_CONTRACT_TOOLTIP_SCENE.instantiate()
-		TooltipType.TOOL_CARD:
-			gui_tooltip = GUI_TOOL_CARD_TOOLTIP_SCENE.instantiate()
-		TooltipType.SPECIALS:
-			gui_tooltip = GUI_SPECIALS_TOOLTIP_SCENE.instantiate()
-		TooltipType.MAP:
-			gui_tooltip = GUI_MAP_TOOLTIP_SCENE.instantiate()
-		_:
-			assert(false, "Invalid tooltip type: %s" % tooltip_type)
-			return
+	var gui_tooltip:GUITooltip = _create_tooltip(tooltip_type)
 	gui_tooltip.update_with_data(data)
 	gui_tooltip.tooltip_position = tooltip_position
 	add_child(gui_tooltip)
-	_display_tool_tip(gui_tooltip, on_control_node, anchor_mouse, world_space)
-	_tooltips[id] = gui_tooltip
+	var anchor_node:Control = on_control_node
+	if _tooltips.has(id):
+		anchor_node = (_tooltips[id] as Array).back()
+	_display_tool_tip(gui_tooltip, anchor_node, anchor_mouse, world_space)
+	if !_tooltips.has(id):
+		_tooltips[id] = []
+	_tooltips[id].append(gui_tooltip)
+
+func _create_tooltip(tooltip_type:TooltipType) -> GUITooltip:
+	match tooltip_type:
+		TooltipType.BUTTON:
+			return GUI_BUTTON_TOOLTIP_SCENE.instantiate()
+		TooltipType.WARNING:
+			return GUI_WARNING_TOOLTIP_SCENE.instantiate()
+		TooltipType.RICH_TEXT:
+			return GUI_RICH_TEXT_TOOLTIP_SCENE.instantiate()
+		TooltipType.PLANT:
+			return GUI_PLANT_TOOLTIP_SCENE.instantiate()
+		TooltipType.WEATHER:
+			return GUI_WEATHER_TOOLTIP_SCENE.instantiate()
+		TooltipType.THING_DATA:
+			return GUI_THING_DATA_TOOLTIP_SCENE.instantiate()
+		TooltipType.ACTIONS:
+			return GUI_ACTIONS_TOOLTIP_SCENE.instantiate()
+		TooltipType.VIEW_DETAIL:
+			return GUI_SHOW_DETAIL_TOOLTIP_SCENE.instantiate()
+		TooltipType.BOSS:
+			return GUI_BOSS_TOOLTIP_SCENE.instantiate()
+		TooltipType.BOOSTER_PACK:
+			return GUI_BOOSTER_PACK_TOOLTIP_SCENE.instantiate()
+		TooltipType.CONTRACT:
+			return GUI_CONTRACT_TOOLTIP_SCENE.instantiate()
+		TooltipType.TOOL_CARD:
+			return GUI_TOOL_CARD_TOOLTIP_SCENE.instantiate()
+		TooltipType.SPECIALS:
+			return GUI_SPECIALS_TOOLTIP_SCENE.instantiate()
+		TooltipType.MAP:
+			return GUI_MAP_TOOLTIP_SCENE.instantiate()
+		TooltipType.REFERENCE_CARD:
+			return GUI_REFERENCE_CARD_TOOLTIP_SCENE.instantiate()
+		_:
+			assert(false, "Invalid tooltip type: %s" % tooltip_type)
+			return null
 
 func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_mouse:bool, world_space:bool = false) -> void:
 	tooltip.show()
@@ -104,28 +117,30 @@ func _display_tool_tip(tooltip:Control, on_control_node:Control, anchor_mouse:bo
 		return
 	var y_offset:float = 0
 	var x_offset:float = 0
+	var real_tooltip_size := tooltip.size * tooltip.scale
+	var real_on_control_node_size := on_control_node.size * on_control_node.scale
 	match tooltip.tooltip_position:
 		GUITooltip.TooltipPosition.TOP_RIGHT:
-			x_offset = on_control_node.size.x + TOOLTIP_OFFSET
-			y_offset = - tooltip.size.y + on_control_node.size.y - TOOLTIP_OFFSET
+			x_offset = real_on_control_node_size.x + TOOLTIP_OFFSET
+			y_offset = - real_tooltip_size.y + real_on_control_node_size.y - TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.TOP:
-			x_offset = on_control_node.size.x/2 - tooltip.size.x/2
-			y_offset = - tooltip.size.y - TOOLTIP_OFFSET
+			x_offset = real_on_control_node_size.x/2 - real_tooltip_size.x/2
+			y_offset = - real_tooltip_size.y - TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.RIGHT:
-			x_offset = on_control_node.size.x + TOOLTIP_OFFSET
+			x_offset = real_on_control_node_size.x + TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.LEFT_TOP:
-			x_offset = -tooltip.size.x - TOOLTIP_OFFSET
-			y_offset = - tooltip.size.y + on_control_node.size.y - TOOLTIP_OFFSET
+			x_offset = - real_tooltip_size.x - TOOLTIP_OFFSET
+			y_offset = - real_tooltip_size.y + real_on_control_node_size.y - TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.LEFT:
-			x_offset = -tooltip.size.x - TOOLTIP_OFFSET
+			x_offset = -real_tooltip_size.x - TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.BOTTOM:
-			x_offset = on_control_node.size.x/2 - tooltip.size.x/2
-			y_offset = on_control_node.size.y + TOOLTIP_OFFSET
+			x_offset = real_on_control_node_size.x/2 - real_tooltip_size.x/2
+			y_offset = real_on_control_node_size.y + TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.BOTTOM_LEFT:
-			x_offset = -tooltip.size.x + on_control_node.size.x
-			y_offset = on_control_node.size.y + TOOLTIP_OFFSET
+			x_offset = -real_tooltip_size.x + real_on_control_node_size.x
+			y_offset = real_on_control_node_size.y + TOOLTIP_OFFSET
 		GUITooltip.TooltipPosition.BOTTOM_RIGHT:
-			y_offset = on_control_node.size.y + TOOLTIP_OFFSET
+			y_offset = real_on_control_node_size.y + TOOLTIP_OFFSET
 	var reference_position := on_control_node.global_position
 	if world_space:
 		assert(on_control_node)

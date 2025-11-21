@@ -155,10 +155,10 @@ func animate_use_card(tool_data:ToolData) -> void:
 func animate_shuffle(number_of_cards:int) -> void:
 	await _gui_tool_card_animation_container.animate_shuffle(number_of_cards)
 
-func animate_add_cards_to_draw_pile(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+func animate_add_cards_to_draw_pile(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
 	await _gui_tool_card_animation_container.animate_add_cards_to_draw_pile(tool_datas, from_global_position, pause)
 
-func animate_add_cards_to_discard_pile(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+func animate_add_cards_to_discard_pile(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
 	await _gui_tool_card_animation_container.animate_add_cards_to_discard_pile(tool_datas, from_global_position, pause)
 
 func animate_add_cards_to_hand(hand:Array, tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
@@ -289,8 +289,6 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 	var mouse_over_card = _container.get_child(index)
 	if !is_instance_valid(mouse_over_card):
 		return
-	if mouse_over_card.card_state == GUIToolCardButton.CardState.NORMAL || mouse_over_card.card_state == GUIToolCardButton.CardState.UNSELECTED:
-		mouse_over_card.card_state = GUIToolCardButton.CardState.HIGHLIGHTED
 	if selected_index >= 0:
 		return
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
@@ -305,6 +303,8 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 	var animated := false
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
+		if gui_card.mouse_disabled:
+			continue
 		if card_padding < 0.0:
 			var pos = positions[i]
 			if i < index:
@@ -322,11 +322,6 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 	mouse_exited_card.emit(mouse_exit_card.tool_data)
 	if !is_instance_valid(mouse_exit_card):
 		return
-	if mouse_exit_card.card_state == GUIToolCardButton.CardState.HIGHLIGHTED:
-		if selected_index >= 0 && !card_selection_mode:
-			mouse_exit_card.card_state = GUIToolCardButton.CardState.UNSELECTED
-		else:
-			mouse_exit_card.card_state = GUIToolCardButton.CardState.NORMAL
 	if selected_index >= 0:
 		return
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
@@ -338,6 +333,8 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 	var animated := false
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
+		if gui_card.mouse_disabled:
+			continue
 		tween.tween_property(gui_card, "position", positions[i], REPOSITION_DURATION)
 		animated = true
 	if !animated:

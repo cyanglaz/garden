@@ -10,7 +10,7 @@ const Y_OFFSET := 8.0
 const SPAWN_DELAY := 0.05
 const SPAWN_TRANSITION_TIME := 0.4
 
-const GUI_CHEST_REWARD_CARD_SCENE := preload("res://scenes/GUI/chest/gui_chest_reward_card.tscn")
+const TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
 var _reward_datas:Array
 
@@ -19,15 +19,15 @@ func spawn_cards(number_of_cards:int, rarity:int, spawn_position:Vector2) -> voi
 	Util.remove_all_children(self)
 	var index := 0
 	for pick in _reward_datas:
-		var gui_reward_card: GUIChestRewardCard = GUI_CHEST_REWARD_CARD_SCENE.instantiate()
+		var gui_reward_card: GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
 		add_child(gui_reward_card)
 		gui_reward_card.hide()
-		gui_reward_card.update_with_data(pick)
-		gui_reward_card.get_button_pressed.connect(_on_card_reward_selected.bind(pick, index))
+		gui_reward_card.update_with_tool_data(pick)
+		gui_reward_card.pressed.connect(_on_card_reward_selected.bind(pick, index))
 		index += 1
 	await _animate_spawn(spawn_position)
 	for gui_reward_card in get_children():
-		gui_reward_card.gui_tool_card_button.mouse_disabled = false
+		gui_reward_card.mouse_disabled = false
 
 func _animate_spawn(spawn_position:Vector2) -> void:
 	for child in get_children():

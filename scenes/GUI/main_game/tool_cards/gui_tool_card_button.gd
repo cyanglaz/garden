@@ -47,10 +47,12 @@ var tool_data:ToolData: get = _get_tool_data
 var hand_index:int = -1
 var _weak_tool_data:WeakRef = weakref(null)
 var _container_offset:Vector2 = Vector2.ZERO: set = _set_container_offset
-var _action_tooltip_id:String = ""
+var _card_tooltip_id:String = ""
+var _reference_card_tooltip_id:String = ""
 
 var _in_hand := false
 var _weak_mouse_plant:WeakRef = weakref(null)
+var _default_state:CardState = CardState.NORMAL
 
 func _ready() -> void:
 	super._ready()
@@ -60,6 +62,7 @@ func _ready() -> void:
 	_gui_use_card_button.pressed.connect(_on_use_button_pressed)
 	_gui_use_card_button.hide()
 	_animating_foreground.hide()
+	animation_mode = false
 
 func update_with_tool_data(td:ToolData) -> void:
 	_weak_tool_data = weakref(td)
@@ -114,6 +117,37 @@ func animated_transform(old_rarity:int) -> void:
 func play_error_shake_animation() -> void:
 	await Util.play_error_shake_animation(self, "_container_offset", Vector2.ZERO)
 
+func toggle_tooltip(on:bool) -> void:
+	if on && tool_data.has_tooltip && _card_tooltip_id.is_empty():
+		_card_tooltip_id = Util.get_uuid()
+		Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.TOOL_CARD, tool_data, _card_tooltip_id, self, false, GUITooltip.TooltipPosition.RIGHT, false)
+		_toggle_reference_card_tooltip(true)
+	else:
+		_toggle_reference_card_tooltip(false)
+		Events.request_hide_tooltip.emit(_card_tooltip_id)
+		_card_tooltip_id = ""
+
+#region private
+
+func _toggle_reference_card_tooltip(on:bool) -> void:
+	if on:
+		_reference_card_tooltip_id = Util.get_uuid()
+		var reference_card_ids = _find_card_references()
+		for reference_card_id in reference_card_ids:
+			var reference_card_data := MainDatabase.tool_database.get_data_by_id(reference_card_id)
+			Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.REFERENCE_CARD, reference_card_data, _reference_card_tooltip_id, self, false, GUITooltip.TooltipPosition.LEFT, false)
+	else:
+		Events.request_hide_tooltip.emit(_reference_card_tooltip_id)
+		_reference_card_tooltip_id = ""
+
+func _find_card_references() -> Array[String]:
+	var card_references:Array[String] = []
+	var reference_pairs:Array = DescriptionParser.find_all_reference_pairs(tool_data.description)
+	for reference_pair:Array in reference_pairs:
+		if reference_pair[0] == "card":
+			card_references.append(reference_pair[1])
+	return card_references
+
 func _update_for_energy(energy:int) -> void:
 	if !tool_data:
 		return
@@ -134,25 +168,27 @@ func _play_click_sound() -> void:
 		return
 	super._play_click_sound()
 
+#endregion
+
 #region events
 
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	Events.update_hovered_data.emit(tool_data)
+	if card_state == CardState.NORMAL || card_state == GUIToolCardButton.CardState.UNSELECTED:
+		card_state = CardState.HIGHLIGHTED
 	await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
-	if !_action_tooltip_id.is_empty():
-		return
 	if is_queued_for_deletion():
 		return
-	if mouse_in && (!tool_data.actions.is_empty() || !tool_data.specials.is_empty()):
-		_action_tooltip_id = Util.get_uuid()
-		Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.TOOL_CARD, tool_data, _action_tooltip_id, self, false, GUITooltip.TooltipPosition.RIGHT, true)
+	if mouse_in:
+		toggle_tooltip(true)
 
 func _on_mouse_exited() -> void:
+	if card_state == CardState.HIGHLIGHTED:
+		card_state = _default_state
 	super._on_mouse_exited()
 	Events.update_hovered_data.emit(null)
-	Events.request_hide_tooltip.emit(_action_tooltip_id)
-	_action_tooltip_id = ""
+	toggle_tooltip(false)
 
 func _on_energy_tracker_value_updated(energy_tracker:ResourcePoint) -> void:
 	_update_for_energy(energy_tracker.value)
@@ -188,6 +224,7 @@ func _set_card_state(value:CardState) -> void:
 			_overlay.hide()
 			_gui_use_card_button.hide()
 			z_index = 0
+			_default_state = CardState.NORMAL
 		CardState.SELECTED:
 			_container_offset = Vector2.UP * SELECTED_OFFSET
 			has_outline = true
@@ -209,6 +246,7 @@ func _set_card_state(value:CardState) -> void:
 			_overlay.show()
 			_gui_use_card_button.hide()
 			z_index = 0
+			_default_state = CardState.UNSELECTED
 		CardState.WAITING:
 			_container_offset = Vector2.UP * SELECTED_OFFSET
 			has_outline = true
@@ -271,5 +309,5 @@ func _on_combat_main_set(combat_main:CombatMain) -> void:
 
 func _notification(what:int) -> void:
 	if what == NOTIFICATION_PREDELETE:
-		Events.request_hide_tooltip.emit(_action_tooltip_id)
+		toggle_tooltip(false)
 #endregion

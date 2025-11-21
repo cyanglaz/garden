@@ -112,17 +112,23 @@ func discardable_cards() -> Array:
 func add_tool_to_deck(tool_data:ToolData) -> void:
 	tool_deck.add_item(tool_data)
 
-func add_tools_to_draw_pile(tool_datas:Array[ToolData], from_global_position:Vector2, random_place:bool, pause:bool) -> void:
+func add_tools_to_draw_pile(tool_datas:Array, from_global_position:Vector2, random_place:bool, pause:bool) -> void:
 	await _gui_tool_card_container.animate_add_cards_to_draw_pile(tool_datas, from_global_position, pause)
 	tool_deck.add_items_to_draw_pile(tool_datas, random_place)
+	for tool_data in tool_datas:
+		tool_data.adding_to_deck_finished.emit()
 
-func add_tools_to_discard_pile(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+func add_tools_to_discard_pile(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
 	await _gui_tool_card_container.animate_add_cards_to_discard_pile(tool_datas, from_global_position, pause)
 	tool_deck.add_items_discard_pile(tool_datas)
+	for tool_data in tool_datas:
+		tool_data.adding_to_deck_finished.emit()
 
-func add_tools_to_hand(tool_datas:Array[ToolData], from_global_position:Vector2, pause:bool) -> void:
+func add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
 	tool_deck.add_items_to_hand(tool_datas)
 	await _gui_tool_card_container.animate_add_cards_to_hand(tool_deck.hand, tool_datas, from_global_position, pause)
+	for tool_data in tool_datas:
+		tool_data.adding_to_deck_finished.emit()
 
 func update_tool_card(tool_data:ToolData, new_tool_data:ToolData) -> void:
 	var old_rarity = tool_data.rarity
@@ -152,7 +158,7 @@ func _run_card_lifecycle(tool_data:ToolData, combat_main:CombatMain) -> void:
 
 func _run_card_actions(combat_main:CombatMain, plants:Array, plant_index:int, tool_data:ToolData, secondary_card_datas:Array) -> void:
 	_tool_actions_queue.append(tool_data)
-	await combat_main.field_container.trigger_tool_application_hook()
+	await combat_main.plant_field_container.trigger_tool_application_hook()
 	await _tool_applier.apply_tool(combat_main, plants, plant_index, tool_data, secondary_card_datas, null)
 	_tool_actions_queue.erase(tool_data)
 	_tool_actions_completed.emit(tool_data, combat_main)
@@ -176,12 +182,12 @@ func _handle_tool_application_completed(tool_data:ToolData, combat_main:CombatMa
 
 func _on_tool_lifecycle_completed(tool_data:ToolData, combat_main:CombatMain) -> void:
 	assert(!_tool_lifecycle_queue.has(tool_data))
-	if !_tool_lifecycle_queue.has(tool_data) && _tool_application_queue.has(tool_data):
+	if !_tool_actions_queue.has(tool_data) && _tool_application_queue.has(tool_data):
 		_handle_tool_application_completed(tool_data, combat_main)
 
 func _on_tool_actions_completed(tool_data:ToolData, combat_main:CombatMain) -> void:
 	assert(!_tool_actions_queue.has(tool_data))
-	if !_tool_actions_queue.has(tool_data) && _tool_application_queue.has(tool_data):
+	if !_tool_lifecycle_queue.has(tool_data) && _tool_application_queue.has(tool_data):
 		_handle_tool_application_completed(tool_data, combat_main)
 #endregion
 

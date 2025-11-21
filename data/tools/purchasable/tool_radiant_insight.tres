@@ -14,7 +14,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_ear32")
 energy_cost = 3
 actions = Array[ExtResource("1_ym5ro")]([SubResource("Resource_oexgw")])
-rarity = 2
+rarity = 1
 id = "radiant_insight"
 display_name = "Radiant Insignt"
 note = "+ light = number of cards on hand"

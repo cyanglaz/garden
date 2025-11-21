@@ -1,15 +1,192 @@
-[gd_scene load_steps=4 format=3 uid="uid://cp4hifbli0slg"]
+[gd_scene load_steps=14 format=3 uid="uid://cp4hifbli0slg"]
 
 [ext_resource type="Shader" uid="uid://bxaetpcw72v7e" path="res://scenes/GUI/main_game/reward/gui_booster_pack_image.gdshader" id="1_mexut"]
 [ext_resource type="Script" uid="uid://cqr1nsy2ofabr" path="res://scenes/GUI/main_game/reward/gui_booster_pack_image.gd" id="2_ac46u"]
+[ext_resource type="Texture2D" uid="uid://b26rpyvy6fljt" path="res://resources/sprites/booster_packs/booster_pack_common.png" id="2_i1l1f"]
+[ext_resource type="Script" uid="uid://cm3abed122s44" path="res://scenes/utils/shake.gd" id="4_i1l1f"]
+[ext_resource type="AudioStream" uid="uid://bebtnif22cnll" path="res://resources/sounds/SFX/tool_cards/pack_shaking.wav" id="5_ju2c4"]
+[ext_resource type="AudioStream" uid="uid://dw8hyk2sx7bnv" path="res://resources/sounds/SFX/tool_cards/pack_open.wav" id="6_ju2c4"]
+
+[sub_resource type="Animation" id="Animation_i1l1f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/sensitivity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_ac46u"]
+resource_name = "dissolve"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Shake")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [1.0, Vector2(1, 1), 0.05, 0.1, 1],
+"method": &"start"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../GPUParticles2D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [false],
+"method": &"restart"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material:shader_parameter/sensitivity")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 2),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.43333334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("%TextureRect/../ShakeSound")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.43333334),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}, {
+"args": [],
+"method": &"stop"
+}]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("%TextureRect/../ExplodeSound")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.43333334),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0trs1"]
+_data = {
+&"RESET": SubResource("Animation_i1l1f"),
+&"open": SubResource("Animation_ac46u")
+}
+
+[sub_resource type="Curve" id="Curve_i1l1f"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.4628398, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_0trs1"]
+curve = SubResource("Curve_i1l1f")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_i1l1f"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_max = 60.0
+gravity = Vector3(0, 0, 0)
+scale_max = 6.0
+scale_curve = SubResource("CurveTexture_0trs1")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_72lfy"]
 resource_local_to_scene = true
 shader = ExtResource("1_mexut")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
+shader_parameter/sensitivity = 0.0
 
-[node name="GUIBoosterPackImage" type="TextureRect"]
-material = SubResource("ShaderMaterial_72lfy")
-stretch_mode = 5
+[node name="GUIBoosterPackImage" type="PanelContainer"]
+offset_right = 24.0
+offset_bottom = 36.0
+mouse_filter = 2
 script = ExtResource("2_ac46u")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+root_node = NodePath("../TextureRect")
+libraries = {
+&"": SubResource("AnimationLibrary_0trs1")
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+top_level = true
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(12, 18)
+emitting = false
+amount = 100
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_i1l1f")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_72lfy")
+layout_mode = 2
+texture = ExtResource("2_i1l1f")
+stretch_mode = 5
+
+[node name="Shake" type="Node" parent="TextureRect"]
+unique_name_in_owner = true
+script = ExtResource("4_i1l1f")
+metadata/_custom_type_script = "uid://cm3abed122s44"
+
+[node name="ShakeSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_ju2c4")
+
+[node name="ExplodeSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_ju2c4")

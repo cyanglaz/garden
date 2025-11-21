@@ -52,6 +52,7 @@ TrashBin="*res://autoloads/trash_bin.gd"
 Cursors="*res://autoloads/cursors.gd"
 PauseManager="*res://autoloads/pause_manager.gd"
 GlobalSoundManager="*res://autoloads/global_sound_manager.gd"
+FeedbackCamera2d="*res://scenes/utils/camera/feedback_camera_2d.tscn"
 
 [display]
 
@@ -60,7 +61,6 @@ window/size/viewport_height=180
 window/size/window_width_override=2560
 window/size/window_height_override=1440
 window/stretch/mode="canvas_items"
-window/vsync/vsync_mode=0
 mouse_cursor/custom_image="res://resources/sprites/GUI/cursor/cursor.png"
 mouse_cursor/tooltip_position_offset=Vector2(0, 0)
 window/defaults/default_clear_color=Color(0.3, 0.3, 0.3, 1)
@@ -187,7 +187,7 @@ locale/translations=PackedStringArray("res://resources/localization/localization
 
 [rendering]
 
-textures/canvas_textures/default_texture_filter=3
+textures/canvas_textures/default_texture_filter=0
 textures/vram_compression/import_etc2_astc=true
 textures/default_filters/use_nearest_mipmap_filter=true
 anti_aliasing/screen_space_roughness_limiter/enabled=false

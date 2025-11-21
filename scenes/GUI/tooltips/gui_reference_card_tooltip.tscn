@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://dwu01ccyflbki"]
+
+[ext_resource type="PackedScene" uid="uid://73vkj3ho7ou5" path="res://scenes/GUI/tooltips/gui_tooltip.tscn" id="1_yoqb2"]
+[ext_resource type="Script" uid="uid://cmk4b0ynyx1mg" path="res://scenes/GUI/tooltips/gui_reference_card_tooltip.gd" id="2_6wvtr"]
+[ext_resource type="PackedScene" uid="uid://bacvied61ghpe" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn" id="3_6wvtr"]
+
+[node name="GUIReferenceCardTooltip" instance=ExtResource("1_yoqb2")]
+offset_right = 40.0
+offset_bottom = 54.0
+script = ExtResource("2_6wvtr")
+
+[node name="Border" parent="." index="0"]
+visible = false
+
+[node name="Background" parent="." index="1"]
+visible = false
+
+[node name="ContentContainer" parent="." index="2"]
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="GUIToolCardButton" parent="ContentContainer" index="0" instance=ExtResource("3_6wvtr")]
+unique_name_in_owner = true
+layout_mode = 2

@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("2_nj3du")
-rarity = 2
+rarity = 1
 specials = Array[int]([1])
 id = "refill"
 display_name = "Refill"

@@ -27,7 +27,8 @@ enum ActionCategory {
 }
 
 enum OperatorType {
-	UPDATE_BY,
+	INCREASE,
+	DECREASE,
 	EQUAL_TO,
 }
 
@@ -61,8 +62,8 @@ const WEATHER_ACTION_TYPES := [ActionType.WEATHER_SUNNY, ActionType.WEATHER_RAIN
 
 @export var type:ActionType
 @export var value:int:set = _set_value, get = _get_value
+@export var operator_type:OperatorType = OperatorType.INCREASE
 @export var value_type:ValueType = ValueType.NUMBER
-@export var operator_type:OperatorType = OperatorType.UPDATE_BY
 @export var specials:Array[Special]
 @export var x_value:int:set = _set_x_value, get = _get_x_value
 @export var x_value_type:XValueType = XValueType.NUMBER
@@ -132,6 +133,7 @@ func _get_action_category() -> ActionCategory:
 	return ActionCategory.NONE
 
 func _set_value(val:int) -> void:
+	assert(val >= 0, "Value must be greater than 0")
 	_original_value = val
 
 func _set_x_value(val:int) -> void:

@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://e0jhp4mhrm81"]
+
+[ext_resource type="Script" uid="uid://dkx2fih0c8k3w" path="res://scenes/main_game/field/plant_field/gui_field_status_container.gd" id="1_lif4t"]
+
+[node name="GUIFieldStatusContainer" type="VBoxContainer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 2
+script = ExtResource("1_lif4t")

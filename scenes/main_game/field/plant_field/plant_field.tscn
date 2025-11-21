@@ -1,0 +1,115 @@
+[gd_scene load_steps=15 format=3 uid="uid://ccfwnjpit55o7"]
+
+[ext_resource type="PackedScene" uid="uid://ln50r4xpe1ai" path="res://scenes/main_game/field/field.tscn" id="1_gmygf"]
+[ext_resource type="Script" uid="uid://yxngfsmw1toa" path="res://scenes/main_game/field/plant_field/plant_field.gd" id="2_cw3i7"]
+[ext_resource type="Shader" uid="uid://bdhxjruma11hn" path="res://scenes/main_game/field/field.gdshader" id="3_ixwb0"]
+[ext_resource type="Texture2D" uid="uid://c1l356n6od8ma" path="res://resources/sprites/objects/plant_field.png" id="4_t6yqf"]
+[ext_resource type="PackedScene" uid="uid://673wlt1ldg8q" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.tscn" id="5_rdxdm"]
+[ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/GUI/icons/resources/icon_light.png" id="6_qfgpi"]
+[ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/icon_water.png" id="7_suj65"]
+[ext_resource type="PackedScene" uid="uid://e0jhp4mhrm81" path="res://scenes/main_game/field/plant_field/gui_field_status_container.tscn" id="8_rburk"]
+[ext_resource type="Texture2D" uid="uid://dnma4y5ajsv2w" path="res://resources/sprites/GUI/icons/other_icons/check_icon_plant_complete.png" id="9_jdk52"]
+[ext_resource type="PackedScene" uid="uid://jaeock3j73t2" path="res://scenes/main_game/field/plant_field/gui_plant_ability_icon_container.tscn" id="10_prsfb"]
+[ext_resource type="AudioStream" uid="uid://d1akur2jywp1n" path="res://resources/sounds/SFX/plants/plant_down.wav" id="11_1x6wq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f5hss"]
+resource_local_to_scene = true
+shader = ExtResource("3_ixwb0")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2jnt3"]
+atlas = ExtResource("4_t6yqf")
+region = Rect2(0, 0, 36, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sh3mw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2jnt3")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[node name="PlantField" instance=ExtResource("1_gmygf")]
+script = ExtResource("2_cw3i7")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+material = SubResource("ShaderMaterial_f5hss")
+sprite_frames = SubResource("SpriteFrames_sh3mw")
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/objects/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/objects/plant_field.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "9445fb3bbe91d94728a3d197411d7161"
+
+[node name="ProgressBars" type="VBoxContainer" parent="." index="7"]
+unique_name_in_owner = true
+z_index = 1
+offset_left = -18.0
+offset_top = 14.0
+offset_right = 17.0
+offset_bottom = 28.0
+theme_override_constants/separation = 0
+
+[node name="LightBar" parent="ProgressBars" index="0" instance=ExtResource("5_rdxdm")]
+unique_name_in_owner = true
+z_index = 1
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+max_value = 2
+segment_color = Color(1, 0.784314, 0.145098, 1)
+icon_texture = ExtResource("6_qfgpi")
+icon_size = Vector2(6, 6)
+
+[node name="WaterBar" parent="ProgressBars" index="1" instance=ExtResource("5_rdxdm")]
+unique_name_in_owner = true
+z_index = 1
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+max_value = 5
+icon_texture = ExtResource("7_suj65")
+icon_size = Vector2(6, 6)
+
+[node name="GUIFieldStatusContainer" parent="." index="8" instance=ExtResource("8_rburk")]
+unique_name_in_owner = true
+z_index = 1
+offset_left = 22.0
+offset_top = 11.0
+offset_right = 22.0
+offset_bottom = 11.0
+
+[node name="CompleteCheck" type="TextureRect" parent="." index="9"]
+unique_name_in_owner = true
+z_index = 1
+offset_left = -4.0
+offset_top = 15.0
+offset_right = 4.0
+offset_bottom = 23.0
+texture = ExtResource("9_jdk52")
+stretch_mode = 5
+
+[node name="GUIPlantAbilityIconContainer" parent="." index="10" instance=ExtResource("10_prsfb")]
+unique_name_in_owner = true
+z_index = 1
+anchors_preset = 2
+anchor_left = 0.0
+anchor_right = 0.0
+offset_left = -22.0
+offset_top = 11.0
+offset_right = -22.0
+offset_bottom = 11.0
+grow_horizontal = 1
+
+[node name="PlantDownSound" type="AudioStreamPlayer2D" parent="." index="11"]
+unique_name_in_owner = true
+stream = ExtResource("11_1x6wq")
+bus = &"SFX"

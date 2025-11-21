@@ -33,7 +33,7 @@ func handle_status_on_turn_end() -> void:
 
 func update_status(status_id:String, stack:int) -> void:
 	var status_data := MainDatabase.field_status_database.get_data_by_id(status_id, true)
-	if field_status_map.has(status_id):
+	if status_data.stackable && field_status_map.has(status_id):
 		field_status_map[status_id].stack += stack
 	else:
 		field_status_map[status_id] = status_data
@@ -152,24 +152,24 @@ func _handle_next_end_turn_hook(combat_main:CombatMain, plant:Plant) -> void:
 	_current_end_turn_hook_index += 1
 	await _handle_next_end_turn_hook(combat_main, plant)
 
-func handle_add_water_hook(combat_main:CombatMain, plant:Plant) -> void:
+func handle_add_water_hook(plant:Plant) -> void:
 	var all_status_ids := field_status_map.keys()
 	_add_water_hook_queue = all_status_ids.filter(func(status_id:String) -> bool:
-		return field_status_map[status_id].status_script.has_add_water_hook(combat_main, plant)
+		return field_status_map[status_id].status_script.has_add_water_hook(plant)
 	)
 	_current_add_water_hook_index = 0
-	await _handle_next_add_water_hook(combat_main, plant)
+	await _handle_next_add_water_hook(plant)
 
-func _handle_next_add_water_hook(combat_main:CombatMain, plant:Plant) -> void:
+func _handle_next_add_water_hook(plant:Plant) -> void:
 	if _current_add_water_hook_index >= _add_water_hook_queue.size():
 		return
 	var status_id:String = _add_water_hook_queue[_current_add_water_hook_index]
 	var status_data := field_status_map[status_id]
 	await _send_hook_animation_signals(status_data)
-	await status_data.status_script.handle_add_water_hook(combat_main, plant)
-	_handle_status_on_trigger(status_data)
+	await status_data.status_script.handle_add_water_hook(plant)
+	_handle_status_on_trigger(status_data)  
 	_current_add_water_hook_index += 1
-	await _handle_next_add_water_hook(combat_main, plant)
+	await _handle_next_add_water_hook(plant)
 
 func _send_hook_animation_signals(status_data:FieldStatusData) -> void:
 	request_status_hook_animation.emit(status_data.id)

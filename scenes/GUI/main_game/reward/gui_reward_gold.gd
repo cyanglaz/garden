@@ -1,5 +1,5 @@
 class_name GUIRewardGold
-extends HBoxContainer
+extends PanelContainer
 
 @onready var label: Label = %Label
 
