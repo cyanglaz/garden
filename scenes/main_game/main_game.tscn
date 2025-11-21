@@ -1,8 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://bbcxpceayay3"]
+[gd_scene load_steps=14 format=3 uid="uid://bbcxpceayay3"]
 
 [ext_resource type="Script" uid="uid://sc1eubamsw6x" path="res://scenes/main_game/main_game.gd" id="1_yra6k"]
 [ext_resource type="Resource" uid="uid://d1jqracpdos0e" path="res://data/player/player_apprentice.tres" id="2_8ywsm"]
-[ext_resource type="PackedScene" uid="uid://drjaux1gtvc31" path="res://scenes/utils/camera/feedback_camera_2d.tscn" id="2_yra6k"]
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="3_i3kwu"]
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="3_mijjq"]
@@ -29,9 +28,6 @@ test_contract = SubResource("Resource_gl27v")
 unique_name_in_owner = true
 
 [node name="NodeContainer" type="Node2D" parent="."]
-unique_name_in_owner = true
-
-[node name="FeedbackCamera2D" parent="." instance=ExtResource("2_yra6k")]
 unique_name_in_owner = true
 
 [node name="GUIMainGame" parent="." instance=ExtResource("3_8ywsm")]

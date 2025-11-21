@@ -17,7 +17,6 @@ const SCENE_TRANSITION_TIME := 0.2
 @export var test_contract:ContractData
 
 @onready var gui_main_game: GUIMainGame = %GUIMainGame
-@onready var feedback_camera_2d: FeedbackCamera2D = %FeedbackCamera2D
 @onready var node_container: Node2D = %NodeContainer
 @onready var map_main: MapMain = %MapMain
 

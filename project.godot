@@ -52,6 +52,7 @@ TrashBin="*res://autoloads/trash_bin.gd"
 Cursors="*res://autoloads/cursors.gd"
 PauseManager="*res://autoloads/pause_manager.gd"
 GlobalSoundManager="*res://autoloads/global_sound_manager.gd"
+FeedbackCamera2d="*res://scenes/utils/camera/feedback_camera_2d.tscn"
 
 [display]
 
