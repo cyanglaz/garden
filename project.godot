@@ -60,7 +60,6 @@ window/size/viewport_height=180
 window/size/window_width_override=2560
 window/size/window_height_override=1440
 window/stretch/mode="canvas_items"
-window/vsync/vsync_mode=0
 mouse_cursor/custom_image="res://resources/sprites/GUI/cursor/cursor.png"
 mouse_cursor/tooltip_position_offset=Vector2(0, 0)
 window/defaults/default_clear_color=Color(0.3, 0.3, 0.3, 1)
