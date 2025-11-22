@@ -13,8 +13,8 @@ var TYPE_COLORS:Dictionary = {
 
 @onready var description: RichTextLabel = %Description
 
-func _update_with_data() -> void:
-	var map_node:MapNode = _data as MapNode
+func _update_with_tooltip_request() -> void:
+	var map_node:MapNode = _tooltip_request.data as MapNode
 	var title := ""
 	var color:Color = TYPE_COLORS[map_node.type]
 	match map_node.type:

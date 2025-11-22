@@ -40,8 +40,7 @@ func _on_request_hide_tooltip(id:String) -> void:
 
 func _on_request_display_tooltip(tooltip_request:TooltipRequest) -> void:
 	var gui_tooltip:GUITooltip = _create_tooltip(tooltip_request.tooltip_type)
-	gui_tooltip.update_with_data(tooltip_request.data)
-	gui_tooltip.tooltip_position = tooltip_request.tooltip_position
+	gui_tooltip.update_with_request(tooltip_request)
 	add_child(gui_tooltip)
 	var anchor_node:Control = tooltip_request.on_control_node
 	if _tooltips.has(tooltip_request.id):

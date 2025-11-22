@@ -41,7 +41,7 @@ func _on_mouse_entered() -> void:
 	if display_mode:
 		return
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.THING_DATA, data, _tooltip_id, self, GUITooltip.TooltipPosition.BOTTOM_LEFT))
+	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.PLANT_ABILITY, data, _tooltip_id, self, GUITooltip.TooltipPosition.BOTTOM_LEFT, {"active":active}))
 
 func _on_mouse_exited() -> void:
 	is_highlighted = false

@@ -16,8 +16,8 @@ func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 
-func _update_with_data() -> void:
-	var weather_data:WeatherData = _data as WeatherData
+func _update_with_tooltip_request() -> void:
+	var weather_data:WeatherData = _tooltip_request.data as WeatherData
 	_name_label.text = weather_data.display_name
 	if weather_data.actions.is_empty():
 		_rich_text_label.text = weather_data.get_display_description()
@@ -39,10 +39,10 @@ func _on_mouse_exited() -> void:
 		_hide_actions_tooltip()
 
 func _show_actions_tooltip() -> void:
-	if (_data as WeatherData).actions.is_empty():
+	if (_tooltip_request.data as WeatherData).actions.is_empty():
 		return
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.ACTIONS, _data.actions, _tooltip_id, self, self.tooltip_position))
+	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.ACTIONS, _tooltip_request.data.actions, _tooltip_id, self, self.tooltip_position))
 
 func _hide_actions_tooltip() -> void:
 	Events.request_hide_tooltip.emit(_tooltip_id)
