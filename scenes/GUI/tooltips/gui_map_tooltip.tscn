@@ -19,4 +19,5 @@ size_flags_vertical = 3
 theme_type_variation = &"RichTextLabel_Title"
 bbcode_enabled = true
 fit_content = true
+scroll_active = false
 horizontal_alignment = 1
