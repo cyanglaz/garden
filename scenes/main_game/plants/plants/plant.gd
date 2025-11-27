@@ -61,6 +61,10 @@ func apply_weather_actions(weather_data:WeatherData) -> void:
 	await apply_actions(weather_data.actions)
 
 func apply_actions(actions:Array) -> void:
+	if is_bloom():
+		await Util.await_for_tiny_time()
+		action_application_completed.emit()
+		return
 	#await _play_action_from_gui_animation(action, from_gui)
 	for action in actions:
 		match action.type:

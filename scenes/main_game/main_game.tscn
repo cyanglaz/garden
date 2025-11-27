@@ -1,13 +1,28 @@
-[gd_scene load_steps=5 format=3 uid="uid://bbcxpceayay3"]
+[gd_scene load_steps=13 format=3 uid="uid://bbcxpceayay3"]
 
 [ext_resource type="Script" uid="uid://sc1eubamsw6x" path="res://scenes/main_game/main_game.gd" id="1_yra6k"]
 [ext_resource type="Resource" uid="uid://d1jqracpdos0e" path="res://data/player/player_apprentice.tres" id="2_8ywsm"]
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
+[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="3_i3kwu"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="3_ldk84"]
+[ext_resource type="Resource" uid="uid://bjrbfog5cnb6a" path="res://data/plants/chapter0/plant_data_daffodil.tres" id="4_mijjq"]
+[ext_resource type="Resource" uid="uid://bfpoy8fdcb73g" path="res://data/tools/purchasable/tool_overwater.tres" id="4_r81kp"]
+[ext_resource type="Script" uid="uid://ektnj8rt6k0k" path="res://data/models/contracts/contract_data.gd" id="5_ldk84"]
+[ext_resource type="Resource" uid="uid://bwbe2q506thjl" path="res://data/tools/purchasable/tool_solar_panel.tres" id="5_r81kp"]
+[ext_resource type="Resource" uid="uid://cbvas0c5a6cc7" path="res://data/weathers/all_chapters/weather_sunny.tres" id="6_fetp2"]
 [ext_resource type="PackedScene" uid="uid://bqo51luu7itcc" path="res://scenes/main_game/map/map_main.tscn" id="14_s87mg"]
+
+[sub_resource type="Resource" id="Resource_r81kp"]
+script = ExtResource("5_ldk84")
+plants = Array[ExtResource("3_i3kwu")]([ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq"), ExtResource("4_mijjq")])
+metadata/_custom_type_script = "uid://ektnj8rt6k0k"
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 player = ExtResource("2_8ywsm")
+test_tools = Array[ExtResource("3_ldk84")]([ExtResource("4_r81kp"), ExtResource("5_r81kp")])
+test_weather = ExtResource("6_fetp2")
+test_contract = SubResource("Resource_r81kp")
 
 [node name="MapMain" parent="." instance=ExtResource("14_s87mg")]
 unique_name_in_owner = true
