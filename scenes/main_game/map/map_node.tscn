@@ -58,23 +58,23 @@ shader_parameter/block_seed_offset = 0.0
 shader_parameter/water_reflection_color = Color(0, 0.4117647, 0.6666667, 1)
 shader_parameter/water_blend_amount = 0.8270000392825
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0u4t5"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_y6epv"]
 atlas = ExtResource("5_pmmg4")
 region = Rect2(16, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_y6epv"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_sdu5k"]
 atlas = ExtResource("5_pmmg4")
 region = Rect2(0, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sdu5k"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_kls6x"]
 atlas = ExtResource("5_pmmg4")
 region = Rect2(0, 16, 16, 16)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_o41am"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_rvidw"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0u4t5")
+"texture": SubResource("AtlasTexture_y6epv")
 }],
 "loop": true,
 "name": &"complete",
@@ -82,7 +82,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_y6epv")
+"texture": SubResource("AtlasTexture_sdu5k")
 }],
 "loop": true,
 "name": &"idle",
@@ -90,7 +90,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_sdu5k")
+"texture": SubResource("AtlasTexture_kls6x")
 }],
 "loop": true,
 "name": &"unreachable",
@@ -326,7 +326,7 @@ unique_name_in_owner = true
 texture_filter = 1
 material = SubResource("ShaderMaterial_pmmg4")
 position = Vector2(0, 10)
-sprite_frames = SubResource("SpriteFrames_o41am")
+sprite_frames = SubResource("SpriteFrames_rvidw")
 animation = &"idle"
 metadata/_aseprite_wizard_interface_config_ = {
 "layer_section": false,

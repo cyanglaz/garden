@@ -320,7 +320,6 @@ func _on_plant_bloom_completed() -> void:
 		await _win()
 	else:
 		await _plant_new_seeds(1)
-		energy_tracker.restore(boost)
 		await draw_cards(boost)
 		boost += 1
 	gui.toggle_all_ui(true)
