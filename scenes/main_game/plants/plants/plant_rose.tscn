@@ -43,30 +43,30 @@ shader = SubResource("Shader_1hljx")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bsgs4"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_1hljx"]
 atlas = ExtResource("3_bsgs4")
 region = Rect2(0, 0, 31, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ifmde"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_bsgs4"]
 atlas = ExtResource("3_bsgs4")
 region = Rect2(31, 0, 31, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_esugy"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ifmde"]
 atlas = ExtResource("3_bsgs4")
 region = Rect2(0, 64, 31, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_icw6i"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_esugy"]
 atlas = ExtResource("3_bsgs4")
 region = Rect2(31, 64, 31, 64)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_hewkr"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_icw6i"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_bsgs4")
+"texture": SubResource("AtlasTexture_1hljx")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ifmde")
+"texture": SubResource("AtlasTexture_bsgs4")
 }],
 "loop": true,
 "name": &"bloom",
@@ -74,10 +74,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_esugy")
+"texture": SubResource("AtlasTexture_ifmde")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_icw6i")
+"texture": SubResource("AtlasTexture_esugy")
 }],
 "loop": true,
 "name": &"idle",
@@ -89,7 +89,7 @@ animations = [{
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
 material = SubResource("ShaderMaterial_txblc")
-sprite_frames = SubResource("SpriteFrames_hewkr")
+sprite_frames = SubResource("SpriteFrames_icw6i")
 animation = &"idle"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
@@ -105,4 +105,4 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/plants/plant_rose.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "1a2d687ba308e7fcbbf8cf28296a3b60"
+metadata/_aseprite_wizard_source_file_hash_ = "0e09b4ee42fe891e2f7f61c901d5de4c"

@@ -1,7 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://dfbd0htm00fk6"]
+[gd_scene load_steps=10 format=3 uid="uid://dfbd0htm00fk6"]
 
 [ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plants/plant.tscn" id="1_a48oe"]
-[ext_resource type="Script" uid="uid://b6d7oer51715q" path="res://scenes/main_game/plants/plants/plant_sunflower.gd" id="2_a48oe"]
 [ext_resource type="Texture2D" uid="uid://bw127evybv6nv" path="res://resources/sprites/plants/plant_sunflower.png" id="3_a48oe"]
 
 [sub_resource type="Shader" id="Shader_hpldu"]
@@ -44,30 +43,30 @@ shader = SubResource("Shader_hpldu")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hpldu"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ikic"]
 atlas = ExtResource("3_a48oe")
 region = Rect2(0, 0, 31, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_go2ad"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_hpldu"]
 atlas = ExtResource("3_a48oe")
 region = Rect2(31, 0, 31, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qfn4b"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_go2ad"]
 atlas = ExtResource("3_a48oe")
 region = Rect2(0, 64, 31, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_q3t6l"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_qfn4b"]
 atlas = ExtResource("3_a48oe")
 region = Rect2(31, 64, 31, 64)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_6wost"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_q3t6l"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_hpldu")
+"texture": SubResource("AtlasTexture_2ikic")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_go2ad")
+"texture": SubResource("AtlasTexture_hpldu")
 }],
 "loop": true,
 "name": &"bloom",
@@ -75,10 +74,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qfn4b")
+"texture": SubResource("AtlasTexture_go2ad")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_q3t6l")
+"texture": SubResource("AtlasTexture_qfn4b")
 }],
 "loop": true,
 "name": &"idle",
@@ -86,12 +85,11 @@ animations = [{
 }]
 
 [node name="PlantSunflower" instance=ExtResource("1_a48oe")]
-script = ExtResource("2_a48oe")
 
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
 material = SubResource("ShaderMaterial_go2ad")
-sprite_frames = SubResource("SpriteFrames_6wost")
+sprite_frames = SubResource("SpriteFrames_q3t6l")
 animation = &"idle"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
@@ -107,4 +105,4 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/plants/plant_sunflower.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "dc14551982415275cf96b2483f82649d"
+metadata/_aseprite_wizard_source_file_hash_ = "0cc5f5f60715cdca3b1122de36b15bf1"
