@@ -14,7 +14,6 @@ signal new_plant_planted()
 @onready var _gui_field_status_container: GUIFieldStatusContainer = %GUIFieldStatusContainer
 @onready var _complete_check: TextureRect = %CompleteCheck
 @onready var _gui_plant_ability_icon_container: GUIPlantAbilityIconContainer = %GUIPlantAbilityIconContainer
-@onready var _plant_down_sound: AudioStreamPlayer2D = %PlantDownSound
 
 var plant:Plant
 var index:int = -1
@@ -37,7 +36,6 @@ func _ready() -> void:
 
 func plant_seed(plant_data:PlantData) -> void:
 	assert(plant == null, "Plant already planted")
-	_plant_down_sound.play()
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
 	var scene := load(plant_scene_path)
 	plant = scene.instantiate()

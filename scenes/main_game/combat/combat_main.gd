@@ -63,10 +63,8 @@ func start(card_pool:Array[ToolData], energy_cap:int, contract:ContractData) -> 
 	gui.bind_power_manager(power_manager)
 	gui.bind_energy(energy_tracker)
 	gui.bind_tool_deck(tool_manager.tool_deck)
-	gui.setup_plant_seed_animation_container(plant_field_container)
 	gui.end_turn_button_pressed.connect(_on_end_turn_button_pressed)
 	gui.tool_selected.connect(_on_tool_selected)
-	gui.plant_seed_drawn_animation_completed.connect(_on_plant_seed_drawn_animation_completed)
 	gui.card_use_button_pressed.connect(_on_card_use_button_pressed)
 	gui.mouse_exited_card.connect(_on_mouse_exited_card)
 	gui.reward_finished.connect(_on_reward_finished)
@@ -309,9 +307,6 @@ func _on_plant_bloom_completed() -> void:
 
 func _on_weathers_updated() -> void:
 	gui.update_weathers(weather_main.weather_manager)
-
-func _on_plant_seed_drawn_animation_completed(plant_data:PlantData) -> void:
-	plant_field_container.plant_seed(plant_data)
 
 func _on_mouse_plant_updated(plant:Plant) -> void:
 	gui.update_mouse_plant(plant)
