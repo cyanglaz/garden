@@ -1,7 +1,7 @@
 class_name Field
 extends Node2D
 
-@onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
+@onready var field_land: FieldLand = %FieldLand
 @onready var _gui_field_button: GUIBasicButton = %GUIFieldButton
 @onready var _gui_field_selection_arrow: GUIFieldSelectionArrow = %GUIFieldSelectionArrow
 @warning_ignore("unused_private_class_variable")
@@ -28,9 +28,9 @@ func toggle_selection_indicator(indicator_state:GUIFieldSelectionArrow.Indicator
 func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> void:
 	match state:
 		GUIBasicButton.ButtonState.NORMAL, GUIBasicButton.ButtonState.DISABLED, GUIBasicButton.ButtonState.SELECTED, GUIBasicButton.ButtonState.PRESSED:
-			animated_sprite_2d.material.set_shader_parameter("outline_size", 0)
+			field_land.has_outline = false
 		GUIBasicButton.ButtonState.HOVERED:
-			animated_sprite_2d.material.set_shader_parameter("outline_size", 1)
+			field_land.has_outline = true
 
 func _on_gui_plant_button_mouse_entered() -> void:
 	field_hovered.emit(true)

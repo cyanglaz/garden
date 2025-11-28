@@ -11,13 +11,11 @@ const CELL_SIZE := Vector2(18, 18)
 @onready var collision_shape_2d: CollisionShape2D = %CollisionShape2D
 
 var size:int: set = _set_size
+var has_outline:bool: set = _set_has_outline
 
 func _ready() -> void:
-	_set_size(1)
-
-func _set_size(val:int) -> void:
-	size = val
-	_update_tiles()
+	_set_size(size)
+	_set_has_outline(has_outline)
 
 func _update_tiles() -> void:
 	tile_map_layer.clear()
@@ -28,3 +26,13 @@ func _update_tiles() -> void:
 	tile_map_layer.position.x = - (size+2)*CELL_SIZE.x/2
 	(collision_shape_2d.shape as RectangleShape2D).size.x = CELL_SIZE.x * (size + 2)
 	
+func _set_size(val:int) -> void:
+	size = val
+	_update_tiles()
+
+func _set_has_outline(val:bool) -> void:
+	has_outline = val
+	if has_outline:
+		tile_map_layer.material.set_shader_parameter("outline_size", 1)
+	else:
+		tile_map_layer.material.set_shader_parameter("outline_size", 0)
