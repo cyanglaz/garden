@@ -1,6 +1,8 @@
 class_name Field
 extends Node2D
 
+@export var size := 0
+
 @onready var field_land: FieldLand = %FieldLand
 @onready var _gui_field_button: GUIBasicButton = %GUIFieldButton
 @onready var _gui_field_selection_arrow: GUIFieldSelectionArrow = %GUIFieldSelectionArrow
@@ -8,6 +10,8 @@ extends Node2D
 @onready var _container: Node2D = %Container
 @onready var _animation_player: AnimationPlayer = %AnimationPlayer
 @onready var _water_droplet_emitter: WaterDropletEmitter = %WaterDropletEmitter
+
+var land_width: get = _get_land_width
 
 signal field_pressed()
 signal field_hovered(hovered:bool)
@@ -18,7 +22,7 @@ func _ready() -> void:
 	_gui_field_button.pressed.connect(_on_plant_button_pressed)
 	_gui_field_button.mouse_entered.connect(_on_gui_plant_button_mouse_entered)
 	_gui_field_button.mouse_exited.connect(_on_gui_plant_button_mouse_exited)
-
+	field_land.size = size
 
 func toggle_selection_indicator(indicator_state:GUIFieldSelectionArrow.IndicatorState) -> void:
 	_gui_field_selection_arrow.indicator_state = indicator_state
@@ -45,3 +49,6 @@ func _on_plant_button_pressed() -> void:
 func _on_dip_down() -> void:
 	# Called in animation player
 	_water_droplet_emitter.emit_droplets()
+
+func _get_land_width() -> float:
+	return field_land.width

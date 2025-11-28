@@ -12,10 +12,14 @@ const CELL_SIZE := Vector2(18, 20)
 
 var size:int: set = _set_size
 var has_outline:bool: set = _set_has_outline
+var width:float : get = _get_width
 
 func _ready() -> void:
 	_set_size(size)
 	_set_has_outline(has_outline)
+	# The top row of pixels are empty for outline purpose, 
+	# So we shift y up 1 pixel to make the black outline at 0 position,
+	tile_map_layer.position.y -= 1
 
 func _update_tiles() -> void:
 	tile_map_layer.clear()
@@ -36,3 +40,6 @@ func _set_has_outline(val:bool) -> void:
 		tile_map_layer.material.set_shader_parameter("outline_size", 1)
 	else:
 		tile_map_layer.material.set_shader_parameter("outline_size", 0)
+
+func _get_width() -> float:
+	return CELL_SIZE.x * (size + 2)

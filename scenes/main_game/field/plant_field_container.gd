@@ -117,9 +117,8 @@ func _layout_fields() -> void:
 	
 	# Calculate total width needed for all fields
 	var total_fields_width = 0.0
-	var field_width:float = fields[0]._gui_field_button.size.x
 	for field:Field in fields:
-		total_fields_width += field_width
+		total_fields_width += field.land_width
 	
 	# Calculate spacing between fields
 	var available_width = screen_size.x - MARGIN * 2  # Leave 20px margin on each side
@@ -133,13 +132,13 @@ func _layout_fields() -> void:
 #	
 	# Calculate starting x position to center align fields
 	var total_width = total_fields_width + (spacing * (fields.size() - 1))
-	var start_x = - total_width / 2 + field_width/2
+	var start_x = - total_width / 2 + fields[0].land_width/2
 	
 	var current_x = start_x
 	for field in fields:
 		field.position.x = current_x
 		field.position.y = 0
-		current_x += field_width + spacing
+		current_x += field.land_width + spacing
 
 func _get_mouse_plant() -> Plant:
 	return _weak_mouse_plant.get_ref()
