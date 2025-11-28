@@ -24,16 +24,14 @@ var _weak_left_field:WeakRef = weakref(null)
 var _weak_right_field:WeakRef = weakref(null)
 
 func _ready() -> void:
+	super._ready()
+	size = 1
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
 	_progress_bars.hide()
 	_complete_check.hide()
 	_gui_field_selection_arrow.indicator_state = GUIFieldSelectionArrow.IndicatorState.HIDE
-	_gui_field_button.state_updated.connect(_on_gui_field_button_state_updated)
-	_gui_field_button.pressed.connect(_on_plant_button_pressed)
-	_gui_field_button.mouse_entered.connect(_on_gui_plant_button_mouse_entered)
-	_gui_field_button.mouse_exited.connect(_on_gui_plant_button_mouse_exited)
-
+	
 func plant_seed(plant_data:PlantData) -> void:
 	assert(plant == null, "Plant already planted")
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"

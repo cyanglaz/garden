@@ -1,7 +1,7 @@
 class_name Field
 extends Node2D
 
-@export var size := 0
+@export var size := 0:set = _set_size
 
 @onready var field_land: FieldLand = %FieldLand
 @onready var _gui_field_button: GUIBasicButton = %GUIFieldButton
@@ -22,7 +22,7 @@ func _ready() -> void:
 	_gui_field_button.pressed.connect(_on_plant_button_pressed)
 	_gui_field_button.mouse_entered.connect(_on_gui_plant_button_mouse_entered)
 	_gui_field_button.mouse_exited.connect(_on_gui_plant_button_mouse_exited)
-	field_land.size = size
+	_set_size(size)
 
 func toggle_selection_indicator(indicator_state:GUIFieldSelectionArrow.IndicatorState) -> void:
 	_gui_field_selection_arrow.indicator_state = indicator_state
@@ -52,3 +52,8 @@ func _on_dip_down() -> void:
 
 func _get_land_width() -> float:
 	return field_land.width
+
+func _set_size(val:int) -> void:
+	size = val
+	if field_land:
+		field_land.size = size
