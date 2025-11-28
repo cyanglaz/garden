@@ -2,13 +2,13 @@
 
 [ext_resource type="Texture2D" uid="uid://duqdw1f41f5sj" path="res://resources/sprites/objects/field_tileset.png" id="1_jsjng"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6yym3"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jsjng"]
 texture = ExtResource("1_jsjng")
-texture_region_size = Vector2i(18, 18)
+texture_region_size = Vector2i(18, 20)
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
 
 [resource]
-tile_size = Vector2i(18, 18)
-sources/0 = SubResource("TileSetAtlasSource_6yym3")
+tile_size = Vector2i(18, 20)
+sources/0 = SubResource("TileSetAtlasSource_jsjng")
