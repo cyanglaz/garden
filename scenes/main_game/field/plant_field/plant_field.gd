@@ -40,6 +40,13 @@ func plant_seed(plant_data:PlantData) -> void:
 	_container.add_child(plant)
 	plant.data = plant_data
 	plant.field = self
+	match plant.data.difficulty:
+		0:
+			size = 0
+		1:
+			size = 1
+		2:
+			size = 2
 	_show_progress_bars()
 	plant.bloom_started.connect(func(): plant_bloom_started.emit())
 	plant.bloom_completed.connect(func(): plant_bloom_completed.emit())
