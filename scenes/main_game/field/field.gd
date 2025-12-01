@@ -10,6 +10,7 @@ extends Node2D
 @onready var _container: Node2D = %Container
 @onready var _animation_player: AnimationPlayer = %AnimationPlayer
 @onready var _water_droplet_emitter: WaterDropletEmitter = %WaterDropletEmitter
+@onready var _light_occluder_2d: LightOccluder2D = %LightOccluder2D
 
 var land_width: get = _get_land_width
 
@@ -57,3 +58,15 @@ func _set_size(val:int) -> void:
 	size = val
 	if field_land:
 		field_land.size = size
+		_water_droplet_emitter.droplet_position_range = (size+2) * FieldLand.CELL_SIZE.x
+		_water_droplet_emitter.number_of_droplets = (size+2) * 4 # 4 droplets per cell
+		_gui_field_button.size.x = (size + 2) * FieldLand.CELL_SIZE.x
+		_gui_field_button.position.x = - (size+2) * FieldLand.CELL_SIZE.x/2
+
+		var polygon:PackedVector2Array = PackedVector2Array()
+		polygon.append(Vector2(-(size+2) * FieldLand.CELL_SIZE.x/2, 0))
+		polygon.append(Vector2((size+2) * FieldLand.CELL_SIZE.x/2, 0))
+		polygon.append(Vector2((size+2) * FieldLand.CELL_SIZE.x/2, FieldLand.CELL_SIZE.y))
+		polygon.append(Vector2(-(size+2) * FieldLand.CELL_SIZE.x/2, FieldLand.CELL_SIZE.y))
+		_light_occluder_2d.occluder.polygon = polygon
+		_light_occluder_2d.position.x = - (size+2) * FieldLand.CELL_SIZE.x/2

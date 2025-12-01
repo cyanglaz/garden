@@ -5,7 +5,7 @@ const TILE_SET_ID := 0
 const TILE_LEFT_X := 0
 const TILE_RIGHT_X := 1
 const TILE_MIDDLE_X := 2
-const CELL_SIZE := Vector2(18, 20)
+const CELL_SIZE := Vector2(18, 36)
 
 @onready var tile_map_layer: TileMapLayer = %TileMapLayer
 @onready var collision_shape_2d: CollisionShape2D = %CollisionShape2D

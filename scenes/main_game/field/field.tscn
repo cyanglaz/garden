@@ -128,4 +128,5 @@ position = Vector2(0, 16)
 droplet_texture = ExtResource("10_hr6p8")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+unique_name_in_owner = true
 occluder = SubResource("OccluderPolygon2D_rw11e")

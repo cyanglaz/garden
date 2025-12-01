@@ -118,4 +118,13 @@ func _set_left_field(field:Field) -> void:
 func _set_right_field(field:Field) -> void:
 	_weak_right_field = weakref(field)
 
+func _set_size(val:int) -> void:
+	super._set_size(val)
+	if _progress_bars:
+		_progress_bars.position.x = - (size+2) * FieldLand.CELL_SIZE.x/2
+		_progress_bars.size.x = (size+2) * FieldLand.CELL_SIZE.x
+
+		_gui_field_status_container.position.x = (size+2) * FieldLand.CELL_SIZE.x/2 + 3
+
+		_gui_plant_ability_icon_container.position.x = - (size+2) * FieldLand.CELL_SIZE.x/2 - 3
 #endregion
