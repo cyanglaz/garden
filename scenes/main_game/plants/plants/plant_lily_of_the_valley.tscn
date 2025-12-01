@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://hsuu8fkqji1d"]
+[gd_scene load_steps=7 format=3 uid="uid://hsuu8fkqji1d"]
 
 [ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plants/plant.tscn" id="1_f68xb"]
 [ext_resource type="Texture2D" uid="uid://b2xxwnfxagg5s" path="res://resources/sprites/plants/plant_lily_of_the_valley.png" id="2_yuei4"]
@@ -45,28 +45,16 @@ shader_parameter/outline_size = 0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yuei4"]
 atlas = ExtResource("2_yuei4")
-region = Rect2(0, 0, 31, 64)
+region = Rect2(0, 0, 47, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ul4wl"]
-atlas = ExtResource("2_yuei4")
-region = Rect2(31, 0, 31, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_oj6rk"]
-atlas = ExtResource("2_yuei4")
-region = Rect2(0, 64, 31, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mj418"]
-atlas = ExtResource("2_yuei4")
-region = Rect2(31, 64, 31, 64)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_5tg4u"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_ul4wl"]
 animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yuei4")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ul4wl")
+"texture": SubResource("AtlasTexture_yuei4")
 }],
 "loop": true,
 "name": &"bloom",
@@ -74,10 +62,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_oj6rk")
+"texture": SubResource("AtlasTexture_yuei4")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_mj418")
+"texture": SubResource("AtlasTexture_yuei4")
 }],
 "loop": true,
 "name": &"idle",
@@ -89,7 +77,7 @@ animations = [{
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
 material = SubResource("ShaderMaterial_txblc")
-sprite_frames = SubResource("SpriteFrames_5tg4u")
+sprite_frames = SubResource("SpriteFrames_ul4wl")
 animation = &"idle"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
@@ -105,4 +93,4 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/plants/plant_lily_of_the_valley.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "cc53a5026f4825ec82cbd90343c3f942"
+metadata/_aseprite_wizard_source_file_hash_ = "0c3d19446dfb7153ae138c9ac22ba2a4"
