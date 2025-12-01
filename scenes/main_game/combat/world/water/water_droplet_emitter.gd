@@ -10,7 +10,7 @@ const DROPLET_SCENE := preload("res://scenes/main_game/combat/world/water/water_
 @export var max_rotation_velocity := 90.0
 @export var number_of_droplets := 8
 @export var droplet_spread_degrees := 25.0
-@export var droplet_position_range := 30.0
+@export var droplet_position_range := 36.0
 @export var droplet_texture: Texture2D = null
 
 func _ready() -> void:

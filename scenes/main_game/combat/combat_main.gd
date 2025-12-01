@@ -9,7 +9,6 @@ var hand_size := 5
 const WIN_PAUSE_TIME := 0.5
 const INSTANT_CARD_USE_DELAY := 0.3
 const TOOL_APPLICATION_ERROR_HIDE_DELAY := 3.0
-const INITIAL_NUMBER_OF_PLANTS := 2
 const BACKGROUND_MUSIC_FADE_IN_TIME := 1.0
 
 @export var test_weather:WeatherData
@@ -23,12 +22,10 @@ var energy_tracker:ResourcePoint = ResourcePoint.new()
 var contract_generator:ContractGenerator = ContractGenerator.new()
 var power_manager:PowerManager = PowerManager.new()
 var tool_manager:ToolManager
-var plant_seed_manager:PlantSeedManager
 var day_manager:DayManager = DayManager.new()
 var session_summary:SessionSummary
 var combat_modifier_manager:CombatModifierManager = CombatModifierManager.new()
 var boost := 1: set = _set_boost
-var _number_of_plants:int = 0
 var _contract:ContractData
 var _tool_application_error_timers:Dictionary = {}
 
@@ -66,10 +63,8 @@ func start(card_pool:Array[ToolData], energy_cap:int, contract:ContractData) -> 
 	gui.bind_power_manager(power_manager)
 	gui.bind_energy(energy_tracker)
 	gui.bind_tool_deck(tool_manager.tool_deck)
-	gui.setup_plant_seed_animation_container(plant_field_container)
 	gui.end_turn_button_pressed.connect(_on_end_turn_button_pressed)
 	gui.tool_selected.connect(_on_tool_selected)
-	gui.plant_seed_drawn_animation_completed.connect(_on_plant_seed_drawn_animation_completed)
 	gui.card_use_button_pressed.connect(_on_card_use_button_pressed)
 	gui.mouse_exited_card.connect(_on_mouse_exited_card)
 	gui.reward_finished.connect(_on_reward_finished)
@@ -117,11 +112,8 @@ func update_power(power_id:String, stack:int) -> void:
 func _start_new_level() -> void:
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.LEVEL)
 	boost = 1
-	plant_seed_manager = PlantSeedManager.new(_contract.plants)
-	_number_of_plants = plant_seed_manager.plant_datas.size()
-	plant_field_container.update_with_number_of_fields(_number_of_plants)
+	plant_field_container.setup_with_plants(_contract.plants)
 	day_manager.start_new()
-	gui.update_with_plants(plant_seed_manager.plant_datas)
 	gui.update_with_contract(_contract, self)
 	level_started.emit()
 	await weather_main.start(chapter_manager.current_chapter)
@@ -138,8 +130,6 @@ func _start_turn() -> void:
 	if day_manager.day == 0:
 		_fade_music(true)
 		await gui.apply_boss_actions(GUIBoss.HookType.LEVEL_START)
-		await Util.create_scaled_timer(0.2).timeout
-		await _plant_new_seeds(INITIAL_NUMBER_OF_PLANTS)
 	await gui.apply_boss_actions(GUIBoss.HookType.TURN_START)
 	await draw_cards(hand_size)
 	await plant_field_container.trigger_start_turn_hooks(self)
@@ -170,8 +160,7 @@ func _end_turn() -> void:
 	_start_turn()
 
 func _met_win_condition() -> bool:
-	assert(_number_of_plants >= 0)
-	return _number_of_plants == 0
+	return plant_field_container.are_all_plants_bloom()
 	
 func _win() -> void:
 	if is_finished:
@@ -194,12 +183,6 @@ func _clear_tool_selection() -> void:
 	tool_manager.select_tool(null)
 	gui.clear_tool_selection()
 	plant_field_container.clear_tool_indicators()
-
-func _plant_new_seeds(number_of_plants:int) -> void:
-	if plant_seed_manager.is_all_plants_drawn():
-		return
-	plant_field_container.show_next_fields(number_of_plants)
-	await plant_seed_manager.draw_plants(number_of_plants, gui.gui_plant_seed_animation_container)
 
 func _handle_select_tool(tool_data:ToolData) -> void:
 	plant_field_container.clear_tool_indicators()
@@ -315,21 +298,15 @@ func _on_plant_bloom_started() -> void:
 	gui.toggle_all_ui(false)
 
 func _on_plant_bloom_completed() -> void:
-	_number_of_plants -= 1
 	if _met_win_condition():
 		await _win()
 	else:
-		await _plant_new_seeds(1)
-		energy_tracker.restore(boost)
 		await draw_cards(boost)
 		boost += 1
 	gui.toggle_all_ui(true)
 
 func _on_weathers_updated() -> void:
 	gui.update_weathers(weather_main.weather_manager)
-
-func _on_plant_seed_drawn_animation_completed(plant_data:PlantData) -> void:
-	plant_field_container.plant_seed(plant_data)
 
 func _on_mouse_plant_updated(plant:Plant) -> void:
 	gui.update_mouse_plant(plant)

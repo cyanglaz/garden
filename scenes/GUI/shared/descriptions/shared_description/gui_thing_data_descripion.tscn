@@ -33,3 +33,4 @@ mouse_filter = 1
 theme_type_variation = &"RichTextControlTip"
 bbcode_enabled = true
 fit_content = true
+scroll_active = false

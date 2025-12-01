@@ -14,7 +14,6 @@ signal new_plant_planted()
 @onready var _gui_field_status_container: GUIFieldStatusContainer = %GUIFieldStatusContainer
 @onready var _complete_check: TextureRect = %CompleteCheck
 @onready var _gui_plant_ability_icon_container: GUIPlantAbilityIconContainer = %GUIPlantAbilityIconContainer
-@onready var _plant_down_sound: AudioStreamPlayer2D = %PlantDownSound
 
 var plant:Plant
 var index:int = -1
@@ -25,25 +24,29 @@ var _weak_left_field:WeakRef = weakref(null)
 var _weak_right_field:WeakRef = weakref(null)
 
 func _ready() -> void:
+	super._ready()
+	size = 1
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
 	_progress_bars.hide()
 	_complete_check.hide()
 	_gui_field_selection_arrow.indicator_state = GUIFieldSelectionArrow.IndicatorState.HIDE
-	_gui_field_button.state_updated.connect(_on_gui_field_button_state_updated)
-	_gui_field_button.pressed.connect(_on_plant_button_pressed)
-	_gui_field_button.mouse_entered.connect(_on_gui_plant_button_mouse_entered)
-	_gui_field_button.mouse_exited.connect(_on_gui_plant_button_mouse_exited)
-
+	
 func plant_seed(plant_data:PlantData) -> void:
 	assert(plant == null, "Plant already planted")
-	_plant_down_sound.play()
 	var plant_scene_path := PLANT_SCENE_PATH_PREFIX + plant_data.id + ".tscn"
 	var scene := load(plant_scene_path)
 	plant = scene.instantiate()
 	_container.add_child(plant)
 	plant.data = plant_data
 	plant.field = self
+	match plant.data.difficulty:
+		0:
+			size = 0
+		1:
+			size = 1
+		2:
+			size = 2
 	_show_progress_bars()
 	plant.bloom_started.connect(func(): plant_bloom_started.emit())
 	plant.bloom_completed.connect(func(): plant_bloom_completed.emit())
@@ -54,7 +57,7 @@ func plant_seed(plant_data:PlantData) -> void:
 
 func show_tooltip() -> void:
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.PLANT, plant.data, _tooltip_id, _gui_field_button, false, GUITooltip.TooltipPosition.BOTTOM, true)
+	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.PLANT, plant.data, _tooltip_id, _gui_field_button, GUITooltip.TooltipPosition.BOTTOM))
 
 func hide_tooltip() -> void:
 	Events.request_hide_tooltip.emit(_tooltip_id)
@@ -72,6 +75,7 @@ func bloom() -> void:
 	_gui_field_selection_arrow.hide()
 	_complete_check.show()
 	plant.bloom()
+	_gui_plant_ability_icon_container.activate_abilities()
 
 #region private methods
 
@@ -121,4 +125,13 @@ func _set_left_field(field:Field) -> void:
 func _set_right_field(field:Field) -> void:
 	_weak_right_field = weakref(field)
 
+func _set_size(val:int) -> void:
+	super._set_size(val)
+	if _progress_bars:
+		_progress_bars.position.x = - (size+2) * FieldLand.CELL_SIZE.x/2
+		_progress_bars.size.x = (size+2) * FieldLand.CELL_SIZE.x
+
+		_gui_field_status_container.position.x = (size+2) * FieldLand.CELL_SIZE.x/2 + 3
+
+		_gui_plant_ability_icon_container.position.x = - (size+2) * FieldLand.CELL_SIZE.x/2 - 3
 #endregion

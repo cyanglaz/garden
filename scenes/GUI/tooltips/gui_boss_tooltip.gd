@@ -11,14 +11,14 @@ func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 
-func _update_with_data() -> void:
-	var boss_data:BossData = _data as BossData
+func _update_with_tooltip_request() -> void:
+	var boss_data:BossData = _tooltip_request.data as BossData
 	name_label.text = boss_data.display_name
 	name_label.modulate = Constants.CONTRACT_THEME_COLOR_BOSS
 	rich_text_label.text = boss_data.get_display_description()
 
 func _on_mouse_entered() -> void:
-	Events.update_hovered_data.emit(_data)
+	Events.update_hovered_data.emit(_tooltip_request.data)
 	has_outline = true
 
 func _on_mouse_exited() -> void:

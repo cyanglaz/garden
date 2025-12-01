@@ -120,7 +120,7 @@ func play_error_shake_animation() -> void:
 func toggle_tooltip(on:bool) -> void:
 	if on && tool_data.has_tooltip && _card_tooltip_id.is_empty():
 		_card_tooltip_id = Util.get_uuid()
-		Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.TOOL_CARD, tool_data, _card_tooltip_id, self, false, GUITooltip.TooltipPosition.RIGHT, false)
+		Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.TOOL_CARD, tool_data, _card_tooltip_id, self, GUITooltip.TooltipPosition.RIGHT))
 		_toggle_reference_card_tooltip(true)
 	else:
 		_toggle_reference_card_tooltip(false)
@@ -135,7 +135,7 @@ func _toggle_reference_card_tooltip(on:bool) -> void:
 		var reference_card_ids = _find_card_references()
 		for reference_card_id in reference_card_ids:
 			var reference_card_data := MainDatabase.tool_database.get_data_by_id(reference_card_id)
-			Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.REFERENCE_CARD, reference_card_data, _reference_card_tooltip_id, self, false, GUITooltip.TooltipPosition.LEFT, false)
+			Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.REFERENCE_CARD, reference_card_data, _reference_card_tooltip_id, self, GUITooltip.TooltipPosition.LEFT))
 	else:
 		Events.request_hide_tooltip.emit(_reference_card_tooltip_id)
 		_reference_card_tooltip_id = ""

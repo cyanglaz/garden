@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cdnoyao76wvs3"
+path="res://.godot/imported/field_tileset.aseprite-0320a1eafb94b114911ea2cfbe472ecf.res"
+
+[deps]
+
+source_file="res://resources/sprites/objects/field_tileset.aseprite"
+dest_files=["res://.godot/imported/field_tileset.aseprite-0320a1eafb94b114911ea2cfbe472ecf.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

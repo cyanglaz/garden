@@ -22,6 +22,9 @@ var _current_weather:Weather
 func apply_weather_actions(plants:Array[Plant], combat_main:CombatMain) -> void:
 	await weather_manager.apply_weather_actions(plants, combat_main)
 
+func apply_weather_tool_action(action:ActionData, icon_move_start_position:Vector2, combat_main:CombatMain) -> void:
+	await weather_manager.apply_weather_tool_action(action, icon_move_start_position, combat_main)
+
 func start(chapter:int) -> void:
 	weather_manager.test_weather = test_weather
 	weather_manager.start(chapter)

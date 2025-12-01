@@ -3,7 +3,6 @@ extends CanvasLayer
 
 signal end_turn_button_pressed()
 signal tool_selected(tool_data:ToolData)
-signal plant_seed_drawn_animation_completed(plant_data:PlantData)
 signal card_use_button_pressed(tool_data:ToolData)
 signal mouse_exited_card(tool_data:ToolData)
 signal reward_finished(tool_data:ToolData, from_global_position:Vector2)
@@ -20,8 +19,6 @@ signal reward_finished(tool_data:ToolData, from_global_position:Vector2)
 @onready var gui_enemy: GUIEnemy = %GUIEnemy
 @onready var gui_reward_main: GUIRewardMain = %GUIRewardMain
 
-@onready var gui_plant_deck_box: GUIPlantDeckBox = %GUIPlantDeckBox
-@onready var gui_plant_seed_animation_container: GUIPlantSeedAnimationContainer = %GUIPlantSeedAnimationContainer
 
 var _toggle_ui_semaphore := 0
 var _ui_perm_lock := false
@@ -32,7 +29,6 @@ func _ready() -> void:
 	gui_tool_card_container.card_use_button_pressed.connect(func(tool_data:ToolData) -> void: card_use_button_pressed.emit(tool_data))
 	gui_tool_card_container.setup(gui_draw_box_button, gui_discard_box_button)
 	gui_tool_card_container.mouse_exited_card.connect(func(tool_data:ToolData) -> void: mouse_exited_card.emit(tool_data))
-	gui_plant_seed_animation_container.draw_plant_card_completed.connect(func(plant_data:PlantData) -> void: plant_seed_drawn_animation_completed.emit(plant_data))
 	gui_reward_main.reward_finished.connect(func(tool_data:ToolData, from_global_position:Vector2) -> void: reward_finished.emit(tool_data, from_global_position))
 
 #region power
@@ -53,9 +49,6 @@ func apply_boss_actions(hook_type:GUIBoss.HookType) -> void:
 #endregion
 
 #region plants
-
-func update_with_plants(plants:Array[PlantData]) -> void:
-	gui_plant_deck_box.update_with_plants(plants)
 
 func update_mouse_plant(plant:Plant) -> void:
 	gui_tool_card_container.update_mouse_plant(plant)
@@ -105,13 +98,6 @@ func bind_tool_deck(tool_deck:Deck) -> void:
 	gui_draw_box_button.pressed.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DRAW_POOL_TITLE"), gui_draw_box_button.type))
 	gui_discard_box_button.pressed.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DISCARD_POOL_TITLE"), gui_discard_box_button.type))
 	gui_exhaust_box_button.pressed.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_EXHAUST_POOL_TITLE"), gui_exhaust_box_button.type))
-#endregion
-
-
-#region plants
-func setup_plant_seed_animation_container(plant_field_container:PlantFieldContainer) -> void:
-	gui_plant_seed_animation_container.setup(plant_field_container, gui_plant_deck_box)
-
 #endregion
 
 #region energy

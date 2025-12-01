@@ -11,5 +11,5 @@ func _ready() -> void:
 	gui_tool_card_button.card_state = GUIToolCardButton.CardState.HIGHLIGHTED
 	gui_tool_card_button.resource_sufficient = true
 	
-func _update_with_data() -> void:
-	gui_tool_card_button.update_with_tool_data(_data)
+func _update_with_tooltip_request() -> void:
+	gui_tool_card_button.update_with_tool_data(_tooltip_request.data)

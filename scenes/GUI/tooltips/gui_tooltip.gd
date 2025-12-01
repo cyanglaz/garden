@@ -30,17 +30,18 @@ var has_outline:bool = false: set = _set_has_outline
 
 var _showing := false
 var triggering_global_rect:Rect2 = Rect2()
-var _data:Variant = null
+var _tooltip_request:TooltipRequest = null
 
 func _ready() -> void:
-	if _data:
-		_update_with_data()
+	if _tooltip_request:
+		_update_with_tooltip_request()
 	_set_tooltip_position(tooltip_position)
 
-func update_with_data(data:Variant) -> void:
-	_data = data
+func update_with_request(tooltip_request:TooltipRequest) -> void:
+	tooltip_position = tooltip_request.tooltip_position
+	_tooltip_request = tooltip_request
 	if is_inside_tree():
-		_update_with_data()
+		_update_with_tooltip_request()
 
 func show_tooltip() -> void:
 	show()
@@ -161,7 +162,7 @@ func _follow_mouse_position() -> void:
 
 #region for override
 
-func _update_with_data() -> void:
+func _update_with_tooltip_request() -> void:
 	pass
 
 #endregion

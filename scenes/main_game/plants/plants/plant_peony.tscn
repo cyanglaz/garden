@@ -43,30 +43,30 @@ shader = SubResource("Shader_intk5")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_syrty"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_intk5"]
 atlas = ExtResource("2_intk5")
 region = Rect2(0, 0, 31, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fcsay"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_syrty"]
 atlas = ExtResource("2_intk5")
 region = Rect2(31, 0, 31, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_xrisi"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fcsay"]
 atlas = ExtResource("2_intk5")
 region = Rect2(0, 64, 31, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_cs6tm"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_xrisi"]
 atlas = ExtResource("2_intk5")
 region = Rect2(31, 64, 31, 64)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_fd52h"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_cs6tm"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_syrty")
+"texture": SubResource("AtlasTexture_intk5")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fcsay")
+"texture": SubResource("AtlasTexture_syrty")
 }],
 "loop": true,
 "name": &"bloom",
@@ -74,10 +74,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_xrisi")
+"texture": SubResource("AtlasTexture_fcsay")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_cs6tm")
+"texture": SubResource("AtlasTexture_xrisi")
 }],
 "loop": true,
 "name": &"idle",
@@ -89,7 +89,7 @@ animations = [{
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
 material = SubResource("ShaderMaterial_txblc")
-sprite_frames = SubResource("SpriteFrames_fd52h")
+sprite_frames = SubResource("SpriteFrames_cs6tm")
 animation = &"idle"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
@@ -105,4 +105,4 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/plants/plant_peony.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "949949ac4dccfe2ca51e8173e9fe5aa6"
+metadata/_aseprite_wizard_source_file_hash_ = "695539e9e697de69d209d210e2565a44"

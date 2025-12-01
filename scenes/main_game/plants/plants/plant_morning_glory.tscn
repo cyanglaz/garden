@@ -84,7 +84,7 @@ animations = [{
 "speed": 3.0
 }]
 
-[node name="PlantRose" instance=ExtResource("1_7og8t")]
+[node name="PlantMorningGlory" instance=ExtResource("1_7og8t")]
 
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1

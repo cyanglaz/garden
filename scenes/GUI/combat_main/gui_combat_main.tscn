@@ -1,14 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://dl31u6exk8l35"]
+[gd_scene load_steps=12 format=3 uid="uid://dl31u6exk8l35"]
 
 [ext_resource type="Script" uid="uid://tokn1oo5af3y" path="res://scenes/GUI/combat_main/gui_combat_main.gd" id="1_lrbaq"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_sjsh0"]
-[ext_resource type="PackedScene" uid="uid://cb7rus2xat3us" path="res://scenes/GUI/main_game/plant_cards/gui_plant_deck_box.tscn" id="2_lrbaq"]
 [ext_resource type="PackedScene" uid="uid://b224jou4wqp13" path="res://scenes/GUI/main_game/weather/gui_weather_container.tscn" id="3_sauxh"]
 [ext_resource type="PackedScene" uid="uid://dknalx44eyqdt" path="res://scenes/GUI/main_game/power/gui_power_container.tscn" id="4_mu1du"]
 [ext_resource type="PackedScene" uid="uid://b8ixx2yg4dgov" path="res://scenes/GUI/controls/buttons/gui_deck_button.tscn" id="5_qa4s6"]
 [ext_resource type="PackedScene" uid="uid://bpirre4ebu4op" path="res://scenes/GUI/combat_main/energy/gui_energy_tracker.tscn" id="6_56cmi"]
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="7_y1ukl"]
-[ext_resource type="PackedScene" uid="uid://cra7g0krpvfvf" path="res://scenes/GUI/main_game/plant_cards/gui_plant_seed_animation_container.tscn" id="8_eh8k3"]
 [ext_resource type="PackedScene" uid="uid://csrspsf8vl2ux" path="res://scenes/GUI/combat_main/momentum/gui_boost_tracker.tscn" id="9_gub46"]
 [ext_resource type="PackedScene" uid="uid://dn7qgrdxuu5fq" path="res://scenes/GUI/combat_main/enemy/gui_enemy.tscn" id="11_8tokl"]
 [ext_resource type="PackedScene" uid="uid://canp4x5u3afyb" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_container.tscn" id="11_sauxh"]
@@ -36,17 +34,6 @@ theme_override_constants/margin_bottom = 6
 [node name="Control" type="Control" parent="BaseMainMarginContainer/Container/MarginContainer"]
 layout_mode = 2
 mouse_filter = 2
-
-[node name="GUIPlantDeckBox" parent="BaseMainMarginContainer/Container/MarginContainer/Control" instance=ExtResource("2_lrbaq")]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -8.0
-offset_right = 0.0
-offset_bottom = 0.0
-grow_horizontal = 2
 
 [node name="GUIWeatherContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control" instance=ExtResource("3_sauxh")]
 unique_name_in_owner = true
@@ -142,13 +129,6 @@ layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 localization_text_key = "ACTION_END_TURN"
-
-[node name="GUIPlantSeedAnimationContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control" instance=ExtResource("8_eh8k3")]
-unique_name_in_owner = true
-layout_mode = 0
-offset_right = 308.0
-offset_bottom = 156.0
-mouse_filter = 2
 
 [node name="GUIBoostTracker" parent="BaseMainMarginContainer/Container/MarginContainer/Control" instance=ExtResource("9_gub46")]
 unique_name_in_owner = true

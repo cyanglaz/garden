@@ -18,3 +18,4 @@ theme_type_variation = &"RichTextControlTip"
 bbcode_enabled = true
 text = "adfasdf"
 fit_content = true
+scroll_active = false

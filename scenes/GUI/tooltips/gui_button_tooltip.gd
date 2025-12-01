@@ -4,8 +4,8 @@ extends GUITooltip
 @onready var _description: Label = %Description
 @onready var _shortcut_label: RichTextLabel = %ShortcutLabel
 
-func _update_with_data() -> void:
-	var data:Dictionary = _data as Dictionary
+func _update_with_tooltip_request() -> void:
+	var data:Dictionary = _tooltip_request.data as Dictionary
 	var description:String = data["description"]
 	var shortcut:String = data["shortcut"]
 	_description.text = description

@@ -1,13 +1,18 @@
 class_name Field
 extends Node2D
 
-@onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
+@export var size := 0:set = _set_size
+
+@onready var field_land: FieldLand = %FieldLand
 @onready var _gui_field_button: GUIBasicButton = %GUIFieldButton
 @onready var _gui_field_selection_arrow: GUIFieldSelectionArrow = %GUIFieldSelectionArrow
 @warning_ignore("unused_private_class_variable")
 @onready var _container: Node2D = %Container
 @onready var _animation_player: AnimationPlayer = %AnimationPlayer
 @onready var _water_droplet_emitter: WaterDropletEmitter = %WaterDropletEmitter
+@onready var _light_occluder_2d: LightOccluder2D = %LightOccluder2D
+
+var land_width: get = _get_land_width
 
 signal field_pressed()
 signal field_hovered(hovered:bool)
@@ -18,7 +23,7 @@ func _ready() -> void:
 	_gui_field_button.pressed.connect(_on_plant_button_pressed)
 	_gui_field_button.mouse_entered.connect(_on_gui_plant_button_mouse_entered)
 	_gui_field_button.mouse_exited.connect(_on_gui_plant_button_mouse_exited)
-
+	_set_size(size)
 
 func toggle_selection_indicator(indicator_state:GUIFieldSelectionArrow.IndicatorState) -> void:
 	_gui_field_selection_arrow.indicator_state = indicator_state
@@ -28,9 +33,9 @@ func toggle_selection_indicator(indicator_state:GUIFieldSelectionArrow.Indicator
 func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> void:
 	match state:
 		GUIBasicButton.ButtonState.NORMAL, GUIBasicButton.ButtonState.DISABLED, GUIBasicButton.ButtonState.SELECTED, GUIBasicButton.ButtonState.PRESSED:
-			animated_sprite_2d.material.set_shader_parameter("outline_size", 0)
+			field_land.has_outline = false
 		GUIBasicButton.ButtonState.HOVERED:
-			animated_sprite_2d.material.set_shader_parameter("outline_size", 1)
+			field_land.has_outline = true
 
 func _on_gui_plant_button_mouse_entered() -> void:
 	field_hovered.emit(true)
@@ -45,3 +50,23 @@ func _on_plant_button_pressed() -> void:
 func _on_dip_down() -> void:
 	# Called in animation player
 	_water_droplet_emitter.emit_droplets()
+
+func _get_land_width() -> float:
+	return field_land.width
+
+func _set_size(val:int) -> void:
+	size = val
+	if field_land:
+		field_land.size = size
+		_water_droplet_emitter.droplet_position_range = (size+2) * FieldLand.CELL_SIZE.x
+		_water_droplet_emitter.number_of_droplets = (size+2) * 4 # 4 droplets per cell
+		_gui_field_button.size.x = (size + 2) * FieldLand.CELL_SIZE.x
+		_gui_field_button.position.x = - (size+2) * FieldLand.CELL_SIZE.x/2
+
+		var polygon:PackedVector2Array = PackedVector2Array()
+		polygon.append(Vector2(-(size+2) * FieldLand.CELL_SIZE.x/2, 0))
+		polygon.append(Vector2((size+2) * FieldLand.CELL_SIZE.x/2, 0))
+		polygon.append(Vector2((size+2) * FieldLand.CELL_SIZE.x/2, FieldLand.CELL_SIZE.y))
+		polygon.append(Vector2(-(size+2) * FieldLand.CELL_SIZE.x/2, FieldLand.CELL_SIZE.y))
+		_light_occluder_2d.occluder.polygon = polygon
+		_light_occluder_2d.position.x = - (size+2) * FieldLand.CELL_SIZE.x/2

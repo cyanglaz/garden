@@ -4,8 +4,8 @@ extends GUITooltip
 @onready var gui_actions_description: GUIActionsDescription = %GUIActionsDescription
 @onready var gui_tool_special_description: GUIToolSpecialDescription = %GUIToolSpecialDescription
 
-func _update_with_data() -> void:
-	var tool_data:ToolData = _data as ToolData
+func _update_with_tooltip_request() -> void:
+	var tool_data:ToolData = _tooltip_request.data as ToolData
 	if tool_data.actions.is_empty():
 		gui_actions_description.hide()
 	else:

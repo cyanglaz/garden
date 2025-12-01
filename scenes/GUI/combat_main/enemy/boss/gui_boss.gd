@@ -42,7 +42,7 @@ func _handle_hook(_hook_type:HookType) -> void:
 func _on_mouse_entered() -> void:
 	gui_boss_icon.has_outline = true
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(GUITooltipContainer.TooltipType.BOSS, _weak_boss_data.get_ref(), _tooltip_id, self, false, GUITooltip.TooltipPosition.BOTTOM_LEFT, false)
+	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.BOSS, _weak_boss_data.get_ref(), _tooltip_id, self, GUITooltip.TooltipPosition.BOTTOM_LEFT))
 	Events.update_hovered_data.emit(_weak_boss_data.get_ref())
 
 func _on_mouse_exited() -> void:

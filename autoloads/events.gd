@@ -42,7 +42,7 @@ signal update_hovered_data(data:Resource)
 signal request_update_gold(val:int, animated:bool)
 
 @warning_ignore("unused_signal")
-signal request_display_tooltip(tooltip_type:GUITooltipContainer.TooltipType, data:Variant, id:String, on_control_node:Control, anchor_mouse:bool, tooltip_position: GUITooltip.TooltipPosition, world_space:bool)
+signal request_display_tooltip(tooltip_request:TooltipRequest)
 @warning_ignore("unused_signal")
 signal request_hide_tooltip(id:String)
 @warning_ignore("unused_signal")
