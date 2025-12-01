@@ -45,19 +45,19 @@ shader_parameter/outline_size = 0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1hljx"]
 atlas = ExtResource("3_bsgs4")
-region = Rect2(0, 0, 31, 64)
+region = Rect2(0, 0, 31, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bsgs4"]
 atlas = ExtResource("3_bsgs4")
-region = Rect2(31, 0, 31, 64)
+region = Rect2(31, 0, 31, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ifmde"]
 atlas = ExtResource("3_bsgs4")
-region = Rect2(0, 64, 31, 64)
+region = Rect2(0, 96, 31, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_esugy"]
 atlas = ExtResource("3_bsgs4")
-region = Rect2(31, 64, 31, 64)
+region = Rect2(31, 96, 31, 96)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_icw6i"]
 animations = [{
@@ -105,4 +105,4 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/plants/plant_rose.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "0e09b4ee42fe891e2f7f61c901d5de4c"
+metadata/_aseprite_wizard_source_file_hash_ = "3f2c831614a1d6630c4d09ae1c71da8a"
