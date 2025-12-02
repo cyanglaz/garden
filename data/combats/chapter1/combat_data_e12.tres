@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CombatData" load_steps=5 format=3 uid="uid://8hme8tnu3eb1"]
+
+[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_7jki2"]
+[ext_resource type="Resource" uid="uid://cf678cnphhouf" path="res://data/plants/chapter0/plant_data_daisy.tres" id="2_7jki2"]
+[ext_resource type="Resource" uid="uid://c66ns03qptwt6" path="res://data/plants/chapter0/plant_data_nightshade.tres" id="3_7jki2"]
+[ext_resource type="Script" uid="uid://ektnj8rt6k0k" path="res://data/models/combats/combat_data.gd" id="4_ujtjk"]
+
+[resource]
+script = ExtResource("4_ujtjk")
+combat_type = 1
+plants = Array[ExtResource("1_7jki2")]([ExtResource("2_7jki2"), ExtResource("3_7jki2"), ExtResource("2_7jki2")])
+metadata/_custom_type_script = "uid://ektnj8rt6k0k"
