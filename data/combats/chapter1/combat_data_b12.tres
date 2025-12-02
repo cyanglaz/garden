@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CombatData" load_steps=6 format=3 uid="uid://caacplds1iwvr"]
+
+[ext_resource type="Resource" uid="uid://bfjvutu1dux0h" path="res://data/bosses/boss_the_bramble.tres" id="1_cqexx"]
+[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="2_12b68"]
+[ext_resource type="Resource" uid="uid://0avopik8d762" path="res://data/plants/chapter0/plant_data_sunflower.tres" id="3_cqexx"]
+[ext_resource type="Resource" uid="uid://bo0md1siwv4eu" path="res://data/plants/chapter0/plant_data_morning_glory.tres" id="4_cqexx"]
+[ext_resource type="Script" uid="uid://ektnj8rt6k0k" path="res://data/models/combats/combat_data.gd" id="5_vprp8"]
+
+[resource]
+script = ExtResource("5_vprp8")
+combat_type = 2
+plants = Array[ExtResource("2_12b68")]([ExtResource("3_cqexx"), ExtResource("4_cqexx"), ExtResource("3_cqexx")])
+boss_data = ExtResource("1_cqexx")
+metadata/_custom_type_script = "uid://ektnj8rt6k0k"
