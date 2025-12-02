@@ -1,11 +1,11 @@
-class_name ContractGenerator
+class_name CombatGenerator
 extends RefCounted
 
 const MAX_REROLL_PLANTS_COUNT := 100
-const TOTAL_COMMON_CONTRACTS_TO_GENERATE_PER_CHAPTER := 6
-const TOTAL_ELITE_CONTRACTS_TO_GENERATE_PER_CHAPTER := 4
-const TOTAL_BOSS_CONTRACTS_TO_GENERATE_PER_CHAPTER := 1
-const ELITE_CONTRACT_CHANCE := 0.5
+const TOTAL_COMMON_COMBATS_TO_GENERATE_PER_CHAPTER := 6
+const TOTAL_ELITE_COMBATS_TO_GENERATE_PER_CHAPTER := 4
+const TOTAL_BOSS_COMBATS_TO_GENERATE_PER_CHAPTER := 1
+const ELITE_COMBAT_CHANCE := 0.5
 const REWARD_VALUE_CHAPTER_MULTIPLIER := 3
 
 const BOSS_LEVEL := 3
@@ -21,9 +21,9 @@ const NUMBER_OF_PLANTS_TYPE_DICE := {
 }
 
 const TOP_PLANT_DIFFICULTY_FOR_TYPE := {
-	ContractData.ContractType.COMMON: 0,
-	ContractData.ContractType.ELITE: 1,
-	ContractData.ContractType.BOSS: 2,
+	CombatData.CombatType.COMMON: 0,
+	CombatData.CombatType.ELITE: 1,
+	CombatData.CombatType.BOSS: 2,
 }
 
 const BASE_REWARD_VALUE_FOR_EACH_PLANT_DIFFICULTY_TYPE := {
@@ -35,59 +35,59 @@ const BASE_REWARD_VALUE_FOR_EACH_PLANT_DIFFICULTY_TYPE := {
 const BOSS_HP_REWARD := 50
 
 const BASE_BOOSTER_PACK_TYPE_FOR_TYPE := {
-	ContractData.ContractType.COMMON: ContractData.BoosterPackType.COMMON,
-	ContractData.ContractType.ELITE: ContractData.BoosterPackType.RARE,
-	ContractData.ContractType.BOSS: ContractData.BoosterPackType.LEGENDARY,
+	CombatData.CombatType.COMMON: CombatData.BoosterPackType.COMMON,
+	CombatData.CombatType.ELITE: CombatData.BoosterPackType.RARE,
+	CombatData.CombatType.BOSS: CombatData.BoosterPackType.LEGENDARY,
 }
 
 const BASE_PENALTY_RATE_FOR_TYPE := {
-	ContractData.ContractType.COMMON: 1,
-	ContractData.ContractType.ELITE: 2,
-	ContractData.ContractType.BOSS: 2,
+	CombatData.CombatType.COMMON: 1,
+	CombatData.CombatType.ELITE: 2,
+	CombatData.CombatType.BOSS: 2,
 }
 
 var bosses:Array[BossData] = []
 
-var common_contracts:Array[ContractData] = []
-var elite_contracts:Array[ContractData] = []
-var boss_contracts:Array[ContractData] = []
+var common_combats:Array[CombatData] = []
+var elite_combats:Array[CombatData] = []
+var boss_combats:Array[CombatData] = []
 
 var _all_available_plants:Array = []
 
 func generate_bosses(number_of_bosses:int) -> void:
 	bosses = MainDatabase.boss_database.roll_bosses(number_of_bosses)
 
-func generate_contracts(chapter:int, number_of_common_contracts:int, number_of_elite_contracts:int, number_of_boss_contracts:int) -> void:
+func generate_combats(chapter:int, number_of_common_combats:int, number_of_elite_combats:int, number_of_boss_combats:int) -> void:
 	_all_available_plants = MainDatabase.plant_database.get_plants_by_chapter(chapter)
-	common_contracts = _generate_contracts(chapter, ContractData.ContractType.COMMON, number_of_common_contracts)
-	elite_contracts = _generate_contracts(chapter, ContractData.ContractType.ELITE, number_of_elite_contracts)
-	boss_contracts = _generate_contracts(chapter, ContractData.ContractType.BOSS, number_of_boss_contracts)
-	_log_contracts(chapter)
+	common_combats = _generate_combats(chapter, CombatData.CombatType.COMMON, number_of_common_combats)
+	elite_combats = _generate_combats(chapter, CombatData.CombatType.ELITE, number_of_elite_combats)
+	boss_combats = _generate_combats(chapter, CombatData.CombatType.BOSS, number_of_boss_combats)
+	_log_combats(chapter)
 
-func _generate_contracts(chapter:int, contract_type:ContractData.ContractType, count:int) -> Array[ContractData]:
-	var contracts:Array[ContractData] = []
+func _generate_combats(chapter:int, combat_type:CombatData.CombatType, count:int) -> Array[CombatData]:
+	var combats:Array[CombatData] = []
 	for i in count:
-		var contract:ContractData = ContractData.new()
-		contract.contract_type = contract_type
-		contract.penalty_rate = BASE_PENALTY_RATE_FOR_TYPE[contract_type] + chapter
+		var combat:CombatData = CombatData.new()
+		combat.combat_type = combat_type
+		combat.penalty_rate = BASE_PENALTY_RATE_FOR_TYPE[combat_type] + chapter
 
-		if contract_type == ContractData.ContractType.BOSS:
+		if combat_type == CombatData.CombatType.BOSS:
 			assert(bosses.size() > 0)
-			contract.boss_data = bosses.pop_back()
-			contract.plants = _roll_boss_plants(chapter, contract.boss_data)
+			combat.boss_data = bosses.pop_back()
+			combat.plants = _roll_boss_plants(chapter, combat.boss_data)
 		else:
-			contract.boss_data = null
-			contract.plants = _roll_plants(chapter, contract_type, contracts)
+			combat.boss_data = null
+			combat.plants = _roll_plants(chapter, combat_type, combats)
 
 		# Gold
-		_roll_reward_values(contract, chapter)
+		_roll_reward_values(combat, chapter)
 
 		# Booster pack rewards
-		contract.reward_booster_pack_type = BASE_BOOSTER_PACK_TYPE_FOR_TYPE[contract_type]
+		combat.reward_booster_pack_type = BASE_BOOSTER_PACK_TYPE_FOR_TYPE[combat_type]
 
 
-		contracts.append(contract)
-	return contracts
+		combats.append(combat)
+	return combats
 
 func _roll_number_of_plants(chapter:int) -> int:
 	var values := BASE_NUMBER_OF_PLANTS_DICE.keys()
@@ -99,15 +99,15 @@ func _roll_number_of_plants_type(chapter:int) -> int:
 	var weights := NUMBER_OF_PLANTS_TYPE_DICE.values()
 	return Util.weighted_roll(values, weights) + chapter
 
-func _roll_plants(chapter:int, contract_type:ContractData.ContractType, contracts:Array[ContractData]) -> Array[PlantData]:
-	var top_plant_difficulty:int = TOP_PLANT_DIFFICULTY_FOR_TYPE[contract_type] + chapter
+func _roll_plants(chapter:int, combat_type:CombatData.CombatType, combats:Array[CombatData]) -> Array[PlantData]:
+	var top_plant_difficulty:int = TOP_PLANT_DIFFICULTY_FOR_TYPE[combat_type] + chapter
 	var pick_result:Array[PlantData] = []
 	for i in MAX_REROLL_PLANTS_COUNT:
 		var roll_once_result := _roll_plants_once(chapter, top_plant_difficulty)
 		# Ensure the plant combinations are unique
 		pick_result = roll_once_result
-		for contract:ContractData in contracts:
-			if !_contract_has_same_plant_types(contract, roll_once_result):
+		for combat:CombatData in combats:
+			if !_combat_has_same_plant_types(combat, roll_once_result):
 				break
 	return pick_result
 
@@ -117,7 +117,7 @@ func _roll_boss_plants(chapter:int, boss_data:BossData) -> Array[PlantData]:
 	var number_of_plants_type := _roll_number_of_plants_type(chapter)
 
 	var available_secondary_plants:Array = _all_available_plants.filter(
-		func(plant:PlantData) -> bool: return plant.difficulty == TOP_PLANT_DIFFICULTY_FOR_TYPE[ContractData.ContractType.ELITE]
+		func(plant:PlantData) -> bool: return plant.difficulty == TOP_PLANT_DIFFICULTY_FOR_TYPE[CombatData.CombatType.ELITE]
 	)
 	var selected_plant_types:Array = Util.unweighted_roll(available_secondary_plants, number_of_plants_type-1)
 
@@ -178,35 +178,35 @@ func _roll_plants_once(chapter:int, top_plant_difficulty:int) -> Array[PlantData
 
 	return result
 
-func _contract_has_same_plant_types(contract:ContractData, plant_types:Array[PlantData]) -> bool:
-	var unique_plants_in_contract := []
-	for plant:PlantData in contract.plants:
-		if !unique_plants_in_contract.has(plant):
-			unique_plants_in_contract.append(plant)
-	if unique_plants_in_contract.size() != plant_types.size():
+func _combat_has_same_plant_types(combat:CombatData, plant_types:Array[PlantData]) -> bool:
+	var unique_plants_in_combat := []
+	for plant:PlantData in combat.plants:
+		if !unique_plants_in_combat.has(plant):
+			unique_plants_in_combat.append(plant)
+	if unique_plants_in_combat.size() != plant_types.size():
 		return false
 	for plant:PlantData in plant_types:
-		if !unique_plants_in_contract.has(plant):
+		if !unique_plants_in_combat.has(plant):
 			return false
 	return true
 
-func _roll_reward_values(contract:ContractData, chapter:int) -> void:
+func _roll_reward_values(combat:CombatData, chapter:int) -> void:
 	var reward_value := 0
-	for plant:PlantData in contract.plants:
+	for plant:PlantData in combat.plants:
 		reward_value += BASE_REWARD_VALUE_FOR_EACH_PLANT_DIFFICULTY_TYPE[plant.difficulty]
 	reward_value += chapter * REWARD_VALUE_CHAPTER_MULTIPLIER
-	contract.reward_gold = reward_value
-	if contract.contract_type == ContractData.ContractType.BOSS:
-		contract.reward_hp += BOSS_HP_REWARD
+	combat.reward_gold = reward_value
+	if combat.combat_type == CombatData.CombatType.BOSS:
+		combat.reward_hp += BOSS_HP_REWARD
 
-func _log_contracts(chapter:int) -> void:
+func _log_combats(chapter:int) -> void:
 	print("chapter: ", chapter)
-	print("common_contracts:")
-	for contract in common_contracts:
-		contract.log()
-	print("elite_contracts:")
-	for contract in elite_contracts:
-		contract.log()
-	print("boss_contract:")
-	for contract in boss_contracts:
-		contract.log()
+	print("common_combats:")
+	for combat in common_combats:
+		combat.log()
+	print("elite_combats:")
+	for combat in elite_combats:
+		combat.log()
+	print("boss_combat:")
+	for combat in boss_combats:
+		combat.log()

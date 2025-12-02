@@ -17,13 +17,13 @@ func play_open_animation() -> void:
 	animation_player.play("open")
 	await Util.create_scaled_timer(OPEN_ANIMATION_SIGNAL_TIME).timeout
 
-func update_with_booster_pack_type(booster_pack_type:ContractData.BoosterPackType) -> void:
+func update_with_booster_pack_type(booster_pack_type:CombatData.BoosterPackType) -> void:
 	match booster_pack_type:
-		ContractData.BoosterPackType.COMMON:
+		CombatData.BoosterPackType.COMMON:
 			texture_rect.texture = COMMON_TEXTURE
-		ContractData.BoosterPackType.RARE:
+		CombatData.BoosterPackType.RARE:
 			texture_rect.texture = RARE_TEXTURE
-		ContractData.BoosterPackType.LEGENDARY:
+		CombatData.BoosterPackType.LEGENDARY:
 			texture_rect.texture = LEGENDARY_TEXTURE
 		
 func _start_shaking() -> void:

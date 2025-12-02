@@ -19,14 +19,14 @@ const BACKGROUND_MUSIC_FADE_IN_TIME := 1.0
 @onready var background_music_player: AudioStreamPlayer2D = %BackgroundMusicPlayer
 
 var energy_tracker:ResourcePoint = ResourcePoint.new()
-var contract_generator:ContractGenerator = ContractGenerator.new()
+var combat_generator:CombatGenerator = CombatGenerator.new()
 var power_manager:PowerManager = PowerManager.new()
 var tool_manager:ToolManager
 var day_manager:DayManager = DayManager.new()
 var session_summary:SessionSummary
 var combat_modifier_manager:CombatModifierManager = CombatModifierManager.new()
 var boost := 1: set = _set_boost
-var _contract:ContractData
+var _combat:CombatData
 var _tool_application_error_timers:Dictionary = {}
 
 var is_finished:bool = false
@@ -40,9 +40,9 @@ func _ready() -> void:
 	Events.request_add_tools_to_discard_pile.connect(_on_request_add_tools_to_discard_pile)
 	Events.request_modify_hand_cards.connect(_on_request_modify_hand_cards)
 
-func start(card_pool:Array[ToolData], energy_cap:int, contract:ContractData) -> void:
+func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData) -> void:
 
-	session_summary = SessionSummary.new(contract)
+	session_summary = SessionSummary.new(combat)
 
 	plant_field_container.field_hovered.connect(_on_field_hovered)
 	plant_field_container.field_pressed.connect(_on_field_pressed)
@@ -76,7 +76,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, contract:ContractData) -> 
 
 	background_music_player.volume_db = -80
 
-	_contract = contract
+	_combat = combat
 	_start_new_level()
 
 func _input(event: InputEvent) -> void:
@@ -112,9 +112,9 @@ func update_power(power_id:String, stack:int) -> void:
 func _start_new_level() -> void:
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.LEVEL)
 	boost = 1
-	plant_field_container.setup_with_plants(_contract.plants)
+	plant_field_container.setup_with_plants(_combat.plants)
 	day_manager.start_new()
-	gui.update_with_contract(_contract, self)
+	gui.update_with_combat(_combat, self)
 	level_started.emit()
 	await weather_main.start(chapter_manager.current_chapter)
 	_start_turn()
@@ -126,7 +126,7 @@ func _start_turn() -> void:
 	energy_tracker.setup(max_energy, max_energy)
 	day_manager.next_day()
 	gui.clear_tool_selection()
-	gui.update_penalty_rate(_contract.get_penalty_rate(day_manager.day))
+	gui.update_penalty_rate(_combat.get_penalty_rate(day_manager.day))
 	if day_manager.day == 0:
 		_fade_music(true)
 		await gui.apply_boss_actions(GUIBoss.HookType.LEVEL_START)
@@ -154,7 +154,7 @@ func _end_turn() -> void:
 		# _win() is called by _bloom()
 		return
 	plant_field_container.handle_turn_end()
-	Events.request_hp_update.emit( -_contract.get_penalty_rate(day_manager.day))
+	Events.request_hp_update.emit( -_combat.get_penalty_rate(day_manager.day))
 	await weather_main.pass_day()
 	gui.toggle_all_ui(true)
 	_start_turn()
@@ -172,7 +172,7 @@ func _win() -> void:
 	await _discard_all_tools()
 	weather_main.level_end_stop()
 	session_summary.total_days += day_manager.day
-	gui.animate_show_reward_main(_contract)
+	gui.animate_show_reward_main(_combat)
 	
 func _discard_all_tools() -> void:
 	if tool_manager.tool_deck.hand.is_empty():
@@ -253,7 +253,7 @@ func _on_field_pressed(index:int) -> void:
 	_handle_card_use(index)
 
 func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> void:
-	if _contract.contract_type == ContractData.ContractType.BOSS:
+	if _combat.combat_type == CombatData.CombatType.BOSS:
 		#beat demo
 		pass # TODO: beat demo
 	else:

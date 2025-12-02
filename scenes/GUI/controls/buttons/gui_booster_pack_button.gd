@@ -11,5 +11,5 @@ func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
 	gui_booster_pack_image.has_outline = false
 
-func update_with_booster_pack_type(booster_pack_type:ContractData.BoosterPackType) -> void:
+func update_with_booster_pack_type(booster_pack_type:CombatData.BoosterPackType) -> void:
 	gui_booster_pack_image.update_with_booster_pack_type(booster_pack_type)

@@ -20,7 +20,7 @@ func _ready() -> void:
 	choose_card_title.text = Util.get_localized_string("REWARD_CARDS_MAIN_CHOOSE_CARD_TITLE_TEXT")
 	skip_card_button.pressed.connect(_on_skip_card_button_pressed)
 
-func spawn_cards_with_pack_type(booster_pack_type:ContractData.BoosterPackType, pack_button_g_position:Vector2) -> void:
+func spawn_cards_with_pack_type(booster_pack_type:CombatData.BoosterPackType, pack_button_g_position:Vector2) -> void:
 	choose_card_title.hide()
 	skip_card_button.hide()
 	show()
@@ -37,14 +37,14 @@ func spawn_cards_with_pack_type(booster_pack_type:ContractData.BoosterPackType, 
 	await _animate_pack_open(booster_pack_type, pack_button_g_position)
 	await _animate_card_fly_out()
 
-func _pick_card_datas(booster_pack_type:ContractData.BoosterPackType) -> Array[ToolData]:
-	var common_chance := ContractData.BOOSTER_PACK_CARD_CHANCES[booster_pack_type][0] as int
-	var rare_chance := ContractData.BOOSTER_PACK_CARD_CHANCES[booster_pack_type][1] as int
-	var legendary_chance := ContractData.BOOSTER_PACK_CARD_CHANCES[booster_pack_type][2] as int
-	var total_card_count := ContractData.NUMBER_OF_CARDS_IN_BOOSTER_PACK
-	var common_card_cont := ContractData.BOOSTER_PACK_CARD_BASE_COUNTS[booster_pack_type][0] as int
-	var rare_card_count := ContractData.BOOSTER_PACK_CARD_BASE_COUNTS[booster_pack_type][1] as int
-	var legendary_card_count := ContractData.BOOSTER_PACK_CARD_BASE_COUNTS[booster_pack_type][2] as int
+func _pick_card_datas(booster_pack_type:CombatData.BoosterPackType) -> Array[ToolData]:
+	var common_chance := CombatData.BOOSTER_PACK_CARD_CHANCES[booster_pack_type][0] as int
+	var rare_chance := CombatData.BOOSTER_PACK_CARD_CHANCES[booster_pack_type][1] as int
+	var legendary_chance := CombatData.BOOSTER_PACK_CARD_CHANCES[booster_pack_type][2] as int
+	var total_card_count := CombatData.NUMBER_OF_CARDS_IN_BOOSTER_PACK
+	var common_card_cont := CombatData.BOOSTER_PACK_CARD_BASE_COUNTS[booster_pack_type][0] as int
+	var rare_card_count := CombatData.BOOSTER_PACK_CARD_BASE_COUNTS[booster_pack_type][1] as int
+	var legendary_card_count := CombatData.BOOSTER_PACK_CARD_BASE_COUNTS[booster_pack_type][2] as int
 
 	var card_number_to_roll := total_card_count - common_card_cont - rare_card_count - legendary_card_count
 	for i in card_number_to_roll:
@@ -93,7 +93,7 @@ func _get_all_card_positions() -> Array[Vector2]:
 
 	return positions
 
-func _animate_pack_open(booster_pack_type:ContractData.BoosterPackType, g_position:Vector2) -> void:
+func _animate_pack_open(booster_pack_type:CombatData.BoosterPackType, g_position:Vector2) -> void:
 	gui_booster_pack_image.show()
 	gui_booster_pack_image.update_with_booster_pack_type(booster_pack_type)
 	gui_booster_pack_image.global_position = g_position

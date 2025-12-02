@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="BossData" load_steps=2 format=3 uid="uid://bfjvutu1dux0h"]
 
-[ext_resource type="Script" uid="uid://bt7c5hiesqa06" path="res://data/models/contracts/boss_data.gd" id="1_n4koo"]
+[ext_resource type="Script" uid="uid://bt7c5hiesqa06" path="res://data/models/combats/boss_data.gd" id="1_n4koo"]
 
 [resource]
 script = ExtResource("1_n4koo")

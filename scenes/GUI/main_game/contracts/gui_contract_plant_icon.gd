@@ -1,4 +1,4 @@
-class_name GUIContractPlaintIcon
+class_name GUICombatPlaintIcon
 extends PanelContainer
 
 var PLANT_ABILITY_ICON_SCENE := load("res://scenes/GUI/main_game/plant_cards/gui_plant_ability_icon.tscn")
