@@ -118,17 +118,14 @@ func _layout_fields() -> void:
 	# Calculate total width needed for all fields
 	var total_fields_width = 0.0
 	for field:Field in fields:
-		print(field.land_width)
 		total_fields_width += field.land_width
 	
 	# Calculate spacing between fields
 	var available_width = screen_size.x - MARGIN * 2  # Leave 20px margin on each side
 	var spacing = 0.0
 	
-	print(total_fields_width)
 	if fields.size() > 1:
 		var total_spacing_needed = available_width - total_fields_width
-		print(total_spacing_needed)
 		spacing = min(total_spacing_needed / (fields.size() - 1), MAX_DISTANCE_BETWEEN_FIELDS)
 	
 	# Position fields horizontally
@@ -140,7 +137,6 @@ func _layout_fields() -> void:
 	var current_x = start_x
 	var index = 0
 	for field in fields:
-		print(current_x)
 		field.position.x = current_x
 		field.position.y = 0
 		var next_field_width := 0.0
