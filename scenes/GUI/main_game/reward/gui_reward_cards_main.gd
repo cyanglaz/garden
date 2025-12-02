@@ -87,7 +87,6 @@ func _get_all_card_positions() -> Array[Vector2]:
 	# Calculate positions for each card
 	for i in range(child_count):
 		var child = cards_container.get_child(i)
-		print(child.size)
 		var target_position: Vector2 = Vector2(current_x, (size.y - child.size.y) / 2.0)
 		positions.append(target_position)
 		current_x += child.size.x + CARD_PADDING

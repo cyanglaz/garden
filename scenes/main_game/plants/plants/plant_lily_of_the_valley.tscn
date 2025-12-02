@@ -45,19 +45,19 @@ shader_parameter/outline_size = 0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yuei4"]
 atlas = ExtResource("2_yuei4")
-region = Rect2(0, 0, 31, 64)
+region = Rect2(0, 0, 47, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ul4wl"]
 atlas = ExtResource("2_yuei4")
-region = Rect2(31, 0, 31, 64)
+region = Rect2(47, 0, 47, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oj6rk"]
 atlas = ExtResource("2_yuei4")
-region = Rect2(0, 64, 31, 64)
+region = Rect2(0, 64, 47, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mj418"]
 atlas = ExtResource("2_yuei4")
-region = Rect2(31, 64, 31, 64)
+region = Rect2(47, 64, 47, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5tg4u"]
 animations = [{
@@ -105,4 +105,4 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/plants/plant_lily_of_the_valley.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "cc53a5026f4825ec82cbd90343c3f942"
+metadata/_aseprite_wizard_source_file_hash_ = "22fba8830c3927c05872001b6be6b469"

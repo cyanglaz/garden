@@ -45,19 +45,19 @@ shader_parameter/outline_size = 0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w7c2s"]
 atlas = ExtResource("3_nxqpn")
-region = Rect2(0, 0, 31, 64)
+region = Rect2(0, 0, 31, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nxqpn"]
 atlas = ExtResource("3_nxqpn")
-region = Rect2(31, 0, 31, 64)
+region = Rect2(31, 0, 31, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7jnm3"]
 atlas = ExtResource("3_nxqpn")
-region = Rect2(0, 64, 31, 64)
+region = Rect2(0, 96, 31, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t8qer"]
 atlas = ExtResource("3_nxqpn")
-region = Rect2(31, 64, 31, 64)
+region = Rect2(31, 96, 31, 96)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_whpb5"]
 animations = [{
@@ -105,4 +105,4 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/plants/plant_nightshade.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "13574c6d9934303391dd716548b3f905"
+metadata/_aseprite_wizard_source_file_hash_ = "840b45706a5d0bc7fa6757eef536c074"

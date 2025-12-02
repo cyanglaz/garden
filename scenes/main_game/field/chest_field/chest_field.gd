@@ -17,8 +17,10 @@ func _ready() -> void:
 func _on_field_hovered(hovered:bool) -> void:
 	if hovered:
 		chest.highlighted = true
+		toggle_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT)
 	else:
 		chest.highlighted = false
+		toggle_selection_indicator(GUIFieldSelectionArrow.IndicatorState.READY)
 
 func _on_field_pressed() -> void:
 	if _opened:

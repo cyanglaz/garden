@@ -135,10 +135,15 @@ func _layout_fields() -> void:
 	var start_x = - total_width / 2 + fields[0].land_width/2
 	
 	var current_x = start_x
+	var index = 0
 	for field in fields:
 		field.position.x = current_x
 		field.position.y = 0
-		current_x += field.land_width + spacing
+		var next_field_width := 0.0
+		if index < fields.size() - 1:
+			next_field_width = fields[index + 1].land_width
+		current_x += (field.land_width + next_field_width)/2.0 + spacing
+		index += 1
 
 func _get_mouse_plant() -> Plant:
 	return _weak_mouse_plant.get_ref()

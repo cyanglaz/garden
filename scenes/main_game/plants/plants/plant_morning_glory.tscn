@@ -45,19 +45,19 @@ shader_parameter/outline_size = 0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6sj2a"]
 atlas = ExtResource("2_6sj2a")
-region = Rect2(0, 0, 33, 64)
+region = Rect2(0, 0, 49, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7og8t"]
 atlas = ExtResource("2_6sj2a")
-region = Rect2(33, 0, 33, 64)
+region = Rect2(49, 0, 49, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_08u7e"]
 atlas = ExtResource("2_6sj2a")
-region = Rect2(0, 64, 33, 64)
+region = Rect2(0, 96, 49, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_46sce"]
 atlas = ExtResource("2_6sj2a")
-region = Rect2(33, 64, 33, 64)
+region = Rect2(49, 96, 49, 96)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vflou"]
 animations = [{
@@ -105,4 +105,4 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/plants/plant_morning_glory.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "9ae9e36b07242d75dbee4293f4d256e7"
+metadata/_aseprite_wizard_source_file_hash_ = "52ef34ec2c33ba746d5902dce4bf7504"

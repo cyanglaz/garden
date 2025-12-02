@@ -45,19 +45,19 @@ shader_parameter/outline_size = 0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_intk5"]
 atlas = ExtResource("2_intk5")
-region = Rect2(0, 0, 31, 64)
+region = Rect2(0, 0, 31, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_syrty"]
 atlas = ExtResource("2_intk5")
-region = Rect2(31, 0, 31, 64)
+region = Rect2(31, 0, 31, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fcsay"]
 atlas = ExtResource("2_intk5")
-region = Rect2(0, 64, 31, 64)
+region = Rect2(0, 96, 31, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xrisi"]
 atlas = ExtResource("2_intk5")
-region = Rect2(31, 64, 31, 64)
+region = Rect2(31, 96, 31, 96)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_cs6tm"]
 animations = [{
@@ -105,4 +105,4 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/plants/plant_peony.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "695539e9e697de69d209d210e2565a44"
+metadata/_aseprite_wizard_source_file_hash_ = "89f33b65c714ed442dfe3ba28ae6f173"

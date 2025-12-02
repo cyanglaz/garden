@@ -1,6 +1,8 @@
 class_name Field
 extends Node2D
 
+const SELECTION_ARROW_Y_OFFSET := 16
+
 @export var size := 0:set = _set_size
 
 @onready var field_land: FieldLand = %FieldLand
@@ -23,6 +25,7 @@ func _ready() -> void:
 	_gui_field_button.pressed.connect(_on_plant_button_pressed)
 	_gui_field_button.mouse_entered.connect(_on_gui_plant_button_mouse_entered)
 	_gui_field_button.mouse_exited.connect(_on_gui_plant_button_mouse_exited)
+	_container.child_entered_tree.connect(_on_container_child_entered_tree)
 	_set_size(size)
 
 func toggle_selection_indicator(indicator_state:GUIFieldSelectionArrow.IndicatorState) -> void:
@@ -50,6 +53,21 @@ func _on_plant_button_pressed() -> void:
 func _on_dip_down() -> void:
 	# Called in animation player
 	_water_droplet_emitter.emit_droplets()
+
+func _on_container_child_entered_tree(child: Node) -> void:
+	var child_sprite:AnimatedSprite2D
+	for finding_node in child.get_children():
+		if finding_node is AnimatedSprite2D:
+			child_sprite = finding_node
+			break
+	assert(child_sprite, "Children sprite not found")
+	var sprite_frames:SpriteFrames = child_sprite.sprite_frames
+	var current_animation:StringName = child_sprite.animation
+	var frame_texture:Texture2D = sprite_frames.get_frame_texture(current_animation, 0)
+	var image := frame_texture.get_image()
+	var used_rect := image.get_used_rect()
+	var pixel_height := used_rect.size.y
+	_gui_field_selection_arrow.position.y = - pixel_height - SELECTION_ARROW_Y_OFFSET
 
 func _get_land_width() -> float:
 	return field_land.width
