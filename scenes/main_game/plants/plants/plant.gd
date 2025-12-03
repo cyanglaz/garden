@@ -22,10 +22,11 @@ signal action_application_completed()
 
 @onready var plant_sprite: AnimatedSprite2D = %PlantSprite
 @onready var fsm: PlantStateMachine = %PlantStateMachine
+@onready var curse_particle: GPUParticles2D = %CurseParticle
+@onready var bloom_particle: GPUParticles2D = %BloomParticle
 @onready var plant_ability_container: PlantAbilityContainer = %PlantAbilityContainer
 @onready var _buff_sound: AudioStreamPlayer2D = %BuffSound
 @onready var _point_audio: AudioStreamPlayer2D = %PointAudio
-@onready var _curse_particle: GPUParticles2D = %CurseParticle
 
 var light:ResourcePoint = ResourcePoint.new()
 var water:ResourcePoint = ResourcePoint.new()
@@ -37,6 +38,8 @@ var data:PlantData:set = _set_data
 
 func _ready() -> void:
 	fsm.start()
+	bloom_particle.one_shot = true
+	bloom_particle.emitting = false
 	status_manager.request_hook_message_popup.connect(_on_request_hook_message_popup)
 	_resize_curse_particle()
 
@@ -170,12 +173,20 @@ func _resize_curse_particle() -> void:
 	var frame_texture:Texture2D = sprite_frames.get_frame_texture(current_animation, 0)
 	var image := frame_texture.get_image()
 	var used_rect := image.get_used_rect()
-	_curse_particle.process_material.emission_box_extents = Vector3(used_rect.size.x/2.0, used_rect.size.y/2.0, 1)
-	var area_size :float = _curse_particle.process_material.emission_box_extents.x * _curse_particle.process_material.emission_box_extents.y
+	curse_particle.process_material.emission_box_extents = Vector3(used_rect.size.x/2.0, used_rect.size.y/2.0, 1)
+	var area_size :float = curse_particle.process_material.emission_box_extents.x * curse_particle.process_material.emission_box_extents.y
 	var number_of_particles := area_size / (AREA_SIZE_PER_CURSE_PARTICLE * AREA_SIZE_PER_CURSE_PARTICLE)
-	_curse_particle.amount = int(number_of_particles)
-	_curse_particle.position.y = - used_rect.size.y/2.0 + CURSE_PARTICLE_Y_OFFSET
+	curse_particle.amount = int(number_of_particles)
+	curse_particle.position.y = - used_rect.size.y/2.0 + CURSE_PARTICLE_Y_OFFSET
 
+func _reposition_bloom_particle() -> void:
+	var sprite_frames:SpriteFrames = plant_sprite.sprite_frames
+	var current_animation:StringName = plant_sprite.animation
+	var frame_texture:Texture2D = sprite_frames.get_frame_texture(current_animation, 0)
+	var image := frame_texture.get_image()
+	var used_rect := image.get_used_rect()
+	bloom_particle.position.y = - used_rect.size.y/2.0
+	
 #region events
 func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
 	var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()

@@ -5,6 +5,8 @@ func enter() -> void:
 	super.enter()
 	plant.bloom_started.emit()
 	plant.status_manager.clear_all_statuses()
+	plant.curse_particle.stop()
+	plant.bloom_particle.restart()
 	_play_bloom_animation()
 	plant.bloom_completed.emit()
 
