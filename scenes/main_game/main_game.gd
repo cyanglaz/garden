@@ -26,7 +26,6 @@ var session_seed := 0
 var _current_scene:Node2D: get = _get_current_scene
 
 var chapter_manager:ChapterManager = ChapterManager.new()
-var combat_generator:CombatGenerator = CombatGenerator.new()
 var card_pool:Array[ToolData]
 var hp:ResourcePoint = ResourcePoint.new()
 var _gold:int = 0
@@ -49,7 +48,6 @@ func _ready() -> void:
 	
 	map_main.node_selected.connect(_on_map_node_selected)
 	
-	combat_generator.generate_bosses(1)
 	_register_global_events()
 
 	Events.request_update_gold.emit(0, false)
@@ -76,16 +74,12 @@ func _start_new_chapter() -> void:
 	if test_combat:
 		_start_combat_main_scene.call_deferred(test_combat)
 	else:
-		_start_combat_main_scene.call_deferred(combat_generator.common_combats.pop_back())
+		_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
 	#_start_shop()
 	#_start_chest()
 
 func _generate_chapter_data() -> void:
 	map_main.generate_map(session_seed)
-	var normal_node_count := map_main.get_node_count(MapNode.NodeType.NORMAL) + map_main.get_node_count(MapNode.NodeType.EVENT)
-	var elite_node_count := map_main.get_node_count(MapNode.NodeType.ELITE)
-	var boss_node_count := map_main.get_node_count(MapNode.NodeType.BOSS)
-	combat_generator.generate_combats(chapter_manager.current_chapter, normal_node_count, elite_node_count, boss_node_count)
 
 func _game_over() -> void:
 	pass
@@ -213,11 +207,11 @@ func _on_map_node_selected(node:MapNode) -> void:
 	await gui_main_game.transition(TransitionOverlay.Type.FADE_OUT, SCENE_TRANSITION_TIME)
 	match node_type:
 		MapNode.NodeType.NORMAL:
-			_start_combat_main_scene(combat_generator.common_combats.pop_back())
+			_start_combat_main_scene(chapter_manager.fetch_common_combat_data())
 		MapNode.NodeType.ELITE:
-			_start_combat_main_scene(combat_generator.elite_combats.pop_back())
+			_start_combat_main_scene(chapter_manager.fetch_elite_combat_data())
 		MapNode.NodeType.BOSS:
-			_start_combat_main_scene(combat_generator.boss_combats.pop_back())
+			_start_combat_main_scene(chapter_manager.fetch_boss_combat_data())
 		MapNode.NodeType.SHOP:
 			_start_shop()
 		MapNode.NodeType.TAVERN:

@@ -1,12 +1,12 @@
 [gd_resource type="Resource" script_class="CombatData" load_steps=5 format=3 uid="uid://cbvfafiaquvbj"]
 
-[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_vitov"]
-[ext_resource type="Resource" uid="uid://0avopik8d762" path="res://data/plants/chapter0/plant_data_sunflower.tres" id="2_vitov"]
-[ext_resource type="Resource" uid="uid://77nrfqt5l4mx" path="res://data/plants/chapter0/plant_data_hibiscus.tres" id="3_3l4u6"]
-[ext_resource type="Script" uid="uid://ektnj8rt6k0k" path="res://data/models/combats/combat_data.gd" id="4_ijvow"]
+[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_7t6mi"]
+[ext_resource type="Resource" uid="uid://0avopik8d762" path="res://data/plants/chapter0/plant_data_sunflower.tres" id="2_nuejn"]
+[ext_resource type="Resource" uid="uid://77nrfqt5l4mx" path="res://data/plants/chapter0/plant_data_hibiscus.tres" id="3_j4uys"]
+[ext_resource type="Script" uid="uid://ektnj8rt6k0k" path="res://data/models/combats/combat_data.gd" id="4_n42af"]
 
 [resource]
-script = ExtResource("4_ijvow")
-plants = Array[ExtResource("1_vitov")]([ExtResource("2_vitov"), ExtResource("3_3l4u6")])
-penalty_rate = 1
+script = ExtResource("4_n42af")
+plants = Array[ExtResource("1_7t6mi")]([ExtResource("2_nuejn"), ExtResource("3_j4uys")])
+id = "c14"
 metadata/_custom_type_script = "uid://ektnj8rt6k0k"

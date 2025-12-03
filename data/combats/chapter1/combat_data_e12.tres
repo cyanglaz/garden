@@ -9,4 +9,5 @@
 script = ExtResource("4_ujtjk")
 combat_type = 1
 plants = Array[ExtResource("1_7jki2")]([ExtResource("2_7jki2"), ExtResource("3_7jki2"), ExtResource("2_7jki2")])
+id = "e12"
 metadata/_custom_type_script = "uid://ektnj8rt6k0k"

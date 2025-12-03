@@ -54,9 +54,6 @@ var boss_combats:Array[CombatData] = []
 
 var _all_available_plants:Array = []
 
-func generate_bosses(number_of_bosses:int) -> void:
-	bosses = MainDatabase.boss_database.roll_bosses(number_of_bosses)
-
 func generate_combats(chapter:int, number_of_common_combats:int, number_of_elite_combats:int, number_of_boss_combats:int) -> void:
 	_all_available_plants = MainDatabase.plant_database.get_plants_by_chapter(chapter)
 	common_combats = _generate_combats(chapter, CombatData.CombatType.COMMON, number_of_common_combats)

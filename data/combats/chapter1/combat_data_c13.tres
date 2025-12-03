@@ -1,12 +1,12 @@
 [gd_resource type="Resource" script_class="CombatData" load_steps=5 format=3 uid="uid://c2m8xda0w3yld"]
 
-[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_aeo2v"]
-[ext_resource type="Resource" uid="uid://dmmqf31ijms54" path="res://data/plants/chapter0/plant_data_peace_lily.tres" id="2_lyfqc"]
-[ext_resource type="Resource" uid="uid://bjrbfog5cnb6a" path="res://data/plants/chapter0/plant_data_daffodil.tres" id="3_k7wu8"]
-[ext_resource type="Script" uid="uid://ektnj8rt6k0k" path="res://data/models/combats/combat_data.gd" id="4_rm1iv"]
+[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_3ldvd"]
+[ext_resource type="Resource" uid="uid://dmmqf31ijms54" path="res://data/plants/chapter0/plant_data_peace_lily.tres" id="2_1k0wl"]
+[ext_resource type="Resource" uid="uid://bjrbfog5cnb6a" path="res://data/plants/chapter0/plant_data_daffodil.tres" id="3_hxt8p"]
+[ext_resource type="Script" uid="uid://ektnj8rt6k0k" path="res://data/models/combats/combat_data.gd" id="4_7hxo3"]
 
 [resource]
-script = ExtResource("4_rm1iv")
-plants = Array[ExtResource("1_aeo2v")]([ExtResource("2_lyfqc"), ExtResource("3_k7wu8"), ExtResource("2_lyfqc")])
-penalty_rate = 1
+script = ExtResource("4_7hxo3")
+plants = Array[ExtResource("1_3ldvd")]([ExtResource("2_1k0wl"), ExtResource("3_hxt8p"), ExtResource("2_1k0wl")])
+id = "c13"
 metadata/_custom_type_script = "uid://ektnj8rt6k0k"
