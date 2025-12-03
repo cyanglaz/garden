@@ -69,6 +69,7 @@ point_count = 2
 curve = SubResource("Curve_cbxjf")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ykj75"]
+resource_local_to_scene = true
 particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(16, 16, 1)
@@ -86,6 +87,13 @@ script = ExtResource("1_k38v5")
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_txblc")
 
+[node name="CurseParticle" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+amount = 16
+texture = ExtResource("7_n2kci")
+lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_ykj75")
+
 [node name="PlantStateMachine" parent="." instance=ExtResource("2_o3cyj")]
 unique_name_in_owner = true
 
@@ -101,9 +109,3 @@ bus = &"SFX"
 unique_name_in_owner = true
 stream = ExtResource("16_txblc")
 bus = &"SFX"
-
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-amount = 16
-texture = ExtResource("7_n2kci")
-lifetime = 2.0
-process_material = SubResource("ParticleProcessMaterial_ykj75")

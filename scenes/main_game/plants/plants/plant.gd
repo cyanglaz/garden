@@ -1,6 +1,8 @@
 class_name Plant
 extends Node2D
 
+const AREA_SIZE_PER_CURSE_PARTICLE := 3.0
+const CURSE_PARTICLE_Y_OFFSET := 4.0
 const POPUP_SHOW_TIME := 0.3
 const POPUP_DESTROY_TIME:= 1.2
 const POPUP_OFFSET := Vector2.RIGHT * 8 + Vector2.UP * 12
@@ -23,6 +25,7 @@ signal action_application_completed()
 @onready var plant_ability_container: PlantAbilityContainer = %PlantAbilityContainer
 @onready var _buff_sound: AudioStreamPlayer2D = %BuffSound
 @onready var _point_audio: AudioStreamPlayer2D = %PointAudio
+@onready var _curse_particle: GPUParticles2D = %CurseParticle
 
 var light:ResourcePoint = ResourcePoint.new()
 var water:ResourcePoint = ResourcePoint.new()
@@ -35,6 +38,7 @@ var data:PlantData:set = _set_data
 func _ready() -> void:
 	fsm.start()
 	status_manager.request_hook_message_popup.connect(_on_request_hook_message_popup)
+	_resize_curse_particle()
 
 func trigger_ability(ability_type:AbilityType) -> void:
 	await plant_ability_container.trigger_ability(ability_type, self)
@@ -159,6 +163,18 @@ func _apply_field_status_action(action:ActionData) -> void:
 
 func _get_action_true_value(action_data:ActionData) -> int:
 	return action_data.get_calculated_value(self)
+
+func _resize_curse_particle() -> void:
+	var sprite_frames:SpriteFrames = plant_sprite.sprite_frames
+	var current_animation:StringName = plant_sprite.animation
+	var frame_texture:Texture2D = sprite_frames.get_frame_texture(current_animation, 0)
+	var image := frame_texture.get_image()
+	var used_rect := image.get_used_rect()
+	_curse_particle.process_material.emission_box_extents = Vector3(used_rect.size.x/2.0, used_rect.size.y/2.0, 1)
+	var area_size :float = _curse_particle.process_material.emission_box_extents.x * _curse_particle.process_material.emission_box_extents.y
+	var number_of_particles := area_size / (AREA_SIZE_PER_CURSE_PARTICLE * AREA_SIZE_PER_CURSE_PARTICLE)
+	_curse_particle.amount = int(number_of_particles)
+	_curse_particle.position.y = - used_rect.size.y/2.0 + CURSE_PARTICLE_Y_OFFSET
 
 #region events
 func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
