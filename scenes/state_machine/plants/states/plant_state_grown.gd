@@ -2,11 +2,11 @@ class_name PlantStateBloom
 extends PlantState
 
 func enter() -> void:
+	plant.bloom_particle.restart()
 	super.enter()
 	plant.bloom_started.emit()
 	plant.status_manager.clear_all_statuses()
-	plant.curse_particle.stop()
-	plant.bloom_particle.restart()
+	plant.curse_particle.emitting = false
 	_play_bloom_animation()
 	plant.bloom_completed.emit()
 

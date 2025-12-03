@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://5hl240rod12d"]
+[gd_scene load_steps=24 format=3 uid="uid://5hl240rod12d"]
 
 [ext_resource type="Script" uid="uid://c3p4a5hat4001" path="res://scenes/main_game/plants/plants/plant.gd" id="1_k38v5"]
 [ext_resource type="PackedScene" uid="uid://c4uyy86onbdnu" path="res://scenes/state_machine/plants/plant_state_machine.tscn" id="2_o3cyj"]
@@ -87,8 +87,16 @@ point_count = 3
 [sub_resource type="CurveTexture" id="CurveTexture_wmubj"]
 curve = SubResource("Curve_y51p7")
 
+[sub_resource type="Gradient" id="Gradient_avrp0"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.5325733)
+colors = PackedColorArray(0.047058824, 0.94509804, 1, 1, 1, 0.92156863, 0.34117648, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_cbxjf"]
+gradient = SubResource("Gradient_avrp0")
+
 [sub_resource type="Curve" id="Curve_avrp0"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.732652), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.3261147, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_cbxjf"]
@@ -98,11 +106,14 @@ curve = SubResource("Curve_avrp0")
 resource_local_to_scene = true
 particle_flag_disable_z = true
 spread = 180.0
-initial_velocity_min = 50.0
-initial_velocity_max = 100.0
+initial_velocity_min = 80.0
+initial_velocity_max = 120.0
+angular_velocity_min = -180.00002
+angular_velocity_max = 179.99998
 gravity = Vector3(0, 0, 0)
 scale_min = 0.79999995
 scale_curve = SubResource("CurveTexture_cbxjf")
+color_initial_ramp = SubResource("GradientTexture1D_cbxjf")
 alpha_curve = SubResource("CurveTexture_wmubj")
 
 [node name="Plant" type="Node2D"]
@@ -121,8 +132,9 @@ process_material = SubResource("ParticleProcessMaterial_ykj75")
 
 [node name="BloomParticle" type="GPUParticles2D" parent="."]
 unique_name_in_owner = true
-amount = 32
+amount = 64
 texture = ExtResource("7_n2kci")
+lifetime = 0.6
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_n2kci")
 
