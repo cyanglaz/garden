@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://btneq5irgf7ja"]
+
+[ext_resource type="PackedScene" uid="uid://k1nmjx4747gf" path="res://scenes/main_game/field/status/field_status.tscn" id="1_lfm0n"]
+[ext_resource type="Script" uid="uid://cxrxtcwvuthis" path="res://scenes/main_game/field/status/field_status_seep.gd" id="2_lfm0n"]
+
+[node name="FieldStatusSeep" instance=ExtResource("1_lfm0n")]
+script = ExtResource("2_lfm0n")

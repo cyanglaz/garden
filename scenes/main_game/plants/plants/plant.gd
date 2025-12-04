@@ -152,17 +152,17 @@ func _apply_water_action(action:ActionData) -> void:
 
 func _apply_field_status_action(action:ActionData) -> void:
 	var field_status_id := Util.get_action_id_with_action_type(action.type)
-	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(field_status_id, true)
 	var true_value := _get_action_true_value(action)
+	var stack := 0
 	match action.operator_type:
 		ActionData.OperatorType.INCREASE:
-			field_status_data.stack += true_value
+			stack = true_value
 		ActionData.OperatorType.DECREASE:
-			field_status_data.stack -= true_value
+			stack = -true_value
 		ActionData.OperatorType.EQUAL_TO:
-			field_status_data.stack = true_value
+			stack = true_value
 	await _show_popup_action_indicator(action)
-	field_status_container.update_status(field_status_id, field_status_data.stack)
+	field_status_container.update_status(field_status_id, stack)
 
 func _get_action_true_value(action_data:ActionData) -> int:
 	return action_data.get_calculated_value(self)

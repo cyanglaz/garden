@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cw73d541vyc23"]
+
+[ext_resource type="PackedScene" uid="uid://k1nmjx4747gf" path="res://scenes/main_game/field/status/field_status.tscn" id="1_aaeck"]
+[ext_resource type="Script" uid="uid://c683rfjua8gcd" path="res://scenes/main_game/field/status/field_status_greenhouse.gd" id="2_4a5gl"]
+
+[node name="FieldStatusGreenhouse" instance=ExtResource("1_aaeck")]
+script = ExtResource("2_4a5gl")

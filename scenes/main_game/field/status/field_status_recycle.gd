@@ -1,5 +1,5 @@
-class_name FieldStatusScriptRecycle
-extends FieldStatusScript
+class_name FieldStatusRecycle
+extends FieldStatus
 
 signal _adding_all_cards_finished()
 
@@ -11,7 +11,7 @@ func _has_add_water_hook(plant:Plant) -> bool:
 func _handle_add_water_hook(plant:Plant) -> void:
 	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id("graywater").get_duplicate()
 	var from_position:Vector2 = Util.get_node_canvas_position(plant) - GUIToolCardButton.SIZE / 2
-	var number_of_cards := status_data.stack
+	var number_of_cards := stack
 	var cards:Array[ToolData] = []
 	for i in number_of_cards:
 		var tool_data_to_add:ToolData = tool_data.get_duplicate()

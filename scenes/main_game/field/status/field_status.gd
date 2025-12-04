@@ -1,10 +1,9 @@
-@abstract
-class_name FieldStatusScript
-extends RefCounted
+class_name FieldStatus
+extends Node2D
 
 @warning_ignore("unused_private_class_variable")
-var status_data:FieldStatusData: get = _get_status_data, set = _set_status_data
-var _weak_data:WeakRef = weakref(self)
+var status_data:FieldStatusData
+var stack:int
 
 @warning_ignore("unused_signal")
 signal hook_complicated()
@@ -84,9 +83,3 @@ func _handle_tool_discard_hook(_plant:Plant, _count:int) -> void:
 	await Util.await_for_tiny_time()
 
 #endregion
-
-func _get_status_data() -> FieldStatusData:
-	return _weak_data.get_ref()
-
-func _set_status_data(value:FieldStatusData) -> void:
-	_weak_data = weakref(value)

@@ -21,11 +21,11 @@ func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 
-func setup_with_field_status_data(field_status_data:FieldStatusData) -> void:
+func setup_with_field_status_data(field_status_data:FieldStatusData, stack:int) -> void:
 	_weak_field_status_data = weakref(field_status_data)
 	_gui_icon.texture = load(Util.get_image_path_for_resource_id(field_status_data.id))
-	if field_status_data.stackable:
-		_stack.text = str(field_status_data.stack)
+	if field_status_data.stackable && stack > 0:
+		_stack.text = str(stack)
 	else:
 		_stack.text = ""
 	status_id = field_status_data.id

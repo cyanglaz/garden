@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://dx5pif5ur8js8"]
+
+[ext_resource type="PackedScene" uid="uid://k1nmjx4747gf" path="res://scenes/main_game/field/status/field_status.tscn" id="1_mxbt2"]
+[ext_resource type="Script" uid="uid://bu0t5how6iak6" path="res://scenes/main_game/field/status/field_status_pest.gd" id="2_pajtj"]
+
+[node name="FieldStatusPest" instance=ExtResource("1_mxbt2")]
+script = ExtResource("2_pajtj")

@@ -41,7 +41,7 @@ func update_with_field_status_data(field_status_data:FieldStatusData) -> void:
 	wrapper_button.pressed.connect(func() -> void: button_evoked.emit(field_status_data))
 	var field_status_icon:GUIFieldStatusIcon = GUI_FIELD_STATUS_ICON_SCENE.instantiate()
 	wrapper_button.add_child(field_status_icon)
-	field_status_icon.setup_with_field_status_data(field_status_data)
+	field_status_icon.setup_with_field_status_data(field_status_data, 0)
 	field_status_icon.display_mode = true
 	field_status_icon.mouse_behavior_recursive = Control.MOUSE_BEHAVIOR_DISABLED
 	wrapper_button.mouse_entered.connect(func() -> void: field_status_icon.is_highlighted = true)

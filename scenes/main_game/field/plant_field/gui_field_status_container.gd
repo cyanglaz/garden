@@ -10,10 +10,10 @@ func bind_with_field_status_container(field_status_container:FieldStatusContaine
 
 func _on_status_updated(field_status_container:FieldStatusContainer) -> void:
 	Util.remove_all_children(self)
-	for status_data:FieldStatusData in field_status_container.get_all_statuses():
+	for field_status:FieldStatus in field_status_container.get_all_statuses():
 		var status_icon:GUIFieldStatusIcon = STATUS_ICON_SCENE.instantiate()
 		add_child(status_icon)
-		status_icon.setup_with_field_status_data(status_data)
+		status_icon.setup_with_field_status_data(field_status.status_data, field_status.stack)
 	
 func _on_status_hook_animation_requested(status_id:String) -> void:
 	var animating_icon:GUIFieldStatusIcon
