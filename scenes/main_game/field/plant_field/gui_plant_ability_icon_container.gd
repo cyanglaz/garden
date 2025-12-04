@@ -11,7 +11,6 @@ func setup_with_plant(plant:Plant) -> void:
 			ability_icon.active = true
 		else:
 			ability_icon.active = false
-		ability_icon.active = false
 		add_child(ability_icon)
 		ability_icon.update_with_plant_ability_data(plant_ability_data)
 	

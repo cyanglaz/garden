@@ -38,7 +38,6 @@ const REWARD_HP := {
 }
 
 const NUMBER_OF_CARDS_IN_BOOSTER_PACK := 3
-const PENALTY_INCREASE_DAYS := 3
 
 @export var combat_type:CombatType
 @export var plants:Array[PlantData]
@@ -97,15 +96,3 @@ func _get_reward_booster_pack_type() -> BoosterPackType:
 		_:
 			assert(false, "Invalid combat type: %s" % combat_type)
 	return BoosterPackType.COMMON
-
-func _get_penalty_rate() -> int:
-	match combat_type:
-		CombatType.COMMON:
-			return 1
-		CombatType.ELITE:
-			return 2
-		CombatType.BOSS:
-			return 3
-		_:
-			assert(false, "Invalid combat type: %s" % combat_type)
-	return 1
