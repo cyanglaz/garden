@@ -79,10 +79,6 @@ func transition(type:TransitionOverlay.Type, duration:float = 0.4) -> void:
 
 #endregion
 
-#region days
-func update_penalty(penalty:int) -> void:
-	gui_top_bar.update_penalty(penalty)
-
 #region private
 
 func _clear_tooltips() -> void:

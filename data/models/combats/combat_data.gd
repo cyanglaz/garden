@@ -47,31 +47,24 @@ const PENALTY_INCREASE_DAYS := 3
 var reward_gold:int: get = _get_reward_gold
 var reward_hp:int: get = _get_reward_hp
 var reward_booster_pack_type:BoosterPackType: get = _get_reward_booster_pack_type
-var penalty_rate:int: get = _get_penalty_rate
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
 	var other_combat: CombatData = other as CombatData
 	combat_type = other_combat.combat_type
 	plants = other_combat.plants.duplicate()
-	penalty_rate = other_combat.penalty_rate
 	boss_data = other_combat.boss_data.get_duplicate()
 
 func get_duplicate() -> CombatData:
 	var dup:CombatData = CombatData.new()
 	dup.copy(self)
 	return dup
-	
-func get_penalty_rate(day:int) -> int:
-	@warning_ignore("integer_division")
-	return penalty_rate + day/PENALTY_INCREASE_DAYS
 
 func log() -> void:
 	print("combat =================================================")
 	print("combat_type: ", CombatType.keys()[combat_type])
 	for plant in plants:
 		print("plant: ", plant.id)
-	print("penalty_rate: ", penalty_rate)
 	print("reward_gold: ", reward_gold)
 	print("reward_hp: ", reward_hp)
 	print("reward_booster_pack_type: ", BoosterPackType.keys()[reward_booster_pack_type])

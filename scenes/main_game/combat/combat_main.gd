@@ -126,7 +126,6 @@ func _start_turn() -> void:
 	energy_tracker.setup(max_energy, max_energy)
 	day_manager.next_day()
 	gui.clear_tool_selection()
-	gui.update_penalty_rate(_combat.get_penalty_rate(day_manager.day))
 	if day_manager.day == 0:
 		_fade_music(true)
 		await gui.apply_boss_actions(GUIBoss.HookType.LEVEL_START)
@@ -154,7 +153,6 @@ func _end_turn() -> void:
 		# _win() is called by _bloom()
 		return
 	plant_field_container.handle_turn_end()
-	Events.request_hp_update.emit( -_combat.get_penalty_rate(day_manager.day))
 	await weather_main.pass_day()
 	gui.toggle_all_ui(true)
 	_start_turn()

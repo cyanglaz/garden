@@ -5,7 +5,6 @@ const BOSS_SCENE_PREFIX := "res://scenes/GUI/combat_main/enemy/boss/gui_boss_%s.
 const DEFAULT_BOSS_SCENE_PATH := "res://scenes/GUI/combat_main/enemy/boss/gui_boss.tscn"
 
 @onready var boss_container: PanelContainer = %BossContainer
-@onready var gui_penalty_rate: GUIPenaltyRate = %GUIPenaltyRate
 
 var _boss_instance:GUIBoss = null
 
@@ -23,9 +22,6 @@ func update_with_combat(combat:CombatData, combat_main:CombatMain) -> void:
 	_boss_instance = boss_scene.instantiate()
 	boss_container.add_child(_boss_instance)
 	_boss_instance.update_with_boss_data(combat.boss_data, combat_main)
-
-func update_penalty(penalty:int) -> void:
-	gui_penalty_rate.update_penalty(penalty)
 
 func apply_boss_actions(hook_type:GUIBoss.HookType) -> void:
 	if _boss_instance:

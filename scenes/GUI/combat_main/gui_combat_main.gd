@@ -118,13 +118,6 @@ func update_boost(boost:int) -> void:
 
 #endregion
 
-#region penalty
-
-func update_penalty_rate(val:int) -> void:
-	gui_enemy.update_penalty(val)
-
-#endregion
-
 #region reward
 
 func animate_show_reward_main(combat_data:CombatData) -> void:
