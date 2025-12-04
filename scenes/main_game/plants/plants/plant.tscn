@@ -1,10 +1,11 @@
-[gd_scene load_steps=24 format=3 uid="uid://5hl240rod12d"]
+[gd_scene load_steps=25 format=3 uid="uid://5hl240rod12d"]
 
 [ext_resource type="Script" uid="uid://c3p4a5hat4001" path="res://scenes/main_game/plants/plants/plant.gd" id="1_k38v5"]
 [ext_resource type="PackedScene" uid="uid://c4uyy86onbdnu" path="res://scenes/state_machine/plants/plant_state_machine.tscn" id="2_o3cyj"]
 [ext_resource type="PackedScene" uid="uid://c2pseu3ojv2f5" path="res://scenes/main_game/plants/components/plant_sprite.tscn" id="2_rvdin"]
 [ext_resource type="PackedScene" uid="uid://ch73pnku1ejr5" path="res://scenes/main_game/plants/components/plant_ability_container.tscn" id="4_7q2y3"]
 [ext_resource type="Texture2D" uid="uid://cid4t4lf8q12j" path="res://resources/sprites/effects/particles/particle_5.png" id="7_n2kci"]
+[ext_resource type="Script" uid="uid://1m3di3iqxhf2" path="res://scenes/main_game/field/status/field_status_container.gd" id="8_avrp0"]
 [ext_resource type="AudioStream" uid="uid://bs0jg061p4c2d" path="res://resources/sounds/SFX/field/field_buff.wav" id="14_gu4ic"]
 [ext_resource type="AudioStream" uid="uid://t10sv74gr8qu" path="res://resources/sounds/SFX/other/points/points_collected.wav" id="16_txblc"]
 
@@ -143,6 +144,11 @@ unique_name_in_owner = true
 
 [node name="PlantAbilityContainer" parent="." instance=ExtResource("4_7q2y3")]
 unique_name_in_owner = true
+
+[node name="FieldStatusContainer" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("8_avrp0")
+metadata/_custom_type_script = "uid://1m3di3iqxhf2"
 
 [node name="BuffSound" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true

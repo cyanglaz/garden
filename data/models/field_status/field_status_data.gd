@@ -15,7 +15,6 @@ enum Type {
 @export var remove_on_trigger:bool
 
 var status_script:FieldStatusScript: get = _get_status_script
-
 var stack := 0
 
 var _status_script:FieldStatusScript

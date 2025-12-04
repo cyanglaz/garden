@@ -52,7 +52,7 @@ func plant_seed(plant_data:PlantData) -> void:
 	plant.bloom_completed.connect(func(): plant_bloom_completed.emit())
 	plant.action_application_completed.connect(func(): action_application_completed.emit())
 	_gui_plant_ability_icon_container.setup_with_plant(plant)
-	_gui_field_status_container.bind_with_field_status_manager(plant.status_manager)
+	_gui_field_status_container.bind_with_field_status_container(plant.field_status_container)
 	new_plant_planted.emit()
 
 func show_tooltip() -> void:

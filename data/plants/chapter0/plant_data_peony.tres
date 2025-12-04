@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="PlantData" load_steps=2 format=3 uid="uid://ba4vgijurx053"]
+[gd_resource type="Resource" script_class="PlantData" load_steps=3 format=3 uid="uid://ba4vgijurx053"]
 
+[ext_resource type="Script" uid="uid://jejwqju653m5" path="res://data/models/plants/plant_ability_data.gd" id="1_jtf3x"]
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_rihwm"]
 
 [resource]
@@ -8,6 +9,9 @@ light = 10
 water = 4
 difficulty = 1
 chapters = Array[int]([0])
+initial_field_status = {
+&"pest": "2"
+}
 id = "peony"
 display_name = "Peony"
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

@@ -1,5 +1,5 @@
-class_name FieldStatusManager
-extends RefCounted
+class_name FieldStatusContainer
+extends Node2D
 
 signal status_updated()
 signal request_status_hook_animation(status_id:String)

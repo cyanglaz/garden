@@ -11,6 +11,9 @@ water = 15
 difficulty = 2
 chapters = Array[int]([0])
 abilities = Array[ExtResource("1_id2k6")]([ExtResource("2_ivyob")])
+initial_field_status = {
+&"pest": "3"
+}
 id = "rose"
 display_name = "Rose"
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

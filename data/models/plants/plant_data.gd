@@ -6,6 +6,7 @@ extends ThingData
 @export var difficulty:int
 @export var chapters:Array[int]
 @export var abilities:Array[PlantAbilityData]
+@export var initial_field_status:Dictionary
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
@@ -15,6 +16,7 @@ func copy(other:ThingData) -> void:
 	difficulty = other_plant.difficulty
 	chapters = other_plant.chapters.duplicate()
 	abilities = other_plant.abilities.duplicate()
+	initial_field_status = other_plant.initial_field_status.duplicate()
 
 func get_duplicate() -> PlantData:
 	var dup:PlantData = PlantData.new()

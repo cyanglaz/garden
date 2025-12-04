@@ -25,12 +25,12 @@ signal action_application_completed()
 @onready var curse_particle: GPUParticles2D = %CurseParticle
 @onready var bloom_particle: GPUParticles2D = %BloomParticle
 @onready var plant_ability_container: PlantAbilityContainer = %PlantAbilityContainer
+@onready var field_status_container: FieldStatusContainer = %FieldStatusContainer
 @onready var _buff_sound: AudioStreamPlayer2D = %BuffSound
 @onready var _point_audio: AudioStreamPlayer2D = %PointAudio
 
 var light:ResourcePoint = ResourcePoint.new()
 var water:ResourcePoint = ResourcePoint.new()
-var status_manager:FieldStatusManager = FieldStatusManager.new()
 var field:Field: get = _get_field, set = _set_field
 var _weak_field:WeakRef = weakref(null)
 
@@ -40,27 +40,27 @@ func _ready() -> void:
 	fsm.start()
 	bloom_particle.one_shot = true
 	bloom_particle.emitting = false
-	status_manager.request_hook_message_popup.connect(_on_request_hook_message_popup)
+	field_status_container.request_hook_message_popup.connect(_on_request_hook_message_popup)
 	_resize_curse_particle()
 
 func trigger_ability(ability_type:AbilityType) -> void:
 	await plant_ability_container.trigger_ability(ability_type, self)
 
 func handle_turn_end() -> void:
-	status_manager.handle_status_on_turn_end()
+	field_status_container.handle_status_on_turn_end()
 
 func handle_tool_application_hook() -> void:
-	await status_manager.handle_tool_application_hook(self)
+	await field_status_container.handle_tool_application_hook(self)
 
 func handle_tool_discard_hook(count:int) -> void:
-	await status_manager.handle_tool_discard_hook(self, count)
+	await field_status_container.handle_tool_discard_hook(self, count)
 
 func handle_start_turn_hook(_combat_main:CombatMain) -> void:
 	if is_bloom():
 		await trigger_ability(Plant.AbilityType.START_TURN)
 
 func handle_end_turn_hook(combat_main:CombatMain) -> void:
-	await status_manager.handle_end_turn_hook(combat_main, self)
+	await field_status_container.handle_end_turn_hook(combat_main, self)
 	if is_bloom():
 		await trigger_ability(Plant.AbilityType.END_TURN)
 
@@ -148,7 +148,7 @@ func _apply_water_action(action:ActionData) -> void:
 			water.value = true_value
 	var water_increasing := water.value - old_water_value > 0
 	if water_increasing:
-		await status_manager.handle_add_water_hook(self)
+		await field_status_container.handle_add_water_hook(self)
 
 func _apply_field_status_action(action:ActionData) -> void:
 	var field_status_id := Util.get_action_id_with_action_type(action.type)
@@ -162,7 +162,7 @@ func _apply_field_status_action(action:ActionData) -> void:
 		ActionData.OperatorType.EQUAL_TO:
 			field_status_data.stack = true_value
 	await _show_popup_action_indicator(action)
-	status_manager.update_status(field_status_id, field_status_data.stack)
+	field_status_container.update_status(field_status_id, field_status_data.stack)
 
 func _get_action_true_value(action_data:ActionData) -> int:
 	return action_data.get_calculated_value(self)
