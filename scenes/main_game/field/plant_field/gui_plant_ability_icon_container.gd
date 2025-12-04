@@ -5,11 +5,15 @@ var PLANT_ABILITY_ICON_SCENE := load("res://scenes/GUI/main_game/plant_cards/gui
 
 func setup_with_plant(plant:Plant) -> void:
 	Util.remove_all_children(self)
-	for ability_id:String in plant.data.abilities:
+	for plant_ability_data:PlantAbilityData in plant.data.abilities:
 		var ability_icon:GUIPlantAbilityIcon = PLANT_ABILITY_ICON_SCENE.instantiate()
+		if plant_ability_data.active_before_bloom:
+			ability_icon.active = true
+		else:
+			ability_icon.active = false
 		ability_icon.active = false
 		add_child(ability_icon)
-		ability_icon.update_with_plant_ability_id(ability_id)
+		ability_icon.update_with_plant_ability_data(plant_ability_data)
 	
 	plant.plant_ability_container.request_ability_hook_animation.connect(_on_ability_hook_animation_requested)
 

@@ -21,8 +21,8 @@ func _ready() -> void:
 	mouse_exited.connect(_on_mouse_exited)
 	_set_active(active)
 	
-func update_with_plant_ability_id(id:String) -> void:
-	ability_id = id
+func update_with_plant_ability_data(plant_ability:PlantAbilityData) -> void:
+	ability_id = plant_ability.id
 	texture = load(ICON_PATH + ability_id + ".png")
 
 func play_trigger_animation() -> void:

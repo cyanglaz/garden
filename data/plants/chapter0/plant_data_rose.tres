@@ -1,6 +1,8 @@
-[gd_resource type="Resource" script_class="PlantData" load_steps=2 format=3 uid="uid://hsjy22n36v8s"]
+[gd_resource type="Resource" script_class="PlantData" load_steps=4 format=3 uid="uid://hsjy22n36v8s"]
 
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_6715y"]
+[ext_resource type="Script" uid="uid://jejwqju653m5" path="res://data/models/plants/plant_ability_data.gd" id="1_id2k6"]
+[ext_resource type="Resource" uid="uid://c6ipq74058bse" path="res://data/plant_abilities/plant_ability_thorned.tres" id="2_ivyob"]
 
 [resource]
 script = ExtResource("1_6715y")
@@ -8,7 +10,7 @@ light = 9
 water = 15
 difficulty = 2
 chapters = Array[int]([0])
-abilities = Array[String](["thorned"])
+abilities = Array[ExtResource("1_id2k6")]([ExtResource("2_ivyob")])
 id = "rose"
 display_name = "Rose"
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

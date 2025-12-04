@@ -1,13 +1,15 @@
-[gd_resource type="Resource" script_class="PlantData" load_steps=2 format=3 uid="uid://b457eg2twkey4"]
+[gd_resource type="Resource" script_class="PlantData" load_steps=4 format=3 uid="uid://b457eg2twkey4"]
 
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_ov6a6"]
+[ext_resource type="Script" uid="uid://jejwqju653m5" path="res://data/models/plants/plant_ability_data.gd" id="1_s08on"]
+[ext_resource type="Resource" uid="uid://b1qdgkfp71yup" path="res://data/plant_abilities/plant_ability_juicy.tres" id="2_4aude"]
 
 [resource]
 script = ExtResource("1_ov6a6")
 light = 2
 water = 3
 chapters = Array[int]([0])
-abilities = Array[String](["juicy"])
+abilities = Array[ExtResource("1_s08on")]([ExtResource("2_4aude")])
 id = "tulip"
 display_name = "Tulip"
 data = {

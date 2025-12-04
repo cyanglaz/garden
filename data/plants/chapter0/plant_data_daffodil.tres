@@ -1,13 +1,15 @@
-[gd_resource type="Resource" script_class="PlantData" load_steps=2 format=3 uid="uid://bjrbfog5cnb6a"]
+[gd_resource type="Resource" script_class="PlantData" load_steps=4 format=3 uid="uid://bjrbfog5cnb6a"]
 
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_1uste"]
+[ext_resource type="Script" uid="uid://jejwqju653m5" path="res://data/models/plants/plant_ability_data.gd" id="1_v2uel"]
+[ext_resource type="Resource" uid="uid://btfltvh3cdi16" path="res://data/plant_abilities/plant_ability_repel.tres" id="2_ah2tv"]
 
 [resource]
 script = ExtResource("1_1uste")
 light = 4
 water = 1
 chapters = Array[int]([0])
-abilities = Array[String](["repel"])
+abilities = Array[ExtResource("1_v2uel")]([ExtResource("2_ah2tv")])
 id = "daffodil"
 display_name = "Daffodil"
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"
