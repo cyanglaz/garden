@@ -12,10 +12,6 @@ func setup_with_plant(plant:Plant) -> void:
 	
 	plant.plant_ability_container.request_ability_hook_animation.connect(_on_ability_hook_animation_requested)
 
-func activate_abilities() -> void:
-	for ability_icon:GUIPlantAbilityIcon in get_children():
-		ability_icon.active = true
-
 func remove_all() -> void:
 	Util.remove_all_children(self)
 
@@ -24,5 +20,6 @@ func _on_ability_hook_animation_requested(ability_id:String) -> void:
 	for ability_icon:GUIPlantAbilityIcon in get_children():
 		if ability_icon.ability_id == ability_id:
 			animating_icon = ability_icon
+			break
 	assert(animating_icon !=null, "Animating icon not found")
 	animating_icon.play_trigger_animation()

@@ -71,11 +71,12 @@ func can_bloom() -> bool:
 func bloom() -> void:
 	_progress_bars.hide()
 	_gui_field_button.hide()
-	_gui_field_status_container.hide()
 	_gui_field_selection_arrow.hide()
-	_complete_check.show()
 	plant.bloom()
-	_gui_plant_ability_icon_container.activate_abilities()
+	await plant.bloom_completed
+	_gui_plant_ability_icon_container.hide()
+	_gui_field_status_container.hide()
+	_complete_check.show()
 
 #region private methods
 

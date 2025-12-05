@@ -116,7 +116,8 @@ func add_items_discard_pile(items:Array) -> void:
 
 func add_items_to_hand(items:Array) -> void:
 	pool.append_array(items)
-	hand.append_array(items)
+	for item in items:
+		hand.append(item)
 	pool_updated.emit(pool)
 	hand_updated.emit()
 

@@ -11,6 +11,7 @@ signal combat_main_set(combat_main:CombatMain)
 signal adding_to_deck_finished()
 
 const COSTS := {
+	-1:0,
 	0: 6,
 	1: 11,
 	2: 19,

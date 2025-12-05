@@ -15,8 +15,11 @@ energy_cost = 2
 actions = Array[ExtResource("1_6y0xw")]([SubResource("Resource_oexgw")])
 rarity = -1
 specials = Array[int]([1])
+type = null
 id = "water_cache"
 display_name = "Water Cache"
+description = null
+data = null
 note = "+3 water
 compost
 "

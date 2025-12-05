@@ -5,11 +5,11 @@ func enter() -> void:
 	plant.bloom_particle.restart()
 	super.enter()
 	plant.bloom_started.emit()
-	plant.trigger_ability(Plant.AbilityType.BLOOM)
-	plant.field_status_container.clear_all_statuses()
-	plant.plant_ability_container.clear_all_abilities()
 	plant.curse_particle.emitting = false
 	_play_bloom_animation()
+	await plant.trigger_ability(Plant.AbilityType.BLOOM)
+	plant.field_status_container.clear_all_statuses()
+	plant.plant_ability_container.clear_all_abilities()
 	plant.bloom_completed.emit()
 
 func _play_bloom_animation() -> void:
