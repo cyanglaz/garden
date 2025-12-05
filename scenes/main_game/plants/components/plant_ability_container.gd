@@ -11,9 +11,21 @@ func setup_with_plant_data(plant_data:PlantData) -> void:
 		assert(ability_node)
 		add_child(ability_node)
 
+func clear_all_abilities() -> void:
+	for ability_node:PlantAbility in get_abilities():
+		ability_node.queue_free()
+
 func trigger_ability(ability_type:Plant.AbilityType, plant:Plant) -> void:
 	for ability_node:PlantAbility in get_children():
 		if ability_node.has_ability_hook(ability_type, plant):
 			request_ability_hook_animation.emit(ability_node.ability_data.id)
 			await ability_node.trigger_ability_hook(ability_type, plant)
+
+func signal_bloom() -> void:
+	for ability_node:PlantAbility in get_abilities():
+		ability_node.active = false
 	
+func get_abilities() -> Array:
+	var abilities:Array = get_children().duplicate()
+	abilities.reverse()
+	return abilities

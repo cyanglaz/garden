@@ -20,6 +20,11 @@ var _current_end_turn_hook_index:int = 0
 var _add_water_hook_queue:Array = []
 var _current_add_water_hook_index:int = 0
 
+func setup_with_plant_data(plant_data:PlantData) -> void:
+	for field_status_id:String in plant_data.initial_field_status.keys():
+		var stack:int = (plant_data.initial_field_status[field_status_id] as int)
+		update_status(field_status_id, stack)
+
 func handle_status_on_turn_end() -> void:
 	for field_status:FieldStatus in get_all_statuses():
 		if field_status.status_data.reduce_stack_on_turn_end:

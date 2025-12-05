@@ -12,6 +12,7 @@ const POPUP_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_lab
 enum AbilityType {
 	END_TURN,
 	START_TURN,
+	BLOOM,
 }
 
 @warning_ignore("unused_signal")
@@ -56,13 +57,11 @@ func handle_tool_discard_hook(count:int) -> void:
 	await field_status_container.handle_tool_discard_hook(self, count)
 
 func handle_start_turn_hook(_combat_main:CombatMain) -> void:
-	if is_bloom():
-		await trigger_ability(Plant.AbilityType.START_TURN)
+	await trigger_ability(Plant.AbilityType.START_TURN)
 
 func handle_end_turn_hook(combat_main:CombatMain) -> void:
 	await field_status_container.handle_end_turn_hook(combat_main, self)
-	if is_bloom():
-		await trigger_ability(Plant.AbilityType.END_TURN)
+	await trigger_ability(Plant.AbilityType.END_TURN)
 
 func apply_weather_actions(weather_data:WeatherData) -> void:
 	await apply_actions(weather_data.actions)
@@ -210,6 +209,7 @@ func _set_data(value:PlantData) -> void:
 	light.setup(0, data.light)
 	water.setup(0, data.water)
 	plant_ability_container.setup_with_plant_data(data)
+	field_status_container.setup_with_plant_data(data)
 
 func _get_field() -> Field:
 	return _weak_field.get_ref()
