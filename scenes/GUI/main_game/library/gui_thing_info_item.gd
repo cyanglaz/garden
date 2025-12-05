@@ -24,7 +24,7 @@ func update_with_plant_data(plant_data:PlantData) -> void:
 	var plant_tooltip:GUIPlantTooltip = GUI_PLANT_TOOLTIP_SCENE.instantiate()
 	plant_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	add_child(plant_tooltip)
-	plant_tooltip.update_with_data(plant_data)
+	plant_tooltip.update_with_request(TooltipRequest.new(TooltipRequest.TooltipType.PLANT, plant_data, "", null, GUITooltip.TooltipPosition.RIGHT))
 	_find_reference_pairs_and_add_buttons(plant_data.description)
 	var ability_pairs:Array = []
 	for plant_ability:PlantAbilityData in plant_data.abilities:

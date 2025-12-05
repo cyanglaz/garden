@@ -4,10 +4,9 @@
 
 [resource]
 script = ExtResource("1_4ml5e")
-active_after_bloom = true
 id = "repel"
 display_name = "Repel"
-description = "At the start of each turn, reduce {value} {field_status:pest} from adjacent plants."
+description = "On bloom, reduce {value} {field_status:pest} from adjacent plants."
 data = {
 "value": "1"
 }

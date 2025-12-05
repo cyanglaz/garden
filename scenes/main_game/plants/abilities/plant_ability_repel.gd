@@ -2,10 +2,10 @@ class_name PlantAbilityRepel
 extends PlantAbility
 
 func _has_ability_hook(ability_type:Plant.AbilityType, _plant:Plant) -> bool:
-	return ability_type == Plant.AbilityType.START_TURN
+	return ability_type == Plant.AbilityType.BLOOM
 
 func _trigger_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> void:
-	assert(ability_type == Plant.AbilityType.START_TURN)
+	assert(ability_type == Plant.AbilityType.BLOOM)
 	var left_field:Field = plant.field.left_field
 	var right_field:Field = plant.field.right_field
 	var action_data:ActionData = ActionData.new()
