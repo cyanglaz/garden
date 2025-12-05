@@ -1,6 +1,8 @@
 class_name FieldStatusPest
 extends FieldStatus
 
+@onready var gpu_particles_2d: GPUParticles2D = %GPUParticles2D
+
 func _has_end_turn_hook(_plant:Plant) -> bool:
 	return true
 
