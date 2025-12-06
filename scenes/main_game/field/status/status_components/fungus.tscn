@@ -1,6 +1,50 @@
-[gd_scene format=3 uid="uid://dejxd0pfqkle6"]
+[gd_scene load_steps=6 format=3 uid="uid://dejxd0pfqkle6"]
+
+[ext_resource type="Script" uid="uid://bgxl6efdir2sy" path="res://scenes/main_game/field/status/status_components/fungus.gd" id="1_6plu7"]
+[ext_resource type="Texture2D" uid="uid://jib07opl13up" path="res://resources/sprites/objects/field_objects/fungus.png" id="2_r1qlq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r1qlq"]
+atlas = ExtResource("2_r1qlq")
+region = Rect2(0, 0, 5, 9)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qf0ef"]
+atlas = ExtResource("2_r1qlq")
+region = Rect2(5, 0, 5, 9)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j2xv4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r1qlq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qf0ef")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}]
 
 [node name="Fungus" type="Node2D"]
+script = ExtResource("1_6plu7")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_j2xv4")
+animation = &"idle"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/objects/field_objects/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/objects/field_objects/fungus.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "f0625d5b3226c073a6afb86bed5ebb7c"

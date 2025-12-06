@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://duqdw1f41f5sj"
-path="res://.godot/imported/field_tileset.png-0f68fe4574353c675039c03d6e6c405d.ctex"
+uid="uid://ce6ddhw7hfd3m"
+path="res://.godot/imported/chest.png-332ee659ad6538cf1d2c2c2c56c38cbe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/objects/field_tileset.png"
-dest_files=["res://.godot/imported/field_tileset.png-0f68fe4574353c675039c03d6e6c405d.ctex"]
+source_file="res://resources/sprites/objects/chest/chest.png"
+dest_files=["res://.godot/imported/chest.png-332ee659ad6538cf1d2c2c2c56c38cbe.ctex"]
 
 [params]
 

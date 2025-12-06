@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1l356n6od8ma"
-path="res://.godot/imported/plant_field.png-f3b8b34ef686875574b5f82545e4fb3f.ctex"
+uid="uid://duqdw1f41f5sj"
+path="res://.godot/imported/field_tileset.png-e8843740927b0b5f59a98ae6d9e481e1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/objects/plant_field.png"
-dest_files=["res://.godot/imported/plant_field.png-f3b8b34ef686875574b5f82545e4fb3f.ctex"]
+source_file="res://resources/sprites/fields/field_tileset.png"
+dest_files=["res://.godot/imported/field_tileset.png-e8843740927b0b5f59a98ae6d9e481e1.ctex"]
 
 [params]
 
