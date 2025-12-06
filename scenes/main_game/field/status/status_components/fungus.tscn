@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dejxd0pfqkle6"]
+
+[node name="Fungus" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true

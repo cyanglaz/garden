@@ -1,6 +1,8 @@
 class_name FieldStatusFungus
 extends FieldStatus
 
+const FUNGUS_SCENE := preload("res://scenes/main_game/field/status/field_status_fungus.tscn")
+
 func _has_end_turn_hook(plant:Plant) -> bool:
 	return plant != null
 
