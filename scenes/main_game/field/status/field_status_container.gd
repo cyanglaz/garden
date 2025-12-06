@@ -20,10 +20,10 @@ var _current_end_turn_hook_index:int = 0
 var _add_water_hook_queue:Array = []
 var _current_add_water_hook_index:int = 0
 
-func setup_with_plant_data(plant_data:PlantData) -> void:
-	for field_status_id:String in plant_data.initial_field_status.keys():
-		var stack:int = (plant_data.initial_field_status[field_status_id] as int)
-		update_status(field_status_id, stack)
+func setup_with_plant(plant:Plant) -> void:
+	for field_status_id:String in plant.data.initial_field_status.keys():
+		var stack:int = (plant.data.initial_field_status[field_status_id] as int)
+		update_status(field_status_id, stack, plant)
 
 func handle_status_on_turn_end() -> void:
 	for field_status:FieldStatus in get_all_statuses():
@@ -35,7 +35,7 @@ func handle_status_on_turn_end() -> void:
 			_remove_field_status(field_status)
 	status_updated.emit()
 
-func update_status(status_id:String, stack:int) -> void:
+func update_status(status_id:String, stack:int, plant:Plant) -> void:
 	var status_data := MainDatabase.field_status_database.get_data_by_id(status_id, true)
 	var field_status:FieldStatus = _get_field_status(status_id)
 	if field_status:
@@ -46,7 +46,9 @@ func update_status(status_id:String, stack:int) -> void:
 		add_child(field_status)
 		field_status.status_data = status_data
 		field_status.stack = stack
-	if field_status.stack <= 0:
+	if field_status.stack > 0:
+		field_status.update_for_plant(plant)
+	else:
 		_remove_field_status(field_status)
 	status_updated.emit()
 

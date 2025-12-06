@@ -126,6 +126,7 @@ material = SubResource("ShaderMaterial_txblc")
 
 [node name="CurseParticle" type="GPUParticles2D" parent="."]
 unique_name_in_owner = true
+visible = false
 amount = 16
 texture = ExtResource("7_n2kci")
 lifetime = 2.0

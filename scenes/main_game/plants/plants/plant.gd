@@ -161,7 +161,7 @@ func _apply_field_status_action(action:ActionData) -> void:
 		ActionData.OperatorType.EQUAL_TO:
 			stack = true_value
 	await _show_popup_action_indicator(action)
-	field_status_container.update_status(field_status_id, stack)
+	field_status_container.update_status(field_status_id, stack, self)
 
 func _get_action_true_value(action_data:ActionData) -> int:
 	return action_data.get_calculated_value(self)
@@ -209,7 +209,7 @@ func _set_data(value:PlantData) -> void:
 	light.setup(0, data.light)
 	water.setup(0, data.water)
 	plant_ability_container.setup_with_plant_data(data)
-	field_status_container.setup_with_plant_data(data)
+	field_status_container.setup_with_plant(self)
 
 func _get_field() -> Field:
 	return _weak_field.get_ref()

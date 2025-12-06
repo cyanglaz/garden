@@ -8,6 +8,9 @@ var stack:int
 @warning_ignore("unused_signal")
 signal hook_complicated()
 
+func update_for_plant(plant:Plant) -> void:
+	_update_for_plant(plant)
+
 func has_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> bool:
 	return _has_ability_hook(ability_type, plant)
 
@@ -45,6 +48,9 @@ func handle_end_turn_hook(combat_main:CombatMain, plant:Plant) -> void:
 	await _handle_end_turn_hook(combat_main, plant)
 
 #region for override
+
+func _update_for_plant(_plant:Plant) -> void:
+	pass
 
 func _has_ability_hook(_ability_type:Plant.AbilityType, _plant:Plant) -> bool:
 	return false
