@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://4ycl70g31aiy"
+path="res://.godot/imported/recycle_ball.aseprite-eaa2dcbd759f7c6d2a2b5149f06d6233.res"
+
+[deps]
+
+source_file="res://resources/sprites/objects/field_objects/recycle_ball.aseprite"
+dest_files=["res://.godot/imported/recycle_ball.aseprite-eaa2dcbd759f7c6d2a2b5149f06d6233.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

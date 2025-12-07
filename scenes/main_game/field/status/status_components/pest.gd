@@ -16,7 +16,7 @@ func _ready() -> void:
 	_current_speed = randf_range(min_speed, max_speed)
 	_pick_new_speed()
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if not _curve:
 		return
 		
