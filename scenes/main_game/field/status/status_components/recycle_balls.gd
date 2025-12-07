@@ -1,76 +1,68 @@
 class_name RecycleBalls
 extends Node2D
 
-enum FlyingState {
-	FRONT_1,
-	FRONT_2,
-	BACK_1,
-	BACK_2,
-}
-const SIDE_FRONT_SCALE := 0.15
-const CENTER_FRONT_SCALE := 0.20
-const SIDE_BACK_SCALE := 0.15
-const CENTER_BACK_SCALE := 0.10
 const FLYING_DISTANCE_OFFSET := 10
-const FLYING_TIME := 0.5
+const MIN_SCALE := 0.10
+const MAX_SCALE := 0.20
+# How much the path dips down/up (the height of the oval)
+const Y_VARIATION_RATIO := 0.3 
 
 @onready var sprite: Sprite2D = %Sprite
 
-var _distance :float = 10
-var _target_scale:float
-var _target_position:float
-var _flying_state:FlyingState = FlyingState.FRONT_1
-var _speed := 10.0
-var _lap_time := 10.0
-var _scale_speed := 0.0
+var _radius_x: float = 20.0
+var _radius_y: float = 6.0
+var _angle: float = 0.0
+# Angular speed in radians per second
+var _angular_speed: float = -3.0 
 
-func update_with_plant(plant:Plant) -> void:
-	var sprite_frames:SpriteFrames = plant.plant_sprite.sprite_frames
-	var current_animation:StringName = plant.plant_sprite.animation
-	var frame_texture:Texture2D = sprite_frames.get_frame_texture(current_animation, 0)
+func update_with_plant(plant: Plant) -> void:
+	if not is_inside_tree(): return
+	
+	var sprite_frames: SpriteFrames = plant.plant_sprite.sprite_frames
+	var current_animation: StringName = plant.plant_sprite.animation
+	var frame_texture: Texture2D = sprite_frames.get_frame_texture(current_animation, 0)
 	var image := frame_texture.get_image()
 	var used_rect := image.get_used_rect()
-	_distance = used_rect.size.x + FLYING_DISTANCE_OFFSET
-	sprite.scale = Vector2(SIDE_FRONT_SCALE, SIDE_FRONT_SCALE)
-	position.x = -_distance/2.0
-	_lap_time = _distance/_speed
+	
+	var full_width = used_rect.size.x + FLYING_DISTANCE_OFFSET
+	_radius_x = full_width / 2.0
+	_radius_y = _radius_x * Y_VARIATION_RATIO
+	
+	# Reset angle to start at front-left or similar?
+	# cos(0) = 1 (right), sin(0) = 0 (center y)
+	# Let's start at -PI (left)
+	_angle = PI
 
 func _physics_process(delta: float) -> void:
-	match _flying_state:
-		FlyingState.FRONT_1:
-			_target_scale = CENTER_FRONT_SCALE
-			_scale_speed = (CENTER_FRONT_SCALE - SIDE_FRONT_SCALE)/_lap_time
-			_target_position = 0
-			sprite.z_index = 0
-			_speed = abs(_speed)
-		FlyingState.FRONT_2:
-			_target_scale = SIDE_FRONT_SCALE
-			_scale_speed = (SIDE_FRONT_SCALE - CENTER_FRONT_SCALE)/_lap_time
-			_target_position = _distance/2
-			sprite.z_index = 0
-			_speed = abs(_speed)
-		FlyingState.BACK_1:
-			_target_scale = CENTER_BACK_SCALE
-			_scale_speed = (CENTER_BACK_SCALE - SIDE_BACK_SCALE)/_lap_time
-			_target_position = 0
-			sprite.z_index = 0
-			_speed = -abs(_speed)
-		FlyingState.BACK_2:
-			_target_scale = SIDE_BACK_SCALE
-			_scale_speed = (SIDE_BACK_SCALE - CENTER_BACK_SCALE)/_lap_time
-			_target_position = -_distance/2
-			sprite.z_index = 0
-			_speed = -abs(_speed)
-	print(_scale_speed)
-	sprite.scale.x += _scale_speed * delta
-	sprite.scale.y = sprite.scale.x
-	sprite.position.x += _speed * delta
-
-	var next_state_index:int = (_flying_state + 1)%FlyingState.size()
-	match _flying_state:
-		FlyingState.FRONT_1, FlyingState.FRONT_2:
-			if sprite.position.x >= _target_position:
-				_flying_state = FlyingState.values()[next_state_index]
-		FlyingState.BACK_1, FlyingState.BACK_2:
-			if sprite.position.x <= _target_position:
-				_flying_state = FlyingState.values()[next_state_index]
+	# Update angle
+	_angle += _angular_speed * delta
+	if _angle > TAU:
+		_angle -= TAU
+	
+	# Parametric Ellipse Equation
+	# x = r_x * cos(angle)
+	# y = r_y * sin(angle)
+	var x = _radius_x * cos(_angle)
+	var y = _radius_y * sin(_angle)
+	
+	sprite.position = Vector2(x, y)
+	
+	# Determine Front/Back based on Y position (or sin angle)
+	# In Godot, Y is positive downwards.
+	# sin(angle) > 0 => Y > 0 => Bottom half (Front)
+	# sin(angle) < 0 => Y < 0 => Top half (Back)
+	
+	if sin(_angle) >= 0:
+		# Front path
+		sprite.z_index = 0
+	else:
+		# Back path
+		sprite.z_index = -1
+		
+	# Scale based on Y depth (pseudo-3D)
+	# Map sin(_angle) from [-1, 1] to [MIN_SCALE, MAX_SCALE]
+	# -1 (back) -> MIN
+	#  1 (front) -> MAX
+	var t = (sin(_angle) + 1.0) / 2.0 # Normalized 0 to 1
+	var scale_val = lerp(MIN_SCALE, MAX_SCALE, t)
+	sprite.scale = Vector2(scale_val, scale_val)
