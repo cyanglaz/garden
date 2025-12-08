@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bytxyi30yyvo2"
+path="res://.godot/imported/seep_water.aseprite-363fc3ca06168528b93b651b3a80e9c0.res"
+
+[deps]
+
+source_file="res://resources/sprites/objects/field_objects/seep_water.aseprite"
+dest_files=["res://.godot/imported/seep_water.aseprite-363fc3ca06168528b93b651b3a80e9c0.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
