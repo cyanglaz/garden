@@ -13,5 +13,5 @@ display_name = "Sustainability"
 data = {
 "value": "1"
 }
-note = "{card:graywater} adds {value} more {resource:water}."
+note = "{card:runoff} adds {value} more {resource:water}."
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

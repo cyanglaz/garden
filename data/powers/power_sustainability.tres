@@ -6,7 +6,7 @@
 script = ExtResource("1_4l83w")
 id = "sustainability"
 display_name = "Sustainability"
-description = "{card:graywater} adds {value} more {resource:water}."
+description = "{card:runoff} adds {value} more {resource:water}."
 data = {
 "value": "1"
 }

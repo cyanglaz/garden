@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dy101xs6jf2i4"
-path="res://.godot/imported/seep_water.png-123e668873b0d00b5cbc40b429302d2a.ctex"
+uid="uid://c3bfsnlnu27qi"
+path="res://.godot/imported/icon_dew.png-2f90008da31b1c45c68085d81f99d8bf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/objects/field_objects/seep_water.png"
-dest_files=["res://.godot/imported/seep_water.png-123e668873b0d00b5cbc40b429302d2a.ctex"]
+source_file="res://resources/sprites/GUI/icons/resources/icon_dew.png"
+dest_files=["res://.godot/imported/icon_dew.png-2f90008da31b1c45c68085d81f99d8bf.ctex"]
 
 [params]
 

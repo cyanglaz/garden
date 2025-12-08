@@ -214,8 +214,8 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "rainy"
 		ActionData.ActionType.GREENHOUSE:
 			id = "greenhouse"
-		ActionData.ActionType.SEEP:
-			id = "seep"
+		ActionData.ActionType.DEW:
+			id = "dew"
 		ActionData.ActionType.ENERGY:
 			id = "energy"
 		ActionData.ActionType.UPDATE_X:
@@ -249,7 +249,7 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 		"greenhouse":
 			return ActionData.ActionType.GREENHOUSE
 		"seep":
-			return ActionData.ActionType.SEEP
+			return ActionData.ActionType.DEW
 		"energy":
 			return ActionData.ActionType.ENERGY
 		"update_x":
@@ -284,8 +284,8 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 			action_name = Util.get_localized_string("ACTION_NAME_RECYCLE")
 		ActionData.ActionType.GREENHOUSE:
 			action_name = Util.get_localized_string("ACTION_NAME_GREENHOUSE")
-		ActionData.ActionType.SEEP:
-			action_name = Util.get_localized_string("ACTION_NAME_SEEP")
+		ActionData.ActionType.DEW:
+			action_name = Util.get_localized_string("ACTION_NAME_DEW")
 		ActionData.ActionType.ENERGY:
 			action_name = Util.get_localized_string("ACTION_NAME_ENERGY")
 		ActionData.ActionType.UPDATE_X:

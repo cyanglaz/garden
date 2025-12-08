@@ -1,7 +1,7 @@
 class_name ActionDescriptionFormulator
 extends RefCounted
 
-const FIELD_STATUS_ACTION_TYPES := [ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP]
+const FIELD_STATUS_ACTION_TYPES := [ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW]
 
 const HIGHLIGHT_COLOR := Constants.COLOR_WHITE
 const X_DESCRIPTION_HIGHLIGHT_COLOR := Constants.COLOR_BLUE_3
@@ -33,7 +33,7 @@ static func get_raw_action_description(action_data:ActionData, target_plant:Plan
 			raw_action_description = _get_field_action_description(action_data, target_plant)
 		ActionData.ActionType.ENERGY, ActionData.ActionType.UPDATE_X, ActionData.ActionType.UPDATE_GOLD:
 			raw_action_description = _get_resource_update_action_description(action_data, target_plant)
-		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
+		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW:
 			raw_action_description = _get_field_status_description(action_data)
 		ActionData.ActionType.WEATHER_SUNNY, ActionData.ActionType.WEATHER_RAINY:
 			raw_action_description = _get_weather_action_description(action_data)

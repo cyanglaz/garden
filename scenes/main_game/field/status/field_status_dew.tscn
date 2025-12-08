@@ -1,0 +1,46 @@
+[gd_scene load_steps=11 format=3 uid="uid://btneq5irgf7ja"]
+
+[ext_resource type="PackedScene" uid="uid://k1nmjx4747gf" path="res://scenes/main_game/field/status/field_status.tscn" id="1_lfm0n"]
+[ext_resource type="Script" uid="uid://cxrxtcwvuthis" path="res://scenes/main_game/field/status/field_status_dew.gd" id="2_lfm0n"]
+[ext_resource type="Texture2D" uid="uid://cid4t4lf8q12j" path="res://resources/sprites/effects/particles/particle_5.png" id="3_1kqbg"]
+
+[sub_resource type="Curve" id="Curve_jp31s"]
+_data = [Vector2(0, 0.6522836), 0.0, 0.0, 0, 0, Vector2(0.99999, 0.002775669), -0.5739946, -0.5739946, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_avrp0"]
+curve = SubResource("Curve_jp31s")
+
+[sub_resource type="Gradient" id="Gradient_rqdun"]
+colors = PackedColorArray(0.38431373, 0.14117648, 0.38039216, 1, 0.5764706, 0.21960784, 0.56078434, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_avrp0"]
+gradient = SubResource("Gradient_rqdun")
+
+[sub_resource type="Curve" id="Curve_q8ga4"]
+_data = [Vector2(0, 0.90345746), 0.0, 0.0, 0, 0, Vector2(1, 0.6929632), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_y51p7"]
+curve = SubResource("Curve_q8ga4")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jxkdh"]
+resource_local_to_scene = true
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(16, 16, 1)
+gravity = Vector3(0, -10, 0)
+scale_min = 0.79999995
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_y51p7")
+color_initial_ramp = SubResource("GradientTexture1D_avrp0")
+alpha_curve = SubResource("CurveTexture_avrp0")
+
+[node name="FieldStatusDew" instance=ExtResource("1_lfm0n")]
+script = ExtResource("2_lfm0n")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." index="0"]
+amount = 16
+texture = ExtResource("3_1kqbg")
+lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_jxkdh")

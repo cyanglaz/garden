@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bytxyi30yyvo2"
+path="res://.godot/imported/dew_particle.aseprite-28fafe0bfe352dd6449a47659870cb6f.res"
+
+[deps]
+
+source_file="res://resources/sprites/objects/field_objects/dew_particle.aseprite"
+dest_files=["res://.godot/imported/dew_particle.aseprite-28fafe0bfe352dd6449a47659870cb6f.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
