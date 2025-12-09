@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://cvbnbmilgq314"]
-
-[node name="DewParticle" type="Node2D"]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

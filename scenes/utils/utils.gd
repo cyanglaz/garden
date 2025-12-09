@@ -248,7 +248,7 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 			return ActionData.ActionType.DISCARD_CARD
 		"greenhouse":
 			return ActionData.ActionType.GREENHOUSE
-		"seep":
+		"dew":
 			return ActionData.ActionType.DEW
 		"energy":
 			return ActionData.ActionType.ENERGY
