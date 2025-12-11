@@ -10,9 +10,6 @@ light = 2
 water = 3
 chapters = Array[int]([0])
 abilities = Array[ExtResource("1_s08on")]([ExtResource("2_4aude")])
-initial_field_status = {
-&"pest": "1"
-}
 id = "tulip"
 display_name = "Tulip"
 data = {
