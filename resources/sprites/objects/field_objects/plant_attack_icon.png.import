@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cixnsx4bh08cs"
-path="res://.godot/imported/card_attack_action_indicator.png-07858cf4db7dcb186cf7ea3556722af9.ctex"
+uid="uid://daei1c80pa33k"
+path="res://.godot/imported/plant_attack_icon.png-f4a208cdcf9400450455e40d617faa58.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/GUI/icons/cards/action_indicators/card_attack_action_indicator.png"
-dest_files=["res://.godot/imported/card_attack_action_indicator.png-07858cf4db7dcb186cf7ea3556722af9.ctex"]
+source_file="res://resources/sprites/objects/field_objects/plant_attack_icon.png"
+dest_files=["res://.godot/imported/plant_attack_icon.png-f4a208cdcf9400450455e40d617faa58.ctex"]
 
 [params]
 

@@ -153,6 +153,7 @@ func _end_turn() -> void:
 		# _win() is called by _bloom()
 		return
 	plant_field_container.handle_turn_end()
+	await plant_field_container.plants_attack()
 	await weather_main.pass_day()
 	gui.toggle_all_ui(true)
 	_start_turn()

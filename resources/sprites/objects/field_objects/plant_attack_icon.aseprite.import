@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://em4fhxjfidsl"
+path="res://.godot/imported/plant_attack_icon.aseprite-a9f854d676eeb14e92b100902ec7fd3b.res"
+
+[deps]
+
+source_file="res://resources/sprites/objects/field_objects/plant_attack_icon.aseprite"
+dest_files=["res://.godot/imported/plant_attack_icon.aseprite-a9f854d676eeb14e92b100902ec7fd3b.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
