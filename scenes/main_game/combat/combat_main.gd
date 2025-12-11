@@ -139,6 +139,7 @@ func _start_turn() -> void:
 func _end_turn() -> void:
 	gui.toggle_all_ui(false)
 	_clear_tool_selection()
+	await _trigger_turn_end_cards()
 	await _discard_all_tools()
 	if _met_win_condition():
 		return
@@ -172,6 +173,11 @@ func _win() -> void:
 	session_summary.total_days += day_manager.day
 	gui.animate_show_reward_main(_combat)
 	
+func _trigger_turn_end_cards() -> void:
+	if tool_manager.tool_deck.hand.is_empty():
+		return
+	await tool_manager.trigger_turn_end_cards(self, plant_field_container.plants)
+
 func _discard_all_tools() -> void:
 	if tool_manager.tool_deck.hand.is_empty():
 		return

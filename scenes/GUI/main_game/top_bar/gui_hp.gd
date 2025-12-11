@@ -64,6 +64,7 @@ func _on_hp_value_update(hp:ResourcePoint) -> void:
 
 func _play_animation(diff:int) -> void:
 	var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()
+	popup.bump_direction = PopupThing.BumpDirection.DOWN
 	var color:Color = HP_DECREASE_COLOR
 	if diff > 0:
 		color = HP_INCREASE_COLOR
@@ -72,7 +73,7 @@ func _play_animation(diff:int) -> void:
 		_play_hp_drop_animation()
 		color = HP_DECREASE_COLOR
 	popup.setup(str(diff), color, 10)
-	Events.request_display_popup_things.emit(popup, -10, 10, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, gui_bordered_progress_bar.global_position + Vector2.RIGHT * gui_bordered_progress_bar.size.x)
+	Events.request_display_popup_things.emit(popup, -20, 5, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, gui_bordered_progress_bar.global_position + Vector2.RIGHT * gui_bordered_progress_bar.size.x)
 
 func _play_hp_drop_animation() -> void:
 	if _animation_player.is_playing():

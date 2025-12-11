@@ -3,12 +3,18 @@ extends RefCounted
 
 const IN_USE_PAUSE := 0.2
 
+enum ToolManagerState {
+	IDLE,
+	APPLYING_TURN_END_TOOL,
+}
+
 signal tool_application_started(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
 signal tool_application_error(tool_data:ToolData, warning_type:WarningManager.WarningType)
 signal hand_updated(hand:Array)
-signal _tool_lifecycle_completed(tool_data:ToolData, combat_main:CombatMain)
-signal _tool_actions_completed(tool_data:ToolData, combat_main:CombatMain)
+signal _tool_lifecycle_completed(tool_data:ToolData, combat_main:CombatMain, plants:Array)
+signal _tool_actions_completed(tool_data:ToolData, combat_main:CombatMain, plants:Array)
+signal _all_turn_end_cards_completed()
 
 var tool_deck:Deck
 var selected_tool_index:int: get = _get_selected_tool_index
@@ -22,6 +28,10 @@ var _tool_applier:ToolApplier = ToolApplier.new()
 var _tool_application_queue:Array[ToolData] = []
 var _tool_actions_queue:Array[ToolData] = []
 var _tool_lifecycle_queue:Array[ToolData] = []
+
+var _turn_end_cards_queue:Array = []
+
+var _state:ToolManagerState = ToolManagerState.IDLE
 
 var _weak_gui_tool_card_container:WeakRef = weakref(null)
 
@@ -58,6 +68,15 @@ func shuffle() -> void:
 	await _gui_tool_card_container.animate_shuffle(discard_pile.size())
 	tool_deck.shuffle_draw_pool()
 
+func trigger_turn_end_cards(combat_main:CombatMain, plants:Array) -> void:
+	_state = ToolManagerState.APPLYING_TURN_END_TOOL
+	_turn_end_cards_queue = tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return tool_data.specials.has(ToolData.Special.NIGHTFALL))
+	if _turn_end_cards_queue.is_empty():
+		return
+	_trigger_next_turn_end_card(combat_main, plants)
+	await _all_turn_end_cards_completed
+	_state = ToolManagerState.IDLE
+			
 func discard_cards(tools:Array) -> void:
 	assert(tools.size() > 0)
 	# Order is important, discard first, then animate
@@ -103,8 +122,8 @@ func apply_tool(combat_main:CombatMain, plants:Array, plant_index:int) -> void:
 	number_of_card_used_this_turn += 1
 	_tool_application_queue.append(applying_tool)
 	tool_application_started.emit(applying_tool)
+	_run_card_lifecycle(applying_tool, combat_main, plants)
 	_run_card_actions(combat_main, plants, plant_index, applying_tool, secondary_card_datas)
-	_run_card_lifecycle(applying_tool, combat_main)
 
 func discardable_cards() -> Array:
 	return tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return tool_data != selected_tool)
@@ -138,30 +157,28 @@ func update_tool_card(tool_data:ToolData, new_tool_data:ToolData) -> void:
 func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)
 
-func finish_card(tool_data:ToolData) -> void:
-	if tool_data.specials.has(ToolData.Special.COMPOST):
-		await exhaust_cards([tool_data])
-	else:
-		await discard_cards([tool_data])
-
 func refresh_ui() -> void:
 	_gui_tool_card_container.refresh_tool_cards()
 
-func _run_card_lifecycle(tool_data:ToolData, combat_main:CombatMain) -> void:
+func _run_card_lifecycle(tool_data:ToolData, combat_main:CombatMain, plants:Array) -> void:
 	_tool_lifecycle_queue.append(tool_data)
+	await _finish_card(tool_data)
+	_tool_lifecycle_queue.erase(tool_data)
+	_tool_lifecycle_completed.emit(tool_data, combat_main, plants)
+
+func _finish_card(tool_data:ToolData) -> void:
 	if tool_data.specials.has(ToolData.Special.COMPOST):
 		await exhaust_cards([tool_data])
 	else:
 		await discard_cards([tool_data])
-	_tool_lifecycle_queue.erase(tool_data)
-	_tool_lifecycle_completed.emit(tool_data, combat_main)
 
-func _run_card_actions(combat_main:CombatMain, plants:Array, plant_index:int, tool_data:ToolData, secondary_card_datas:Array) -> void:
+func _run_card_actions
+(combat_main:CombatMain, plants:Array, plant_index:int, tool_data:ToolData, secondary_card_datas:Array) -> void:
 	_tool_actions_queue.append(tool_data)
 	await combat_main.plant_field_container.trigger_tool_application_hook()
 	await _tool_applier.apply_tool(combat_main, plants, plant_index, tool_data, secondary_card_datas, null)
 	_tool_actions_queue.erase(tool_data)
-	_tool_actions_completed.emit(tool_data, combat_main)
+	_tool_actions_completed.emit(tool_data, combat_main, plants)
 
 func _get_secondary_cards_to_select_from(tool_data:ToolData) -> Array:
 	var selecting_from_cards:Array = tool_deck.hand.duplicate()
@@ -171,24 +188,36 @@ func _get_secondary_cards_to_select_from(tool_data:ToolData) -> Array:
 		selecting_from_cards = selecting_from_cards.filter(filter)
 	return selecting_from_cards
 
-func _handle_tool_application_completed(tool_data:ToolData, combat_main:CombatMain) -> void:
+func _handle_tool_application_completed(tool_data:ToolData, combat_main:CombatMain, plants:Array) -> void:
 	_tool_application_queue.erase(tool_data)
 	if tool_data.tool_script:
 		await tool_data.tool_script.handle_post_application_hook(tool_data, combat_main)
-	tool_application_completed.emit(tool_data)
+	match _state:
+		ToolManagerState.APPLYING_TURN_END_TOOL:
+			_trigger_next_turn_end_card(combat_main, plants)
+		_:
+			tool_application_completed.emit(tool_data)
 	is_applying_tool = false
+
+func _trigger_next_turn_end_card(combat_main:CombatMain, plants:Array) -> void:
+	if _turn_end_cards_queue.is_empty():
+		_all_turn_end_cards_completed.emit()
+		return
+	var next_tool_data:ToolData = _turn_end_cards_queue.pop_back()
+	select_tool(next_tool_data)
+	apply_tool(combat_main, plants, -1)
 
 #region events
 
-func _on_tool_lifecycle_completed(tool_data:ToolData, combat_main:CombatMain) -> void:
+func _on_tool_lifecycle_completed(tool_data:ToolData, combat_main:CombatMain, plants:Array) -> void:
 	assert(!_tool_lifecycle_queue.has(tool_data))
 	if !_tool_actions_queue.has(tool_data) && _tool_application_queue.has(tool_data):
-		_handle_tool_application_completed(tool_data, combat_main)
+		_handle_tool_application_completed(tool_data, combat_main, plants)
 
-func _on_tool_actions_completed(tool_data:ToolData, combat_main:CombatMain) -> void:
+func _on_tool_actions_completed(tool_data:ToolData, combat_main:CombatMain, plants:Array) -> void:
 	assert(!_tool_actions_queue.has(tool_data))
 	if !_tool_lifecycle_queue.has(tool_data) && _tool_application_queue.has(tool_data):
-		_handle_tool_application_completed(tool_data, combat_main)
+		_handle_tool_application_completed(tool_data, combat_main, plants)
 #endregion
 
 #region setters/getters

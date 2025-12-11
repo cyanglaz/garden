@@ -97,6 +97,16 @@ func _apply_instant_use_tool_action(action:ActionData, combat_main:CombatMain, t
 					x_action.modified_x_value -= calculated_value
 				ActionData.OperatorType.EQUAL_TO:
 					x_action.modified_x_value = calculated_value
+		ActionData.ActionType.UPDATE_HP:
+			var real_value := calculated_value
+			match action.operator_type:
+				ActionData.OperatorType.INCREASE:
+					real_value = calculated_value
+				ActionData.OperatorType.DECREASE:
+					real_value = -calculated_value
+				ActionData.OperatorType.EQUAL_TO:
+					real_value = calculated_value
+			Events.request_hp_update.emit(real_value)
 
 func _handle_discard_card_action(action:ActionData, combat_main:CombatMain, tool_data:ToolData, secondary_card_datas:Array) -> void:
 	var random := action.value_type == ActionData.ValueType.RANDOM

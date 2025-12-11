@@ -40,6 +40,7 @@ ACTION_NAME_DEW, "Dew"
 ACTION_NAME_ENERGY, "Energy"
 ACTION_NAME_UPDATE_X, "X"
 ACTION_NAME_UPDATE_GOLD, "Gold"
+ACTION_NAME_UPDATE_HP, "HP"
 
 ACTION_DESCRIPTION_DRAW_CARD, "Draw %s card(s)"
 ACTION_DESCRIPTION_DISCARD_CARD, "Discard %s card(s)"
@@ -84,13 +85,12 @@ GAME_OVER_TITLE, "Game Over"
 GAME_OVER_WEEK, "Week"
 GAME_OVER_TOTAL_GOLD_EARNED, "Total Gold Earned"
 
-CARD_SPECIAL_NAME_ON_DRAW, "On Draw"
-CARD_SPECIAL_DESCRIPTION_ON_DRAW, "This card is automatically used when drawn."
 CARD_SPECIAL_NAME_COMPOST, "Compost"
 CARD_SPECIAL_DESCRIPTION_COMPOST, "After use, this card cannot be played this level."
 CARD_SPECIAL_NAME_WITHER, "Wither"
 CARD_SPECIAL_DESCRIPTION_WITHER, "This card is automatically used at the end of the turn."
-
+CARD_SPECIAL_NAME_TURN_END, "Nightfall"
+CARD_SPECIAL_DESCRIPTION_TURN_END, "This card is triggered at the end of the turn."
 
 INFO_TITLE, "Library" 
 

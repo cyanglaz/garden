@@ -20,7 +20,7 @@ const COSTS := {
 enum Special {
 	COMPOST,
 	WITHER,
-	USE_TURN_END,
+	NIGHTFALL,
 }
 
 enum Type {
@@ -31,7 +31,7 @@ enum Type {
 
 @export var energy_cost:int = 1
 @export var actions:Array[ActionData]
-@export var rarity:int = 0 # -1: COMPOST, 0: common, 1: uncommon, 2: rare
+@export var rarity:int = 0 # -1: temp cards, 0: common, 1: uncommon, 2: rare
 @export var specials:Array[Special]
 @export var type:Type = Type.SKILL
 

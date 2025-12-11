@@ -17,6 +17,7 @@ enum ActionType {
 	ENERGY,
 	UPDATE_X,
 	UPDATE_GOLD,
+	UPDATE_HP,
 }
 
 enum ActionCategory {

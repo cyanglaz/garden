@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://blta0wpx7v1ya"
+path="res://.godot/imported/icon_nightfall.aseprite-c99bbb1a0894b9abf955caaf6c09aad5.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_nightfall.aseprite"
+dest_files=["res://.godot/imported/icon_nightfall.aseprite-c99bbb1a0894b9abf955caaf6c09aad5.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

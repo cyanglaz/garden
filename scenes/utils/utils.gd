@@ -222,6 +222,8 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "update_x"
 		ActionData.ActionType.UPDATE_GOLD:
 			id = "gain_gold"
+		ActionData.ActionType.UPDATE_HP:
+			id = "update_hp"
 		ActionData.ActionType.NONE:
 			pass
 	return id
@@ -256,6 +258,8 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 			return ActionData.ActionType.UPDATE_X
 		"gain_gold":
 			return ActionData.ActionType.UPDATE_GOLD
+		"update_hp":
+			return ActionData.ActionType.UPDATE_HP
 		"none":
 			return ActionData.ActionType.NONE
 	assert(false, "Invalid action id: " + action_id)
@@ -292,6 +296,8 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 			action_name = Util.get_localized_string("ACTION_NAME_UPDATE_X")
 		ActionData.ActionType.UPDATE_GOLD:
 			action_name = Util.get_localized_string("ACTION_NAME_UPDATE_GOLD")
+		ActionData.ActionType.UPDATE_HP:
+			action_name = Util.get_localized_string("ACTION_NAME_UPDATE_HP")
 		ActionData.ActionType.NONE:
 			pass
 	return action_name
@@ -299,27 +305,27 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 static func get_id_for_tool_speical(special:ToolData.Special) -> String:
 	var id := ""
 	match special:
-		ToolData.Special.USE_ON_DRAW:
-			id = "use_on_draw"
 		ToolData.Special.COMPOST:
 			id = "compost"
 		ToolData.Special.WITHER:
 			id = "wither"
+		ToolData.Special.NIGHTFALL:
+			id = "nightfall"
 		_:
 			assert(false, "special id not implemented")
 	return id
 
 static func get_special_from_id(id:String) -> ToolData.Special:
 	match id:
-		"use_on_draw":
-			return ToolData.Special.USE_ON_DRAW
 		"compost":
 			return ToolData.Special.COMPOST
 		"wither":
 			return ToolData.Special.WITHER
+		"nightfall":
+			return ToolData.Special.NIGHTFALL
 		_:
 			assert(false, "Invalid special id: %s" % id)
-	return ToolData.Special.USE_ON_DRAW
+	return ToolData.Special.COMPOST
 
 static func get_id_for_action_speical(special:ActionData.Special) -> String:
 	var id := ""
