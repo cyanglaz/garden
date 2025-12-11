@@ -14,6 +14,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_hhwiy")
 energy_cost = -1
 actions = Array[ExtResource("1_0yj46")]([SubResource("Resource_7q7aa")])
+rarity = -1
 specials = Array[int]([2, 0])
 id = "curse"
 display_name = "Curse"

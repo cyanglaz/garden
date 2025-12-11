@@ -192,12 +192,10 @@ func _handle_tool_application_completed(tool_data:ToolData, combat_main:CombatMa
 	_tool_application_queue.erase(tool_data)
 	if tool_data.tool_script:
 		await tool_data.tool_script.handle_post_application_hook(tool_data, combat_main)
-	match _state:
-		ToolManagerState.APPLYING_TURN_END_TOOL:
-			_trigger_next_turn_end_card(combat_main, plants)
-		_:
-			tool_application_completed.emit(tool_data)
+	tool_application_completed.emit(tool_data)
 	is_applying_tool = false
+	if _state == ToolManagerState.APPLYING_TURN_END_TOOL:
+		_trigger_next_turn_end_card(combat_main, plants)
 
 func _trigger_next_turn_end_card(combat_main:CombatMain, plants:Array) -> void:
 	if _turn_end_cards_queue.is_empty():
