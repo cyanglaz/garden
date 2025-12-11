@@ -22,11 +22,11 @@ func attack() -> void:
 func update_with_plant(plant:Plant) -> void:
 	match plant.data.difficulty:
 		0:
-			damage = 3
+			damage = 2
 		1:
-			damage = 5
+			damage = 3
 		2:
-			damage = 7
+			damage = 5
 		_:
 			assert(false, "Invalid difficulty: " + str(plant.data.difficulty))
 	label.text = str(damage)

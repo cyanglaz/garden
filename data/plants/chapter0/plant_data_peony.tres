@@ -9,9 +9,6 @@ light = 10
 water = 4
 difficulty = 1
 chapters = Array[int]([0])
-initial_field_status = {
-&"pest": "2"
-}
 id = "peony"
 display_name = "Peony"
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

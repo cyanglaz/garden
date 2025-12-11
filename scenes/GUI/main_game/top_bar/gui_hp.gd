@@ -23,8 +23,8 @@ const TEXTURE_SHAKE_DISTANCE := 1
 @onready var gui_bordered_progress_bar: GUIProgressBar = %GUIBorderedProgressBar
 @onready var rich_text_label: RichTextLabel = %RichTextLabel
 @onready var _texture_rect: TextureRect = %TextureRect
-@onready var _drop_sound: AudioStreamPlayer2D = %DropSound
 @onready var _up_sound: AudioStreamPlayer2D = %UpSound
+@onready var _animation_player: AnimationPlayer = %AnimationPlayer
 
 var _current_value:int = -1
 
@@ -75,23 +75,10 @@ func _play_animation(diff:int) -> void:
 	Events.request_display_popup_things.emit(popup, -10, 10, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, gui_bordered_progress_bar.global_position + Vector2.RIGHT * gui_bordered_progress_bar.size.x)
 
 func _play_hp_drop_animation() -> void:
-	_drop_sound.play()
-	var tween:Tween = Util.create_scaled_tween(self)
-	var texture_rect_position:Vector2 = _texture_rect.position
-	var label_position:Vector2 = rich_text_label.position
-	for i in SHAKE_TIMES:
-		tween.tween_property(_texture_rect, "position", texture_rect_position + Vector2.RIGHT * TEXTURE_SHAKE_DISTANCE, 0.05).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
-		tween.tween_property(rich_text_label, "position", label_position + Vector2.RIGHT * TEXTURE_SHAKE_DISTANCE, 0.05).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
-		var shake_left_position:Vector2 = texture_rect_position + Vector2.LEFT * TEXTURE_SHAKE_DISTANCE
-		var shake_left_label_position:Vector2 = label_position + Vector2.LEFT * TEXTURE_SHAKE_DISTANCE
-		if i < SHAKE_TIMES - 1:
-			shake_left_position = texture_rect_position
-			shake_left_label_position = label_position
-		tween.tween_property(_texture_rect, "position", shake_left_position, 0.05).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
-		tween.tween_property(rich_text_label, "position", shake_left_label_position, 0.05).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
-	await tween.finished
-	_texture_rect.position = texture_rect_position
-	rich_text_label.position = label_position
+	if _animation_player.is_playing():
+		_animation_player.stop()
+	_animation_player.play("hp_drop")
+	await _animation_player.animation_finished
 
 func _play_hp_increase_animation() -> void:
 	_up_sound.play()
