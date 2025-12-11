@@ -10,11 +10,15 @@ const PEST_SCENE := preload("res://scenes/main_game/field/status/status_componen
 func _update_for_plant(plant:Plant) -> void:
 	_respawn_pests(plant)
 
-func _has_end_turn_hook(_plant:Plant) -> bool:
-	return true
+func _has_end_turn_hook(plant:Plant) -> bool:
+	return plant != null
 
-func _handle_end_turn_hook(_combat_main:CombatMain, _plant:Plant) -> void:
-	Events.request_hp_update.emit(-(status_data.data["value"] as int) * stack)
+func _handle_end_turn_hook(_combat_main:CombatMain, plant:Plant) -> void:
+	var reduce_light_action:ActionData = ActionData.new()
+	reduce_light_action.type = ActionData.ActionType.LIGHT
+	reduce_light_action.operator_type = ActionData.OperatorType.DECREASE
+	reduce_light_action.value = (status_data.data["value"] as int) * stack
+	await plant.apply_actions([reduce_light_action])
 
 func _respawn_pests(plant:Plant) -> void:
 	Util.remove_all_children(pests_container)
@@ -29,4 +33,3 @@ func _respawn_pests(plant:Plant) -> void:
 		var pest:Pest = PEST_SCENE.instantiate()
 		pest.moving_area_size = Vector2(used_rect.size.x + 10, used_rect.size.y)
 		pests_container.add_child(pest)
-		print(pest.moving_area_size)

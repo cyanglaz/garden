@@ -4,11 +4,11 @@
 
 [resource]
 script = ExtResource("1_hiam4")
-popup_message = "Vitality Reduced"
+popup_message = "Light Reduced"
 stackable = true
 id = "pest"
 display_name = "Pest"
-description = "At the end of turn, reduce {resource:vitality} by {value} per stack."
+description = "The effected plant reduces {resource:light} by {value} at the end of turn."
 data = {
 "value": "1"
 }
