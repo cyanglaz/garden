@@ -132,16 +132,16 @@ func _get_reference_button_icon_path(category:String, id:String) -> String:
 func _get_reference_name(category:String, id:String) -> String:
 	match category:
 		"field_status":
-			return MainDatabase.field_status_database.get_data_by_id(id).display_name
+			return MainDatabase.field_status_database.get_data_by_id(id).get_display_name()
 		"action":
 			var action_type:ActionData.ActionType = Util.get_action_type_from_action_id(id)
 			return Util.get_action_name_from_action_type(action_type)
 		"card":
-			return MainDatabase.tool_database.get_data_by_id(id).display_name
+			return MainDatabase.tool_database.get_data_by_id(id).get_display_name()
 		"plant_ability":
-			return MainDatabase.plant_ability_database.get_data_by_id(id).display_name
+			return MainDatabase.plant_ability_database.get_data_by_id(id).get_display_name()
 		"weather":
-			return MainDatabase.weather_database.get_data_by_id(id).display_name
+			return MainDatabase.weather_database.get_data_by_id(id).get_display_name()
 		"special":
 			return ActionDescriptionFormulator.get_special_name(Util.get_special_from_id(id))
 		_:

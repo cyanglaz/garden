@@ -10,6 +10,9 @@ light = 4
 water = 1
 chapters = Array[int]([0])
 abilities = Array[ExtResource("1_v2uel")]([ExtResource("2_ah2tv")])
+initial_field_status = {
+&"curse": "1"
+}
 id = "daffodil"
 display_name = "Daffodil"
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

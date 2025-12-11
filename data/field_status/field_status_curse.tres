@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FieldStatusData" load_steps=2 format=3 uid="uid://5ty5o1d6pda8"]
+
+[ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/field_status_data.gd" id="1_6amwt"]
+
+[resource]
+script = ExtResource("1_6amwt")
+popup_message = "Curse Created"
+stackable = true
+id = "curse"
+display_name = "Curse"
+description = "For every {turn} turns, shuffle a {card:curse} to your hand at the end of the turn."
+data = {
+"turn": "2"
+}
+metadata/_custom_type_script = "uid://ep5ey6gqhty1"

@@ -18,7 +18,7 @@ func _ready() -> void:
 
 func _update_with_tooltip_request() -> void:
 	var weather_data:WeatherData = _tooltip_request.data as WeatherData
-	_name_label.text = weather_data.display_name
+	_name_label.text = weather_data.get_display_name()
 	if weather_data.actions.is_empty():
 		_rich_text_label.text = weather_data.get_display_description()
 	else:

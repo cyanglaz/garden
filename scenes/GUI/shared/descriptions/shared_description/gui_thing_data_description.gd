@@ -11,5 +11,5 @@ func update_with_thing_data(thing_data:ThingData) -> void:
 		texture_rect.texture = load(Util.get_image_path_for_resource_id(thing_data.id))
 	else:
 		texture_rect.hide()
-	title_label.text = thing_data.display_name
+	title_label.text = thing_data.get_display_name()
 	rich_text_label.text = thing_data.get_display_description()

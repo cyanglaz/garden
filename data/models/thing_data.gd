@@ -15,6 +15,7 @@ enum ReferenceType {
 @export var data:Dictionary
 @export_multiline var note:String
 
+var name_postfix:String = ""
 var upgrade_to_id:String: get = _get_upgrade_to_id
 var upgraded_from_id:String: get = _get_upgraded_from_id
 var base_id:String: get = _get_base_id
@@ -41,6 +42,12 @@ func get_duplicate() -> ThingData:
 	var dup:ThingData = ThingData.new()
 	dup.copy(self)
 	return dup
+
+func get_display_name() -> String:
+	if name_postfix.is_empty():
+		return display_name
+	else:
+		return display_name + name_postfix
 
 func get_display_description() -> String:
 	var formatted_description := description

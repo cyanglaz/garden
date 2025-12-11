@@ -110,9 +110,9 @@ static func _format_card_reference(reference_id:String, highlight:bool) -> Strin
 	var highlight_color := Util.get_color_for_card_rarity(card_data.rarity)
 	if highlight:
 		highlight_color = Constants.COLOR_WHITE
-	var card_name:String = Util.convert_to_bbc_highlight_text(card_data.display_name, highlight_color, 2)
+	var card_name:String = Util.convert_to_bbc_highlight_text(card_data.get_display_name(), highlight_color, 2)
 	return card_name
 	
 static func _format_weather_reference(reference_id:String) -> String:
-	var weather_name :String = MainDatabase.weather_database.get_data_by_id(reference_id).display_name
+	var weather_name :String = MainDatabase.weather_database.get_data_by_id(reference_id).get_display_name()
 	return Util.convert_to_bbc_highlight_text(weather_name, Constants.COLOR_WHITE)

@@ -7,6 +7,9 @@
 script = ExtResource("1_r6f3l")
 light = 5
 chapters = Array[int]([1])
+initial_field_status = {
+&"curse": "1"
+}
 id = "sunflower"
 display_name = "Sunflower"
 data = {

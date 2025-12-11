@@ -8,6 +8,9 @@ script = ExtResource("1_y5ah4")
 light = 1
 water = 3
 chapters = Array[int]([0])
+initial_field_status = {
+&"curse": "1"
+}
 id = "primrose"
 display_name = "Primrose"
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"
