@@ -65,10 +65,6 @@ func handle_turn_end() -> void:
 	for plant:Plant in plants:
 		plant.handle_turn_end()
 
-func plants_attack() -> void:
-	for plant in plants:
-		await plant.attack()
-
 func clear_tool_indicators() -> void:
 	for field:Field in fields:
 		field.toggle_selection_indicator(GUIFieldSelectionArrow.IndicatorState.HIDE)

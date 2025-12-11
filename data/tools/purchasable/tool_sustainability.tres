@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_jp5gh")
 rarity = 2
-specials = Array[int]([1])
+specials = Array[int]([0])
 type = 1
 id = "sustainability"
 display_name = "Sustainability"

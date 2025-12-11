@@ -22,7 +22,6 @@ func _handle_end_turn_hook(_combat_main:CombatMain, plant:Plant) -> void:
 
 func _respawn_pests(plant:Plant) -> void:
 	Util.remove_all_children(pests_container)
-	print(stack)
 	var sprite_frames:SpriteFrames = plant.plant_sprite.sprite_frames
 	var current_animation:StringName = plant.plant_sprite.animation
 	var frame_texture:Texture2D = sprite_frames.get_frame_texture(current_animation, 0)

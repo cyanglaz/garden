@@ -26,7 +26,6 @@ signal action_application_completed()
 @onready var curse_particle: GPUParticles2D = %CurseParticle
 @onready var bloom_particle: GPUParticles2D = %BloomParticle
 @onready var plant_ability_container: PlantAbilityContainer = %PlantAbilityContainer
-@onready var plant_attack: PlantAttack = %PlantAttack
 @onready var field_status_container: FieldStatusContainer = %FieldStatusContainer
 @onready var _buff_sound: AudioStreamPlayer2D = %BuffSound
 @onready var _point_audio: AudioStreamPlayer2D = %PointAudio
@@ -94,11 +93,6 @@ func bloom() -> void:
 func show_bloom_popup() -> void:
 	_point_audio.play()
 	# TODO:
-
-func attack() -> void:
-	if is_bloom():
-		return
-	await plant_attack.attack()	
 
 #endregion
 
@@ -216,7 +210,6 @@ func _set_data(value:PlantData) -> void:
 	water.setup(0, data.water)
 	plant_ability_container.setup_with_plant_data(data)
 	field_status_container.setup_with_plant(self)
-	plant_attack.update_with_plant(self)
 
 func _get_field() -> Field:
 	return _weak_field.get_ref()

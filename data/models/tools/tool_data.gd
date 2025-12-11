@@ -18,9 +18,9 @@ const COSTS := {
 }
 
 enum Special {
-	USE_ON_DRAW,
 	COMPOST,
 	WITHER,
+	USE_TURN_END,
 }
 
 enum Type {

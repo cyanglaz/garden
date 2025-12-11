@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://5hl240rod12d"]
+[gd_scene load_steps=25 format=3 uid="uid://5hl240rod12d"]
 
 [ext_resource type="Script" uid="uid://c3p4a5hat4001" path="res://scenes/main_game/plants/plants/plant.gd" id="1_k38v5"]
 [ext_resource type="PackedScene" uid="uid://c4uyy86onbdnu" path="res://scenes/state_machine/plants/plant_state_machine.tscn" id="2_o3cyj"]
@@ -6,11 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://ch73pnku1ejr5" path="res://scenes/main_game/plants/components/plant_ability_container.tscn" id="4_7q2y3"]
 [ext_resource type="Texture2D" uid="uid://cid4t4lf8q12j" path="res://resources/sprites/effects/particles/particle_5.png" id="7_n2kci"]
 [ext_resource type="Script" uid="uid://1m3di3iqxhf2" path="res://scenes/main_game/field/status/field_status_container.gd" id="8_avrp0"]
-[ext_resource type="PackedScene" uid="uid://bt1y38k8l182b" path="res://scenes/main_game/plants/components/plant_attack.tscn" id="9_cbxjf"]
 [ext_resource type="AudioStream" uid="uid://bs0jg061p4c2d" path="res://resources/sounds/SFX/field/field_buff.wav" id="14_gu4ic"]
 [ext_resource type="AudioStream" uid="uid://t10sv74gr8qu" path="res://resources/sounds/SFX/other/points/points_collected.wav" id="16_txblc"]
 
-[sub_resource type="Shader" id="Shader_cbxjf"]
+[sub_resource type="Shader" id="Shader_avrp0"]
 resource_local_to_scene = true
 code = "shader_type canvas_item;
 
@@ -46,7 +45,7 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_txblc"]
 resource_local_to_scene = true
-shader = SubResource("Shader_cbxjf")
+shader = SubResource("Shader_avrp0")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 
@@ -161,7 +160,3 @@ bus = &"SFX"
 unique_name_in_owner = true
 stream = ExtResource("16_txblc")
 bus = &"SFX"
-
-[node name="PlantAttack" parent="." instance=ExtResource("9_cbxjf")]
-unique_name_in_owner = true
-position = Vector2(0, -21)

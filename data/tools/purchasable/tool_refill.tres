@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_nj3du")
 rarity = 1
-specials = Array[int]([1])
+specials = Array[int]([0])
 id = "refill"
 display_name = "Refill"
 description = "Transfer a {card:empty_bottle} in hand to {card:bottled_water}.

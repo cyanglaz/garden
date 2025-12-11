@@ -7,7 +7,7 @@
 script = ExtResource("2_01e7c")
 energy_cost = 0
 rarity = 1
-specials = Array[int]([1])
+specials = Array[int]([0])
 id = "recharge"
 display_name = "Recharge"
 description = "Resets a {card:solar_battery} card."
