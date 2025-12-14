@@ -1,13 +1,15 @@
-[gd_resource type="Resource" script_class="PlantData" load_steps=3 format=3 uid="uid://cf678cnphhouf"]
+[gd_resource type="Resource" script_class="PlantData" load_steps=2 format=3 uid="uid://cf678cnphhouf"]
 
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_ni2q2"]
-[ext_resource type="Script" uid="uid://jejwqju653m5" path="res://data/models/plants/plant_ability_data.gd" id="1_rtn5y"]
 
 [resource]
 script = ExtResource("1_ni2q2")
 light = 3
 water = 2
 chapters = Array[int]([0])
+abilities = {
+&"attack": "1"
+}
 id = "daisy"
 display_name = "Daisy"
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

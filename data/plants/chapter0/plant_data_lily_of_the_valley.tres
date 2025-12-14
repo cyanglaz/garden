@@ -1,6 +1,5 @@
-[gd_resource type="Resource" script_class="PlantData" load_steps=3 format=3 uid="uid://cqxom50e8wuof"]
+[gd_resource type="Resource" script_class="PlantData" load_steps=2 format=3 uid="uid://cqxom50e8wuof"]
 
-[ext_resource type="Script" uid="uid://jejwqju653m5" path="res://data/models/plants/plant_ability_data.gd" id="1_y7oj0"]
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_ydpd7"]
 
 [resource]
@@ -9,6 +8,9 @@ light = 4
 water = 10
 difficulty = 1
 chapters = Array[int]([0])
+abilities = {
+&"attack": "2"
+}
 id = "lily_of_the_valley"
 display_name = "Lily of The Valley"
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

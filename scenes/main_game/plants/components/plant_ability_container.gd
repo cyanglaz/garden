@@ -10,6 +10,7 @@ func setup_with_plant_data(plant_data:PlantData) -> void:
 		var ability_node:PlantAbility = load(plant_ability_data.get_ability_path()).instantiate()
 		ability_node.ability_data = plant_ability_data
 		ability_node.stack = plant_ability_stack
+		ability_node.current_cooldown = plant_ability_data.cooldown
 		assert(ability_node)
 		add_child(ability_node)
 

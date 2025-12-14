@@ -8,6 +8,7 @@ light = 2
 water = 3
 chapters = Array[int]([0])
 abilities = {
+&"attack": "1",
 &"juicy": "2"
 }
 id = "tulip"

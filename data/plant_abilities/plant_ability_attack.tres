@@ -4,10 +4,8 @@
 
 [resource]
 script = ExtResource("1_itd44")
+cooldown = 2
 id = "attack"
 display_name = "Attack"
-description = "For every {turn} turns, shuffle a {card:damage} to your hand at the end of the turn."
-data = {
-"count": "2"
-}
+description = "Shuffle a {card:damage}({stack}) to your hand at the start of the turn."
 metadata/_custom_type_script = "uid://jejwqju653m5"

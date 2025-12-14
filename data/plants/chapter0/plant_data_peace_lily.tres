@@ -1,12 +1,14 @@
-[gd_resource type="Resource" script_class="PlantData" load_steps=3 format=3 uid="uid://dmmqf31ijms54"]
+[gd_resource type="Resource" script_class="PlantData" load_steps=2 format=3 uid="uid://dmmqf31ijms54"]
 
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_0smo2"]
-[ext_resource type="Script" uid="uid://jejwqju653m5" path="res://data/models/plants/plant_ability_data.gd" id="1_y4mvn"]
 
 [resource]
 script = ExtResource("1_0smo2")
 water = 5
 chapters = Array[int]([0, 1, 2, 3])
+abilities = {
+&"attack": "1"
+}
 id = "peace_lily"
 display_name = "Peace Lily"
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"
