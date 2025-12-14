@@ -1,6 +1,7 @@
 class_name PlantAbilityContainer
 extends Node2D
 
+signal ability_updated()
 signal request_ability_hook_animation(ability_id:String)
 
 func setup_with_plant_data(plant_data:PlantData) -> void:
@@ -17,6 +18,7 @@ func setup_with_plant_data(plant_data:PlantData) -> void:
 func clear_all_abilities() -> void:
 	for ability_node:PlantAbility in get_abilities():
 		ability_node.queue_free()
+	ability_updated.emit()
 
 func trigger_ability(ability_type:Plant.AbilityType, plant:Plant) -> void:
 	for ability_node:PlantAbility in get_children():
