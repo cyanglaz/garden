@@ -11,7 +11,7 @@ func _trigger_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> void:
 	var action_data:ActionData = ActionData.new()
 	action_data.type = ActionData.ActionType.PEST
 	action_data.operator_type = ActionData.OperatorType.DECREASE
-	action_data.value = 1
+	action_data.value = stack
 	if left_field && left_field.plant:
 		await left_field.plant.apply_actions([action_data])
 	if right_field && right_field.plant:

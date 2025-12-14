@@ -8,10 +8,12 @@ const ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_"
 const ANIMATION_OFFSET := 3
 
 @onready var _good_animation_audio: AudioStreamPlayer2D = %GoodAnimationAudio
+@onready var _stack_label: Label = %StackLabel
 
 var ability_id:String
 var library_mode := false
 var display_mode := false
+var current_stack:int = 0
 
 var _tooltip_id:String = ""
 
@@ -19,9 +21,17 @@ func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 	
-func update_with_plant_ability_data(plant_ability_data:PlantAbilityData) -> void:
+func update_with_plant_ability(plant_ability:PlantAbility) -> void:
+	update_with_plant_ability_data(plant_ability.ability_data, plant_ability.stack)
+
+func update_with_plant_ability_data(plant_ability_data:PlantAbilityData, stack:int) -> void:
+	current_stack = stack
 	ability_id = plant_ability_data.id
-	texture = load(ICON_PATH + ability_id + ".png")
+	texture = load(ICON_PATH + plant_ability_data.id + ".png")
+	if stack > 0:
+		_stack_label.text = str(stack)
+	else:
+		_stack_label.text = ""
 
 func play_trigger_animation() -> void:
 	_good_animation_audio.play()
@@ -39,7 +49,7 @@ func _on_mouse_entered() -> void:
 	if display_mode:
 		return
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.PLANT_ABILITY, data, _tooltip_id, self, GUITooltip.TooltipPosition.BOTTOM_LEFT))
+	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.PLANT_ABILITY, data, _tooltip_id, self, GUITooltip.TooltipPosition.BOTTOM_LEFT, {"stack": current_stack}))
 
 func _on_mouse_exited() -> void:
 	is_highlighted = false

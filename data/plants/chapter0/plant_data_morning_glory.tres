@@ -1,8 +1,6 @@
-[gd_resource type="Resource" script_class="PlantData" load_steps=4 format=3 uid="uid://bo0md1siwv4eu"]
+[gd_resource type="Resource" script_class="PlantData" load_steps=2 format=3 uid="uid://bo0md1siwv4eu"]
 
-[ext_resource type="Script" uid="uid://jejwqju653m5" path="res://data/models/plants/plant_ability_data.gd" id="1_j7o3q"]
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_p3yhp"]
-[ext_resource type="Resource" uid="uid://c7w2gphpk8t4s" path="res://data/plant_abilities/plant_ability_tangled.tres" id="2_4pd4s"]
 
 [resource]
 script = ExtResource("1_p3yhp")
@@ -10,9 +8,8 @@ light = 15
 water = 9
 difficulty = 2
 chapters = Array[int]([0])
-abilities = Array[ExtResource("1_j7o3q")]([ExtResource("2_4pd4s")])
-initial_field_status = {
-&"curse": "3"
+abilities = {
+&"tangled": 0
 }
 id = "morning_glory"
 display_name = "Morning Glory"

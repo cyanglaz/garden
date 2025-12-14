@@ -9,9 +9,6 @@ light = 7
 water = 7
 difficulty = 1
 chapters = Array[int]([1])
-initial_field_status = {
-&"curse": "1"
-}
 id = "nightshade"
 display_name = "Nightshade"
 data = {

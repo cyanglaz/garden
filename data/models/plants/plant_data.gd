@@ -5,7 +5,7 @@ extends ThingData
 @export var water:int
 @export var difficulty:int
 @export var chapters:Array[int]
-@export var abilities:Array[PlantAbilityData]
+@export var abilities:Dictionary
 @export var initial_field_status:Dictionary
 
 func copy(other:ThingData) -> void:

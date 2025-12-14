@@ -2,6 +2,7 @@ class_name PlantAbility
 extends Node2D
 
 var ability_data:PlantAbilityData
+var stack:int = 0
 
 func has_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> bool:
 	return _has_ability_hook(ability_type, plant)

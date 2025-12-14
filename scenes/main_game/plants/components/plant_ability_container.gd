@@ -4,10 +4,12 @@ extends Node2D
 signal request_ability_hook_animation(ability_id:String)
 
 func setup_with_plant_data(plant_data:PlantData) -> void:
-	for plant_ability_data:PlantAbilityData in plant_data.abilities:
-		var ability_path := plant_ability_data.get_ability_path()
-		var ability_node:PlantAbility = load(ability_path).instantiate()
+	for plant_ability_id:String in plant_data.abilities.keys():
+		var plant_ability_stack:int = (plant_data.abilities[plant_ability_id] as int)
+		var plant_ability_data:PlantAbilityData = MainDatabase.plant_ability_database.get_data_by_id(plant_ability_id)
+		var ability_node:PlantAbility = load(plant_ability_data.get_ability_path()).instantiate()
 		ability_node.ability_data = plant_ability_data
+		ability_node.stack = plant_ability_stack
 		assert(ability_node)
 		add_child(ability_node)
 

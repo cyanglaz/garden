@@ -11,7 +11,7 @@ func _trigger_ability_hook(ability_type:Plant.AbilityType, _plant:Plant) -> void
 	var from_position:Vector2 = get_global_transform_with_canvas().origin - GUIToolCardButton.SIZE / 2
 	var tool_datas := []
 	var last_tool_data:ToolData
-	for i in ability_data.data["count"] as int:
+	for i in stack:
 		last_tool_data = tool_data.get_duplicate()
 		tool_datas.append(last_tool_data)
 	Events.request_add_tools_to_hand.emit(tool_datas, from_position, true)

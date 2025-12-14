@@ -27,8 +27,8 @@ func update_with_plant_data(plant_data:PlantData) -> void:
 	plant_tooltip.update_with_request(TooltipRequest.new(TooltipRequest.TooltipType.PLANT, plant_data, "", null, GUITooltip.TooltipPosition.RIGHT))
 	_find_reference_pairs_and_add_buttons(plant_data.description)
 	var ability_pairs:Array = []
-	for plant_ability:PlantAbilityData in plant_data.abilities:
-		ability_pairs.append(["plant_ability", plant_ability.id])
+	for plant_ability_id:String in plant_data.abilities.keys():
+		ability_pairs.append(["plant_ability", plant_ability_id])
 	_add_reference_buttons(ability_pairs)
 
 func update_with_tool_data(tool_data:ToolData) -> void:

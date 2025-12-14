@@ -10,7 +10,6 @@ func enter() -> void:
 	await plant.trigger_ability(Plant.AbilityType.BLOOM)
 	plant.field_status_container.clear_all_statuses()
 	plant.plant_ability_container.clear_all_abilities()
-	plant.plant_attack.hide()
 	plant.bloom_completed.emit()
 
 func _play_bloom_animation() -> void:
