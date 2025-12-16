@@ -37,10 +37,17 @@ func start(chapter:int) -> void:
 func level_end_stop() -> void:
 	_current_weather.stop()
 
+func night_fall() -> void:
+	if _current_weather:
+		await _current_weather.animate_out()
+		_current_weather.queue_free()
+	var tween_night:Tween = Util.create_scaled_tween(_canvas_modulate)
+	tween_night.tween_property(_canvas_modulate, "color", NIGHT_CANVAS_MODULATE_COLOR, WEATHER_TRASITION_TIME/2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	await tween_night.finished
+
 func pass_day() -> void:
 	weather_manager.pass_day()
 	await _update_weather_scene()
-
 	weathers_updated.emit()
 
 func get_current_weather() -> WeatherData:
@@ -52,13 +59,7 @@ func _update_weather_scene() -> void:
 	weathers_updated.emit()
 
 func _animate_transition_to_weather(new_weather:WeatherData) -> void:
-	if _current_weather:
-		await _current_weather.animate_out()
-		_current_weather.queue_free()
 	_add_new_weather(new_weather)
-	var tween_night:Tween = Util.create_scaled_tween(_canvas_modulate)
-	tween_night.tween_property(_canvas_modulate, "color", NIGHT_CANVAS_MODULATE_COLOR, WEATHER_TRASITION_TIME/2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	await tween_night.finished
 	var tween_day:Tween = Util.create_scaled_tween(_canvas_modulate)
 	tween_day.tween_property(_canvas_modulate, "color", DAY_CANVAS_MODULATE_COLOR, WEATHER_TRASITION_TIME/2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	await tween_day.finished
