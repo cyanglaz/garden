@@ -1,5 +1,5 @@
 class_name GUIPlantAbilityIcon
-extends GUIIcon
+extends PanelContainer
 
 const INACTIVE_BLEND_COLOR := Constants.COLOR_BLACK
 
@@ -9,6 +9,7 @@ const ANIMATION_OFFSET := 3
 
 @onready var _good_animation_audio: AudioStreamPlayer2D = %GoodAnimationAudio
 @onready var _stack_label: Label = %StackLabel
+@onready var _gui_icon: GUIIcon = %GUIIcon
 
 var ability_id:String
 var library_mode := false
@@ -27,7 +28,7 @@ func update_with_plant_ability(plant_ability:PlantAbility) -> void:
 func update_with_plant_ability_data(plant_ability_data:PlantAbilityData, stack:int) -> void:
 	current_stack = stack
 	ability_id = plant_ability_data.id
-	texture = load(ICON_PATH + plant_ability_data.id + ".png")
+	_gui_icon.texture = load(ICON_PATH + plant_ability_data.id + ".png")
 	if stack > 0:
 		_stack_label.text = str(stack)
 	else:
@@ -38,11 +39,11 @@ func play_trigger_animation() -> void:
 	var original_position:Vector2 = position
 	var tween:Tween = Util.create_scaled_tween(self)
 	for i in 2:
-		tween.tween_property(self, "position", position + Vector2.UP * ANIMATION_OFFSET, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		tween.tween_property(self, "position", original_position, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(_gui_icon, "position", position + Vector2.UP * ANIMATION_OFFSET, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(_gui_icon, "position", original_position, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	
 func _on_mouse_entered() -> void:
-	is_highlighted = true
+	_gui_icon.is_highlighted = true
 	var data := MainDatabase.plant_ability_database.get_data_by_id(ability_id)
 	if !library_mode:
 		Events.update_hovered_data.emit(data)
@@ -52,7 +53,7 @@ func _on_mouse_entered() -> void:
 	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.PLANT_ABILITY, data, _tooltip_id, self, GUITooltip.TooltipPosition.BOTTOM_LEFT, {"stack": current_stack}))
 
 func _on_mouse_exited() -> void:
-	is_highlighted = false
+	_gui_icon.is_highlighted = false
 	if !library_mode:
 		Events.update_hovered_data.emit(null)
 	if display_mode:

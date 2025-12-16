@@ -2,6 +2,7 @@ class_name PlantField
 extends Field
 
 const PLANT_SCENE_PATH_PREFIX:String = "res://scenes/main_game/plants/plants/plant_"
+const PLANT_ABILITY_ICON_SIZE := 7
 
 signal action_application_completed()
 signal plant_bloom_started()
@@ -134,5 +135,5 @@ func _set_size(val:int) -> void:
 
 		_gui_field_status_container.position.x = (size+2) * FieldLand.CELL_SIZE.x/2 + 3
 
-		_gui_plant_ability_icon_container.position.x = - (size+2) * FieldLand.CELL_SIZE.x/2 - 3
+		_gui_plant_ability_icon_container.position.x = - (size+2) * FieldLand.CELL_SIZE.x/2 - 3 - PLANT_ABILITY_ICON_SIZE
 #endregion
