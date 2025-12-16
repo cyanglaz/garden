@@ -9,7 +9,7 @@ var current_cooldown:int = 0: set = _set_current_cooldown
 
 func has_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> bool:
 	if current_cooldown > 0:
-		if ability_type == Plant.AbilityType.END_TURN:
+		if ability_type == Plant.AbilityType.START_TURN:
 			current_cooldown -= 1
 		return false
 	return _has_ability_hook(ability_type, plant)

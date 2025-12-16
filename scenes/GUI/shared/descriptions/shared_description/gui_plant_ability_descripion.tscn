@@ -52,3 +52,13 @@ theme_type_variation = &"RichTextControlTipSmall"
 bbcode_enabled = true
 fit_content = true
 scroll_active = false
+
+[node name="CooldownLabel" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+mouse_filter = 1
+theme_type_variation = &"RichTextControlTip"
+bbcode_enabled = true
+fit_content = true
+scroll_active = false

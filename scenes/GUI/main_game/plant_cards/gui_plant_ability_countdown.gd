@@ -7,6 +7,9 @@ const COUNT_DOWN_DOT_SCENE := preload("res://scenes/GUI/main_game/plant_cards/gu
 
 func setup_with_plant_ability(plant_ability:PlantAbility) -> void:
 	Util.remove_all_children(h_box_container)
+	if plant_ability.ability_data.cooldown <= 0:
+		hide()
+		return
 	for i in plant_ability.ability_data.cooldown:
 		var count_down_dot:GUIPlantAbilityCountdownDot = COUNT_DOWN_DOT_SCENE.instantiate()
 		h_box_container.add_child(count_down_dot)
