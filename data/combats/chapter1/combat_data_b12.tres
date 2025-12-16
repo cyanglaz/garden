@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="CombatData" load_steps=6 format=3 uid="uid://caacplds1iwvr"]
 
-[ext_resource type="Resource" uid="uid://bfjvutu1dux0h" path="res://data/bosses/boss_the_bramble.tres" id="1_cqexx"]
+[ext_resource type="Resource" uid="uid://bvk6ymex4dlcq" path="res://data/bosses/boss_the_binder.tres" id="1_cqexx"]
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="2_12b68"]
 [ext_resource type="Resource" uid="uid://0avopik8d762" path="res://data/plants/chapter0/plant_data_sunflower.tres" id="3_cqexx"]
 [ext_resource type="Resource" uid="uid://bo0md1siwv4eu" path="res://data/plants/chapter0/plant_data_morning_glory.tres" id="4_cqexx"]

@@ -45,6 +45,7 @@ vertical_alignment = 2
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_7j2hm")
 layout_mode = 2
+size_flags_horizontal = 10
 
 [node name="GUIPlantAbilityCountdown" parent="VBoxContainer" instance=ExtResource("4_8lh2r")]
 unique_name_in_owner = true
