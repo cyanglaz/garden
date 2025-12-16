@@ -10,6 +10,7 @@ const ANIMATION_OFFSET := 3
 @onready var _good_animation_audio: AudioStreamPlayer2D = %GoodAnimationAudio
 @onready var _stack_label: Label = %StackLabel
 @onready var _gui_icon: GUIIcon = %GUIIcon
+@onready var _gui_plant_ability_countdown: GUIPlantAbilityCountdown = %GUIPlantAbilityCountdown
 
 var ability_id:String
 var library_mode := false
@@ -24,6 +25,7 @@ func _ready() -> void:
 	
 func update_with_plant_ability(plant_ability:PlantAbility) -> void:
 	update_with_plant_ability_data(plant_ability.ability_data, plant_ability.stack)
+	_gui_plant_ability_countdown.setup_with_plant_ability(plant_ability)
 
 func update_with_plant_ability_data(plant_ability_data:PlantAbilityData, stack:int) -> void:
 	current_stack = stack
@@ -36,10 +38,10 @@ func update_with_plant_ability_data(plant_ability_data:PlantAbilityData, stack:i
 
 func play_trigger_animation() -> void:
 	_good_animation_audio.play()
-	var original_position:Vector2 = position
+	var original_position:Vector2 = _gui_icon.position
 	var tween:Tween = Util.create_scaled_tween(self)
 	for i in 2:
-		tween.tween_property(_gui_icon, "position", position + Vector2.UP * ANIMATION_OFFSET, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(_gui_icon, "position", _gui_icon.position + Vector2.UP * ANIMATION_OFFSET, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		tween.tween_property(_gui_icon, "position", original_position, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	
 func _on_mouse_entered() -> void:

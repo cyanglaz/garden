@@ -141,13 +141,13 @@ func _end_turn() -> void:
 	_clear_tool_selection()
 	await weather_main.apply_weather_actions(plant_field_container.plants, self)
 	await power_manager.handle_weather_application_hook(self, weather_main.get_current_weather())
+	tool_manager.card_use_limit_reached = false
+	await plant_field_container.trigger_end_turn_hooks(self)
 	await weather_main.night_fall()
 	await _trigger_turn_end_cards()
 	await _discard_all_tools()
 	if _met_win_condition():
 		return
-	tool_manager.card_use_limit_reached = false
-	await plant_field_container.trigger_end_turn_hooks(self)
 	tool_manager.cleanup_for_turn()
 	combat_modifier_manager.clear_for_turn()
 	power_manager.remove_single_turn_powers()

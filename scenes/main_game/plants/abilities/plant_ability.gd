@@ -1,9 +1,11 @@
 class_name PlantAbility
 extends Node2D
 
+signal cooldown_updated(cooldown:int)
+
 var ability_data:PlantAbilityData
 var stack:int = 0
-var current_cooldown:int = 0
+var current_cooldown:int = 0: set = _set_current_cooldown
 
 func has_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> bool:
 	if current_cooldown > 0:
@@ -25,3 +27,7 @@ func _trigger_ability_hook(_ability_type:Plant.AbilityType, _plant:Plant) -> voi
 	await Util.await_for_tiny_time()
 
 #endregion
+
+func _set_current_cooldown(value:int) -> void:
+	current_cooldown = value
+	cooldown_updated.emit(value)
