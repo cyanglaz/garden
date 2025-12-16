@@ -7,8 +7,8 @@ const SHOP_MAIN_SCENE := preload("res://scenes/main_game/shop/shop_main.tscn")
 const TAVERN_MAIN_SCENE := preload("res://scenes/main_game/tavern/tavern_main.tscn")
 const CHEST_MAIN_SCENE := preload("res://scenes/main_game/chest/chest_main.tscn")
 
-const INITIAL_RATING_VALUE := 100
-const INITIAL_RATING_MAX_VALUE := 100
+const INITIAL_HP_VALUE := 10
+const INITIAL_HP_MAX_VALUE := 10
 const SCENE_TRANSITION_TIME := 0.2
 
 @export var player:PlayerData
@@ -34,7 +34,7 @@ var _warning_manager:WarningManager = WarningManager.new(self)
 func _ready() -> void:
 	Singletons.main_game = self
 	
-	hp.setup(INITIAL_RATING_VALUE, INITIAL_RATING_MAX_VALUE)
+	hp.setup(INITIAL_HP_VALUE, INITIAL_HP_MAX_VALUE)
 
 	if test_tools.is_empty():
 		card_pool = player.initial_tools
