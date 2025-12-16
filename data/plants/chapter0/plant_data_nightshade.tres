@@ -9,7 +9,7 @@ water = 7
 difficulty = 1
 chapters = Array[int]([1])
 abilities = {
-&"attack": "2"
+&"attack": "8"
 }
 id = "nightshade"
 display_name = "Nightshade"

@@ -9,7 +9,7 @@ water = 10
 difficulty = 1
 chapters = Array[int]([0])
 abilities = {
-&"attack": "2"
+&"attack": "8"
 }
 id = "lily_of_the_valley"
 display_name = "Lily of The Valley"

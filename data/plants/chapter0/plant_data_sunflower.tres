@@ -7,7 +7,7 @@ script = ExtResource("1_r6f3l")
 light = 5
 chapters = Array[int]([1])
 abilities = {
-&"attack": "1"
+&"attack": "5"
 }
 id = "sunflower"
 display_name = "Sunflower"

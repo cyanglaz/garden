@@ -9,7 +9,7 @@ water = 9
 difficulty = 2
 chapters = Array[int]([0])
 abilities = {
-&"attack": "3",
+&"attack": "15",
 &"tangled": 0
 }
 id = "morning_glory"

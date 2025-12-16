@@ -7,7 +7,7 @@ script = ExtResource("1_0smo2")
 water = 5
 chapters = Array[int]([0, 1, 2, 3])
 abilities = {
-&"attack": "1"
+&"attack": "5"
 }
 id = "peace_lily"
 display_name = "Peace Lily"
