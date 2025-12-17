@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://btneq5irgf7ja"]
 
-[ext_resource type="PackedScene" uid="uid://k1nmjx4747gf" path="res://scenes/main_game/field/status/field_status.tscn" id="1_lfm0n"]
-[ext_resource type="Script" uid="uid://cxrxtcwvuthis" path="res://scenes/main_game/field/status/field_status_dew.gd" id="2_lfm0n"]
+[ext_resource type="PackedScene" uid="uid://k1nmjx4747gf" path="res://scenes/main_game/combat/fields/status/field_status.tscn" id="1_lfm0n"]
+[ext_resource type="Script" uid="uid://cxrxtcwvuthis" path="res://scenes/main_game/combat/fields/status/field_status_dew.gd" id="2_lfm0n"]
 [ext_resource type="Texture2D" uid="uid://dy101xs6jf2i4" path="res://resources/sprites/objects/field_objects/dew_particle.png" id="3_1kqbg"]
 
 [sub_resource type="Curve" id="Curve_jp31s"]

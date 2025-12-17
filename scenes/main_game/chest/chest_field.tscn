@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://ianwld66dkf"]
 
 [ext_resource type="PackedScene" uid="uid://ln50r4xpe1ai" path="res://scenes/main_game/field/field.tscn" id="1_heivs"]
-[ext_resource type="Script" uid="uid://bvjs76b4ujdqu" path="res://scenes/main_game/field/chest_field/chest_field.gd" id="2_iy0nv"]
+[ext_resource type="Script" uid="uid://bvjs76b4ujdqu" path="res://scenes/main_game/chest/chest_field.gd" id="2_iy0nv"]
 [ext_resource type="PackedScene" uid="uid://80viyq40b6jc" path="res://scenes/main_game/chest/chest.tscn" id="4_s0wlv"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_d750v"]

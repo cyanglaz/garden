@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dudtftycc301x"]
 
-[ext_resource type="Script" uid="uid://snfked8ipfn2" path="res://scenes/main_game/field/status/status_components/pest.gd" id="1_lk6ca"]
+[ext_resource type="Script" uid="uid://snfked8ipfn2" path="res://scenes/main_game/combat/fields/status/status_components/pest.gd" id="1_lk6ca"]
 [ext_resource type="Texture2D" uid="uid://tvbkpdpoekuv" path="res://resources/sprites/white_pixel.png" id="1_sdisl"]
 
 [node name="Pest" type="Node2D"]

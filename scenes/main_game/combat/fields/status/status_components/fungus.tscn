@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dejxd0pfqkle6"]
 
-[ext_resource type="Script" uid="uid://bgxl6efdir2sy" path="res://scenes/main_game/field/status/status_components/fungus.gd" id="1_6plu7"]
+[ext_resource type="Script" uid="uid://bgxl6efdir2sy" path="res://scenes/main_game/combat/fields/status/status_components/fungus.gd" id="1_6plu7"]
 [ext_resource type="Texture2D" uid="uid://jib07opl13up" path="res://resources/sprites/objects/field_objects/fungus.png" id="2_r1qlq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r1qlq"]

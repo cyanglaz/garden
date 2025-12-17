@@ -1,13 +1,13 @@
 [gd_scene load_steps=10 format=3 uid="uid://ccfwnjpit55o7"]
 
 [ext_resource type="PackedScene" uid="uid://ln50r4xpe1ai" path="res://scenes/main_game/field/field.tscn" id="1_gmygf"]
-[ext_resource type="Script" uid="uid://yxngfsmw1toa" path="res://scenes/main_game/field/plant_field/plant_field.gd" id="2_cw3i7"]
+[ext_resource type="Script" uid="uid://yxngfsmw1toa" path="res://scenes/main_game/combat/fields/plant_field.gd" id="2_cw3i7"]
 [ext_resource type="PackedScene" uid="uid://673wlt1ldg8q" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.tscn" id="5_rdxdm"]
 [ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/GUI/icons/resources/icon_light.png" id="6_qfgpi"]
 [ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/icon_water.png" id="7_suj65"]
-[ext_resource type="PackedScene" uid="uid://e0jhp4mhrm81" path="res://scenes/main_game/field/plant_field/gui_field_status_container.tscn" id="8_rburk"]
+[ext_resource type="PackedScene" uid="uid://e0jhp4mhrm81" path="res://scenes/main_game/combat/fields/gui_field_status_container.tscn" id="8_rburk"]
 [ext_resource type="Texture2D" uid="uid://dnma4y5ajsv2w" path="res://resources/sprites/GUI/icons/other_icons/check_icon_plant_complete.png" id="9_jdk52"]
-[ext_resource type="PackedScene" uid="uid://jaeock3j73t2" path="res://scenes/main_game/field/plant_field/gui_plant_ability_icon_container.tscn" id="10_prsfb"]
+[ext_resource type="PackedScene" uid="uid://jaeock3j73t2" path="res://scenes/main_game/combat/fields/gui_plant_ability_icon_container.tscn" id="10_prsfb"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_sh3mw"]
 resource_local_to_scene = true

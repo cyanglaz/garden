@@ -47,6 +47,7 @@ func _on_gui_plant_button_mouse_exited() -> void:
 	field_hovered.emit(false)
 
 func _on_plant_button_pressed() -> void:
+	_animation_player.stop()
 	_animation_player.play("dip")
 	field_pressed.emit()
 

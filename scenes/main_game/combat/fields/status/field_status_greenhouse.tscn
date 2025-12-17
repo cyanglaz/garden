@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://cw73d541vyc23"]
 
-[ext_resource type="PackedScene" uid="uid://k1nmjx4747gf" path="res://scenes/main_game/field/status/field_status.tscn" id="1_aaeck"]
-[ext_resource type="Script" uid="uid://c683rfjua8gcd" path="res://scenes/main_game/field/status/field_status_greenhouse.gd" id="2_4a5gl"]
+[ext_resource type="PackedScene" uid="uid://k1nmjx4747gf" path="res://scenes/main_game/combat/fields/status/field_status.tscn" id="1_aaeck"]
+[ext_resource type="Script" uid="uid://c683rfjua8gcd" path="res://scenes/main_game/combat/fields/status/field_status_greenhouse.gd" id="2_4a5gl"]
 [ext_resource type="Texture2D" uid="uid://cid4t4lf8q12j" path="res://resources/sprites/effects/particles/particle_5.png" id="3_1i48d"]
 
 [sub_resource type="Gradient" id="Gradient_1i48d"]

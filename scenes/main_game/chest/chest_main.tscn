@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://4p4u6myuj4oc" path="res://scenes/main_game/combat/weather/weather_main.tscn" id="2_jsprl"]
 [ext_resource type="PackedScene" uid="uid://b5vvjdyudqxkf" path="res://scenes/main_game/combat/world/water/dynamic_water.tscn" id="4_hy7bp"]
 [ext_resource type="PackedScene" uid="uid://dvx20utoq0vco" path="res://scenes/main_game/combat/world/background.tscn" id="5_yhjel"]
-[ext_resource type="PackedScene" uid="uid://ianwld66dkf" path="res://scenes/main_game/field/chest_field/chest_field.tscn" id="6_jsprl"]
+[ext_resource type="PackedScene" uid="uid://ianwld66dkf" path="res://scenes/main_game/chest/chest_field.tscn" id="6_jsprl"]
 
 [node name="ChestMain" type="Node2D"]
 script = ExtResource("1_1igly")

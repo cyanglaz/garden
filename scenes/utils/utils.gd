@@ -3,7 +3,7 @@ extends RefCounted
 
 const GUI_ALERT_POPUP_SCENE := preload("res://scenes/GUI/containers/gui_popup_alert.tscn")
 
-const FIELD_STATUS_SCRIPT_PREFIX := "res://scenes/main_game/field/status/field_status_script_"
+const FIELD_STATUS_SCRIPT_PREFIX := "res://scenes/main_game/combat/fields/status/field_status_script_"
 const POWER_SCRIPT_PREFIX := "res://scenes/main_game/power/power_scripts/power_script_"
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
 const SIGN_ICON_PREFIX := "res://resources/sprites/GUI/icons/cards/signs/icon_"

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://jaeock3j73t2"]
 
-[ext_resource type="Script" uid="uid://daor2yivkrosm" path="res://scenes/main_game/field/plant_field/gui_plant_ability_icon_container.gd" id="1_a36b2"]
+[ext_resource type="Script" uid="uid://daor2yivkrosm" path="res://scenes/main_game/combat/fields/gui_plant_ability_icon_container.gd" id="1_a36b2"]
 
 [node name="GUIPlantAbilityIconContainer" type="VBoxContainer"]
 anchors_preset = 3

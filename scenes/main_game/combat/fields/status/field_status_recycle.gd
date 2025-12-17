@@ -2,7 +2,7 @@ class_name FieldStatusRecycle
 extends FieldStatus
 
 const CONSECUTIVE_BALL_PROGRESS_DIFF := -0.05
-const RECYCLE_BALLS_SCENE = preload("res://scenes/main_game/field/status/status_components/recycle_balls.tscn")
+const RECYCLE_BALLS_SCENE = preload("res://scenes/main_game/combat/fields/status/status_components/recycle_balls.tscn")
 
 signal _adding_all_cards_finished()
 

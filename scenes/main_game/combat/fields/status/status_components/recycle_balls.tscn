@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bkqm2gf86nxi"]
 
-[ext_resource type="Script" uid="uid://btfbq8leca04v" path="res://scenes/main_game/field/status/status_components/recycle_balls.gd" id="1_7xrb8"]
+[ext_resource type="Script" uid="uid://btfbq8leca04v" path="res://scenes/main_game/combat/fields/status/status_components/recycle_balls.gd" id="1_7xrb8"]
 [ext_resource type="Texture2D" uid="uid://g1roo8e86hke" path="res://resources/sprites/objects/field_objects/recycle_ball.png" id="1_8446e"]
 
 [node name="RecycleBalls" type="Node2D"]

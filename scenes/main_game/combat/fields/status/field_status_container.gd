@@ -1,7 +1,7 @@
 class_name FieldStatusContainer
 extends Node2D
 
-const FIELD_STATUS_SCENE_PREFIX := "res://scenes/main_game/field/status/field_status_%s.tscn"
+const FIELD_STATUS_SCENE_PREFIX := "res://scenes/main_game/combat/fields/status/field_status_%s.tscn"
 
 signal status_updated()
 signal request_status_hook_animation(status_id:String)

@@ -3,7 +3,7 @@ extends FieldStatus
 
 const PEST_AREA_HORIZONTAL_OFFSET := 10.0
 
-const PEST_SCENE := preload("res://scenes/main_game/field/status/status_components/pest.tscn")
+const PEST_SCENE := preload("res://scenes/main_game/combat/fields/status/status_components/pest.tscn")
 
 @onready var pests_container: Node2D = %PestsContainer
 

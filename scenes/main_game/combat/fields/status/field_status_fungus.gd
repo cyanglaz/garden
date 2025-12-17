@@ -1,7 +1,7 @@
 class_name FieldStatusFungus
 extends FieldStatus
 
-const FUNGUS_SCENE := preload("res://scenes/main_game/field/status/status_components/fungus.tscn")
+const FUNGUS_SCENE := preload("res://scenes/main_game/combat/fields/status/status_components/fungus.tscn")
 
 var _number_of_fungi:int = 0
 
