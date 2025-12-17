@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://cq7734s7t5y87"]
+
+[ext_resource type="Texture2D" uid="uid://do80hg84be3v0" path="res://resources/sprites/GUI/icons/other_icons/hp_bar_segment.png" id="1_3raww"]
+[ext_resource type="Script" uid="uid://xqd1w1iauypj" path="res://scenes/GUI/main_game/top_bar/gui_hp_segment.gd" id="1_hsvh3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3raww"]
+resource_local_to_scene = true
+atlas = ExtResource("1_3raww")
+region = Rect2(0, 0, 4, 5)
+
+[node name="GUIHpSegment" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -38.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 6
+script = ExtResource("1_hsvh3")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+texture = SubResource("AtlasTexture_3raww")
+stretch_mode = 4
