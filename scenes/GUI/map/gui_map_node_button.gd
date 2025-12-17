@@ -17,8 +17,8 @@ func update_with_node(node:MapNode) -> void:
 			icon.texture = load(ICON_PATH_PREFIX + "boss.png")
 		MapNode.NodeType.SHOP:
 			icon.texture = load(ICON_PATH_PREFIX + "shop.png")
-		MapNode.NodeType.TAVERN:
-			icon.texture = load(ICON_PATH_PREFIX + "tavern.png")
+		MapNode.NodeType.TOWN:
+			icon.texture = load(ICON_PATH_PREFIX + "town.png")
 		MapNode.NodeType.CHEST:
 			icon.texture = load(ICON_PATH_PREFIX + "chest.png")
 		MapNode.NodeType.EVENT:

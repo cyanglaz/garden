@@ -1,7 +1,7 @@
-class_name GUITavernMain
+class_name GUITownMain
 extends CanvasLayer
 
-signal tavern_finished()
+signal town_finished()
 
 const RATING_GAIN_FREE := 5
 const RATING_GAIN_PAID := 12
@@ -20,10 +20,10 @@ var _display_y := 0.0
 
 func _ready() -> void:
 	_display_y = _main_panel.position.y
-	description_label.text = Util.get_localized_string("TAVERN_DESCRIPTION")
-	free_hp_button.label.text = DescriptionParser.format_references(Util.get_localized_string("TAVERN_FREE_RATING") % RATING_GAIN_FREE, {}, {}, func(_reference_id:String) -> bool: return false)
-	paid_hp_button.label.text = DescriptionParser.format_references(Util.get_localized_string("TAVERN_PAID_RATING") % [RATING_GAIN_PAID, RATING_GAIN_PAID_COST], {}, {}, func(_reference_id:String) -> bool: return false)
-	gain_gold_button.label.text = DescriptionParser.format_references(Util.get_localized_string("TAVERN_GAIN_GOLD") % GOLD_GAIN, {}, {}, func(_reference_id:String) -> bool: return false)
+	description_label.text = Util.get_localized_string("TOWN_DESCRIPTION")
+	free_hp_button.label.text = DescriptionParser.format_references(Util.get_localized_string("TOWN_FREE_RATING") % RATING_GAIN_FREE, {}, {}, func(_reference_id:String) -> bool: return false)
+	paid_hp_button.label.text = DescriptionParser.format_references(Util.get_localized_string("TOWN_PAID_RATING") % [RATING_GAIN_PAID, RATING_GAIN_PAID_COST], {}, {}, func(_reference_id:String) -> bool: return false)
+	gain_gold_button.label.text = DescriptionParser.format_references(Util.get_localized_string("TOWN_GAIN_GOLD") % GOLD_GAIN, {}, {}, func(_reference_id:String) -> bool: return false)
 	free_hp_button.pressed.connect(_on_free_hp_button_pressed)
 	paid_hp_button.pressed.connect(_on_paid_hp_button_pressed)
 	gain_gold_button.pressed.connect(_on_gain_gold_button_pressed)
@@ -46,7 +46,7 @@ func _play_show_animation() -> void:
 
 func _finish() -> void:
 	await _animate_hide()
-	tavern_finished.emit()
+	town_finished.emit()
 
 func _on_free_hp_button_pressed() -> void:
 	Events.request_hp_update.emit(RATING_GAIN_FREE)

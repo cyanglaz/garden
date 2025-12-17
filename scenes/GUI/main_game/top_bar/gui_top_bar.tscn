@@ -44,18 +44,18 @@ offset_top = -6.0
 offset_right = 104.0
 offset_bottom = 6.0
 grow_vertical = 2
-theme_override_constants/separation = 2
+theme_override_constants/separation = 8
 
 [node name="GUIPlayer" parent="MarginContainer/Container/LeftContainer" instance=ExtResource("4_mmkmm")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="GUIGold" parent="MarginContainer/Container/LeftContainer" instance=ExtResource("2_mmkmm")]
+[node name="GUIHP" parent="MarginContainer/Container/LeftContainer" instance=ExtResource("5_8mpe6")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="GUIHP" parent="MarginContainer/Container/LeftContainer" instance=ExtResource("5_8mpe6")]
+[node name="GUIGold" parent="MarginContainer/Container/LeftContainer" instance=ExtResource("2_mmkmm")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4

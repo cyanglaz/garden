@@ -4,7 +4,7 @@ extends Node2D
 const MAP_MAIN_SCENE := preload("res://scenes/main_game/map/map_main.tscn")
 const COMBAT_MAIN_SCENE := preload("res://scenes/main_game/combat/combat_main.tscn")
 const SHOP_MAIN_SCENE := preload("res://scenes/main_game/shop/shop_main.tscn")
-const TAVERN_MAIN_SCENE := preload("res://scenes/main_game/tavern/tavern_main.tscn")
+const TOWN_MAIN_SCENE := preload("res://scenes/main_game/town/town_main.tscn")
 const CHEST_MAIN_SCENE := preload("res://scenes/main_game/chest/chest_main.tscn")
 
 const INITIAL_HP_VALUE := 10
@@ -108,12 +108,12 @@ func _start_shop() -> void:
 	start_scene_transition()
 	shop_main.start(_gold)
 
-func _start_tavern() -> void:
-	var tavern_main = TAVERN_MAIN_SCENE.instantiate()
-	tavern_main.tavern_finished.connect(_on_tavern_finished)
-	node_container.add_child(tavern_main)
+func _start_town() -> void:
+	var town_main = TOWN_MAIN_SCENE.instantiate()
+	town_main.town_finished.connect(_on_town_finished)
+	node_container.add_child(town_main)
 	start_scene_transition()
-	tavern_main.animate_show()
+	town_main.animate_show()
 
 func _start_chest() -> void:
 	var chest_main:ChestMain = CHEST_MAIN_SCENE.instantiate()
@@ -154,7 +154,7 @@ func _on_tool_shop_button_pressed(tool_data:ToolData, from_global_position:Vecto
 func _on_shop_finish_button_pressed() -> void:
 	_complete_current_node()
 
-func _on_tavern_finished() -> void:
+func _on_town_finished() -> void:
 	_complete_current_node()
 
 func _on_chest_card_reward_selected(tool_data:ToolData, from_global_position:Vector2) -> void:
@@ -202,7 +202,7 @@ func _on_map_node_selected(node:MapNode) -> void:
 	var node_type:MapNode.NodeType = node.type
 	if node.type == MapNode.NodeType.EVENT:
 		# TODO: Add more event nodes
-		const EVENT_NODES := [MapNode.NodeType.CHEST, MapNode.NodeType.SHOP, MapNode.NodeType.TAVERN, MapNode.NodeType.NORMAL]
+		const EVENT_NODES := [MapNode.NodeType.CHEST, MapNode.NodeType.SHOP, MapNode.NodeType.TOWN, MapNode.NodeType.NORMAL]
 		node_type = Util.unweighted_roll(EVENT_NODES, 1).front()
 	await gui_main_game.transition(TransitionOverlay.Type.FADE_OUT, SCENE_TRANSITION_TIME)
 	match node_type:
@@ -214,8 +214,8 @@ func _on_map_node_selected(node:MapNode) -> void:
 			_start_combat_main_scene(chapter_manager.fetch_boss_combat_data())
 		MapNode.NodeType.SHOP:
 			_start_shop()
-		MapNode.NodeType.TAVERN:
-			_start_tavern()
+		MapNode.NodeType.TOWN:
+			_start_town()
 		MapNode.NodeType.CHEST:
 			_start_chest()
 		_:

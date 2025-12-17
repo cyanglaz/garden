@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://drep3444j7bkf"
+path="res://.godot/imported/map_icon_town.aseprite-57eee2218e2f16dd4175c20a2394b251.res"
+
+[deps]
+
+source_file="res://resources/sprites/map/map_icon_town.aseprite"
+dest_files=["res://.godot/imported/map_icon_town.aseprite-57eee2218e2f16dd4175c20a2394b251.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
