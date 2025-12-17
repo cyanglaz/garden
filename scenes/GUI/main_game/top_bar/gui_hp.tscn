@@ -1,10 +1,37 @@
-[gd_scene load_steps=9 format=3 uid="uid://ps5vjsn1nr2c"]
+[gd_scene load_steps=9 format=3 uid="uid://gbvb5ymqals0"]
 
-[ext_resource type="Script" uid="uid://d2wx3xn5vkqcm" path="res://scenes/GUI/main_game/top_bar/gui_hp.gd" id="1_2kdio"]
-[ext_resource type="Texture2D" uid="uid://bhqydxgtda0mu" path="res://resources/sprites/GUI/icons/resources/icon_vitality.png" id="1_3v54s"]
+[ext_resource type="Script" path="res://scenes/GUI/main_game/top_bar/gui_hp.gd" id="1_2kdio"]
 [ext_resource type="PackedScene" uid="uid://drfnshalrvcp5" path="res://scenes/GUI/utils/progress_bar/gui_bordered_progress_bar.tscn" id="2_t87nv"]
+[ext_resource type="Texture2D" uid="uid://ceya3jkdw2joy" path="res://resources/sprites/GUI/icons/resources/icon_update_hp.png" id="2_xiu2t"]
 [ext_resource type="AudioStream" uid="uid://bv5cmeun7grfy" path="res://resources/sounds/SFX/hp/hp_drop.wav" id="4_p4iye"]
 [ext_resource type="AudioStream" uid="uid://jn6jsousg3qy" path="res://resources/sounds/SFX/hp/hp_up.wav" id="5_6trgl"]
+
+[sub_resource type="Animation" id="Animation_o8pcr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/TextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GUIBorderedProgressBar/RichTextLabel:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(12, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_xiu2t"]
 resource_name = "hp_drop"
@@ -49,33 +76,6 @@ tracks/2/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_o8pcr"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Control/TextureRect:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("GUIBorderedProgressBar/RichTextLabel:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(12, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_o8pcr"]
 _data = {
 &"RESET": SubResource("Animation_o8pcr"),
@@ -101,8 +101,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_3v54s")
-stretch_mode = 5
+texture = ExtResource("2_xiu2t")
+stretch_mode = 3
 
 [node name="GUIBorderedProgressBar" parent="." instance=ExtResource("2_t87nv")]
 unique_name_in_owner = true
