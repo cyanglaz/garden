@@ -20,3 +20,6 @@ func apply_tool(_combat_main:CombatMain, plants:Array, field_index:int, _tool_da
 
 func need_select_field() -> bool:
 	return true
+
+func has_field_action() -> bool:
+	return true

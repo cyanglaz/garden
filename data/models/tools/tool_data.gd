@@ -36,6 +36,7 @@ enum Type {
 @export var type:Type = Type.SKILL
 
 var level_data:Dictionary # Data consists wihtin a level
+var has_field_action:bool : get = _get_has_field_action
 var need_select_field:bool : get = _get_need_select_field
 var all_fields:bool : get = _get_all_fields
 var cost:int : get = _get_cost
@@ -125,21 +126,30 @@ func _get_tool_script() -> ToolScript:
 	else:
 		return null
 	
-func _get_need_select_field() -> bool:
+func _get_has_field_action() -> bool:
 	if type == Type.POWER:
 		return false
 	if actions.is_empty():
-		return tool_script.need_select_field()
+		return tool_script.has_field_action()
 	for action:ActionData in actions:
 		if action.action_category == ActionData.ActionCategory.FIELD:
 			return true
 	return false
 
-func _get_all_fields() -> bool:
+func _get_need_select_field() -> bool:
+	if !_get_has_field_action():
+		return false
 	for action:ActionData in actions:
-		if action.specials.has(ActionData.Special.ALL_FIELDS):
+		if action.action_category == ActionData.ActionCategory.FIELD && !action.specials.has(ActionData.Special.ALL_FIELDS):
 			return true
 	return false
+
+func _get_all_fields() -> bool:
+	if !_get_has_field_action():
+		return false
+	if _get_need_select_field():
+		return false
+	return true
 
 func _get_description() -> String:
 	if type == Type.POWER:

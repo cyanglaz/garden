@@ -227,7 +227,9 @@ func _hide_custom_error(identifier:String) -> void:
 #region UI EVENTS
 func _on_tool_selected(tool_data:ToolData) -> void:
 	_handle_select_tool(tool_data)
-	if tool_data.need_select_field:
+	if tool_data.all_fields:
+		plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT)
+	elif tool_data.need_select_field:
 		plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.READY)
 
 func _on_mouse_exited_card(tool_data:ToolData) -> void:
@@ -243,17 +245,14 @@ func _on_end_turn_button_pressed() -> void:
 func _on_field_hovered(hovered:bool, index:int) -> void:
 	if tool_manager.selected_tool && tool_manager.selected_tool.need_select_field:
 		if hovered:
-			if tool_manager.selected_tool.all_fields:
-				plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT)
-			else:
-				plant_field_container.toggle_plant_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT, index)
+			plant_field_container.toggle_plant_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT, index)
 		else:
 			plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.READY)
 	else:
 		plant_field_container.toggle_tooltip_for_plant(index, hovered)
 
 func _on_field_pressed(index:int) -> void:
-	if !tool_manager.selected_tool || !tool_manager.selected_tool.need_select_field:
+	if !tool_manager.selected_tool || !tool_manager.selected_tool.has_field_action:
 		return
 	_handle_card_use(index)
 
