@@ -7,14 +7,14 @@ const SHOP_MAIN_SCENE := preload("res://scenes/main_game/shop/shop_main.tscn")
 const TAVERN_MAIN_SCENE := preload("res://scenes/main_game/tavern/tavern_main.tscn")
 const CHEST_MAIN_SCENE := preload("res://scenes/main_game/chest/chest_main.tscn")
 
-const INITIAL_RATING_VALUE := 100
-const INITIAL_RATING_MAX_VALUE := 100
+const INITIAL_HP_VALUE := 10
+const INITIAL_HP_MAX_VALUE := 10
 const SCENE_TRANSITION_TIME := 0.2
 
 @export var player:PlayerData
 @export var test_tools:Array[ToolData]
 @export var test_weather:WeatherData
-@export var test_contract:ContractData
+@export var test_combat:CombatData
 
 @onready var gui_main_game: GUIMainGame = %GUIMainGame
 @onready var node_container: Node2D = %NodeContainer
@@ -26,7 +26,6 @@ var session_seed := 0
 var _current_scene:Node2D: get = _get_current_scene
 
 var chapter_manager:ChapterManager = ChapterManager.new()
-var contract_generator:ContractGenerator = ContractGenerator.new()
 var card_pool:Array[ToolData]
 var hp:ResourcePoint = ResourcePoint.new()
 var _gold:int = 0
@@ -35,7 +34,7 @@ var _warning_manager:WarningManager = WarningManager.new(self)
 func _ready() -> void:
 	Singletons.main_game = self
 	
-	hp.setup(INITIAL_RATING_VALUE, INITIAL_RATING_MAX_VALUE)
+	hp.setup(INITIAL_HP_VALUE, INITIAL_HP_MAX_VALUE)
 
 	if test_tools.is_empty():
 		card_pool = player.initial_tools
@@ -49,7 +48,6 @@ func _ready() -> void:
 	
 	map_main.node_selected.connect(_on_map_node_selected)
 	
-	contract_generator.generate_bosses(1)
 	_register_global_events()
 
 	Events.request_update_gold.emit(0, false)
@@ -73,19 +71,15 @@ func _start_new_chapter() -> void:
 
 	#_start_map_main_scene()
 	# Always start with a common node
-	if test_contract:
-		_start_combat_main_scene.call_deferred(test_contract)
+	if test_combat:
+		_start_combat_main_scene.call_deferred(test_combat)
 	else:
-		_start_combat_main_scene.call_deferred(contract_generator.common_contracts.pop_back())
+		_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
 	#_start_shop()
 	#_start_chest()
 
 func _generate_chapter_data() -> void:
 	map_main.generate_map(session_seed)
-	var normal_node_count := map_main.get_node_count(MapNode.NodeType.NORMAL) + map_main.get_node_count(MapNode.NodeType.EVENT)
-	var elite_node_count := map_main.get_node_count(MapNode.NodeType.ELITE)
-	var boss_node_count := map_main.get_node_count(MapNode.NodeType.BOSS)
-	contract_generator.generate_contracts(chapter_manager.current_chapter, normal_node_count, elite_node_count, boss_node_count)
 
 func _game_over() -> void:
 	pass
@@ -98,13 +92,13 @@ func _remove_current_scene() -> void:
 	if _current_scene != null:
 		_current_scene.queue_free()
 
-func _start_combat_main_scene(contract:ContractData) -> void:
+func _start_combat_main_scene(combat:CombatData) -> void:
 	var combat_main:CombatMain = COMBAT_MAIN_SCENE.instantiate()
 	combat_main.test_weather = test_weather
 	node_container.add_child(combat_main)
 	combat_main.reward_finished.connect(_on_reward_finished)
 	start_scene_transition()
-	combat_main.start(card_pool, 3, contract)
+	combat_main.start(card_pool, 3, combat)
 
 func _start_shop() -> void:
 	var shop_main = SHOP_MAIN_SCENE.instantiate()
@@ -213,11 +207,11 @@ func _on_map_node_selected(node:MapNode) -> void:
 	await gui_main_game.transition(TransitionOverlay.Type.FADE_OUT, SCENE_TRANSITION_TIME)
 	match node_type:
 		MapNode.NodeType.NORMAL:
-			_start_combat_main_scene(contract_generator.common_contracts.pop_back())
+			_start_combat_main_scene(chapter_manager.fetch_common_combat_data())
 		MapNode.NodeType.ELITE:
-			_start_combat_main_scene(contract_generator.elite_contracts.pop_back())
+			_start_combat_main_scene(chapter_manager.fetch_elite_combat_data())
 		MapNode.NodeType.BOSS:
-			_start_combat_main_scene(contract_generator.boss_contracts.pop_back())
+			_start_combat_main_scene(chapter_manager.fetch_boss_combat_data())
 		MapNode.NodeType.SHOP:
 			_start_shop()
 		MapNode.NodeType.TAVERN:

@@ -1,5 +1,16 @@
 {
   "column_properties": {
+    "res://data/plant_abilities/": {
+      "metadata/_custom_type_script": {
+        "visibility": 0.0
+      },
+      "resource_local_to_scene": {
+        "visibility": 0.0
+      },
+      "resource_name": {
+        "visibility": 0.0
+      }
+    },
     "res://data/plants/": {
       "metadata/_custom_type_script": {
         "visibility": 0.0
@@ -37,7 +48,8 @@
   "recent_paths": [
     "res://data/plants/",
     "res://data/tools/other/",
-    "res://data/tools/purchasable/"
+    "res://data/tools/purchasable/",
+    "res://data/plant_abilities/"
   ],
   "table_functions": {
     "filter": [

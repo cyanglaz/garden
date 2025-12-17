@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_w68dx")
 energy_cost = 0
-specials = Array[int]([1])
+specials = Array[int]([0])
 id = "bottled_water"
 display_name = "Bottled Water"
 description = "+{gain} {resource:water}. Shuffle an {card:empty_bottle} to the discard pile."

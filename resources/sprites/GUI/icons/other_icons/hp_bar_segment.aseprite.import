@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cl8os42ejfarv"
+path="res://.godot/imported/hp_bar_segment.aseprite-31e8c996af38a3b94c10538dc49fb9a7.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/hp_bar_segment.aseprite"
+dest_files=["res://.godot/imported/hp_bar_segment.aseprite-31e8c996af38a3b94c10538dc49fb9a7.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

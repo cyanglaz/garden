@@ -4,11 +4,13 @@
 
 [resource]
 script = ExtResource("1_r6f3l")
-light = 4
+light = 5
 chapters = Array[int]([1])
+abilities = {
+&"attack": "1"
+}
 id = "sunflower"
 display_name = "Sunflower"
-description = "Gain +{light} {resource:light} on sunny days."
 data = {
 "light": "1"
 }

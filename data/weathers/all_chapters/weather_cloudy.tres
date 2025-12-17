@@ -3,14 +3,14 @@
 [ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_o58v4"]
 [ext_resource type="Script" uid="uid://g4t52w546b5k" path="res://data/models/weather/weather_data.gd" id="2_uen8h"]
 
-[sub_resource type="Resource" id="Resource_o7rbg"]
+[sub_resource type="Resource" id="Resource_a482c"]
 script = ExtResource("1_o58v4")
 type = 3
 value = 1
 operator_type = 1
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
-[sub_resource type="Resource" id="Resource_j7lt1"]
+[sub_resource type="Resource" id="Resource_o7rbg"]
 script = ExtResource("1_o58v4")
 type = 4
 value = 1
@@ -19,7 +19,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
 script = ExtResource("2_uen8h")
-actions = Array[ExtResource("1_o58v4")]([SubResource("Resource_o7rbg"), SubResource("Resource_j7lt1")])
+actions = Array[ExtResource("1_o58v4")]([SubResource("Resource_a482c"), SubResource("Resource_o7rbg")])
 sky_color = Color(0, 0.8039216, 0.9764706, 1)
 id = "cloudy"
 display_name = "Cloudy"

@@ -40,8 +40,8 @@ func bind_power_manager(power_manager:PowerManager) -> void:
 
 #region enemy
 
-func update_with_contract(contract:ContractData, combat_main:CombatMain) -> void:
-	gui_enemy.update_with_contract(contract, combat_main)
+func update_with_combat(combat:CombatData, combat_main:CombatMain) -> void:
+	gui_enemy.update_with_combat(combat, combat_main)
 
 func apply_boss_actions(hook_type:GUIBoss.HookType) -> void:
 	await gui_enemy.apply_boss_actions(hook_type)
@@ -118,17 +118,10 @@ func update_boost(boost:int) -> void:
 
 #endregion
 
-#region penalty
-
-func update_penalty_rate(val:int) -> void:
-	gui_enemy.update_penalty(val)
-
-#endregion
-
 #region reward
 
-func animate_show_reward_main(contract_data:ContractData) -> void:
-	await gui_reward_main.show_with_contract_data(contract_data)
+func animate_show_reward_main(combat_data:CombatData) -> void:
+	await gui_reward_main.show_with_combat_data(combat_data)
 
 #endregion
 

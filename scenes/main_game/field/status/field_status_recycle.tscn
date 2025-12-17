@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1oqi4gxsp26k"]
+
+[ext_resource type="PackedScene" uid="uid://k1nmjx4747gf" path="res://scenes/main_game/field/status/field_status.tscn" id="1_tvlfx"]
+[ext_resource type="Script" uid="uid://b7tet1ejv3u2y" path="res://scenes/main_game/field/status/field_status_recycle.gd" id="2_wd23s"]
+
+[node name="FieldStatusRecycle" instance=ExtResource("1_tvlfx")]
+script = ExtResource("2_wd23s")

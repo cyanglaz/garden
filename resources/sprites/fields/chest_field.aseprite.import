@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c26poixlsuq3d"
+path="res://.godot/imported/chest_field.aseprite-dd084b5af37d3ee75949ac84d495d8f9.res"
+
+[deps]
+
+source_file="res://resources/sprites/fields/chest_field.aseprite"
+dest_files=["res://.godot/imported/chest_field.aseprite-dd084b5af37d3ee75949ac84d495d8f9.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

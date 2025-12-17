@@ -8,7 +8,10 @@ light = 15
 water = 9
 difficulty = 2
 chapters = Array[int]([0])
-abilities = Array[String](["tangled"])
+abilities = {
+&"attack": "3",
+&"tangled": 0
+}
 id = "morning_glory"
 display_name = "Morning Glory"
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

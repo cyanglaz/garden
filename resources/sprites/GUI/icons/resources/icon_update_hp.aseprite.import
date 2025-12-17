@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dtpv60jp5ultv"
+path="res://.godot/imported/icon_update_hp.aseprite-b4d7df561bdb61829ad25f70de6921bf.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_update_hp.aseprite"
+dest_files=["res://.godot/imported/icon_update_hp.aseprite-b4d7df561bdb61829ad25f70de6921bf.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

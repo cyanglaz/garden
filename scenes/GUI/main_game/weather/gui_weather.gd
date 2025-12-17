@@ -22,6 +22,7 @@ func setup_with_weather_id(weather_id:String) -> void:
 	_texture_rect.texture = load(Util.get_icon_image_path_for_weather_id(weather_id))
 
 func setup_with_weather_data(weather_data:WeatherData) -> void:
+	assert(weather_data != null)
 	_weak_weather_data = weakref(weather_data)
 	_texture_rect.texture = load(Util.get_icon_image_path_for_weather_id(weather_data.id))
 
@@ -31,6 +32,8 @@ func play_flying_sound() -> void:
 func _on_mouse_entered() -> void:
 	if !has_tooltip:
 		return
+	#if !_weak_weather_data.get_ref():
+		#return
 	Events.update_hovered_data.emit(_weak_weather_data.get_ref())
 	is_highlighted = true
 	var anchor = tooltip_anchor if tooltip_anchor else self

@@ -1,0 +1,45 @@
+[gd_scene load_steps=9 format=3 uid="uid://cw73d541vyc23"]
+
+[ext_resource type="PackedScene" uid="uid://k1nmjx4747gf" path="res://scenes/main_game/field/status/field_status.tscn" id="1_aaeck"]
+[ext_resource type="Script" uid="uid://c683rfjua8gcd" path="res://scenes/main_game/field/status/field_status_greenhouse.gd" id="2_4a5gl"]
+[ext_resource type="Texture2D" uid="uid://cid4t4lf8q12j" path="res://resources/sprites/effects/particles/particle_5.png" id="3_1i48d"]
+
+[sub_resource type="Gradient" id="Gradient_1i48d"]
+offsets = PackedFloat32Array(0, 0.48404256, 1)
+colors = PackedColorArray(0.827451, 0.9882353, 0.49411765, 0, 1, 0.92156863, 0.34117648, 1, 0.827451, 0.9882353, 0.49411765, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qxmmt"]
+gradient = SubResource("Gradient_1i48d")
+
+[sub_resource type="Curve" id="Curve_1i48d"]
+_data = [Vector2(0, 0.29451048), 0.0, 0.0, 0, 0, Vector2(1, 0.620121), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_qxmmt"]
+curve = SubResource("Curve_1i48d")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4a5gl"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(20, 1, 1)
+gravity = Vector3(0, -20, 0)
+linear_accel_min = -2.2351742e-06
+linear_accel_max = -2.2351742e-06
+radial_accel_min = -2.2351742e-06
+radial_accel_max = -2.2351742e-06
+tangential_accel_min = -2.2351742e-06
+tangential_accel_max = -2.2351742e-06
+scale_curve = SubResource("CurveTexture_qxmmt")
+color_ramp = SubResource("GradientTexture1D_qxmmt")
+turbulence_enabled = true
+turbulence_noise_strength = 20.0
+turbulence_noise_scale = 3.0
+turbulence_noise_speed = Vector3(0, 0.5, 0)
+
+[node name="FieldStatusGreenhouse" instance=ExtResource("1_aaeck")]
+script = ExtResource("2_4a5gl")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." index="0"]
+amount = 12
+texture = ExtResource("3_1i48d")
+process_material = SubResource("ParticleProcessMaterial_4a5gl")

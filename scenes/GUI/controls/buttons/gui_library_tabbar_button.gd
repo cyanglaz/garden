@@ -38,7 +38,7 @@ func _physics_process(delta: float) -> void:
 
 func update_with_data(data:ThingData) -> void:
 	_weak_data = weakref(data)
-	label.text = data.display_name
+	label.text = data.get_display_name()
 	var icon_path:String = _get_reference_button_icon_path(data)
 	texture_rect.texture = load(icon_path)
 

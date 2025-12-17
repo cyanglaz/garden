@@ -214,14 +214,16 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "rainy"
 		ActionData.ActionType.GREENHOUSE:
 			id = "greenhouse"
-		ActionData.ActionType.SEEP:
-			id = "seep"
+		ActionData.ActionType.DEW:
+			id = "dew"
 		ActionData.ActionType.ENERGY:
 			id = "energy"
 		ActionData.ActionType.UPDATE_X:
 			id = "update_x"
 		ActionData.ActionType.UPDATE_GOLD:
 			id = "gain_gold"
+		ActionData.ActionType.UPDATE_HP:
+			id = "update_hp"
 		ActionData.ActionType.NONE:
 			pass
 	return id
@@ -248,14 +250,16 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 			return ActionData.ActionType.DISCARD_CARD
 		"greenhouse":
 			return ActionData.ActionType.GREENHOUSE
-		"seep":
-			return ActionData.ActionType.SEEP
+		"dew":
+			return ActionData.ActionType.DEW
 		"energy":
 			return ActionData.ActionType.ENERGY
 		"update_x":
 			return ActionData.ActionType.UPDATE_X
 		"gain_gold":
 			return ActionData.ActionType.UPDATE_GOLD
+		"update_hp":
+			return ActionData.ActionType.UPDATE_HP
 		"none":
 			return ActionData.ActionType.NONE
 	assert(false, "Invalid action id: " + action_id)
@@ -284,14 +288,16 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 			action_name = Util.get_localized_string("ACTION_NAME_RECYCLE")
 		ActionData.ActionType.GREENHOUSE:
 			action_name = Util.get_localized_string("ACTION_NAME_GREENHOUSE")
-		ActionData.ActionType.SEEP:
-			action_name = Util.get_localized_string("ACTION_NAME_SEEP")
+		ActionData.ActionType.DEW:
+			action_name = Util.get_localized_string("ACTION_NAME_DEW")
 		ActionData.ActionType.ENERGY:
 			action_name = Util.get_localized_string("ACTION_NAME_ENERGY")
 		ActionData.ActionType.UPDATE_X:
 			action_name = Util.get_localized_string("ACTION_NAME_UPDATE_X")
 		ActionData.ActionType.UPDATE_GOLD:
 			action_name = Util.get_localized_string("ACTION_NAME_UPDATE_GOLD")
+		ActionData.ActionType.UPDATE_HP:
+			action_name = Util.get_localized_string("ACTION_NAME_UPDATE_HP")
 		ActionData.ActionType.NONE:
 			pass
 	return action_name
@@ -299,27 +305,27 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 static func get_id_for_tool_speical(special:ToolData.Special) -> String:
 	var id := ""
 	match special:
-		ToolData.Special.USE_ON_DRAW:
-			id = "use_on_draw"
 		ToolData.Special.COMPOST:
 			id = "compost"
 		ToolData.Special.WITHER:
 			id = "wither"
+		ToolData.Special.NIGHTFALL:
+			id = "nightfall"
 		_:
 			assert(false, "special id not implemented")
 	return id
 
 static func get_special_from_id(id:String) -> ToolData.Special:
 	match id:
-		"use_on_draw":
-			return ToolData.Special.USE_ON_DRAW
 		"compost":
 			return ToolData.Special.COMPOST
 		"wither":
 			return ToolData.Special.WITHER
+		"nightfall":
+			return ToolData.Special.NIGHTFALL
 		_:
 			assert(false, "Invalid special id: %s" % id)
-	return ToolData.Special.USE_ON_DRAW
+	return ToolData.Special.COMPOST
 
 static func get_id_for_action_speical(special:ActionData.Special) -> String:
 	var id := ""
@@ -455,8 +461,14 @@ static func _get_game_speed_scale() -> float:
 			return 1.4
 	return 1
 
-static func convert_to_bbc_highlight_text(string:String, color:Color, outline_size:int = 1) -> String:
-	return "[outline_size=%s][color=%s]%s[/color][/outline_size]" % [str(outline_size), Util.get_color_hex(color), string]
+static func convert_to_bbc_highlight_text(string:String, color:Color, outline_size:int = 1, outline_color:Color = Constants.COLOR_BLACK) -> String:
+	var final_string := string
+	if color:
+		final_string = "[color=%s]%s[/color]" % [Util.get_color_hex(color), string]
+	if outline_size > 0:
+		final_string = "[outline_size=%s]%s[/outline_size]" % [str(outline_size), final_string]
+	final_string = "[outline_color=%s]%s[/outline_color]" % [Util.get_color_hex(outline_color), final_string]
+	return final_string
 
 static func get_localized_string(localized_key:String) -> String:
 	var string := Singletons.tr(localized_key)

@@ -1,6 +1,8 @@
 class_name Plant
 extends Node2D
 
+const AREA_SIZE_PER_CURSE_PARTICLE := 3.0
+const CURSE_PARTICLE_Y_OFFSET := 4.0
 const POPUP_SHOW_TIME := 0.3
 const POPUP_DESTROY_TIME:= 1.2
 const POPUP_OFFSET := Vector2.RIGHT * 8 + Vector2.UP * 12
@@ -10,6 +12,7 @@ const POPUP_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_lab
 enum AbilityType {
 	END_TURN,
 	START_TURN,
+	BLOOM,
 }
 
 @warning_ignore("unused_signal")
@@ -20,13 +23,15 @@ signal action_application_completed()
 
 @onready var plant_sprite: AnimatedSprite2D = %PlantSprite
 @onready var fsm: PlantStateMachine = %PlantStateMachine
+@onready var curse_particle: GPUParticles2D = %CurseParticle
+@onready var bloom_particle: GPUParticles2D = %BloomParticle
 @onready var plant_ability_container: PlantAbilityContainer = %PlantAbilityContainer
+@onready var field_status_container: FieldStatusContainer = %FieldStatusContainer
 @onready var _buff_sound: AudioStreamPlayer2D = %BuffSound
 @onready var _point_audio: AudioStreamPlayer2D = %PointAudio
 
 var light:ResourcePoint = ResourcePoint.new()
 var water:ResourcePoint = ResourcePoint.new()
-var status_manager:FieldStatusManager = FieldStatusManager.new()
 var field:Field: get = _get_field, set = _set_field
 var _weak_field:WeakRef = weakref(null)
 
@@ -34,28 +39,29 @@ var data:PlantData:set = _set_data
 
 func _ready() -> void:
 	fsm.start()
-	status_manager.request_hook_message_popup.connect(_on_request_hook_message_popup)
+	bloom_particle.one_shot = true
+	bloom_particle.emitting = false
+	field_status_container.request_hook_message_popup.connect(_on_request_hook_message_popup)
+	_resize_curse_particle()
 
 func trigger_ability(ability_type:AbilityType) -> void:
 	await plant_ability_container.trigger_ability(ability_type, self)
 
 func handle_turn_end() -> void:
-	status_manager.handle_status_on_turn_end()
+	field_status_container.handle_status_on_turn_end()
 
 func handle_tool_application_hook() -> void:
-	await status_manager.handle_tool_application_hook(self)
+	await field_status_container.handle_tool_application_hook(self)
 
 func handle_tool_discard_hook(count:int) -> void:
-	await status_manager.handle_tool_discard_hook(self, count)
+	await field_status_container.handle_tool_discard_hook(self, count)
 
 func handle_start_turn_hook(_combat_main:CombatMain) -> void:
-	if is_bloom():
-		await trigger_ability(Plant.AbilityType.START_TURN)
+	await trigger_ability(Plant.AbilityType.START_TURN)
 
 func handle_end_turn_hook(combat_main:CombatMain) -> void:
-	await status_manager.handle_end_turn_hook(combat_main, self)
-	if is_bloom():
-		await trigger_ability(Plant.AbilityType.END_TURN)
+	await field_status_container.handle_end_turn_hook(combat_main, self)
+	await trigger_ability(Plant.AbilityType.END_TURN)
 
 func apply_weather_actions(weather_data:WeatherData) -> void:
 	await apply_actions(weather_data.actions)
@@ -72,7 +78,7 @@ func apply_actions(actions:Array) -> void:
 				await _apply_light_action(action)
 			ActionData.ActionType.WATER:
 				await _apply_water_action(action)
-			ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
+			ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW:
 				await _apply_field_status_action(action)
 			_:
 				pass
@@ -141,25 +147,45 @@ func _apply_water_action(action:ActionData) -> void:
 			water.value = true_value
 	var water_increasing := water.value - old_water_value > 0
 	if water_increasing:
-		await status_manager.handle_add_water_hook(self)
+		await field_status_container.handle_add_water_hook(self)
 
 func _apply_field_status_action(action:ActionData) -> void:
 	var field_status_id := Util.get_action_id_with_action_type(action.type)
-	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(field_status_id, true)
 	var true_value := _get_action_true_value(action)
+	var stack := 0
 	match action.operator_type:
 		ActionData.OperatorType.INCREASE:
-			field_status_data.stack += true_value
+			stack = true_value
 		ActionData.OperatorType.DECREASE:
-			field_status_data.stack -= true_value
+			stack = -true_value
 		ActionData.OperatorType.EQUAL_TO:
-			field_status_data.stack = true_value
+			stack = true_value
 	await _show_popup_action_indicator(action)
-	status_manager.update_status(field_status_id, field_status_data.stack)
+	field_status_container.update_status(field_status_id, stack, self)
 
 func _get_action_true_value(action_data:ActionData) -> int:
 	return action_data.get_calculated_value(self)
 
+func _resize_curse_particle() -> void:
+	var sprite_frames:SpriteFrames = plant_sprite.sprite_frames
+	var current_animation:StringName = plant_sprite.animation
+	var frame_texture:Texture2D = sprite_frames.get_frame_texture(current_animation, 0)
+	var image := frame_texture.get_image()
+	var used_rect := image.get_used_rect()
+	curse_particle.process_material.emission_box_extents = Vector3(used_rect.size.x/2.0, used_rect.size.y/2.0, 1)
+	var area_size :float = curse_particle.process_material.emission_box_extents.x * curse_particle.process_material.emission_box_extents.y
+	var number_of_particles := area_size / (AREA_SIZE_PER_CURSE_PARTICLE * AREA_SIZE_PER_CURSE_PARTICLE)
+	curse_particle.amount = int(number_of_particles)
+	curse_particle.position.y = - used_rect.size.y/2.0 + CURSE_PARTICLE_Y_OFFSET
+
+func _reposition_bloom_particle() -> void:
+	var sprite_frames:SpriteFrames = plant_sprite.sprite_frames
+	var current_animation:StringName = plant_sprite.animation
+	var frame_texture:Texture2D = sprite_frames.get_frame_texture(current_animation, 0)
+	var image := frame_texture.get_image()
+	var used_rect := image.get_used_rect()
+	bloom_particle.position.y = - used_rect.size.y/2.0
+	
 #region events
 func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
 	var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()
@@ -183,6 +209,7 @@ func _set_data(value:PlantData) -> void:
 	light.setup(0, data.light)
 	water.setup(0, data.water)
 	plant_ability_container.setup_with_plant_data(data)
+	field_status_container.setup_with_plant(self)
 
 func _get_field() -> Field:
 	return _weak_field.get_ref()

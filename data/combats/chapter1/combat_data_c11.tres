@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CombatData" load_steps=5 format=3 uid="uid://bjtxfdkdtsq2o"]
+
+[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_u15h5"]
+[ext_resource type="Resource" uid="uid://bjjkiy7ngio0e" path="res://data/plants/chapter0/plant_data_primrose.tres" id="2_57512"]
+[ext_resource type="Resource" uid="uid://cf678cnphhouf" path="res://data/plants/chapter0/plant_data_daisy.tres" id="3_04sik"]
+[ext_resource type="Script" uid="uid://ektnj8rt6k0k" path="res://data/models/combats/combat_data.gd" id="4_qtqi1"]
+
+[resource]
+script = ExtResource("4_qtqi1")
+plants = Array[ExtResource("1_u15h5")]([ExtResource("2_57512"), ExtResource("3_04sik"), ExtResource("2_57512")])
+id = "c11"
+metadata/_custom_type_script = "uid://ektnj8rt6k0k"

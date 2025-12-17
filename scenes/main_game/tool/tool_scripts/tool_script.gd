@@ -9,6 +9,10 @@ func need_select_field() -> bool:
 	assert(false, "need_select_field is not implemented")
 	return false
 
+func has_field_action() -> bool:
+	assert(false, "has_field_action is not implemented")
+	return false
+
 func number_of_secondary_cards_to_select() -> int:
 	return 0
 

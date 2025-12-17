@@ -34,10 +34,14 @@ func _load_data_from_dir(dir_path:String):
 		var resource = ResourceLoader.load(file_path)
 		_evaluate_data(resource)
 		if subdir_name.is_empty():
+			assert(!resource.id.is_empty())
+			assert(!_datas.has(resource.id))
 			_datas[resource.id] = resource
 		else:
 			if !_datas.has(subdir_name):
 				_datas[subdir_name] = {}
+			assert(!resource.id.is_empty())
+			assert(!_datas[subdir_name].has(resource.id))
 			_datas[subdir_name][resource.id] = resource
 
 func _get_all_resources(data:Dictionary, category:String) -> Dictionary:

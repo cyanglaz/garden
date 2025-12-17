@@ -8,7 +8,10 @@ light = 9
 water = 15
 difficulty = 2
 chapters = Array[int]([0])
-abilities = Array[String](["thorned"])
+abilities = {
+&"attack": "3",
+&"thorn": 0
+}
 id = "rose"
 display_name = "Rose"
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

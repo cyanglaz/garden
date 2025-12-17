@@ -10,7 +10,7 @@ const PLANT_ABILITY_ICON_SCENE := preload("res://scenes/GUI/main_game/plant_card
 @onready var _gui_tooltip_description_separator: HSeparator = %GUITooltipDescriptionSeparator
 
 func update_with_plant_data(plant_data:PlantData) -> void:
-	_name_label.text = plant_data.display_name
+	_name_label.text = plant_data.get_display_name()
 	_name_label.add_theme_color_override("font_color", Util.get_plant_name_color(plant_data))
 	_light_requirement_label.text = str(plant_data.light)
 	_water_requirement_label.text = str(plant_data.water)
@@ -19,10 +19,12 @@ func update_with_plant_data(plant_data:PlantData) -> void:
 	if plant_data.abilities.size() > 0:
 		_gui_tooltip_description_separator.show()
 		_ability_container.show()
-		for ability_id:String in plant_data.abilities:
+		for plant_ability_id:String in plant_data.abilities.keys():
+			var plant_ability_stack:int = (plant_data.abilities[plant_ability_id] as int)
 			var ability_icon:GUIPlantAbilityIcon = PLANT_ABILITY_ICON_SCENE.instantiate()
 			_ability_container.add_child(ability_icon)
-			ability_icon.update_with_plant_ability_id(ability_id)
+			var plant_ability_data:PlantAbilityData = MainDatabase.plant_ability_database.get_data_by_id(plant_ability_id)
+			ability_icon.update_with_plant_ability_data(plant_ability_data, plant_ability_stack)
 	else:
 		_gui_tooltip_description_separator.hide()
 		_ability_container.hide()

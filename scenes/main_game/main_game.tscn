@@ -1,23 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://bbcxpceayay3"]
+[gd_scene load_steps=8 format=3 uid="uid://bbcxpceayay3"]
 
 [ext_resource type="Script" uid="uid://sc1eubamsw6x" path="res://scenes/main_game/main_game.gd" id="1_yra6k"]
 [ext_resource type="Resource" uid="uid://d1jqracpdos0e" path="res://data/player/player_apprentice.tres" id="2_8ywsm"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="3_6eclk"]
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
-[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="3_i3kwu"]
-[ext_resource type="Resource" uid="uid://bjjkiy7ngio0e" path="res://data/plants/chapter0/plant_data_primrose.tres" id="4_i3kwu"]
-[ext_resource type="Script" uid="uid://ektnj8rt6k0k" path="res://data/models/contracts/contract_data.gd" id="5_ldk84"]
-[ext_resource type="Resource" uid="uid://hsjy22n36v8s" path="res://data/plants/chapter0/plant_data_rose.tres" id="5_mijjq"]
+[ext_resource type="Resource" uid="uid://c6k0erxrqmrlg" path="res://data/tools/purchasable/tool_heat.tres" id="4_6eclk"]
+[ext_resource type="Resource" uid="uid://dr13xwnk1wtam" path="res://data/tools/defaults/tool_sunlight.tres" id="5_i3kwu"]
 [ext_resource type="PackedScene" uid="uid://bqo51luu7itcc" path="res://scenes/main_game/map/map_main.tscn" id="14_s87mg"]
-
-[sub_resource type="Resource" id="Resource_r81kp"]
-script = ExtResource("5_ldk84")
-plants = Array[ExtResource("3_i3kwu")]([ExtResource("4_i3kwu"), ExtResource("4_i3kwu"), ExtResource("5_mijjq")])
-metadata/_custom_type_script = "uid://ektnj8rt6k0k"
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 player = ExtResource("2_8ywsm")
-test_contract = SubResource("Resource_r81kp")
+test_tools = Array[ExtResource("3_6eclk")]([ExtResource("4_6eclk"), ExtResource("5_i3kwu")])
 
 [node name="MapMain" parent="." instance=ExtResource("14_s87mg")]
 unique_name_in_owner = true

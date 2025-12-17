@@ -7,7 +7,10 @@ script = ExtResource("1_ov6a6")
 light = 2
 water = 3
 chapters = Array[int]([0])
-abilities = Array[String](["juicy"])
+abilities = {
+&"attack": "1",
+&"juicy": "2"
+}
 id = "tulip"
 display_name = "Tulip"
 data = {

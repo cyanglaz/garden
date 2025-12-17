@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://c21lgxgweaafm"]
+
+[ext_resource type="Script" uid="uid://bpldbs2xvjuj0" path="res://scenes/GUI/main_game/plant_cards/gui_plant_ability_countdown_dot.gd" id="1_picgy"]
+[ext_resource type="Texture2D" uid="uid://tvbkpdpoekuv" path="res://resources/sprites/white_pixel.png" id="2_picgy"]
+
+[node name="GUIPlantAbilityCountdownDot" type="PanelContainer"]
+script = ExtResource("1_picgy")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+self_modulate = Color(1, 0, 0.2509804, 1)
+custom_minimum_size = Vector2(2, 2)
+layout_mode = 2
+texture = ExtResource("2_picgy")
+stretch_mode = 5

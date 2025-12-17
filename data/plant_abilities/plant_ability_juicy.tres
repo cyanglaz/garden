@@ -6,5 +6,5 @@
 script = ExtResource("1_hkwdx")
 id = "juicy"
 display_name = "Juicy"
-description = "At the start of each turn, shuffle a {card:water_cache} into your hand."
+description = "On bloom, shuffle {stack} {card:runoff} into your hand."
 metadata/_custom_type_script = "uid://jejwqju653m5"

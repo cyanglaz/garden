@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://be7il5075g6v2"]
+
+[ext_resource type="PackedScene" uid="uid://lptujl1fd783" path="res://scenes/main_game/plants/abilities/plant_ability.tscn" id="1_mhnry"]
+[ext_resource type="Script" uid="uid://bthaxk770ga5w" path="res://scenes/main_game/plants/abilities/plant_ability_attack.gd" id="2_mhnry"]
+
+[node name="PlantAbilityAttack" instance=ExtResource("1_mhnry")]
+script = ExtResource("2_mhnry")

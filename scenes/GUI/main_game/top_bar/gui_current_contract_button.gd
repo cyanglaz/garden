@@ -1,4 +1,4 @@
-class_name GUICurrentContractButton
+class_name GUICurrentCombatButton
 extends GUIBasicButton
 
 @onready var _texture_rect: TextureRect = %TextureRect

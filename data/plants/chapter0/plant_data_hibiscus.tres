@@ -7,6 +7,9 @@ script = ExtResource("1_tk04h")
 light = 4
 water = 2
 chapters = Array[int]([1])
+abilities = {
+&"attack": "1"
+}
 id = "hibiscus"
 display_name = "Hibiscus"
 description = "+{card} {action:draw_card} on {resource:light} gain."

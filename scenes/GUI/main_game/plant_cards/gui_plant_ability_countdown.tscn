@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dihoohphp2084"]
+
+[ext_resource type="Script" uid="uid://obv058hfrlek" path="res://scenes/GUI/main_game/plant_cards/gui_plant_ability_countdown.gd" id="1_qvjt1"]
+
+[node name="GUIPlantAbilityCountdown" type="PanelContainer"]
+script = ExtResource("1_qvjt1")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+theme_override_constants/separation = 1
+alignment = 2

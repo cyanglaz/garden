@@ -11,15 +11,16 @@ signal combat_main_set(combat_main:CombatMain)
 signal adding_to_deck_finished()
 
 const COSTS := {
+	-1:0,
 	0: 6,
 	1: 11,
 	2: 19,
 }
 
 enum Special {
-	USE_ON_DRAW,
 	COMPOST,
 	WITHER,
+	NIGHTFALL,
 }
 
 enum Type {
@@ -30,11 +31,12 @@ enum Type {
 
 @export var energy_cost:int = 1
 @export var actions:Array[ActionData]
-@export var rarity:int = 0 # -1: COMPOST, 0: common, 1: uncommon, 2: rare
+@export var rarity:int = 0 # -1: temp cards, 0: common, 1: uncommon, 2: rare
 @export var specials:Array[Special]
 @export var type:Type = Type.SKILL
 
 var level_data:Dictionary # Data consists wihtin a level
+var has_field_action:bool : get = _get_has_field_action
 var need_select_field:bool : get = _get_need_select_field
 var all_fields:bool : get = _get_all_fields
 var cost:int : get = _get_cost
@@ -60,6 +62,7 @@ func copy(other:ThingData) -> void:
 	turn_energy_modifier = other_tool.turn_energy_modifier
 	type = other_tool.type
 	level_energy_modifier = other_tool.level_energy_modifier
+	name_postfix = other_tool.name_postfix
 	_tool_script = null # Refresh tool script on copy
 
 func refresh_for_turn() -> void:
@@ -123,21 +126,30 @@ func _get_tool_script() -> ToolScript:
 	else:
 		return null
 	
-func _get_need_select_field() -> bool:
+func _get_has_field_action() -> bool:
 	if type == Type.POWER:
 		return false
 	if actions.is_empty():
-		return tool_script.need_select_field()
+		return tool_script.has_field_action()
 	for action:ActionData in actions:
 		if action.action_category == ActionData.ActionCategory.FIELD:
 			return true
 	return false
 
-func _get_all_fields() -> bool:
+func _get_need_select_field() -> bool:
+	if !_get_has_field_action():
+		return false
 	for action:ActionData in actions:
-		if action.specials.has(ActionData.Special.ALL_FIELDS):
+		if action.action_category == ActionData.ActionCategory.FIELD && !action.specials.has(ActionData.Special.ALL_FIELDS):
 			return true
 	return false
+
+func _get_all_fields() -> bool:
+	if !_get_has_field_action():
+		return false
+	if _get_need_select_field():
+		return false
+	return true
 
 func _get_description() -> String:
 	if type == Type.POWER:

@@ -1,13 +1,18 @@
 class_name PlantAbilityJuicy
 extends PlantAbility
 
-func _has_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> bool:
-	return ability_type == Plant.AbilityType.START_TURN && plant.is_bloom()
+func _has_ability_hook(ability_type:Plant.AbilityType, _plant:Plant) -> bool:
+	return ability_type == Plant.AbilityType.BLOOM
 
 func _trigger_ability_hook(ability_type:Plant.AbilityType, _plant:Plant) -> void:
-	assert(ability_type == Plant.AbilityType.START_TURN)
-	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id("water_cache").get_duplicate()
+	assert(ability_type == Plant.AbilityType.BLOOM)
+	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id("runoff").get_duplicate()
 	#var from_position:Vector2 = global_position - GUIToolCardButton.SIZE / 2
 	var from_position:Vector2 = get_global_transform_with_canvas().origin - GUIToolCardButton.SIZE / 2
-	Events.request_add_tools_to_hand.emit([tool_data], from_position, true)
-	await tool_data.adding_to_deck_finished
+	var tool_datas := []
+	var last_tool_data:ToolData
+	for i in stack:
+		last_tool_data = tool_data.get_duplicate()
+		tool_datas.append(last_tool_data)
+	Events.request_add_tools_to_hand.emit(tool_datas, from_position, true)
+	await last_tool_data.adding_to_deck_finished

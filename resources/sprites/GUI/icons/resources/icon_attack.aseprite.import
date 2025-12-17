@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://chestel05cfoa"
+path="res://.godot/imported/icon_attack.aseprite-b688e7e4da3ceaeb3f466afd546ab7d3.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_attack.aseprite"
+dest_files=["res://.godot/imported/icon_attack.aseprite-b688e7e4da3ceaeb3f466afd546ab7d3.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

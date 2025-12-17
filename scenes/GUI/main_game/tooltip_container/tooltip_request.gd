@@ -12,7 +12,6 @@ enum TooltipType {
 	VIEW_DETAIL,
 	BOSS,
 	BOOSTER_PACK,
-	CONTRACT,
 	TOOL_CARD,
 	SPECIALS,
 	MAP,

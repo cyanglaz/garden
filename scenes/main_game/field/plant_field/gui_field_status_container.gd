@@ -3,17 +3,17 @@ extends VBoxContainer
 
 const STATUS_ICON_SCENE := preload("res://scenes/main_game/field/plant_field/gui_field_status_icon.tscn")
 
-func bind_with_field_status_manager(field_status_manager:FieldStatusManager) -> void:
-	field_status_manager.status_updated.connect(_on_status_updated.bind(field_status_manager))
-	field_status_manager.request_status_hook_animation.connect(_on_status_hook_animation_requested)
-	_on_status_updated(field_status_manager)
+func bind_with_field_status_container(field_status_container:FieldStatusContainer) -> void:
+	field_status_container.status_updated.connect(_on_status_updated.bind(field_status_container))
+	field_status_container.request_status_hook_animation.connect(_on_status_hook_animation_requested)
+	_on_status_updated(field_status_container)
 
-func _on_status_updated(field_status_manager:FieldStatusManager) -> void:
+func _on_status_updated(field_status_container:FieldStatusContainer) -> void:
 	Util.remove_all_children(self)
-	for status_data:FieldStatusData in field_status_manager.get_all_statuses():
+	for field_status:FieldStatus in field_status_container.get_all_statuses():
 		var status_icon:GUIFieldStatusIcon = STATUS_ICON_SCENE.instantiate()
 		add_child(status_icon)
-		status_icon.setup_with_field_status_data(status_data)
+		status_icon.setup_with_field_status_data(field_status.status_data, field_status.stack)
 	
 func _on_status_hook_animation_requested(status_id:String) -> void:
 	var animating_icon:GUIFieldStatusIcon

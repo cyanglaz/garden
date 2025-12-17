@@ -73,7 +73,7 @@ func update_with_tool_data(td:ToolData) -> void:
 		_cost_icon.texture = load(VALUE_ICON_PREFIX + str(tool_data.get_final_energy_cost()) + ".png")
 	else:
 		_cost_icon.hide()
-	_title.text = tool_data.display_name
+	_title.text = tool_data.get_display_name()
 	_gui_tool_card_background.update_with_rarity(tool_data.rarity)
 	Util.remove_all_children(_specials_container)
 	for special in tool_data.specials:

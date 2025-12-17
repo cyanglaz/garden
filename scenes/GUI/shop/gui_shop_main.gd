@@ -22,7 +22,6 @@ func _ready() -> void:
 	finish_button.pressed.connect(_on_finish_button_pressed)
 	_title.text = Util.get_localized_string("SHOP_TITLE")
 	_sub_title.text = Util.get_localized_string("SHOP_SUBTITLE")
-	animate_show(0, 50)
 
 func animate_show(number_of_tools:int, gold:int) -> void:
 	show()
@@ -68,6 +67,7 @@ func _on_tool_shop_button_pressed(gui_shop_button:GUIShopButton, tool_data:ToolD
 		tool_shop_button_pressed.emit(tool_data, gui_shop_button.global_position)
 		gui_shop_button.queue_free()
 	else:
+		Util.play_error_shake_animation(gui_shop_button, "position", gui_shop_button.position)
 		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
 
 func _on_finish_button_pressed() -> void:

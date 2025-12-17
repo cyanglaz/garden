@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b3n367w856dkv" path="res://scenes/main_game/chest/chest.gd" id="1_akmc0"]
 [ext_resource type="Shader" uid="uid://dgtm62e0x5jyk" path="res://scenes/main_game/chest/chest.gdshader" id="2_ealxs"]
-[ext_resource type="Texture2D" uid="uid://ce6ddhw7hfd3m" path="res://resources/sprites/chest/chest.png" id="2_sno4t"]
+[ext_resource type="Texture2D" uid="uid://ce6ddhw7hfd3m" path="res://resources/sprites/objects/chest/chest.png" id="2_sno4t"]
 [ext_resource type="AudioStream" uid="uid://bamfk72dvwqs3" path="res://resources/sounds/SFX/chest/chest_open.wav" id="4_ealxs"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3nie3"]

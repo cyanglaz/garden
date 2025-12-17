@@ -10,24 +10,21 @@ const HINT_COLOR := Constants.COLOR_RED
 @onready var rich_text_label: RichTextLabel = %RichTextLabel
 @onready var active_label: Label = %ActiveLabel
 @onready var activate_hint_label: RichTextLabel = %ActivateHintLabel
+@onready var cooldown_label: RichTextLabel = %CooldownLabel
 
-func update_with_plant_ability_data(plant_ability_data:PlantAbilityData, active:bool) -> void:
+func update_with_plant_ability_data(plant_ability_data:PlantAbilityData, stack:int) -> void:
 	var image := Util.get_image_path_for_resource_id(plant_ability_data.id)
 	if image:
 		texture_rect.texture = load(Util.get_image_path_for_resource_id(plant_ability_data.id))
 	else:
 		texture_rect.hide()
-	title_label.text = plant_ability_data.display_name
+	plant_ability_data.data["stack"] = str(stack)
+	title_label.text = plant_ability_data.get_display_name()
 	rich_text_label.text = plant_ability_data.get_display_description()
-	if active:
-		active_label.text = Util.get_localized_string("PLANT_ABILITY_ACTIVE")
-		active_label.add_theme_color_override("font_color", ACTIVE_COLOR)
-		activate_hint_label.hide()
+	activate_hint_label.hide()
+	if plant_ability_data.cooldown > 0:
+		cooldown_label.show()
+		var cooldown_text = Util.get_localized_string("PLANT_ABILITY_COOLDOWN") % [plant_ability_data.cooldown]
+		cooldown_label.text = Util.convert_to_bbc_highlight_text(cooldown_text, Constants.COLOR_RED3, 1, Constants.COLOR_BEIGE_1)
 	else:
-		active_label.text = Util.get_localized_string("PLANT_ABILITY_INACTIVE")
-		active_label.add_theme_color_override("font_color", INACTIVE_COLOR)
-		activate_hint_label.show()
-		var hint := Util.get_localized_string("PLANT_ABILITY_ACTIVE_HINT")
-		var highlighted_hint = Util.convert_to_bbc_highlight_text(hint, HINT_COLOR, 0)
-		activate_hint_label.text = highlighted_hint
-		
+		cooldown_label.hide()

@@ -19,14 +19,14 @@ const BACKGROUND_MUSIC_FADE_IN_TIME := 1.0
 @onready var background_music_player: AudioStreamPlayer2D = %BackgroundMusicPlayer
 
 var energy_tracker:ResourcePoint = ResourcePoint.new()
-var contract_generator:ContractGenerator = ContractGenerator.new()
+var combat_generator:CombatGenerator = CombatGenerator.new()
 var power_manager:PowerManager = PowerManager.new()
 var tool_manager:ToolManager
 var day_manager:DayManager = DayManager.new()
 var session_summary:SessionSummary
 var combat_modifier_manager:CombatModifierManager = CombatModifierManager.new()
 var boost := 1: set = _set_boost
-var _contract:ContractData
+var _combat:CombatData
 var _tool_application_error_timers:Dictionary = {}
 
 var is_finished:bool = false
@@ -40,9 +40,9 @@ func _ready() -> void:
 	Events.request_add_tools_to_discard_pile.connect(_on_request_add_tools_to_discard_pile)
 	Events.request_modify_hand_cards.connect(_on_request_modify_hand_cards)
 
-func start(card_pool:Array[ToolData], energy_cap:int, contract:ContractData) -> void:
+func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData) -> void:
 
-	session_summary = SessionSummary.new(contract)
+	session_summary = SessionSummary.new(combat)
 
 	plant_field_container.field_hovered.connect(_on_field_hovered)
 	plant_field_container.field_pressed.connect(_on_field_pressed)
@@ -76,7 +76,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, contract:ContractData) -> 
 
 	background_music_player.volume_db = -80
 
-	_contract = contract
+	_combat = combat
 	_start_new_level()
 
 func _input(event: InputEvent) -> void:
@@ -112,9 +112,9 @@ func update_power(power_id:String, stack:int) -> void:
 func _start_new_level() -> void:
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.LEVEL)
 	boost = 1
-	plant_field_container.setup_with_plants(_contract.plants)
+	plant_field_container.setup_with_plants(_combat.plants)
 	day_manager.start_new()
-	gui.update_with_contract(_contract, self)
+	gui.update_with_combat(_combat, self)
 	level_started.emit()
 	await weather_main.start(chapter_manager.current_chapter)
 	_start_turn()
@@ -126,7 +126,6 @@ func _start_turn() -> void:
 	energy_tracker.setup(max_energy, max_energy)
 	day_manager.next_day()
 	gui.clear_tool_selection()
-	gui.update_penalty_rate(_contract.get_penalty_rate(day_manager.day))
 	if day_manager.day == 0:
 		_fade_music(true)
 		await gui.apply_boss_actions(GUIBoss.HookType.LEVEL_START)
@@ -140,13 +139,15 @@ func _start_turn() -> void:
 func _end_turn() -> void:
 	gui.toggle_all_ui(false)
 	_clear_tool_selection()
-	await _discard_all_tools()
-	if _met_win_condition():
-		return
-	tool_manager.card_use_limit_reached = false
 	await plant_field_container.trigger_end_turn_hooks(self)
 	await weather_main.apply_weather_actions(plant_field_container.plants, self)
 	await power_manager.handle_weather_application_hook(self, weather_main.get_current_weather())
+	tool_manager.card_use_limit_reached = false
+	await weather_main.night_fall()
+	await _trigger_turn_end_cards()
+	await _discard_all_tools()
+	if _met_win_condition():
+		return
 	tool_manager.cleanup_for_turn()
 	combat_modifier_manager.clear_for_turn()
 	power_manager.remove_single_turn_powers()
@@ -154,7 +155,6 @@ func _end_turn() -> void:
 		# _win() is called by _bloom()
 		return
 	plant_field_container.handle_turn_end()
-	Events.request_hp_update.emit( -_contract.get_penalty_rate(day_manager.day))
 	await weather_main.pass_day()
 	gui.toggle_all_ui(true)
 	_start_turn()
@@ -172,8 +172,13 @@ func _win() -> void:
 	await _discard_all_tools()
 	weather_main.level_end_stop()
 	session_summary.total_days += day_manager.day
-	gui.animate_show_reward_main(_contract)
+	gui.animate_show_reward_main(_combat)
 	
+func _trigger_turn_end_cards() -> void:
+	if tool_manager.tool_deck.hand.is_empty():
+		return
+	await tool_manager.trigger_turn_end_cards(self, plant_field_container.plants)
+
 func _discard_all_tools() -> void:
 	if tool_manager.tool_deck.hand.is_empty():
 		return
@@ -222,7 +227,9 @@ func _hide_custom_error(identifier:String) -> void:
 #region UI EVENTS
 func _on_tool_selected(tool_data:ToolData) -> void:
 	_handle_select_tool(tool_data)
-	if tool_data.need_select_field:
+	if tool_data.all_fields:
+		plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT)
+	elif tool_data.need_select_field:
 		plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.READY)
 
 func _on_mouse_exited_card(tool_data:ToolData) -> void:
@@ -238,22 +245,19 @@ func _on_end_turn_button_pressed() -> void:
 func _on_field_hovered(hovered:bool, index:int) -> void:
 	if tool_manager.selected_tool && tool_manager.selected_tool.need_select_field:
 		if hovered:
-			if tool_manager.selected_tool.all_fields:
-				plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT)
-			else:
-				plant_field_container.toggle_plant_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT, index)
+			plant_field_container.toggle_plant_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT, index)
 		else:
 			plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.READY)
 	else:
 		plant_field_container.toggle_tooltip_for_plant(index, hovered)
 
 func _on_field_pressed(index:int) -> void:
-	if !tool_manager.selected_tool || !tool_manager.selected_tool.need_select_field:
+	if !tool_manager.selected_tool || !tool_manager.selected_tool.has_field_action:
 		return
 	_handle_card_use(index)
 
 func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> void:
-	if _contract.contract_type == ContractData.ContractType.BOSS:
+	if _combat.combat_type == CombatData.CombatType.BOSS:
 		#beat demo
 		pass # TODO: beat demo
 	else:

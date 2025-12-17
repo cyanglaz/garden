@@ -16,6 +16,9 @@ func apply_tool(_combat_main:CombatMain, plants:Array, field_index:int, tool_dat
 func need_select_field() -> bool:
 	return true
 
+func has_field_action() -> bool:
+	return true
+
 func handle_post_application_hook(_tool_data:ToolData, combat_main:CombatMain) -> void:
 	var empty_bottled_tool_data:ToolData = MainDatabase.tool_database.get_data_by_id("empty_bottle").get_duplicate()
 	await combat_main.tool_manager.add_tools_to_discard_pile([empty_bottled_tool_data], _card_spawn_position, false)

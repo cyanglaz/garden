@@ -2,6 +2,7 @@ class_name PlantField
 extends Field
 
 const PLANT_SCENE_PATH_PREFIX:String = "res://scenes/main_game/plants/plants/plant_"
+const PLANT_ABILITY_ICON_SIZE := 7
 
 signal action_application_completed()
 signal plant_bloom_started()
@@ -52,7 +53,7 @@ func plant_seed(plant_data:PlantData) -> void:
 	plant.bloom_completed.connect(func(): plant_bloom_completed.emit())
 	plant.action_application_completed.connect(func(): action_application_completed.emit())
 	_gui_plant_ability_icon_container.setup_with_plant(plant)
-	_gui_field_status_container.bind_with_field_status_manager(plant.status_manager)
+	_gui_field_status_container.bind_with_field_status_container(plant.field_status_container)
 	new_plant_planted.emit()
 
 func show_tooltip() -> void:
@@ -71,11 +72,12 @@ func can_bloom() -> bool:
 func bloom() -> void:
 	_progress_bars.hide()
 	_gui_field_button.hide()
-	_gui_field_status_container.hide()
 	_gui_field_selection_arrow.hide()
-	_complete_check.show()
 	plant.bloom()
-	_gui_plant_ability_icon_container.activate_abilities()
+	await plant.bloom_completed
+	_gui_plant_ability_icon_container.hide()
+	_gui_field_status_container.hide()
+	_complete_check.show()
 
 #region private methods
 
@@ -133,5 +135,5 @@ func _set_size(val:int) -> void:
 
 		_gui_field_status_container.position.x = (size+2) * FieldLand.CELL_SIZE.x/2 + 3
 
-		_gui_plant_ability_icon_container.position.x = - (size+2) * FieldLand.CELL_SIZE.x/2 - 3
+		_gui_plant_ability_icon_container.position.x = - (size+2) * FieldLand.CELL_SIZE.x/2 - 3 - PLANT_ABILITY_ICON_SIZE
 #endregion

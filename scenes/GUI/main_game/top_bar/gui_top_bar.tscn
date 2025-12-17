@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bm2lnsffltmvn" path="res://scenes/GUI/main_game/top_bar/gui_top_bar.gd" id="1_om12v"]
 [ext_resource type="PackedScene" uid="uid://dm1jpn72n0ue7" path="res://scenes/GUI/main_game/top_bar/gui_gold.tscn" id="2_mmkmm"]
 [ext_resource type="PackedScene" uid="uid://c2ttrcf1bo4ju" path="res://scenes/GUI/main_game/characters/gui_player.tscn" id="4_mmkmm"]
-[ext_resource type="PackedScene" uid="uid://ps5vjsn1nr2c" path="res://scenes/GUI/main_game/top_bar/gui_hp.tscn" id="5_8mpe6"]
+[ext_resource type="PackedScene" uid="uid://gbvb5ymqals0" path="res://scenes/GUI/main_game/top_bar/gui_hp.tscn" id="5_8mpe6"]
 [ext_resource type="PackedScene" uid="uid://ct8p64yajr0fh" path="res://scenes/GUI/controls/buttons/gui_full_deck_button.tscn" id="6_mmkmm"]
 [ext_resource type="PackedScene" uid="uid://c6xeh4cid7k8w" path="res://scenes/GUI/controls/buttons/gui_library_button.tscn" id="7_ey64j"]
 [ext_resource type="PackedScene" uid="uid://bv0vcudygflck" path="res://scenes/GUI/controls/buttons/gui_settings_button.tscn" id="9_j76ip"]
@@ -44,19 +44,21 @@ offset_top = -6.0
 offset_right = 104.0
 offset_bottom = 6.0
 grow_vertical = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 2
 
 [node name="GUIPlayer" parent="MarginContainer/Container/LeftContainer" instance=ExtResource("4_mmkmm")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="GUIHP" parent="MarginContainer/Container/LeftContainer" instance=ExtResource("5_8mpe6")]
 unique_name_in_owner = true
 layout_mode = 2
 
 [node name="GUIGold" parent="MarginContainer/Container/LeftContainer" instance=ExtResource("2_mmkmm")]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 4
+
+[node name="GUIHP" parent="MarginContainer/Container/LeftContainer" instance=ExtResource("5_8mpe6")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
 
 [node name="RightContainer" type="HBoxContainer" parent="MarginContainer/Container"]
 layout_mode = 1

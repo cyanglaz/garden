@@ -15,7 +15,6 @@ const GUI_TOOL_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_tool
 const GUI_SHOW_DETAIL_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_show_detail_tooltip.tscn")
 const GUI_BOOSTER_PACK_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_booster_pack_tooltip.tscn")
 const GUI_BOSS_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_boss_tooltip.tscn")
-const GUI_CONTRACT_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_contract_tooltip.tscn")
 const GUI_MAP_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_map_tooltip.tscn")
 const GUI_REFERENCE_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_reference_card_tooltip.tscn")
 const GUI_PLANT_ABILITY_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_plant_ability_tooltip.tscn")
@@ -73,8 +72,6 @@ func _create_tooltip(tooltip_type:TooltipRequest.TooltipType) -> GUITooltip:
 			return GUI_BOSS_TOOLTIP_SCENE.instantiate()
 		TooltipRequest.TooltipType.BOOSTER_PACK:
 			return GUI_BOOSTER_PACK_TOOLTIP_SCENE.instantiate()
-		TooltipRequest.TooltipType.CONTRACT:
-			return GUI_CONTRACT_TOOLTIP_SCENE.instantiate()
 		TooltipRequest.TooltipType.TOOL_CARD:
 			return GUI_TOOL_CARD_TOOLTIP_SCENE.instantiate()
 		TooltipRequest.TooltipType.SPECIALS:

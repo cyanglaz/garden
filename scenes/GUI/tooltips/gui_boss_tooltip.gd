@@ -13,8 +13,8 @@ func _ready() -> void:
 
 func _update_with_tooltip_request() -> void:
 	var boss_data:BossData = _tooltip_request.data as BossData
-	name_label.text = boss_data.display_name
-	name_label.modulate = Constants.CONTRACT_THEME_COLOR_BOSS
+	name_label.text = boss_data.get_display_name()
+	name_label.modulate = Constants.COMBAT_THEME_COLOR_BOSS
 	rich_text_label.text = boss_data.get_display_description()
 
 func _on_mouse_entered() -> void:

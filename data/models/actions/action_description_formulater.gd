@@ -1,7 +1,7 @@
 class_name ActionDescriptionFormulator
 extends RefCounted
 
-const FIELD_STATUS_ACTION_TYPES := [ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP]
+const FIELD_STATUS_ACTION_TYPES := [ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW]
 
 const HIGHLIGHT_COLOR := Constants.COLOR_WHITE
 const X_DESCRIPTION_HIGHLIGHT_COLOR := Constants.COLOR_BLUE_3
@@ -31,9 +31,9 @@ static func get_raw_action_description(action_data:ActionData, target_plant:Plan
 	match action_data.type:
 		ActionData.ActionType.LIGHT, ActionData.ActionType.WATER:
 			raw_action_description = _get_field_action_description(action_data, target_plant)
-		ActionData.ActionType.ENERGY, ActionData.ActionType.UPDATE_X, ActionData.ActionType.UPDATE_GOLD:
+		ActionData.ActionType.ENERGY, ActionData.ActionType.UPDATE_X, ActionData.ActionType.UPDATE_GOLD, ActionData.ActionType.UPDATE_HP:
 			raw_action_description = _get_resource_update_action_description(action_data, target_plant)
-		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.SEEP:
+		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW:
 			raw_action_description = _get_field_status_description(action_data)
 		ActionData.ActionType.WEATHER_SUNNY, ActionData.ActionType.WEATHER_RAINY:
 			raw_action_description = _get_weather_action_description(action_data)
@@ -48,12 +48,12 @@ static func get_raw_action_description(action_data:ActionData, target_plant:Plan
 static func get_special_name(special:ToolData.Special) -> String:
 	var special_name := ""
 	match special:
-		ToolData.Special.USE_ON_DRAW:
-			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_ON_DRAW")
 		ToolData.Special.COMPOST:
 			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_COMPOST")
 		ToolData.Special.WITHER:
 			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_WITHER")
+		ToolData.Special.NIGHTFALL:
+			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_TURN_END")
 		_:
 			assert(false, "Invalid special: %s" % special)
 	return special_name
@@ -61,12 +61,12 @@ static func get_special_name(special:ToolData.Special) -> String:
 static func get_special_description(special:ToolData.Special) -> String:
 	var special_description := ""
 	match special:
-		ToolData.Special.USE_ON_DRAW:
-			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_ON_DRAW")
 		ToolData.Special.COMPOST:
 			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_COMPOST")
 		ToolData.Special.WITHER:
 			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_WITHER")
+		ToolData.Special.NIGHTFALL:
+			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_TURN_END")
 		_:
 			assert(false, "Invalid special: %s" % special)
 	return special_description

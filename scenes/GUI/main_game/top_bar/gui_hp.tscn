@@ -1,52 +1,91 @@
-[gd_scene load_steps=6 format=3 uid="uid://ps5vjsn1nr2c"]
+[gd_scene load_steps=9 format=3 uid="uid://gbvb5ymqals0"]
 
 [ext_resource type="Script" uid="uid://d2wx3xn5vkqcm" path="res://scenes/GUI/main_game/top_bar/gui_hp.gd" id="1_2kdio"]
-[ext_resource type="Texture2D" uid="uid://bhqydxgtda0mu" path="res://resources/sprites/GUI/icons/resources/icon_vitality.png" id="1_3v54s"]
-[ext_resource type="PackedScene" uid="uid://drfnshalrvcp5" path="res://scenes/GUI/utils/progress_bar/gui_bordered_progress_bar.tscn" id="2_t87nv"]
+[ext_resource type="Texture2D" uid="uid://dgbr5rmxdmpib" path="res://resources/sprites/GUI/icons/resources/heart.png" id="4_fh45k"]
 [ext_resource type="AudioStream" uid="uid://bv5cmeun7grfy" path="res://resources/sounds/SFX/hp/hp_drop.wav" id="4_p4iye"]
 [ext_resource type="AudioStream" uid="uid://jn6jsousg3qy" path="res://resources/sounds/SFX/hp/hp_up.wav" id="5_6trgl"]
+[ext_resource type="PackedScene" uid="uid://cq7734s7t5y87" path="res://scenes/GUI/main_game/top_bar/gui_hp_segment.tscn" id="5_xiu2t"]
 
-[node name="GUIHP" type="HBoxContainer"]
-offset_right = 44.0
+[sub_resource type="Animation" id="Animation_o8pcr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PanelContainer/Label:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(12, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_xiu2t"]
+resource_name = "hp_drop"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(0.5, 0.5, 0.5, 0.5, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1, 0), Vector2(-1, 0), Vector2(1, 0), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PanelContainer/Label:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(0.5, 0.5, 0.5, 0.5, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1, 0), Vector2(-1, 0), Vector2(1, 0), Vector2(0, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../DropSound")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_o8pcr"]
+_data = {
+&"RESET": SubResource("Animation_o8pcr"),
+&"hp_drop": SubResource("Animation_xiu2t")
+}
+
+[node name="GUIHP" type="PanelContainer"]
+offset_right = 38.0
 offset_bottom = 11.0
-theme_override_constants/separation = 1
 script = ExtResource("1_2kdio")
-
-[node name="TextureRect" type="TextureRect" parent="."]
-unique_name_in_owner = true
-layout_mode = 2
-texture = ExtResource("1_3v54s")
-stretch_mode = 5
-
-[node name="GUIBorderedProgressBar" parent="." instance=ExtResource("2_t87nv")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(42, 7)
-layout_mode = 2
-size_flags_vertical = 4
-tint_progress = Color(0.9607843, 0.33333334, 0.3647059, 1)
-
-[node name="RichTextLabel" type="RichTextLabel" parent="GUIBorderedProgressBar"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(18, 0)
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -30.0
-offset_right = -2.0
-grow_horizontal = 0
-grow_vertical = 2
-theme_type_variation = &"RichTextButton"
-theme_override_colors/default_color = Color(1, 0.92156863, 0.34117648, 1)
-theme_override_colors/font_outline_color = Color(0.07450981, 0.07450981, 0.07450981, 1)
-theme_override_constants/outline_size = 1
-bbcode_enabled = true
-text = "100/100"
-fit_content = true
-scroll_active = false
-horizontal_alignment = 2
-vertical_alignment = 1
 
 [node name="DropSound" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
@@ -57,3 +96,59 @@ bus = &"SFX"
 unique_name_in_owner = true
 stream = ExtResource("5_6trgl")
 bus = &"SFX"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+root_node = NodePath("../MainContainer")
+libraries = {
+&"": SubResource("AnimationLibrary_o8pcr")
+}
+
+[node name="MainContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="TextureRect" type="TextureRect" parent="MainContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("4_fh45k")
+stretch_mode = 5
+
+[node name="SegmentContainer" type="GridContainer" parent="MainContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+columns = 10
+
+[node name="GUIHpSegment" parent="MainContainer/SegmentContainer" instance=ExtResource("5_xiu2t")]
+layout_mode = 2
+
+[node name="GUIHpSegment2" parent="MainContainer/SegmentContainer" instance=ExtResource("5_xiu2t")]
+layout_mode = 2
+
+[node name="GUIHpSegment3" parent="MainContainer/SegmentContainer" instance=ExtResource("5_xiu2t")]
+layout_mode = 2
+
+[node name="GUIHpSegment4" parent="MainContainer/SegmentContainer" instance=ExtResource("5_xiu2t")]
+layout_mode = 2
+
+[node name="GUIHpSegment5" parent="MainContainer/SegmentContainer" instance=ExtResource("5_xiu2t")]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MainContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MainContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_type_variation = &"HUD_mid"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.34117648, 0.10980392, 0.15294118, 1)
+theme_override_constants/outline_size = 1
+text = "10/10"
+vertical_alignment = 1
