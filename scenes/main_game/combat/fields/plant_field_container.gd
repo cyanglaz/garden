@@ -23,7 +23,7 @@ func setup_with_plants(plant_datas:Array) -> void:
 		field.plant_bloom_completed.connect(func(): plant_bloom_completed.emit())
 		field.action_application_completed.connect(func(): plant_action_application_completed.emit(i))
 		field.index = i
-		_container.add_child(field)
+		add_child(field)
 		var plant_data:PlantData = plant_datas[i]
 		field.plant_seed(plant_data)
 		plants.append(field.plant)
@@ -32,7 +32,7 @@ func setup_with_plants(plant_datas:Array) -> void:
 			field.left_field = current_field
 			current_field.right_field = field
 		current_field = field
-	_setup_fields()
+	setup_fields()
 
 func trigger_end_turn_hooks(combat_main:CombatMain) -> void:
 	for plant:Plant in plants:
@@ -87,43 +87,6 @@ func are_all_plants_bloom() -> bool:
 		if !plant.is_bloom():
 			return false
 	return true
-
-func _layout_fields() -> void:
-	if fields.size() == 0:
-		return
-	
-	# Get screen size
-	var screen_size = get_viewport().get_visible_rect().size
-	
-	# Calculate total width needed for all fields
-	var total_fields_width = 0.0
-	for field:Field in fields:
-		total_fields_width += field.land_width
-	
-	# Calculate spacing between fields
-	var available_width = screen_size.x - MARGIN * 2  # Leave 20px margin on each side
-	var spacing = 0.0
-	
-	if fields.size() > 1:
-		var total_spacing_needed = available_width - total_fields_width
-		spacing = min(total_spacing_needed / (fields.size() - 1), MAX_DISTANCE_BETWEEN_FIELDS)
-	
-	# Position fields horizontally
-#	
-	# Calculate starting x position to center align fields
-	var total_width = total_fields_width + (spacing * (fields.size() - 1))
-	var start_x = - total_width / 2 + fields[0].land_width/2
-	
-	var current_x = start_x
-	var index = 0
-	for field in fields:
-		field.position.x = current_x
-		field.position.y = 0
-		var next_field_width := 0.0
-		if index < fields.size() - 1:
-			next_field_width = fields[index + 1].land_width
-		current_x += (field.land_width + next_field_width)/2.0 + spacing
-		index += 1
 
 func _get_mouse_plant() -> Plant:
 	return _weak_mouse_plant.get_ref()

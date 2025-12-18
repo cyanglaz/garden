@@ -7,13 +7,11 @@ const MARGIN := 36
 signal field_hovered(hovered:bool, index:int)
 signal field_pressed(index:int)
 
-@onready var _container: Node2D = %Container
-
 var fields:Array[Field] = []
 
-func _setup_fields() -> void:
-	for i in _container.get_child_count():
-		var field:Field = _container.get_child(i)
+func setup_fields() -> void:
+	for i in get_child_count():
+		var field:Field = get_child(i)
 		fields.append(field)
 		field.field_hovered.connect(_on_field_hovered.bind(i))
 		field.field_pressed.connect(_on_field_pressed.bind(i))

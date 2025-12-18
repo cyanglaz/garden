@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://r5p41d4bnvav"]
 
-[ext_resource type="PackedScene" uid="uid://byg0qymapjkn6" path="res://scenes/main_game/combat/fields/plant_field_container.tscn" id="1_nckrh"]
+[ext_resource type="PackedScene" uid="uid://c7amcb4w04k0a" path="res://scenes/main_game/combat/fields/plant_field_container.tscn" id="1_nckrh"]
 [ext_resource type="Script" uid="uid://bw2cm26cqa66" path="res://scenes/main_game/combat/combat_main.gd" id="1_yx5ui"]
 [ext_resource type="PackedScene" uid="uid://4p4u6myuj4oc" path="res://scenes/main_game/combat/weather/weather_main.tscn" id="2_lcb6h"]
 [ext_resource type="PackedScene" uid="uid://dl31u6exk8l35" path="res://scenes/GUI/combat_main/gui_combat_main.tscn" id="2_yx5ui"]

@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://cpah64bt1dqyl"]
+[gd_scene load_steps=8 format=3 uid="uid://cpah64bt1dqyl"]
 
 [ext_resource type="PackedScene" uid="uid://btg5np7yclg88" path="res://scenes/GUI/town/gui_town_main.tscn" id="1_3edfl"]
 [ext_resource type="Script" uid="uid://cub5nykjo6l4f" path="res://scenes/main_game/town/town_main.gd" id="1_yr5n1"]
 [ext_resource type="PackedScene" uid="uid://4p4u6myuj4oc" path="res://scenes/main_game/combat/weather/weather_main.tscn" id="3_yy3ws"]
 [ext_resource type="PackedScene" uid="uid://dvx20utoq0vco" path="res://scenes/main_game/combat/world/background.tscn" id="4_65nk7"]
+[ext_resource type="PackedScene" uid="uid://bm73crso7rnrj" path="res://scenes/main_game/field/field_container.tscn" id="4_rdtrg"]
 [ext_resource type="PackedScene" uid="uid://frlyetv4sjsp" path="res://scenes/main_game/town/tavern_field.tscn" id="4_yy3ws"]
 [ext_resource type="PackedScene" uid="uid://b5vvjdyudqxkf" path="res://scenes/main_game/combat/world/water/dynamic_water.tscn" id="6_ylli7"]
 
@@ -15,10 +16,11 @@ unique_name_in_owner = true
 
 [node name="Background" parent="." instance=ExtResource("4_65nk7")]
 
-[node name="FieldsContainer" type="Node2D" parent="."]
-position = Vector2(0, -10)
+[node name="FieldContainer" parent="." instance=ExtResource("4_rdtrg")]
+unique_name_in_owner = true
+position = Vector2(0, -9)
 
-[node name="TavernField" parent="FieldsContainer" instance=ExtResource("4_yy3ws")]
+[node name="TavernField" parent="FieldContainer" instance=ExtResource("4_yy3ws")]
 unique_name_in_owner = true
 
 [node name="DynamicWater" parent="." instance=ExtResource("6_ylli7")]
