@@ -14,10 +14,12 @@ script = ExtResource("2_bkaa3")
 size = 2
 
 [node name="Tavern" parent="Container" index="0" instance=ExtResource("3_0tknd")]
+unique_name_in_owner = true
 position = Vector2(-3, -13)
 
 [node name="TavernSign" parent="Container" index="1" instance=ExtResource("4_do283")]
-position = Vector2(19, -6)
+unique_name_in_owner = true
+position = Vector2(19, -7)
 
 [node name="GUIFieldButton" parent="." index="2"]
 offset_left = -23.0

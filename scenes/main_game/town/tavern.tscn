@@ -1,13 +1,13 @@
 [gd_scene load_steps=13 format=3 uid="uid://bvhbc05xll14n"]
 
 [ext_resource type="Script" uid="uid://rvacd60ym0yk" path="res://scenes/main_game/town/tavern.gd" id="1_67yhe"]
-[ext_resource type="Shader" uid="uid://dgtm62e0x5jyk" path="res://scenes/main_game/chest/chest.gdshader" id="2_a4o5v"]
+[ext_resource type="Shader" uid="uid://kbc8u6dx42q6" path="res://scenes/main_game/town/tavern.gdshader" id="2_67yhe"]
 [ext_resource type="Texture2D" uid="uid://b6jlqiajd7uco" path="res://resources/sprites/objects/town/tavern.png" id="3_67yhe"]
 [ext_resource type="Texture2D" uid="uid://0fgf3t3c1paq" path="res://resources/sprites/effects/particles/particle_smoke.png" id="4_67yhe"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3nie3"]
 resource_local_to_scene = true
-shader = ExtResource("2_a4o5v")
+shader = ExtResource("2_67yhe")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 
@@ -34,7 +34,7 @@ point_count = 2
 curve = SubResource("Curve_fbemm")
 
 [sub_resource type="Curve" id="Curve_67yhe"]
-_data = [Vector2(0, 0.46002918), 0.0, 0.0, 0, 0, Vector2(0.9975186, 0.81684405), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0.19954073), 0.0, 0.0, 0, 0, Vector2(1, 0.57941973), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_fbemm"]
@@ -44,11 +44,11 @@ curve = SubResource("Curve_67yhe")
 resource_local_to_scene = true
 particle_flag_disable_z = true
 direction = Vector3(0, -1, 0)
-spread = 20.0
+spread = 25.0
 initial_velocity_min = 10.0
 initial_velocity_max = 20.0
-angular_velocity_min = -20.000015
-angular_velocity_max = 19.999983
+angular_velocity_min = -180.00002
+angular_velocity_max = 179.99998
 gravity = Vector3(10, -20, 0)
 scale_min = 0.5
 scale_curve = SubResource("CurveTexture_fbemm")
@@ -81,7 +81,7 @@ metadata/_aseprite_wizard_config_ = {
 metadata/_aseprite_wizard_source_file_hash_ = "7578b6acd427255f47e938b993494863"
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-position = Vector2(-6, -13)
+position = Vector2(-6.5, -13)
 amount = 32
 texture = ExtResource("4_67yhe")
 lifetime = 2.0

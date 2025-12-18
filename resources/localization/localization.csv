@@ -152,3 +152,6 @@ PLANT_ABILITY_ACTIVE, "Active"
 PLANT_ABILITY_INACTIVE, "Inactive"
 PLANT_ABILITY_ACTIVE_HINT, "Activated when fully grown."
 PLANT_ABILITY_COOLDOWN, "Cooldown: %s"
+
+TAVERN_NAME, "Tavern"
+TAVERN_DESCRIPTION, "{resource:vitality}+%s"

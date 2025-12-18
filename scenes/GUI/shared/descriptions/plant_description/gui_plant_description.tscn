@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://h75kpqpphro7"]
+[gd_scene load_steps=4 format=3 uid="uid://h75kpqpphro7"]
 
 [ext_resource type="Script" uid="uid://bd28yuw5ttosm" path="res://scenes/GUI/shared/descriptions/plant_description/gui_plant_description.gd" id="1_lgl7a"]
 [ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/GUI/icons/resources/icon_light.png" id="3_22r1h"]
 [ext_resource type="Texture2D" uid="uid://ck8xmcukmvwwu" path="res://resources/sprites/GUI/icons/resources/icon_water.png" id="4_lgl7a"]
-[ext_resource type="PackedScene" uid="uid://bfye3pwakcidx" path="res://scenes/GUI/shared/descriptions/gui_tooltip_description_separator.tscn" id="4_mws2d"]
 
 [node name="GUIPlantDescription" type="VBoxContainer"]
 custom_minimum_size = Vector2(43, 0)
@@ -59,10 +58,6 @@ stretch_mode = 5
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HUD_small"
-
-[node name="GUITooltipDescriptionSeparator" parent="." instance=ExtResource("4_mws2d")]
-unique_name_in_owner = true
-layout_mode = 2
 
 [node name="AbilityContainer" type="GridContainer" parent="."]
 unique_name_in_owner = true

@@ -19,6 +19,7 @@ unique_name_in_owner = true
 position = Vector2(0, -10)
 
 [node name="TavernField" parent="FieldsContainer" instance=ExtResource("4_yy3ws")]
+unique_name_in_owner = true
 
 [node name="DynamicWater" parent="." instance=ExtResource("6_ylli7")]
 
