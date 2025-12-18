@@ -1,24 +1,17 @@
 class_name PlantFieldContainer
-extends Node2D
+extends FieldContainer
 
 const FIELD_SCENE := preload("res://scenes/main_game/combat/fields/plant_field.tscn")
 
 signal mouse_plant_updated(plant:Plant)
 signal plant_bloom_started()
 signal plant_bloom_completed()
-signal field_hovered(hovered:bool, index:int)
-signal field_pressed(index:int)
 signal plant_action_application_completed(index:int)
 
-const MAX_DISTANCE_BETWEEN_FIELDS := 15
-const MARGIN := 36
 const PLANT_ICON_OFFSET := Vector2.UP * 4
-
-@onready var _container: Node2D = %Container
 
 # var fields:Array[Field]: get = _get_fields
 var plants:Array[Plant] = []
-var fields:Array[Field] = []
 var mouse_plant:Plant: get = _get_mouse_plant
 var _weak_mouse_plant:WeakRef = weakref(null)
 
@@ -26,15 +19,11 @@ func setup_with_plants(plant_datas:Array) -> void:
 	var current_field:Field = null
 	for i in plant_datas.size():
 		var field:Field = FIELD_SCENE.instantiate()
-		field.field_hovered.connect(_on_field_hovered.bind(i))
-		field.field_pressed.connect(func(): field_pressed.emit(i))
 		field.plant_bloom_started.connect(func(): plant_bloom_started.emit())
 		field.plant_bloom_completed.connect(func(): plant_bloom_completed.emit())
 		field.action_application_completed.connect(func(): plant_action_application_completed.emit(i))
 		field.index = i
 		_container.add_child(field)
-		fields.append(field)
-
 		var plant_data:PlantData = plant_datas[i]
 		field.plant_seed(plant_data)
 		plants.append(field.plant)
@@ -43,7 +32,7 @@ func setup_with_plants(plant_datas:Array) -> void:
 			field.left_field = current_field
 			current_field.right_field = field
 		current_field = field
-	_layout_fields.call_deferred()
+	_setup_fields()
 
 func trigger_end_turn_hooks(combat_main:CombatMain) -> void:
 	for plant:Plant in plants:
@@ -64,20 +53,11 @@ func trigger_tool_discard_hook(count:int) -> void:
 func handle_turn_end() -> void:
 	for plant:Plant in plants:
 		plant.handle_turn_end()
-
-func clear_tool_indicators() -> void:
-	for field:Field in fields:
-		field.toggle_selection_indicator(GUIFieldSelectionArrow.IndicatorState.HIDE)
 	
 func get_plant(index:int) -> Plant:
 	if plants.size() <= index:
 		return null
 	return plants[index]
-
-func get_field(index:int) -> Field:
-	if fields.size() <= index:
-		return null
-	return fields[index]
 
 func toggle_tooltip_for_plant(index:int, on:bool) -> void:
 	var field:Field = fields[index]
@@ -157,4 +137,4 @@ func _on_field_hovered(hovered:bool, index:int) -> void:
 	else:
 		_weak_mouse_plant = weakref(null)
 		mouse_plant_updated.emit(null)
-	field_hovered.emit(hovered, index)
+	super._on_field_hovered(hovered, index)

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bm73crso7rnrj"]
+
+[ext_resource type="Script" uid="uid://q6areko3cnam" path="res://scenes/main_game/field/field_container.gd" id="1_totmd"]
+
+[node name="FieldContainer" type="Node2D"]
+script = ExtResource("1_totmd")
+
+[node name="Container" type="Node2D" parent="."]
+unique_name_in_owner = true
