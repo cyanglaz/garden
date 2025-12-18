@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://dj1mqy10axtfa"
+path="res://.godot/imported/tavern_sign.aseprite-2f2388be5e3d169487b0b1a5e71d0f55.res"
+
+[deps]
+
+source_file="res://resources/sprites/objects/town/tavern_sign.aseprite"
+dest_files=["res://.godot/imported/tavern_sign.aseprite-2f2388be5e3d169487b0b1a5e71d0f55.res"]
+
+[params]
+
