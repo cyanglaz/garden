@@ -1,16 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://byg0qymapjkn6"]
+[gd_scene load_steps=3 format=3 uid="uid://c7amcb4w04k0a"]
 
-[ext_resource type="Script" uid="uid://bi5y0gbwghnht" path="res://scenes/main_game/combat/fields/plant_field_container.gd" id="1_me83l"]
+[ext_resource type="PackedScene" uid="uid://bm73crso7rnrj" path="res://scenes/main_game/field/field_container.tscn" id="1_2kh7w"]
+[ext_resource type="Script" uid="uid://cfwexqtygb3ab" path="res://scenes/main_game/combat/fields/plant_field_container.gd" id="1_me83l"]
 
-[node name="PlantFieldContainer" type="Node2D"]
+[node name="PlantFieldContainer" instance=ExtResource("1_2kh7w")]
 script = ExtResource("1_me83l")
-
-[node name="Container" type="Node2D" parent="."]
-unique_name_in_owner = true
-
-[node name="CenterMark" type="ColorRect" parent="."]
-visible = false
-offset_left = -3.0
-offset_top = -3.0
-offset_right = 3.0
-offset_bottom = 3.0
