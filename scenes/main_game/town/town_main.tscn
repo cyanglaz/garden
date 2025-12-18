@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://cub5nykjo6l4f" path="res://scenes/main_game/town/town_main.gd" id="1_yr5n1"]
 [ext_resource type="PackedScene" uid="uid://4p4u6myuj4oc" path="res://scenes/main_game/combat/weather/weather_main.tscn" id="3_yy3ws"]
 [ext_resource type="PackedScene" uid="uid://dvx20utoq0vco" path="res://scenes/main_game/combat/world/background.tscn" id="4_65nk7"]
-[ext_resource type="PackedScene" uid="uid://ianwld66dkf" path="res://scenes/main_game/chest/chest_field.tscn" id="5_rdtrg"]
+[ext_resource type="PackedScene" uid="uid://frlyetv4sjsp" path="res://scenes/main_game/town/tavern_field.tscn" id="4_yy3ws"]
 [ext_resource type="PackedScene" uid="uid://b5vvjdyudqxkf" path="res://scenes/main_game/combat/world/water/dynamic_water.tscn" id="6_ylli7"]
 
 [node name="TownMain" type="Node2D"]
@@ -15,9 +15,10 @@ unique_name_in_owner = true
 
 [node name="Background" parent="." instance=ExtResource("4_65nk7")]
 
-[node name="ChestField" parent="." instance=ExtResource("5_rdtrg")]
-unique_name_in_owner = true
+[node name="FieldsContainer" type="Node2D" parent="."]
 position = Vector2(0, -10)
+
+[node name="TavernField" parent="FieldsContainer" instance=ExtResource("4_yy3ws")]
 
 [node name="DynamicWater" parent="." instance=ExtResource("6_ylli7")]
 

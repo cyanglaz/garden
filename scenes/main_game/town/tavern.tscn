@@ -1,0 +1,108 @@
+[gd_scene load_steps=14 format=3 uid="uid://bvhbc05xll14n"]
+
+[ext_resource type="Script" uid="uid://rvacd60ym0yk" path="res://scenes/main_game/town/tavern.gd" id="1_67yhe"]
+[ext_resource type="Shader" uid="uid://dgtm62e0x5jyk" path="res://scenes/main_game/chest/chest.gdshader" id="2_a4o5v"]
+[ext_resource type="Texture2D" uid="uid://b6jlqiajd7uco" path="res://resources/sprites/objects/town/tavern.png" id="3_67yhe"]
+[ext_resource type="AudioStream" uid="uid://bamfk72dvwqs3" path="res://resources/sounds/SFX/chest/chest_open.wav" id="4_1pkcu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3nie3"]
+resource_local_to_scene = true
+shader = ExtResource("2_a4o5v")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_67yhe"]
+atlas = ExtResource("3_67yhe")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fbemm"]
+atlas = ExtResource("3_67yhe")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_61wby"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_67yhe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fbemm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fbemm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fbemm")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[sub_resource type="Curve" id="Curve_tnt3e"]
+_data = [Vector2(0, 0.99507946), 0.0, -0.030017374, 0, 0, Vector2(0.7919162, 0.93275297), -0.3371181, -0.3371181, 0, 0, Vector2(1, 0), -4.1465545, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ealxs"]
+curve = SubResource("Curve_tnt3e")
+
+[sub_resource type="Gradient" id="Gradient_tnt3e"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.21661238, 0.504886, 0.7654723)
+colors = PackedColorArray(0.85882354, 0.24705882, 0.99215686, 1, 0.2, 0.59607846, 0.29411766, 1, 1, 0.92156863, 0.34117648, 1, 0, 0.59607846, 0.8627451, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ealxs"]
+gradient = SubResource("Gradient_tnt3e")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tnt3e"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(2, 1, 1)
+direction = Vector3(0, -1, 0)
+spread = 65.331
+initial_velocity_min = 10.0
+initial_velocity_max = 160.0
+angular_velocity_min = -160.00002
+angular_velocity_max = 159.99998
+gravity = Vector3(0, 0, 0)
+scale_max = 2.0
+color_initial_ramp = SubResource("GradientTexture1D_ealxs")
+alpha_curve = SubResource("CurveTexture_ealxs")
+
+[node name="Tavern" type="Node2D"]
+script = ExtResource("1_67yhe")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+material = SubResource("ShaderMaterial_3nie3")
+sprite_frames = SubResource("SpriteFrames_61wby")
+animation = &"idle"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/objects/town/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/objects/town/tavern.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "1caf09f1cc6acf91df6ee444f93bd16e"
+
+[node name="ConfettiEmitter" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+emitting = false
+amount = 500
+lifetime = 0.5
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_tnt3e")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_1pkcu")
+bus = &"SFX"
