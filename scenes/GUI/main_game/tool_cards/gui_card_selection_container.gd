@@ -1,6 +1,8 @@
 class_name GUICardSelectionContainer
 extends Control
 
+const TOOL_CARD_PLACEHOLDER_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_card_placeholder.tscn")
+
 const CARD_MOVE_ANIMATION_TIME:float = 0.2
 
 signal _selection_completed()
@@ -56,7 +58,7 @@ func select_secondary_card(card:GUIToolCardButton) -> void:
 	var card_select_index := selected_secondary_cards.size()
 	assert(card_select_index < _number_of_cards_to_select)
 	selected_secondary_cards.append(card)
-	var place_holder:PanelContainer = PanelContainer.new()
+	var place_holder:PanelContainer = TOOL_CARD_PLACEHOLDER_SCENE.instantiate()
 	place_holder.custom_minimum_size = GUIToolCardButton.SIZE
 	_placement_container.add_child(place_holder)
 	_redisplay_secondary_cards.call_deferred()
