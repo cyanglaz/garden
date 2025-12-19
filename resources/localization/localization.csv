@@ -155,3 +155,5 @@ PLANT_ABILITY_COOLDOWN, "Cooldown: %s"
 
 TAVERN_NAME, "Tavern"
 TAVERN_DESCRIPTION, "{resource:vitality}+%s"
+FORGE_NAME, "Forge"
+FORGE_DESCRIPTION, "Forge cards."

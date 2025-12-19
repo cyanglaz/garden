@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bvhbc05xll14n"]
+[gd_scene load_steps=14 format=3 uid="uid://bvhbc05xll14n"]
 
 [ext_resource type="Script" uid="uid://rvacd60ym0yk" path="res://scenes/main_game/town/tavern.gd" id="1_67yhe"]
 [ext_resource type="Shader" uid="uid://kbc8u6dx42q6" path="res://scenes/main_game/town/town_object.gdshader" id="2_67yhe"]
@@ -15,14 +15,26 @@ shader_parameter/outline_size = 0
 atlas = ExtResource("3_67yhe")
 region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_fbemm"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fbemm"]
+atlas = ExtResource("3_67yhe")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_61wby"]
 animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_67yhe")
 }],
 "loop": true,
-"name": &"idle",
+"name": &"closed",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fbemm")
+}],
+"loop": true,
+"name": &"open",
 "speed": 10.0
 }]
 
@@ -61,9 +73,8 @@ script = ExtResource("1_67yhe")
 unique_name_in_owner = true
 texture_filter = 1
 material = SubResource("ShaderMaterial_3nie3")
-sprite_frames = SubResource("SpriteFrames_fbemm")
-animation = &"idle"
-autoplay = "idle"
+sprite_frames = SubResource("SpriteFrames_61wby")
+animation = &"closed"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
 "pending_changes": {}
@@ -78,9 +89,10 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/objects/town/tavern.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "7578b6acd427255f47e938b993494863"
+metadata/_aseprite_wizard_source_file_hash_ = "f0bc62b712c0631166cd964db139f4cc"
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
 position = Vector2(-6.5, -13)
 amount = 32
 texture = ExtResource("4_67yhe")
