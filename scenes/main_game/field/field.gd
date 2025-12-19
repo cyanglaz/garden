@@ -18,6 +18,7 @@ signal field_hovered(hovered:bool)
 @onready var _light_occluder_2d: LightOccluder2D = %LightOccluder2D
 
 var land_width: get = _get_land_width
+var press_enabled := true: set = _set_press_enabled
 
 func _ready() -> void:
 	_gui_field_selection_arrow.indicator_state = GUIFieldSelectionArrow.IndicatorState.HIDE
@@ -89,3 +90,7 @@ func _set_size(val:int) -> void:
 		polygon.append(Vector2(-(size+2) * FieldLand.CELL_SIZE.x/2, FieldLand.CELL_SIZE.y))
 		_light_occluder_2d.occluder.polygon = polygon
 		_light_occluder_2d.position.x = - (size+2) * FieldLand.CELL_SIZE.x/2
+
+func _set_press_enabled(val:bool) -> void:
+	press_enabled = val
+	_gui_field_button.press_enabled = val
