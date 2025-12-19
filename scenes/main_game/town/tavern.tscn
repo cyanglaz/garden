@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://bvhbc05xll14n"]
+[gd_scene load_steps=15 format=3 uid="uid://bvhbc05xll14n"]
 
 [ext_resource type="Script" uid="uid://rvacd60ym0yk" path="res://scenes/main_game/town/tavern.gd" id="1_67yhe"]
 [ext_resource type="Shader" uid="uid://kbc8u6dx42q6" path="res://scenes/main_game/town/town_object.gdshader" id="2_67yhe"]
 [ext_resource type="Texture2D" uid="uid://b6jlqiajd7uco" path="res://resources/sprites/objects/town/tavern.png" id="3_67yhe"]
 [ext_resource type="Texture2D" uid="uid://0fgf3t3c1paq" path="res://resources/sprites/effects/particles/particle_smoke.png" id="4_67yhe"]
+[ext_resource type="Texture2D" uid="uid://dwvt3uvs4aiix" path="res://resources/sprites/effects/light/forge_light.png" id="5_fbemm"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3nie3"]
 resource_local_to_scene = true
@@ -98,3 +99,11 @@ amount = 32
 texture = ExtResource("4_67yhe")
 lifetime = 2.0
 process_material = SubResource("ParticleProcessMaterial_j546p")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-2, 8)
+energy = 1.5
+blend_mode = 2
+shadow_color = Color(0.07450981, 0.07450981, 0.07450981, 1)
+texture = ExtResource("5_fbemm")
