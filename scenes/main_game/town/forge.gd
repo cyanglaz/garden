@@ -6,6 +6,7 @@ extends Node2D
 @onready var furnace_spark_particle: GPUParticles2D = %FurnaceSparkParticle
 @onready var fire_particle: GPUParticles2D = %FireParticle
 @onready var point_light_2d: PointLight2D = %PointLight2D
+@onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 var highlighted := false: set = _set_highlighted
 
@@ -28,6 +29,7 @@ func _set_highlighted(val:bool) -> void:
 		furnace_spark_particle.emitting = true
 		fire_particle.emitting = true
 		point_light_2d.show()
+		audio_stream_player_2d.play()
 	else:
 		animated_sprite_2d.material.set_shader_parameter("outline_size", 0)
 		animated_sprite_2d.play("closed")
@@ -35,3 +37,4 @@ func _set_highlighted(val:bool) -> void:
 		furnace_spark_particle.emitting = false
 		fire_particle.emitting = false
 		point_light_2d.hide()
+		audio_stream_player_2d.stop()
