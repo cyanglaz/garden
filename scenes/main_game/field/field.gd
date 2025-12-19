@@ -3,6 +3,9 @@ extends Node2D
 
 const SELECTION_ARROW_Y_OFFSET := 16
 
+signal field_pressed()
+signal field_hovered(hovered:bool)
+
 @export var size := 0:set = _set_size
 
 @onready var field_land: FieldLand = %FieldLand
@@ -15,9 +18,6 @@ const SELECTION_ARROW_Y_OFFSET := 16
 @onready var _light_occluder_2d: LightOccluder2D = %LightOccluder2D
 
 var land_width: get = _get_land_width
-
-signal field_pressed()
-signal field_hovered(hovered:bool)
 
 func _ready() -> void:
 	_gui_field_selection_arrow.indicator_state = GUIFieldSelectionArrow.IndicatorState.HIDE

@@ -3,7 +3,6 @@ extends CanvasLayer
 
 const DETAIL_TOOLTIP_DELAY := 0.8
 
-signal hp_update_finished(value:int)
 
 @onready var gui_top_bar: GUITopBar = %GUITopBar
 
@@ -24,7 +23,6 @@ func _ready() -> void:
 	_gui_tool_cards_viewer.hide()
 	gui_top_bar.setting_button_evoked.connect(_on_settings_button_evoked)
 	gui_top_bar.library_button_evoked.connect(_on_library_button_evoked)
-	gui_top_bar.hp_update_finished.connect(func(value:int) -> void: hp_update_finished.emit(value))
 	gui_top_animation_overlay.setup(self)
 
 	_register_global_events()
@@ -61,6 +59,9 @@ func update_gold(gold_diff:int, animated:bool) -> void:
 
 func bind_with_hp(hp:ResourcePoint) -> void:
 	gui_top_bar.bind_with_hp(hp)
+
+func animate_hp_update(value:int) -> void:
+	await gui_top_bar.animate_hp_update(value)
 
 #region characters
 

@@ -71,13 +71,13 @@ func _start_new_chapter() -> void:
 
 	#_start_map_main_scene()
 	# Always start with a common node
-	if test_combat:
-		_start_combat_main_scene.call_deferred(test_combat)
-	else:
-		_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
+	#if test_combat:
+		#_start_combat_main_scene.call_deferred(test_combat)
+	#else:
+		#_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
 	#_start_shop()
 	#_start_chest()
-	#_start_town()
+	_start_town()
 
 func _generate_chapter_data() -> void:
 	map_main.generate_map(session_seed)
@@ -171,7 +171,7 @@ func _on_chest_reward_skipped() -> void:
 
 func _on_request_hp_update(val:int) -> void:
 	hp.value += val
-	await gui_main_game.hp_update_finished
+	await gui_main_game.animate_hp_update(val)
 	if hp.value == 0:
 		_game_over()
 

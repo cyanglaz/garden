@@ -4,8 +4,6 @@ extends PanelContainer
 const POPUP_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label.tscn")
 const SEGMENT_SCENE := preload("res://scenes/GUI/main_game/top_bar/gui_hp_segment.tscn")
 
-signal hp_update_finished(value:int)
-
 const HP_SAFE_COLOR := Constants.COLOR_RED1
 const HP_MODERATE_COLOR := Constants.COLOR_RED2
 const HP_DANGER_COLOR := Constants.COLOR_RED3
@@ -32,6 +30,9 @@ func bind_with_hp(hp:ResourcePoint) -> void:
 	_on_hp_max_value_update(hp)
 	_on_hp_value_update(hp)
 
+func animate_hp_update(value:int) -> void:
+	await _play_animation(value)
+
 func _on_hp_max_value_update(hp:ResourcePoint) -> void:
 	Util.remove_all_children(_segment_container)
 	for i in hp.max_value:
@@ -42,10 +43,7 @@ func _on_hp_value_update(hp:ResourcePoint) -> void:
 	if _current_value >= 0:
 		var diff = hp.value - _current_value
 		if diff == 0:
-			await Util.await_for_tiny_time()
-			hp_update_finished.emit(hp.value)
 			return
-		_play_animation(diff)
 	_current_value = hp.value
 	var tint_color:Color = HP_SAFE_COLOR
 	var percentage:float = (hp.value as float) / hp.max_value
@@ -63,21 +61,23 @@ func _on_hp_value_update(hp:ResourcePoint) -> void:
 		else:
 			_segment_container.get_child(i).is_empty = true
 			_segment_container.get_child(i).modulate = Constants.COLOR_WHITE
-	await Util.await_for_tiny_time()
-	hp_update_finished.emit(hp.value)
 
 func _play_animation(diff:int) -> void:
 	var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()
 	popup.bump_direction = PopupThing.BumpDirection.DOWN
 	var color:Color = HP_DECREASE_COLOR
-	if diff > 0:
+	var increase := diff > 0
+	if increase:
 		color = HP_INCREASE_COLOR
-		_play_hp_increase_animation()
-	elif diff < 0:
-		_play_hp_drop_animation()
+	else:
 		color = HP_DECREASE_COLOR
-	popup.setup(str(diff), color, 10)
+	var hp_sign := "+" if increase else "-"
+	popup.setup(str(hp_sign, diff), color, 10)
 	Events.request_display_popup_things.emit(popup, -20, 5, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, _segment_container.global_position + Vector2.RIGHT * _segment_container.size.x)
+	if increase:
+		await _play_hp_increase_animation()
+	elif diff < 0:
+		await _play_hp_drop_animation()
 
 func _play_hp_drop_animation() -> void:
 	if _animation_player.is_playing():
