@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://byrxahc8v068s"
+path="res://.godot/imported/forge.aseprite-91265de3d6637470868872638c7296fe.res"
+
+[deps]
+
+source_file="res://resources/sprites/objects/town/forge.aseprite"
+dest_files=["res://.godot/imported/forge.aseprite-91265de3d6637470868872638c7296fe.res"]
+
+[params]
+

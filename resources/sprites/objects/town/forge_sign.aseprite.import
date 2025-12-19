@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://cnmaovjkd8su5"
+path="res://.godot/imported/forge_sign.aseprite-687a6d7e66bc47ed714ef02078e5fcc3.res"
+
+[deps]
+
+source_file="res://resources/sprites/objects/town/forge_sign.aseprite"
+dest_files=["res://.godot/imported/forge_sign.aseprite-687a6d7e66bc47ed714ef02078e5fcc3.res"]
+
+[params]
+

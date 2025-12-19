@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://bsaafvn2dwu0o"]
+
+[ext_resource type="Script" uid="uid://bem85cv8qjtjo" path="res://scenes/main_game/town/building_sign.gd" id="1_2ka4i"]
+[ext_resource type="Shader" uid="uid://kbc8u6dx42q6" path="res://scenes/main_game/town/town_object.gdshader" id="2_fcgh4"]
+[ext_resource type="Texture2D" uid="uid://d1k1alwkvy1r5" path="res://resources/sprites/objects/town/forge_sign.png" id="3_2ka4i"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3nie3"]
+resource_local_to_scene = true
+shader = ExtResource("2_fcgh4")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ka4i"]
+atlas = ExtResource("3_2ka4i")
+region = Rect2(0, 0, 20, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fcgh4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ka4i")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[node name="ForgeSign" type="Node2D"]
+script = ExtResource("1_2ka4i")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+material = SubResource("ShaderMaterial_3nie3")
+sprite_frames = SubResource("SpriteFrames_fcgh4")
+animation = &"idle"
+autoplay = "idle"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/objects/town/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/objects/town/forge_sign.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "429a5e1589db004c8e07134b2f9fe805"

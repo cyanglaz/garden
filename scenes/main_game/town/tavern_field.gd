@@ -4,7 +4,7 @@ extends Field
 const HP_INCREASE := 4
 
 @onready var tavern: Tavern = %Tavern
-@onready var tavern_sign: TavernSign = %TavernSign
+@onready var tavern_sign: BuildingSign = %TavernSign
 
 var _tooltip_id:String = "tavern"
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://dopb2dd6jbsal"]
 
-[ext_resource type="Script" uid="uid://bem85cv8qjtjo" path="res://scenes/main_game/town/tavern_sign.gd" id="1_ur06r"]
-[ext_resource type="Shader" uid="uid://kbc8u6dx42q6" path="res://scenes/main_game/town/tavern.gdshader" id="2_ur06r"]
+[ext_resource type="Script" uid="uid://bem85cv8qjtjo" path="res://scenes/main_game/town/building_sign.gd" id="1_ur06r"]
+[ext_resource type="Shader" uid="uid://kbc8u6dx42q6" path="res://scenes/main_game/town/town_object.gdshader" id="2_ur06r"]
 [ext_resource type="Texture2D" uid="uid://cfyb1m8ni4f6f" path="res://resources/sprites/objects/town/tavern_sign.png" id="3_ur06r"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3nie3"]

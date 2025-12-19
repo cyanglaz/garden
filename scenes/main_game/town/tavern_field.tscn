@@ -11,11 +11,11 @@ polygon = PackedVector2Array(-23, -1, -10, -1, -10, -18, 9, -18, 9, -1, 23, -1, 
 
 [node name="TarvenField" instance=ExtResource("1_d2r8f")]
 script = ExtResource("2_bkaa3")
-size = 2
+size = 1
 
 [node name="Tavern" parent="Container" index="0" instance=ExtResource("3_0tknd")]
 unique_name_in_owner = true
-position = Vector2(-3, -13)
+position = Vector2(-3, -12)
 
 [node name="TavernSign" parent="Container" index="1" instance=ExtResource("4_do283")]
 unique_name_in_owner = true
