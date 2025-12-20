@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://b3lbertwi6gfq"]
+[gd_scene load_steps=6 format=3 uid="uid://b3lbertwi6gfq"]
 
 [ext_resource type="Script" uid="uid://c5o3m4ctgvux0" path="res://scenes/GUI/town/gui_forge_main.gd" id="1_otpxr"]
 [ext_resource type="PackedScene" uid="uid://bc1bdskri1rtq" path="res://scenes/GUI/main_game/tool_cards/gui_card_placeholder.tscn" id="2_n2jby"]
+[ext_resource type="PackedScene" uid="uid://cq1vyx3yrtj8p" path="res://scenes/GUI/main_game/tool_cards/gui_tool_cards_viewer.tscn" id="4_331gr"]
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="4_hc48t"]
+[ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="5_331gr"]
 
 [node name="GUIForgeMain" type="Control"]
 layout_mode = 3
@@ -13,27 +15,41 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_otpxr")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
 
-[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+[node name="GUIOverlayBackground" parent="MarginContainer" instance=ExtResource("5_331gr")]
+layout_mode = 2
+color = Color(0.52156866, 0.52156866, 0.52156866, 0.9411765)
+
+[node name="Content" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/Content/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HUD_LARGE"
 text = "Title"
 horizontal_alignment = 1
 
-[node name="CardsContainer" type="Control" parent="VBoxContainer"]
+[node name="CardsContainer" type="Control" parent="MarginContainer/Content/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="FrontCard" type="VBoxContainer" parent="VBoxContainer/CardsContainer"]
+[node name="FrontCard" type="VBoxContainer" parent="MarginContainer/Content/VBoxContainer/CardsContainer"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -44,19 +60,19 @@ offset_right = 110.0
 offset_bottom = -44.0
 grow_vertical = 0
 
-[node name="FrontCardLabel" type="Label" parent="VBoxContainer/CardsContainer/FrontCard"]
+[node name="FrontCardLabel" type="Label" parent="MarginContainer/Content/VBoxContainer/CardsContainer/FrontCard"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HUD_mid"
 horizontal_alignment = 1
 
-[node name="FrontCardPlaceholder" parent="VBoxContainer/CardsContainer/FrontCard" instance=ExtResource("2_n2jby")]
+[node name="FrontCardPlaceholder" parent="MarginContainer/Content/VBoxContainer/CardsContainer/FrontCard" instance=ExtResource("2_n2jby")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 5
 
-[node name="BackCard" type="VBoxContainer" parent="VBoxContainer/CardsContainer"]
+[node name="BackCard" type="VBoxContainer" parent="MarginContainer/Content/VBoxContainer/CardsContainer"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -70,29 +86,33 @@ offset_bottom = -44.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="BackCardLabel" type="Label" parent="VBoxContainer/CardsContainer/BackCard"]
+[node name="BackCardLabel" type="Label" parent="MarginContainer/Content/VBoxContainer/CardsContainer/BackCard"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HUD_mid"
 horizontal_alignment = 1
 
-[node name="BackCardPlaceholder" parent="VBoxContainer/CardsContainer/BackCard" instance=ExtResource("2_n2jby")]
+[node name="BackCardPlaceholder" parent="MarginContainer/Content/VBoxContainer/CardsContainer/BackCard" instance=ExtResource("2_n2jby")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 5
 
-[node name="ButtonContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="ButtonContainer" type="HBoxContainer" parent="MarginContainer/Content/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="CancelButton" parent="VBoxContainer/ButtonContainer" instance=ExtResource("4_hc48t")]
+[node name="CancelButton" parent="MarginContainer/Content/VBoxContainer/ButtonContainer" instance=ExtResource("4_hc48t")]
 unique_name_in_owner = true
 layout_mode = 2
 localization_text_key = "CANCEL"
 
-[node name="ForgeButton" parent="VBoxContainer/ButtonContainer" instance=ExtResource("4_hc48t")]
+[node name="ForgeButton" parent="MarginContainer/Content/VBoxContainer/ButtonContainer" instance=ExtResource("4_hc48t")]
 unique_name_in_owner = true
 layout_mode = 2
 localization_text_key = "FORGE"
+
+[node name="GUIToolCardsViewer" parent="." instance=ExtResource("4_331gr")]
+unique_name_in_owner = true
+layout_mode = 1

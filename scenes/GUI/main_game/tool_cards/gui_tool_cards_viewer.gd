@@ -1,6 +1,8 @@
 class_name GUIToolCardsViewer
 extends Control
 
+signal card_selected(gui_tool_card_button:GUIToolCardButton)
+
 const TOOL_CARD_BUTTON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
 @onready var _grid_container: GridContainer = %GridContainer
@@ -28,6 +30,7 @@ func animated_show_with_pool(pool:Array, title:String) -> void:
 		gui_tool_card.update_with_tool_data(tool_data)
 		gui_tool_card.mouse_entered.connect(_on_mouse_entered.bind(gui_tool_card))
 		gui_tool_card.mouse_exited.connect(_on_mouse_exited)
+		gui_tool_card.pressed.connect(_on_tool_card_pressed.bind(gui_tool_card))
 		#card_size = GUIToolCardButton.SIZE
 	@warning_ignore("integer_division")
 	#var rows := pool.size()/_grid_container.columns
@@ -70,3 +73,6 @@ func _on_mouse_entered(gui_tool_card:GUIToolCardButton) -> void:
 func _on_mouse_exited() -> void:
 	for tool_card:GUIToolCardButton in _grid_container.get_children():
 		tool_card.card_state = GUIToolCardButton.CardState.NORMAL
+
+func _on_tool_card_pressed(gui_tool_card:GUIToolCardButton) -> void:
+	card_selected.emit(gui_tool_card)

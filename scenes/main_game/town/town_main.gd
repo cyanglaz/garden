@@ -15,6 +15,9 @@ func _ready() -> void:
 	weather_main.start(0)
 	for field:Field in field_container.fields:
 		field.field_pressed.connect(_on_field_pressed.bind(field))
+	
+func setup_with_card_pool(card_pool:Array[ToolData]) -> void:
+	gui_town_main.setup_with_card_pool(card_pool)
 
 func _on_field_pressed(field:Field) -> void:
 	if _interacted:
@@ -34,7 +37,7 @@ func _on_tavern_field_pressed(field:TavernField) -> void:
 	town_finished.emit()
 
 func _on_forge_field_pressed(field:ForgeField) -> void:
-	pass
+	gui_town_main.show_forge_main()
 
 func _disable_all_field_presses() -> void:
 	for field:Field in field_container.fields:

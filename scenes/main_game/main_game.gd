@@ -71,13 +71,13 @@ func _start_new_chapter() -> void:
 
 	#_start_map_main_scene()
 	# Always start with a common node
-	if test_combat:
-		_start_combat_main_scene.call_deferred(test_combat)
-	else:
-		_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
+	#if test_combat:
+		#_start_combat_main_scene.call_deferred(test_combat)
+	#else:
+		#_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
 	#_start_shop()
 	#_start_chest()
-	#_start_town()
+	_start_town()
 
 func _generate_chapter_data() -> void:
 	map_main.generate_map(session_seed)
@@ -113,6 +113,7 @@ func _start_town() -> void:
 	var town_main = TOWN_MAIN_SCENE.instantiate()
 	town_main.town_finished.connect(_on_town_finished)
 	node_container.add_child(town_main)
+	town_main.setup_with_card_pool(card_pool)
 	start_scene_transition()
 
 func _start_chest() -> void:
