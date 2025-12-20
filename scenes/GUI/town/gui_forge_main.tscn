@@ -1,0 +1,98 @@
+[gd_scene load_steps=4 format=3 uid="uid://b3lbertwi6gfq"]
+
+[ext_resource type="Script" uid="uid://c5o3m4ctgvux0" path="res://scenes/GUI/town/gui_forge_main.gd" id="1_otpxr"]
+[ext_resource type="PackedScene" uid="uid://bc1bdskri1rtq" path="res://scenes/GUI/main_game/tool_cards/gui_card_placeholder.tscn" id="2_n2jby"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="4_hc48t"]
+
+[node name="GUIForgeMain" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_otpxr")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD_LARGE"
+text = "Title"
+horizontal_alignment = 1
+
+[node name="CardsContainer" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="FrontCard" type="VBoxContainer" parent="VBoxContainer/CardsContainer"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 70.0
+offset_top = -109.0
+offset_right = 110.0
+offset_bottom = -44.0
+grow_vertical = 0
+
+[node name="FrontCardLabel" type="Label" parent="VBoxContainer/CardsContainer/FrontCard"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD_mid"
+horizontal_alignment = 1
+
+[node name="FrontCardPlaceholder" parent="VBoxContainer/CardsContainer/FrontCard" instance=ExtResource("2_n2jby")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 5
+
+[node name="BackCard" type="VBoxContainer" parent="VBoxContainer/CardsContainer"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -110.0
+offset_top = -109.0
+offset_right = -70.0
+offset_bottom = -44.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="BackCardLabel" type="Label" parent="VBoxContainer/CardsContainer/BackCard"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD_mid"
+horizontal_alignment = 1
+
+[node name="BackCardPlaceholder" parent="VBoxContainer/CardsContainer/BackCard" instance=ExtResource("2_n2jby")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 5
+
+[node name="ButtonContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="CancelButton" parent="VBoxContainer/ButtonContainer" instance=ExtResource("4_hc48t")]
+unique_name_in_owner = true
+layout_mode = 2
+localization_text_key = "CANCEL"
+
+[node name="ForgeButton" parent="VBoxContainer/ButtonContainer" instance=ExtResource("4_hc48t")]
+unique_name_in_owner = true
+layout_mode = 2
+localization_text_key = "FORGE"

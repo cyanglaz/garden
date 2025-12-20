@@ -1,9 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://btg5np7yclg88"]
+[gd_scene load_steps=4 format=3 uid="uid://btg5np7yclg88"]
 
 [ext_resource type="Script" uid="uid://bcxjhkl4ttctf" path="res://scenes/GUI/town/gui_town_main.gd" id="1_6fnso"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_8b4dr"]
+[ext_resource type="PackedScene" uid="uid://b3lbertwi6gfq" path="res://scenes/GUI/town/gui_forge_main.tscn" id="3_re1qj"]
 
 [node name="GUITownMain" type="CanvasLayer"]
 script = ExtResource("1_6fnso")
 
 [node name="MainMarginContainer" parent="." instance=ExtResource("1_8b4dr")]
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="GUIForgeMain" parent="MainMarginContainer" instance=ExtResource("3_re1qj")]
+unique_name_in_owner = true
+layout_mode = 2

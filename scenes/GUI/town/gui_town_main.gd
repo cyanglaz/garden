@@ -1,4 +1,4 @@
 class_name GUITownMain
 extends CanvasLayer
 
-signal town_finished()
+@onready var gui_forge_main: GUIForgeMain = %GUIForgeMain
