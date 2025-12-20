@@ -52,6 +52,7 @@ func _play_show_animation() -> void:
 	_back_button.show()
 
 func animate_hide() -> void:
+	PauseManager.try_unpause()
 	_back_button.hide()
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(_main_container, "position:y", Constants.PENEL_HIDE_Y, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
@@ -60,7 +61,6 @@ func animate_hide() -> void:
 
 func _on_back_button_evoked() -> void:
 	animate_hide()
-	PauseManager.try_unpause()
 
 func _on_mouse_entered(gui_tool_card:GUIToolCardButton) -> void:
 	for tool_card:GUIToolCardButton in _grid_container.get_children():
