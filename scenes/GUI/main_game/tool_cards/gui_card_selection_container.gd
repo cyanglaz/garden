@@ -24,6 +24,10 @@ func start_selection(number_of_cards:int, selecting_from_cards:Array) -> Array:
 	_gui_check_button.button_state = GUIBasicButton.ButtonState.DISABLED
 	_number_of_cards_to_select = number_of_cards
 	Util.remove_all_children(_placement_container)
+	for i in number_of_cards:
+		var place_holder:PanelContainer = TOOL_CARD_PLACEHOLDER_SCENE.instantiate()
+		place_holder.custom_minimum_size = GUIToolCardButton.SIZE
+		_placement_container.add_child(place_holder)
 	show()
 	await _selection_completed
 	return selected_secondary_cards.map(func(card:GUIToolCardButton): return card.tool_data)
@@ -38,12 +42,8 @@ func is_card_selection_full() -> bool:
 func remove_selected_secondary_card(card:GUIToolCardButton) -> void:
 	var index := selected_secondary_cards.find(card)
 	assert(index != -1)
-	var place_holder:PanelContainer = _placement_container.get_child(index)
-	_placement_container.remove_child(place_holder)
-	place_holder.queue_free()
 	selected_secondary_cards.erase(card)
 	_gui_check_button.button_state = GUIBasicButton.ButtonState.DISABLED
-
 	_redisplay_secondary_cards.call_deferred()
 
 func end_selection() -> void:
@@ -58,12 +58,11 @@ func select_secondary_card(card:GUIToolCardButton) -> void:
 	var card_select_index := selected_secondary_cards.size()
 	assert(card_select_index < _number_of_cards_to_select)
 	selected_secondary_cards.append(card)
-	var place_holder:PanelContainer = TOOL_CARD_PLACEHOLDER_SCENE.instantiate()
-	place_holder.custom_minimum_size = GUIToolCardButton.SIZE
-	_placement_container.add_child(place_holder)
 	_redisplay_secondary_cards.call_deferred()
 
 func _redisplay_secondary_cards() -> void:
+	if selected_secondary_cards.size() == 0:
+		return
 	var tween := Util.create_scaled_tween(self)
 	tween.set_parallel(true)
 	for i in selected_secondary_cards.size():
