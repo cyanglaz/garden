@@ -147,6 +147,8 @@ func _get_has_field_action() -> bool:
 func _get_need_select_field() -> bool:
 	if !_get_has_field_action():
 		return false
+	if actions.is_empty():
+		return tool_script.need_select_field()
 	for action:ActionData in actions:
 		if action.action_category == ActionData.ActionCategory.FIELD && !action.specials.has(ActionData.Special.ALL_FIELDS):
 			return true
@@ -181,12 +183,19 @@ func _get_has_tooltip() -> bool:
 	return !actions.is_empty() || !specials.is_empty()
 
 func _set_back_card(val:ToolData) -> void:
-	back_card = val
-	if val:
-		val.front_card = self
+	if !val:
+		back_card = null
+		return
+	back_card = val.get_duplicate()
+	if back_card && !specials.has(Special.FLIP):
+		specials.append(Special.FLIP)
+	if back_card:
+		back_card.front_card = self
 
 func _set_front_card(val:ToolData) -> void:
 	_weak_front_card = weakref(val)
+	if val && !specials.has(Special.FLIP):
+		specials.append(Special.FLIP)
 
 func _get_front_card() -> ToolData:
 	return _weak_front_card.get_ref()

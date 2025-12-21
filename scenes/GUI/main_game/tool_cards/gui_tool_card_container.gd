@@ -126,7 +126,6 @@ func _toggle_card_selection(on:bool, selecting_from_cards:Array) -> void:
 		else:
 			gui_card.card_state = GUICardFace.CardState.UNSELECTED
 
-
 func _rebind_signals() -> void:
 	for i in _container.get_children().size():
 		var gui_card:GUIToolCardButton = _container.get_child(i)

@@ -153,7 +153,11 @@ func add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:boo
 
 func update_tool_card(tool_data:ToolData, new_tool_data:ToolData) -> void:
 	var old_rarity = tool_data.rarity
+	var front_card := tool_data.front_card
+	var back_card := tool_data.back_card
 	tool_data.copy(new_tool_data)
+	tool_data.front_card = front_card
+	tool_data.back_card = back_card
 	_gui_tool_card_container.find_card(tool_data).animated_transform(old_rarity)
 
 func get_tool(index:int) -> ToolData:
@@ -174,8 +178,7 @@ func _finish_card(tool_data:ToolData) -> void:
 	else:
 		await discard_cards([tool_data])
 
-func _run_card_actions
-(combat_main:CombatMain, plants:Array, plant_index:int, tool_data:ToolData, secondary_card_datas:Array) -> void:
+func _run_card_actions(combat_main:CombatMain, plants:Array, plant_index:int, tool_data:ToolData, secondary_card_datas:Array) -> void:
 	_tool_actions_queue.append(tool_data)
 	await combat_main.plant_field_container.trigger_tool_application_hook()
 	await _tool_applier.apply_tool(combat_main, plants, plant_index, tool_data, secondary_card_datas, null)
@@ -183,7 +186,10 @@ func _run_card_actions
 	_tool_actions_completed.emit(tool_data, combat_main, plants)
 
 func _get_secondary_cards_to_select_from(tool_data:ToolData) -> Array:
-	var selecting_from_cards:Array = tool_deck.hand.duplicate()
+	var selecting_from_cards:Array = []
+	for card in _gui_tool_card_container.get_all_cards():
+		if card.tool_data != tool_data:
+			selecting_from_cards.append(card.tool_data)
 	selecting_from_cards.erase(tool_data)
 	if tool_data.tool_script && tool_data.tool_script.secondary_card_selection_filter():
 		var filter:Callable = tool_data.tool_script.secondary_card_selection_filter()

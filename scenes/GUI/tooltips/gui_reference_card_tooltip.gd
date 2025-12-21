@@ -9,7 +9,6 @@ func _ready() -> void:
 	super._ready()
 	scale = Vector2(SCALE, SCALE)
 	gui_tool_card_button.card_state = GUICardFace.CardState.HIGHLIGHTED
-	gui_tool_card_button.resource_sufficient = true
 	
 func _update_with_tooltip_request() -> void:
 	gui_tool_card_button.update_with_tool_data(_tooltip_request.data)

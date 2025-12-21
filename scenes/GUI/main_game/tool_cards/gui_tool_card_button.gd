@@ -61,6 +61,11 @@ func play_exhaust_animation() -> void:
 
 func animated_transform(old_rarity:int) -> void:
 	await current_face.animated_transform(old_rarity)
+	if current_face == back_face:
+		front_face.update_with_tool_data(current_face.tool_data.front_card)
+	else:
+		if current_face.tool_data.back_card:
+			back_face.update_with_tool_data(current_face.tool_data.back_card)
 
 func play_error_shake_animation() -> void:
 	await current_face.play_error_shake_animation()
