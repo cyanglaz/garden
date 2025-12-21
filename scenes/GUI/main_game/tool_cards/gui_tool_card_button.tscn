@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://dq8wmq23vtkaj" path="res://scenes/GUI/main_game/tool_cards/gui_card_face.tscn" id="4_a7c0j"]
 
 [node name="GUIToolCardButton" type="PanelContainer"]
-custom_minimum_size = Vector2(40, 54)
 offset_right = 38.0
 offset_bottom = 52.0
 size_flags_vertical = 4

@@ -18,7 +18,7 @@ func _init(initial_items:Array) -> void:
 	for item_data:Variant in initial_items:
 		pool.append(item_data.get_duplicate())
 	draw_pool = pool.duplicate()
-	draw_pool.shuffle()
+	draw_pool.shuffle()	
 
 func get_item(index:int) -> Variant:
 	return hand[index]
@@ -61,6 +61,8 @@ func draw(count:int, indices:Array = []) -> Array:
 func discard(items:Array) -> void:
 	# Removing from largest index to smallest index to avoid index change during removal.
 	for item:Variant in items:
+		if item.front_card:
+			item = item.front_card
 		discard_pool.append(item)
 		if item == in_use_item:
 			in_use_item = null
@@ -78,6 +80,8 @@ func use(item:Variant) -> void:
 
 func exhaust(items:Array) -> void:
 	for item:Variant in items:
+		if item.front_card:
+			item = item.front_card
 		if item == in_use_item:
 			in_use_item = null
 		elif hand.has(item):

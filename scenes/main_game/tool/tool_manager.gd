@@ -82,6 +82,8 @@ func discard_cards(tools:Array) -> void:
 	# Order is important, discard first, then animate
 	for tool_data in tools:
 		tool_data.refresh_for_turn()
+		if tool_data.back_card:
+			tool_data.back_card.refresh_for_turn()
 	tool_deck.discard(tools)
 	await _gui_tool_card_container.animate_discard(tools)
 
@@ -216,6 +218,7 @@ func _on_tool_actions_completed(tool_data:ToolData, combat_main:CombatMain, plan
 	assert(!_tool_actions_queue.has(tool_data))
 	if !_tool_lifecycle_queue.has(tool_data) && _tool_application_queue.has(tool_data):
 		_handle_tool_application_completed(tool_data, combat_main, plants)
+
 #endregion
 
 #region setters/getters

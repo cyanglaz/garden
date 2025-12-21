@@ -182,7 +182,7 @@ func _animate_discard(animation_item:AnimationQueueItem) -> void:
 	discard_tween.set_parallel(true)
 	var index := 0
 	for card:GUIToolCardButton in _tool_card_container.get_all_cards():
-		if tool_datas.has(card.tool_data):
+		if tool_datas.has(card.tool_data) || tool_datas.has(card.front_face.tool_data):
 			discarding_cards.append(card)
 			_animate_discard_a_card(card, discard_tween, Constants.CARD_ANIMATION_DELAY * index)
 			index += 1

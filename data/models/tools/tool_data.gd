@@ -69,10 +69,9 @@ func copy(other:ThingData) -> void:
 	name_postfix = other_tool.name_postfix
 	_tool_script = null # Refresh tool script on copy
 	if other_tool.back_card:
-		back_card = other_tool.back_card
+		back_card = other_tool.back_card.get_duplicate()
 	else:
 		back_card = null
-	
 
 func refresh_for_turn() -> void:
 	turn_energy_modifier = 0
@@ -175,6 +174,8 @@ func _set_combat_main(val:CombatMain) -> void:
 	for action:ActionData in actions:
 		action.combat_main = val
 	combat_main_set.emit(val)
+	if back_card:
+		back_card.combat_main = val
 
 func _get_has_tooltip() -> bool:
 	return !actions.is_empty() || !specials.is_empty()

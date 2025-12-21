@@ -38,7 +38,8 @@ func _on_gui_input(event: InputEvent) -> void:
 func update_with_tool_data(td:ToolData) -> void:
 	front_face.update_with_tool_data(td)
 	if td.back_card:
-		print(td.back_card.get_display_name())
+		assert(td.specials.has(ToolData.Special.FLIP), "Card is not a flip card")
+		assert(td.back_card.specials.has(ToolData.Special.FLIP), "Back card is not a flip card")
 		back_face.update_with_tool_data(td.back_card)
 	back_face.hide()
 
@@ -62,7 +63,7 @@ func animated_transform(old_rarity:int) -> void:
 	await current_face.animated_transform(old_rarity)
 
 func play_error_shake_animation() -> void:
-	await Util.play_error_shake_animation(self, "_container_offset", Vector2.ZERO)
+	await current_face.play_error_shake_animation()
 
 func toggle_tooltip(on:bool) -> void:
 	if on:
@@ -74,14 +75,6 @@ func toggle_tooltip(on:bool) -> void:
 
 #region private
 
-func _update_for_energy(energy:int) -> void:
-	if !tool_data:
-		return
-	if tool_data.get_final_energy_cost() <= energy:
-		resource_sufficient = true
-	else:
-		resource_sufficient = false
-	
 func _play_hover_sound() -> void:
 	if mute_interaction_sounds:
 		return
@@ -97,7 +90,10 @@ func _play_click_sound() -> void:
 func _animate_flip() -> void:
 	if _flipping:
 		return
+	if !back_face.tool_data:
+		return
 	_flipping = true
+	toggle_tooltip(false)
 	var original_face_offset := current_face.pivot_offset
 	current_face.pivot_offset = Vector2(current_face.size.x/2, 0)
 	var tween := Util.create_scaled_tween(self)
@@ -126,8 +122,8 @@ func _animate_flip() -> void:
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	Events.update_hovered_data.emit(tool_data)
-	if current_face.card_state == GUICardFace.CardState.NORMAL || current_face.card_state == GUICardFace.CardState.UNSELECTED:
-		current_face.card_state = GUICardFace.CardState.HIGHLIGHTED
+	if card_state == GUICardFace.CardState.NORMAL || card_state == GUICardFace.CardState.UNSELECTED:
+		card_state = GUICardFace.CardState.HIGHLIGHTED
 	await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
 	if is_queued_for_deletion():
 		return
@@ -135,14 +131,11 @@ func _on_mouse_entered() -> void:
 		toggle_tooltip(true)
 
 func _on_mouse_exited() -> void:
-	if current_face.card_state == GUICardFace.CardState.HIGHLIGHTED:
-		current_face.card_state = GUICardFace.CardState.NORMAL
+	if card_state == GUICardFace.CardState.HIGHLIGHTED:
+		card_state = GUICardFace.CardState.NORMAL
 	super._on_mouse_exited()
 	Events.update_hovered_data.emit(null)
 	toggle_tooltip(false)
-
-func _on_energy_tracker_value_updated(energy_tracker:ResourcePoint) -> void:
-	_update_for_energy(energy_tracker.value)
 
 #endregion
 
@@ -183,8 +176,8 @@ func _set_card_state(value:GUICardFace.CardState) -> void:
 func _get_card_state() -> GUICardFace.CardState:
 	return current_face.card_state
 
-func _set_resource_sufficient(value:bool) -> void:
-	current_face.resource_sufficient = value
+func _set_resource_sufficient(_value:bool) -> void:
+	assert(false, "set_resource_sufficient is not allowed, use update_for_energy instead")
 
 func _get_resource_sufficient() -> bool:
 	return current_face.resource_sufficient
