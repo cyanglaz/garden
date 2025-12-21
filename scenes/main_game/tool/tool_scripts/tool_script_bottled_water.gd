@@ -10,7 +10,7 @@ func apply_tool(_combat_main:CombatMain, plants:Array, field_index:int, tool_dat
 	var gain := tool_data.data["gain"] as int
 	action_data.operator_type = ActionData.OperatorType.INCREASE
 	action_data.value = gain
-	_card_spawn_position = Util.get_node_canvas_position(plant) - GUIToolCardButton.SIZE / 2
+	_card_spawn_position = Util.get_node_canvas_position(plant) - GUICardFace.SIZE / 2
 	await plant.apply_actions([action_data])
 
 func need_select_field() -> bool:

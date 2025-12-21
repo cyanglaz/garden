@@ -14,9 +14,9 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 func _set_highlighted(val:bool) -> void:
 	super._set_highlighted(val)
 	if val:
-		gui_tool_card_button.card_state = GUIToolCardButton.CardState.HIGHLIGHTED
+		gui_tool_card_button.card_state = GUICardFace.CardState.HIGHLIGHTED
 	else:
-		gui_tool_card_button.card_state = GUIToolCardButton.CardState.NORMAL
+		gui_tool_card_button.card_state = GUICardFace.CardState.NORMAL
 
 func _get_hover_sound() -> AudioStream:
 	return gui_tool_card_button._get_hover_sound()

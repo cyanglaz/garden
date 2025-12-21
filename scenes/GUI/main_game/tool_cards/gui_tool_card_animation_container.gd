@@ -167,7 +167,7 @@ func _animate_draw(animation_item:AnimationQueueItem) -> void:
 		var target_global_position:Vector2 = _tool_card_container.global_position + card_local_position
 		tween.tween_property(animating_card, "visible", true, 0.01).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		tween.tween_property(animating_card, "global_position", target_global_position, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		tween.tween_property(animating_card, "size", GUIToolCardButton.SIZE, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(animating_card, "size", GUICardFace.SIZE, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index).timeout.connect(func(): 
 			animating_card.mouse_disabled = false
 			animating_card.animation_mode = false
@@ -328,7 +328,7 @@ func _animate_use_card(animation_item:AnimationQueueItem) -> void:
 	assert(_in_use_card == null)
 	_in_use_card = ANIMATING_TOOL_CARD_SCENE.instantiate()
 	add_child(_in_use_card)
-	_in_use_card.card_state = GUIToolCardButton.CardState.HIGHLIGHTED
+	_in_use_card.card_state = GUICardFace.CardState.HIGHLIGHTED
 	_in_use_card.update_with_tool_data(card.tool_data)
 	_in_use_card.global_position = card.global_position
 	_in_use_card.mouse_disabled = true

@@ -31,7 +31,7 @@ func animated_show_with_pool(pool:Array, title:String) -> void:
 		gui_tool_card.mouse_entered.connect(_on_mouse_entered.bind(gui_tool_card))
 		gui_tool_card.mouse_exited.connect(_on_mouse_exited)
 		gui_tool_card.pressed.connect(_on_tool_card_pressed.bind(gui_tool_card))
-		#card_size = GUIToolCardButton.SIZE
+		#card_size = GUICardFace.SIZE
 	@warning_ignore("integer_division")
 	#var rows := pool.size()/_grid_container.columns
 	#var v_seperation:int = _grid_container.get_theme_constant("v_separation")
@@ -65,14 +65,14 @@ func _on_back_button_evoked() -> void:
 func _on_mouse_entered(gui_tool_card:GUIToolCardButton) -> void:
 	for tool_card:GUIToolCardButton in _grid_container.get_children():
 		if tool_card == gui_tool_card:
-			tool_card.card_state = GUIToolCardButton.CardState.HIGHLIGHTED
+			tool_card.card_state = GUICardFace.CardState.HIGHLIGHTED
 			continue
-		tool_card.card_state = GUIToolCardButton.CardState.NORMAL
+		tool_card.card_state = GUICardFace.CardState.NORMAL
 	Events.update_hovered_data.emit(gui_tool_card.tool_data)
 	
 func _on_mouse_exited() -> void:
 	for tool_card:GUIToolCardButton in _grid_container.get_children():
-		tool_card.card_state = GUIToolCardButton.CardState.NORMAL
+		tool_card.card_state = GUICardFace.CardState.NORMAL
 
 func _on_tool_card_pressed(gui_tool_card:GUIToolCardButton) -> void:
 	card_selected.emit(gui_tool_card)

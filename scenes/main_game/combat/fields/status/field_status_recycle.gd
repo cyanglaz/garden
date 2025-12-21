@@ -19,7 +19,7 @@ func _has_add_water_hook(plant:Plant) -> bool:
 func _handle_add_water_hook(plant:Plant) -> void:
 	Util.remove_all_children(self)
 	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id("runoff").get_duplicate()
-	var from_position:Vector2 = Util.get_node_canvas_position(plant) - GUIToolCardButton.SIZE / 2
+	var from_position:Vector2 = Util.get_node_canvas_position(plant) - GUICardFace.SIZE / 2
 	var number_of_cards := stack
 	var cards:Array[ToolData] = []
 	for i in number_of_cards:

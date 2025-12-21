@@ -118,7 +118,7 @@ func _animate_card_fly_out() -> void:
 		child.position = initial_positions
 		child.visible = true
 		tween.tween_property(child, "position", target_position, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		tween.tween_property(child, "size", GUIToolCardButton.SIZE, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(child, "size", GUICardFace.SIZE, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await tween.finished
 	for i in cards_container.get_child_count():
 		var child:GUIToolCardButton = cards_container.get_child(i)
@@ -135,10 +135,10 @@ func _handle_card_selection_ended(tool_data:ToolData, from_global_position:Vecto
 	card_selected.emit(tool_data, from_global_position)
 
 func _on_mouse_entered(gui_tool_card_button:GUIToolCardButton) -> void:
-	gui_tool_card_button.card_state = GUIToolCardButton.CardState.HIGHLIGHTED
+	gui_tool_card_button.card_state = GUICardFace.CardState.HIGHLIGHTED
 
 func _on_mouse_exited(gui_tool_card_button:GUIToolCardButton) -> void:
-	gui_tool_card_button.card_state = GUIToolCardButton.CardState.NORMAL
+	gui_tool_card_button.card_state = GUICardFace.CardState.NORMAL
 
 func _on_card_selected(tool_data:ToolData, gui_tool_card_button:GUIToolCardButton) -> void:
 	var from_global_position:Vector2 = gui_tool_card_button.global_position

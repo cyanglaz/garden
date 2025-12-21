@@ -108,10 +108,12 @@ func _on_forge_button_pressed() -> void:
 	var back_card_data:ToolData = _back_card.tool_data
 	assert(_card_pool.has(front_card_data), "Front card is not in pool")
 	assert(_card_pool.has(back_card_data), "Back card is not in pool")
-	var new_card_data:ToolData = front_card_data.get_duplicate()
-	new_card_data.back_card = back_card_data.get_duplicate()
-	new_card_data.specials.append(ToolData.Special.FLIP)
-	forge_finished.emit(new_card_data, front_card_data, back_card_data)
+	var new_card_front_data:ToolData = front_card_data.get_duplicate()
+	var new_card_back_data:ToolData = back_card_data.get_duplicate()
+	new_card_front_data.specials.append(ToolData.Special.FLIP)
+	new_card_back_data.specials.append(ToolData.Special.FLIP)
+	new_card_front_data.back_card = new_card_back_data
+	forge_finished.emit(new_card_front_data, front_card_data, back_card_data)
 	_dismiss()
 
 #endregion

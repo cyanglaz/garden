@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://pehnumfxtsu5"]
 
-[node name="GuiToolSpeicalIcon" type="TextureRect"]
+[node name="GUIToolSpeicalIcon" type="TextureRect"]
 custom_minimum_size = Vector2(6, 6)
 offset_right = 6.0
 offset_bottom = 6.0
