@@ -21,6 +21,7 @@ enum Special {
 	COMPOST,
 	WITHER,
 	NIGHTFALL,
+	FLIP,
 }
 
 enum Type {
@@ -34,6 +35,7 @@ enum Type {
 @export var rarity:int = 0 # -1: temp cards, 0: common, 1: uncommon, 2: rare
 @export var specials:Array[Special]
 @export var type:Type = Type.SKILL
+@export var back_card:ToolData
 
 var level_data:Dictionary # Data consists wihtin a level
 var has_field_action:bool : get = _get_has_field_action
@@ -64,6 +66,10 @@ func copy(other:ThingData) -> void:
 	level_energy_modifier = other_tool.level_energy_modifier
 	name_postfix = other_tool.name_postfix
 	_tool_script = null # Refresh tool script on copy
+	if other_tool.back_card:
+		back_card = other_tool.back_card.get_duplicate()
+	else:
+		back_card = null
 
 func refresh_for_turn() -> void:
 	turn_energy_modifier = 0

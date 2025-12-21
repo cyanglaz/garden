@@ -1,6 +1,8 @@
 class_name GUIToolCardButton
 extends GUIBasicButton
 
+const SPECIAL_ID_FLIP := "flip"
+
 signal use_card_button_pressed()
 signal _dissolve_finished()
 signal _transform_finished()
@@ -26,6 +28,7 @@ const HIGHLIGHTED_OFFSET := 1.0
 @onready var _card_container: Control = %CardContainer
 @onready var _title: Label = %Title
 @onready var _card_content: Control = %CardContent
+@onready var _interactive_special_container: VBoxContainer = %InteractiveSpecialContainer
 @onready var _specials_container: VBoxContainer = %SpecialsContainer
 @onready var _cost_icon: TextureRect = %CostIcon
 @onready var _rich_text_label: RichTextLabel = %RichTextLabel
@@ -76,11 +79,16 @@ func update_with_tool_data(td:ToolData) -> void:
 	_title.text = tool_data.get_display_name()
 	_gui_tool_card_background.update_with_rarity(tool_data.rarity)
 	Util.remove_all_children(_specials_container)
+	Util.remove_all_children(_interactive_special_container)
 	for special in tool_data.specials:
 		var special_icon := SPECIAL_ICON_SCENE.instantiate()
 		var special_id := Util.get_id_for_tool_speical(special)
 		special_icon.texture = load(Util.get_image_path_for_resource_id(special_id))
-		_specials_container.add_child(special_icon)
+		if special == ToolData.Special.FLIP:
+			_interactive_special_container.add_child(special_icon)
+		else:
+			_specials_container.add_child(special_icon)
+
 	if !td.request_refresh.is_connected(_on_tool_data_refresh):
 		td.request_refresh.connect(_on_tool_data_refresh)
 	if tool_data.combat_main:

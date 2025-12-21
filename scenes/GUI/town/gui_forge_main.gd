@@ -1,6 +1,8 @@
 class_name GUIForgeMain
 extends Control
 
+signal forge_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData)
+
 const TOOL_CARD_BUTTON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
 @onready var title_label: Label = %TitleLabel
@@ -30,6 +32,7 @@ func _ready() -> void:
 	gui_tool_cards_viewer.hide()
 	gui_tool_cards_viewer.card_selected.connect(_on_card_selected)
 	cancel_button.pressed.connect(_on_cancel_button_pressed)
+	forge_button.pressed.connect(_on_forge_button_pressed)
 
 func setup_with_card_pool(card_pool:Array) -> void:
 	_card_pool = card_pool
@@ -96,6 +99,19 @@ func _on_new_card_pressed(new_card:GUIToolCardButton) -> void:
 		_on_back_card_placeholder_button_pressed()
 
 func _on_cancel_button_pressed() -> void:
+	_dismiss()
+
+func _on_forge_button_pressed() -> void:
+	assert(_front_card != null, "Front card is null")
+	assert(_back_card != null, "Back card is null")
+	var front_card_data:ToolData = _front_card.tool_data
+	var back_card_data:ToolData = _back_card.tool_data
+	assert(_card_pool.has(front_card_data), "Front card is not in pool")
+	assert(_card_pool.has(back_card_data), "Back card is not in pool")
+	var new_card_data:ToolData = front_card_data.get_duplicate()
+	new_card_data.back_card = back_card_data.get_duplicate()
+	new_card_data.specials.append(ToolData.Special.FLIP)
+	forge_finished.emit(new_card_data, front_card_data, back_card_data)
 	_dismiss()
 
 #endregion

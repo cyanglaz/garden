@@ -54,6 +54,8 @@ static func get_special_name(special:ToolData.Special) -> String:
 			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_WITHER")
 		ToolData.Special.NIGHTFALL:
 			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_TURN_END")
+		ToolData.Special.FLIP:
+			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_FLIP")
 		_:
 			assert(false, "Invalid special: %s" % special)
 	return special_name
@@ -67,6 +69,8 @@ static func get_special_description(special:ToolData.Special) -> String:
 			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_WITHER")
 		ToolData.Special.NIGHTFALL:
 			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_TURN_END")
+		ToolData.Special.FLIP:
+			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_FLIP")
 		_:
 			assert(false, "Invalid special: %s" % special)
 	return special_description

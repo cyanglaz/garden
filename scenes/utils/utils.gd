@@ -311,6 +311,8 @@ static func get_id_for_tool_speical(special:ToolData.Special) -> String:
 			id = "wither"
 		ToolData.Special.NIGHTFALL:
 			id = "nightfall"
+		ToolData.Special.FLIP:
+			id = "flip"
 		_:
 			assert(false, "special id not implemented")
 	return id
@@ -323,6 +325,8 @@ static func get_special_from_id(id:String) -> ToolData.Special:
 			return ToolData.Special.WITHER
 		"nightfall":
 			return ToolData.Special.NIGHTFALL
+		"flip":
+			return ToolData.Special.FLIP
 		_:
 			assert(false, "Invalid special id: %s" % id)
 	return ToolData.Special.COMPOST

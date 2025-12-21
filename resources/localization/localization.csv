@@ -93,6 +93,8 @@ CARD_SPECIAL_NAME_WITHER, "Wither"
 CARD_SPECIAL_DESCRIPTION_WITHER, "This card is automatically used at the end of the turn."
 CARD_SPECIAL_NAME_TURN_END, "Nightfall"
 CARD_SPECIAL_DESCRIPTION_TURN_END, "This card is triggered at the end of the turn."
+CARD_SPECIAL_NAME_FLIP, "Flip"
+CARD_SPECIAL_DESCRIPTION_FLIP, "This card can be flipped to reveal its back card."
 
 INFO_TITLE, "Library" 
 

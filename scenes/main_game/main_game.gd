@@ -112,6 +112,7 @@ func _start_shop() -> void:
 func _start_town() -> void:
 	var town_main = TOWN_MAIN_SCENE.instantiate()
 	town_main.town_finished.connect(_on_town_finished)
+	town_main.forge_finished.connect(_on_forge_finished)
 	node_container.add_child(town_main)
 	town_main.setup_with_card_pool(card_pool)
 	start_scene_transition()
@@ -156,6 +157,15 @@ func _on_shop_finish_button_pressed() -> void:
 	_complete_current_node()
 
 func _on_town_finished() -> void:
+	_complete_current_node()
+
+func _on_forge_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData) -> void:
+	assert(card_pool.has(front_card_data), "Front card not in card pool")
+	assert(card_pool.has(back_card_data), "Back card not in card pool")
+	card_pool.erase(front_card_data)
+	card_pool.erase(back_card_data)
+	card_pool.append(tool_data)
+	await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(Vector2.ZERO, tool_data)
 	_complete_current_node()
 
 func _on_chest_card_reward_selected(tool_data:ToolData, from_global_position:Vector2) -> void:
