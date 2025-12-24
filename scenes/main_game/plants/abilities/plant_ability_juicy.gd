@@ -7,8 +7,8 @@ func _has_ability_hook(ability_type:Plant.AbilityType, _plant:Plant) -> bool:
 func _trigger_ability_hook(ability_type:Plant.AbilityType, _plant:Plant) -> void:
 	assert(ability_type == Plant.AbilityType.BLOOM)
 	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id("runoff").get_duplicate()
-	#var from_position:Vector2 = global_position - GUICardFace.SIZE / 2
-	var from_position:Vector2 = get_global_transform_with_canvas().origin - GUICardFace.SIZE / 2
+	#var from_position:Vector2 = global_position - GUIToolCardButton.SIZE / 2
+	var from_position:Vector2 = get_global_transform_with_canvas().origin - GUIToolCardButton.SIZE / 2
 	var tool_datas := []
 	var last_tool_data:ToolData
 	for i in stack:

@@ -118,7 +118,7 @@ func _animate_card_fly_out() -> void:
 		child.position = initial_positions
 		child.visible = true
 		tween.tween_property(child, "position", target_position, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		tween.tween_property(child, "size", GUICardFace.SIZE, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(child, "size", GUIToolCardButton.SIZE, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await tween.finished
 	for i in cards_container.get_child_count():
 		var child:GUIToolCardButton = cards_container.get_child(i)

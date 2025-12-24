@@ -11,7 +11,7 @@ func apply_tool(_combat_main:CombatMain, plants:Array, field_index:int, _tool_da
 	await plant.apply_actions([action_data])
 
 	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id("runoff").get_duplicate()
-	var from_position:Vector2 = Util.get_node_canvas_position(plant) - GUICardFace.SIZE / 2
+	var from_position:Vector2 = Util.get_node_canvas_position(plant) - GUIToolCardButton.SIZE / 2
 	var number_of_cards := water_to_reduce * (_tool_data.data["gain"] as int)
 	var cards:Array = []
 	for i in number_of_cards:

@@ -31,7 +31,7 @@ func animated_show_with_pool(pool:Array, title:String) -> void:
 		gui_tool_card.mouse_entered.connect(_on_mouse_entered.bind(gui_tool_card))
 		gui_tool_card.mouse_exited.connect(_on_mouse_exited)
 		gui_tool_card.pressed.connect(_on_tool_card_pressed.bind(gui_tool_card))
-		#card_size = GUICardFace.SIZE
+		#card_size = GUIToolCardButton.SIZE
 	@warning_ignore("integer_division")
 	#var rows := pool.size()/_grid_container.columns
 	#var v_seperation:int = _grid_container.get_theme_constant("v_separation")

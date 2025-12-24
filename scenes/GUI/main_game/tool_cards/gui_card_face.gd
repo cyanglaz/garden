@@ -4,6 +4,7 @@ const FLIP_ANIMATION_DURATION := 0.1
 
 signal use_card_button_pressed()
 signal special_interacted(special:ToolData.Special)
+signal special_hovered(special:ToolData.Special, on:bool)
 signal _dissolve_finished()
 signal _transform_finished()
 
@@ -19,7 +20,6 @@ const SPECIAL_ICON_SCENE := preload("res://scenes/GUI/controls/buttons/gui_tool_
 const VALUE_ICON_PREFIX := "res://resources/sprites/GUI/icons/cards/values/icon_"
 const EXHAUST_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_exhaust.wav")
 
-const SIZE := Vector2(40, 54)
 const SELECTED_OFFSET := 10.0
 const IN_USE_OFFSET := 10.0
 const HIGHLIGHTED_OFFSET := 1.0
@@ -47,8 +47,6 @@ var tool_data:ToolData: get = _get_tool_data
 var hand_index:int = -1
 var is_front:bool = true
 var _weak_tool_data:WeakRef = weakref(null)
-var _card_tooltip_id:String = ""
-var _reference_card_tooltip_id:String = ""
 
 var _in_hand := false
 var _weak_mouse_plant:WeakRef = weakref(null)
@@ -78,9 +76,10 @@ func update_with_tool_data(td:ToolData) -> void:
 		var special_icon :GUIToolSpecialIconButton = SPECIAL_ICON_SCENE.instantiate()
 		if special in ToolData.INTERACTIVE_SPECIALS:
 			_interactive_special_container.add_child(special_icon)
-			special_icon.special_interacted.connect(func(special:ToolData.Special) -> void: special_interacted.emit(special))
 		else:
 			_specials_container.add_child(special_icon)
+		special_icon.special_interacted.connect(func(s:ToolData.Special) -> void: special_interacted.emit(s))
+		special_icon.special_hovered.connect(func(s:ToolData.Special, on:bool) -> void: special_hovered.emit(s, on))
 		special_icon.update_with_special(special)
 
 	if !td.request_refresh.is_connected(_on_tool_data_refresh):
@@ -113,29 +112,6 @@ func animated_transform(old_rarity:int) -> void:
 
 func play_error_shake_animation() -> void:
 	await Util.play_error_shake_animation(self, "_container_offset", Vector2.ZERO)
-
-func toggle_tooltip(on:bool) -> void:
-	if on && tool_data.has_tooltip && _card_tooltip_id.is_empty():
-		_card_tooltip_id = Util.get_uuid()
-		Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.TOOL_CARD, tool_data, _card_tooltip_id, self, GUITooltip.TooltipPosition.RIGHT))
-		_toggle_reference_card_tooltip(true)
-	else:
-		_toggle_reference_card_tooltip(false)
-		Events.request_hide_tooltip.emit(_card_tooltip_id)
-		_card_tooltip_id = ""
-
-#region private
-
-func _toggle_reference_card_tooltip(on:bool) -> void:
-	if on:
-		_reference_card_tooltip_id = Util.get_uuid()
-		var reference_card_ids = _find_card_references()
-		for reference_card_id in reference_card_ids:
-			var reference_card_data := MainDatabase.tool_database.get_data_by_id(reference_card_id)
-			Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.REFERENCE_CARD, reference_card_data, _reference_card_tooltip_id, self, GUITooltip.TooltipPosition.LEFT))
-	else:
-		Events.request_hide_tooltip.emit(_reference_card_tooltip_id)
-		_reference_card_tooltip_id = ""
 
 func _find_card_references() -> Array[String]:
 	var card_references:Array[String] = []
@@ -170,17 +146,11 @@ func _get_tool_data() -> ToolData:
 func _set_animation_mode(value:bool) -> void:
 	animation_mode = value
 	_card_content.visible = !value
-	if value:
-		custom_minimum_size = Vector2.ZERO
-		#_card_margin_container.custom_minimum_size = Vector2.ZERO
-	else:
-		custom_minimum_size = SIZE
 
 func _set_card_state(value:CardState) -> void:
 	card_state = value
 	match value:
 		CardState.NORMAL:
-			print("set_normal")
 			position = Vector2.ZERO
 			has_outline = false
 			_overlay.hide()
@@ -264,8 +234,4 @@ func _on_combat_main_set(combat_main:CombatMain) -> void:
 	if !energy_tracker.value_update.is_connected(_on_energy_tracker_value_updated):
 		energy_tracker.value_update.connect(_on_energy_tracker_value_updated.bind(energy_tracker))
 
-
-func _notification(what:int) -> void:
-	if what == NOTIFICATION_PREDELETE:
-		toggle_tooltip(false)
 #endregion

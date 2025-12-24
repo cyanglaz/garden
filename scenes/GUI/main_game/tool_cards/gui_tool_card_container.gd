@@ -24,7 +24,7 @@ var card_selection_mode := false
 var _selected_secondary_cards:Array[GUIToolCardButton] = []
 
 func _ready() -> void:
-	_card_size = GUICardFace.SIZE.x
+	_card_size = GUIToolCardButton.SIZE.x
 	_card_selection_container.hide()
 
 func setup(draw_box_button:GUIDeckButton, discard_box_button:GUIDeckButton) -> void:
@@ -200,7 +200,7 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 	var center := _container.size/2
 	var start_x := center.x - (number_of_cards * _card_size + card_space * (number_of_cards - 1)) / 2
 	var result:Array[Vector2] = []
-	var target_y = _container.size.y - GUICardFace.SIZE.y
+	var target_y = _container.size.y - GUIToolCardButton.SIZE.y
 	for i in number_of_cards:
 		var target_position := Vector2(start_x + i*_card_size + i*card_space, target_y)
 		result.append(target_position)

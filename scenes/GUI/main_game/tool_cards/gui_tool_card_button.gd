@@ -2,6 +2,7 @@ class_name GUIToolCardButton
 extends GUIBasicButton
 
 const FLIP_ANIMATION_DURATION := 0.1
+const SIZE := Vector2(40, 54)
 
 signal use_card_button_pressed()
 
@@ -13,14 +14,18 @@ var current_face:GUICardFace
 var mute_interaction_sounds:bool = false
 var mouse_disabled:bool = true: set = _set_mouse_disabled
 var card_state:GUICardFace.CardState = GUICardFace.CardState.NORMAL: set = _set_card_state, get = _get_card_state
+var animation_mode := false : set = _set_animation_mode
 var resource_sufficient := false: set = _set_resource_sufficient, get = _get_resource_sufficient
-var animation_mode := false : set = _set_animation_mode, get = _get_animation_mode
 var disabled:bool = false: set = _set_disabled, get = _get_disabled
 var has_outline:bool = false: set = _set_has_outline, get = _get_has_outline
 var tool_data:ToolData: get = _get_tool_data, set = _set_tool_data
 var hand_index:int = -1
 var is_front:bool = true: get = _get_is_front, set = _set_is_front
+var _card_tooltip_id:String = ""
+var _reference_card_tooltip_id:String = ""
 var _flipping := false
+
+var _special_tooltip_id:String = ""
 
 func _ready() -> void:
 	super._ready()
@@ -32,6 +37,8 @@ func _ready() -> void:
 	resized.connect(_on_resized)
 	front_face.special_interacted.connect(_on_special_interacted.bind(front_face))
 	back_face.special_interacted.connect(_on_special_interacted.bind(back_face))
+	front_face.special_hovered.connect(_on_special_hovered.bind(front_face))
+	back_face.special_hovered.connect(_on_special_hovered.bind(back_face))
 
 func _on_gui_input(event: InputEvent) -> void:
 	super._on_gui_input(event)
@@ -74,14 +81,35 @@ func play_error_shake_animation() -> void:
 	await current_face.play_error_shake_animation()
 
 func toggle_tooltip(on:bool) -> void:
-	if on:
-		current_face.toggle_tooltip(on)
+	if on && tool_data.has_tooltip && _card_tooltip_id.is_empty():
+		_card_tooltip_id = Util.get_uuid()
+		Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.TOOL_CARD, tool_data, _card_tooltip_id, self, GUITooltip.TooltipPosition.RIGHT))
+		_toggle_reference_card_tooltip(true)
 	else:
-		current_face.toggle_tooltip(on)
-		if back_face.tool_data:
-			back_face.toggle_tooltip(on)
+		_toggle_reference_card_tooltip(false)
+		Events.request_hide_tooltip.emit(_card_tooltip_id)
+		_card_tooltip_id = ""
 
 #region private
+
+func _toggle_reference_card_tooltip(on:bool) -> void:
+	if on:
+		_reference_card_tooltip_id = Util.get_uuid()
+		var reference_card_ids = _find_card_references()
+		for reference_card_id in reference_card_ids:
+			var reference_card_data := MainDatabase.tool_database.get_data_by_id(reference_card_id)
+			Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.REFERENCE_CARD, reference_card_data, _reference_card_tooltip_id, self, GUITooltip.TooltipPosition.LEFT))
+	else:
+		Events.request_hide_tooltip.emit(_reference_card_tooltip_id)
+		_reference_card_tooltip_id = ""
+
+func _find_card_references() -> Array[String]:
+	var card_references:Array[String] = []
+	var reference_pairs:Array = DescriptionParser.find_all_reference_pairs(tool_data.description)
+	for reference_pair:Array in reference_pairs:
+		if reference_pair[0] == "card":
+			card_references.append(reference_pair[1])
+	return card_references
 
 func _play_hover_sound() -> void:
 	if mute_interaction_sounds:
@@ -169,12 +197,15 @@ func _get_tool_data() -> ToolData:
 	return current_face.tool_data
 
 func _set_animation_mode(value:bool) -> void:
+	animation_mode = value
+	if value:
+		custom_minimum_size = Vector2.ZERO
+		#_card_margin_container.custom_minimum_size = Vector2.ZERO
+	else:
+		custom_minimum_size = SIZE
 	front_face.animation_mode = value
 	if back_face.tool_data:
 		back_face.animation_mode = value
-
-func _get_animation_mode() -> bool:
-	return current_face.animation_mode
 
 func _set_card_state(value:GUICardFace.CardState) -> void:
 	front_face.card_state = value
@@ -212,7 +243,15 @@ func _on_special_interacted(special:ToolData.Special, _face:GUICardFace) -> void
 		ToolData.Special.FLIP:
 			_animate_flip()
 		_:
-			assert(false, "Special not supported: " + str(special))
+			pass
+
+func _on_special_hovered(special:ToolData.Special, on:bool, _face:GUICardFace) -> void:
+	if on:
+		_special_tooltip_id = Util.get_uuid()
+		Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.SPECIALS, [special], _special_tooltip_id, self, GUITooltip.TooltipPosition.RIGHT))
+	else:
+		Events.request_hide_tooltip.emit(_special_tooltip_id)
+		_special_tooltip_id = ""
 
 #region events
 

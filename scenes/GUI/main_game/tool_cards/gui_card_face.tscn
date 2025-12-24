@@ -355,7 +355,6 @@ hint_underlined = false
 
 [node name="GUIActionList" parent="CardContent" instance=ExtResource("2_y8r0o")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 0)
 layout_mode = 0
 offset_left = 4.0
 offset_top = 12.0

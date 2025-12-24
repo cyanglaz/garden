@@ -26,7 +26,7 @@ func start_selection(number_of_cards:int, selecting_from_cards:Array) -> Array:
 	Util.remove_all_children(_placement_container)
 	for i in number_of_cards:
 		var place_holder:PanelContainer = TOOL_CARD_PLACEHOLDER_SCENE.instantiate()
-		place_holder.custom_minimum_size = GUICardFace.SIZE
+		place_holder.custom_minimum_size = GUIToolCardButton.SIZE
 		_placement_container.add_child(place_holder)
 	show()
 	await _selection_completed
