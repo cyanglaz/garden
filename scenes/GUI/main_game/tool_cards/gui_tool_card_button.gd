@@ -29,6 +29,7 @@ func _ready() -> void:
 	animation_mode = false
 	front_face.use_card_button_pressed.connect(func() -> void: use_card_button_pressed.emit())
 	back_face.use_card_button_pressed.connect(func() -> void: use_card_button_pressed.emit())
+	resized.connect(_on_resized)
 
 func _on_gui_input(event: InputEvent) -> void:
 	super._on_gui_input(event)
@@ -198,6 +199,11 @@ func _set_disabled(value:bool) -> void:
 
 func _get_disabled() -> bool:
 	return current_face.disabled
+
+func _on_resized() -> void:
+	front_face.size = size
+	if back_face.tool_data:
+		back_face.size = size
 
 #region events
 
