@@ -1,7 +1,21 @@
-[gd_scene format=3 uid="uid://pehnumfxtsu5"]
+[gd_scene load_steps=3 format=3 uid="uid://eyp1xddxjqau"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_fnxwb"]
+
+[sub_resource type="GDScript" id="GDScript_fnxwb"]
+script/source = "class_name GUIToolSpecialIcon
+extends TextureRect
+
+@onready var gui_basic_button: GUIBasicButton = %GUIBasicButton
+"
 
 [node name="GUIToolSpeicalIcon" type="TextureRect"]
 custom_minimum_size = Vector2(6, 6)
 offset_right = 6.0
 offset_bottom = 6.0
 stretch_mode = 5
+script = SubResource("GDScript_fnxwb")
+
+[node name="GUIBasicButton" parent="." instance=ExtResource("1_fnxwb")]
+unique_name_in_owner = true
+layout_mode = 0

@@ -3,6 +3,7 @@ extends PanelContainer
 const FLIP_ANIMATION_DURATION := 0.1
 
 signal use_card_button_pressed()
+signal special_interacted(special:ToolData.Special)
 signal _dissolve_finished()
 signal _transform_finished()
 
@@ -14,7 +15,7 @@ enum CardState {
 	WAITING,
 }
 
-const SPECIAL_ICON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_special_icon.tscn")
+const SPECIAL_ICON_SCENE := preload("res://scenes/GUI/controls/buttons/gui_tool_special_icon_button.tscn")
 const VALUE_ICON_PREFIX := "res://resources/sprites/GUI/icons/cards/values/icon_"
 const EXHAUST_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_exhaust.wav")
 
@@ -74,13 +75,13 @@ func update_with_tool_data(td:ToolData) -> void:
 	Util.remove_all_children(_specials_container)
 	Util.remove_all_children(_interactive_special_container)
 	for special in tool_data.specials:
-		var special_icon := SPECIAL_ICON_SCENE.instantiate()
-		var special_id := Util.get_id_for_tool_speical(special)
-		special_icon.texture = load(Util.get_image_path_for_resource_id(special_id))
-		if special == ToolData.Special.FLIP:
+		var special_icon :GUIToolSpecialIconButton = SPECIAL_ICON_SCENE.instantiate()
+		if special in ToolData.INTERACTIVE_SPECIALS:
 			_interactive_special_container.add_child(special_icon)
+			special_icon.special_interacted.connect(func(special:ToolData.Special) -> void: special_interacted.emit(special))
 		else:
 			_specials_container.add_child(special_icon)
+		special_icon.update_with_special(special)
 
 	if !td.request_refresh.is_connected(_on_tool_data_refresh):
 		td.request_refresh.connect(_on_tool_data_refresh)

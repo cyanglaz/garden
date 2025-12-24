@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://bvt2eges7l2hj"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_eorgq"]
+[ext_resource type="Script" uid="uid://b1w5o4cgwa4n1" path="res://scenes/GUI/controls/buttons/gui_tool_special_icon_button.gd" id="2_j76qk"]
+[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="3_dfikc"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="4_7cwsh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_njx06"]
+resource_local_to_scene = true
+shader = ExtResource("4_7cwsh")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
+
+[node name="GUIToolSpecialIconButton" instance=ExtResource("1_eorgq")]
+custom_minimum_size = Vector2(7, 7)
+offset_right = 6.0
+offset_bottom = 6.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("2_j76qk")
+
+[node name="GUIIcon" parent="." index="0" instance=ExtResource("3_dfikc")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_njx06")
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1

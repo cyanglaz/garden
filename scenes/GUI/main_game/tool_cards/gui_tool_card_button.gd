@@ -30,6 +30,8 @@ func _ready() -> void:
 	front_face.use_card_button_pressed.connect(func() -> void: use_card_button_pressed.emit())
 	back_face.use_card_button_pressed.connect(func() -> void: use_card_button_pressed.emit())
 	resized.connect(_on_resized)
+	front_face.special_interacted.connect(_on_special_interacted.bind(front_face))
+	back_face.special_interacted.connect(_on_special_interacted.bind(back_face))
 
 func _on_gui_input(event: InputEvent) -> void:
 	super._on_gui_input(event)
@@ -204,6 +206,13 @@ func _on_resized() -> void:
 	front_face.size = size
 	if back_face.tool_data:
 		back_face.size = size
+	
+func _on_special_interacted(special:ToolData.Special, _face:GUICardFace) -> void:
+	match special:
+		ToolData.Special.FLIP:
+			_animate_flip()
+		_:
+			assert(false, "Special not supported: " + str(special))
 
 #region events
 

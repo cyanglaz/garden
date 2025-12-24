@@ -331,6 +331,7 @@ offset_left = 4.0
 offset_top = 11.0
 offset_right = 36.0
 offset_bottom = 51.0
+mouse_filter = 2
 theme_override_constants/separation = 2
 
 [node name="CostIcon" type="TextureRect" parent="CardContent/CostAndDescription"]

@@ -29,6 +29,7 @@ enum Type {
 	POWER,
 }
 
+const INTERACTIVE_SPECIALS := [Special.FLIP]
 
 @export var energy_cost:int = 1
 @export var actions:Array[ActionData]
