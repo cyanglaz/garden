@@ -32,7 +32,7 @@ func _ready() -> void:
 
 func _on_gui_input(event: InputEvent) -> void:
 	super._on_gui_input(event)
-	if event.is_action("flip"):
+	if event.is_action_pressed("flip"):
 		_animate_flip()
 
 func update_with_tool_data(td:ToolData) -> void:

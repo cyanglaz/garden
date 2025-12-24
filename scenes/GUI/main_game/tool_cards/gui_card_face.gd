@@ -46,10 +46,8 @@ var tool_data:ToolData: get = _get_tool_data
 var hand_index:int = -1
 var is_front:bool = true
 var _weak_tool_data:WeakRef = weakref(null)
-var _container_offset:Vector2 = Vector2.ZERO: set = _set_container_offset
 var _card_tooltip_id:String = ""
 var _reference_card_tooltip_id:String = ""
-var _flipping := false
 
 var _in_hand := false
 var _weak_mouse_plant:WeakRef = weakref(null)
@@ -154,22 +152,6 @@ func _update_for_energy(energy:int) -> void:
 	else:
 		resource_sufficient = false
 
-func _animate_flip() -> void:
-	if _flipping:
-		return
-	if tool_data.back_card == null:
-		return
-	_flipping = true
-	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(self, "scale:x", 0, FLIP_ANIMATION_DURATION)
-	await tween.finished
-	update_with_tool_data(tool_data.back_card)
-	is_front = !is_front
-	var tween2 := Util.create_scaled_tween(self)
-	tween2.tween_property(self, "scale:x", 1, FLIP_ANIMATION_DURATION)
-	await tween2.finished
-	_flipping = false
-
 #endregion
 
 #region events
@@ -197,14 +179,15 @@ func _set_card_state(value:CardState) -> void:
 	card_state = value
 	match value:
 		CardState.NORMAL:
-			_container_offset = Vector2.ZERO
+			print("set_normal")
+			position = Vector2.ZERO
 			has_outline = false
 			_overlay.hide()
 			_gui_use_card_button.hide()
 			z_index = 0
 			_default_state = CardState.NORMAL
 		CardState.SELECTED:
-			_container_offset = Vector2.UP * SELECTED_OFFSET
+			position = Vector2.UP * SELECTED_OFFSET
 			has_outline = true
 			_overlay.hide()
 			if tool_data.need_select_field:
@@ -213,28 +196,24 @@ func _set_card_state(value:CardState) -> void:
 				_gui_use_card_button.show()
 			z_index = 1
 		CardState.HIGHLIGHTED:
-			_container_offset = Vector2.UP * HIGHLIGHTED_OFFSET
+			position = Vector2.UP * HIGHLIGHTED_OFFSET
 			has_outline = true
 			_overlay.hide()
 			_gui_use_card_button.hide()
 			z_index = 1
 		CardState.UNSELECTED:
-			_container_offset = Vector2.ZERO
+			position = Vector2.ZERO
 			has_outline = false
 			_overlay.show()
 			_gui_use_card_button.hide()
 			z_index = 0
 			_default_state = CardState.UNSELECTED
 		CardState.WAITING:
-			_container_offset = Vector2.UP * SELECTED_OFFSET
+			position = Vector2.UP * SELECTED_OFFSET
 			has_outline = true
 			_overlay.show()
 			_gui_use_card_button.hide()
 			z_index = 1
-
-func _set_container_offset(offset:Vector2) -> void:
-	_container_offset = offset
-	position = offset
 
 func _set_resource_sufficient(value:bool) -> void:
 	resource_sufficient = value
