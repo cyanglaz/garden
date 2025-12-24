@@ -48,8 +48,8 @@ func _on_gui_input(event: InputEvent) -> void:
 func update_with_tool_data(td:ToolData) -> void:
 	front_face.update_with_tool_data(td)
 	if td.back_card:
-		assert(td.specials.has(ToolData.Special.FLIP), "Card is not a flip card")
-		assert(td.back_card.specials.has(ToolData.Special.FLIP), "Back card is not a flip card")
+		assert(td.specials.has(ToolData.Special.FLIP_FRONT), "Card is not a flip front card")
+		assert(td.back_card.specials.has(ToolData.Special.FLIP_BACK), "Back card is not a flip back card")
 		back_face.update_with_tool_data(td.back_card)
 	back_face.hide()
 
@@ -240,7 +240,7 @@ func _on_resized() -> void:
 	
 func _on_special_interacted(special:ToolData.Special, _face:GUICardFace) -> void:
 	match special:
-		ToolData.Special.FLIP:
+		ToolData.Special.FLIP_FRONT, ToolData.Special.FLIP_BACK:
 			_animate_flip()
 		_:
 			pass

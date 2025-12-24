@@ -21,7 +21,8 @@ enum Special {
 	COMPOST,
 	WITHER,
 	NIGHTFALL,
-	FLIP,
+	FLIP_FRONT,
+	FLIP_BACK,
 }
 
 enum Type {
@@ -29,7 +30,7 @@ enum Type {
 	POWER,
 }
 
-const INTERACTIVE_SPECIALS := [Special.FLIP]
+const INTERACTIVE_SPECIALS := [Special.FLIP_FRONT, Special.FLIP_BACK]
 
 @export var energy_cost:int = 1
 @export var actions:Array[ActionData]
@@ -188,15 +189,15 @@ func _set_back_card(val:ToolData) -> void:
 		back_card = null
 		return
 	back_card = val.get_duplicate()
-	if back_card && !specials.has(Special.FLIP):
-		specials.append(Special.FLIP)
+	if back_card && !specials.has(Special.FLIP_FRONT):
+		specials.append(Special.FLIP_FRONT)
 	if back_card:
 		back_card.front_card = self
 
 func _set_front_card(val:ToolData) -> void:
 	_weak_front_card = weakref(val)
-	if val && !specials.has(Special.FLIP):
-		specials.append(Special.FLIP)
+	if val && !specials.has(Special.FLIP_BACK):
+		specials.append(Special.FLIP_BACK)
 
 func _get_front_card() -> ToolData:
 	return _weak_front_card.get_ref()

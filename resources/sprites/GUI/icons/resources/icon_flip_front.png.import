@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c3xk7i75kwld6"
-path="res://.godot/imported/icon_flip.png-596306ef9f91c72d4e5ca1bad9aab638.ctex"
+path="res://.godot/imported/icon_flip_front.png-7b19359c515358d137bdff2dcc831e6b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/GUI/icons/resources/icon_flip.png"
-dest_files=["res://.godot/imported/icon_flip.png-596306ef9f91c72d4e5ca1bad9aab638.ctex"]
+source_file="res://resources/sprites/GUI/icons/resources/icon_flip_front.png"
+dest_files=["res://.godot/imported/icon_flip_front.png-7b19359c515358d137bdff2dcc831e6b.ctex"]
 
 [params]
 
