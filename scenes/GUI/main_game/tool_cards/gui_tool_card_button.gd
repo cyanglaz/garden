@@ -38,6 +38,7 @@ func _ready() -> void:
 	back_face.special_interacted.connect(_on_special_interacted.bind(back_face))
 	front_face.special_hovered.connect(_on_special_hovered.bind(front_face))
 	back_face.special_hovered.connect(_on_special_hovered.bind(back_face))
+	size = SIZE
 
 func _on_gui_input(event: InputEvent) -> void:
 	super._on_gui_input(event)

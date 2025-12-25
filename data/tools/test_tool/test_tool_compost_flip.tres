@@ -18,7 +18,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 [sub_resource type="Resource" id="Resource_623pj"]
 script = ExtResource("2_3er5i")
 actions = Array[ExtResource("1_yo32t")]([SubResource("Resource_yo32t")])
-specials = Array[int]([0, 3])
+specials = Array[int]([0])
 id = "compost_flip_b"
 display_name = "CB"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"
@@ -26,7 +26,7 @@ metadata/_custom_type_script = "uid://vq7dpxeq7spe"
 [resource]
 script = ExtResource("2_3er5i")
 actions = Array[ExtResource("1_yo32t")]([SubResource("Resource_t4j2x")])
-specials = Array[int]([0, 3])
+specials = Array[int]([0])
 back_card = SubResource("Resource_623pj")
 id = "compost_flip_f"
 display_name = "CF"
