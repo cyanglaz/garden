@@ -1,5 +1,6 @@
 class_name GUICardFace
 extends PanelContainer
+
 const FLIP_ANIMATION_DURATION := 0.1
 
 signal use_card_button_pressed()
@@ -112,6 +113,22 @@ func animated_transform(old_rarity:int) -> void:
 
 func play_error_shake_animation() -> void:
 	await Util.play_error_shake_animation(self, "_container_offset", Vector2.ZERO)
+
+func animate_flip(on:bool) -> void:
+	if on :
+		visible = true
+	_gui_use_card_button.hide()
+	var original_pivot_offset := pivot_offset
+	pivot_offset = Vector2(size.x/2, 0)
+	var target_x_scale := 1.0 if on else 0.0
+	var tween := Util.create_scaled_tween(self)
+	tween.tween_property(self, "scale:x", target_x_scale, FLIP_ANIMATION_DURATION)
+	await tween.finished
+	pivot_offset = original_pivot_offset
+	if on:
+		_gui_use_card_button.show()
+	else:
+		visible = false
 
 func _find_card_references() -> Array[String]:
 	var card_references:Array[String] = []

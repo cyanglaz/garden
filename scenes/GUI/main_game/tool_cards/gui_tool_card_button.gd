@@ -1,7 +1,6 @@
 class_name GUIToolCardButton
 extends GUIBasicButton
 
-const FLIP_ANIMATION_DURATION := 0.1
 const SIZE := Vector2(40, 54)
 
 signal use_card_button_pressed()
@@ -43,7 +42,11 @@ func _ready() -> void:
 func _on_gui_input(event: InputEvent) -> void:
 	super._on_gui_input(event)
 	if event.is_action_pressed("flip"):
-		_animate_flip()
+		var should_show_tooltip := !_card_tooltip_id.is_empty()
+		toggle_tooltip(false)
+		await _animate_flip()
+		if should_show_tooltip:
+			toggle_tooltip(true)
 
 func update_with_tool_data(td:ToolData) -> void:
 	front_face.update_with_tool_data(td)
@@ -129,26 +132,13 @@ func _animate_flip() -> void:
 	if !back_face.tool_data:
 		return
 	_flipping = true
-	toggle_tooltip(false)
-	var original_face_offset := current_face.pivot_offset
-	current_face.pivot_offset = Vector2(current_face.size.x/2, 0)
-	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(current_face, "scale:x", 0, FLIP_ANIMATION_DURATION)
-	await tween.finished
+	await current_face.animate_flip(false)
 	var old_face := current_face
-	old_face.hide()
-	old_face.pivot_offset = original_face_offset
 	if old_face == front_face:
 		current_face = back_face
 	else:
 		current_face = front_face
-	current_face.show()
-	current_face.pivot_offset = Vector2(current_face.size.x/2, 0)
-	current_face.scale.x = 0
-	var tween2 := Util.create_scaled_tween(self)
-	tween2.tween_property(current_face, "scale:x", 1, FLIP_ANIMATION_DURATION)
-	await tween2.finished
-	current_face.pivot_offset = original_face_offset
+	await current_face.animate_flip(true)
 	_flipping = false
 
 #endregion
