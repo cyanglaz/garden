@@ -14,6 +14,7 @@ const TOOL_CARD_BUTTON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/g
 @onready var forge_button: GUIRichTextButton = %ForgeButton
 @onready var gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
 @onready var cards_container: Control = %CardsContainer
+@onready var gui_forge_animation_container: GUIForgeAnimationContainer = %GUIForgeAnimationContainer
 
 var _card_pool:Array = []
 var _selecting_front_card:bool = false
@@ -33,6 +34,7 @@ func _ready() -> void:
 	gui_tool_cards_viewer.card_selected.connect(_on_card_selected)
 	cancel_button.pressed.connect(_on_cancel_button_pressed)
 	forge_button.pressed.connect(_on_forge_button_pressed)
+	gui_forge_animation_container.hide()
 
 func setup_with_card_pool(card_pool:Array) -> void:
 	_card_pool = card_pool
@@ -102,16 +104,26 @@ func _on_cancel_button_pressed() -> void:
 	_dismiss()
 
 func _on_forge_button_pressed() -> void:
-	assert(_front_card != null, "Front card is null")
-	assert(_back_card != null, "Back card is null")
-	var front_card_data:ToolData = _front_card.tool_data
-	var back_card_data:ToolData = _back_card.tool_data
-	assert(_card_pool.has(front_card_data), "Front card is not in pool")
-	assert(_card_pool.has(back_card_data), "Back card is not in pool")
-	var new_card_front_data:ToolData = front_card_data.get_duplicate()
-	var new_card_back_data:ToolData = back_card_data.get_duplicate()
-	new_card_front_data.back_card = new_card_back_data
-	forge_finished.emit(new_card_front_data, front_card_data, back_card_data)
-	_dismiss()
+	cancel_button.hide()
+	forge_button.hide()
+	front_card_placeholder.hide()
+	back_card_placeholder.hide()
+	front_card_label.hide()
+	back_card_label.hide()
+	_front_card.hide()
+	_back_card.hide()
+	title_label.hide()
+	gui_forge_animation_container.play_animation(_front_card.tool_data, _back_card.tool_data, _front_card.global_position, _back_card.global_position)
+	#assert(_front_card != null, "Front card is null")
+	#assert(_back_card != null, "Back card is null")
+	#var front_card_data:ToolData = _front_card.tool_data
+	#var back_card_data:ToolData = _back_card.tool_data
+	#assert(_card_pool.has(front_card_data), "Front card is not in pool")
+	#assert(_card_pool.has(back_card_data), "Back card is not in pool")
+	#var new_card_front_data:ToolData = front_card_data.get_duplicate()
+	#var new_card_back_data:ToolData = back_card_data.get_duplicate()
+	#new_card_front_data.back_card = new_card_back_data
+	#forge_finished.emit(new_card_front_data, front_card_data, back_card_data)
+	#_dismiss()
 
 #endregion

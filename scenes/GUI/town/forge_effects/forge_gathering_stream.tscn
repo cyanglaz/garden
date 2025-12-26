@@ -1,0 +1,81 @@
+[gd_scene load_steps=10 format=3 uid="uid://b87sa86i8nwn5"]
+
+[ext_resource type="Script" uid="uid://c1npuqucikm1n" path="res://scenes/GUI/town/forge_effects/forge_gathering_stream.gd" id="1_6f253"]
+[ext_resource type="Texture2D" uid="uid://dskfkxxnq6t1c" path="res://resources/sprites/effects/particles/particle_forge_burst.png" id="2_vk15o"]
+[ext_resource type="Texture2D" uid="uid://0fgf3t3c1paq" path="res://resources/sprites/effects/particles/particle_smoke.png" id="3_nev3d"]
+
+[sub_resource type="Curve" id="Curve_aqeur"]
+_limits = [0.0, 100.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.87344915, 2.4525146), 0.0, 0.0, 0, 0, Vector2(1, 21.039444), 81.18471, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_0ngce"]
+curve = SubResource("Curve_aqeur")
+
+[sub_resource type="Curve" id="Curve_1sxj7"]
+_data = [Vector2(0, 0.51701105), 0.0, 0.0, 0, 0, Vector2(1, 0.2565226), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_eqguo"]
+curve = SubResource("Curve_1sxj7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_aqeur"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(20, 26, 1)
+spread = 0.0
+initial_velocity_min = 200.0
+initial_velocity_max = 200.0
+orbit_velocity_min = 9.49949e-08
+orbit_velocity_max = 9.49949e-08
+radial_velocity_min = -100.00002
+radial_velocity_max = -100.00002
+gravity = Vector3(0, 0, 0)
+tangential_accel_min = -2.2351742e-06
+tangential_accel_max = -2.2351742e-06
+damping_curve = SubResource("CurveTexture_0ngce")
+scale_min = 0.099999994
+scale_max = 0.099999994
+scale_curve = SubResource("CurveTexture_eqguo")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nev3d"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(40, 52, 1)
+gravity = Vector3(0, 0, 0)
+scale_min = 0.099999994
+scale_max = 0.099999994
+
+[node name="GatheringStream" type="Node2D"]
+script = ExtResource("1_6f253")
+
+[node name="LeftStream" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+amount = 5000
+texture = ExtResource("2_vk15o")
+fixed_fps = 60
+trail_enabled = true
+process_material = SubResource("ParticleProcessMaterial_aqeur")
+
+[node name="RightStream" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(210, 0)
+amount = 5000
+texture = ExtResource("2_vk15o")
+fixed_fps = 60
+trail_enabled = true
+process_material = SubResource("ParticleProcessMaterial_aqeur")
+
+[node name="LeftCard" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-1, -78)
+amount = 5000
+texture = ExtResource("3_nev3d")
+process_material = SubResource("ParticleProcessMaterial_nev3d")
+
+[node name="RightCard" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-1, -78)
+amount = 5000
+texture = ExtResource("3_nev3d")
+process_material = SubResource("ParticleProcessMaterial_nev3d")

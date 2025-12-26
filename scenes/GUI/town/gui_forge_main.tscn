@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://b3lbertwi6gfq"]
+[gd_scene load_steps=7 format=3 uid="uid://b3lbertwi6gfq"]
 
 [ext_resource type="Script" uid="uid://c5o3m4ctgvux0" path="res://scenes/GUI/town/gui_forge_main.gd" id="1_otpxr"]
 [ext_resource type="PackedScene" uid="uid://bc1bdskri1rtq" path="res://scenes/GUI/main_game/tool_cards/gui_card_placeholder.tscn" id="2_n2jby"]
 [ext_resource type="PackedScene" uid="uid://cq1vyx3yrtj8p" path="res://scenes/GUI/main_game/tool_cards/gui_tool_cards_viewer.tscn" id="4_331gr"]
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="4_hc48t"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="5_331gr"]
+[ext_resource type="PackedScene" uid="uid://ymknautcwhvf" path="res://scenes/GUI/town/gui_forge_animation_container.tscn" id="6_mxaiw"]
 
 [node name="GUIForgeMain" type="Control"]
 layout_mode = 3
@@ -115,5 +116,9 @@ layout_mode = 2
 localization_text_key = "FORGE"
 
 [node name="GUIToolCardsViewer" parent="." instance=ExtResource("4_331gr")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="GUIForgeAnimationContainer" parent="." instance=ExtResource("6_mxaiw")]
 unique_name_in_owner = true
 layout_mode = 1

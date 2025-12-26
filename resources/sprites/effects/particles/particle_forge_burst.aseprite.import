@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c834lv5gn064a"
+path="res://.godot/imported/particle_forge_burst.aseprite-160c20b886b8b588db9412e93c69d371.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/particles/particle_forge_burst.aseprite"
+dest_files=["res://.godot/imported/particle_forge_burst.aseprite-160c20b886b8b588db9412e93c69d371.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
