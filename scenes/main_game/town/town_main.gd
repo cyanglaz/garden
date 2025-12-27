@@ -41,8 +41,8 @@ func _on_tavern_field_pressed(field:TavernField) -> void:
 func _on_forge_field_pressed(_field:ForgeField) -> void:
 	gui_town_main.show_forge_main()
 
-func _on_forge_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData) -> void:
-	forge_finished.emit(tool_data, front_card_data, back_card_data)
+func _on_forge_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData, forged_card_global_position:Vector2) -> void:
+	forge_finished.emit(tool_data, front_card_data, back_card_data, forged_card_global_position)
 
 func _disable_all_field_presses() -> void:
 	for field:Field in field_container.fields:

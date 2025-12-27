@@ -1,7 +1,7 @@
 class_name GUIForgeMain
 extends Control
 
-signal forge_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData)
+signal forge_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData, forged_card_global_position:Vector2)
 
 const TOOL_CARD_BUTTON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
@@ -35,6 +35,7 @@ func _ready() -> void:
 	cancel_button.pressed.connect(_on_cancel_button_pressed)
 	forge_button.pressed.connect(_on_forge_button_pressed)
 	gui_forge_animation_container.hide()
+	gui_forge_animation_container.forged_card_pressed.connect(_on_forged_card_pressed)
 
 func setup_with_card_pool(card_pool:Array) -> void:
 	_card_pool = card_pool
@@ -51,6 +52,14 @@ func _dismiss() -> void:
 	_back_card.queue_free()
 	_back_card = null
 
+func _get_card_pool_for_forge() -> Array:
+	var card_pool:Array = _card_pool.duplicate()
+	if _front_card != null:
+		card_pool.erase(_front_card.tool_data)
+	if _back_card != null:
+		card_pool.erase(_back_card.tool_data)
+	return card_pool
+
 #region events
 
 func _on_front_card_placeholder_button_pressed() -> void:
@@ -58,14 +67,14 @@ func _on_front_card_placeholder_button_pressed() -> void:
 	if _front_card != null:
 		_front_card.queue_free()
 		_front_card = null
-	gui_tool_cards_viewer.animated_show_with_pool(_card_pool, Util.get_localized_string("FORGE_FRONT_CARD_TITLE"))
+	gui_tool_cards_viewer.animated_show_with_pool(_get_card_pool_for_forge(), Util.get_localized_string("FORGE_FRONT_CARD_TITLE"))
 
 func _on_back_card_placeholder_button_pressed() -> void:
 	_selecting_front_card = false
 	if _back_card != null:
 		_back_card.queue_free()
 		_back_card = null
-	gui_tool_cards_viewer.animated_show_with_pool(_card_pool, Util.get_localized_string("FORGE_BACK_CARD_TITLE"))
+	gui_tool_cards_viewer.animated_show_with_pool(_get_card_pool_for_forge(), Util.get_localized_string("FORGE_BACK_CARD_TITLE"))
 
 func _on_card_selected(gui_tool_card:GUIToolCardButton) -> void:
 	var new_card:GUIToolCardButton
@@ -113,17 +122,21 @@ func _on_forge_button_pressed() -> void:
 	_front_card.hide()
 	_back_card.hide()
 	title_label.hide()
-	gui_forge_animation_container.play_animation(_front_card.tool_data, _back_card.tool_data, _front_card.global_position, _back_card.global_position)
-	#assert(_front_card != null, "Front card is null")
-	#assert(_back_card != null, "Back card is null")
-	#var front_card_data:ToolData = _front_card.tool_data
-	#var back_card_data:ToolData = _back_card.tool_data
-	#assert(_card_pool.has(front_card_data), "Front card is not in pool")
-	#assert(_card_pool.has(back_card_data), "Back card is not in pool")
-	#var new_card_front_data:ToolData = front_card_data.get_duplicate()
-	#var new_card_back_data:ToolData = back_card_data.get_duplicate()
-	#new_card_front_data.back_card = new_card_back_data
+	assert(_front_card != null, "Front card is null")
+	assert(_back_card != null, "Back card is null")
+	var front_card_data:ToolData = _front_card.tool_data
+	var back_card_data:ToolData = _back_card.tool_data
+	assert(_card_pool.has(front_card_data), "Front card is not in pool")
+	assert(_card_pool.has(back_card_data), "Back card is not in pool")
+	var new_card_front_data:ToolData = front_card_data.get_duplicate()
+	var new_card_back_data:ToolData = back_card_data.get_duplicate()
+	new_card_front_data.back_card = new_card_back_data
+	gui_forge_animation_container.play_animation(_front_card.tool_data, _back_card.tool_data, _front_card.global_position, _back_card.global_position, new_card_front_data)
 	#forge_finished.emit(new_card_front_data, front_card_data, back_card_data)
 	#_dismiss()
+
+func _on_forged_card_pressed(tool_data:ToolData, card_global_position:Vector2) -> void:
+	forge_finished.emit(tool_data, _front_card.tool_data, _back_card.tool_data, card_global_position)
+	_dismiss()
 
 #endregion

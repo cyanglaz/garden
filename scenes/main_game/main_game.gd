@@ -159,13 +159,13 @@ func _on_shop_finish_button_pressed() -> void:
 func _on_town_finished() -> void:
 	_complete_current_node()
 
-func _on_forge_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData) -> void:
+func _on_forge_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData, forged_card_global_position:Vector2) -> void:
 	assert(card_pool.has(front_card_data), "Front card not in card pool")
 	assert(card_pool.has(back_card_data), "Back card not in card pool")
 	card_pool.erase(front_card_data)
 	card_pool.erase(back_card_data)
 	card_pool.append(tool_data)
-	await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(Vector2.ZERO, tool_data)
+	await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(forged_card_global_position, tool_data)
 	_complete_current_node()
 
 func _on_chest_card_reward_selected(tool_data:ToolData, from_global_position:Vector2) -> void:

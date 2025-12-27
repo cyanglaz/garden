@@ -112,7 +112,7 @@ func animated_transform(old_rarity:int) -> void:
 	has_outline = false
 
 func play_error_shake_animation() -> void:
-	await Util.play_error_shake_animation(self, "_container_offset", Vector2.ZERO)
+	await Util.play_error_shake_animation(self, "position", Vector2.ZERO)
 
 func animate_flip(on:bool) -> void:
 	if on :
