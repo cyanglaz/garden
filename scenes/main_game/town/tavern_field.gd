@@ -1,7 +1,7 @@
 class_name TavernField
 extends Field
 
-const HP_INCREASE := 4
+const HP_INCREASE := 3
 
 @onready var tavern: Tavern = %Tavern
 @onready var tavern_sign: BuildingSign = %TavernSign
