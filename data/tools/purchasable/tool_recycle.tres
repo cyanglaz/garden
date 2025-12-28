@@ -11,6 +11,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
 script = ExtResource("2_5u1sb")
+energy_cost = 2
 actions = Array[ExtResource("1_dyj2c")]([SubResource("Resource_dyj2c")])
 rarity = 1
 id = "recycle"
