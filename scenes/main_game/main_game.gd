@@ -78,12 +78,13 @@ func _start_new_chapter() -> void:
 	#_start_shop()
 	#_start_chest()
 	#_start_town()
+	#_game_over()
 
 func _generate_chapter_data() -> void:
 	map_main.generate_map(session_seed)
 
 func _game_over() -> void:
-	pass
+	gui_main_game.game_over()
 
 #endregion
 

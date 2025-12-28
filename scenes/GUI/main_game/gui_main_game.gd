@@ -12,6 +12,7 @@ const DETAIL_TOOLTIP_DELAY := 0.8
 @onready var gui_dialogue_window: GUIDialogueWindow = %GUIDialogueWindow
 @onready var gui_tooltips_container: GUITooltipContainer = %GUITooltipsContainer
 
+@onready var _gui_game_over_main: GUIGameOverMain = %GUIGameOverMain
 @onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
 @onready var _transition_overlay: TransitionOverlay = %TransitionOverlay
@@ -77,6 +78,13 @@ func bind_cards(cards:Array[ToolData]) -> void:
 
 func transition(type:TransitionOverlay.Type, duration:float = 0.4) -> void:
 	await _transition_overlay.transition(type, duration)
+
+#endregion
+
+#region gameover
+
+func game_over() -> void:
+	_gui_game_over_main.animate_show()
 
 #endregion
 

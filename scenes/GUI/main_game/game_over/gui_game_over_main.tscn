@@ -1,10 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://blnntdbnqmjsp"]
+[gd_scene load_steps=4 format=3 uid="uid://blnntdbnqmjsp"]
 
 [ext_resource type="Script" uid="uid://dssx3j0n5v5by" path="res://scenes/GUI/main_game/game_over/gui_game_over_main.gd" id="1_jyefs"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="1_usxpy"]
-[ext_resource type="Texture2D" uid="uid://b0nsc2v1cdqqd" path="res://resources/sprites/GUI/shared/panel_background_simple.png" id="2_jyefs"]
-[ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="3_qib3q"]
-[ext_resource type="PackedScene" uid="uid://dypjo506mdbnc" path="res://scenes/GUI/combat_main/level_summary/gui_summary_item.tscn" id="4_ohi60"]
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="5_eoink"]
 
 [node name="GUIGameOverMain" type="Control"]
@@ -21,84 +18,16 @@ script = ExtResource("1_jyefs")
 layout_mode = 1
 color = Color(0, 0, 0, 0.862745)
 
-[node name="MainPanel" type="PanelContainer" parent="."]
+[node name="Title" type="Label" parent="."]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 82)
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -41.0
-offset_top = 27.0
-offset_right = 41.0
-offset_bottom = 109.0
-grow_horizontal = 2
-
-[node name="Background" type="NinePatchRect" parent="MainPanel"]
-self_modulate = Color(0.396078, 0.45098, 0.572549, 1)
-layout_mode = 2
-texture = ExtResource("2_jyefs")
-patch_margin_left = 3
-patch_margin_top = 3
-patch_margin_right = 3
-patch_margin_bottom = 3
-
-[node name="Border" type="NinePatchRect" parent="MainPanel"]
-self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
-layout_mode = 2
-texture = ExtResource("3_qib3q")
-patch_margin_left = 3
-patch_margin_top = 3
-patch_margin_right = 3
-patch_margin_bottom = 3
-
-[node name="MarginContainer" type="MarginContainer" parent="MainPanel"]
-layout_mode = 2
-theme_override_constants/margin_left = 6
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 6
-theme_override_constants/margin_bottom = 4
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MainPanel/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 6
-
-[node name="Titles" type="VBoxContainer" parent="MainPanel/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 2
-
-[node name="Title" type="Label" parent="MainPanel/MarginContainer/VBoxContainer/Titles"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"HUD"
+layout_mode = 0
+offset_left = 100.0
+offset_top = 63.0
+offset_right = 220.0
+offset_bottom = 72.0
+theme_type_variation = &"HeaderHuge"
 text = "Game Over"
 horizontal_alignment = 1
-
-[node name="ItemsContainer" type="VBoxContainer" parent="MainPanel/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 5
-
-[node name="LevelLabel" parent="MainPanel/MarginContainer/VBoxContainer/ItemsContainer" instance=ExtResource("4_ohi60")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 2
-title_localized_string = "GAME_OVER_WEEK"
-
-[node name="TotalDaysSkippedLabel" parent="MainPanel/MarginContainer/VBoxContainer/ItemsContainer" instance=ExtResource("4_ohi60")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 2
-title_localized_string = "GAME_OVER_TOTAL_DAYS_SKIPPED"
-
-[node name="TotalGoldEarnedLabel" parent="MainPanel/MarginContainer/VBoxContainer/ItemsContainer" instance=ExtResource("4_ohi60")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 2
-title_localized_string = "GAME_OVER_TOTAL_GOLD_EARNED"
 
 [node name="ContinueButton" parent="." instance=ExtResource("5_eoink")]
 unique_name_in_owner = true
