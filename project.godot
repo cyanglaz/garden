@@ -23,7 +23,7 @@ resources_spreadsheet_view/freeze_first_column=true
 
 [application]
 
-config/name="Light, Water and Deck"
+config/name="May there be flowers"
 config/version="0.0.1"
 run/main_scene="uid://qy2x3blewn0"
 config/features=PackedStringArray("4.5", "Mobile")
