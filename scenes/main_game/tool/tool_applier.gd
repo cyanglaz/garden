@@ -108,15 +108,11 @@ func _apply_instant_use_tool_action(action:ActionData, combat_main:CombatMain, t
 					real_value = calculated_value
 			Events.request_hp_update.emit(real_value)
 
-func _handle_discard_card_action(action:ActionData, combat_main:CombatMain, tool_data:ToolData, secondary_card_datas:Array) -> void:
-	var random := action.value_type == ActionData.ValueType.RANDOM
-	var discard_size := action.get_calculated_value(null)
-	if random:
-		var tool_datas_to_discard:Array = combat_main.tool_manager.discardable_cards()
-		tool_datas_to_discard.erase(tool_data)
-		if tool_datas_to_discard.is_empty():
-			return
-		secondary_card_datas= Util.unweighted_roll(tool_datas_to_discard, discard_size)
+func _handle_discard_card_action(_action:ActionData, combat_main:CombatMain, _tool_data:ToolData, secondary_card_datas:Array) -> void:
+	var discard_size := secondary_card_datas.size()
+	if discard_size <= 0:
+		await Util.await_for_tiny_time()
+		return
 	await combat_main.discard_cards(secondary_card_datas)
 	await combat_main.plant_field_container.trigger_tool_discard_hook(discard_size)
 

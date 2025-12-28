@@ -32,8 +32,8 @@ func play_flying_sound() -> void:
 func _on_mouse_entered() -> void:
 	if !has_tooltip:
 		return
-	#if !_weak_weather_data.get_ref():
-		#return
+	if !_weak_weather_data.get_ref():
+		return
 	Events.update_hovered_data.emit(_weak_weather_data.get_ref())
 	is_highlighted = true
 	var anchor = tooltip_anchor if tooltip_anchor else self
