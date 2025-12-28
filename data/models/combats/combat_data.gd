@@ -33,8 +33,8 @@ const REWARD_GOLD := {
 
 const REWARD_HP := {
 	CombatType.COMMON: 0,
-	CombatType.ELITE: 5,
-	CombatType.BOSS: 50,
+	CombatType.ELITE: 1,
+	CombatType.BOSS: 5,
 }
 
 const NUMBER_OF_CARDS_IN_BOOSTER_PACK := 3
