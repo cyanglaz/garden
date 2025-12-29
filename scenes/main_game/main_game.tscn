@@ -1,16 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://bbcxpceayay3"]
+[gd_scene load_steps=5 format=3 uid="uid://bbcxpceayay3"]
 
 [ext_resource type="Script" uid="uid://sc1eubamsw6x" path="res://scenes/main_game/main_game.gd" id="1_yra6k"]
 [ext_resource type="Resource" uid="uid://d1jqracpdos0e" path="res://data/player/player_apprentice.tres" id="2_8ywsm"]
-[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="3_6eclk"]
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
-[ext_resource type="Resource" uid="uid://dveio5prp3e4b" path="res://data/tools/purchasable/tool_burn.tres" id="6_mijjq"]
 [ext_resource type="PackedScene" uid="uid://bqo51luu7itcc" path="res://scenes/main_game/map/map_main.tscn" id="14_s87mg"]
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 player = ExtResource("2_8ywsm")
-test_tools = Array[ExtResource("3_6eclk")]([ExtResource("6_mijjq")])
 
 [node name="MapMain" parent="." instance=ExtResource("14_s87mg")]
 unique_name_in_owner = true

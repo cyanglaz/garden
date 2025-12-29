@@ -10,6 +10,7 @@ const CHEST_MAIN_SCENE := preload("res://scenes/main_game/chest/chest_main.tscn"
 const INITIAL_HP_VALUE := 10
 const INITIAL_HP_MAX_VALUE := 10
 const SCENE_TRANSITION_TIME := 0.2
+const NUMBER_OF_CHAPTERS := 1
 
 @export var player:PlayerData
 @export var test_tools:Array[ToolData]
@@ -79,12 +80,16 @@ func _start_new_chapter() -> void:
 	#_start_chest()
 	#_start_town()
 	#_game_over()
+	#_game_win()
 
 func _generate_chapter_data() -> void:
 	map_main.generate_map(session_seed)
 
 func _game_over() -> void:
 	gui_main_game.game_over()
+
+func _game_win() -> void:
+	gui_main_game.game_win()
 
 #endregion
 
@@ -99,8 +104,9 @@ func _start_combat_main_scene(combat:CombatData) -> void:
 	combat_main.test_weather = test_weather
 	node_container.add_child(combat_main)
 	combat_main.reward_finished.connect(_on_reward_finished)
+	combat_main.beat_final_boss.connect(_on_beat_final_boss)
 	start_scene_transition()
-	combat_main.start(card_pool, 3, combat)
+	combat_main.start(card_pool, 3, combat, chapter_manager.current_chapter)
 
 func _start_shop() -> void:
 	var shop_main = SHOP_MAIN_SCENE.instantiate()
@@ -146,6 +152,9 @@ func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> vo
 		await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
 	# go to map
 	_complete_current_node()
+
+func _on_beat_final_boss() -> void:
+	_game_win()
 
 func _on_tool_shop_button_pressed(tool_data:ToolData, from_global_position:Vector2) -> void:
 	if tool_data:
