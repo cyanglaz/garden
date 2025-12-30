@@ -13,7 +13,7 @@ const DEFAULT_TYPE_CHANGES := {
 	MapNode.NodeType.NORMAL: 40,
 	MapNode.NodeType.ELITE: 16,
 	MapNode.NodeType.SHOP: 5,
-	MapNode.NodeType.TAVERN: 12,
+	MapNode.NodeType.TOWN: 12,
 	MapNode.NodeType.EVENT: 27,
 	MapNode.NodeType.CHEST: 0,
 }
@@ -23,7 +23,7 @@ const DEFAULT_MIN_LAYER := {
 	MapNode.NodeType.EVENT: 0,
 	MapNode.NodeType.ELITE: 3,
 	MapNode.NodeType.SHOP: 0,
-	MapNode.NodeType.TAVERN: 3,
+	MapNode.NodeType.TOWN: 3,
 	MapNode.NodeType.CHEST: 3,
 	MapNode.NodeType.BOSS: 0,
 }
@@ -33,7 +33,7 @@ const MIN_NODE_COUNT = {
 	MapNode.NodeType.EVENT: 0,
 	MapNode.NodeType.ELITE: 3,
 	MapNode.NodeType.SHOP: 2,
-	MapNode.NodeType.TAVERN: 2,
+	MapNode.NodeType.TOWN: 2,
 	MapNode.NodeType.CHEST: 2,
 }
 
@@ -42,17 +42,17 @@ const MAX_NODE_COUNT = {
 	MapNode.NodeType.EVENT: 999999,
 	MapNode.NodeType.ELITE: 6,
 	MapNode.NodeType.SHOP: 999999,
-	MapNode.NodeType.TAVERN: 999999,
+	MapNode.NodeType.TOWN: 999999,
 	MapNode.NodeType.CHEST: 999999,
 }
 
 # Smart constraints: types that cannot appear consecutively along any path
-const NO_CONSECUTIVE_TYPES:Array = [MapNode.NodeType.ELITE, MapNode.NodeType.SHOP, MapNode.NodeType.CHEST, MapNode.NodeType.TAVERN]
+const NO_CONSECUTIVE_TYPES:Array = [MapNode.NodeType.ELITE, MapNode.NodeType.SHOP, MapNode.NodeType.CHEST, MapNode.NodeType.TOWN]
 # This layer is always chest nodes
 @warning_ignore("integer_division")
 const CHEST_LAYER := (INTERNAL_LAYER_COUNT + 1)/2
-# This layer is always not a tavern nodes
-const NO_TAVERN_ROW := INTERNAL_LAYER_COUNT
+# This layer is always not a town nodes
+const NO_TOWN_ROW := INTERNAL_LAYER_COUNT
 
 func generate(rand_seed:int = 0) -> Array:
 	# Minimal Cobalt Core-like generator: single start and boss, layered rows,
@@ -79,9 +79,9 @@ func _generate_nodes(layers:Array) -> void:
 	for i in TOTAL_PATHS:
 		_generate_nodes_in_a_path(layers, starting_node, i)
 
-	# Always has one tavern node before the boss node
+	# Always has one town node before the boss node
 	var last_before_boss_node:MapNode = MAP_NODE_SCENE.instantiate()
-	last_before_boss_node.type = MapNode.NodeType.TAVERN
+	last_before_boss_node.type = MapNode.NodeType.TOWN
 	last_before_boss_node.grid_coordinates = Vector2i(INTERNAL_LAYER_COUNT + 1, center_y)
 	layers.append([last_before_boss_node])
 	for node in layers[INTERNAL_LAYER_COUNT]:
@@ -204,8 +204,8 @@ func _get_candidates(node:MapNode) -> Dictionary:
 	for type:MapNode.NodeType in NO_CONSECUTIVE_TYPES:
 		if _is_consecutive_type(node, type):
 			candidates.erase(type)
-	if node.grid_coordinates.x == NO_TAVERN_ROW:
-		candidates.erase(MapNode.NodeType.TAVERN)
+	if node.grid_coordinates.x == NO_TOWN_ROW:
+		candidates.erase(MapNode.NodeType.TOWN)
 
 	var layer_index:int = node.grid_coordinates.x
 

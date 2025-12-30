@@ -40,7 +40,7 @@ func _animate_spawn(spawn_position:Vector2) -> void:
 		var target_position: Vector2 = _get_all_reward_positions()[i]
 		Util.create_scaled_timer(SPAWN_DELAY*i).timeout.connect(func() -> void: 
 			child.show()
-			child.play_move_sound()
+			child.play_discard_sound()
 		)
 		tween.tween_property(child, "global_position", target_position, SPAWN_TRANSITION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(SPAWN_DELAY * i)
 		tween.tween_property(child, "scale", Vector2.ONE, SPAWN_TRANSITION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(SPAWN_DELAY * i)

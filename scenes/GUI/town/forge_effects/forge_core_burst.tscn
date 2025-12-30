@@ -1,0 +1,97 @@
+[gd_scene load_steps=15 format=3 uid="uid://dh8kq8yghiw40"]
+
+[ext_resource type="Script" uid="uid://dxq3vltgx4pea" path="res://scenes/GUI/town/forge_effects/forge_core_burst.gd" id="1_chkkq"]
+[ext_resource type="Texture2D" uid="uid://dskfkxxnq6t1c" path="res://resources/sprites/effects/particles/particle_forge_burst.png" id="1_jgn66"]
+[ext_resource type="Texture2D" uid="uid://bml13sr2ahr1j" path="res://resources/sprites/effects/particles/particle_forge_petal.png" id="2_u2xjb"]
+
+[sub_resource type="Gradient" id="Gradient_jgn66"]
+offsets = PackedFloat32Array(0, 0.20744681, 0.6050532, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_u2xjb"]
+gradient = SubResource("Gradient_jgn66")
+
+[sub_resource type="Curve" id="Curve_jgn66"]
+_data = [Vector2(0.0037220828, 0.50615734), 0.0, 0.0, 0, 0, Vector2(1, 0), -0.29097265, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_u2xjb"]
+curve = SubResource("Curve_jgn66")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jgn66"]
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 300.0
+initial_velocity_max = 500.0
+gravity = Vector3(0, 0, 0)
+damping_min = 500.00003
+damping_max = 1000.00006
+scale_curve = SubResource("CurveTexture_u2xjb")
+color_ramp = SubResource("GradientTexture1D_u2xjb")
+sub_emitter_mode = 2
+sub_emitter_amount_at_end = 1
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_u2xjb"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_chkkq"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.86848634, 0.83719474), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_3yl2u"]
+curve = SubResource("Curve_chkkq")
+
+[sub_resource type="Curve" id="Curve_u2xjb"]
+_data = [Vector2(0, 0.5100304), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_chkkq"]
+curve = SubResource("Curve_u2xjb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_u2xjb"]
+particle_flag_disable_z = true
+angle_min = 1.0728835e-05
+angle_max = 360.00003
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+angular_velocity_min = -30.000015
+angular_velocity_max = 29.999983
+gravity = Vector3(0, 50, 0)
+scale_min = 0.5
+scale_max = 0.5
+alpha_curve = SubResource("CurveTexture_3yl2u")
+anim_offset_max = 1.0
+turbulence_enabled = true
+turbulence_noise_strength = 2.0
+turbulence_noise_scale = 6.0
+turbulence_noise_speed = Vector3(0, 0.5, 0)
+turbulence_influence_over_life = SubResource("CurveTexture_chkkq")
+
+[node name="ForgeCoreBurst" type="Node2D"]
+script = ExtResource("1_chkkq")
+
+[node name="Explode" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+emitting = false
+amount = 64
+sub_emitter = NodePath("../Petals")
+texture = ExtResource("1_jgn66")
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_jgn66")
+
+[node name="Petals" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+material = SubResource("CanvasItemMaterial_u2xjb")
+amount = 20
+texture = ExtResource("2_u2xjb")
+lifetime = 10.0
+explosiveness = 0.8
+process_material = SubResource("ParticleProcessMaterial_u2xjb")

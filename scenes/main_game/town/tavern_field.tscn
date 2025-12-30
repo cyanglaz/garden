@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://frlyetv4sjsp"]
+
+[ext_resource type="PackedScene" uid="uid://ln50r4xpe1ai" path="res://scenes/main_game/field/field.tscn" id="1_d2r8f"]
+[ext_resource type="Script" uid="uid://cq3rpjfrmjbxi" path="res://scenes/main_game/town/tavern_field.gd" id="2_bkaa3"]
+[ext_resource type="PackedScene" uid="uid://bvhbc05xll14n" path="res://scenes/main_game/town/tavern.tscn" id="3_0tknd"]
+[ext_resource type="PackedScene" uid="uid://dopb2dd6jbsal" path="res://scenes/main_game/town/tavern_sign.tscn" id="4_do283"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_d750v"]
+resource_local_to_scene = true
+polygon = PackedVector2Array(-23, -1, -10, -1, -10, -18, 9, -18, 9, -1, 23, -1, 23, 17, -23, 17)
+
+[node name="TarvenField" instance=ExtResource("1_d2r8f")]
+script = ExtResource("2_bkaa3")
+size = 1
+
+[node name="Tavern" parent="Container" index="0" instance=ExtResource("3_0tknd")]
+unique_name_in_owner = true
+position = Vector2(-3, -12)
+
+[node name="TavernSign" parent="Container" index="1" instance=ExtResource("4_do283")]
+unique_name_in_owner = true
+position = Vector2(19, -7)
+
+[node name="GUIFieldButton" parent="." index="2"]
+offset_left = -23.0
+offset_right = 23.0
+offset_bottom = 17.0
+
+[node name="WaterDropletEmitter" parent="." index="5"]
+max_initial_up_velocity = 100.0
+min_initial_up_velocity = 95.0
+number_of_droplets = 16
+droplet_spread_degrees = 35.0
+droplet_position_range = 60.0
+
+[node name="LightOccluder2D" parent="." index="6"]
+occluder = SubResource("OccluderPolygon2D_d750v")

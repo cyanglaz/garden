@@ -65,7 +65,7 @@ func clear_selection() -> void:
 		tween.set_parallel(true)
 		for i in _container.get_children().size():
 			var gui_card = _container.get_child(i)
-			gui_card.card_state = GUIToolCardButton.CardState.NORMAL
+			gui_card.card_state = GUICardFace.CardState.NORMAL
 			tween.tween_property(gui_card, "position", positions[i], REPOSITION_DURATION)
 		await tween.finished
 		for i in _container.get_children().size():
@@ -81,9 +81,9 @@ func add_card(tool_data:ToolData) -> GUIToolCardButton:
 	gui_card.update_with_tool_data(tool_data)
 	gui_card.use_card_button_pressed.connect(_on_tool_card_use_card_button_pressed.bind(tool_data))
 	if selected_index >= 0:
-		gui_card.card_state = GUIToolCardButton.CardState.UNSELECTED
+		gui_card.card_state = GUICardFace.CardState.UNSELECTED
 	else:
-		gui_card.card_state = GUIToolCardButton.CardState.NORMAL
+		gui_card.card_state = GUICardFace.CardState.NORMAL
 	_rebind_signals()
 	gui_card.disabled = card_use_limit_reached
 	return gui_card
@@ -117,15 +117,14 @@ func _toggle_card_selection(on:bool, selecting_from_cards:Array) -> void:
 	for i in _container.get_children().size():
 		var gui_card:GUIToolCardButton = _container.get_child(i)
 		if selecting_from_card_index.has(i):
-			gui_card.card_state = GUIToolCardButton.CardState.NORMAL
+			gui_card.card_state = GUICardFace.CardState.NORMAL
 		elif i == selected_index:
 			if card_selection_mode:
-				gui_card.card_state = GUIToolCardButton.CardState.WAITING
+				gui_card.card_state = GUICardFace.CardState.WAITING
 			else:
-				gui_card.card_state = GUIToolCardButton.CardState.SELECTED
+				gui_card.card_state = GUICardFace.CardState.SELECTED
 		else:
-			gui_card.card_state = GUIToolCardButton.CardState.UNSELECTED
-
+			gui_card.card_state = GUICardFace.CardState.UNSELECTED
 
 func _rebind_signals() -> void:
 	for i in _container.get_children().size():
@@ -152,8 +151,8 @@ func animate_discard(discarding_tool_datas:Array) -> void:
 func animate_use_card(tool_data:ToolData) -> void:
 	await _gui_tool_card_animation_container.animate_use_card(tool_data)
 
-func animate_shuffle(number_of_cards:int) -> void:
-	await _gui_tool_card_animation_container.animate_shuffle(number_of_cards)
+func animate_shuffle(discard_pile:Array) -> void:
+	await _gui_tool_card_animation_container.animate_shuffle(discard_pile)
 
 func animate_add_cards_to_draw_pile(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
 	await _gui_tool_card_animation_container.animate_add_cards_to_draw_pile(tool_datas, from_global_position, pause)
@@ -220,9 +219,9 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 #region private
 
 func _handle_selected_card(card:GUIToolCardButton) -> void:
-	if card.card_state == GUIToolCardButton.CardState.SELECTED:
+	if card.card_state == GUICardFace.CardState.SELECTED:
 		return
-	card.card_state = GUIToolCardButton.CardState.SELECTED
+	card.card_state = GUICardFace.CardState.SELECTED
 	tool_selected.emit(card.tool_data)
 
 func _hide_all_card_warnings() -> void:
@@ -278,7 +277,7 @@ func _on_tool_card_pressed(index:int) -> void:
 				_handle_selected_card(gui_card)
 			else:
 				assert(!card_selection_mode)
-				gui_card.card_state = GUIToolCardButton.CardState.UNSELECTED
+				gui_card.card_state = GUICardFace.CardState.UNSELECTED
 	else:
 		selected_index = -1
 		selected_card.play_error_shake_animation()

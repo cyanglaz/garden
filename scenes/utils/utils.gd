@@ -3,7 +3,7 @@ extends RefCounted
 
 const GUI_ALERT_POPUP_SCENE := preload("res://scenes/GUI/containers/gui_popup_alert.tscn")
 
-const FIELD_STATUS_SCRIPT_PREFIX := "res://scenes/main_game/field/status/field_status_script_"
+const FIELD_STATUS_SCRIPT_PREFIX := "res://scenes/main_game/combat/fields/status/field_status_script_"
 const POWER_SCRIPT_PREFIX := "res://scenes/main_game/power/power_scripts/power_script_"
 const RESOURCE_ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_"
 const SIGN_ICON_PREFIX := "res://resources/sprites/GUI/icons/cards/signs/icon_"
@@ -311,6 +311,10 @@ static func get_id_for_tool_speical(special:ToolData.Special) -> String:
 			id = "wither"
 		ToolData.Special.NIGHTFALL:
 			id = "nightfall"
+		ToolData.Special.FLIP_FRONT:
+			id = "flip_front"
+		ToolData.Special.FLIP_BACK:
+			id = "flip_back"
 		_:
 			assert(false, "special id not implemented")
 	return id
@@ -323,6 +327,10 @@ static func get_special_from_id(id:String) -> ToolData.Special:
 			return ToolData.Special.WITHER
 		"nightfall":
 			return ToolData.Special.NIGHTFALL
+		"flip_front":
+			return ToolData.Special.FLIP_FRONT
+		"flip_back":
+			return ToolData.Special.FLIP_BACK
 		_:
 			assert(false, "Invalid special id: %s" % id)
 	return ToolData.Special.COMPOST

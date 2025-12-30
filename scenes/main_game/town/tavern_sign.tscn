@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://dopb2dd6jbsal"]
+
+[ext_resource type="Script" uid="uid://bem85cv8qjtjo" path="res://scenes/main_game/town/building_sign.gd" id="1_ur06r"]
+[ext_resource type="Shader" uid="uid://kbc8u6dx42q6" path="res://scenes/main_game/town/town_object.gdshader" id="2_ur06r"]
+[ext_resource type="Texture2D" uid="uid://cfyb1m8ni4f6f" path="res://resources/sprites/objects/town/tavern_sign.png" id="3_ur06r"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3nie3"]
+resource_local_to_scene = true
+shader = ExtResource("2_ur06r")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ur06r"]
+atlas = ExtResource("3_ur06r")
+region = Rect2(0, 0, 20, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ta02v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ur06r")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[node name="TavernSign" type="Node2D"]
+script = ExtResource("1_ur06r")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+material = SubResource("ShaderMaterial_3nie3")
+sprite_frames = SubResource("SpriteFrames_ta02v")
+animation = &"idle"
+autoplay = "idle"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/objects/town/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/objects/town/tavern_sign.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "51b3bd88a0ae6e040162772b14c98514"

@@ -4,6 +4,7 @@ extends Node2D
 signal reward_finished(tool_data:ToolData, from_global_position:Vector2)
 signal level_started()
 signal turn_started()
+signal beat_final_boss()
 
 var hand_size := 5
 const WIN_PAUSE_TIME := 0.5
@@ -33,14 +34,14 @@ var is_finished:bool = false
 
 # From main_game:
 var max_energy := 3
-var chapter_manager:ChapterManager = ChapterManager.new()
+var _chapter:int = 0
 
 func _ready() -> void:
 	Events.request_add_tools_to_hand.connect(_on_request_add_tools_to_hand)
 	Events.request_add_tools_to_discard_pile.connect(_on_request_add_tools_to_discard_pile)
 	Events.request_modify_hand_cards.connect(_on_request_modify_hand_cards)
 
-func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData) -> void:
+func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter:int) -> void:
 
 	session_summary = SessionSummary.new(combat)
 
@@ -77,6 +78,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData) -> void
 	background_music_player.volume_db = -80
 
 	_combat = combat
+	_chapter = chapter
 	_start_new_level()
 
 func _input(event: InputEvent) -> void:
@@ -116,7 +118,7 @@ func _start_new_level() -> void:
 	day_manager.start_new()
 	gui.update_with_combat(_combat, self)
 	level_started.emit()
-	await weather_main.start(chapter_manager.current_chapter)
+	await weather_main.start(_chapter)
 	_start_turn()
 
 func _start_turn() -> void:
@@ -169,10 +171,13 @@ func _win() -> void:
 	gui.permanently_lock_all_ui()
 	_fade_music(false)
 	await Util.create_scaled_timer(WIN_PAUSE_TIME).timeout
+	if _chapter == MainGame.NUMBER_OF_CHAPTERS - 1 && _combat.combat_type == CombatData.CombatType.BOSS:
+		beat_final_boss.emit()
+		return
 	await _discard_all_tools()
 	weather_main.level_end_stop()
 	session_summary.total_days += day_manager.day
-	gui.animate_show_reward_main(_combat)
+	gui.animate_show_reward_main(_combat) 
 	
 func _trigger_turn_end_cards() -> void:
 	if tool_manager.tool_deck.hand.is_empty():

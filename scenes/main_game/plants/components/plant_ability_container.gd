@@ -17,6 +17,7 @@ func setup_with_plant_data(plant_data:PlantData) -> void:
 
 func clear_all_abilities() -> void:
 	for ability_node:PlantAbility in get_abilities():
+		remove_child(ability_node)
 		ability_node.queue_free()
 	ability_updated.emit()
 

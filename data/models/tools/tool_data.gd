@@ -21,6 +21,8 @@ enum Special {
 	COMPOST,
 	WITHER,
 	NIGHTFALL,
+	FLIP_FRONT,
+	FLIP_BACK,
 }
 
 enum Type {
@@ -28,13 +30,16 @@ enum Type {
 	POWER,
 }
 
+const INTERACTIVE_SPECIALS := [Special.FLIP_FRONT, Special.FLIP_BACK]
 
 @export var energy_cost:int = 1
 @export var actions:Array[ActionData]
 @export var rarity:int = 0 # -1: temp cards, 0: common, 1: uncommon, 2: rare
 @export var specials:Array[Special]
 @export var type:Type = Type.SKILL
+@export var back_card:ToolData: set = _set_back_card
 
+var front_card:ToolData: get = _get_front_card, set = _set_front_card
 var level_data:Dictionary # Data consists wihtin a level
 var has_field_action:bool : get = _get_has_field_action
 var need_select_field:bool : get = _get_need_select_field
@@ -47,6 +52,7 @@ var combat_main:CombatMain: get = _get_combat_main, set = _set_combat_main
 var has_tooltip:bool: get = _get_has_tooltip
 var _weak_combat_main:WeakRef = weakref(null)
 
+var _weak_front_card:WeakRef = weakref(null)
 var _tool_script:ToolScript
 
 func copy(other:ThingData) -> void:
@@ -64,6 +70,10 @@ func copy(other:ThingData) -> void:
 	level_energy_modifier = other_tool.level_energy_modifier
 	name_postfix = other_tool.name_postfix
 	_tool_script = null # Refresh tool script on copy
+	if other_tool.back_card:
+		back_card = other_tool.back_card.get_duplicate()
+	else:
+		back_card = null
 
 func refresh_for_turn() -> void:
 	turn_energy_modifier = 0
@@ -139,6 +149,8 @@ func _get_has_field_action() -> bool:
 func _get_need_select_field() -> bool:
 	if !_get_has_field_action():
 		return false
+	if actions.is_empty():
+		return tool_script.need_select_field()
 	for action:ActionData in actions:
 		if action.action_category == ActionData.ActionCategory.FIELD && !action.specials.has(ActionData.Special.ALL_FIELDS):
 			return true
@@ -166,6 +178,30 @@ func _set_combat_main(val:CombatMain) -> void:
 	for action:ActionData in actions:
 		action.combat_main = val
 	combat_main_set.emit(val)
+	if back_card:
+		back_card.combat_main = val
 
 func _get_has_tooltip() -> bool:
 	return !actions.is_empty() || !specials.is_empty()
+
+func _set_back_card(val:ToolData) -> void:
+	if !val:
+		back_card = null
+		return
+	back_card = val.get_duplicate()
+	if back_card && !specials.has(Special.FLIP_FRONT):
+		specials.erase(Special.FLIP_BACK)
+		specials.erase(Special.FLIP_FRONT)
+		specials.append(Special.FLIP_FRONT)
+	if back_card:
+		back_card.front_card = self
+
+func _set_front_card(val:ToolData) -> void:
+	_weak_front_card = weakref(val)
+	if val && !specials.has(Special.FLIP_BACK):
+		specials.erase(Special.FLIP_FRONT)
+		specials.erase(Special.FLIP_BACK)
+		specials.append(Special.FLIP_BACK)
+
+func _get_front_card() -> ToolData:
+	return _weak_front_card.get_ref()

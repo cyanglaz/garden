@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dcmp853u7ao3e"
+path="res://.godot/imported/icon_flip_back.aseprite-9df55bab7c54c111f2613d97a9e5dd6c.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_flip_back.aseprite"
+dest_files=["res://.godot/imported/icon_flip_back.aseprite-9df55bab7c54c111f2613d97a9e5dd6c.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

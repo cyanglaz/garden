@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://yey86828akxo"
+path="res://.godot/imported/particle_smoke.aseprite-884d80bdfeaa369e394bf7b2c5e1ca6c.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/particles/particle_smoke.aseprite"
+dest_files=["res://.godot/imported/particle_smoke.aseprite-884d80bdfeaa369e394bf7b2c5e1ca6c.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

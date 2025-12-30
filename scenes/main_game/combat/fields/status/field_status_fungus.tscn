@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1ban163bknsj"]
+
+[ext_resource type="PackedScene" uid="uid://k1nmjx4747gf" path="res://scenes/main_game/combat/fields/status/field_status.tscn" id="1_18crk"]
+[ext_resource type="Script" uid="uid://by1r6xqnryter" path="res://scenes/main_game/combat/fields/status/field_status_fungus.gd" id="2_af6dc"]
+
+[node name="FieldStatusFungus" instance=ExtResource("1_18crk")]
+script = ExtResource("2_af6dc")

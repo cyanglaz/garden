@@ -13,6 +13,9 @@ func apply_tool(_combat_main:CombatMain, _fields:Array, _field_index:int, _tool_
 func need_select_field() -> bool:
 	return false
 
+func has_field_action() -> bool:
+	return false
+
 func number_of_secondary_cards_to_select() -> int:
 	return 1
 

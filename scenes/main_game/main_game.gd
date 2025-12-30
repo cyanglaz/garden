@@ -4,12 +4,13 @@ extends Node2D
 const MAP_MAIN_SCENE := preload("res://scenes/main_game/map/map_main.tscn")
 const COMBAT_MAIN_SCENE := preload("res://scenes/main_game/combat/combat_main.tscn")
 const SHOP_MAIN_SCENE := preload("res://scenes/main_game/shop/shop_main.tscn")
-const TAVERN_MAIN_SCENE := preload("res://scenes/main_game/tavern/tavern_main.tscn")
+const TOWN_MAIN_SCENE := preload("res://scenes/main_game/town/town_main.tscn")
 const CHEST_MAIN_SCENE := preload("res://scenes/main_game/chest/chest_main.tscn")
 
 const INITIAL_HP_VALUE := 10
 const INITIAL_HP_MAX_VALUE := 10
 const SCENE_TRANSITION_TIME := 0.2
+const NUMBER_OF_CHAPTERS := 1
 
 @export var player:PlayerData
 @export var test_tools:Array[ToolData]
@@ -71,18 +72,24 @@ func _start_new_chapter() -> void:
 
 	#_start_map_main_scene()
 	# Always start with a common node
-	if test_combat:
-		_start_combat_main_scene.call_deferred(test_combat)
-	else:
-		_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
+	#if test_combat:
+	#	_start_combat_main_scene.call_deferred(test_combat)
+	#else:
+	#	_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
 	#_start_shop()
 	#_start_chest()
+	_start_town()
+	#_game_over()
+	#_game_win()
 
 func _generate_chapter_data() -> void:
 	map_main.generate_map(session_seed)
 
 func _game_over() -> void:
-	pass
+	gui_main_game.game_over()
+
+func _game_win() -> void:
+	gui_main_game.game_win()
 
 #endregion
 
@@ -97,8 +104,9 @@ func _start_combat_main_scene(combat:CombatData) -> void:
 	combat_main.test_weather = test_weather
 	node_container.add_child(combat_main)
 	combat_main.reward_finished.connect(_on_reward_finished)
+	combat_main.beat_final_boss.connect(_on_beat_final_boss)
 	start_scene_transition()
-	combat_main.start(card_pool, 3, combat)
+	combat_main.start(card_pool, 3, combat, chapter_manager.current_chapter)
 
 func _start_shop() -> void:
 	var shop_main = SHOP_MAIN_SCENE.instantiate()
@@ -108,12 +116,14 @@ func _start_shop() -> void:
 	start_scene_transition()
 	shop_main.start(_gold)
 
-func _start_tavern() -> void:
-	var tavern_main = TAVERN_MAIN_SCENE.instantiate()
-	tavern_main.tavern_finished.connect(_on_tavern_finished)
-	node_container.add_child(tavern_main)
+func _start_town() -> void:
+	var town_main = TOWN_MAIN_SCENE.instantiate()
+	town_main.town_finished.connect(_on_town_finished)
+	town_main.forge_finished.connect(_on_forge_finished)
+	town_main.forged_card_pressed.connect(_on_forged_card_pressed)
+	node_container.add_child(town_main)
+	town_main.setup_with_card_pool(card_pool)
 	start_scene_transition()
-	tavern_main.animate_show()
 
 func _start_chest() -> void:
 	var chest_main:ChestMain = CHEST_MAIN_SCENE.instantiate()
@@ -144,6 +154,9 @@ func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> vo
 	# go to map
 	_complete_current_node()
 
+func _on_beat_final_boss() -> void:
+	_game_win()
+
 func _on_tool_shop_button_pressed(tool_data:ToolData, from_global_position:Vector2) -> void:
 	if tool_data:
 		card_pool.append(tool_data)
@@ -154,7 +167,18 @@ func _on_tool_shop_button_pressed(tool_data:ToolData, from_global_position:Vecto
 func _on_shop_finish_button_pressed() -> void:
 	_complete_current_node()
 
-func _on_tavern_finished() -> void:
+func _on_town_finished() -> void:
+	_complete_current_node()
+
+func _on_forge_finished(tool_data:ToolData, front_card_data_to_erase:ToolData, back_card_data_to_erase:ToolData) -> void:
+	assert(card_pool.has(front_card_data_to_erase), "Front card not in card pool")
+	assert(card_pool.has(back_card_data_to_erase), "Back card not in card pool")
+	card_pool.erase(front_card_data_to_erase)
+	card_pool.erase(back_card_data_to_erase)
+	card_pool.append(tool_data)
+
+func _on_forged_card_pressed(tool_data:ToolData, forged_card_global_position:Vector2) -> void:
+	await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(forged_card_global_position, tool_data)
 	_complete_current_node()
 
 func _on_chest_card_reward_selected(tool_data:ToolData, from_global_position:Vector2) -> void:
@@ -171,7 +195,7 @@ func _on_chest_reward_skipped() -> void:
 
 func _on_request_hp_update(val:int) -> void:
 	hp.value += val
-	await gui_main_game.hp_update_finished
+	await gui_main_game.animate_hp_update(val)
 	if hp.value == 0:
 		_game_over()
 
@@ -202,7 +226,7 @@ func _on_map_node_selected(node:MapNode) -> void:
 	var node_type:MapNode.NodeType = node.type
 	if node.type == MapNode.NodeType.EVENT:
 		# TODO: Add more event nodes
-		const EVENT_NODES := [MapNode.NodeType.CHEST, MapNode.NodeType.SHOP, MapNode.NodeType.TAVERN, MapNode.NodeType.NORMAL]
+		const EVENT_NODES := [MapNode.NodeType.CHEST, MapNode.NodeType.SHOP, MapNode.NodeType.TOWN, MapNode.NodeType.NORMAL]
 		node_type = Util.unweighted_roll(EVENT_NODES, 1).front()
 	await gui_main_game.transition(TransitionOverlay.Type.FADE_OUT, SCENE_TRANSITION_TIME)
 	match node_type:
@@ -214,8 +238,8 @@ func _on_map_node_selected(node:MapNode) -> void:
 			_start_combat_main_scene(chapter_manager.fetch_boss_combat_data())
 		MapNode.NodeType.SHOP:
 			_start_shop()
-		MapNode.NodeType.TAVERN:
-			_start_tavern()
+		MapNode.NodeType.TOWN:
+			_start_town()
 		MapNode.NodeType.CHEST:
 			_start_chest()
 		_:

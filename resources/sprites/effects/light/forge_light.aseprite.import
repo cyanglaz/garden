@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dl2njtjq8tmv0"
+path="res://.godot/imported/forge_light.aseprite-e3093b1c36ac941a44e54bf6cbeea63d.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/light/forge_light.aseprite"
+dest_files=["res://.godot/imported/forge_light.aseprite-e3093b1c36ac941a44e54bf6cbeea63d.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

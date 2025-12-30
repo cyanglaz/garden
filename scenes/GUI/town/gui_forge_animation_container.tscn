@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://ymknautcwhvf"]
+
+[ext_resource type="PackedScene" uid="uid://dq8wmq23vtkaj" path="res://scenes/GUI/main_game/tool_cards/gui_card_face.tscn" id="1_4im70"]
+[ext_resource type="Script" uid="uid://dsbr2mrwv21wq" path="res://scenes/GUI/town/gui_forge_animation_container.gd" id="1_8dfc0"]
+[ext_resource type="PackedScene" uid="uid://bacvied61ghpe" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn" id="3_h7th1"]
+[ext_resource type="PackedScene" uid="uid://qkulvveb5fr7" path="res://scenes/GUI/town/forge_effects/card_forging_effect.tscn" id="4_0mtb0"]
+
+[node name="GUIForgeAnimationContainer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8dfc0")
+
+[node name="BackCard" parent="." instance=ExtResource("1_4im70")]
+unique_name_in_owner = true
+layout_mode = 0
+
+[node name="FrontCard" parent="." instance=ExtResource("1_4im70")]
+unique_name_in_owner = true
+layout_mode = 0
+
+[node name="GUIToolCardButton" parent="." instance=ExtResource("3_h7th1")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 54.0
+
+[node name="CardForgingEffect" parent="." instance=ExtResource("4_0mtb0")]
+unique_name_in_owner = true

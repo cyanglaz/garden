@@ -36,8 +36,8 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	add_child(card_button)
 	card_button.mouse_disabled = true
 	card_button.update_with_tool_data(tool_data)
-	card_button.mouse_entered.connect(func() -> void: card_button.card_state = GUIToolCardButton.CardState.HIGHLIGHTED)
-	card_button.mouse_exited.connect(func() -> void: card_button.card_state = GUIToolCardButton.CardState.NORMAL)
+	card_button.mouse_entered.connect(func() -> void: card_button.card_state = GUICardFace.CardState.HIGHLIGHTED)
+	card_button.mouse_exited.connect(func() -> void: card_button.card_state = GUICardFace.CardState.NORMAL)
 	card_button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	_find_reference_pairs_and_add_buttons(tool_data.description)
 	var action_pairs:Array = []

@@ -1,0 +1,413 @@
+[gd_scene load_steps=15 format=3 uid="uid://dq8wmq23vtkaj"]
+
+[ext_resource type="PackedScene" uid="uid://i1255yg1aoyk" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_background.tscn" id="1_ah1nl"]
+[ext_resource type="Script" uid="uid://sc5do4le61oy" path="res://scenes/GUI/main_game/tool_cards/gui_card_face.gd" id="1_uaej8"]
+[ext_resource type="PackedScene" uid="uid://cjwhkrmueycbi" path="res://scenes/GUI/shared/descriptions/shared_description/gui_action_list.tscn" id="2_y8r0o"]
+[ext_resource type="Texture2D" uid="uid://ugtybr3upkmn" path="res://resources/sprites/GUI/backgrounds/tool_card_background.png" id="3_uaej8"]
+[ext_resource type="PackedScene" uid="uid://caehhf1p88h3q" path="res://scenes/GUI/controls/buttons/gui_use_card_button.tscn" id="4_ykqmu"]
+[ext_resource type="AudioStream" uid="uid://bgyg7vg7fsae6" path="res://resources/sounds/SFX/tool_cards/card_use.wav" id="5_y8r0o"]
+
+[sub_resource type="Shader" id="Shader_np7v7"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+group_uniforms OUTLINE;
+uniform vec4 outline_color:source_color;
+uniform int outline_size = 0;
+
+group_uniforms RESOLVE;
+uniform float sensitivity : hint_range(0.0, 1.0) = .5;
+
+varying vec4 modulate;
+
+void vertex() {
+	modulate = COLOR;
+}
+
+float random(vec2 uv) {
+	return fract(sin(dot(uv, vec2(12.9898, 78.233))) * 438.5453);
+}
+
+void fragment() {
+	
+	vec4 base_color = COLOR;
+	// Get size of texture in pixels
+	float size_x = float(textureSize(TEXTURE, 0).x);
+	float size_y = float(textureSize(TEXTURE, 0).y);
+	
+	float size_x_in_texture = 1.0/size_x;
+	float size_y_in_texture = 1.0/size_y;
+	vec4 sprite_color = texture(TEXTURE, UV);
+	float alpha  = -4.0 * sprite_color.a;
+	alpha += textureLod(TEXTURE, UV + vec2(size_x_in_texture * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(-size_x_in_texture * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, -size_y_in_texture * float(outline_size)), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, size_y_in_texture * float(outline_size)), 0).a;
+	sprite_color = mix(sprite_color, outline_color, clamp(alpha, 0.0, 1.0));
+	sprite_color = vec4(sprite_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
+	base_color = sprite_color;
+
+	vec2 UVr = vec2(floor(UV.x*size_x)/size_x, floor(UV.y*size_y)/size_y);
+	// Determine whether pixel should be visible or not
+	float visible = step(sensitivity, random(UVr));
+	// Draw the pixel, or not depending on if it is visible or not
+	COLOR = vec4(base_color.r, base_color.g, base_color.b, min(visible, base_color.a)) * modulate;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_euhxl"]
+resource_local_to_scene = true
+shader = SubResource("Shader_np7v7")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/sensitivity = 0.0
+
+[sub_resource type="Shader" id="Shader_nheet"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+group_uniforms OUTLINE;
+uniform vec4 outline_color:source_color;
+uniform int outline_size = 0;
+
+group_uniforms RESOLVE;
+uniform float sensitivity : hint_range(0.0, 1.0) = .5;
+
+varying vec4 modulate;
+
+void vertex() {
+	modulate = COLOR;
+}
+
+float random(vec2 uv) {
+	return fract(sin(dot(uv, vec2(12.9898, 78.233))) * 438.5453);
+}
+
+void fragment() {
+	
+	vec4 base_color = COLOR;
+	// Get size of texture in pixels
+	float size_x = float(textureSize(TEXTURE, 0).x);
+	float size_y = float(textureSize(TEXTURE, 0).y);
+	
+	float size_x_in_texture = 1.0/size_x;
+	float size_y_in_texture = 1.0/size_y;
+	vec4 sprite_color = texture(TEXTURE, UV);
+	float alpha  = -4.0 * sprite_color.a;
+	alpha += textureLod(TEXTURE, UV + vec2(size_x_in_texture * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(-size_x_in_texture * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, -size_y_in_texture * float(outline_size)), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, size_y_in_texture * float(outline_size)), 0).a;
+	sprite_color = mix(sprite_color, outline_color, clamp(alpha, 0.0, 1.0));
+	sprite_color = vec4(sprite_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
+	base_color = sprite_color;
+
+	vec2 UVr = vec2(floor(UV.x*size_x)/size_x, floor(UV.y*size_y)/size_y);
+	// Determine whether pixel should be visible or not
+	float visible = step(sensitivity, random(UVr));
+	// Draw the pixel, or not depending on if it is visible or not
+	COLOR = vec4(base_color.r, base_color.g, base_color.b, min(visible, base_color.a)) * modulate;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_np7v7"]
+resource_local_to_scene = true
+shader = SubResource("Shader_nheet")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/sensitivity = 1.0
+
+[sub_resource type="Animation" id="Animation_a7c0j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GUIToolCardBackground:material:shader_parameter/sensitivity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CardContent:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatingForeground:material:shader_parameter/sensitivity")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimatingForeground:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_ckxcp"]
+resource_name = "dissolve"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GUIToolCardBackground:material:shader_parameter/sensitivity")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CardContent:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_882ho"]
+resource_name = "new_animation"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatingForeground:material:shader_parameter/sensitivity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatingForeground:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("GUIToolCardBackground:material:shader_parameter/sensitivity")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.4),
+"transitions": PackedFloat32Array(2, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dn2eb"]
+_data = {
+&"RESET": SubResource("Animation_a7c0j"),
+&"dissolve": SubResource("Animation_ckxcp"),
+&"transform": SubResource("Animation_882ho")
+}
+
+[node name="GUICardFace" type="PanelContainer"]
+offset_right = 40.0
+offset_bottom = 54.0
+size_flags_vertical = 3
+mouse_filter = 2
+script = ExtResource("1_uaej8")
+
+[node name="GUIToolCardBackground" parent="." instance=ExtResource("1_ah1nl")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_euhxl")
+layout_mode = 2
+
+[node name="CardContent" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 2
+
+[node name="InteractiveSpecialContainer" type="VBoxContainer" parent="CardContent"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = -4.0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_constants/separation = 1
+alignment = 2
+
+[node name="SpecialsContainer" type="VBoxContainer" parent="CardContent"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_constants/separation = 1
+alignment = 2
+
+[node name="TitleContainer" type="Control" parent="CardContent"]
+custom_minimum_size = Vector2(0, 8)
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 8.0
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="CardContent/TitleContainer"]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 36.0
+offset_bottom = 9.0
+theme_type_variation = &"HUD_small"
+horizontal_alignment = 1
+
+[node name="CostAndDescription" type="VBoxContainer" parent="CardContent"]
+layout_mode = 1
+offset_left = 4.0
+offset_top = 11.0
+offset_right = 36.0
+offset_bottom = 51.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="CostIcon" type="TextureRect" parent="CardContent/CostAndDescription"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CardContent/CostAndDescription"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_type_variation = &"RichTextControlTip"
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+bbcode_enabled = true
+fit_content = true
+meta_underlined = false
+hint_underlined = false
+
+[node name="GUIActionList" parent="CardContent" instance=ExtResource("2_y8r0o")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 4.0
+offset_top = 10.0
+offset_right = 36.0
+offset_bottom = 51.0
+mouse_filter = 2
+
+[node name="AnimatingForeground" parent="." instance=ExtResource("1_ah1nl")]
+unique_name_in_owner = true
+visible = false
+material = SubResource("ShaderMaterial_np7v7")
+layout_mode = 2
+
+[node name="Overlay" type="NinePatchRect" parent="."]
+unique_name_in_owner = true
+visible = false
+self_modulate = Color(0.07450981, 0.07450981, 0.07450981, 0.6666667)
+layout_mode = 2
+texture = ExtResource("3_uaej8")
+region_rect = Rect2(0, 0, 40, 54)
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="FreeContainer" type="Control" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="GUIUseCardButton" parent="FreeContainer" instance=ExtResource("4_ykqmu")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -67.0
+offset_right = 8.0
+offset_bottom = -55.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="UseSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("5_y8r0o")
+volume_db = 5.0
+bus = &"SFX"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_dn2eb")
+}

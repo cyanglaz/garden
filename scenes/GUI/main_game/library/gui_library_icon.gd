@@ -5,7 +5,7 @@ signal button_evoked(data:Resource)
 
 const GUI_TOOL_CARD_BUTTON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const PLANT_ICON_SCENE := preload("res://scenes/GUI/main_game/plant_cards/gui_plant_icon.tscn")
-const GUI_FIELD_STATUS_ICON_SCENE := preload("res://scenes/main_game/field/plant_field/gui_field_status_icon.tscn")
+const GUI_FIELD_STATUS_ICON_SCENE := preload("res://scenes/main_game/combat/fields/gui_field_status_icon.tscn")
 const GUI_POWER_ICON_SCENE := preload("res://scenes/GUI/main_game/power/gui_power_icon.tscn")
 
 func _ready() -> void:
@@ -32,8 +32,8 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	tool_card_button.mouse_behavior_recursive = Control.MOUSE_BEHAVIOR_DISABLED
 	wrapper_button.hover_sound = tool_card_button.hover_sound
 	wrapper_button.click_sound = tool_card_button.click_sound
-	wrapper_button.mouse_entered.connect(func() -> void: tool_card_button.card_state = GUIToolCardButton.CardState.HIGHLIGHTED)
-	wrapper_button.mouse_exited.connect(func() -> void: tool_card_button.card_state = GUIToolCardButton.CardState.NORMAL)
+	wrapper_button.mouse_entered.connect(func() -> void: tool_card_button.card_state = GUICardFace.CardState.HIGHLIGHTED)
+	wrapper_button.mouse_exited.connect(func() -> void: tool_card_button.card_state = GUICardFace.CardState.NORMAL)
 
 func update_with_field_status_data(field_status_data:FieldStatusData) -> void:
 	var wrapper_button:GUIBasicButton = GUIBasicButton.new()

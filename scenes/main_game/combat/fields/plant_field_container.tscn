@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7amcb4w04k0a"]
+
+[ext_resource type="PackedScene" uid="uid://bm73crso7rnrj" path="res://scenes/main_game/field/field_container.tscn" id="1_2kh7w"]
+[ext_resource type="Script" uid="uid://cfwexqtygb3ab" path="res://scenes/main_game/combat/fields/plant_field_container.gd" id="1_me83l"]
+
+[node name="PlantFieldContainer" instance=ExtResource("1_2kh7w")]
+script = ExtResource("1_me83l")

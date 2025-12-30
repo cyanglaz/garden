@@ -1,8 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://cyd2pmyuelacd"]
+[gd_scene load_steps=14 format=3 uid="uid://cyd2pmyuelacd"]
 
 [ext_resource type="Script" uid="uid://b3s0cai251tmf" path="res://scenes/GUI/main_game/gui_main_game.gd" id="1_48pcf"]
 [ext_resource type="PackedScene" uid="uid://bp2sap1brkhfa" path="res://scenes/GUI/main_game/top_bar/gui_top_bar.tscn" id="2_fu4tq"]
 [ext_resource type="PackedScene" uid="uid://bq3lko0j2o1es" path="res://scenes/GUI/main_game/tooltip_container/gui_tooltip_container.tscn" id="3_ho5j6"]
+[ext_resource type="PackedScene" uid="uid://blnntdbnqmjsp" path="res://scenes/GUI/main_game/game_over/gui_game_over_main.tscn" id="8_70io0"]
+[ext_resource type="PackedScene" uid="uid://cgvd1dcwahof5" path="res://scenes/GUI/top_level_overlays/demo_end/gui_demo_end_main.tscn" id="9_wnks3"]
 [ext_resource type="PackedScene" uid="uid://crumb6vfkhk50" path="res://scenes/GUI/main_game/popup_container/gui_popup_things_container.tscn" id="10_fu4tq"]
 [ext_resource type="PackedScene" uid="uid://5hgjtmickulr" path="res://scenes/main_game/transition/transition_overlay.tscn" id="11_70io0"]
 [ext_resource type="PackedScene" uid="uid://cq1vyx3yrtj8p" path="res://scenes/GUI/main_game/tool_cards/gui_tool_cards_viewer.tscn" id="11_648op"]
@@ -39,6 +41,14 @@ unique_name_in_owner = true
 visible = false
 
 [node name="GUISettingsMain" parent="CanvasLayer" instance=ExtResource("12_wnks3")]
+unique_name_in_owner = true
+visible = false
+
+[node name="GUIGameOverMain" parent="CanvasLayer" instance=ExtResource("8_70io0")]
+unique_name_in_owner = true
+visible = false
+
+[node name="GUIDemoEndMain" parent="CanvasLayer" instance=ExtResource("9_wnks3")]
 unique_name_in_owner = true
 visible = false
 

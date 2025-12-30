@@ -1,6 +1,8 @@
 class_name GUIToolCardsViewer
 extends Control
 
+signal card_selected(gui_tool_card_button:GUIToolCardButton)
+
 const TOOL_CARD_BUTTON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
 @onready var _grid_container: GridContainer = %GridContainer
@@ -28,6 +30,7 @@ func animated_show_with_pool(pool:Array, title:String) -> void:
 		gui_tool_card.update_with_tool_data(tool_data)
 		gui_tool_card.mouse_entered.connect(_on_mouse_entered.bind(gui_tool_card))
 		gui_tool_card.mouse_exited.connect(_on_mouse_exited)
+		gui_tool_card.pressed.connect(_on_tool_card_pressed.bind(gui_tool_card))
 		#card_size = GUIToolCardButton.SIZE
 	@warning_ignore("integer_division")
 	#var rows := pool.size()/_grid_container.columns
@@ -49,6 +52,7 @@ func _play_show_animation() -> void:
 	_back_button.show()
 
 func animate_hide() -> void:
+	PauseManager.try_unpause()
 	_back_button.hide()
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(_main_container, "position:y", Constants.PENEL_HIDE_Y, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
@@ -57,16 +61,18 @@ func animate_hide() -> void:
 
 func _on_back_button_evoked() -> void:
 	animate_hide()
-	PauseManager.try_unpause()
 
 func _on_mouse_entered(gui_tool_card:GUIToolCardButton) -> void:
 	for tool_card:GUIToolCardButton in _grid_container.get_children():
 		if tool_card == gui_tool_card:
-			tool_card.card_state = GUIToolCardButton.CardState.HIGHLIGHTED
+			tool_card.card_state = GUICardFace.CardState.HIGHLIGHTED
 			continue
-		tool_card.card_state = GUIToolCardButton.CardState.NORMAL
+		tool_card.card_state = GUICardFace.CardState.NORMAL
 	Events.update_hovered_data.emit(gui_tool_card.tool_data)
 	
 func _on_mouse_exited() -> void:
 	for tool_card:GUIToolCardButton in _grid_container.get_children():
-		tool_card.card_state = GUIToolCardButton.CardState.NORMAL
+		tool_card.card_state = GUICardFace.CardState.NORMAL
+
+func _on_tool_card_pressed(gui_tool_card:GUIToolCardButton) -> void:
+	card_selected.emit(gui_tool_card)

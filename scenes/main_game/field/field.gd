@@ -3,6 +3,9 @@ extends Node2D
 
 const SELECTION_ARROW_Y_OFFSET := 16
 
+signal field_pressed()
+signal field_hovered(hovered:bool)
+
 @export var size := 0:set = _set_size
 
 @onready var field_land: FieldLand = %FieldLand
@@ -15,9 +18,7 @@ const SELECTION_ARROW_Y_OFFSET := 16
 @onready var _light_occluder_2d: LightOccluder2D = %LightOccluder2D
 
 var land_width: get = _get_land_width
-
-signal field_pressed()
-signal field_hovered(hovered:bool)
+var press_enabled := true: set = _set_press_enabled
 
 func _ready() -> void:
 	_gui_field_selection_arrow.indicator_state = GUIFieldSelectionArrow.IndicatorState.HIDE
@@ -47,6 +48,7 @@ func _on_gui_plant_button_mouse_exited() -> void:
 	field_hovered.emit(false)
 
 func _on_plant_button_pressed() -> void:
+	_animation_player.stop()
 	_animation_player.play("dip")
 	field_pressed.emit()
 
@@ -88,3 +90,7 @@ func _set_size(val:int) -> void:
 		polygon.append(Vector2(-(size+2) * FieldLand.CELL_SIZE.x/2, FieldLand.CELL_SIZE.y))
 		_light_occluder_2d.occluder.polygon = polygon
 		_light_occluder_2d.position.x = - (size+2) * FieldLand.CELL_SIZE.x/2
+
+func _set_press_enabled(val:bool) -> void:
+	press_enabled = val
+	_gui_field_button.press_enabled = val

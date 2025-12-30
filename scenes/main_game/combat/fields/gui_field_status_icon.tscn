@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=3 uid="uid://di5h1vaeer2gv"]
+
+[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="1_1wiik"]
+[ext_resource type="Script" uid="uid://b4g124av5vv3e" path="res://scenes/main_game/combat/fields/gui_field_status_icon.gd" id="1_pbsdm"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="2_j4505"]
+[ext_resource type="AudioStream" uid="uid://doilouvmfbgsc" path="res://resources/sounds/SFX/field/field_status_good.wav" id="3_6eivf"]
+[ext_resource type="AudioStream" uid="uid://dgbyahxwlc0ak" path="res://resources/sounds/SFX/field/field_status_bad.wav" id="3_j4505"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q6jrv"]
+resource_local_to_scene = true
+shader = ExtResource("2_j4505")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
+
+[node name="GUIFieldStatusIcon" type="PanelContainer"]
+offset_right = 7.0
+offset_bottom = 7.0
+script = ExtResource("1_pbsdm")
+
+[node name="GUIIcon" parent="." instance=ExtResource("1_1wiik")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_q6jrv")
+layout_mode = 2
+
+[node name="GoodAnimationAudio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_6eivf")
+bus = &"SFX"
+
+[node name="BadAnimationAudio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_j4505")
+volume_db = 5.0
+bus = &"SFX"
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Stack" type="Label" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = -7.0
+offset_right = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_type_variation = &"HUD_small"
+text = " "
+horizontal_alignment = 2
+vertical_alignment = 2

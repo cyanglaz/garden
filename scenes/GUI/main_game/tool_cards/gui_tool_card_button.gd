@@ -1,121 +1,122 @@
 class_name GUIToolCardButton
 extends GUIBasicButton
 
-signal use_card_button_pressed()
-signal _dissolve_finished()
-signal _transform_finished()
-
-enum CardState {
-	NORMAL,
-	HIGHLIGHTED,
-	SELECTED,
-	UNSELECTED,
-	WAITING,
-}
-
-const SPECIAL_ICON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_special_icon.tscn")
-const VALUE_ICON_PREFIX := "res://resources/sprites/GUI/icons/cards/values/icon_"
-const EXHAUST_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_exhaust.wav")
-
 const SIZE := Vector2(40, 54)
-const SELECTED_OFFSET := 10.0
-const IN_USE_OFFSET := 10.0
-const HIGHLIGHTED_OFFSET := 1.0
 
-@onready var _gui_action_list: GUIActionList = %GUIActionList
-@onready var _card_container: Control = %CardContainer
-@onready var _title: Label = %Title
-@onready var _card_content: Control = %CardContent
-@onready var _specials_container: VBoxContainer = %SpecialsContainer
-@onready var _cost_icon: TextureRect = %CostIcon
-@onready var _rich_text_label: RichTextLabel = %RichTextLabel
-@onready var _use_sound: AudioStreamPlayer2D = %UseSound
-@onready var _animation_player: AnimationPlayer = %AnimationPlayer
-@onready var _overlay: NinePatchRect = %Overlay
-@onready var _gui_use_card_button: GUIUseCardButton = %GUIUseCardButton
-@onready var _gui_tool_card_background: GUIToolCardBackground = %GUIToolCardBackground
-@onready var _animating_foreground: GUIToolCardBackground = %AnimatingForeground
+signal use_card_button_pressed()
 
-var mouse_disabled:bool = true: set = _set_mouse_disabled
+@onready var front_face: GUICardFace = %FrontFace
+@onready var back_face: GUICardFace = %BackFace
+
+@onready var draw_sound: AudioStreamPlayer2D = %DrawSound
+@onready var discard_sound: AudioStreamPlayer2D = %DiscardSound
+@onready var shuffle_sound: AudioStreamPlayer2D = %ShuffleSound
+@onready var flip_sound: AudioStreamPlayer2D = %FlipSound
+
+var current_face:GUICardFace
+
 var mute_interaction_sounds:bool = false
-var card_state:CardState = CardState.NORMAL: set = _set_card_state
-var resource_sufficient := false: set = _set_resource_sufficient
+var mouse_disabled:bool = true: set = _set_mouse_disabled
+var card_state:GUICardFace.CardState = GUICardFace.CardState.NORMAL: set = _set_card_state, get = _get_card_state
 var animation_mode := false : set = _set_animation_mode
-var disabled:bool = false: set = _set_disabled
-var has_outline:bool = false: set = _set_has_outline
-var tool_data:ToolData: get = _get_tool_data
+var resource_sufficient := false: set = _set_resource_sufficient, get = _get_resource_sufficient
+var disabled:bool = false: set = _set_disabled, get = _get_disabled
+var has_outline:bool = false: set = _set_has_outline, get = _get_has_outline
+var tool_data:ToolData: get = _get_tool_data, set = _set_tool_data
 var hand_index:int = -1
-var _weak_tool_data:WeakRef = weakref(null)
-var _container_offset:Vector2 = Vector2.ZERO: set = _set_container_offset
+var is_front:bool = true: get = _get_is_front, set = _set_is_front
 var _card_tooltip_id:String = ""
 var _reference_card_tooltip_id:String = ""
+var _flipping := false
 
-var _in_hand := false
-var _weak_mouse_plant:WeakRef = weakref(null)
-var _default_state:CardState = CardState.NORMAL
+var _special_tooltip_id:String = ""
 
 func _ready() -> void:
 	super._ready()
+	current_face = front_face
 	mouse_filter = MOUSE_FILTER_IGNORE
-	assert(size == SIZE, "size not match")
-	_animation_player.animation_finished.connect(_on_animation_finished)
-	_gui_use_card_button.pressed.connect(_on_use_button_pressed)
-	_gui_use_card_button.hide()
-	_animating_foreground.hide()
-	animation_mode = false
+	front_face.use_card_button_pressed.connect(func() -> void: use_card_button_pressed.emit())
+	back_face.use_card_button_pressed.connect(func() -> void: use_card_button_pressed.emit())
+	back_face.hide()
+	resized.connect(_on_resized)
+	front_face.special_interacted.connect(_on_special_interacted.bind(front_face))
+	back_face.special_interacted.connect(_on_special_interacted.bind(back_face))
+	front_face.special_hovered.connect(_on_special_hovered.bind(front_face))
+	back_face.special_hovered.connect(_on_special_hovered.bind(back_face))
+	size = SIZE
+
+func _on_gui_input(event: InputEvent) -> void:
+	super._on_gui_input(event)
+	if event.is_action_pressed("flip"):
+		var should_show_tooltip := !_card_tooltip_id.is_empty()
+		toggle_tooltip(false)
+		await animate_flip()
+		if should_show_tooltip:
+			toggle_tooltip(true)
 
 func update_with_tool_data(td:ToolData) -> void:
-	_weak_tool_data = weakref(td)
-	_gui_action_list.update(tool_data.actions, null)
-	if !tool_data.get_display_description().is_empty():
-		_rich_text_label.text = tool_data.get_display_description()
-	if tool_data.get_final_energy_cost() >= 0:
-		_cost_icon.texture = load(VALUE_ICON_PREFIX + str(tool_data.get_final_energy_cost()) + ".png")
+	if td.front_card:
+		assert(td.specials.has(ToolData.Special.FLIP_BACK), "Card is not a flip front card")
+		assert(td.front_card.specials.has(ToolData.Special.FLIP_FRONT), "Front card is not a flip front card")
+		front_face.update_with_tool_data(td.front_card)
+		back_face.update_with_tool_data(td)
+		_show_as_back_face()
 	else:
-		_cost_icon.hide()
-	_title.text = tool_data.get_display_name()
-	_gui_tool_card_background.update_with_rarity(tool_data.rarity)
-	Util.remove_all_children(_specials_container)
-	for special in tool_data.specials:
-		var special_icon := SPECIAL_ICON_SCENE.instantiate()
-		var special_id := Util.get_id_for_tool_speical(special)
-		special_icon.texture = load(Util.get_image_path_for_resource_id(special_id))
-		_specials_container.add_child(special_icon)
-	if !td.request_refresh.is_connected(_on_tool_data_refresh):
-		td.request_refresh.connect(_on_tool_data_refresh)
-	if tool_data.combat_main:
-		_on_combat_main_set(tool_data.combat_main)
-	else:
-		tool_data.combat_main_set.connect(_on_combat_main_set)
+		front_face.update_with_tool_data(td)
+		if td.back_card:
+			assert(td.specials.has(ToolData.Special.FLIP_FRONT), "Card is not a flip front card")
+			assert(td.back_card.specials.has(ToolData.Special.FLIP_BACK), "Back card is not a flip back card")
+			back_face.update_with_tool_data(td.back_card)
+		_show_as_front_face()
 
 func update_mouse_plant(plant:Plant) -> void:
-	_gui_action_list.update(tool_data.actions, plant)
-	_weak_mouse_plant = weakref(plant)
+	front_face.update_mouse_plant(plant)
+	if back_face.tool_data:
+		back_face.update_mouse_plant(plant)
 
-func play_move_sound() -> void:
-	_play_hover_sound()
+func play_discard_sound() -> void:
+	discard_sound.play()
+
+func play_draw_sound() -> void:
+	draw_sound.play()
+
+func play_shuffle_sound() -> void:
+	shuffle_sound.play()
 
 func play_use_sound() -> void:
 	if mute_interaction_sounds:
 		return
-	_use_sound.play()
+	current_face.play_use_sound()
 
 func play_exhaust_animation() -> void:
-	_animation_player.play("dissolve")
-	GlobalSoundManager.play_sound(EXHAUST_SOUND)
-	await _dissolve_finished
+	await current_face.play_exhaust_animation()
 
 func animated_transform(old_rarity:int) -> void:
-	has_outline = true
-	_animating_foreground.update_with_rarity(old_rarity)
-	update_with_tool_data(tool_data)
-	_animation_player.play("transform")
-	GlobalSoundManager.play_sound(EXHAUST_SOUND)
-	await _transform_finished
-	has_outline = false
+	await current_face.animated_transform(old_rarity)
+	if current_face == back_face:
+		front_face.update_with_tool_data(current_face.tool_data.front_card)
+	else:
+		if current_face.tool_data.back_card:
+			back_face.update_with_tool_data(current_face.tool_data.back_card)
+
+func animate_flip() -> void:
+	if _flipping:
+		return
+	if !back_face.tool_data:
+		return
+	flip_sound.play()
+	_flipping = true
+	await current_face.animate_flip(false)
+	var old_face := current_face
+	if old_face == front_face:
+		current_face = back_face
+	else:
+		current_face = front_face
+	await current_face.animate_flip(true)
+	_flipping = false
 
 func play_error_shake_animation() -> void:
-	await Util.play_error_shake_animation(self, "_container_offset", Vector2.ZERO)
+	await current_face.play_error_shake_animation()
 
 func toggle_tooltip(on:bool) -> void:
 	if on && tool_data.has_tooltip && _card_tooltip_id.is_empty():
@@ -128,6 +129,16 @@ func toggle_tooltip(on:bool) -> void:
 		_card_tooltip_id = ""
 
 #region private
+
+func _show_as_back_face() -> void:
+	front_face.hide()
+	back_face.show()
+	current_face = back_face
+
+func _show_as_front_face() -> void:
+	front_face.show()
+	back_face.hide()
+	current_face = front_face
 
 func _toggle_reference_card_tooltip(on:bool) -> void:
 	if on:
@@ -148,25 +159,17 @@ func _find_card_references() -> Array[String]:
 			card_references.append(reference_pair[1])
 	return card_references
 
-func _update_for_energy(energy:int) -> void:
-	if !tool_data:
-		return
-	if tool_data.get_final_energy_cost() <= energy:
-		resource_sufficient = true
-	else:
-		resource_sufficient = false
-	
-func _play_hover_sound() -> void:
+func _play_hover_sound(_volume_db:int = -5) -> void:
 	if mute_interaction_sounds:
 		return
-	if card_state == CardState.SELECTED:
+	if current_face.card_state == GUICardFace.CardState.SELECTED:
 		return
-	super._play_hover_sound()
+	super._play_hover_sound(-5)
 
-func _play_click_sound() -> void:
+func _play_click_sound(_volume_db:int = -5) -> void:
 	if mute_interaction_sounds:
 		return
-	super._play_click_sound()
+	super._play_click_sound(-5)
 
 #endregion
 
@@ -175,8 +178,8 @@ func _play_click_sound() -> void:
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	Events.update_hovered_data.emit(tool_data)
-	if card_state == CardState.NORMAL || card_state == GUIToolCardButton.CardState.UNSELECTED:
-		card_state = CardState.HIGHLIGHTED
+	if card_state == GUICardFace.CardState.NORMAL || card_state == GUICardFace.CardState.UNSELECTED:
+		card_state = GUICardFace.CardState.HIGHLIGHTED
 	await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
 	if is_queued_for_deletion():
 		return
@@ -184,18 +187,22 @@ func _on_mouse_entered() -> void:
 		toggle_tooltip(true)
 
 func _on_mouse_exited() -> void:
-	if card_state == CardState.HIGHLIGHTED:
-		card_state = _default_state
+	if card_state == GUICardFace.CardState.HIGHLIGHTED:
+		card_state = GUICardFace.CardState.NORMAL
 	super._on_mouse_exited()
 	Events.update_hovered_data.emit(null)
 	toggle_tooltip(false)
 
-func _on_energy_tracker_value_updated(energy_tracker:ResourcePoint) -> void:
-	_update_for_energy(energy_tracker.value)
-
 #endregion
 
 #region setters/getters
+
+func _set_is_front(_value:bool) -> void:
+	assert(false, "set_is_front is not allowed, use flip instead")
+
+func _get_is_front() -> bool:
+	return current_face == front_face
+
 func _set_mouse_disabled(value:bool) -> void:
 	mouse_disabled = value
 	if value:
@@ -203,109 +210,70 @@ func _set_mouse_disabled(value:bool) -> void:
 	else:
 		mouse_filter = MOUSE_FILTER_STOP
 
+func _set_tool_data(_value:ToolData) -> void:
+	assert(false, "set_tool_data is not allowed, use update_with_tool_data instead")
+
 func _get_tool_data() -> ToolData:
-	return _weak_tool_data.get_ref()
+	return current_face.tool_data
 
 func _set_animation_mode(value:bool) -> void:
 	animation_mode = value
-	_card_content.visible = !value
 	if value:
 		custom_minimum_size = Vector2.ZERO
 		#_card_margin_container.custom_minimum_size = Vector2.ZERO
 	else:
 		custom_minimum_size = SIZE
+	front_face.animation_mode = value
+	if back_face.tool_data:
+		back_face.animation_mode = value
 
-func _set_card_state(value:CardState) -> void:
-	card_state = value
-	match value:
-		CardState.NORMAL:
-			_container_offset = Vector2.ZERO
-			has_outline = false
-			_overlay.hide()
-			_gui_use_card_button.hide()
-			z_index = 0
-			_default_state = CardState.NORMAL
-		CardState.SELECTED:
-			_container_offset = Vector2.UP * SELECTED_OFFSET
-			has_outline = true
-			_overlay.hide()
-			if tool_data.need_select_field:
-				_gui_use_card_button.hide()
-			else:
-				_gui_use_card_button.show()
-			z_index = 1
-		CardState.HIGHLIGHTED:
-			_container_offset = Vector2.UP * HIGHLIGHTED_OFFSET
-			has_outline = true
-			_overlay.hide()
-			_gui_use_card_button.hide()
-			z_index = 1
-		CardState.UNSELECTED:
-			_container_offset = Vector2.ZERO
-			has_outline = false
-			_overlay.show()
-			_gui_use_card_button.hide()
-			z_index = 0
-			_default_state = CardState.UNSELECTED
-		CardState.WAITING:
-			_container_offset = Vector2.UP * SELECTED_OFFSET
-			has_outline = true
-			_overlay.show()
-			_gui_use_card_button.hide()
-			z_index = 1
+func _set_card_state(value:GUICardFace.CardState) -> void:
+	front_face.card_state = value
+	if back_face.tool_data:
+		back_face.card_state = value
 
-func _set_container_offset(offset:Vector2) -> void:
-	_container_offset = offset
-	_card_container.position = offset
+func _get_card_state() -> GUICardFace.CardState:
+	return current_face.card_state
 
-func _set_resource_sufficient(value:bool) -> void:
-	resource_sufficient = value
-	var sufficient_color := Constants.COST_DEFAULT_COLOR
-	if tool_data.get_total_energy_modifier() > 0:
-		sufficient_color = Constants.COST_INCREASED_COLOR
-	if tool_data.get_total_energy_modifier() < 0:
-		sufficient_color = Constants.COST_REDUCED_COLOR
-	
-	if resource_sufficient:
-		_cost_icon.self_modulate = sufficient_color
-	else:
-		_cost_icon.self_modulate = Constants.RESOURCE_INSUFFICIENT_COLOR
-	if disabled:
-		_set_disabled(true)
+func _set_resource_sufficient(_value:bool) -> void:
+	assert(false, "set_resource_sufficient is not allowed, use update_for_energy instead")
+
+func _get_resource_sufficient() -> bool:
+	return current_face.resource_sufficient
 
 func _set_has_outline(val:bool) -> void:
-	has_outline = val
-	_gui_tool_card_background.toggle_outline(has_outline, _cost_icon.self_modulate)
+	current_face.has_outline = val	
+
+func _get_has_outline() -> bool:
+	return current_face.has_outline
 
 func _set_disabled(value:bool) -> void:
-	disabled = value
-	if value:
-		_cost_icon.self_modulate = Constants.CARD_DISABLED_COLOR
-	else:
-		_set_resource_sufficient(resource_sufficient)
+	current_face.disabled = value
+
+func _get_disabled() -> bool:
+	return current_face.disabled
+
+func _on_resized() -> void:
+	front_face.size = size
+	if back_face.tool_data:
+		back_face.size = size
 	
+func _on_special_interacted(special:ToolData.Special, _face:GUICardFace) -> void:
+	match special:
+		ToolData.Special.FLIP_FRONT, ToolData.Special.FLIP_BACK:
+			animate_flip()
+		_:
+			pass
+
+func _on_special_hovered(special:ToolData.Special, on:bool, _face:GUICardFace) -> void:
+	if on:
+		_special_tooltip_id = Util.get_uuid()
+		Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.SPECIALS, [special], _special_tooltip_id, self, GUITooltip.TooltipPosition.RIGHT))
+	else:
+		Events.request_hide_tooltip.emit(_special_tooltip_id)
+		_special_tooltip_id = ""
+
 #region events
-
-func _on_animation_finished(anim_name:String) -> void:
-	if anim_name == "dissolve":
-		_dissolve_finished.emit()
-	if anim_name == "transform":
-		_transform_finished.emit()
-
-func _on_tool_data_refresh() -> void:
-	update_with_tool_data(tool_data)
-
-func _on_use_button_pressed() -> void:
-	_gui_use_card_button.hide()
-	use_card_button_pressed.emit()
-
-func _on_combat_main_set(combat_main:CombatMain) -> void:
-	_in_hand = true
-	var energy_tracker := combat_main.energy_tracker
-	_update_for_energy(energy_tracker.value)
-	if !energy_tracker.value_update.is_connected(_on_energy_tracker_value_updated):
-		energy_tracker.value_update.connect(_on_energy_tracker_value_updated.bind(energy_tracker))
-
 
 func _notification(what:int) -> void:
 	if what == NOTIFICATION_PREDELETE:

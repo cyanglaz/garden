@@ -6,7 +6,7 @@ var TYPE_COLORS:Dictionary = {
 	MapNode.NodeType.ELITE: Constants.COLOR_ORANGE2,
 	MapNode.NodeType.BOSS: Constants.COLOR_RED,
 	MapNode.NodeType.SHOP: Constants.COLOR_YELLOW2,
-	MapNode.NodeType.TAVERN: Constants.COLOR_BLUE_3,
+	MapNode.NodeType.TOWN: Constants.COLOR_BLUE_3,
 	MapNode.NodeType.CHEST: Constants.COLOR_PURPLE2,
 	MapNode.NodeType.EVENT: Constants.COLOR_BLUE_GRAY_1,
 }
@@ -26,8 +26,8 @@ func _update_with_tooltip_request() -> void:
 			title = Util.get_localized_string("MAP_NODE_TYPE_BOSS")
 		MapNode.NodeType.SHOP:
 			title = Util.get_localized_string("MAP_NODE_TYPE_SHOP") 
-		MapNode.NodeType.TAVERN:
-			title = Util.get_localized_string("MAP_NODE_TYPE_TAVERN")
+		MapNode.NodeType.TOWN:
+			title = Util.get_localized_string("MAP_NODE_TYPE_TOWN")
 		MapNode.NodeType.CHEST:
 			title = Util.get_localized_string("MAP_NODE_TYPE_CHEST")
 		MapNode.NodeType.EVENT:

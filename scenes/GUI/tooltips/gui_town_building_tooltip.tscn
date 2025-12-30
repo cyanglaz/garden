@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://issbc5idqodh"]
+
+[ext_resource type="PackedScene" uid="uid://73vkj3ho7ou5" path="res://scenes/GUI/tooltips/gui_tooltip.tscn" id="1_g6xdf"]
+[ext_resource type="Script" uid="uid://b03yc3n4n4jyy" path="res://scenes/GUI/tooltips/gui_town_building_tooltip.gd" id="2_g6xdf"]
+
+[node name="GUITownBuidlingTooltip" instance=ExtResource("1_g6xdf")]
+offset_right = 40.0
+offset_bottom = 27.0
+script = ExtResource("2_g6xdf")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ContentContainer" index="0"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="ContentContainer/VBoxContainer" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_type_variation = &"HUD_mid"
+text = "Tavern"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Description" type="RichTextLabel" parent="ContentContainer/VBoxContainer" index="1"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"RichTextControlTip"
+bbcode_enabled = true
+text = "adfasdf"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1

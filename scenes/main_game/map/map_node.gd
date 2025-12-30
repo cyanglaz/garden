@@ -8,7 +8,7 @@ enum NodeType {
 	NORMAL,
 	ELITE,
 	BOSS,
-	TAVERN,
+	TOWN,
 	SHOP,
 	CHEST,
 	EVENT,
@@ -104,8 +104,8 @@ func _type_to_string(t:NodeType) -> String:
 			return "BOSS"
 		NodeType.SHOP:
 			return "SHOP"
-		NodeType.TAVERN:
-			return "TAVERN"
+		NodeType.TOWN:
+			return "TOWN"
 		NodeType.CHEST:
 			return "CHEST"
 		NodeType.EVENT:

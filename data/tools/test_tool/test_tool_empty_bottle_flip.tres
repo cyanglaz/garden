@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=5 format=3 uid="uid://jx45l8aypl0j"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_n842k"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_at8lh"]
+[ext_resource type="Resource" uid="uid://bo08i1pg8s3yg" path="res://data/tools/other/tool_empty_bottle.tres" id="2_l85wk"]
+
+[sub_resource type="Resource" id="Resource_t4j2x"]
+script = ExtResource("1_n842k")
+type = 1
+value = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_at8lh")
+actions = Array[ExtResource("1_n842k")]([SubResource("Resource_t4j2x")])
+specials = Array[int]([0])
+back_card = ExtResource("2_l85wk")
+id = "test_empty_bottle_flip"
+display_name = "Empty Bottle Back"
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

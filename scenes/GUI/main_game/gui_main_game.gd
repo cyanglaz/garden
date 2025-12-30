@@ -3,8 +3,6 @@ extends CanvasLayer
 
 const DETAIL_TOOLTIP_DELAY := 0.8
 
-signal hp_update_finished(value:int)
-
 @onready var gui_top_bar: GUITopBar = %GUITopBar
 
 @onready var gui_library: GUILibrary = %GUILibrary
@@ -13,9 +11,11 @@ signal hp_update_finished(value:int)
 @onready var gui_dialogue_window: GUIDialogueWindow = %GUIDialogueWindow
 @onready var gui_tooltips_container: GUITooltipContainer = %GUITooltipsContainer
 
+@onready var _gui_game_over_main: GUIGameOverMain = %GUIGameOverMain
 @onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
 @onready var _transition_overlay: TransitionOverlay = %TransitionOverlay
+@onready var _gui_demo_end_main: GUIDemoEndMain = %GUIDemoEndMain
 
 var _toggle_ui_semaphore := 0
 var _hovered_data:ThingData
@@ -24,8 +24,7 @@ func _ready() -> void:
 	_gui_tool_cards_viewer.hide()
 	gui_top_bar.setting_button_evoked.connect(_on_settings_button_evoked)
 	gui_top_bar.library_button_evoked.connect(_on_library_button_evoked)
-	gui_top_bar.hp_update_finished.connect(func(value:int) -> void: hp_update_finished.emit(value))
-	gui_top_animation_overlay.setup(self)
+	gui_top_animation_overlay.setup.call_deferred(self)
 
 	_register_global_events()
 
@@ -62,6 +61,9 @@ func update_gold(gold_diff:int, animated:bool) -> void:
 func bind_with_hp(hp:ResourcePoint) -> void:
 	gui_top_bar.bind_with_hp(hp)
 
+func animate_hp_update(value:int) -> void:
+	await gui_top_bar.animate_hp_update(value)
+
 #region characters
 
 func update_player(player_data:PlayerData) -> void:
@@ -76,6 +78,16 @@ func bind_cards(cards:Array[ToolData]) -> void:
 
 func transition(type:TransitionOverlay.Type, duration:float = 0.4) -> void:
 	await _transition_overlay.transition(type, duration)
+
+#endregion
+
+#region game
+
+func game_over() -> void:
+	_gui_game_over_main.animate_show()
+
+func game_win() -> void:
+	_gui_demo_end_main.animate_show()
 
 #endregion
 

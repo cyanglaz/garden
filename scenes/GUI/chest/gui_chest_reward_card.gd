@@ -12,4 +12,4 @@ func update_with_data(data:ToolData) -> void:
 	gui_tool_card_button.update_with_tool_data(data)
 
 func play_move_sound() -> void:
-	gui_tool_card_button.play_move_sound()
+	gui_tool_card_button.play_discard_sound()

@@ -13,6 +13,7 @@ func start() -> void:
 		particle.start()
 
 func stop() -> void:
+	stop_sounds()
 	for particle in _particles:
 		particle.stop()
 

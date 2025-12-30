@@ -32,6 +32,7 @@ enum ButtonState {
 @export var click_sound:AudioStream = SOUND_CLICK
 
 var mouse_in:bool
+var press_enabled := true
 
 var _holding_start := false
 var _hold_time_count := 0.0
@@ -115,21 +116,25 @@ func _on_mouse_exited():
 	button_state = ButtonState.NORMAL
 	
 func _press_down():
+	if !press_enabled:
+		return
 	button_state = ButtonState.PRESSED
 
 func _press_up():
 	button_state = ButtonState.NORMAL
 	_handle_press_up()
 
-func _play_click_sound() -> void:
+func _play_click_sound(vol:int = 0) -> void:
 	var stream := _get_click_sound()
-	GlobalSoundManager.play_sound(stream, "SFX", 0)
+	GlobalSoundManager.play_sound(stream, "SFX", vol)
 
-func _play_hover_sound() -> void:
+func _play_hover_sound(vol:int = 0) -> void:
 	var stream := _get_hover_sound()
-	GlobalSoundManager.play_sound(stream, "SFX", 0)
+	GlobalSoundManager.play_sound(stream, "SFX", vol)
 
 func _handle_press_up() -> void:
+	if !press_enabled:
+		return
 	_play_click_sound()
 	pressed.emit()
 

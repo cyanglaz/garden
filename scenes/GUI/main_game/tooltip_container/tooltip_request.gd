@@ -17,6 +17,7 @@ enum TooltipType {
 	MAP,
 	REFERENCE_CARD,
 	PLANT_ABILITY,
+	TOWN_BUILDING,
 }
 
 var tooltip_type:TooltipType

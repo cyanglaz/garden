@@ -135,10 +135,10 @@ func _handle_card_selection_ended(tool_data:ToolData, from_global_position:Vecto
 	card_selected.emit(tool_data, from_global_position)
 
 func _on_mouse_entered(gui_tool_card_button:GUIToolCardButton) -> void:
-	gui_tool_card_button.card_state = GUIToolCardButton.CardState.HIGHLIGHTED
+	gui_tool_card_button.card_state = GUICardFace.CardState.HIGHLIGHTED
 
 func _on_mouse_exited(gui_tool_card_button:GUIToolCardButton) -> void:
-	gui_tool_card_button.card_state = GUIToolCardButton.CardState.NORMAL
+	gui_tool_card_button.card_state = GUICardFace.CardState.NORMAL
 
 func _on_card_selected(tool_data:ToolData, gui_tool_card_button:GUIToolCardButton) -> void:
 	var from_global_position:Vector2 = gui_tool_card_button.global_position
