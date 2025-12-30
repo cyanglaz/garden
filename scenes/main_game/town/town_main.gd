@@ -10,10 +10,12 @@ const TAVERN_WAIT_TIME := 1.0
 @onready var field_container: FieldContainer = %FieldContainer
 
 var _interacted := false
+var _started := false
 
 func _ready() -> void:
 	field_container.setup_fields()
-	weather_main.start(0)
+	await weather_main.start(0)
+	_started = true
 	for field:Field in field_container.fields:
 		field.field_pressed.connect(_on_field_pressed.bind(field))
 	gui_town_main.forge_finished.connect(_on_forge_finished)
@@ -22,7 +24,7 @@ func setup_with_card_pool(card_pool:Array[ToolData]) -> void:
 	gui_town_main.setup_with_card_pool(card_pool)
 
 func _on_field_pressed(field:Field) -> void:
-	if _interacted:
+	if _interacted || !_started:
 		return
 	if field is TavernField:
 		_on_tavern_field_pressed(field)

@@ -169,11 +169,11 @@ func _on_shop_finish_button_pressed() -> void:
 func _on_town_finished() -> void:
 	_complete_current_node()
 
-func _on_forge_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData, forged_card_global_position:Vector2) -> void:
-	assert(card_pool.has(front_card_data), "Front card not in card pool")
-	assert(card_pool.has(back_card_data), "Back card not in card pool")
-	card_pool.erase(front_card_data)
-	card_pool.erase(back_card_data)
+func _on_forge_finished(tool_data:ToolData, front_card_data_to_erase:ToolData, back_card_data_to_erase:ToolData, forged_card_global_position:Vector2) -> void:
+	assert(card_pool.has(front_card_data_to_erase), "Front card not in card pool")
+	assert(card_pool.has(back_card_data_to_erase), "Back card not in card pool")
+	card_pool.erase(front_card_data_to_erase)
+	card_pool.erase(back_card_data_to_erase)
 	card_pool.append(tool_data)
 	await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(forged_card_global_position, tool_data)
 	_complete_current_node()
@@ -226,21 +226,22 @@ func _on_map_node_selected(node:MapNode) -> void:
 		const EVENT_NODES := [MapNode.NodeType.CHEST, MapNode.NodeType.SHOP, MapNode.NodeType.TOWN, MapNode.NodeType.NORMAL]
 		node_type = Util.unweighted_roll(EVENT_NODES, 1).front()
 	await gui_main_game.transition(TransitionOverlay.Type.FADE_OUT, SCENE_TRANSITION_TIME)
-	match node_type:
-		MapNode.NodeType.NORMAL:
-			_start_combat_main_scene(chapter_manager.fetch_common_combat_data())
-		MapNode.NodeType.ELITE:
-			_start_combat_main_scene(chapter_manager.fetch_elite_combat_data())
-		MapNode.NodeType.BOSS:
-			_start_combat_main_scene(chapter_manager.fetch_boss_combat_data())
-		MapNode.NodeType.SHOP:
-			_start_shop()
-		MapNode.NodeType.TOWN:
-			_start_town()
-		MapNode.NodeType.CHEST:
-			_start_chest()
-		_:
-			assert(false, "Invalid event node type: %s" % node_type)
+	_start_town()
+	#match node_type:
+	#	MapNode.NodeType.NORMAL:
+	#		_start_combat_main_scene(chapter_manager.fetch_common_combat_data())
+	#	MapNode.NodeType.ELITE:
+	#		_start_combat_main_scene(chapter_manager.fetch_elite_combat_data())
+	#	MapNode.NodeType.BOSS:
+	#		_start_combat_main_scene(chapter_manager.fetch_boss_combat_data())
+	#	MapNode.NodeType.SHOP:
+	#		_start_shop()
+	#	MapNode.NodeType.TOWN:
+	#		_start_town()
+	#	MapNode.NodeType.CHEST:
+	#		_start_chest()
+	#	_:
+	#		assert(false, "Invalid event node type: %s" % node_type)
 
 # region getter
 

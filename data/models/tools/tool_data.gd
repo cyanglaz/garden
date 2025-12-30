@@ -190,6 +190,8 @@ func _set_back_card(val:ToolData) -> void:
 		return
 	back_card = val.get_duplicate()
 	if back_card && !specials.has(Special.FLIP_FRONT):
+		specials.erase(Special.FLIP_BACK)
+		specials.erase(Special.FLIP_FRONT)
 		specials.append(Special.FLIP_FRONT)
 	if back_card:
 		back_card.front_card = self
@@ -197,6 +199,8 @@ func _set_back_card(val:ToolData) -> void:
 func _set_front_card(val:ToolData) -> void:
 	_weak_front_card = weakref(val)
 	if val && !specials.has(Special.FLIP_BACK):
+		specials.erase(Special.FLIP_FRONT)
+		specials.erase(Special.FLIP_BACK)
 		specials.append(Special.FLIP_BACK)
 
 func _get_front_card() -> ToolData:

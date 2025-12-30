@@ -21,6 +21,10 @@ var _selecting_front_card:bool = false
 var _front_card:GUIToolCardButton = null
 var _back_card:GUIToolCardButton = null
 
+var _new_card_data:ToolData = null
+var _front_card_data_to_erase:ToolData = null
+var _back_card_data_to_erase:ToolData = null
+
 func _ready() -> void:
 	forge_button.button_state = GUIBasicButton.ButtonState.DISABLED
 	title_label.text = Util.get_localized_string("FORGE_TITLE")
@@ -39,6 +43,9 @@ func _ready() -> void:
 
 func setup_with_card_pool(card_pool:Array) -> void:
 	_card_pool = card_pool
+	_new_card_data = null
+	_front_card_data_to_erase = null
+	_back_card_data_to_erase = null
 
 func _animate_move_card_to_placeholder(selected_card:GUIToolCardButton, placeholder:GUICardPlaceHolder) -> void:
 	selected_card.play_discard_sound()
@@ -48,10 +55,12 @@ func _animate_move_card_to_placeholder(selected_card:GUIToolCardButton, placehol
 
 func _dismiss() -> void:
 	hide()
-	_front_card.queue_free()
-	_front_card = null
-	_back_card.queue_free()
-	_back_card = null
+	if _front_card:
+		_front_card.queue_free()
+		_front_card = null
+	if _back_card:
+		_back_card.queue_free()
+		_back_card = null
 
 func _get_card_pool_for_forge() -> Array:
 	var card_pool:Array = _card_pool.duplicate()
@@ -127,17 +136,26 @@ func _on_forge_button_pressed() -> void:
 	assert(_back_card != null, "Back card is null")
 	var front_card_data:ToolData = _front_card.tool_data
 	var back_card_data:ToolData = _back_card.tool_data
-	assert(_card_pool.has(front_card_data), "Front card is not in pool")
-	assert(_card_pool.has(back_card_data), "Back card is not in pool")
+	if front_card_data.front_card:
+		_front_card_data_to_erase = front_card_data.front_card
+	else:
+		_front_card_data_to_erase = front_card_data
+	if back_card_data.front_card:
+		_back_card_data_to_erase = back_card_data.front_card
+	else:
+		_back_card_data_to_erase = back_card_data
+	assert(_card_pool.has(_front_card_data_to_erase), "Front card is not in pool")
+	assert(_card_pool.has(_back_card_data_to_erase), "Back card is not in pool")
 	var new_card_front_data:ToolData = front_card_data.get_duplicate()
 	var new_card_back_data:ToolData = back_card_data.get_duplicate()
-	new_card_front_data.back_card = new_card_back_data
-	gui_forge_animation_container.play_animation(_front_card.tool_data, _back_card.tool_data, _front_card.global_position, _back_card.global_position, new_card_front_data)
+	_new_card_data = new_card_front_data.get_duplicate()
+	_new_card_data.back_card = new_card_back_data
+	gui_forge_animation_container.play_animation(new_card_front_data, new_card_back_data, _front_card.global_position, _back_card.global_position, _new_card_data)
 	#forge_finished.emit(new_card_front_data, front_card_data, back_card_data)
 	#_dismiss()
 
-func _on_forged_card_pressed(tool_data:ToolData, card_global_position:Vector2) -> void:
-	forge_finished.emit(tool_data, _front_card.tool_data, _back_card.tool_data, card_global_position)
+func _on_forged_card_pressed(card_global_position:Vector2) -> void:
+	forge_finished.emit(_new_card_data, _front_card_data_to_erase, _back_card_data_to_erase, card_global_position)
 	_dismiss()
 
 #endregion
