@@ -72,13 +72,13 @@ func _start_new_chapter() -> void:
 
 	#_start_map_main_scene()
 	# Always start with a common node
-	#if test_combat:
-	#	_start_combat_main_scene.call_deferred(test_combat)
-	#else:
-	#	_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
+	if test_combat:
+		_start_combat_main_scene.call_deferred(test_combat)
+	else:
+		_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
 	#_start_shop()
 	#_start_chest()
-	_start_town()
+	#_start_town()
 	#_game_over()
 	#_game_win()
 
@@ -226,22 +226,21 @@ func _on_map_node_selected(node:MapNode) -> void:
 		const EVENT_NODES := [MapNode.NodeType.CHEST, MapNode.NodeType.SHOP, MapNode.NodeType.TOWN, MapNode.NodeType.NORMAL]
 		node_type = Util.unweighted_roll(EVENT_NODES, 1).front()
 	await gui_main_game.transition(TransitionOverlay.Type.FADE_OUT, SCENE_TRANSITION_TIME)
-	_start_town()
-	#match node_type:
-	#	MapNode.NodeType.NORMAL:
-	#		_start_combat_main_scene(chapter_manager.fetch_common_combat_data())
-	#	MapNode.NodeType.ELITE:
-	#		_start_combat_main_scene(chapter_manager.fetch_elite_combat_data())
-	#	MapNode.NodeType.BOSS:
-	#		_start_combat_main_scene(chapter_manager.fetch_boss_combat_data())
-	#	MapNode.NodeType.SHOP:
-	#		_start_shop()
-	#	MapNode.NodeType.TOWN:
-	#		_start_town()
-	#	MapNode.NodeType.CHEST:
-	#		_start_chest()
-	#	_:
-	#		assert(false, "Invalid event node type: %s" % node_type)
+	match node_type:
+		MapNode.NodeType.NORMAL:
+			_start_combat_main_scene(chapter_manager.fetch_common_combat_data())
+		MapNode.NodeType.ELITE:
+			_start_combat_main_scene(chapter_manager.fetch_elite_combat_data())
+		MapNode.NodeType.BOSS:
+			_start_combat_main_scene(chapter_manager.fetch_boss_combat_data())
+		MapNode.NodeType.SHOP:
+			_start_shop()
+		MapNode.NodeType.TOWN:
+			_start_town()
+		MapNode.NodeType.CHEST:
+			_start_chest()
+		_:
+			assert(false, "Invalid event node type: %s" % node_type)
 
 # region getter
 

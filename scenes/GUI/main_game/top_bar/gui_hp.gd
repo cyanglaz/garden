@@ -71,7 +71,7 @@ func _play_animation(diff:int) -> void:
 		color = HP_INCREASE_COLOR
 	else:
 		color = HP_DECREASE_COLOR
-	var hp_sign := "+" if increase else "-"
+	var hp_sign := "+" if increase else ""
 	popup.setup(str(hp_sign, diff), color, 10)
 	Events.request_display_popup_things.emit(popup, -20, 5, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, _segment_container.global_position + Vector2.RIGHT * _segment_container.size.x)
 	if increase:
