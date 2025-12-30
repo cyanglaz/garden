@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://qkulvveb5fr7"]
+[gd_scene load_steps=5 format=3 uid="uid://qkulvveb5fr7"]
 
 [ext_resource type="Script" uid="uid://dpnlyywty28df" path="res://scenes/GUI/town/forge_effects/card_forging_effect.gd" id="1_q07cv"]
 [ext_resource type="PackedScene" uid="uid://b87sa86i8nwn5" path="res://scenes/GUI/town/forge_effects/forge_gathering_stream.tscn" id="1_trn88"]
 [ext_resource type="PackedScene" uid="uid://dh8kq8yghiw40" path="res://scenes/GUI/town/forge_effects/forge_core_burst.tscn" id="3_mjf7g"]
+[ext_resource type="AudioStream" uid="uid://4033bdbfir7t" path="res://resources/sounds/SFX/town/forge_success.wav" id="4_apn6k"]
 
 [node name="CardForgingEffect" type="Node2D"]
 script = ExtResource("1_q07cv")
@@ -13,3 +14,8 @@ visible = false
 
 [node name="ForgeCoreBurst" parent="." instance=ExtResource("3_mjf7g")]
 unique_name_in_owner = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_apn6k")
+bus = &"SFX"

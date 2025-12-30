@@ -25,7 +25,7 @@ func _ready() -> void:
 	_gui_tool_cards_viewer.hide()
 	gui_top_bar.setting_button_evoked.connect(_on_settings_button_evoked)
 	gui_top_bar.library_button_evoked.connect(_on_library_button_evoked)
-	gui_top_animation_overlay.setup(self)
+	gui_top_animation_overlay.setup.call_deferred(self)
 
 	_register_global_events()
 

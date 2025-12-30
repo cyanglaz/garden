@@ -41,6 +41,7 @@ func setup_with_card_pool(card_pool:Array) -> void:
 	_card_pool = card_pool
 
 func _animate_move_card_to_placeholder(selected_card:GUIToolCardButton, placeholder:GUICardPlaceHolder) -> void:
+	selected_card.play_discard_sound()
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(selected_card, "global_position", placeholder.global_position, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	await tween.finished

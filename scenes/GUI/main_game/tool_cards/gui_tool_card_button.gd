@@ -11,6 +11,7 @@ signal use_card_button_pressed()
 @onready var draw_sound: AudioStreamPlayer2D = %DrawSound
 @onready var discard_sound: AudioStreamPlayer2D = %DiscardSound
 @onready var shuffle_sound: AudioStreamPlayer2D = %ShuffleSound
+@onready var flip_sound: AudioStreamPlayer2D = %FlipSound
 
 var current_face:GUICardFace
 
@@ -141,6 +142,7 @@ func _animate_flip() -> void:
 		return
 	if !back_face.tool_data:
 		return
+	flip_sound.play()
 	_flipping = true
 	await current_face.animate_flip(false)
 	var old_face := current_face
