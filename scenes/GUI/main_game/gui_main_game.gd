@@ -3,7 +3,6 @@ extends CanvasLayer
 
 const DETAIL_TOOLTIP_DELAY := 0.8
 
-
 @onready var gui_top_bar: GUITopBar = %GUITopBar
 
 @onready var gui_library: GUILibrary = %GUILibrary

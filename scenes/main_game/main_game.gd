@@ -72,13 +72,13 @@ func _start_new_chapter() -> void:
 
 	#_start_map_main_scene()
 	# Always start with a common node
-	if test_combat:
-		_start_combat_main_scene.call_deferred(test_combat)
-	else:
-		_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
+	#if test_combat:
+	#	_start_combat_main_scene.call_deferred(test_combat)
+	#else:
+	#	_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
 	#_start_shop()
 	#_start_chest()
-	#_start_town()
+	_start_town()
 	#_game_over()
 	#_game_win()
 
@@ -120,6 +120,7 @@ func _start_town() -> void:
 	var town_main = TOWN_MAIN_SCENE.instantiate()
 	town_main.town_finished.connect(_on_town_finished)
 	town_main.forge_finished.connect(_on_forge_finished)
+	town_main.forged_card_pressed.connect(_on_forged_card_pressed)
 	node_container.add_child(town_main)
 	town_main.setup_with_card_pool(card_pool)
 	start_scene_transition()
@@ -169,12 +170,14 @@ func _on_shop_finish_button_pressed() -> void:
 func _on_town_finished() -> void:
 	_complete_current_node()
 
-func _on_forge_finished(tool_data:ToolData, front_card_data_to_erase:ToolData, back_card_data_to_erase:ToolData, forged_card_global_position:Vector2) -> void:
+func _on_forge_finished(tool_data:ToolData, front_card_data_to_erase:ToolData, back_card_data_to_erase:ToolData) -> void:
 	assert(card_pool.has(front_card_data_to_erase), "Front card not in card pool")
 	assert(card_pool.has(back_card_data_to_erase), "Back card not in card pool")
 	card_pool.erase(front_card_data_to_erase)
 	card_pool.erase(back_card_data_to_erase)
 	card_pool.append(tool_data)
+
+func _on_forged_card_pressed(tool_data:ToolData, forged_card_global_position:Vector2) -> void:
 	await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(forged_card_global_position, tool_data)
 	_complete_current_node()
 

@@ -1,7 +1,8 @@
 class_name GUIForgeMain
 extends Control
 
-signal forge_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData, forged_card_global_position:Vector2)
+signal forge_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData)
+signal forged_card_pressed(tool_data:ToolData, forged_card_global_position:Vector2)
 
 const TOOL_CARD_BUTTON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
@@ -150,12 +151,12 @@ func _on_forge_button_pressed() -> void:
 	var new_card_back_data:ToolData = back_card_data.get_duplicate()
 	_new_card_data = new_card_front_data.get_duplicate()
 	_new_card_data.back_card = new_card_back_data
-	gui_forge_animation_container.play_animation(new_card_front_data, new_card_back_data, _front_card.global_position, _back_card.global_position, _new_card_data)
-	#forge_finished.emit(new_card_front_data, front_card_data, back_card_data)
+	forge_finished.emit(_new_card_data, front_card_data, back_card_data)
+	gui_forge_animation_container.play_animation(new_card_front_data, new_card_back_data, _front_card.global_position, _back_card.global_position, _new_card_data)	#forge_finished.emit(new_card_front_data, front_card_data, back_card_data)
 	#_dismiss()
 
 func _on_forged_card_pressed(card_global_position:Vector2) -> void:
-	forge_finished.emit(_new_card_data, _front_card_data_to_erase, _back_card_data_to_erase, card_global_position)
+	forged_card_pressed.emit(_new_card_data, card_global_position)
 	_dismiss()
 
 #endregion

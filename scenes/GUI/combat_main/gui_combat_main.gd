@@ -31,7 +31,6 @@ func _ready() -> void:
 	gui_reward_main.reward_finished.connect(func(tool_data:ToolData, from_global_position:Vector2) -> void: reward_finished.emit(tool_data, from_global_position))
 	gui_tool_card_container.setup.call_deferred(gui_draw_box_button, gui_discard_box_button)
 
-
 #region power
 
 func bind_power_manager(power_manager:PowerManager) -> void:
