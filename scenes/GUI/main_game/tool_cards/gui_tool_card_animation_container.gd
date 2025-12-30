@@ -41,26 +41,29 @@ func animate_draw(draw_results:Array) -> void:
 	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_DRAW, [draw_results])
 	await item.finished
 
-func animate_shuffle(number_of_cards:int) -> void:
-	if number_of_cards == 0:
+func animate_shuffle(discard_pile:Array) -> void:
+	if discard_pile.size() == 0:
 		return
 	var index := 0
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
-	for i in mini(number_of_cards, MAX_SHUFFLE_CARDS):
+	for i in mini(discard_pile.size(), MAX_SHUFFLE_CARDS):
+		var tool_data:ToolData = discard_pile[i]
 		var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
 		add_child(animating_card)
-		animating_card.mouse_disabled = true
+		animating_card.update_with_tool_data(tool_data)
 		animating_card.hide()
+		animating_card.mouse_disabled = true
 		animating_card.animation_mode = true
 		animating_card.size = _draw_deck_button.size
 		animating_card.global_position = _discard_deck_button.global_position
 		var target_position := _draw_deck_button.global_position
-		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * index - 0.01).timeout.connect(func(): 
+		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * index).timeout.connect(func(): 
 			animating_card.show()
-			animating_card.play_move_sound()
+			animating_card.play_shuffle_sound()
 		)
-		var tweener := tween.tween_property(animating_card, "global_position", target_position, SHUFFLE_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * index)
+		tween.tween_property(animating_card, "size", _draw_deck_button.size, SHUFFLE_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		var tweener := tween.tween_property(animating_card, "global_position", target_position, SHUFFLE_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		tweener.finished.connect(func():
 			animating_card.queue_free()
 		)
@@ -162,13 +165,13 @@ func _animate_draw(animation_item:AnimationQueueItem) -> void:
 		animating_card.mouse_disabled = true
 		animating_cards.append(animating_card)
 		if delay_index >= 0:
-			Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index).timeout.connect(func(): animating_card.play_move_sound())
+			Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index).timeout.connect(func(): animating_card.play_draw_sound())
 		var card_local_position:Vector2 = card_positions[i]
 		var target_global_position:Vector2 = _tool_card_container.global_position + card_local_position
 		tween.tween_property(animating_card, "visible", true, 0.01).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		tween.tween_property(animating_card, "global_position", target_global_position, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		tween.tween_property(animating_card, "size", GUIToolCardButton.SIZE, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index).timeout.connect(func(): 
+		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index + DRAW_ANIMATION_TIME - 0.2).timeout.connect(func(): 
 			animating_card.mouse_disabled = false
 			animating_card.animation_mode = false
 		)
@@ -222,7 +225,7 @@ func _animate_add_card_to_draw_pile(animation_item:AnimationQueueItem) -> void:
 		Util.create_scaled_timer(ADD_CARD_TO_PILE_DELAY * index).timeout.connect(func(): 
 			animating_card.show()
 			await Util.create_scaled_timer(display_pause_time).timeout
-			animating_card.play_move_sound()
+			animating_card.play_discard_sound()
 		)
 		var move_delay := ADD_CARD_TO_PILE_DELAY * index + display_pause_time
 		var move_animation_time := ADD_CARD_TO_PILE_ANIMATION_TIME
@@ -260,7 +263,7 @@ func _animate_add_card_to_discard_pile(animation_item:AnimationQueueItem) -> voi
 		Util.create_scaled_timer(ADD_CARD_TO_PILE_DELAY * index).timeout.connect(func(): 
 			animating_card.show()
 			await Util.create_scaled_timer(display_pause_time).timeout
-			animating_card.play_move_sound()
+			animating_card.play_discard_sound()
 		)
 		var move_delay_time := ADD_CARD_TO_PILE_DELAY * index + display_pause_time
 		var move_animation_time := ADD_CARD_TO_PILE_ANIMATION_TIME
@@ -312,7 +315,7 @@ func _animate_add_card_to_hand(animation_item:AnimationQueueItem) -> void:
 			Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index + display_pause_time).timeout.connect(func(): 
 				animating_card.show()
 				await Util.create_scaled_timer(display_pause_time).timeout
-				animating_card.play_move_sound())
+				animating_card.play_draw_sound())
 		tween.tween_property(animating_card, "global_position", target_global_position, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index + display_pause_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		tween.tween_property(animating_card, "scale", Vector2.ONE, DRAW_ANIMATION_TIME).set_delay(Constants.CARD_ANIMATION_DELAY * delay_index + display_pause_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index + display_pause_time).timeout.connect(func(): 
@@ -369,7 +372,7 @@ func _animate_discard_a_card(card:GUIToolCardButton, tween:Tween, delay:float) -
 	animating_card.hide()
 	animating_card.animation_mode = true
 	animating_card.mouse_disabled = true
-	Util.create_scaled_timer(delay - 0.01).timeout.connect(func(): animating_card.play_move_sound())
+	Util.create_scaled_timer(delay - 0.01).timeout.connect(func(): animating_card.play_discard_sound())
 	Util.create_scaled_timer(delay + 0.01).timeout.connect(func(): animating_card.show())
 	Util.create_scaled_timer(delay + 0.01).timeout.connect(func(): card.hide())
 	var target_size := _discard_deck_button.size

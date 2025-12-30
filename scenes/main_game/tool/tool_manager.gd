@@ -65,7 +65,7 @@ func draw_cards(count:int) -> Array:
 
 func shuffle() -> void:
 	var discard_pile := tool_deck.discard_pool.duplicate()
-	await _gui_tool_card_container.animate_shuffle(discard_pile.size())
+	await _gui_tool_card_container.animate_shuffle(discard_pile)
 	tool_deck.shuffle_draw_pool()
 
 func trigger_turn_end_cards(combat_main:CombatMain, plants:Array) -> void:

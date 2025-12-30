@@ -8,6 +8,10 @@ signal use_card_button_pressed()
 @onready var front_face: GUICardFace = %FrontFace
 @onready var back_face: GUICardFace = %BackFace
 
+@onready var draw_sound: AudioStreamPlayer2D = %DrawSound
+@onready var discard_sound: AudioStreamPlayer2D = %DiscardSound
+@onready var shuffle_sound: AudioStreamPlayer2D = %ShuffleSound
+
 var current_face:GUICardFace
 
 var mute_interaction_sounds:bool = false
@@ -30,9 +34,9 @@ func _ready() -> void:
 	super._ready()
 	current_face = front_face
 	mouse_filter = MOUSE_FILTER_IGNORE
-	animation_mode = false
 	front_face.use_card_button_pressed.connect(func() -> void: use_card_button_pressed.emit())
 	back_face.use_card_button_pressed.connect(func() -> void: use_card_button_pressed.emit())
+	back_face.hide()
 	resized.connect(_on_resized)
 	front_face.special_interacted.connect(_on_special_interacted.bind(front_face))
 	back_face.special_interacted.connect(_on_special_interacted.bind(back_face))
@@ -55,15 +59,20 @@ func update_with_tool_data(td:ToolData) -> void:
 		assert(td.specials.has(ToolData.Special.FLIP_FRONT), "Card is not a flip front card")
 		assert(td.back_card.specials.has(ToolData.Special.FLIP_BACK), "Back card is not a flip back card")
 		back_face.update_with_tool_data(td.back_card)
-	back_face.hide()
 
 func update_mouse_plant(plant:Plant) -> void:
 	front_face.update_mouse_plant(plant)
 	if back_face.tool_data:
 		back_face.update_mouse_plant(plant)
 
-func play_move_sound() -> void:
-	_play_hover_sound()
+func play_discard_sound() -> void:
+	discard_sound.play()
+
+func play_draw_sound() -> void:
+	draw_sound.play()
+
+func play_shuffle_sound() -> void:
+	shuffle_sound.play()
 
 func play_use_sound() -> void:
 	if mute_interaction_sounds:
@@ -115,17 +124,17 @@ func _find_card_references() -> Array[String]:
 			card_references.append(reference_pair[1])
 	return card_references
 
-func _play_hover_sound() -> void:
+func _play_hover_sound(_volume_db:int = -5) -> void:
 	if mute_interaction_sounds:
 		return
 	if current_face.card_state == GUICardFace.CardState.SELECTED:
 		return
-	super._play_hover_sound()
+	super._play_hover_sound(-5)
 
-func _play_click_sound() -> void:
+func _play_click_sound(_volume_db:int = -5) -> void:
 	if mute_interaction_sounds:
 		return
-	super._play_click_sound()
+	super._play_click_sound(-5)
 
 func _animate_flip() -> void:
 	if _flipping:

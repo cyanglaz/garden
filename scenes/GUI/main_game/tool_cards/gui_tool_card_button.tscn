@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://bacvied61ghpe"]
+[gd_scene load_steps=7 format=3 uid="uid://bacvied61ghpe"]
 
 [ext_resource type="Script" uid="uid://t7x03xkbah7n" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.gd" id="1_a7c0j"]
 [ext_resource type="AudioStream" uid="uid://q4k3jnocowmn" path="res://resources/sounds/SFX/tool_cards/card_hover.wav" id="2_882ho"]
 [ext_resource type="AudioStream" uid="uid://b6grhwuhdlsmf" path="res://resources/sounds/SFX/tool_cards/card_select.wav" id="3_dn2eb"]
 [ext_resource type="PackedScene" uid="uid://dq8wmq23vtkaj" path="res://scenes/GUI/main_game/tool_cards/gui_card_face.tscn" id="4_a7c0j"]
+[ext_resource type="AudioStream" uid="uid://cg45kycgvgw8u" path="res://resources/sounds/SFX/tool_cards/card_draw_1.wav" id="5_a7c0j"]
+[ext_resource type="AudioStream" uid="uid://cbbnpiubqjoc" path="res://resources/sounds/SFX/tool_cards/card_discard_1.wav" id="6_ckxcp"]
 
 [node name="GUIToolCardButton" type="PanelContainer"]
 custom_minimum_size = Vector2(40, 54)
@@ -25,3 +27,21 @@ layout_mode = 0
 [node name="BackFace" parent="Container" instance=ExtResource("4_a7c0j")]
 unique_name_in_owner = true
 layout_mode = 0
+
+[node name="DrawSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("5_a7c0j")
+volume_db = -5.0
+bus = &"SFX"
+
+[node name="DiscardSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("5_a7c0j")
+volume_db = -5.0
+bus = &"SFX"
+
+[node name="ShuffleSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("6_ckxcp")
+volume_db = -5.0
+bus = &"SFX"

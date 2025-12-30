@@ -16,7 +16,7 @@ func animate_add_card_to_deck(from_global_position:Vector2, tool_data:ToolData) 
 	add_child(animating_card)
 	animating_card.update_with_tool_data(tool_data)
 	animating_card.global_position = from_global_position
-	animating_card.play_move_sound()
+	animating_card.play_discard_sound()
 	Util.create_scaled_timer(ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25).timeout.connect(func(): animating_card.animation_mode = true)
 	var tween := Util.create_scaled_tween(self)
 	tween.set_parallel(true)
