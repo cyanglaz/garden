@@ -50,16 +50,24 @@ func _on_gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("flip"):
 		var should_show_tooltip := !_card_tooltip_id.is_empty()
 		toggle_tooltip(false)
-		await _animate_flip()
+		await animate_flip()
 		if should_show_tooltip:
 			toggle_tooltip(true)
 
 func update_with_tool_data(td:ToolData) -> void:
-	front_face.update_with_tool_data(td)
-	if td.back_card:
-		assert(td.specials.has(ToolData.Special.FLIP_FRONT), "Card is not a flip front card")
-		assert(td.back_card.specials.has(ToolData.Special.FLIP_BACK), "Back card is not a flip back card")
-		back_face.update_with_tool_data(td.back_card)
+	if td.front_card:
+		assert(td.specials.has(ToolData.Special.FLIP_BACK), "Card is not a flip front card")
+		assert(td.front_card.specials.has(ToolData.Special.FLIP_FRONT), "Front card is not a flip front card")
+		front_face.update_with_tool_data(td.front_card)
+		back_face.update_with_tool_data(td)
+		_show_as_back_face()
+	else:
+		front_face.update_with_tool_data(td)
+		if td.back_card:
+			assert(td.specials.has(ToolData.Special.FLIP_FRONT), "Card is not a flip front card")
+			assert(td.back_card.specials.has(ToolData.Special.FLIP_BACK), "Back card is not a flip back card")
+			back_face.update_with_tool_data(td.back_card)
+		_show_as_front_face()
 
 func update_mouse_plant(plant:Plant) -> void:
 	front_face.update_mouse_plant(plant)
@@ -91,6 +99,22 @@ func animated_transform(old_rarity:int) -> void:
 		if current_face.tool_data.back_card:
 			back_face.update_with_tool_data(current_face.tool_data.back_card)
 
+func animate_flip() -> void:
+	if _flipping:
+		return
+	if !back_face.tool_data:
+		return
+	flip_sound.play()
+	_flipping = true
+	await current_face.animate_flip(false)
+	var old_face := current_face
+	if old_face == front_face:
+		current_face = back_face
+	else:
+		current_face = front_face
+	await current_face.animate_flip(true)
+	_flipping = false
+
 func play_error_shake_animation() -> void:
 	await current_face.play_error_shake_animation()
 
@@ -105,6 +129,16 @@ func toggle_tooltip(on:bool) -> void:
 		_card_tooltip_id = ""
 
 #region private
+
+func _show_as_back_face() -> void:
+	front_face.hide()
+	back_face.show()
+	current_face = back_face
+
+func _show_as_front_face() -> void:
+	front_face.show()
+	back_face.hide()
+	current_face = front_face
 
 func _toggle_reference_card_tooltip(on:bool) -> void:
 	if on:
@@ -136,22 +170,6 @@ func _play_click_sound(_volume_db:int = -5) -> void:
 	if mute_interaction_sounds:
 		return
 	super._play_click_sound(-5)
-
-func _animate_flip() -> void:
-	if _flipping:
-		return
-	if !back_face.tool_data:
-		return
-	flip_sound.play()
-	_flipping = true
-	await current_face.animate_flip(false)
-	var old_face := current_face
-	if old_face == front_face:
-		current_face = back_face
-	else:
-		current_face = front_face
-	await current_face.animate_flip(true)
-	_flipping = false
 
 #endregion
 
@@ -243,7 +261,7 @@ func _on_resized() -> void:
 func _on_special_interacted(special:ToolData.Special, _face:GUICardFace) -> void:
 	match special:
 		ToolData.Special.FLIP_FRONT, ToolData.Special.FLIP_BACK:
-			_animate_flip()
+			animate_flip()
 		_:
 			pass
 
