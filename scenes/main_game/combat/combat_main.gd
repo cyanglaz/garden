@@ -42,6 +42,7 @@ func _ready() -> void:
 	Events.request_add_tools_to_hand.connect(_on_request_add_tools_to_hand)
 	Events.request_add_tools_to_discard_pile.connect(_on_request_add_tools_to_discard_pile)
 	Events.request_modify_hand_cards.connect(_on_request_modify_hand_cards)
+	player.move_buttons_pressed.connect(_on_player_move_buttons_pressed)
 
 func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter:int) -> void:
 
@@ -125,6 +126,7 @@ func _start_new_level() -> void:
 	_start_turn()
 
 func _start_turn() -> void:
+	player.moves_left = 1
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.TURN)
 	boost = maxi(boost - 1, 1)
 	gui.toggle_all_ui(false)
@@ -270,6 +272,15 @@ func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> vo
 	else:
 		reward_finished.emit(tool_data, from_global_position)
 
+func _on_player_move_buttons_pressed(move_direction:Player.MoveDirection) -> void:
+	if (_current_player_index == -1 && move_direction == Player.MoveDirection.LEFT) || (_current_player_index == plant_field_container.plants.size() && move_direction == Player.MoveDirection.RIGHT):
+		return
+	match move_direction:
+		Player.MoveDirection.LEFT:
+			_current_player_index -= 1
+		Player.MoveDirection.RIGHT:
+			_current_player_index += 1
+
 #region other events
 
 func _on_tool_application_started(tool_data:ToolData) -> void:
@@ -348,6 +359,13 @@ func _set_boost(val:int) -> void:
 
 func _set_current_player_index(value:int) -> void:
 	_current_player_index = value
-	player.move_to_x(plant_field_container.get_field(value).global_position.x)
+	var destination_x := 0.0
+	if value < 0:
+		destination_x = plant_field_container.get_field(0).global_position.x - plant_field_container.MAX_DISTANCE_BETWEEN_FIELDS
+	elif value >= plant_field_container.plants.size():
+		destination_x = plant_field_container.get_field(plant_field_container.plants.size() - 1).global_position.x + plant_field_container.MAX_DISTANCE_BETWEEN_FIELDS
+	else:
+		destination_x = plant_field_container.get_field(value).global_position.x
+	player.move_to_x(destination_x)
 
 #endregion

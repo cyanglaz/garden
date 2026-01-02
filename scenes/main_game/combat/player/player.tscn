@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://jgby34y1664r"]
+[gd_scene load_steps=14 format=3 uid="uid://jgby34y1664r"]
 
 [ext_resource type="Script" uid="uid://dn5567lxyuyyi" path="res://scenes/main_game/combat/player/player.gd" id="1_3t8ap"]
 [ext_resource type="PackedScene" uid="uid://dcsmfjbtvdbk3" path="res://scenes/main_game/combat/player/player_sprite.tscn" id="1_4v0bi"]
 [ext_resource type="Texture2D" uid="uid://dywpvxxevs23u" path="res://resources/sprites/characters/player/player_pollinator.png" id="2_hap8c"]
 [ext_resource type="Texture2D" uid="uid://dachyaiwwtbrh" path="res://resources/sprites/GUI/indicators/player_down_arrow.png" id="4_0f2bv"]
 [ext_resource type="PackedScene" uid="uid://blco6hprwp4nn" path="res://scenes/state_machine/player/player_state_machine.tscn" id="5_0f2bv"]
+[ext_resource type="PackedScene" uid="uid://bh342eajde68t" path="res://scenes/GUI/controls/buttons/gui_player_move_button.tscn" id="6_utenh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0f2bv"]
 atlas = ExtResource("2_hap8c")
@@ -115,3 +116,47 @@ metadata/_aseprite_wizard_source_file_hash_ = "6b22151874ffbec597e7bd8c3cb5111c"
 
 [node name="PlayerStateMachine" parent="." instance=ExtResource("5_0f2bv")]
 unique_name_in_owner = true
+
+[node name="GUI" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+
+[node name="MoveUI" type="Control" parent="GUI"]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MoveIndicator" type="Label" parent="GUI/MoveUI"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = -36.0
+offset_right = -19.0
+offset_bottom = -28.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"HUD_mid"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="LeftButton" parent="GUI/MoveUI" instance=ExtResource("6_utenh")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -25.0
+offset_top = -8.0
+offset_right = -9.0
+
+[node name="RightButton" parent="GUI/MoveUI" instance=ExtResource("6_utenh")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 25.0
+offset_top = -8.0
+offset_right = 41.0
+scale = Vector2(-1, 1)
