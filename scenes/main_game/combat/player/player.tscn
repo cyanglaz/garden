@@ -1,0 +1,117 @@
+[gd_scene load_steps=13 format=3 uid="uid://jgby34y1664r"]
+
+[ext_resource type="Script" uid="uid://dn5567lxyuyyi" path="res://scenes/main_game/combat/player/player.gd" id="1_3t8ap"]
+[ext_resource type="PackedScene" uid="uid://dcsmfjbtvdbk3" path="res://scenes/main_game/combat/player/player_sprite.tscn" id="1_4v0bi"]
+[ext_resource type="Texture2D" uid="uid://dywpvxxevs23u" path="res://resources/sprites/characters/player/player_pollinator.png" id="2_hap8c"]
+[ext_resource type="Texture2D" uid="uid://dachyaiwwtbrh" path="res://resources/sprites/GUI/indicators/player_down_arrow.png" id="4_0f2bv"]
+[ext_resource type="PackedScene" uid="uid://blco6hprwp4nn" path="res://scenes/state_machine/player/player_state_machine.tscn" id="5_0f2bv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0f2bv"]
+atlas = ExtResource("2_hap8c")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_utenh"]
+atlas = ExtResource("2_hap8c")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ckgi"]
+atlas = ExtResource("2_hap8c")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g2v38"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0f2bv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_utenh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ckgi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_utenh")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 7.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g2v38"]
+atlas = ExtResource("4_0f2bv")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mohyj"]
+atlas = ExtResource("4_0f2bv")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_67t8q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g2v38")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g2v38")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mohyj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g2v38")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 7.0
+}]
+
+[node name="Player" type="Node2D"]
+script = ExtResource("1_3t8ap")
+
+[node name="PlayerSprite" parent="." instance=ExtResource("1_4v0bi")]
+unique_name_in_owner = true
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_g2v38")
+animation = &"idle"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/characters/player/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/characters/player/player_pollinator.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "8a8608cdbc016c78fc1f1b531d2e01bd"
+
+[node name="DownArrow" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+position = Vector2(0, 14)
+sprite_frames = SubResource("SpriteFrames_67t8q")
+animation = &"idle"
+autoplay = "idle"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/GUI/indicators/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/GUI/indicators/player_down_arrow.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "6b22151874ffbec597e7bd8c3cb5111c"
+
+[node name="PlayerStateMachine" parent="." instance=ExtResource("5_0f2bv")]
+unique_name_in_owner = true

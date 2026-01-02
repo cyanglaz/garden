@@ -16,6 +16,7 @@ const BACKGROUND_MUSIC_FADE_IN_TIME := 1.0
 
 @onready var weather_main: WeatherMain = %WeatherMain
 @onready var plant_field_container: PlantFieldContainer = %PlantFieldContainer
+@onready var player: Node2D = %Player
 @onready var gui: GUICombatMain = %GUI
 @onready var background_music_player: AudioStreamPlayer2D = %BackgroundMusicPlayer
 
@@ -29,6 +30,7 @@ var combat_modifier_manager:CombatModifierManager = CombatModifierManager.new()
 var boost := 1: set = _set_boost
 var _combat:CombatData
 var _tool_application_error_timers:Dictionary = {}
+var _current_player_index:int = 0: set = _set_current_player_index
 
 var is_finished:bool = false
 
@@ -118,6 +120,7 @@ func _start_new_level() -> void:
 	day_manager.start_new()
 	gui.update_with_combat(_combat, self)
 	level_started.emit()
+	_set_current_player_index(0)
 	await weather_main.start(_chapter)
 	_start_turn()
 
@@ -343,5 +346,9 @@ func _on_request_modify_hand_cards(callable:Callable) -> void:
 func _set_boost(val:int) -> void:
 	boost = val
 	gui.update_boost(boost)
+
+func _set_current_player_index(value:int) -> void:
+	_current_player_index = value
+	player.move_to_x(plant_field_container.get_field(value).global_position.x)
 
 #endregion

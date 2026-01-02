@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcsmfjbtvdbk3"]
+
+[ext_resource type="Shader" uid="uid://klxogafksbo6" path="res://scenes/main_game/combat/player/player_sprite.gdshader" id="1_pgxwa"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4f0i0"]
+shader = ExtResource("1_pgxwa")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+
+[node name="PlayerSprite" type="AnimatedSprite2D"]
+material = SubResource("ShaderMaterial_4f0i0")
