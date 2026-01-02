@@ -361,9 +361,11 @@ func _set_current_player_index(value:int) -> void:
 	_current_player_index = value
 	var destination_x := 0.0
 	if value < 0:
-		destination_x = plant_field_container.get_field(0).global_position.x - plant_field_container.MAX_DISTANCE_BETWEEN_FIELDS
+		var first_field:Field = plant_field_container.get_field(0)
+		destination_x = first_field.global_position.x - first_field.land_width - plant_field_container.MAX_DISTANCE_BETWEEN_FIELDS
 	elif value >= plant_field_container.plants.size():
-		destination_x = plant_field_container.get_field(plant_field_container.plants.size() - 1).global_position.x + plant_field_container.MAX_DISTANCE_BETWEEN_FIELDS
+		var last_field:Field = plant_field_container.get_field(plant_field_container.plants.size() - 1)
+		destination_x = last_field.global_position.x + last_field.land_width + plant_field_container.MAX_DISTANCE_BETWEEN_FIELDS
 	else:
 		destination_x = plant_field_container.get_field(value).global_position.x
 	player.move_to_x(destination_x)

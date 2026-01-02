@@ -16,6 +16,7 @@ func _ready() -> void:
 		child.animated_in_finished.connect(_on_sprite_animated_in_finished)
 		child.animated_out_finished.connect(_on_sprite_animated_out_finished)
 		_sprites.append(child)
+		print("orignial position: ", child.global_position)
 
 func animate_sprites_in() -> void:
 	if _sprites.is_empty():
@@ -37,6 +38,8 @@ func _on_sprite_animated_in_finished() -> void:
 	_sprites_animation_count -= 1
 	if _sprites_animation_count == 0:
 		animated_in_finished.emit()
+		for sprite in _sprites:
+			print("sprite position: ", sprite.global_position)
 
 func _on_sprite_animated_out_finished() -> void:
 	_sprites_animation_count -= 1
