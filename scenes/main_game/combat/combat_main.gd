@@ -231,7 +231,8 @@ func _hide_custom_error(identifier:String) -> void:
 #region UI EVENTS
 func _on_tool_selected(tool_data:ToolData) -> void:
 	tool_manager.select_tool(tool_data)
-	_handle_card_use(_current_player_index)
+	await _handle_card_use(_current_player_index)
+	_clear_tool_selection()
 
 	#if tool_data.all_fields:
 	#	plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT)
@@ -348,6 +349,5 @@ func _set_boost(val:int) -> void:
 func _set_current_player_index(value:int) -> void:
 	_current_player_index = value
 	player.move_to_x(plant_field_container.get_field(value).global_position.x)
-	print(player.global_position)
 
 #endregion

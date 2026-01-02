@@ -79,6 +79,9 @@ func bloom() -> void:
 	_gui_field_status_container.hide()
 	_complete_check.show()
 
+func get_plant_height() -> float:
+	return plant.get_pixel_height()
+
 #region private methods
 
 func _show_progress_bars() -> void:

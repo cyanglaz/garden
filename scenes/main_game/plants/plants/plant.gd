@@ -94,6 +94,13 @@ func show_bloom_popup() -> void:
 	_point_audio.play()
 	# TODO:
 
+func get_pixel_height() -> float:
+	var sprite_frames:SpriteFrames = plant_sprite.sprite_frames
+	var frame_texture:Texture2D = sprite_frames.get_frame_texture("bloom", 0)
+	var image := frame_texture.get_image()
+	var used_rect := image.get_used_rect()
+	return used_rect.size.y
+
 #endregion
 
 #region private functions

@@ -275,9 +275,6 @@ func _on_tool_card_pressed(index:int) -> void:
 			var gui_card:GUIToolCardButton = _container.get_child(i)
 			if i == index:
 				_handle_selected_card(gui_card)
-			else:
-				assert(!card_selection_mode)
-				gui_card.card_state = GUICardFace.CardState.UNSELECTED
 	else:
 		selected_index = -1
 		selected_card.play_error_shake_animation()

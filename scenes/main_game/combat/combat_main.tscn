@@ -20,13 +20,14 @@ unique_name_in_owner = true
 [node name="PlantFieldContainer" parent="." instance=ExtResource("1_nckrh")]
 unique_name_in_owner = true
 z_index = 1
-position = Vector2(0, -9)
+position = Vector2(0, 4)
 
 [node name="Player" parent="." instance=ExtResource("8_stq43")]
 unique_name_in_owner = true
 
 [node name="DynamicWater" parent="." instance=ExtResource("5_y1agf")]
 z_index = 1
+position = Vector2(0, 13)
 
 [node name="GUI" parent="." instance=ExtResource("2_yx5ui")]
 unique_name_in_owner = true
