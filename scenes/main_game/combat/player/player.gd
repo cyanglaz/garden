@@ -23,14 +23,17 @@ var moves_left:int = 0: set = _set_moves_left
 
 func _ready() -> void:
 	player_state_machine.start()
-	global_position.y = POSITION_Y_OFFSET
 	left_button.pressed.connect(_on_button_pressed.bind(MoveDirection.LEFT))
 	right_button.pressed.connect(_on_button_pressed.bind(MoveDirection.RIGHT))
+
+func toggle_move_buttons(on:bool) -> void:
+	left_button.button_state = GUIBasicButton.ButtonState.NORMAL if on else GUIBasicButton.ButtonState.DISABLED
+	right_button.button_state = GUIBasicButton.ButtonState.NORMAL if on else GUIBasicButton.ButtonState.DISABLED
 
 func move_to_x(x: float) -> void:
 	moves_left -= 1
 	var tween:Tween = create_tween()
-	tween.tween_property(self, "global_position:x", x, MOVE_TIME).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(self, "global_position", Vector2(x, POSITION_Y_OFFSET), MOVE_TIME).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
 
 func _on_button_pressed(move_direction:MoveDirection) -> void:
 	move_buttons_pressed.emit(move_direction)

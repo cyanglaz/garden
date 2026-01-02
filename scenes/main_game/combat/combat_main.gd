@@ -30,7 +30,7 @@ var combat_modifier_manager:CombatModifierManager = CombatModifierManager.new()
 var boost := 1: set = _set_boost
 var _combat:CombatData
 var _tool_application_error_timers:Dictionary = {}
-var _current_player_index:int = 0: set = _set_current_player_index
+var _current_player_index:int = -1: set = _set_current_player_index
 
 var is_finished:bool = false
 
@@ -43,6 +43,7 @@ func _ready() -> void:
 	Events.request_add_tools_to_discard_pile.connect(_on_request_add_tools_to_discard_pile)
 	Events.request_modify_hand_cards.connect(_on_request_modify_hand_cards)
 	player.move_buttons_pressed.connect(_on_player_move_buttons_pressed)
+	gui.ui_lock_toggled.connect(_on_ui_lock_toggled)
 
 func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter:int) -> void:
 
@@ -280,6 +281,9 @@ func _on_player_move_buttons_pressed(move_direction:Player.MoveDirection) -> voi
 			_current_player_index -= 1
 		Player.MoveDirection.RIGHT:
 			_current_player_index += 1
+
+func _on_ui_lock_toggled(on:bool) -> void:
+	player.toggle_move_buttons(on)
 
 #region other events
 
