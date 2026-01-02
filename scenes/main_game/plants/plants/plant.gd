@@ -1,7 +1,7 @@
 class_name Plant
 extends Node2D
 
-const AREA_SIZE_PER_CURSE_PARTICLE := 3.0
+const AREA_SIZE_PER_CURSE_PARTICLE := 5
 const CURSE_PARTICLE_Y_OFFSET := 4.0
 const POPUP_SHOW_TIME := 0.3
 const POPUP_DESTROY_TIME:= 1.2
@@ -23,7 +23,7 @@ signal action_application_completed()
 
 @onready var plant_sprite: AnimatedSprite2D = %PlantSprite
 @onready var fsm: PlantStateMachine = %PlantStateMachine
-@onready var curse_particle: GPUParticles2D = %CurseParticle
+@onready var enemy_particle: GPUParticles2D = %EnemyParticle
 @onready var bloom_particle: GPUParticles2D = %BloomParticle
 @onready var plant_ability_container: PlantAbilityContainer = %PlantAbilityContainer
 @onready var field_status_container: FieldStatusContainer = %FieldStatusContainer
@@ -42,7 +42,7 @@ func _ready() -> void:
 	bloom_particle.one_shot = true
 	bloom_particle.emitting = false
 	field_status_container.request_hook_message_popup.connect(_on_request_hook_message_popup)
-	_resize_curse_particle()
+	_resize_enemy_particle()
 
 func trigger_ability(ability_type:AbilityType) -> void:
 	await plant_ability_container.trigger_ability(ability_type, self)
@@ -166,17 +166,17 @@ func _apply_field_status_action(action:ActionData) -> void:
 func _get_action_true_value(action_data:ActionData) -> int:
 	return action_data.get_calculated_value(self)
 
-func _resize_curse_particle() -> void:
+func _resize_enemy_particle() -> void:
 	var sprite_frames:SpriteFrames = plant_sprite.sprite_frames
 	var current_animation:StringName = plant_sprite.animation
 	var frame_texture:Texture2D = sprite_frames.get_frame_texture(current_animation, 0)
 	var image := frame_texture.get_image()
 	var used_rect := image.get_used_rect()
-	curse_particle.process_material.emission_box_extents = Vector3(used_rect.size.x/2.0, used_rect.size.y/2.0, 1)
-	var area_size :float = curse_particle.process_material.emission_box_extents.x * curse_particle.process_material.emission_box_extents.y
-	var number_of_particles := area_size / (AREA_SIZE_PER_CURSE_PARTICLE * AREA_SIZE_PER_CURSE_PARTICLE)
-	curse_particle.amount = int(number_of_particles)
-	curse_particle.position.y = - used_rect.size.y/2.0 + CURSE_PARTICLE_Y_OFFSET
+	enemy_particle.process_material.emission_box_extents = Vector3(used_rect.size.x/2.0, used_rect.size.y/2.0, 1)
+	var area_size :float = enemy_particle.process_material.emission_box_extents.x * enemy_particle.process_material.emission_box_extents.y
+	var number_of_particles := area_size / AREA_SIZE_PER_CURSE_PARTICLE
+	enemy_particle.amount = int(number_of_particles)
+	enemy_particle.position.y = - used_rect.size.y/2.0 + CURSE_PARTICLE_Y_OFFSET
 
 func _reposition_bloom_particle() -> void:
 	var sprite_frames:SpriteFrames = plant_sprite.sprite_frames

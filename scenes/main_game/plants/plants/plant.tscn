@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://c3p4a5hat4001" path="res://scenes/main_game/plants/plants/plant.gd" id="1_k38v5"]
 [ext_resource type="PackedScene" uid="uid://c4uyy86onbdnu" path="res://scenes/state_machine/plants/plant_state_machine.tscn" id="2_o3cyj"]
 [ext_resource type="PackedScene" uid="uid://c2pseu3ojv2f5" path="res://scenes/main_game/plants/components/plant_sprite.tscn" id="2_rvdin"]
+[ext_resource type="Texture2D" uid="uid://c5o26vnt4r8q" path="res://resources/sprites/effects/particles/enemy_particle.png" id="3_cbxjf"]
 [ext_resource type="PackedScene" uid="uid://ch73pnku1ejr5" path="res://scenes/main_game/plants/components/plant_ability_container.tscn" id="4_7q2y3"]
 [ext_resource type="Texture2D" uid="uid://cid4t4lf8q12j" path="res://resources/sprites/effects/particles/particle_5.png" id="7_n2kci"]
 [ext_resource type="Script" uid="uid://1m3di3iqxhf2" path="res://scenes/main_game/combat/fields/status/field_status_container.gd" id="8_avrp0"]
@@ -62,24 +63,26 @@ colors = PackedColorArray(0.38431373, 0.14117648, 0.38039216, 1, 0.5764706, 0.21
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_avrp0"]
 gradient = SubResource("Gradient_n2kci")
 
-[sub_resource type="Curve" id="Curve_cbxjf"]
-_data = [Vector2(0, 0.90345746), 0.0, 0.0, 0, 0, Vector2(1, 0.6929632), 0.0, 0.0, 0, 0]
-point_count = 2
-
 [sub_resource type="CurveTexture" id="CurveTexture_y51p7"]
-curve = SubResource("Curve_cbxjf")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ykj75"]
 resource_local_to_scene = true
 particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(16, 16, 1)
+direction = Vector3(0, -1, 0)
+spread = 5.0
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
 gravity = Vector3(0, -10, 0)
-scale_min = 0.79999995
-scale_max = 1.5
+scale_min = 0.5
+scale_max = 0.79999995
 scale_curve = SubResource("CurveTexture_y51p7")
 color_initial_ramp = SubResource("GradientTexture1D_avrp0")
 alpha_curve = SubResource("CurveTexture_avrp0")
+turbulence_enabled = true
+turbulence_noise_strength = 2.04
+turbulence_noise_scale = 4.473
 
 [sub_resource type="Curve" id="Curve_y51p7"]
 _data = [Vector2(0, 1), 0.0, -0.24050502, 0, 0, Vector2(0.89970064, 0.6588443), -1.2151587, -1.2151587, 0, 0, Vector2(1, 0), -14.833195, 0.0, 0, 0]
@@ -124,11 +127,10 @@ script = ExtResource("1_k38v5")
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_txblc")
 
-[node name="CurseParticle" type="GPUParticles2D" parent="."]
+[node name="EnemyParticle" type="GPUParticles2D" parent="."]
 unique_name_in_owner = true
-visible = false
-amount = 16
-texture = ExtResource("7_n2kci")
+amount = 4
+texture = ExtResource("3_cbxjf")
 lifetime = 2.0
 process_material = SubResource("ParticleProcessMaterial_ykj75")
 
