@@ -10,5 +10,5 @@ func _ready() -> void:
 	player_state_machine.start()
 
 func move_to_x(x: float) -> void:
-	position.x = x
-	position.y = POSITION_Y_OFFSET
+	global_position.x = x
+	global_position.y = POSITION_Y_OFFSET

@@ -120,8 +120,8 @@ func _start_new_level() -> void:
 	day_manager.start_new()
 	gui.update_with_combat(_combat, self)
 	level_started.emit()
-	_set_current_player_index(0)
 	await weather_main.start(_chapter)
+	_set_current_player_index(0)
 	_start_turn()
 
 func _start_turn() -> void:
@@ -197,10 +197,6 @@ func _clear_tool_selection() -> void:
 	gui.clear_tool_selection()
 	plant_field_container.clear_tool_indicators()
 
-func _handle_select_tool(tool_data:ToolData) -> void:
-	plant_field_container.clear_tool_indicators()
-	tool_manager.select_tool(tool_data)
-
 func _bloom(plant_index:int) -> void:
 	var field:Field = plant_field_container.get_field(plant_index)
 	if field.can_bloom():
@@ -234,11 +230,13 @@ func _hide_custom_error(identifier:String) -> void:
 
 #region UI EVENTS
 func _on_tool_selected(tool_data:ToolData) -> void:
-	_handle_select_tool(tool_data)
-	if tool_data.all_fields:
-		plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT)
-	elif tool_data.need_select_field:
-		plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.READY)
+	tool_manager.select_tool(tool_data)
+	_handle_card_use(_current_player_index)
+
+	#if tool_data.all_fields:
+	#	plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT)
+	#elif tool_data.need_select_field:
+	#	plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.READY)
 
 func _on_mouse_exited_card(tool_data:ToolData) -> void:
 	_hide_custom_error(tool_data.id)
@@ -350,5 +348,6 @@ func _set_boost(val:int) -> void:
 func _set_current_player_index(value:int) -> void:
 	_current_player_index = value
 	player.move_to_x(plant_field_container.get_field(value).global_position.x)
+	print(player.global_position)
 
 #endregion
