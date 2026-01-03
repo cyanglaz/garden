@@ -5,7 +5,7 @@ func enter() -> void:
 	plant.bloom_particle.restart()
 	super.enter()
 	plant.bloom_started.emit()
-	plant.enemy_particle.emitting = false
+	plant.enemy.enemy_particle.emitting = false
 	_play_bloom_animation()
 	await plant.trigger_ability(Plant.AbilityType.BLOOM)
 	plant.field_status_container.clear_all_statuses()

@@ -30,7 +30,6 @@ var combat_modifier_manager:CombatModifierManager = CombatModifierManager.new()
 var boost := 1: set = _set_boost
 var _combat:CombatData
 var _tool_application_error_timers:Dictionary = {}
-var _current_player_index:int = -1: set = _set_current_player_index
 
 var is_finished:bool = false
 
@@ -42,7 +41,6 @@ func _ready() -> void:
 	Events.request_add_tools_to_hand.connect(_on_request_add_tools_to_hand)
 	Events.request_add_tools_to_discard_pile.connect(_on_request_add_tools_to_discard_pile)
 	Events.request_modify_hand_cards.connect(_on_request_modify_hand_cards)
-	player.move_buttons_pressed.connect(_on_player_move_buttons_pressed)
 	gui.ui_lock_toggled.connect(_on_ui_lock_toggled)
 
 func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter:int) -> void:
@@ -73,6 +71,8 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	gui.card_use_button_pressed.connect(_on_card_use_button_pressed)
 	gui.mouse_exited_card.connect(_on_mouse_exited_card)
 	gui.reward_finished.connect(_on_reward_finished)
+
+	player.field_index_updated.connect(_on_player_field_index_updated)
 
 	combat_modifier_manager.setup(self)
 
@@ -123,7 +123,8 @@ func _start_new_level() -> void:
 	gui.update_with_combat(_combat, self)
 	level_started.emit()
 	await weather_main.start(_chapter)
-	_set_current_player_index(0)
+	player.max_plants_index = plant_field_container.plants.size() - 1
+	player.current_field_index = 0
 	_start_turn()
 
 func _start_turn() -> void:
@@ -138,6 +139,7 @@ func _start_turn() -> void:
 		_fade_music(true)
 		await gui.apply_boss_actions(GUIBoss.HookType.LEVEL_START)
 	await gui.apply_boss_actions(GUIBoss.HookType.TURN_START)
+	#plant_field_container.generate_next_attacks(self)
 	await draw_cards(hand_size)
 	await plant_field_container.trigger_start_turn_hooks(self)
 	gui.toggle_all_ui(true)
@@ -234,7 +236,7 @@ func _hide_custom_error(identifier:String) -> void:
 #region UI EVENTS
 func _on_tool_selected(tool_data:ToolData) -> void:
 	tool_manager.select_tool(tool_data)
-	await _handle_card_use(_current_player_index)
+	await _handle_card_use(player.current_field_index)
 	_clear_tool_selection()
 
 	#if tool_data.all_fields:
@@ -273,17 +275,12 @@ func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> vo
 	else:
 		reward_finished.emit(tool_data, from_global_position)
 
-func _on_player_move_buttons_pressed(move_direction:Player.MoveDirection) -> void:
-	if (_current_player_index == -1 && move_direction == Player.MoveDirection.LEFT) || (_current_player_index == plant_field_container.plants.size() && move_direction == Player.MoveDirection.RIGHT):
-		return
-	match move_direction:
-		Player.MoveDirection.LEFT:
-			_current_player_index -= 1
-		Player.MoveDirection.RIGHT:
-			_current_player_index += 1
-
 func _on_ui_lock_toggled(on:bool) -> void:
 	player.toggle_move_buttons(on)
+
+func _on_player_field_index_updated(index:int) -> void:
+	var destination_x := plant_field_container.get_field(index).global_position.x
+	player.move_to_x(destination_x)
 
 #region other events
 
@@ -360,18 +357,5 @@ func _on_request_modify_hand_cards(callable:Callable) -> void:
 func _set_boost(val:int) -> void:
 	boost = val
 	gui.update_boost(boost)
-
-func _set_current_player_index(value:int) -> void:
-	_current_player_index = value
-	var destination_x := 0.0
-	if value < 0:
-		var first_field:Field = plant_field_container.get_field(0)
-		destination_x = first_field.global_position.x - first_field.land_width - plant_field_container.MAX_DISTANCE_BETWEEN_FIELDS
-	elif value >= plant_field_container.plants.size():
-		var last_field:Field = plant_field_container.get_field(plant_field_container.plants.size() - 1)
-		destination_x = last_field.global_position.x + last_field.land_width + plant_field_container.MAX_DISTANCE_BETWEEN_FIELDS
-	else:
-		destination_x = plant_field_container.get_field(value).global_position.x
-	player.move_to_x(destination_x)
 
 #endregion

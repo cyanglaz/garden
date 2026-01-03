@@ -342,6 +342,15 @@ static func get_id_for_action_speical(special:ActionData.Special) -> String:
 			id = "all_fields"
 	return id
 
+static func get_id_for_attack_type(attack_type:AttackData.AttackType) -> String:
+	var id := ""
+	match attack_type:
+		AttackData.AttackType.SIMPLE:
+			id = "simple"
+		_:
+			assert(false, str("unrecognized attack type, ", attack_type))
+	return id
+
 static func find_tool_ids_in_data(data:Dictionary) -> Array[String]:
 	var tool_ids:Array[String] = []
 	for key:String in data.keys():

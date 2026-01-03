@@ -1,14 +1,14 @@
 class_name Player
 extends Node2D
 
+signal field_index_updated(index:int)
+
 const MOVE_TIME := 0.1
 
 enum MoveDirection {
 	LEFT,
 	RIGHT
 }
-
-signal move_buttons_pressed(move_direction:MoveDirection)
 
 const POSITION_Y_OFFSET := -56
 
@@ -20,6 +20,8 @@ const POSITION_Y_OFFSET := -56
 @onready var move_ui: Control = %MoveUI
 
 var moves_left:int = 0: set = _set_moves_left
+var current_field_index:int = 0: set = _set_current_field_index
+var max_plants_index:int = 0
 
 func _ready() -> void:
 	player_state_machine.start()
@@ -31,12 +33,15 @@ func toggle_move_buttons(on:bool) -> void:
 	right_button.button_state = GUIBasicButton.ButtonState.NORMAL if on else GUIBasicButton.ButtonState.DISABLED
 
 func move_to_x(x: float) -> void:
-	moves_left -= 1
 	var tween:Tween = create_tween()
 	tween.tween_property(self, "global_position", Vector2(x, POSITION_Y_OFFSET), MOVE_TIME).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
 
 func _on_button_pressed(move_direction:MoveDirection) -> void:
-	move_buttons_pressed.emit(move_direction)
+	match move_direction:
+		MoveDirection.LEFT:
+			current_field_index -= 1
+		MoveDirection.RIGHT:
+			current_field_index += 1
 	moves_left -= 1
 
 func _set_moves_left(value:int) -> void:
@@ -44,3 +49,15 @@ func _set_moves_left(value:int) -> void:
 	move_indicator.text = str(moves_left)
 	assert(moves_left >= 0)
 	move_ui.visible = moves_left > 0
+
+func _set_current_field_index(value:int) -> void:
+	current_field_index = value
+	if current_field_index == 0:
+		left_button.hide()
+	else:
+		left_button.show()
+	if current_field_index == max_plants_index:
+		right_button.hide()
+	else:
+		right_button.show()
+	field_index_updated.emit(current_field_index)

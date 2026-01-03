@@ -1,16 +1,16 @@
-[gd_scene load_steps=25 format=3 uid="uid://5hl240rod12d"]
+[gd_scene load_steps=19 format=3 uid="uid://5hl240rod12d"]
 
 [ext_resource type="Script" uid="uid://c3p4a5hat4001" path="res://scenes/main_game/plants/plants/plant.gd" id="1_k38v5"]
 [ext_resource type="PackedScene" uid="uid://c4uyy86onbdnu" path="res://scenes/state_machine/plants/plant_state_machine.tscn" id="2_o3cyj"]
 [ext_resource type="PackedScene" uid="uid://c2pseu3ojv2f5" path="res://scenes/main_game/plants/components/plant_sprite.tscn" id="2_rvdin"]
-[ext_resource type="Texture2D" uid="uid://c5o26vnt4r8q" path="res://resources/sprites/effects/particles/enemy_particle.png" id="3_cbxjf"]
 [ext_resource type="PackedScene" uid="uid://ch73pnku1ejr5" path="res://scenes/main_game/plants/components/plant_ability_container.tscn" id="4_7q2y3"]
 [ext_resource type="Texture2D" uid="uid://cid4t4lf8q12j" path="res://resources/sprites/effects/particles/particle_5.png" id="7_n2kci"]
 [ext_resource type="Script" uid="uid://1m3di3iqxhf2" path="res://scenes/main_game/combat/fields/status/field_status_container.gd" id="8_avrp0"]
+[ext_resource type="PackedScene" uid="uid://dunrmnpknjlw" path="res://scenes/main_game/combat/enemy/enemy.tscn" id="9_cbxjf"]
 [ext_resource type="AudioStream" uid="uid://bs0jg061p4c2d" path="res://resources/sounds/SFX/field/field_buff.wav" id="14_gu4ic"]
 [ext_resource type="AudioStream" uid="uid://t10sv74gr8qu" path="res://resources/sounds/SFX/other/points/points_collected.wav" id="16_txblc"]
 
-[sub_resource type="Shader" id="Shader_avrp0"]
+[sub_resource type="Shader" id="Shader_cbxjf"]
 resource_local_to_scene = true
 code = "shader_type canvas_item;
 
@@ -46,43 +46,9 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_txblc"]
 resource_local_to_scene = true
-shader = SubResource("Shader_avrp0")
+shader = SubResource("Shader_cbxjf")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
-
-[sub_resource type="Curve" id="Curve_n2kci"]
-_data = [Vector2(0, 0.6522836), 0.0, 0.0, 0, 0, Vector2(0.99999, 0.002775669), -0.5739946, -0.5739946, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_avrp0"]
-curve = SubResource("Curve_n2kci")
-
-[sub_resource type="Gradient" id="Gradient_n2kci"]
-colors = PackedColorArray(0.38431373, 0.14117648, 0.38039216, 1, 0.5764706, 0.21960784, 0.56078434, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_avrp0"]
-gradient = SubResource("Gradient_n2kci")
-
-[sub_resource type="CurveTexture" id="CurveTexture_y51p7"]
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ykj75"]
-resource_local_to_scene = true
-particle_flag_disable_z = true
-emission_shape = 3
-emission_box_extents = Vector3(16, 16, 1)
-direction = Vector3(0, -1, 0)
-spread = 5.0
-initial_velocity_min = 5.0
-initial_velocity_max = 10.0
-gravity = Vector3(0, -10, 0)
-scale_min = 0.5
-scale_max = 0.79999995
-scale_curve = SubResource("CurveTexture_y51p7")
-color_initial_ramp = SubResource("GradientTexture1D_avrp0")
-alpha_curve = SubResource("CurveTexture_avrp0")
-turbulence_enabled = true
-turbulence_noise_strength = 2.04
-turbulence_noise_scale = 4.473
 
 [sub_resource type="Curve" id="Curve_y51p7"]
 _data = [Vector2(0, 1), 0.0, -0.24050502, 0, 0, Vector2(0.89970064, 0.6588443), -1.2151587, -1.2151587, 0, 0, Vector2(1, 0), -14.833195, 0.0, 0, 0]
@@ -127,12 +93,8 @@ script = ExtResource("1_k38v5")
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_txblc")
 
-[node name="EnemyParticle" type="GPUParticles2D" parent="."]
+[node name="Enemy" parent="." instance=ExtResource("9_cbxjf")]
 unique_name_in_owner = true
-amount = 4
-texture = ExtResource("3_cbxjf")
-lifetime = 2.0
-process_material = SubResource("ParticleProcessMaterial_ykj75")
 
 [node name="BloomParticle" type="GPUParticles2D" parent="."]
 unique_name_in_owner = true

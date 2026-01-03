@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dvqt3lu4761kt"]
+
+[ext_resource type="Script" uid="uid://dijk07fa2q40" path="res://scenes/main_game/combat/enemy/attack/indicator/attack_indicator.gd" id="1_jqh48"]
+
+[node name="AttackIndicator" type="Node2D"]
+script = ExtResource("1_jqh48")
+
+[node name="Line2D" type="Line2D" parent="."]
+unique_name_in_owner = true
+width = 2.0

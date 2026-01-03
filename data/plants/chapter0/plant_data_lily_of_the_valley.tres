@@ -1,6 +1,13 @@
-[gd_resource type="Resource" script_class="PlantData" load_steps=2 format=3 uid="uid://cqxom50e8wuof"]
+[gd_resource type="Resource" script_class="PlantData" load_steps=4 format=3 uid="uid://cqxom50e8wuof"]
 
+[ext_resource type="Script" uid="uid://dhvdja05rxru0" path="res://data/models/attack/attack_data.gd" id="1_y7oj0"]
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_ydpd7"]
+
+[sub_resource type="Resource" id="Resource_riulj"]
+script = ExtResource("1_y7oj0")
+damage = 2
+target_positions = Array[int]([-1, 0, 1])
+metadata/_custom_type_script = "uid://dhvdja05rxru0"
 
 [resource]
 script = ExtResource("1_ydpd7")
@@ -11,6 +18,7 @@ chapters = Array[int]([0])
 abilities = {
 &"attack": "2"
 }
+attacks = Array[ExtResource("1_y7oj0")]([SubResource("Resource_riulj")])
 id = "lily_of_the_valley"
 display_name = "Lily of The Valley"
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"
