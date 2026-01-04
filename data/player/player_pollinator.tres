@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PlayerData" load_steps=9 format=3 uid="uid://d1jqracpdos0e"]
+[gd_resource type="Resource" script_class="PlayerData" load_steps=9 format=3 uid="uid://4dslofp7rfib"]
 
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_m7e3l"]
 [ext_resource type="Resource" uid="uid://dr13xwnk1wtam" path="res://data/tools/defaults/tool_sunlight.tres" id="2_xkk26"]
