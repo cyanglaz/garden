@@ -235,8 +235,8 @@ func _set_card_state(value:GUICardFace.CardState) -> void:
 func _get_card_state() -> GUICardFace.CardState:
 	return current_face.card_state
 
-func _set_resource_sufficient(_value:bool) -> void:
-	assert(false, "set_resource_sufficient is not allowed, use update_for_energy instead")
+func _set_resource_sufficient(value:bool) -> void:
+	current_face.resource_sufficient = value
 
 func _get_resource_sufficient() -> bool:
 	return current_face.resource_sufficient

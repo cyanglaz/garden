@@ -210,7 +210,7 @@ func _set_resource_sufficient(value:bool) -> void:
 	if tool_data.get_total_energy_modifier() > 0:
 		sufficient_color = Constants.COST_INCREASED_COLOR
 	if tool_data.get_total_energy_modifier() < 0:
-		sufficient_color = Constants.COST_REDUCED_COLOR
+		sufficient_color = Constants.COST_UPDATED_COLOR
 	
 	if resource_sufficient:
 		_cost_icon.self_modulate = sufficient_color
