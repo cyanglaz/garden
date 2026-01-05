@@ -10,7 +10,7 @@ enum MoveDirection {
 	RIGHT
 }
 
-const POSITION_Y_OFFSET := -56
+const POSITION_Y_OFFSET := -38
 
 @onready var player_sprite: AnimatedSprite2D = %PlayerSprite
 @onready var player_state_machine: PlayerStateMachine = %PlayerStateMachine

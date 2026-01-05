@@ -19,6 +19,7 @@ const BACKGROUND_MUSIC_FADE_IN_TIME := 1.0
 @onready var player: Node2D = %Player
 @onready var gui: GUICombatMain = %GUI
 @onready var background_music_player: AudioStreamPlayer2D = %BackgroundMusicPlayer
+@onready var weather_ability_container: WeatherAbilityContainer = %WeatherAbilityContainer
 
 var energy_tracker:ResourcePoint = ResourcePoint.new()
 var combat_generator:CombatGenerator = CombatGenerator.new()
@@ -128,6 +129,7 @@ func _start_new_level() -> void:
 	_start_turn()
 
 func _start_turn() -> void:
+	_generate_next_weather_abilities()
 	player.moves_left = 1
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.TURN)
 	boost = maxi(boost - 1, 1)
@@ -186,6 +188,9 @@ func _win() -> void:
 	weather_main.level_end_stop()
 	session_summary.total_days += day_manager.day
 	gui.animate_show_reward_main(_combat) 
+
+func _generate_next_weather_abilities() -> void:
+	weather_ability_container.generate_next_weather_abilities(weather_main.get_current_weather(), self)
 	
 func _trigger_turn_end_cards() -> void:
 	if tool_manager.tool_deck.hand.is_empty():

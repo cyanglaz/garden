@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://r5p41d4bnvav"]
+[gd_scene load_steps=10 format=3 uid="uid://r5p41d4bnvav"]
 
 [ext_resource type="PackedScene" uid="uid://c7amcb4w04k0a" path="res://scenes/main_game/combat/fields/plant_field_container.tscn" id="1_nckrh"]
 [ext_resource type="Script" uid="uid://bw2cm26cqa66" path="res://scenes/main_game/combat/combat_main.gd" id="1_yx5ui"]
 [ext_resource type="PackedScene" uid="uid://4p4u6myuj4oc" path="res://scenes/main_game/combat/weather/weather_main.tscn" id="2_lcb6h"]
 [ext_resource type="PackedScene" uid="uid://dl31u6exk8l35" path="res://scenes/GUI/combat_main/gui_combat_main.tscn" id="2_yx5ui"]
 [ext_resource type="PackedScene" uid="uid://dvx20utoq0vco" path="res://scenes/main_game/combat/world/background.tscn" id="4_aij0c"]
+[ext_resource type="PackedScene" uid="uid://cbq35rwyy8m0f" path="res://scenes/main_game/combat/weather/weather_ability_container.tscn" id="4_qth4o"]
 [ext_resource type="PackedScene" uid="uid://b5vvjdyudqxkf" path="res://scenes/main_game/combat/world/water/dynamic_water.tscn" id="5_y1agf"]
 [ext_resource type="AudioStream" uid="uid://2x0fcdcvwdmm" path="res://resources/sounds/musics/MUSC_Puzzle_Theme_Loop.wav" id="7_sy8gx"]
 [ext_resource type="PackedScene" uid="uid://jgby34y1664r" path="res://scenes/main_game/combat/player/player.tscn" id="8_stq43"]
@@ -16,6 +17,9 @@ script = ExtResource("1_yx5ui")
 unique_name_in_owner = true
 
 [node name="Background" parent="." instance=ExtResource("4_aij0c")]
+
+[node name="WeatherAbilityContainer" parent="." instance=ExtResource("4_qth4o")]
+unique_name_in_owner = true
 
 [node name="PlantFieldContainer" parent="." instance=ExtResource("1_nckrh")]
 unique_name_in_owner = true
