@@ -11,12 +11,11 @@ const ACTION_TOOLTIP_DELAY := 0.2
 @onready var to_player_rich_text_label: RichTextLabel = %ToPlayerRichTextLabel
 
 var _tooltip_id:String = ""
+var _valid := true
 
 func _ready() -> void:
 	super._ready()
 	tool_tip_shown.connect(_on_tooltop_shown)
-	mouse_entered.connect(_on_mouse_entered)
-	mouse_exited.connect(_on_mouse_exited)
 
 func _update_with_tooltip_request() -> void:
 	var weather_ability_data:WeatherAbilityData = _tooltip_request.data as WeatherAbilityData
@@ -33,13 +32,9 @@ func _update_with_tooltip_request() -> void:
 
 func _on_tooltop_shown() -> void:
 	await Util.create_scaled_timer(ACTION_TOOLTIP_DELAY).timeout
-	_show_actions_tooltip()
-
-func _on_mouse_entered() -> void:
-	_show_actions_tooltip()
-
-func _on_mouse_exited() -> void:
-	_hide_actions_tooltip()
+	if _valid:
+		print("show actions tooltip valid: %s" % _valid)
+		_show_actions_tooltip()
 
 func _show_actions_tooltip() -> void:
 	var action_datas:Array[ActionData] = []
@@ -48,11 +43,14 @@ func _show_actions_tooltip() -> void:
 	if action_datas.is_empty():
 		return
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.ACTIONS, action_datas, _tooltip_id, self, self.tooltip_position))
+	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.ACTIONS, action_datas, _tooltip_id, self, GUITooltip.TooltipPosition.BOTTOM))
 
 func _hide_actions_tooltip() -> void:
+	print("hide actions tooltip")
 	Events.request_hide_tooltip.emit(_tooltip_id)
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
+		_valid = false
+		print("notification valid: %s" % _valid)
 		_hide_actions_tooltip()

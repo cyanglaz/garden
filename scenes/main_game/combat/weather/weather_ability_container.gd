@@ -22,19 +22,18 @@ func generate_next_weather_abilities(weather_data:WeatherData, combat_main:Comba
 		weather_ability.global_position = field_position + Vector2.UP * ABILITY_Y_OFFSET
 	weathers_abilities_updated.emit()
 
-func apply_weather_actions(plants:Array[Plant], combat_main:CombatMain) -> void:
+func apply_weather_actions(plants:Array, combat_main:CombatMain) -> void:
 	await _apply_weather_action_to_next_plant(plants, plants.size() - 1, combat_main)
 
-func _apply_weather_action_to_next_plant(plants:Array[Plant], plant_index:int, combat_main:CombatMain) -> void:
+func _apply_weather_action_to_next_plant(plants:Array, plant_index:int, combat_main:CombatMain) -> void:
 	if plant_index < 0:
 		all_weather_actions_applied.emit()
 		return
-	var plant:Plant = plants[plant_index]
 	var weather_ability:WeatherAbility = weather_abilities[plant_index]
 	var player = combat_main.player
 	var player_index:int = player.current_field_index
 	if plant_index == player_index:
 		weather_ability.apply_to_player(player, combat_main)
 	else:
-		weather_ability.apply_to_plant(plant, combat_main)
+		weather_ability.apply_to_plant(plants, plant_index, combat_main)
 	await _apply_weather_action_to_next_plant(plants, plant_index - 1, combat_main)

@@ -24,6 +24,7 @@ enum ActionCategory {
 	NONE,
 	FIELD,
 	WEATHER,
+	PLAYER,
 	CARD,
 }
 
@@ -57,9 +58,10 @@ enum CardSelectionType {
 const RESTRICTED_CARD_SELECTION_TYPES := [] # The action cannot be performed if not enough cards to select from.
 const NON_RESTRICTED_CARD_SELECTION_TYPES := [ActionType.DISCARD_CARD] # The action can be partially performed if not enough cards to select from.
 const NEED_CARD_SELECTION := RESTRICTED_CARD_SELECTION_TYPES + NON_RESTRICTED_CARD_SELECTION_TYPES
-const CARD_ACTION_TYPES := [ActionType.DRAW_CARD, ActionType.DISCARD_CARD]
 const FIELD_ACTION_TYPES := [ActionType.LIGHT, ActionType.WATER, ActionType.PEST, ActionType.FUNGUS, ActionType.RECYCLE, ActionType.GREENHOUSE, ActionType.DEW]
 const WEATHER_ACTION_TYPES := [ActionType.WEATHER_SUNNY, ActionType.WEATHER_RAINY]
+const PLAYER_ACTION_TYPES := [ActionType.ENERGY, ActionType.UPDATE_HP, ActionType.DRAW_CARD, ActionType.DISCARD_CARD, ActionType.UPDATE_GOLD]
+const CARD_ACTION_TYPES := [ActionType.UPDATE_X]
 
 @export var type:ActionType
 @export var value:int:set = _set_value, get = _get_value
@@ -129,6 +131,8 @@ func _get_action_category() -> ActionCategory:
 		return ActionCategory.FIELD
 	elif WEATHER_ACTION_TYPES.has(type):
 		return ActionCategory.WEATHER
+	elif PLAYER_ACTION_TYPES.has(type):
+		return ActionCategory.PLAYER
 	elif CARD_ACTION_TYPES.has(type):
 		return ActionCategory.CARD
 	return ActionCategory.NONE

@@ -14,6 +14,7 @@ signal weathers_updated()
 @onready var _weather_container: Node2D = %WeatherContainer
 @onready var _weather_sky: WeatherSky = %WeatherSky
 @onready var _canvas_modulate: CanvasModulate = %CanvasModulate
+@onready var _weather_ability_container: WeatherAbilityContainer = %WeatherAbilityContainer
 
 var weather_manager:WeatherManager = WeatherManager.new()
 
@@ -33,6 +34,12 @@ func start(chapter:int) -> void:
 	_add_new_weather(current_weather)
 	await _current_weather.animate_in()
 	weathers_updated.emit()
+
+func generate_next_weather_abilities(combat_main:CombatMain) -> void:
+	_weather_ability_container.generate_next_weather_abilities(get_current_weather(), combat_main)
+
+func apply_weather_abilities(plants:Array, combat_main:CombatMain) -> void:
+	await _weather_ability_container.apply_weather_actions(plants, combat_main)
 
 func level_end_stop() -> void:
 	if _current_weather:
