@@ -3,13 +3,13 @@ extends Node2D
 
 const ICON_PREFIX := "res://resources/sprites/GUI/icons/weather_ability/icon_%s.png"
 
-@onready var gui_icon: GUIIcon = %GUIIcon
+@onready var _weather_ability_icon: WeatherAbilityIcon = %WeatherAbilityIcon
 
-var weather_ability_data:WeatherAbilityData
+var _weather_ability_data:WeatherAbilityData
 
 func setup_with_weather_ability_data(data:WeatherAbilityData) -> void:
-	self.weather_ability_data = data
-	gui_icon.texture = load(ICON_PREFIX % weather_ability_data.id)
+	_weather_ability_icon.setup_with_weather_ability_data(data)
+	_weather_ability_data = data
 
 func apply_to_player(_player:Player, _combat_main:CombatMain) -> void:
 	pass

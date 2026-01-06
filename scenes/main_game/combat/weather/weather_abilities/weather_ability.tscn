@@ -1,26 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cdjmlf4g26asd"]
+[gd_scene load_steps=3 format=3 uid="uid://cdjmlf4g26asd"]
 
 [ext_resource type="Script" uid="uid://ba5gybmvvi067" path="res://scenes/main_game/combat/weather/weather_abilities/weather_ability.gd" id="1_q6odo"]
-[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="2_y8u56"]
-[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="3_jraff"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_r0riu"]
-resource_local_to_scene = true
-shader = ExtResource("3_jraff")
-shader_parameter/outline_color = Color(1, 1, 1, 1)
-shader_parameter/outline_size = 0
-shader_parameter/blend_color = Color(1, 1, 1, 1)
-shader_parameter/blend_strength = 0.0
+[ext_resource type="PackedScene" uid="uid://x6flmgtbdmqp" path="res://scenes/main_game/combat/weather/weather_abilities/weather_ability_icon.tscn" id="2_u3an0"]
 
 [node name="WeatherAbility" type="Node2D"]
 script = ExtResource("1_q6odo")
 
-[node name="GUIIcon" parent="." instance=ExtResource("2_y8u56")]
+[node name="WeatherAbilityIcon" parent="." instance=ExtResource("2_u3an0")]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_r0riu")
-custom_minimum_size = Vector2(12, 12)
-offset_left = -6.0
-offset_top = -6.0
-offset_right = 8.0
-offset_bottom = 8.0
-expand_mode = 1
