@@ -33,7 +33,7 @@ func _apply_weather_action_to_next_plant(plants:Array, plant_index:int, combat_m
 	var player = combat_main.player
 	var player_index:int = player.current_field_index
 	if plant_index == player_index:
-		weather_ability.apply_to_player(player, combat_main)
+		await weather_ability.apply_to_player(player, combat_main)
 	else:
-		weather_ability.apply_to_plant(plants, plant_index, combat_main)
+		await weather_ability.apply_to_plant(plants, plant_index, combat_main)
 	await _apply_weather_action_to_next_plant(plants, plant_index - 1, combat_main)

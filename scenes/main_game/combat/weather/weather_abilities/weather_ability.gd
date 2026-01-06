@@ -18,14 +18,16 @@ func setup_with_weather_ability_data(data:WeatherAbilityData) -> void:
 	_weather_ability_data = data
 
 func apply_to_player(_player:Player, _combat_main:CombatMain) -> void:
-	await _run_animation()
+	_weather_ability_icon.hide()
+	await _run_animation(_player.global_position, true)
 	if _weather_ability_data.player_actions.is_empty():
 		await _apply_to_player_with_script(_player, _combat_main)
 		return
 	_apply_actions_to_player(_player, _combat_main)
 
 func apply_to_plant(plants:Array, plant_index:int, _combat_main:CombatMain) -> void:
-	await _run_animation()
+	_weather_ability_icon.hide()
+	await _run_animation(plants[plant_index].global_position, false)
 	if _weather_ability_data.plant_actions.is_empty():
 		await _apply_to_plant_with_script(plants, plant_index, _combat_main)
 		return
@@ -65,7 +67,7 @@ func _apply_next_plant_action(plants:Array, plant_index:int, _combat_main:Combat
 
 #region for override
 
-func _run_animation() -> void:
+func _run_animation(_target_position:Vector2, _blocked_by_player:bool) -> void:
 	await Util.await_for_tiny_time()
 
 func _apply_to_player_with_script(_player:Player, _combat_main:CombatMain) -> void:
