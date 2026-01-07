@@ -1,12 +1,13 @@
-[gd_resource type="Resource" script_class="WeatherData" load_steps=4 format=3 uid="uid://cbvas0c5a6cc7"]
+[gd_resource type="Resource" script_class="WeatherData" load_steps=5 format=3 uid="uid://cbvas0c5a6cc7"]
 
 [ext_resource type="Script" uid="uid://dfpccwvjf242h" path="res://data/models/weather/weather_ability_data.gd" id="1_dah4q"]
 [ext_resource type="Resource" uid="uid://cjmpnf745acps" path="res://data/weather_abilities/weather_ability_solar_beam.tres" id="2_2t0yl"]
 [ext_resource type="Script" uid="uid://g4t52w546b5k" path="res://data/models/weather/weather_data.gd" id="2_padls"]
+[ext_resource type="Resource" uid="uid://bdekp7d82cvcs" path="res://data/weather_abilities/weather_ability_sun_scorch.tres" id="3_2t0yl"]
 
 [resource]
 script = ExtResource("2_padls")
-abilities = Array[ExtResource("1_dah4q")]([ExtResource("2_2t0yl")])
+abilities = Array[ExtResource("1_dah4q")]([ExtResource("2_2t0yl"), ExtResource("3_2t0yl")])
 sky_color = Color(0, 0.8039216, 0.9764706, 1)
 id = "sunny"
 display_name = "Sunny"

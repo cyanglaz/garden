@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dpbry86c27hyg"
+path="res://.godot/imported/icon_sun_scorch.aseprite-09c015b346c76d5be85cab909eb2f20e.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/weather_ability/icon_sun_scorch.aseprite"
+dest_files=["res://.godot/imported/icon_sun_scorch.aseprite-09c015b346c76d5be85cab909eb2f20e.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

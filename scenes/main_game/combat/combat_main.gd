@@ -355,9 +355,9 @@ func _on_request_modify_hand_cards(callable:Callable) -> void:
 func _on_request_hp_update(val:int) -> void:
 	# The hp is handled by the main game
 	if val < 0:
-		player.push_state("hurt", {"value": val})
+		player.push_state("PlayerStateHurt", {"value": val})
 	else:
-		player.push_state("heal", {"value": val})
+		player.push_state("PlayerStateHeal", {"value": val})
 
 #endregion
 
