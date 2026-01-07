@@ -34,10 +34,6 @@ func setup_with_plants(plant_datas:Array) -> void:
 		current_field = field
 	setup_fields()
 
-func generate_next_attacks(combat_main:CombatMain) -> void:
-	for plant:Plant in plants:
-		plant.generate_next_attacks(combat_main)
-
 func trigger_end_turn_hooks(combat_main:CombatMain) -> void:
 	for plant:Plant in plants:
 		await plant.handle_end_turn_hook(combat_main)

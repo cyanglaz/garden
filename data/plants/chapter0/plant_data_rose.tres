@@ -16,7 +16,6 @@ water = 15
 difficulty = 2
 chapters = Array[int]([0])
 abilities = {
-&"attack": "3",
 &"thorned": 0
 }
 attacks = Array[ExtResource("1_8jejr")]([SubResource("Resource_id2k6")])

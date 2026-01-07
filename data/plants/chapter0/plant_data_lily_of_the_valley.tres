@@ -15,9 +15,6 @@ light = 4
 water = 10
 difficulty = 1
 chapters = Array[int]([0])
-abilities = {
-&"attack": "2"
-}
 attacks = Array[ExtResource("1_y7oj0")]([SubResource("Resource_riulj")])
 id = "lily_of_the_valley"
 display_name = "Lily of The Valley"

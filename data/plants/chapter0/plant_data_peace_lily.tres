@@ -13,9 +13,6 @@ metadata/_custom_type_script = "uid://dhvdja05rxru0"
 script = ExtResource("1_0smo2")
 water = 5
 chapters = Array[int]([0, 1, 2, 3])
-abilities = {
-&"attack": "1"
-}
 attacks = Array[ExtResource("1_y4mvn")]([SubResource("Resource_pecjr")])
 id = "peace_lily"
 display_name = "Peace Lily"

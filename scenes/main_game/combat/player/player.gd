@@ -29,11 +29,16 @@ const POSITION_Y_OFFSET := -38
 var moves_left:int = 0: set = _set_moves_left
 var current_field_index:int = 0: set = _set_current_field_index
 var max_plants_index:int = 0
+var player_data:PlayerData
 
 func _ready() -> void:
 	player_state_machine.start()
 	left_button.pressed.connect(_on_button_pressed.bind(MoveDirection.LEFT))
 	right_button.pressed.connect(_on_button_pressed.bind(MoveDirection.RIGHT))
+
+func setup_with_player_data(pd:PlayerData) -> void:
+	player_data = pd
+	moves_left = pd.starting_movements
 
 func toggle_move_buttons(on:bool) -> void:
 	left_button.button_state = GUIBasicButton.ButtonState.NORMAL if on else GUIBasicButton.ButtonState.DISABLED
@@ -69,8 +74,13 @@ func _set_moves_left(value:int) -> void:
 	move_indicator.text = str(moves_left)
 	assert(moves_left >= 0)
 	move_ui.visible = moves_left > 0
+	if moves_left == 0:
+		move_indicator.modulate = Constants.COLOR_RED
+	else:
+		move_indicator.modulate = Constants.COLOR_WHITE
 
 func _set_current_field_index(value:int) -> void:
+	assert(max_plants_index > 0)
 	current_field_index = value
 	if current_field_index == 0:
 		left_button.hide()

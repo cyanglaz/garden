@@ -224,6 +224,8 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "gain_gold"
 		ActionData.ActionType.UPDATE_HP:
 			id = "update_hp"
+		ActionData.ActionType.UPDATE_MOVEMENT:
+			id = "update_movement"
 		ActionData.ActionType.NONE:
 			pass
 	return id
@@ -260,6 +262,8 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 			return ActionData.ActionType.UPDATE_GOLD
 		"update_hp":
 			return ActionData.ActionType.UPDATE_HP
+		"update_movement":
+			return ActionData.ActionType.UPDATE_MOVEMENT
 		"none":
 			return ActionData.ActionType.NONE
 	assert(false, "Invalid action id: " + action_id)

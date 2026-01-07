@@ -17,6 +17,7 @@ func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_data
 			match action.operator_type:
 				ActionData.OperatorType.INCREASE:
 					combat_main.energy_tracker.restore(calculated_value)
+					print("Energy tracker value: %s" % calculated_value)
 				ActionData.OperatorType.DECREASE:
 					combat_main.energy_tracker.spend(calculated_value)
 				ActionData.OperatorType.EQUAL_TO:
@@ -41,6 +42,16 @@ func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_data
 				ActionData.OperatorType.EQUAL_TO:
 					real_value = calculated_value
 			Events.request_hp_update.emit(real_value)
+		ActionData.ActionType.UPDATE_MOVEMENT:
+			var real_value := calculated_value
+			match action.operator_type:
+				ActionData.OperatorType.INCREASE:
+					real_value = calculated_value
+				ActionData.OperatorType.DECREASE:
+					real_value = -calculated_value
+				ActionData.OperatorType.EQUAL_TO:
+					real_value = calculated_value
+			combat_main.player.moves_left += real_value
 		_:
 			assert(false, "Invalid player action type: %s" % action.type)
 	action_application_completed.emit()

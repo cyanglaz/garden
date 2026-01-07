@@ -14,9 +14,6 @@ script = ExtResource("1_ni2q2")
 light = 3
 water = 2
 chapters = Array[int]([0])
-abilities = {
-&"attack": "1"
-}
 attacks = Array[ExtResource("1_rtn5y")]([SubResource("Resource_0li0e")])
 id = "daisy"
 display_name = "Daisy"

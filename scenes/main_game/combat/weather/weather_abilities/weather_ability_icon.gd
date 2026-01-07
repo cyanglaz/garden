@@ -2,11 +2,11 @@ class_name WeatherAbilityIcon
 extends Node2D
 
 const ICON_PREFIX := "res://resources/sprites/GUI/icons/weather_ability/icon_%s.png"
-const GUI_GENERAL_ACTION_SCENE := preload("res://scenes/GUI/main_game/actions/gui_general_action.tscn")
-
+const ACTION_LIST_SCENE := preload("res://scenes/GUI/shared/descriptions/shared_description/gui_action_list.tscn")
 
 @onready var gui_icon: GUIIcon = %GUIIcon
-@onready var to_plants_container: VBoxContainer = %ToPlantsContainer
+@onready var to_plants_action_container: PanelContainer = %ToPlantsActionContainer
+@onready var to_player_action_container: PanelContainer = %ToPlayerActionContainer
 
 var _weather_ability_data:WeatherAbilityData
 var _tooltip_id:String = ""
@@ -18,15 +18,20 @@ func _ready() -> void:
 func setup_with_weather_ability_data(data:WeatherAbilityData) -> void:
 	_weather_ability_data = data
 	gui_icon.texture = load(ICON_PREFIX % _weather_ability_data.id)
-	Util.remove_all_children(to_plants_container)
-	for action_data:ActionData in data.plant_actions:
-		if action_data.value_type == ActionData.ValueType.X:
-			var action_scene_x:GUIGeneralAction = GUI_GENERAL_ACTION_SCENE.instantiate()
-			to_plants_container.add_child(action_scene_x)
-			action_scene_x.update_for_x(action_data.get_calculated_x_value(null), action_data.x_value_type)
-		var action_scene:GUIGeneralAction = GUI_GENERAL_ACTION_SCENE.instantiate()
-		to_plants_container.add_child(action_scene)
-		action_scene.update_with_action(action_data, null)
+	if not _weather_ability_data.plant_actions.is_empty():
+		var action_list:GUIActionList = ACTION_LIST_SCENE.instantiate()
+		to_plants_action_container.add_child(action_list)
+		action_list.update(_weather_ability_data.plant_actions, null)
+		to_plants_action_container.show()
+	else:
+		to_plants_action_container.hide()
+	if not _weather_ability_data.player_actions.is_empty():
+		var action_list:GUIActionList = ACTION_LIST_SCENE.instantiate()
+		to_player_action_container.add_child(action_list)
+		action_list.update(_weather_ability_data.player_actions, null)
+		to_player_action_container.show()
+	else:
+		to_player_action_container.hide()
 
 func _on_mouse_entered() -> void:
 	gui_icon.is_highlighted = true

@@ -44,7 +44,7 @@ func _ready() -> void:
 	Events.request_hp_update.connect(_on_request_hp_update)
 	gui.ui_lock_toggled.connect(_on_ui_lock_toggled)
 
-func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter:int) -> void:
+func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter:int, player_data:PlayerData) -> void:
 
 	session_summary = SessionSummary.new(combat)
 
@@ -84,6 +84,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 
 	_combat = combat
 	_chapter = chapter
+	player.setup_with_player_data(player_data)
 	_start_new_level()
 
 func _input(event: InputEvent) -> void:
@@ -130,18 +131,16 @@ func _start_new_level() -> void:
 
 func _start_turn() -> void:
 	weather_main.generate_next_weather_abilities(self)
-	player.moves_left = 1
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.TURN)
 	boost = maxi(boost - 1, 1)
 	gui.toggle_all_ui(false)
-	energy_tracker.setup(max_energy, max_energy)
 	day_manager.next_day()
 	gui.clear_tool_selection()
 	if day_manager.day == 0:
 		_fade_music(true)
 		await gui.apply_boss_actions(GUIBoss.HookType.LEVEL_START)
+		energy_tracker.setup(max_energy, max_energy)
 	await gui.apply_boss_actions(GUIBoss.HookType.TURN_START)
-	#plant_field_container.generate_next_attacks(self)
 	await draw_cards(hand_size)
 	await plant_field_container.trigger_start_turn_hooks(self)
 	gui.toggle_all_ui(true)
@@ -151,6 +150,7 @@ func _start_turn() -> void:
 func _end_turn() -> void:
 	gui.toggle_all_ui(false)
 	_clear_tool_selection()
+	energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
 	await plant_field_container.trigger_end_turn_hooks(self)
 	await weather_main.apply_weather_abilities(plant_field_container.plants, self)
 	await power_manager.handle_weather_application_hook(self, weather_main.get_current_weather())

@@ -33,7 +33,6 @@ func _update_with_tooltip_request() -> void:
 func _on_tooltop_shown() -> void:
 	await Util.create_scaled_timer(ACTION_TOOLTIP_DELAY).timeout
 	if _valid:
-		print("show actions tooltip valid: %s" % _valid)
 		_show_actions_tooltip()
 
 func _show_actions_tooltip() -> void:
@@ -46,11 +45,9 @@ func _show_actions_tooltip() -> void:
 	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.ACTIONS, action_datas, _tooltip_id, self, GUITooltip.TooltipPosition.BOTTOM))
 
 func _hide_actions_tooltip() -> void:
-	print("hide actions tooltip")
 	Events.request_hide_tooltip.emit(_tooltip_id)
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		_valid = false
-		print("notification valid: %s" % _valid)
 		_hide_actions_tooltip()

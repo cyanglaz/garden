@@ -15,7 +15,6 @@ light = 4
 water = 1
 chapters = Array[int]([0])
 abilities = {
-&"attack": "1",
 &"repel": "1"
 }
 attacks = Array[ExtResource("1_udig0")]([SubResource("Resource_v2uel")])
