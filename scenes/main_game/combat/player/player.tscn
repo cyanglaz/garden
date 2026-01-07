@@ -170,7 +170,7 @@ unique_name_in_owner = true
 stream = ExtResource("7_3ckgi")
 bus = &"SFX"
 
-[node name="UpgradeParticle" type="GPUParticles2D" parent="."]
+[node name="EnergyUpgradeParticle" type="GPUParticles2D" parent="."]
 unique_name_in_owner = true
 emitting = false
 texture = ExtResource("8_g2v38")

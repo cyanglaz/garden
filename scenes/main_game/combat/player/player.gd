@@ -25,7 +25,7 @@ const POSITION_Y_OFFSET := -38
 @onready var move_indicator: Label = %MoveIndicator
 @onready var move_ui: Control = %MoveUI
 @onready var player_hurt_audio: AudioStreamPlayer2D = %PlayerHurtAudio
-@onready var upgrade_particle: GPUParticles2D = %UpgradeParticle
+@onready var energy_upgrade_particle: GPUParticles2D = %EnergyUpgradeParticle
 
 var moves_left:int = 0: set = _set_moves_left
 var current_field_index:int = 0: set = _set_current_field_index
@@ -62,8 +62,8 @@ func play_hurt_animation(popup_text:String) -> void:
 func play_heal_animation(_popup_text:String) -> void:
 	pass
 
-func play_upgrade_animation() -> void:
-	upgrade_particle.restart()
+func play_energy_upgrade_animation() -> void:
+	energy_upgrade_particle.restart()
 	player_sprite.play_upgrade()
 
 func _on_button_pressed(move_direction:MoveDirection) -> void:
