@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://jgby34y1664r"]
+[gd_scene load_steps=15 format=3 uid="uid://jgby34y1664r"]
 
 [ext_resource type="Script" uid="uid://dn5567lxyuyyi" path="res://scenes/main_game/combat/player/player.gd" id="1_3t8ap"]
 [ext_resource type="PackedScene" uid="uid://dcsmfjbtvdbk3" path="res://scenes/main_game/combat/player/player_sprite.tscn" id="1_4v0bi"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dachyaiwwtbrh" path="res://resources/sprites/GUI/indicators/player_down_arrow.png" id="4_0f2bv"]
 [ext_resource type="PackedScene" uid="uid://blco6hprwp4nn" path="res://scenes/state_machine/player/player_state_machine.tscn" id="5_0f2bv"]
 [ext_resource type="PackedScene" uid="uid://bh342eajde68t" path="res://scenes/GUI/controls/buttons/gui_player_move_button.tscn" id="6_utenh"]
+[ext_resource type="AudioStream" uid="uid://deluauv4rx35y" path="res://resources/sounds/SFX/other/character/hurt.wav" id="7_3ckgi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0f2bv"]
 atlas = ExtResource("2_hap8c")
@@ -145,3 +146,8 @@ offset_left = 9.0
 offset_top = -8.0
 offset_right = 25.0
 flip_image_h = true
+
+[node name="PlayerHurtAudio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("7_3ckgi")
+bus = &"SFX"

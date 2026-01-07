@@ -25,3 +25,11 @@ offset_right = 6.0
 offset_bottom = 6.0
 mouse_filter = 0
 expand_mode = 1
+
+[node name="ToPlantsContainer" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+offset_left = -13.0
+offset_top = -18.0
+offset_right = -7.0
+offset_bottom = 18.0
+alignment = 1
