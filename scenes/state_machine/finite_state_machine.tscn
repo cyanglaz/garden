@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ces1dstr5grxd" path="res://scenes/state_machine/finite_state_machine.gd" id="1_ao8pj"]
 
-[node name="FiniteStateMachine" type="Node"]
+[node name="FiniteStateMachine" type="Node2D"]
 script = ExtResource("1_ao8pj")
 
-[node name="States" type="Node" parent="."]
+[node name="States" type="Node2D" parent="."]

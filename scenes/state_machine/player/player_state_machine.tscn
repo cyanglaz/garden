@@ -1,11 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://blco6hprwp4nn"]
+[gd_scene load_steps=6 format=3 uid="uid://blco6hprwp4nn"]
 
 [ext_resource type="PackedScene" uid="uid://cn3w8y1wumrmq" path="res://scenes/state_machine/finite_state_machine.tscn" id="1_sa8dm"]
 [ext_resource type="Script" uid="uid://dk57e5my465kp" path="res://scenes/state_machine/player/player_state_machine.gd" id="2_rghmp"]
 [ext_resource type="PackedScene" uid="uid://b0syw1demrf24" path="res://scenes/state_machine/player/states/player_state_idle.tscn" id="3_rghmp"]
+[ext_resource type="PackedScene" uid="uid://cmgl2bh1a644l" path="res://scenes/state_machine/player/states/player_state_hurt.tscn" id="4_ipgbe"]
+[ext_resource type="PackedScene" uid="uid://8amtyfvodsmc" path="res://scenes/state_machine/player/states/player_state_upgrade_energy.tscn" id="5_0ky5s"]
 
 [node name="PlayerStateMachine" node_paths=PackedStringArray("default_state") instance=ExtResource("1_sa8dm")]
 script = ExtResource("2_rghmp")
 default_state = NodePath("States/PlayerStateIdle")
 
 [node name="PlayerStateIdle" parent="States" index="0" instance=ExtResource("3_rghmp")]
+
+[node name="PlayerStateHurt" parent="States" index="1" instance=ExtResource("4_ipgbe")]
+
+[node name="PlayerStateUpgradeEnergy" parent="States" index="2" instance=ExtResource("5_0ky5s")]

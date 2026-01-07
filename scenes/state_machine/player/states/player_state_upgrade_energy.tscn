@@ -1,0 +1,50 @@
+[gd_scene load_steps=9 format=3 uid="uid://8amtyfvodsmc"]
+
+[ext_resource type="Script" uid="uid://e5jiqdsryidf" path="res://scenes/state_machine/player/states/player_state_upgrade_energy.gd" id="1_wq7kc"]
+[ext_resource type="AudioStream" uid="uid://deluauv4rx35y" path="res://resources/sounds/SFX/other/character/hurt.wav" id="2_62cun"]
+[ext_resource type="Texture2D" uid="uid://0fgf3t3c1paq" path="res://resources/sprites/effects/particles/particle_smoke.png" id="3_62cun"]
+
+[sub_resource type="Curve" id="Curve_63twv"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.6730251, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_mohyj"]
+curve = SubResource("Curve_63twv")
+
+[sub_resource type="Curve" id="Curve_62cun"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.3712704, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_63twv"]
+curve = SubResource("Curve_62cun")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ubnx8"]
+particle_flag_disable_z = true
+emission_shape = 2
+emission_sphere_radius = 42.0
+spread = 180.0
+radial_velocity_min = -100.00002
+radial_velocity_max = -75.00002
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -100.0
+radial_accel_max = -100.0
+scale_min = 0.19999999
+scale_max = 0.29999998
+scale_curve = SubResource("CurveTexture_63twv")
+alpha_curve = SubResource("CurveTexture_mohyj")
+
+[node name="PlayerStateUpgradeEnergy" type="Node2D"]
+script = ExtResource("1_wq7kc")
+
+[node name="UpgradeEnergyAudio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("2_62cun")
+bus = &"SFX"
+
+[node name="EnergyUpgradeParticle" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+emitting = false
+texture = ExtResource("3_62cun")
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_ubnx8")

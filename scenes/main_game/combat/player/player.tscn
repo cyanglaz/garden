@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://jgby34y1664r"]
+[gd_scene load_steps=14 format=3 uid="uid://jgby34y1664r"]
 
 [ext_resource type="Script" uid="uid://dn5567lxyuyyi" path="res://scenes/main_game/combat/player/player.gd" id="1_3t8ap"]
 [ext_resource type="PackedScene" uid="uid://dcsmfjbtvdbk3" path="res://scenes/main_game/combat/player/player_sprite.tscn" id="1_4v0bi"]
@@ -6,8 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://dachyaiwwtbrh" path="res://resources/sprites/GUI/indicators/player_down_arrow.png" id="4_0f2bv"]
 [ext_resource type="PackedScene" uid="uid://blco6hprwp4nn" path="res://scenes/state_machine/player/player_state_machine.tscn" id="5_0f2bv"]
 [ext_resource type="PackedScene" uid="uid://bh342eajde68t" path="res://scenes/GUI/controls/buttons/gui_player_move_button.tscn" id="6_utenh"]
-[ext_resource type="AudioStream" uid="uid://deluauv4rx35y" path="res://resources/sounds/SFX/other/character/hurt.wav" id="7_3ckgi"]
-[ext_resource type="Texture2D" uid="uid://0fgf3t3c1paq" path="res://resources/sprites/effects/particles/particle_smoke.png" id="8_g2v38"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0f2bv"]
 atlas = ExtResource("2_hap8c")
@@ -68,23 +66,6 @@ animations = [{
 "name": &"idle",
 "speed": 7.0
 }]
-
-[sub_resource type="Curve" id="Curve_g2v38"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.6730251, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_mohyj"]
-curve = SubResource("Curve_g2v38")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_g2v38"]
-particle_flag_disable_z = true
-spread = 180.0
-initial_velocity_min = 50.0
-initial_velocity_max = 60.0
-gravity = Vector3(0, -100, 0)
-scale_min = 0.099999994
-scale_max = 0.19999999
-alpha_curve = SubResource("CurveTexture_mohyj")
 
 [node name="Player" type="Node2D"]
 script = ExtResource("1_3t8ap")
@@ -164,17 +145,3 @@ offset_left = 9.0
 offset_top = -8.0
 offset_right = 25.0
 flip_image_h = true
-
-[node name="PlayerHurtAudio" type="AudioStreamPlayer2D" parent="."]
-unique_name_in_owner = true
-stream = ExtResource("7_3ckgi")
-bus = &"SFX"
-
-[node name="EnergyUpgradeParticle" type="GPUParticles2D" parent="."]
-unique_name_in_owner = true
-emitting = false
-texture = ExtResource("8_g2v38")
-lifetime = 0.5
-one_shot = true
-explosiveness = 1.0
-process_material = SubResource("ParticleProcessMaterial_g2v38")
