@@ -17,7 +17,7 @@ func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_data
 			match action.operator_type:
 				ActionData.OperatorType.INCREASE:
 					combat_main.energy_tracker.restore(calculated_value)
-					print("Energy tracker value: %s" % calculated_value)
+					combat_main.player.play_upgrade_animation()
 				ActionData.OperatorType.DECREASE:
 					combat_main.energy_tracker.spend(calculated_value)
 				ActionData.OperatorType.EQUAL_TO:
@@ -47,6 +47,7 @@ func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_data
 			match action.operator_type:
 				ActionData.OperatorType.INCREASE:
 					real_value = calculated_value
+					combat_main.player.play_upgrade_animation()
 				ActionData.OperatorType.DECREASE:
 					real_value = -calculated_value
 				ActionData.OperatorType.EQUAL_TO:

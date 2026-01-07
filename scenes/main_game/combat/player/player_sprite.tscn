@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dcsmfjbtvdbk3"]
+[gd_scene load_steps=13 format=3 uid="uid://dcsmfjbtvdbk3"]
 
 [ext_resource type="Shader" uid="uid://klxogafksbo6" path="res://scenes/main_game/combat/player/player_sprite.gdshader" id="1_pgxwa"]
 [ext_resource type="Texture2D" uid="uid://dywpvxxevs23u" path="res://resources/sprites/characters/player/player_pollinator.png" id="2_4f0i0"]
@@ -74,10 +74,27 @@ tracks/0/keys = {
 "values": [0.0]
 }
 
+[sub_resource type="Animation" id="Animation_2mde3"]
+resource_name = "upgrade"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/blend_intensity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.23333333, 0.5),
+"transitions": PackedFloat32Array(1, 2, 1),
+"update": 0,
+"values": [1.0, 1.0, 0.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4f0i0"]
 _data = {
 &"RESET": SubResource("Animation_4f0i0"),
-&"hurt": SubResource("Animation_pgxwa")
+&"hurt": SubResource("Animation_pgxwa"),
+&"upgrade": SubResource("Animation_2mde3")
 }
 
 [node name="PlayerSprite" type="AnimatedSprite2D"]

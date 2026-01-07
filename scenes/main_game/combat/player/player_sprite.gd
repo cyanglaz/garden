@@ -5,3 +5,6 @@ extends AnimatedSprite2D
 
 func play_hurt() -> void:
 	animation_player.play("hurt")
+
+func play_upgrade() -> void:
+	animation_player.play("upgrade")
