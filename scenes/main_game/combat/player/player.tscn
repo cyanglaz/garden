@@ -72,24 +72,7 @@ script = ExtResource("1_3t8ap")
 
 [node name="PlayerSprite" parent="." instance=ExtResource("1_4v0bi")]
 unique_name_in_owner = true
-texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_g2v38")
-animation = &"idle"
-metadata/_aseprite_wizard_interface_config_ = {
-"output_section": true,
-"pending_changes": {}
-}
-metadata/_aseprite_wizard_config_ = {
-"layers": [],
-"o_ex_p": "",
-"o_folder": "res://resources/sprites/characters/player/",
-"o_name": "",
-"only_visible": true,
-"should_round_fps": true,
-"slice": "",
-"source": "res://resources/sprites/characters/player/player_pollinator.aseprite"
-}
-metadata/_aseprite_wizard_source_file_hash_ = "8a8608cdbc016c78fc1f1b531d2e01bd"
 
 [node name="DownArrow" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true

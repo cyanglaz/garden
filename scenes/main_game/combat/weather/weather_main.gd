@@ -46,6 +46,7 @@ func level_end_stop() -> void:
 		_current_weather.stop()
 		_current_weather.queue_free()
 		_current_weather = null
+	_weather_ability_container.clear_all_weather_abilities()
 
 func night_fall() -> void:
 	if _current_weather:

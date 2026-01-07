@@ -41,6 +41,7 @@ func _ready() -> void:
 	Events.request_add_tools_to_hand.connect(_on_request_add_tools_to_hand)
 	Events.request_add_tools_to_discard_pile.connect(_on_request_add_tools_to_discard_pile)
 	Events.request_modify_hand_cards.connect(_on_request_modify_hand_cards)
+	Events.request_hp_update.connect(_on_request_hp_update)
 	gui.ui_lock_toggled.connect(_on_ui_lock_toggled)
 
 func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter:int) -> void:
@@ -350,6 +351,13 @@ func _on_request_modify_hand_cards(callable:Callable) -> void:
 	await callable.call(tool_manager.tool_deck.hand)
 	tool_manager.refresh_ui()
 	gui.toggle_all_ui(true)
+
+func _on_request_hp_update(val:int) -> void:
+	# The hp is handled by the main game
+	if val < 0:
+		player.play_hurt_animation(str(val))
+	else:
+		player.play_heal_animation(str("+",val))
 
 #endregion
 

@@ -1,6 +1,12 @@
 class_name Player
 extends Node2D
 
+const POPUP_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label.tscn")
+const HP_INCREASE_COLOR := Constants.COLOR_RED1
+const HP_DECREASE_COLOR := Constants.COLOR_RED3
+const POPUP_SHOW_TIME := 0.5
+const POPUP_DESTROY_TIME := 0.5
+
 signal field_index_updated(index:int)
 
 const MOVE_TIME := 0.1
@@ -12,7 +18,7 @@ enum MoveDirection {
 
 const POSITION_Y_OFFSET := -38
 
-@onready var player_sprite: AnimatedSprite2D = %PlayerSprite
+@onready var player_sprite: PlayerSprite = %PlayerSprite
 @onready var player_state_machine: PlayerStateMachine = %PlayerStateMachine
 @onready var left_button: GUIImageButton = %LeftButton
 @onready var right_button: GUIImageButton = %RightButton
@@ -35,6 +41,18 @@ func toggle_move_buttons(on:bool) -> void:
 func move_to_x(x: float) -> void:
 	var tween:Tween = create_tween()
 	tween.tween_property(self, "global_position", Vector2(x, POSITION_Y_OFFSET), MOVE_TIME).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
+
+func play_hurt_animation(popup_text:String) -> void:
+	player_sprite.play_hurt()
+	Events.request_camera_shake_effects.emit(0.5, Vector2(20, 20), 0.2, 1.0, 0)
+	var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()
+	popup.bump_direction = PopupThing.BumpDirection.UP
+	var color:Color = HP_DECREASE_COLOR
+	popup.setup(popup_text, color, 10)
+	Events.request_display_popup_things.emit(popup, 20, 5, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, Util.get_node_canvas_position(player_sprite))
+
+func play_heal_animation(_popup_text:String) -> void:
+	pass
 
 func _on_button_pressed(move_direction:MoveDirection) -> void:
 	match move_direction:

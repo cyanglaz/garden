@@ -9,6 +9,7 @@ script = ExtResource("1_yf2n6")
 
 [node name="WeatherSky" parent="." instance=ExtResource("2_gyin3")]
 unique_name_in_owner = true
+polygon = PackedVector2Array(-200, -200, 200, -200, 200, 200, -200, 200)
 
 [node name="WeatherContainer" type="Node2D" parent="."]
 unique_name_in_owner = true

@@ -14,6 +14,7 @@ const WARNING_LINE_WIDTH := 1.0
 @onready var beam_line: Line2D = %BeamLine
 @onready var line_particle: GPUParticles2D = %LineParticle
 @onready var impact_particle: GPUParticles2D = %ImpactParticle
+@onready var beam_sound: AudioStreamPlayer2D = %BeamSound
 
 func cast_beam(target_position:Vector2, blocked_by_player:bool) -> void:
 	# 1. Determine Start and End points
@@ -50,7 +51,8 @@ func cast_beam(target_position:Vector2, blocked_by_player:bool) -> void:
 	tween.parallel().tween_callback(line_particle.restart) # Line effects
 	if !blocked_by_player:
 		tween.parallel().tween_callback(impact_particle.restart).set_delay(IMPACT_PARTICLE_DELAY) # Spark effects
-	
+	tween.parallel().tween_callback(beam_sound.play).set_delay(IMPACT_PARTICLE_DELAY) # Spark effects
+
 	# Phase B: Hold briefly
 	tween.tween_interval(0.2)
 	
@@ -58,5 +60,6 @@ func cast_beam(target_position:Vector2, blocked_by_player:bool) -> void:
 	tween.tween_property(beam_line, "width", 0.0, 0.2)
 	
 	# Phase D: Cleanup
-	await tween.finished
 	line_particle.finished.connect(func(): queue_free())
+
+	await Util.create_scaled_timer(IMPACT_PARTICLE_DELAY * 2).timeout

@@ -7,12 +7,10 @@ const SEGMENT_SCENE := preload("res://scenes/GUI/main_game/top_bar/gui_hp_segmen
 const HP_SAFE_COLOR := Constants.COLOR_RED1
 const HP_MODERATE_COLOR := Constants.COLOR_RED2
 const HP_DANGER_COLOR := Constants.COLOR_RED3
-const HP_INCREASE_COLOR := Constants.COLOR_RED1
-const HP_DECREASE_COLOR := Constants.COLOR_RED3
 const HP_MODERATE_PERCENTAGE := 0.6
 const HP_DANGER_PERCENTAGE := 0.2
-const POPUP_SHOW_TIME := 0.5
-const POPUP_DESTROY_TIME := 0.5
+#const POPUP_SHOW_TIME := 0.5
+#const POPUP_DESTROY_TIME := 0.5
 const SHAKE_TIMES := 2
 const TEXTURE_SHAKE_DISTANCE := 1
 
@@ -63,17 +61,17 @@ func _on_hp_value_update(hp:ResourcePoint) -> void:
 			_segment_container.get_child(i).modulate = Constants.COLOR_WHITE
 
 func _play_animation(diff:int) -> void:
-	var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()
-	popup.bump_direction = PopupThing.BumpDirection.DOWN
-	var color:Color = HP_DECREASE_COLOR
+	#var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()
+	#popup.bump_direction = PopupThing.BumpDirection.DOWN
+	#var color:Color = Player.HP_DECREASE_COLOR
 	var increase := diff > 0
-	if increase:
-		color = HP_INCREASE_COLOR
-	else:
-		color = HP_DECREASE_COLOR
-	var hp_sign := "+" if increase else ""
-	popup.setup(str(hp_sign, diff), color, 10)
-	Events.request_display_popup_things.emit(popup, -20, 5, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, _segment_container.global_position + Vector2.RIGHT * _segment_container.size.x)
+	#if increase:
+	#	color = Player.HP_INCREASE_COLOR
+	#else:
+	#	color = Player.HP_DECREASE_COLOR
+	#var hp_sign := "+" if increase else ""
+	#popup.setup(str(hp_sign, diff), color, 10)
+	#Events.request_display_popup_things.emit(popup, -20, 5, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, _segment_container.global_position + Vector2.RIGHT * _segment_container.size.x)
 	if increase:
 		await _play_hp_increase_animation()
 	elif diff < 0:

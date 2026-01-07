@@ -11,6 +11,7 @@ const WEATHER_ABILITIES_SCENE_PREFIX := "res://scenes/main_game/combat/weather/w
 var weather_abilities:Array
 
 func generate_next_weather_abilities(weather_data:WeatherData, combat_main:CombatMain) -> void:
+	clear_all_weather_abilities()
 	for i in combat_main.plant_field_container.plants.size():
 		var random_ability:WeatherAbilityData = Util.unweighted_roll(weather_data.abilities, 1)[0]
 		var weather_ability_scene:PackedScene = load(WEATHER_ABILITIES_SCENE_PREFIX % random_ability.id)
@@ -24,6 +25,10 @@ func generate_next_weather_abilities(weather_data:WeatherData, combat_main:Comba
 
 func apply_weather_actions(plants:Array, combat_main:CombatMain) -> void:
 	await _apply_weather_action_to_next_plant(plants, plants.size() - 1, combat_main)
+
+func clear_all_weather_abilities() -> void:
+	Util.remove_all_children(self)
+	weather_abilities.clear()
 
 func _apply_weather_action_to_next_plant(plants:Array, plant_index:int, combat_main:CombatMain) -> void:
 	if plant_index < 0:
