@@ -48,10 +48,6 @@ func move_to_x(x: float) -> void:
 func play_heal_animation(_popup_text:String) -> void:
 	pass
 
-func play_energy_upgrade_animation() -> void:
-	energy_upgrade_particle.restart()
-	player_sprite.play_upgrade()
-
 func push_state(state:String, params:Dictionary = {}) -> void:
 	player_state_machine.push(state, params)
 

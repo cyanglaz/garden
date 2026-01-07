@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://c21ejaadnmsas"
-path="res://.godot/imported/foot_step_gravel.wav-84c534f8a72c3b3d8f1ff3dc7f2f1c81.sample"
+path="res://.godot/imported/foot_step_gravel.wav-893b0db2021421b58f0d5335fd24b801.sample"
 
 [deps]
 
-source_file="res://resources/sounds/SFX/other/character/foot_step_gravel.wav"
-dest_files=["res://.godot/imported/foot_step_gravel.wav-84c534f8a72c3b3d8f1ff3dc7f2f1c81.sample"]
+source_file="res://resources/sounds/SFX/player/foot_step_gravel.wav"
+dest_files=["res://.godot/imported/foot_step_gravel.wav-893b0db2021421b58f0d5335fd24b801.sample"]
 
 [params]
 

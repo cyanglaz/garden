@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://cq88midfwani4"
-path="res://.godot/imported/building_explode.wav-3ab4c3d42e4378fc4ed4aeab1b0133bd.sample"
+path="res://.godot/imported/building_explode.wav-e216e05f87e62682f21dfb70387d1ed9.sample"
 
 [deps]
 
-source_file="res://resources/sounds/SFX/other/character/building_explode.wav"
-dest_files=["res://.godot/imported/building_explode.wav-3ab4c3d42e4378fc4ed4aeab1b0133bd.sample"]
+source_file="res://resources/sounds/SFX/player/building_explode.wav"
+dest_files=["res://.godot/imported/building_explode.wav-e216e05f87e62682f21dfb70387d1ed9.sample"]
 
 [params]
 

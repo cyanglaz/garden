@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://tpbtkhut3i6y"
-path="res://.godot/imported/character_deploy.wav-69dd8328ef94f6dc3c40534b76485d1e.sample"
+path="res://.godot/imported/character_deploy.wav-571aa586db9d18085c90c311fed8669b.sample"
 
 [deps]
 
-source_file="res://resources/sounds/SFX/other/character/character_deploy.wav"
-dest_files=["res://.godot/imported/character_deploy.wav-69dd8328ef94f6dc3c40534b76485d1e.sample"]
+source_file="res://resources/sounds/SFX/player/character_deploy.wav"
+dest_files=["res://.godot/imported/character_deploy.wav-571aa586db9d18085c90c311fed8669b.sample"]
 
 [params]
 

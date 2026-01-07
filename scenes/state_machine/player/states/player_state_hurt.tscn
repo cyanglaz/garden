@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cmgl2bh1a644l"]
 
 [ext_resource type="Script" uid="uid://3r57bxv8ykyf" path="res://scenes/state_machine/player/states/player_state_hurt.gd" id="1_a5ccy"]
-[ext_resource type="AudioStream" uid="uid://deluauv4rx35y" path="res://resources/sounds/SFX/other/character/hurt.wav" id="2_m1btv"]
+[ext_resource type="AudioStream" uid="uid://deluauv4rx35y" path="res://resources/sounds/SFX/player/hurt.wav" id="2_m1btv"]
 
 [node name="PlayerStateHurt" type="Node2D"]
 script = ExtResource("1_a5ccy")
