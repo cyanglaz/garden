@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dcnody3lch1ie"]
+[gd_scene load_steps=12 format=3 uid="uid://dcnody3lch1ie"]
 
 [ext_resource type="Script" uid="uid://dwm2vrfwa5e3g" path="res://scenes/main_game/combat/weather/weather_abilities/animation_components/solar_beam.gd" id="1_kahwh"]
 [ext_resource type="Texture2D" uid="uid://d2esb6nytfckx" path="res://resources/sprites/effects/weather_ability/solar_beam.png" id="2_ptdnf"]
@@ -22,6 +22,32 @@ scale_min = 0.049999997
 scale_max = 0.099999994
 alpha_curve = SubResource("CurveTexture_i06wt")
 
+[sub_resource type="Gradient" id="Gradient_ptdnf"]
+offsets = PackedFloat32Array(0, 0.47473404, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.92156863, 0.34117648, 1, 1, 0.63529414, 0.078431375, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_i06wt"]
+gradient = SubResource("Gradient_ptdnf")
+
+[sub_resource type="Curve" id="Curve_t5e3a"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.58808935, 0.8575454), -0.5046965, -0.5046965, 0, 0, Vector2(1, 0), -4.0880375, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_v76gd"]
+curve = SubResource("Curve_t5e3a")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ptdnf"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 90.0
+initial_velocity_min = 80.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.099999994
+scale_max = 0.19999999
+scale_curve = SubResource("CurveTexture_v76gd")
+color_ramp = SubResource("GradientTexture1D_i06wt")
+
 [node name="SolarBeam" type="Node2D"]
 script = ExtResource("1_kahwh")
 
@@ -41,3 +67,12 @@ amount = 20
 texture = ExtResource("3_ptdnf")
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_kahwh")
+
+[node name="ImpactParticle" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+emitting = false
+amount = 64
+texture = ExtResource("3_ptdnf")
+lifetime = 0.5
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_ptdnf")

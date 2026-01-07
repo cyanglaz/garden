@@ -10,6 +10,8 @@ region = Rect2(0, 0, 16, 16)
 
 [node name="GUIPlayerMoveButton" instance=ExtResource("1_f14dv")]
 image_size = Vector2i(16, 16)
+flip_image_h = false
+flip_image_v = false
 
 [node name="TextureRect" parent="." index="0"]
 texture = SubResource("AtlasTexture_hm5an")

@@ -6,12 +6,14 @@ const DURATION := 0.5
 const SKY_HEIGHT := -100.0
 const CHARGING_TIME := 0.2
 const CHARGING_COLOR_ALPHA := 0.5
+const IMPACT_PARTICLE_DELAY := 0.1
 const BEAM_COLOR := Constants.COLOR_WHITE
 const CHARGING_COLOR := Constants.COLOR_ORANGE1
 const WARNING_LINE_WIDTH := 1.0
 
 @onready var beam_line: Line2D = %BeamLine
 @onready var line_particle: GPUParticles2D = %LineParticle
+@onready var impact_particle: GPUParticles2D = %ImpactParticle
 
 func cast_beam(target_position:Vector2, blocked_by_player:bool) -> void:
 	# 1. Determine Start and End points
@@ -27,6 +29,9 @@ func cast_beam(target_position:Vector2, blocked_by_player:bool) -> void:
 	line_particle.global_position = target_position + start_point/2
 	line_particle.process_material.emission_box_extents = Vector3(BEAM_WIDTH*0.8, start_point.y/2, 1)
 	line_particle.one_shot = true
+	
+	impact_particle.one_shot = true
+	impact_particle.global_position = target_position
 
 	# 1. Show a very thin "warning line" first
 	beam_line.width = WARNING_LINE_WIDTH 
@@ -42,7 +47,9 @@ func cast_beam(target_position:Vector2, blocked_by_player:bool) -> void:
 	
 	# Phase A: Expand Beam (Attack)
 	tween.tween_property(beam_line, "width", BEAM_WIDTH, 0.2).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
-	tween.parallel().tween_callback(line_particle.restart) # Spark effects
+	tween.parallel().tween_callback(line_particle.restart) # Line effects
+	if !blocked_by_player:
+		tween.parallel().tween_callback(impact_particle.restart).set_delay(IMPACT_PARTICLE_DELAY) # Spark effects
 	
 	# Phase B: Hold briefly
 	tween.tween_interval(0.2)

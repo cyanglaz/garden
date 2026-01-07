@@ -148,6 +148,7 @@ vertical_alignment = 2
 
 [node name="LeftButton" parent="GUI/MoveUI" instance=ExtResource("6_utenh")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 0
 offset_left = -25.0
 offset_top = -8.0
@@ -155,8 +156,9 @@ offset_right = -9.0
 
 [node name="RightButton" parent="GUI/MoveUI" instance=ExtResource("6_utenh")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 0
-offset_left = 25.0
+offset_left = 9.0
 offset_top = -8.0
-offset_right = 41.0
-scale = Vector2(-1, 1)
+offset_right = 25.0
+flip_image_h = true
