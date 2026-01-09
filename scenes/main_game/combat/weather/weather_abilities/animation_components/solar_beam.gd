@@ -44,7 +44,7 @@ func cast_beam(target_position:Vector2, blocked_by_player:bool) -> void:
 	
 	beam_line.default_color = BEAM_COLOR
 	# 3. Animate the Blast
-	var tween = create_tween()
+	var tween = Util.create_scaled_tween(self)
 	
 	# Phase A: Expand Beam (Attack)
 	tween.tween_property(beam_line, "width", BEAM_WIDTH, 0.2).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
