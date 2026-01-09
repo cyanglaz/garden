@@ -45,9 +45,9 @@ func plant_seed(plant_data:PlantData) -> void:
 		0:
 			size = 0
 		1:
-			size = 1
+			size = 0
 		2:
-			size = 2
+			size = 1
 	_show_progress_bars()
 	plant.bloom_started.connect(func(): plant_bloom_started.emit())
 	plant.bloom_completed.connect(func(): plant_bloom_completed.emit())

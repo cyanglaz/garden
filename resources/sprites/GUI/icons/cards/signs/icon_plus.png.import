@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b71v8bhwv6bew"
-path="res://.godot/imported/icon_minus.png-21a6088d298f0b341a487bd3d230dc14.ctex"
+uid="uid://clfe0gorpmm3y"
+path="res://.godot/imported/icon_plus.png-d033f1c9fb3cad39da410f4f73b402e7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/GUI/icons/cards/signs/icon_minus.png"
-dest_files=["res://.godot/imported/icon_minus.png-21a6088d298f0b341a487bd3d230dc14.ctex"]
+source_file="res://resources/sprites/GUI/icons/cards/signs/icon_plus.png"
+dest_files=["res://.godot/imported/icon_plus.png-d033f1c9fb3cad39da410f4f73b402e7.ctex"]
 
 [params]
 

@@ -22,9 +22,9 @@ alignment = 1
 
 [node name="GUIActionTypeIcon" parent="SymbolContainer" instance=ExtResource("1_xs6gn")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 mouse_filter = 2
-expand_mode = 0
 
 [node name="GUIActionValueIcon" parent="SymbolContainer" instance=ExtResource("3_ew7wa")]
 unique_name_in_owner = true

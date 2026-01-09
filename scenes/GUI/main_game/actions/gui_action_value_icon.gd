@@ -29,6 +29,9 @@ func update_with_action(action_data:ActionData, target_plant:Plant) -> void:
 				if action_data.operator_type == ActionData.OperatorType.DECREASE:
 					_sign_icon.show()
 					_sign_icon.texture = load(SIGN_ICON_PATH + "minus.png")
+				#elif action_data.operator_type == ActionData.OperatorType.INCREASE:
+					#_sign_icon.show()
+					#_sign_icon.texture = load(SIGN_ICON_PATH + "plus.png")
 		ActionData.ValueType.RANDOM:
 			_value_icon.show()
 			var value_id := _get_value_id(action_data.get_calculated_value(target_plant))

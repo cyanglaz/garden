@@ -76,7 +76,6 @@ func _update_position() -> void:
 	sprite.scale = Vector2(scale_val, scale_val)
 
 func _set_current_progress(value: float) -> void:
-	print("set_current_progress: ", value)
 	if value < 0.0:
 		value = 1.0 - abs(value)
 	current_progress = value # Allow wrapping? Or clamp? Assuming standard 0-1
