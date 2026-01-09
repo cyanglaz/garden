@@ -5,6 +5,7 @@ const ICON_PREFIX := "res://resources/sprites/GUI/icons/weather_ability/icon_%s.
 
 var player_actions_applier:PlayerActionApplier = PlayerActionApplier.new()
 var plant_actions_applier:PlantActionApplier = PlantActionApplier.new()
+var field_index:int = -1
 
 var _pending_actions:Array[ActionData] = []
 var _action_index:int = 0

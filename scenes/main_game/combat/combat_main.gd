@@ -130,7 +130,7 @@ func _start_new_level() -> void:
 	_start_turn()
 
 func _start_turn() -> void:
-	weather_main.generate_next_weather_abilities(self)
+	weather_main.generate_next_weather_abilities(self, day_manager.day)
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.TURN)
 	boost = maxi(boost - 1, 1)
 	gui.toggle_all_ui(false)

@@ -7,7 +7,8 @@
 
 [resource]
 script = ExtResource("2_padls")
-abilities = Array[ExtResource("1_dah4q")]([ExtResource("2_2t0yl"), ExtResource("3_2t0yl")])
+regular_abilities = Array[ExtResource("1_dah4q")]([ExtResource("2_2t0yl")])
+special_abilities = Array[ExtResource("1_dah4q")]([ExtResource("3_2t0yl")])
 sky_color = Color(0, 0.8039216, 0.9764706, 1)
 id = "sunny"
 display_name = "Sunny"

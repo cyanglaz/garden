@@ -35,8 +35,8 @@ func start(chapter:int) -> void:
 	await _current_weather.animate_in()
 	weathers_updated.emit()
 
-func generate_next_weather_abilities(combat_main:CombatMain) -> void:
-	_weather_ability_container.generate_next_weather_abilities(get_current_weather(), combat_main)
+func generate_next_weather_abilities(combat_main:CombatMain, turn_index:int) -> void:
+	_weather_ability_container.generate_next_weather_abilities(get_current_weather(), combat_main, turn_index)
 
 func apply_weather_abilities(plants:Array, combat_main:CombatMain) -> void:
 	await _weather_ability_container.apply_weather_actions(plants, combat_main)
