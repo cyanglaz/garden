@@ -5,20 +5,19 @@
 
 [sub_resource type="Resource" id="Resource_0ew7l"]
 script = ExtResource("1_0ew7l")
-type = 1
+type = 12
 value = 1
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [sub_resource type="Resource" id="Resource_jiwr5"]
 script = ExtResource("1_0ew7l")
-type = 12
+type = 1
 value = 1
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
 script = ExtResource("2_jiwr5")
-plant_actions = Array[ExtResource("1_0ew7l")]([SubResource("Resource_0ew7l")])
-player_actions = Array[ExtResource("1_0ew7l")]([SubResource("Resource_jiwr5")])
+action_datas = Array[ExtResource("1_0ew7l")]([SubResource("Resource_0ew7l"), SubResource("Resource_jiwr5")])
 id = "solar_beam"
 display_name = "Solar Beam"
 metadata/_custom_type_script = "uid://dfpccwvjf242h"
