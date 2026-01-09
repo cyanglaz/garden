@@ -6,6 +6,7 @@ const SPECIAL_ABILITY_TURN_THRESHOLD := 3
 const BASE_SPECIAL_ABILITY_TURN_CHANCE := 0.7
 const BASE_SPECIAL_ABILITY_TURN_CHANCE_INCREASE := 0.1
 const BASE_SPECIAL_ABILITY_TURN_CHANCE_DECREASE := 0.2
+const SPECIAL_ABILITY_LEVEL_UP_TURNS := 2
 const BASE_SPECIAL_ABILITY_CHANCE := 0.3
 const BASE_REGULAR_ABILITY_CHANCE_FOR_EACH_FIELD := 0.8
 const CHANCE_FOR_EMPTY_FIELDS := 0.5
@@ -20,6 +21,8 @@ const WEATHER_ABILITIES_SCENE_PREFIX := "res://scenes/main_game/combat/weather/w
 var weather_abilities:Array
 var special_ability_turn_chance:float = BASE_SPECIAL_ABILITY_TURN_CHANCE
 var regular_ability_chance_for_each_field:float = BASE_REGULAR_ABILITY_CHANCE_FOR_EACH_FIELD
+var special_ability_level_up_turns_count := 0
+var special_ability_level := 0
 
 func generate_next_weather_abilities(weather_data:WeatherData, combat_main:CombatMain, turn_index:int) -> void:
 	clear_all_weather_abilities()
@@ -31,11 +34,15 @@ func generate_next_weather_abilities(weather_data:WeatherData, combat_main:Comba
 	if turn_index >= SPECIAL_ABILITY_TURN_THRESHOLD:
 		var roll:float = randf_range(0, 1)
 		if roll < special_ability_turn_chance:
+			if special_ability_level_up_turns_count >= SPECIAL_ABILITY_LEVEL_UP_TURNS:
+				special_ability_level += 1
+				special_ability_level_up_turns_count = 0
 			for i in combat_main.plant_field_container.plants.size():
 				var random_ability:WeatherAbilityData = Util.unweighted_roll(weather_data.special_abilities, 1)[0]
 				abilities.append(random_ability)
 			special_ability_turn_chance -= BASE_SPECIAL_ABILITY_TURN_CHANCE_DECREASE
 			fields_have_abilities = field_indices
+			special_ability_level_up_turns_count += 1
 		else:
 			regular_ability_chance_for_each_field += BASE_SPECIAL_ABILITY_TURN_CHANCE_INCREASE
 	
@@ -61,9 +68,13 @@ func generate_next_weather_abilities(weather_data:WeatherData, combat_main:Comba
 		fields_have_abilities = Util.unweighted_roll(field_indices, abilities.size()).duplicate()
 	for i in fields_have_abilities.size():
 		var ability:WeatherAbilityData = abilities[i]
+		var is_special_ability:bool = ability in weather_data.special_abilities
+		print("is_special_ability: ", is_special_ability)
 		var field_index:int = fields_have_abilities[i]
 		var weather_ability_scene:PackedScene = load(WEATHER_ABILITIES_SCENE_PREFIX % ability.id)
 		var weather_ability:WeatherAbility = weather_ability_scene.instantiate()
+		if is_special_ability:
+			weather_ability.level = special_ability_level
 		weather_ability.field_index = field_index
 		add_child(weather_ability)
 		weather_ability.setup_with_weather_ability_data(ability)

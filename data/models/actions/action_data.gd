@@ -146,11 +146,9 @@ func _set_x_value(val:int) -> void:
 	_original_x_value = val
 
 func _get_value() -> int:
-	assert(false, "use get_calculated_value instead")
 	return _original_value
 
 func _get_x_value() -> int:
-	assert(false, "use get_calculated_x_value instead")
 	return _original_x_value
 
 func _get_card_selection_type() -> CardSelectionType:

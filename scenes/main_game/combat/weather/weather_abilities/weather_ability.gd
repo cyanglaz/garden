@@ -5,6 +5,7 @@ const ICON_PREFIX := "res://resources/sprites/GUI/icons/weather_ability/icon_%s.
 
 var player_actions_applier:PlayerActionApplier = PlayerActionApplier.new()
 var plant_actions_applier:PlantActionApplier = PlantActionApplier.new()
+var level:int = 0
 var field_index:int = -1
 
 var _pending_actions:Array[ActionData] = []
@@ -15,7 +16,7 @@ var _action_index:int = 0
 var _weather_ability_data:WeatherAbilityData
 
 func setup_with_weather_ability_data(data:WeatherAbilityData) -> void:
-	_weather_ability_icon.setup_with_weather_ability_data(data)
+	_weather_ability_icon.setup_with_weather_ability_data(data, level)
 	_weather_ability_data = data
 
 func apply_to_player(_player:Player, _combat_main:CombatMain) -> void:
