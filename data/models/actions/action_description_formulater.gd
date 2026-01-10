@@ -31,7 +31,7 @@ static func get_raw_action_description(action_data:ActionData, target_plant:Plan
 	match action_data.type:
 		ActionData.ActionType.LIGHT, ActionData.ActionType.WATER:
 			raw_action_description = _get_field_action_description(action_data, target_plant)
-		ActionData.ActionType.ENERGY, ActionData.ActionType.UPDATE_X, ActionData.ActionType.UPDATE_GOLD, ActionData.ActionType.UPDATE_HP:
+		ActionData.ActionType.ENERGY, ActionData.ActionType.UPDATE_X, ActionData.ActionType.UPDATE_GOLD, ActionData.ActionType.UPDATE_HP, ActionData.ActionType.UPDATE_MOVEMENT:
 			raw_action_description = _get_resource_update_action_description(action_data, target_plant)
 		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW:
 			raw_action_description = _get_field_status_description(action_data)

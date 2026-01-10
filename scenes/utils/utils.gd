@@ -302,6 +302,8 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 			action_name = Util.get_localized_string("ACTION_NAME_UPDATE_GOLD")
 		ActionData.ActionType.UPDATE_HP:
 			action_name = Util.get_localized_string("ACTION_NAME_UPDATE_HP")
+		ActionData.ActionType.UPDATE_MOVEMENT:
+			action_name = Util.get_localized_string("ACTION_NAME_UPDATE_MOVEMENT")
 		ActionData.ActionType.NONE:
 			pass
 	return action_name
