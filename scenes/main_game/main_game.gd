@@ -190,8 +190,14 @@ func _on_chest_reward_skipped() -> void:
 
 #region global events
 
-func _on_request_hp_update(val:int) -> void:
-	hp.value += val
+func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
+	match operation:
+		ActionData.OperatorType.INCREASE:
+			hp.value += val
+		ActionData.OperatorType.DECREASE:
+			hp.value -= val
+		ActionData.OperatorType.EQUAL_TO:
+			hp.value = val
 	await gui_main_game.animate_hp_update(val)
 	if hp.value == 0:
 		_game_over()

@@ -1,8 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://8amtyfvodsmc"]
+[gd_scene load_steps=9 format=3 uid="uid://c8da1qwyt3452"]
 
-[ext_resource type="Script" uid="uid://e5jiqdsryidf" path="res://scenes/state_machine/player/states/player_state_upgrade_energy.gd" id="1_wq7kc"]
-[ext_resource type="AudioStream" uid="uid://bq2ajupdw6cd8" path="res://resources/sounds/SFX/player/energy_upgrade.wav" id="2_62cun"]
-[ext_resource type="Texture2D" uid="uid://0fgf3t3c1paq" path="res://resources/sprites/effects/particles/particle_smoke.png" id="3_62cun"]
+[ext_resource type="Script" uid="uid://d5snj5mspr6c" path="res://scenes/state_machine/player/states/player_state_decrease_energy.gd" id="1_e1ie1"]
+[ext_resource type="AudioStream" uid="uid://bq2ajupdw6cd8" path="res://resources/sounds/SFX/player/energy_upgrade.wav" id="2_vqywx"]
+[ext_resource type="Texture2D" uid="uid://0fgf3t3c1paq" path="res://resources/sprites/effects/particles/particle_smoke.png" id="3_udskf"]
 
 [sub_resource type="Curve" id="Curve_63twv"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.6730251, 0.0, 0, 0]
@@ -34,19 +34,19 @@ scale_max = 0.29999998
 scale_curve = SubResource("CurveTexture_63twv")
 alpha_curve = SubResource("CurveTexture_mohyj")
 
-[node name="PlayerStateUpgradeEnergy" type="Node2D"]
-script = ExtResource("1_wq7kc")
+[node name="PlayerStateDecreaseEnergy" type="Node2D"]
+script = ExtResource("1_e1ie1")
 
-[node name="UpgradeEnergyAudio" type="AudioStreamPlayer2D" parent="."]
+[node name="DecreaseEnergyAudio" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("2_62cun")
+stream = ExtResource("2_vqywx")
 volume_db = -5.0
 bus = &"SFX"
 
-[node name="EnergyUpgradeParticle" type="GPUParticles2D" parent="."]
+[node name="EnergyDecreaseParticle" type="GPUParticles2D" parent="."]
 unique_name_in_owner = true
 emitting = false
-texture = ExtResource("3_62cun")
+texture = ExtResource("3_udskf")
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_ubnx8")

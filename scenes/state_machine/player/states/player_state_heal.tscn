@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://cucvmgceehok8"]
+
+[ext_resource type="Script" uid="uid://cherpqw5qft6s" path="res://scenes/state_machine/player/states/player_state_heal.gd" id="1_i2d4g"]
+[ext_resource type="AudioStream" uid="uid://deluauv4rx35y" path="res://resources/sounds/SFX/player/hurt.wav" id="2_4s37y"]
+
+[node name="PlayerStateHeal" type="Node2D"]
+script = ExtResource("1_i2d4g")
+
+[node name="PlayerHealAudio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("2_4s37y")
+bus = &"SFX"

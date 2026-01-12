@@ -26,3 +26,12 @@ func _generate_ability(ability_data:WeatherAbilityData) -> WeatherAbility:
 	return weather_ability
 
 #endregion
+
+func _instantiate_abilities(ability_datas:Array[WeatherAbilityData]) -> Array[WeatherAbility]:
+	var abilities:Array[WeatherAbility] = []
+	for i in ability_datas.size():
+		var ability:WeatherAbilityData = ability_datas[i]
+		var weather_ability:WeatherAbility = _generate_ability(ability)
+		weather_ability.setup_with_weather_ability_data(ability)
+		abilities.append(weather_ability)
+	return abilities

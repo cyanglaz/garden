@@ -34,25 +34,10 @@ func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_data
 			Events.request_update_gold.emit(real_value, true)
 		ActionData.ActionType.UPDATE_HP:
 			var real_value := calculated_value
-			match action.operator_type:
-				ActionData.OperatorType.INCREASE:
-					real_value = calculated_value
-				ActionData.OperatorType.DECREASE:
-					real_value = -calculated_value
-				ActionData.OperatorType.EQUAL_TO:
-					real_value = calculated_value
-			Events.request_hp_update.emit(real_value)
+			Events.request_hp_update.emit(real_value, action.operator_type)
 		ActionData.ActionType.UPDATE_MOVEMENT:
 			var real_value := calculated_value
-			match action.operator_type:
-				ActionData.OperatorType.INCREASE:
-					real_value = calculated_value
-					combat_main.player.play_upgrade_animation()
-				ActionData.OperatorType.DECREASE:
-					real_value = -calculated_value
-				ActionData.OperatorType.EQUAL_TO:
-					real_value = calculated_value
-			combat_main.player.moves_left += real_value
+			Events.request_movement_update.emit(real_value, action.operator_type)
 		_:
 			assert(false, "Invalid player action type: %s" % action.type)
 	action_application_completed.emit()

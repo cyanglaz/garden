@@ -46,7 +46,7 @@ func show_with_combat_data(combat_data:CombatData) -> void:
 	await tween.finished
 	Events.request_update_gold.emit(combat_data.reward_gold, true)
 	if combat_data.reward_hp > 0:
-		Events.request_hp_update.emit(combat_data.reward_hp)
+		Events.request_hp_update.emit(combat_data.reward_hp, ActionData.OperatorType.INCREASE)
 
 func _update_with_combat_data(combat_data:CombatData) -> void:
 	gui_reward_gold.update_with_value(combat_data.reward_gold)

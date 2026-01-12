@@ -42,6 +42,7 @@ func _ready() -> void:
 	Events.request_add_tools_to_discard_pile.connect(_on_request_add_tools_to_discard_pile)
 	Events.request_modify_hand_cards.connect(_on_request_modify_hand_cards)
 	Events.request_hp_update.connect(_on_request_hp_update)
+	Events.request_movement_update.connect(_on_request_movement_update)
 	gui.ui_lock_toggled.connect(_on_ui_lock_toggled)
 
 func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter:int, player_data:PlayerData) -> void:
@@ -130,11 +131,11 @@ func _start_new_level() -> void:
 	_start_turn()
 
 func _start_turn() -> void:
-	weather_main.generate_next_weather_abilities(self, day_manager.day)
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.TURN)
 	boost = maxi(boost - 1, 1)
 	gui.toggle_all_ui(false)
 	day_manager.next_day()
+	weather_main.generate_next_weather_abilities(self, day_manager.day)
 	gui.clear_tool_selection()
 	if day_manager.day == 0:
 		_fade_music(true)
@@ -352,13 +353,12 @@ func _on_request_modify_hand_cards(callable:Callable) -> void:
 	tool_manager.refresh_ui()
 	gui.toggle_all_ui(true)
 
-func _on_request_hp_update(val:int) -> void:
+func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
 	# The hp is handled by the main game
-	if val < 0:
-		player.push_state("PlayerStateHurt", {"value": val})
-	else:
-		player.push_state("PlayerStateHeal", {"value": val})
+	player.update_hp(val, operation)
 
+func _on_request_movement_update(val:int, operation:ActionData.OperatorType) -> void:
+	player.update_movement(val, operation)
 #endregion
 
 #region setter/getter

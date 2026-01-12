@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://chfd078c4t6i6"]
+
+[ext_resource type="Script" uid="uid://dyge734m8358q" path="res://scenes/state_machine/player/states/player_state_decrease_movement.gd" id="1_750ej"]
+[ext_resource type="AudioStream" uid="uid://bq2ajupdw6cd8" path="res://resources/sounds/SFX/player/energy_upgrade.wav" id="2_5vven"]
+
+[node name="PlayerStateDecreaseMovement" type="Node2D"]
+script = ExtResource("1_750ej")
+
+[node name="DecreaseMovementAudio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("2_5vven")
+volume_db = -5.0
+bus = &"SFX"

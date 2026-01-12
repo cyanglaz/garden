@@ -13,7 +13,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 [sub_resource type="Resource" id="Resource_sys6w"]
 script = ExtResource("1_65ett")
 type = 1
-value = 2
+value = 1
 operator_type = 1
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 

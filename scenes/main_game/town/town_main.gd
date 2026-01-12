@@ -38,7 +38,7 @@ func _on_tavern_field_pressed(field:TavernField) -> void:
 	_interacted = true
 	field.interacted = true
 	await weather_main.night_fall()
-	Events.request_hp_update.emit(field.HP_INCREASE)
+	Events.request_hp_update.emit(field.HP_INCREASE, ActionData.OperatorType.INCREASE)
 	await Util.create_scaled_timer(TAVERN_WAIT_TIME).timeout
 	town_finished.emit()
 

@@ -45,11 +45,28 @@ func move_to_x(x: float) -> void:
 	var tween:Tween = create_tween()
 	tween.tween_property(self, "global_position", Vector2(x, POSITION_Y_OFFSET), MOVE_TIME).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
 
-func play_heal_animation(_popup_text:String) -> void:
-	pass
-
 func push_state(state:String, params:Dictionary = {}) -> void:
 	player_state_machine.push(state, params)
+
+func update_hp(val:int, operation:ActionData.OperatorType) -> void:
+	match operation:
+		ActionData.OperatorType.INCREASE:
+			push_state("PlayerStateHeal", {"value": val})
+		ActionData.OperatorType.DECREASE:
+			push_state("PlayerStateHurt", {"value": val})
+		ActionData.OperatorType.EQUAL_TO:
+			pass
+
+func update_movement(val:int, operation:ActionData.OperatorType) -> void:
+	match operation:
+		ActionData.OperatorType.INCREASE:
+			moves_left += val
+			push_state("PlayerStateUpgradeMovement", {"value": val})
+		ActionData.OperatorType.DECREASE:
+			moves_left -= val
+			push_state("PlayerStateDecreaseMovement", {"value": val})
+		ActionData.OperatorType.EQUAL_TO:
+			moves_left = val
 
 func _on_button_pressed(move_direction:MoveDirection) -> void:
 	match move_direction:
