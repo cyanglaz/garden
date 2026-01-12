@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://27fdafwo8t2g"]
-
-[ext_resource type="PackedScene" uid="uid://cdjmlf4g26asd" path="res://scenes/main_game/combat/weather/weather_abilities/weather_ability.tscn" id="1_msjfs"]
-[ext_resource type="Script" uid="uid://dhdirsa631eq7" path="res://scenes/main_game/combat/weather/weather_abilities/weather_ability_solar_beam.gd" id="2_e8sh0"]
-
-[node name="WeatherAbilitySolarBeam" instance=ExtResource("1_msjfs")]
-script = ExtResource("2_e8sh0")

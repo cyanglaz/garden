@@ -150,6 +150,7 @@ func _start_turn() -> void:
 func _end_turn() -> void:
 	gui.toggle_all_ui(false)
 	_clear_tool_selection()
+	await _discard_all_tools()
 	energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
 	await plant_field_container.trigger_end_turn_hooks(self)
 	await weather_main.apply_weather_abilities(plant_field_container.plants, self)
@@ -157,7 +158,6 @@ func _end_turn() -> void:
 	tool_manager.card_use_limit_reached = false
 	await weather_main.night_fall()
 	await _trigger_turn_end_cards()
-	await _discard_all_tools()
 	if _met_win_condition():
 		return
 	tool_manager.cleanup_for_turn()
@@ -167,7 +167,7 @@ func _end_turn() -> void:
 		# _win() is called by _bloom()
 		return
 	plant_field_container.handle_turn_end()
-	await weather_main.pass_day()
+	await weather_main.new_day()
 	gui.toggle_all_ui(true)
 	_start_turn()
 

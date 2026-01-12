@@ -15,8 +15,10 @@ var _action_index:int = 0
 
 var weather_ability_data:WeatherAbilityData
 
+func _ready() -> void:
+	_weather_ability_icon.setup_with_weather_ability_data(weather_ability_data, level)
+
 func setup_with_weather_ability_data(data:WeatherAbilityData) -> void:
-	_weather_ability_icon.setup_with_weather_ability_data(data, level)
 	weather_ability_data = data
 
 func hide_icon() -> void:

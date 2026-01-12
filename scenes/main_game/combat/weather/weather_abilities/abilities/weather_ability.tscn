@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cdjmlf4g26asd"]
 
-[ext_resource type="Script" uid="uid://ba5gybmvvi067" path="res://scenes/main_game/combat/weather/weather_abilities/weather_ability.gd" id="1_q6odo"]
+[ext_resource type="Script" uid="uid://ba5gybmvvi067" path="res://scenes/main_game/combat/weather/weather_abilities/abilities/weather_ability.gd" id="1_q6odo"]
 [ext_resource type="PackedScene" uid="uid://x6flmgtbdmqp" path="res://scenes/main_game/combat/weather/weather_abilities/weather_ability_icon.tscn" id="2_u3an0"]
 
 [node name="WeatherAbility" type="Node2D"]

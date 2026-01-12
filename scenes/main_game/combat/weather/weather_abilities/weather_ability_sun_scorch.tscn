@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://cacxo41nu0fli"]
-
-[ext_resource type="PackedScene" uid="uid://cdjmlf4g26asd" path="res://scenes/main_game/combat/weather/weather_abilities/weather_ability.tscn" id="1_fywn2"]
-[ext_resource type="Script" uid="uid://dc6s061nmsqhy" path="res://scenes/main_game/combat/weather/weather_abilities/weather_ability_sun_scorch.gd" id="2_fywn2"]
-
-[node name="WeatherAbilitySunScorch" instance=ExtResource("1_fywn2")]
-script = ExtResource("2_fywn2")

@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://rw4inxd0b3du"]
-
-[ext_resource type="PackedScene" uid="uid://cdjmlf4g26asd" path="res://scenes/main_game/combat/weather/weather_abilities/weather_ability.tscn" id="1_xvayt"]
-[ext_resource type="Script" uid="uid://dgjevblf3nx01" path="res://scenes/main_game/combat/weather/weather_abilities/weather_ability_heavy_droplet.gd" id="2_aispu"]
-
-[node name="WeatherAbilityHeavyDroplet" instance=ExtResource("1_xvayt")]
-script = ExtResource("2_aispu")

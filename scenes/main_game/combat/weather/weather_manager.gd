@@ -15,7 +15,7 @@ var test_weather:WeatherData
 
 #var level:int
 var weathers:Array[WeatherData]
-var forecast_days := 4
+var forecast_days := 1
 var _chapter:int
 
 func start(chapter:int) -> void:
