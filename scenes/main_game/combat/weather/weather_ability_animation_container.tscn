@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cw4xjceqlocrx"]
+
+[ext_resource type="Script" uid="uid://dsd8c6srgjcm6" path="res://scenes/main_game/combat/weather/weather_ability_animation_container.gd" id="1_ffl7j"]
+
+[node name="WeatherAbilityAnimationContainer" type="Node2D"]
+script = ExtResource("1_ffl7j")

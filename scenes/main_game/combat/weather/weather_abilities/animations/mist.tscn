@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bjxltwpa40twn"]
+
+[ext_resource type="Script" uid="uid://dbhqa2dlcu8m7" path="res://scenes/main_game/combat/weather/weather_abilities/animations/mist.gd" id="1_nvmrl"]
+
+[node name="Mist" type="Node2D"]
+script = ExtResource("1_nvmrl")

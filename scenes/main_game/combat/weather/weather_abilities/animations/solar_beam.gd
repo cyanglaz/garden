@@ -1,5 +1,5 @@
 class_name SolarBeam
-extends Node2D
+extends WeatherAbilityAnimation
 
 const BEAM_WIDTH := 8.0
 const DURATION := 0.5
@@ -16,7 +16,7 @@ const WARNING_LINE_WIDTH := 1.0
 @onready var impact_particle: GPUParticles2D = %ImpactParticle
 @onready var beam_sound: AudioStreamPlayer2D = %BeamSound
 
-func cast_beam(target_position:Vector2, blocked_by_player:bool) -> void:
+func start(target_position:Vector2, is_blocked:bool) -> void:
 	# 1. Determine Start and End points
 	# The beam always starts directly above the target in the "sky"
 	var start_point = Vector2(0, SKY_HEIGHT)
@@ -49,7 +49,7 @@ func cast_beam(target_position:Vector2, blocked_by_player:bool) -> void:
 	# Phase A: Expand Beam (Attack)
 	tween.tween_property(beam_line, "width", BEAM_WIDTH, 0.2).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
 	tween.parallel().tween_callback(line_particle.restart) # Line effects
-	if !blocked_by_player:
+	if !is_blocked:
 		tween.parallel().tween_callback(impact_particle.restart).set_delay(IMPACT_PARTICLE_DELAY) # Spark effects
 	tween.parallel().tween_callback(beam_sound.play).set_delay(IMPACT_PARTICLE_DELAY) # Spark effects
 

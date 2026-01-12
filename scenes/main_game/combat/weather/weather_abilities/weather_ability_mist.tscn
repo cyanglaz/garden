@@ -1,10 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://ldel4gtt0bxq"]
+[gd_scene load_steps=3 format=3 uid="uid://ldel4gtt0bxq"]
 
 [ext_resource type="PackedScene" uid="uid://cdjmlf4g26asd" path="res://scenes/main_game/combat/weather/weather_abilities/weather_ability.tscn" id="1_u1wf6"]
 [ext_resource type="Script" uid="uid://bhs4j480pu0fq" path="res://scenes/main_game/combat/weather/weather_abilities/weather_ability_mist.gd" id="2_u1wf6"]
-[ext_resource type="PackedScene" uid="uid://bjxltwpa40twn" path="res://scenes/main_game/combat/weather/weather_abilities/animation_components/mist.tscn" id="3_u1wf6"]
 
 [node name="WeatherAbilityMist" instance=ExtResource("1_u1wf6")]
 script = ExtResource("2_u1wf6")
-
-[node name="Mist" parent="." index="1" instance=ExtResource("3_u1wf6")]

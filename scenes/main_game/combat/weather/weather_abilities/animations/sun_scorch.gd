@@ -1,5 +1,5 @@
 class_name SunScorch
-extends Node2D
+extends WeatherAbilityAnimation
 
 const SKY_HEIGHT := -100.0
 const BEAM_COLOR := Constants.COLOR_RED1
@@ -11,7 +11,7 @@ const BEAM_ANIMATION_INTERVAL := 0.1
 @onready var impact_particle: GPUParticles2D = %ImpactParticle
 @onready var beam_sound: AudioStreamPlayer2D = %BeamSound
 
-func execute_scorch(target_pos: Vector2, _is_blocked: bool):
+func start(target_pos: Vector2, _is_blocked: bool):
 	global_position = target_pos
 
 	impact_particle.one_shot = true

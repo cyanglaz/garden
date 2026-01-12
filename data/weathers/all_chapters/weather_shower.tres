@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" uid="uid://dfpccwvjf242h" path="res://data/models/weather/weather_ability_data.gd" id="1_kup7e"]
 [ext_resource type="Script" uid="uid://g4t52w546b5k" path="res://data/models/weather/weather_data.gd" id="2_eqbcn"]
-[ext_resource type="Resource" uid="uid://cjsgiletqjgbr" path="res://data/weather_abilities/weather_ability_mist.tres" id="2_v1bl8"]
+[ext_resource type="Resource" uid="uid://skb5o502jt86" path="res://data/weather_abilities/weather_abilitiy_heavy_droplet.tres" id="2_kup7e"]
 
 [resource]
 script = ExtResource("2_eqbcn")
-regular_abilities = Array[ExtResource("1_kup7e")]([ExtResource("2_v1bl8")])
-special_abilities = Array[ExtResource("1_kup7e")]([ExtResource("2_v1bl8")])
+regular_abilities = Array[ExtResource("1_kup7e")]([ExtResource("2_kup7e")])
+special_abilities = Array[ExtResource("1_kup7e")]([ExtResource("2_kup7e")])
 sky_color = Color(0, 0.59607846, 0.8627451, 1)
 id = "shower"
 display_name = "Shower"

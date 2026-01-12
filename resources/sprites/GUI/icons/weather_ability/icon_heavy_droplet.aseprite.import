@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://buo78e7tlca46"
+path="res://.godot/imported/icon_heavy_droplet.aseprite-c036f31497df66566c9a4bd4b2529305.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/weather_ability/icon_heavy_droplet.aseprite"
+dest_files=["res://.godot/imported/icon_heavy_droplet.aseprite-c036f31497df66566c9a4bd4b2529305.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

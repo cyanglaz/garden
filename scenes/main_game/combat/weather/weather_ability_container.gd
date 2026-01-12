@@ -24,6 +24,9 @@ var regular_ability_chance_for_each_field:float = BASE_REGULAR_ABILITY_CHANCE_FO
 var special_ability_level_up_turns_count := 0
 var special_ability_level := 0
 
+@onready var ability_container: Node2D = %AbilityContainer
+@onready var weather_ability_animation_container: WeatherAbilityAnimationContainer = %WeatherAbilityAnimationContainer
+
 func generate_next_weather_abilities(weather_data:WeatherData, combat_main:CombatMain, turn_index:int) -> void:
 	clear_all_weather_abilities()
 
@@ -69,14 +72,13 @@ func generate_next_weather_abilities(weather_data:WeatherData, combat_main:Comba
 	for i in fields_have_abilities.size():
 		var ability:WeatherAbilityData = abilities[i]
 		var is_special_ability:bool = ability in weather_data.special_abilities
-		print("is_special_ability: ", is_special_ability)
 		var field_index:int = fields_have_abilities[i]
 		var weather_ability_scene:PackedScene = load(WEATHER_ABILITIES_SCENE_PREFIX % ability.id)
 		var weather_ability:WeatherAbility = weather_ability_scene.instantiate()
 		if is_special_ability:
 			weather_ability.level = special_ability_level
 		weather_ability.field_index = field_index
-		add_child(weather_ability)
+		ability_container.add_child(weather_ability)
 		weather_ability.setup_with_weather_ability_data(ability)
 		weather_abilities.append(weather_ability)
 		var field_position:Vector2 = combat_main.plant_field_container.get_field(field_index).global_position
@@ -88,7 +90,7 @@ func apply_weather_actions(plants:Array, combat_main:CombatMain) -> void:
 	await _apply_weather_action_to_next_plant(plants, plants.size() - 1, combat_main)
 
 func clear_all_weather_abilities() -> void:
-	Util.remove_all_children(self)
+	Util.remove_all_children(ability_container)
 	weather_abilities.clear()
 
 func _apply_weather_action_to_next_plant(plants:Array, plant_index:int, combat_main:CombatMain) -> void:
@@ -102,8 +104,11 @@ func _apply_weather_action_to_next_plant(plants:Array, plant_index:int, combat_m
 	var weather_ability:WeatherAbility = weather_abilities[ability_index]
 	var player = combat_main.player
 	var player_index:int = player.current_field_index
+	weather_ability.hide_icon()
 	if plant_index == player_index:
+		await weather_ability_animation_container.run_animation(weather_ability, player.global_position, true)
 		await weather_ability.apply_to_player(player, combat_main)
 	else:
+		await weather_ability_animation_container.run_animation(weather_ability, plants[plant_index].global_position, false)
 		await weather_ability.apply_to_plant(plants, plant_index, combat_main)
 	await _apply_weather_action_to_next_plant(plants, plant_index - 1, combat_main)
