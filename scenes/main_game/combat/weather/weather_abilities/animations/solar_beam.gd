@@ -16,7 +16,7 @@ const WARNING_LINE_WIDTH := 1.0
 @onready var impact_particle: GPUParticles2D = %ImpactParticle
 @onready var beam_sound: AudioStreamPlayer2D = %BeamSound
 
-func start(target_position:Vector2, is_blocked:bool) -> void:
+func start(_icon_position:Vector2, target_position:Vector2, is_blocked:bool) -> void:
 	# 1. Determine Start and End points
 	# The beam always starts directly above the target in the "sky"
 	var start_point = Vector2(0, SKY_HEIGHT)

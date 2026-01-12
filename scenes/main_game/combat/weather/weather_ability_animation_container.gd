@@ -10,4 +10,4 @@ func run_animation(weather_ability:WeatherAbility, target_position:Vector2, bloc
 	var animation_scene:PackedScene = load(animation_path)
 	var animation_instance:WeatherAbilityAnimation = animation_scene.instantiate()
 	add_child(animation_instance)
-	await animation_instance.start(target_position, blocked_by_player)
+	await animation_instance.start(weather_ability.global_position, target_position, blocked_by_player)

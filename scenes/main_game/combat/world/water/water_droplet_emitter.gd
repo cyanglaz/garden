@@ -13,10 +13,13 @@ const DROPLET_SCENE := preload("res://scenes/main_game/combat/world/water/water_
 @export var droplet_position_range := 36.0
 @export var droplet_texture: Texture2D = null
 
+@onready var audio_stream_player_2d: AudioStreamPlayer2D = %AudioStreamPlayer2D
+
 func _ready() -> void:
 	pass
 
 func emit_droplets() -> void:
+	audio_stream_player_2d.play()
 	for i in number_of_droplets:
 		var droplet := DROPLET_SCENE.instantiate()
 		if droplet_texture:

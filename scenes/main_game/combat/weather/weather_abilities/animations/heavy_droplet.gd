@@ -7,14 +7,16 @@ const DROP_DURATION := 0.6
 
 @onready var drop: Sprite2D = %Drop
 @onready var water_droplet_emitter: WaterDropletEmitter = %WaterDropletEmitter
+@onready var audio_stream_player_2d: AudioStreamPlayer2D = %AudioStreamPlayer2D
 
 func _ready() -> void:
 	drop.position.y = DROP_STARTING_Y
 	drop.scale = Vector2.ONE * DROP_STARTING_SCALE
 
-func start(target_position:Vector2, _is_blocked:bool) -> void:
+func start(icon_position:Vector2, target_position:Vector2, _is_blocked:bool) -> void:
 	global_position = target_position
-
+	drop.position.y = to_local(icon_position).y
+	audio_stream_player_2d.play()
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
 	tween.tween_property(drop, "position:y", 0.0, DROP_DURATION).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
