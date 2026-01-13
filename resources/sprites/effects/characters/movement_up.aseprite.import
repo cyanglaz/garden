@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bqux0o36jv5ki"
+path="res://.godot/imported/movement_up.aseprite-1727f8aee889e2b889e3d0b824c986b7.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/characters/movement_up.aseprite"
+dest_files=["res://.godot/imported/movement_up.aseprite-1727f8aee889e2b889e3d0b824c986b7.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,14 +1,19 @@
 class_name PlayerStateDecreaseMovement
 extends PlayerState
 
-@onready var decrease_movement_audio: AudioStreamPlayer2D = %DecreaseMovementAudio
-
+const ANIMATION_ICON_POSITION := Vector2.RIGHT * 12
 const POPUP_LABEL_ICON_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label_icon.tscn")
 
+@onready var decrease_movement_audio: AudioStreamPlayer2D = %DecreaseMovementAudio
+@onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 
 func enter() -> void:
 	super.enter()
 	player.player_sprite.play_hurt()
+	animated_sprite_2d.show()
+	animated_sprite_2d.position = ANIMATION_ICON_POSITION
+	animated_sprite_2d.play("deploy")
+	animated_sprite_2d.animation_finished.connect(animated_sprite_2d.hide)
 	decrease_movement_audio.play()
 	var value:int = params.get("value", 0)
 	assert(value >= 0, "Value must be positive")

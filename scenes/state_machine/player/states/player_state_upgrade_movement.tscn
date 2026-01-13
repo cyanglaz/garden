@@ -1,7 +1,51 @@
-[gd_scene load_steps=3 format=3 uid="uid://bibc74o2d5b67"]
+[gd_scene load_steps=10 format=3 uid="uid://bibc74o2d5b67"]
 
 [ext_resource type="Script" uid="uid://wt0rcsyj0p10" path="res://scenes/state_machine/player/states/player_state_upgrade_movement.gd" id="1_wkkkp"]
 [ext_resource type="AudioStream" uid="uid://bq2ajupdw6cd8" path="res://resources/sounds/SFX/player/energy_upgrade.wav" id="2_48lrt"]
+[ext_resource type="Texture2D" uid="uid://bp1sdcea7caif" path="res://resources/sprites/effects/characters/movement_up.png" id="3_npa3m"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_npa3m"]
+atlas = ExtResource("3_npa3m")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_48lrt"]
+atlas = ExtResource("3_npa3m")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r6qfx"]
+atlas = ExtResource("3_npa3m")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_81eus"]
+atlas = ExtResource("3_npa3m")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0i7j1"]
+atlas = ExtResource("3_npa3m")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uvdk4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_npa3m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_48lrt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r6qfx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_81eus")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0i7j1")
+}],
+"loop": false,
+"name": &"deploy",
+"speed": 5.0
+}]
 
 [node name="PlayerStateUpgradeMovement" type="Node2D"]
 script = ExtResource("1_wkkkp")
@@ -11,3 +55,26 @@ unique_name_in_owner = true
 stream = ExtResource("2_48lrt")
 volume_db = -5.0
 bus = &"SFX"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 1
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_uvdk4")
+animation = &"deploy"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://resources/sprites/effects/characters/",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://resources/sprites/effects/characters/movement_up.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "a20d543c5761faace8768732e7c1ec03"
