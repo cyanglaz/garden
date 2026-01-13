@@ -26,21 +26,17 @@ func hide_icon() -> void:
 
 func apply_to_player(_player:Player, _combat_main:CombatMain) -> void:
 	var player_actions:Array = weather_ability_data.action_datas.filter(func(action:ActionData): return action.action_category == ActionData.ActionCategory.PLAYER)
-	for action:ActionData in player_actions:
-		action.value += level
 	if player_actions.is_empty():
 		await _apply_to_player_with_script(_player, _combat_main)
 		return
-	_apply_actions_to_player(_player, _combat_main, player_actions)
+	await _apply_actions_to_player(_player, _combat_main, player_actions)
 
 func apply_to_plant(plants:Array, plant_index:int, _combat_main:CombatMain) -> void:
 	var plant_actions:Array = weather_ability_data.action_datas.filter(func(action:ActionData): return action.action_category == ActionData.ActionCategory.FIELD)
-	for action:ActionData in plant_actions:
-		action.value += level
 	if plant_actions.is_empty():
 		await _apply_to_plant_with_script(plants, plant_index, _combat_main)
 		return
-	_apply_actions_to_plant(plants, plant_index, _combat_main, plant_actions)
+	await _apply_actions_to_plant(plants, plant_index, _combat_main, plant_actions)
 
 #region private functions
 
@@ -55,6 +51,7 @@ func _apply_next_player_action(player:Player, combat_main:CombatMain) -> void:
 		_action_index = 0
 		return
 	var action:ActionData = _pending_actions[_action_index]
+	action.value += level
 	_action_index += 1
 	await player_actions_applier.apply_action(action, combat_main, [])
 	await _apply_next_player_action(player, combat_main)
@@ -71,6 +68,7 @@ func _apply_next_plant_action(plants:Array, plant_index:int, _combat_main:Combat
 		return
 	var action:ActionData = _pending_actions[_action_index]
 	action.value += level
+	_action_index += 1
 	await plant_actions_applier.apply_action(action, plants, plant_index)
 	await _apply_next_plant_action(plants, plant_index, _combat_main)
 

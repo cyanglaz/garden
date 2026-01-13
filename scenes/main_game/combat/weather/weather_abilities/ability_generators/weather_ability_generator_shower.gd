@@ -16,7 +16,7 @@ func _generate_abilities(combat_main:CombatMain, turn_index:int) -> Array[Weathe
 		1:
 			ability_datas.append(MIST_ABILITY.get_duplicate())
 			ability_datas.append(MIST_ABILITY.get_duplicate())
-		3:
+		2:
 			for i in field_indices.size():
 				ability_datas.append(MIST_ABILITY.get_duplicate())
 		3:
