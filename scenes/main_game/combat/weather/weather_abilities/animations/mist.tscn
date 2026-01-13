@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://bjxltwpa40twn"]
+[gd_scene load_steps=11 format=3 uid="uid://bjxltwpa40twn"]
 
 [ext_resource type="Script" uid="uid://dbhqa2dlcu8m7" path="res://scenes/main_game/combat/weather/weather_abilities/animations/mist.gd" id="1_nvmrl"]
 [ext_resource type="Texture2D" uid="uid://0fgf3t3c1paq" path="res://resources/sprites/effects/particles/particle_smoke.png" id="2_2w0o6"]
+[ext_resource type="AudioStream" uid="uid://cxtiq0cjbwdkb" path="res://resources/sounds/SFX/weather/mist.wav" id="3_bb0fy"]
 
 [sub_resource type="Curve" id="Curve_bb0fy"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.49503726, 0.6879566), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -48,3 +49,8 @@ unique_name_in_owner = true
 amount = 16
 texture = ExtResource("2_2w0o6")
 process_material = SubResource("ParticleProcessMaterial_2w0o6")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_bb0fy")
+bus = &"SFX"

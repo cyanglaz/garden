@@ -5,11 +5,12 @@ const ANIMATION_TIME := 0.6
 const FOG_TIME := 1.5
 
 @onready var fog_particle: GPUParticles2D = %FogParticle
+@onready var audio_stream_player_2d: AudioStreamPlayer2D = %AudioStreamPlayer2D
 
 func start(_icon_position:Vector2, target_position:Vector2, _is_blocked:bool) -> void:
 	global_position = target_position
 	fog_particle.emitting = true
-	
+	audio_stream_player_2d.play()
 	await Util.create_scaled_timer(ANIMATION_TIME).timeout
 	
 	Util.create_scaled_timer(FOG_TIME).timeout.connect(func() -> void:
