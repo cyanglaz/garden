@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://blco6hprwp4nn"]
+[gd_scene load_steps=9 format=3 uid="uid://blco6hprwp4nn"]
 
 [ext_resource type="PackedScene" uid="uid://cn3w8y1wumrmq" path="res://scenes/state_machine/finite_state_machine.tscn" id="1_sa8dm"]
 [ext_resource type="Script" uid="uid://dk57e5my465kp" path="res://scenes/state_machine/player/player_state_machine.gd" id="2_rghmp"]
 [ext_resource type="PackedScene" uid="uid://b0syw1demrf24" path="res://scenes/state_machine/player/states/player_state_idle.tscn" id="3_rghmp"]
 [ext_resource type="PackedScene" uid="uid://cmgl2bh1a644l" path="res://scenes/state_machine/player/states/player_state_hurt.tscn" id="4_ipgbe"]
 [ext_resource type="PackedScene" uid="uid://8amtyfvodsmc" path="res://scenes/state_machine/player/states/player_state_upgrade_energy.tscn" id="5_0ky5s"]
+[ext_resource type="PackedScene" uid="uid://c8da1qwyt3452" path="res://scenes/state_machine/player/states/player_state_decrease_energy.tscn" id="5_pb5ld"]
 [ext_resource type="PackedScene" uid="uid://bibc74o2d5b67" path="res://scenes/state_machine/player/states/player_state_upgrade_movement.tscn" id="6_dbbc6"]
 [ext_resource type="PackedScene" uid="uid://chfd078c4t6i6" path="res://scenes/state_machine/player/states/player_state_decrease_movement.tscn" id="7_uy1ja"]
 
@@ -16,8 +17,10 @@ default_state = NodePath("States/PlayerStateIdle")
 
 [node name="PlayerStateHurt" parent="States" index="1" instance=ExtResource("4_ipgbe")]
 
-[node name="PlayerStateUpgradeEnergy" parent="States" index="2" instance=ExtResource("5_0ky5s")]
+[node name="PlayerStateDecreaseEnergy" parent="States" index="2" instance=ExtResource("5_pb5ld")]
 
-[node name="PlayerStateUpgradeMovement" parent="States" index="3" instance=ExtResource("6_dbbc6")]
+[node name="PlayerStateUpgradeEnergy" parent="States" index="3" instance=ExtResource("5_0ky5s")]
 
-[node name="PlayerStateDecreaseMovement" parent="States" index="4" instance=ExtResource("7_uy1ja")]
+[node name="PlayerStateUpgradeMovement" parent="States" index="4" instance=ExtResource("6_dbbc6")]
+
+[node name="PlayerStateDecreaseMovement" parent="States" index="5" instance=ExtResource("7_uy1ja")]

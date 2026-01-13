@@ -9,6 +9,7 @@ const POPUP_LABEL_ICON_SCENE := preload("res://scenes/GUI/utils/popup_items/popu
 func enter() -> void:
 	super.enter()
 	player.player_sprite.play_hurt()
+	energy_decrease_particle.restart()
 	decrease_energy_audio.play()
 	var value:int = params.get("value", 0)
 	assert(value >= 0, "Value must be positive")

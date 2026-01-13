@@ -97,9 +97,6 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "6b22151874ffbec597e7bd8c3cb5111c"
 
-[node name="PlayerStateMachine" parent="." instance=ExtResource("5_0f2bv")]
-unique_name_in_owner = true
-
 [node name="GUI" type="Control" parent="."]
 unique_name_in_owner = true
 layout_mode = 3
@@ -145,3 +142,6 @@ offset_left = 9.0
 offset_top = -8.0
 offset_right = 25.0
 flip_image_h = true
+
+[node name="PlayerStateMachine" parent="." instance=ExtResource("5_0f2bv")]
+unique_name_in_owner = true

@@ -68,6 +68,15 @@ func update_movement(val:int, operation:ActionData.OperatorType) -> void:
 		ActionData.OperatorType.EQUAL_TO:
 			moves_left = val
 
+func update_energy(val:int, operation:ActionData.OperatorType) -> void:
+	match operation:
+		ActionData.OperatorType.INCREASE:
+			push_state("PlayerStateUpgradeEnergy", {"value": val})
+		ActionData.OperatorType.DECREASE:
+			push_state("PlayerStateDecreaseEnergy", {"value": val})
+		ActionData.OperatorType.EQUAL_TO:
+			pass
+
 func _on_button_pressed(move_direction:MoveDirection) -> void:
 	match move_direction:
 		MoveDirection.LEFT:

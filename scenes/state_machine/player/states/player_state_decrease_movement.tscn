@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://chfd078c4t6i6"]
 
 [ext_resource type="Script" uid="uid://dyge734m8358q" path="res://scenes/state_machine/player/states/player_state_decrease_movement.gd" id="1_750ej"]
-[ext_resource type="AudioStream" uid="uid://bq2ajupdw6cd8" path="res://resources/sounds/SFX/player/energy_upgrade.wav" id="2_5vven"]
+[ext_resource type="AudioStream" uid="uid://b731xd7qf5mt4" path="res://resources/sounds/SFX/player/movement_down.wav" id="2_5vven"]
 [ext_resource type="Texture2D" uid="uid://fnxqvxsunn3g" path="res://resources/sprites/effects/characters/movement_down.png" id="3_5vven"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5vven"]
@@ -53,7 +53,7 @@ script = ExtResource("1_750ej")
 [node name="DecreaseMovementAudio" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("2_5vven")
-volume_db = -5.0
+volume_db = 5.0
 bus = &"SFX"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

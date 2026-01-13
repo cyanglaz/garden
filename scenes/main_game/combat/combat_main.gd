@@ -42,6 +42,7 @@ func _ready() -> void:
 	Events.request_add_tools_to_discard_pile.connect(_on_request_add_tools_to_discard_pile)
 	Events.request_modify_hand_cards.connect(_on_request_modify_hand_cards)
 	Events.request_hp_update.connect(_on_request_hp_update)
+	Events.request_energy_update.connect(_on_request_energy_update)
 	Events.request_movement_update.connect(_on_request_movement_update)
 	gui.ui_lock_toggled.connect(_on_ui_lock_toggled)
 
@@ -359,6 +360,16 @@ func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
 
 func _on_request_movement_update(val:int, operation:ActionData.OperatorType) -> void:
 	player.update_movement(val, operation)
+
+func _on_request_energy_update(val:int, operation:ActionData.OperatorType) -> void:
+	match operation:
+		ActionData.OperatorType.INCREASE:
+			energy_tracker.restore(val)
+		ActionData.OperatorType.DECREASE:
+			energy_tracker.spend(val)
+		ActionData.OperatorType.EQUAL_TO:
+			energy_tracker.value = val
+	player.update_energy(val, operation)
 #endregion
 
 #region setter/getter

@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://c8da1qwyt3452"]
 
 [ext_resource type="Script" uid="uid://d5snj5mspr6c" path="res://scenes/state_machine/player/states/player_state_decrease_energy.gd" id="1_e1ie1"]
-[ext_resource type="AudioStream" uid="uid://bq2ajupdw6cd8" path="res://resources/sounds/SFX/player/energy_upgrade.wav" id="2_vqywx"]
+[ext_resource type="AudioStream" uid="uid://cs6o1wfn4arxk" path="res://resources/sounds/SFX/player/energy_decrease.wav" id="2_e1ie1"]
 [ext_resource type="Texture2D" uid="uid://0fgf3t3c1paq" path="res://resources/sprites/effects/particles/particle_smoke.png" id="3_udskf"]
 
 [sub_resource type="Curve" id="Curve_63twv"]
@@ -21,14 +21,12 @@ curve = SubResource("Curve_62cun")
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ubnx8"]
 resource_local_to_scene = true
 particle_flag_disable_z = true
-emission_shape = 2
-emission_sphere_radius = 42.0
 spread = 180.0
-radial_velocity_min = -100.00002
-radial_velocity_max = -75.00002
-gravity = Vector3(0, 0, 0)
-radial_accel_min = -100.0
-radial_accel_max = -100.0
+radial_velocity_min = 39.999977
+radial_velocity_max = 59.999977
+gravity = Vector3(0, -50, 0)
+radial_accel_min = -2.2351742e-06
+radial_accel_max = -2.2351742e-06
 scale_min = 0.19999999
 scale_max = 0.29999998
 scale_curve = SubResource("CurveTexture_63twv")
@@ -39,7 +37,7 @@ script = ExtResource("1_e1ie1")
 
 [node name="DecreaseEnergyAudio" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("2_vqywx")
+stream = ExtResource("2_e1ie1")
 volume_db = -5.0
 bus = &"SFX"
 

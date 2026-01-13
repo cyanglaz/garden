@@ -1,6 +1,8 @@
 class_name PlayerActionApplier
 extends RefCounted
 
+const GLOBAL_UPGRADE_PAUSE_TIME := 0.2
+
 signal action_application_completed()
 
 func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_datas:Array) -> void:
@@ -14,14 +16,8 @@ func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_data
 			assert(calculated_value >= 0, "Discard card action value must be greater than 0")
 			await _handle_discard_card_action(action, combat_main, secondary_card_datas)
 		ActionData.ActionType.ENERGY:
-			match action.operator_type:
-				ActionData.OperatorType.INCREASE:
-					combat_main.energy_tracker.restore(calculated_value)
-					combat_main.player.push_state("PlayerStateUpgradeEnergy")
-				ActionData.OperatorType.DECREASE:
-					combat_main.energy_tracker.spend(calculated_value)
-				ActionData.OperatorType.EQUAL_TO:
-					combat_main.energy_tracker.value = calculated_value
+			Events.request_energy_update.emit(calculated_value, action.operator_type)
+			await Util.create_scaled_timer(GLOBAL_UPGRADE_PAUSE_TIME).timeout
 		ActionData.ActionType.UPDATE_GOLD:
 			var real_value := calculated_value
 			match action.operator_type:
@@ -33,11 +29,11 @@ func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_data
 					real_value = calculated_value
 			Events.request_update_gold.emit(real_value, true)
 		ActionData.ActionType.UPDATE_HP:
-			var real_value := calculated_value
-			Events.request_hp_update.emit(real_value, action.operator_type)
+			Events.request_hp_update.emit(calculated_value, action.operator_type)
+			await Util.create_scaled_timer(GLOBAL_UPGRADE_PAUSE_TIME).timeout
 		ActionData.ActionType.UPDATE_MOVEMENT:
-			var real_value := calculated_value
-			Events.request_movement_update.emit(real_value, action.operator_type)
+			Events.request_movement_update.emit(calculated_value, action.operator_type)
+			await Util.create_scaled_timer(GLOBAL_UPGRADE_PAUSE_TIME).timeout
 		_:
 			assert(false, "Invalid player action type: %s" % action.type)
 	action_application_completed.emit()
