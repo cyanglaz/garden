@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cyt10elyte7i3"
+path="res://.godot/imported/icon_gloom.aseprite-33e1316894dfae748e27969c618bdb3d.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/weather_ability/icon_gloom.aseprite"
+dest_files=["res://.godot/imported/icon_gloom.aseprite-33e1316894dfae748e27969c618bdb3d.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

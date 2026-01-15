@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://crbt0djxm6kxk"
+path="res://.godot/imported/gloom.aseprite-2e73d44fd8d2243ab5eb1966d7db2e6e.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/weather_ability/gloom.aseprite"
+dest_files=["res://.godot/imported/gloom.aseprite-2e73d44fd8d2243ab5eb1966d7db2e6e.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

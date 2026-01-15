@@ -38,6 +38,7 @@ func apply_weather_actions(plants:Array, combat_main:CombatMain) -> void:
 func clear_all_weather_abilities() -> void:
 	Util.remove_all_children(ability_container)
 	weather_abilities.clear()
+	Util.remove_all_children(weather_ability_animation_container)
 
 func _apply_weather_action_to_next_plant(plants:Array, plant_index:int, combat_main:CombatMain) -> void:
 	if plant_index < 0:

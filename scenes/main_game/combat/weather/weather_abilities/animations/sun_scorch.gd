@@ -47,4 +47,4 @@ func start(_icon_position: Vector2, target_pos: Vector2, _is_blocked: bool):
 	beam_sound.play()
 	await Util.create_scaled_timer(impact_particle.lifetime).timeout
 
-	
+	queue_free()
