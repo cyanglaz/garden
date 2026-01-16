@@ -20,5 +20,6 @@ script = ExtResource("2_jiwr5")
 action_datas = Array[ExtResource("1_0ew7l")]([SubResource("Resource_0ew7l"), SubResource("Resource_jiwr5")])
 id = "solar_beam"
 display_name = "Solar Beam"
-note = "+1 energy, +1 light"
+note = "+1 energy, 
++1 light"
 metadata/_custom_type_script = "uid://dfpccwvjf242h"
