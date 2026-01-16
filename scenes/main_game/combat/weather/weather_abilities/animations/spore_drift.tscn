@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://dw3gheu4m3imi"]
 
 [ext_resource type="Script" uid="uid://36aq41v4luhf" path="res://scenes/main_game/combat/weather/weather_abilities/animations/spore_drift.gd" id="1_bp7my"]
+[ext_resource type="AudioStream" uid="uid://cbudq2wh1d04t" path="res://resources/sounds/SFX/weather/spore_drift.wav" id="2_4h2xe"]
 [ext_resource type="Texture2D" uid="uid://tvbkpdpoekuv" path="res://resources/sprites/white_pixel.png" id="3_4h2xe"]
-[ext_resource type="AudioStream" uid="uid://cfx6bs54fptk5" path="res://resources/sounds/SFX/weather/gloom.wav" id="3_ppv5g"]
 
 [sub_resource type="Gradient" id="Gradient_4h2xe"]
 interpolation_mode = 1
@@ -49,8 +49,7 @@ script = ExtResource("1_bp7my")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("3_ppv5g")
-volume_db = 5.0
+stream = ExtResource("2_4h2xe")
 bus = &"SFX"
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
