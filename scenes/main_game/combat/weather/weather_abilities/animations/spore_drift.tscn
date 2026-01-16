@@ -1,48 +1,51 @@
-[gd_scene load_steps=12 format=3 uid="uid://dw3gheu4m3imi"]
+[gd_scene load_steps=11 format=3 uid="uid://dw3gheu4m3imi"]
 
-[ext_resource type="Script" uid="uid://bdplmhupbbr33" path="res://scenes/main_game/combat/weather/weather_abilities/animations/gloom.gd" id="1_bp7my"]
-[ext_resource type="Texture2D" uid="uid://d14w5jwx226o2" path="res://resources/sprites/effects/weather_ability/gloom.png" id="2_7ysvl"]
+[ext_resource type="Script" uid="uid://36aq41v4luhf" path="res://scenes/main_game/combat/weather/weather_abilities/animations/spore_drift.gd" id="1_bp7my"]
+[ext_resource type="Texture2D" uid="uid://tvbkpdpoekuv" path="res://resources/sprites/white_pixel.png" id="3_4h2xe"]
 [ext_resource type="AudioStream" uid="uid://cfx6bs54fptk5" path="res://resources/sounds/SFX/weather/gloom.wav" id="3_ppv5g"]
-[ext_resource type="Texture2D" uid="uid://0fgf3t3c1paq" path="res://resources/sprites/effects/particles/particle_smoke.png" id="4_ytieq"]
 
-[sub_resource type="Curve" id="Curve_ylwcq"]
-_data = [Vector2(0, 0.6567522), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.3953359, 0.0, 0, 0]
+[sub_resource type="Gradient" id="Gradient_4h2xe"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.72207445)
+colors = PackedColorArray(0.5764706, 0.21960784, 0.56078434, 1, 0.99215686, 0.8235294, 0.92941177, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bp7my"]
+gradient = SubResource("Gradient_4h2xe")
+
+[sub_resource type="Curve" id="Curve_4h2xe"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_apnfk"]
-curve = SubResource("Curve_ylwcq")
+[sub_resource type="CurveTexture" id="CurveTexture_bp7my"]
+curve = SubResource("Curve_4h2xe")
 
-[sub_resource type="Gradient" id="Gradient_ylwcq"]
-offsets = PackedFloat32Array(0)
-colors = PackedColorArray(0.25882354, 0.29803923, 0.43137255, 1)
+[sub_resource type="Curve" id="Curve_7ysvl"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.4243443, 0.0, 0, 0]
+point_count = 2
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_apnfk"]
-gradient = SubResource("Gradient_ylwcq")
+[sub_resource type="CurveTexture" id="CurveTexture_ppv5g"]
+curve = SubResource("Curve_7ysvl")
 
-[sub_resource type="Curve" id="Curve_5wcxk"]
-_data = [Vector2(0, 0.7984802), 0.0, 0.0, 0, 0, Vector2(0.61166257, 0.9723404), 0.0, 0.0, 0, 0, Vector2(1, 0.49259025), -1.2289149, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_0g3la"]
-curve = SubResource("Curve_5wcxk")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ylwcq"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4h2xe"]
 particle_flag_disable_z = true
-emission_shape = 1
-emission_sphere_radius = 21.74
-gravity = Vector3(0, -30, 0)
-scale_min = 0.19999999
-scale_max = 0.29999998
-scale_curve = SubResource("CurveTexture_0g3la")
-color_initial_ramp = SubResource("GradientTexture1D_apnfk")
-alpha_curve = SubResource("CurveTexture_apnfk")
+direction = Vector3(0, 0, 0)
+radial_velocity_min = -2.2351742e-05
+radial_velocity_max = 49.999977
+radial_velocity_curve = SubResource("CurveTexture_bp7my")
+gravity = Vector3(0, 0, 0)
+scale_min = 2.0
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_ppv5g")
+color_initial_ramp = SubResource("GradientTexture1D_bp7my")
+turbulence_noise_strength = 0.05
+turbulence_noise_scale = 7.532
+turbulence_influence_min = 0.21300001
+turbulence_influence_max = 0.749
+turbulence_initial_displacement_min = -25.999998
+turbulence_initial_displacement_max = 1.490116e-06
 
-[node name="Gloom" type="Node2D"]
+[node name="SporeDrift" type="Node2D"]
 script = ExtResource("1_bp7my")
-
-[node name="CloudShadow" type="Sprite2D" parent="."]
-unique_name_in_owner = true
-texture = ExtResource("2_7ysvl")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
@@ -52,7 +55,7 @@ bus = &"SFX"
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 unique_name_in_owner = true
-emitting = false
-amount = 16
-texture = ExtResource("4_ytieq")
-process_material = SubResource("ParticleProcessMaterial_ylwcq")
+amount = 50
+texture = ExtResource("3_4h2xe")
+lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_4h2xe")
