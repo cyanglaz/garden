@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cknufndsd4tmq"]
+
+[ext_resource type="PackedScene" uid="uid://cdjmlf4g26asd" path="res://scenes/main_game/combat/weather/weather_abilities/abilities/weather_ability.tscn" id="1_eot5t"]
+[ext_resource type="Script" uid="uid://dgi0og4g0pok8" path="res://scenes/main_game/combat/weather/weather_abilities/abilities/weather_ability_gloom.gd" id="2_xp4ts"]
+
+[node name="WeatherAbilityGloom" instance=ExtResource("1_eot5t")]
+script = ExtResource("2_xp4ts")

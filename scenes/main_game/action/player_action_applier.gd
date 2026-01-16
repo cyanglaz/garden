@@ -34,6 +34,9 @@ func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_data
 		ActionData.ActionType.UPDATE_MOVEMENT:
 			Events.request_movement_update.emit(calculated_value, action.operator_type)
 			await Util.create_scaled_timer(GLOBAL_UPGRADE_PAUSE_TIME).timeout
+		ActionData.ActionType.ADD_CARD_DISCARD_PILE:
+			assert(calculated_value >= 0, "Add card discard pile action value must be greater than 0")
+			await _handle_add_card_discard_pile_action(action.data["card_id"], combat_main)
 		_:
 			assert(false, "Invalid player action type: %s" % action.type)
 	action_application_completed.emit()
@@ -45,3 +48,9 @@ func _handle_discard_card_action(_action:ActionData, combat_main:CombatMain, sec
 		return
 	await combat_main.discard_cards(secondary_card_datas)
 	await combat_main.plant_field_container.trigger_tool_discard_hook(discard_size)
+
+func _handle_add_card_discard_pile_action(card_id:String, combat_main:CombatMain) -> void:
+	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id(card_id).get_duplicate()
+	var from_position:Vector2 = Util.get_node_canvas_position(combat_main) - GUIToolCardButton.SIZE / 2
+	Events.request_add_tools_to_discard_pile.emit([tool_data], from_position, true)
+	await tool_data.adding_to_deck_finished

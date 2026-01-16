@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="WeatherAbilityData" load_steps=5 format=3 uid="uid://ctl733dacsqis"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_d23yx"]
+[ext_resource type="Script" uid="uid://dfpccwvjf242h" path="res://data/models/weather/weather_ability_data.gd" id="2_5ywuk"]
+
+[sub_resource type="Resource" id="Resource_sys6w"]
+script = ExtResource("1_d23yx")
+type = 4
+value = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_65ett"]
+script = ExtResource("1_d23yx")
+type = 17
+value = 1
+data = {
+"card_id": "spore"
+}
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_5ywuk")
+action_datas = Array[ExtResource("1_d23yx")]([SubResource("Resource_sys6w"), SubResource("Resource_65ett")])
+id = "spore_drift"
+display_name = "Spore Drift"
+note = "+1 fungus
++1 card"
+metadata/_custom_type_script = "uid://dfpccwvjf242h"

@@ -2,6 +2,7 @@ class_name WeatherAbilityGeneratorCloudy
 extends WeatherAbilityGenerator
 
 const GLOOM_ABILITY := preload("res://data/weather_abilities/weather_ability_gloom.tres")
+const SPORE_DRIFT_ABILITY := preload("res://data/weather_abilities/weather_ability_spore_drift.tres")
 
 var _gloom_ability_level:int = -1
 var _gloom_counter := 1
@@ -13,7 +14,7 @@ func _generate_abilities(combat_main:CombatMain, _turn_index:int) -> Array[Weath
 	field_indices.shuffle()
 	var ability_datas:Array[WeatherAbilityData]
 	for i in _gloom_counter:
-		ability_datas.append(GLOOM_ABILITY.get_duplicate())
+		ability_datas.append(SPORE_DRIFT_ABILITY.get_duplicate())
 	_gloom_counter += 1
 	if _gloom_counter >= combat_main.plant_field_container.plants.size():
 		_gloom_counter = 1

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bgfaphkf16e44"
+path="res://.godot/imported/icon_add_card_discard_pile.aseprite-36924cdff95c510391489e0f374ae2cc.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_add_card_discard_pile.aseprite"
+dest_files=["res://.godot/imported/icon_add_card_discard_pile.aseprite-36924cdff95c510391489e0f374ae2cc.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

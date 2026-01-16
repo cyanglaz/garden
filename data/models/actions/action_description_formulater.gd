@@ -41,6 +41,8 @@ static func get_raw_action_description(action_data:ActionData, target_plant:Plan
 			raw_action_description = _get_draw_card_action_description(action_data, target_plant)
 		ActionData.ActionType.DISCARD_CARD:
 			raw_action_description = _get_discard_card_action_description(action_data, target_plant)
+		ActionData.ActionType.ADD_CARD_DISCARD_PILE:
+			raw_action_description = _get_add_card_discard_pile_action_description(action_data, target_plant)
 		ActionData.ActionType.NONE:
 			pass
 	return raw_action_description
@@ -151,6 +153,11 @@ static func _get_draw_card_action_description(action_data:ActionData, target_pla
 
 static func _get_discard_card_action_description(action_data:ActionData, target_plant:Plant) -> String:
 	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_DISCARD_CARD")
+	main_description = main_description % [_get_value_text(action_data, target_plant)]
+	return main_description
+
+static func _get_add_card_discard_pile_action_description(action_data:ActionData, target_plant:Plant) -> String:
+	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_ADD_CARD_DISCARD_PILE")
 	main_description = main_description % [_get_value_text(action_data, target_plant)]
 	return main_description
 

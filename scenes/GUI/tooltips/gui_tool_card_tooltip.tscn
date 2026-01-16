@@ -7,6 +7,7 @@
 
 [node name="GUIToolCardTooltip" instance=ExtResource("1_hijmy")]
 script = ExtResource("2_hijmy")
+outline_color = null
 
 [node name="ContentContainer" parent="." index="2"]
 theme_override_constants/margin_left = 3

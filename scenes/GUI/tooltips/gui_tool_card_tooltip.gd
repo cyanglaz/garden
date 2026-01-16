@@ -6,7 +6,7 @@ extends GUITooltip
 
 func _update_with_tooltip_request() -> void:
 	var tool_data:ToolData = _tooltip_request.data as ToolData
-	if tool_data.actions.is_empty():
+	if tool_data.actions.is_empty() || tool_data.actions[0].type == ActionData.ActionType.NONE:
 		gui_actions_description.hide()
 	else:
 		gui_actions_description.show()
