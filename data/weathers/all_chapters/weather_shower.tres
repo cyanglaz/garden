@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dfpccwvjf242h" path="res://data/models/weather/weather_ability_data.gd" id="1_kup7e"]
 [ext_resource type="Script" uid="uid://g4t52w546b5k" path="res://data/models/weather/weather_data.gd" id="2_eqbcn"]
-[ext_resource type="Resource" uid="uid://skb5o502jt86" path="res://data/weather_abilities/weather_abilitiy_heavy_droplet.tres" id="2_kup7e"]
+[ext_resource type="Resource" uid="uid://skb5o502jt86" path="res://data/weather_abilities/weather_ability_heavy_droplet.tres" id="2_kup7e"]
 [ext_resource type="Resource" uid="uid://cjsgiletqjgbr" path="res://data/weather_abilities/weather_ability_mist.tres" id="2_v1bl8"]
 
 [resource]

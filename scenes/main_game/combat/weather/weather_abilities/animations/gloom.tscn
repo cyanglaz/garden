@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bdplmhupbbr33" path="res://scenes/main_game/combat/weather/weather_abilities/animations/gloom.gd" id="1_ylwcq"]
 [ext_resource type="Texture2D" uid="uid://d14w5jwx226o2" path="res://resources/sprites/effects/weather_ability/gloom.png" id="2_1qx3y"]
-[ext_resource type="AudioStream" uid="uid://cgqvk8v5tldnk" path="res://resources/sounds/SFX/weather/heavy_droplet_start.wav" id="4_0g3la"]
+[ext_resource type="AudioStream" uid="uid://cfx6bs54fptk5" path="res://resources/sounds/SFX/weather/gloom.wav" id="3_ylwcq"]
 [ext_resource type="Texture2D" uid="uid://0fgf3t3c1paq" path="res://resources/sprites/effects/particles/particle_smoke.png" id="4_ylwcq"]
 
 [sub_resource type="Curve" id="Curve_ylwcq"]
@@ -46,7 +46,8 @@ texture = ExtResource("2_1qx3y")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("4_0g3la")
+stream = ExtResource("3_ylwcq")
+volume_db = 5.0
 bus = &"SFX"
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]

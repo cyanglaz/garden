@@ -1,25 +1,26 @@
 [gd_resource type="Resource" script_class="WeatherAbilityData" load_steps=5 format=3 uid="uid://cjc4piito1t7y"]
 
-[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_kre6q"]
-[ext_resource type="Script" uid="uid://dfpccwvjf242h" path="res://data/models/weather/weather_ability_data.gd" id="2_xxvjp"]
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_d8ch7"]
+[ext_resource type="Script" uid="uid://dfpccwvjf242h" path="res://data/models/weather/weather_ability_data.gd" id="2_csya6"]
 
 [sub_resource type="Resource" id="Resource_sys6w"]
-script = ExtResource("1_kre6q")
+script = ExtResource("1_d8ch7")
 type = 1
 value = 2
 operator_type = 1
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [sub_resource type="Resource" id="Resource_65ett"]
-script = ExtResource("1_kre6q")
-type = 15
+script = ExtResource("1_d8ch7")
+type = 16
 value = 1
 operator_type = 1
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
-script = ExtResource("2_xxvjp")
-action_datas = Array[ExtResource("1_kre6q")]([SubResource("Resource_sys6w"), SubResource("Resource_65ett")])
+script = ExtResource("2_csya6")
+action_datas = Array[ExtResource("1_d8ch7")]([SubResource("Resource_sys6w"), SubResource("Resource_65ett")])
 id = "gloom"
 display_name = "Gloom"
+note = "-2 light, -1 movement"
 metadata/_custom_type_script = "uid://dfpccwvjf242h"

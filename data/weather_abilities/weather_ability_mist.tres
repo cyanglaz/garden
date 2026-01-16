@@ -29,4 +29,5 @@ script = ExtResource("2_rt8bk")
 action_datas = Array[ExtResource("1_65ett")]([SubResource("Resource_mx06f"), SubResource("Resource_sys6w"), SubResource("Resource_65ett")])
 id = "mist"
 display_name = "Mist"
+note = "-1 pest, -1 light -1 movement"
 metadata/_custom_type_script = "uid://dfpccwvjf242h"

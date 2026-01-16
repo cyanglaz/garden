@@ -1,7 +1,7 @@
 class_name WeatherAbilityGeneratorShower
 extends WeatherAbilityGenerator
 
-const HEAVY_DROPLET_ABILITY := preload("res://data/weather_abilities/weather_abilitiy_heavy_droplet.tres")
+const HEAVY_DROPLET_ABILITY := preload("res://data/weather_abilities/weather_ability_heavy_droplet.tres")
 const MIST_ABILITY := preload("res://data/weather_abilities/weather_ability_mist.tres")
 
 #region for override

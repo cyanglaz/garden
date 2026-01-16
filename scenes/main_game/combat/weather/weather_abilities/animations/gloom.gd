@@ -8,10 +8,12 @@ const SHADOW_INITIAL_SCALE := Vector2(0.5, 0.5)
 
 @onready var cloud_shadow: Sprite2D = %CloudShadow
 @onready var gpu_particles_2d: GPUParticles2D = %GPUParticles2D
+@onready var audio_stream_player_2d: AudioStreamPlayer2D = %AudioStreamPlayer2D
 
 func start(_icon_position:Vector2, target_position:Vector2, _is_blocked:bool) -> void:
 
 	global_position = target_position
+	audio_stream_player_2d.play()
 	
 	cloud_shadow.scale = Vector2.ONE * SHADOW_INITIAL_SCALE # Start big and diffuse
 	

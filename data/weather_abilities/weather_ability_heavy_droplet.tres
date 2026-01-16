@@ -1,24 +1,25 @@
 [gd_resource type="Resource" script_class="WeatherAbilityData" load_steps=5 format=3 uid="uid://skb5o502jt86"]
 
-[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_64ib2"]
-[ext_resource type="Script" uid="uid://dfpccwvjf242h" path="res://data/models/weather/weather_ability_data.gd" id="2_inhmp"]
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_jnypc"]
+[ext_resource type="Script" uid="uid://dfpccwvjf242h" path="res://data/models/weather/weather_ability_data.gd" id="2_o52lf"]
 
 [sub_resource type="Resource" id="Resource_sys6w"]
-script = ExtResource("1_64ib2")
+script = ExtResource("1_jnypc")
 type = 2
 value = 1
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [sub_resource type="Resource" id="Resource_65ett"]
-script = ExtResource("1_64ib2")
+script = ExtResource("1_jnypc")
 type = 15
 value = 2
 operator_type = 1
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
-script = ExtResource("2_inhmp")
-action_datas = Array[ExtResource("1_64ib2")]([SubResource("Resource_sys6w"), SubResource("Resource_65ett")])
+script = ExtResource("2_o52lf")
+action_datas = Array[ExtResource("1_jnypc")]([SubResource("Resource_sys6w"), SubResource("Resource_65ett")])
 id = "heavy_droplet"
 display_name = "Heavy Droplet"
+note = "+ 1 water, -2 hp"
 metadata/_custom_type_script = "uid://dfpccwvjf242h"

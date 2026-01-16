@@ -22,4 +22,5 @@ script = ExtResource("2_sys6w")
 action_datas = Array[ExtResource("1_mx06f")]([SubResource("Resource_mx06f"), SubResource("Resource_sys6w")])
 id = "sun_scorch"
 display_name = "Sun Scorch"
+note = "-1 hp, -1 water"
 metadata/_custom_type_script = "uid://dfpccwvjf242h"
