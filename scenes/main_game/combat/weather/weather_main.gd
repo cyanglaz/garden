@@ -26,12 +26,12 @@ func apply_weather_actions(plants:Array[Plant], combat_main:CombatMain) -> void:
 func apply_weather_tool_action(action:ActionData, icon_move_start_position:Vector2, combat_main:CombatMain) -> void:
 	await weather_manager.apply_weather_tool_action(action, icon_move_start_position, combat_main)
 
-func start(chapter:int) -> void:
+func start(chapter:int, combat_type:CombatData.CombatType) -> void:
 	weather_manager.test_weather = test_weather
 	weather_manager.start(chapter)
 	assert(_current_weather == null)
 	var current_weather_data := weather_manager.get_current_weather()
-	_add_new_weather(current_weather_data)
+	_add_new_weather(current_weather_data, combat_type)
 	await _current_weather.animate_in()
 	weathers_updated.emit()
 
@@ -61,8 +61,8 @@ func new_day() -> void:
 func get_current_weather() -> WeatherData:
 	return weather_manager.get_current_weather()
 
-func _add_new_weather(new_weather:WeatherData) -> void:
-	_weather_ability_container.setup_with_weather_data(new_weather)
+func _add_new_weather(new_weather:WeatherData, combat_type:CombatData.CombatType) -> void:
+	_weather_ability_container.setup_with_weather_data(new_weather, combat_type)
 	var new_weather_container_scene := load(str(WEATHER_SCENE_PREFIX % new_weather.id))
 	_current_weather = new_weather_container_scene.instantiate()
 	_weather_container.add_child(_current_weather)

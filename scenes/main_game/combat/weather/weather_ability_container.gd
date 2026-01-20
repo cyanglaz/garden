@@ -16,11 +16,11 @@ var _ability_generator:WeatherAbilityGenerator
 @onready var ability_container: Node2D = %AbilityContainer
 @onready var weather_ability_animation_container: WeatherAbilityAnimationContainer = %WeatherAbilityAnimationContainer
 
-func setup_with_weather_data(weather_data:WeatherData) -> void:
+func setup_with_weather_data(weather_data:WeatherData, combat_type:CombatData.CombatType) -> void:
 	if !_ability_generator:
 		var ability_generator_script:GDScript = load(ABILITY_GENERATOR_SCENE_PREFIX % weather_data.id)
 		_ability_generator = ability_generator_script.new()
-		_ability_generator.setup_with_weather_data(weather_data)
+		_ability_generator.setup_with_weather_data(weather_data, combat_type)
 
 func generate_next_weather_abilities(combat_main:CombatMain, turn_index:int) -> void:
 	clear_all_weather_abilities()

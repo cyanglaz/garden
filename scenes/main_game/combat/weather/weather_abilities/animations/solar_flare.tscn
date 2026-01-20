@@ -1,0 +1,70 @@
+[gd_scene load_steps=12 format=3 uid="uid://ddfaoansgsmj1"]
+
+[ext_resource type="PackedScene" uid="uid://dcnody3lch1ie" path="res://scenes/main_game/combat/weather/weather_abilities/animations/solar_beam.tscn" id="1_4petx"]
+[ext_resource type="Texture2D" uid="uid://kig2jo8g2ytp" path="res://resources/sprites/effects/weather_ability/solar_flare.png" id="2_je7yv"]
+[ext_resource type="AudioStream" uid="uid://b5nk8h0bqprsp" path="res://resources/sounds/SFX/weather/solar_flare.wav" id="3_cv6g6"]
+
+[sub_resource type="Curve" id="Curve_ptdnf"]
+_data = [Vector2(0, 0.8209142), 0.0, 0.0, 0, 0, Vector2(0.7580645, 0.56585264), -0.89468795, -0.89468795, 0, 0, Vector2(1, 0.0068879128), -1.917733, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_i06wt"]
+curve = SubResource("Curve_ptdnf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hjodr"]
+resource_local_to_scene = true
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+direction = Vector3(0, -1, 0)
+spread = 0.0
+gravity = Vector3(0, -20, 0)
+scale_min = 0.049999997
+scale_max = 0.099999994
+alpha_curve = SubResource("CurveTexture_i06wt")
+
+[sub_resource type="Gradient" id="Gradient_ptdnf"]
+offsets = PackedFloat32Array(0, 0.47473404, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.9647059, 0.5058824, 0.5294118, 1, 1, 0, 0.2509804, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_i06wt"]
+gradient = SubResource("Gradient_ptdnf")
+
+[sub_resource type="Curve" id="Curve_t5e3a"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.58808935, 0.8575454), -0.5046965, -0.5046965, 0, 0, Vector2(1, 0), -4.0880375, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_v76gd"]
+curve = SubResource("Curve_t5e3a")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cv6g6"]
+resource_local_to_scene = true
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 90.0
+initial_velocity_min = 80.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.0
+scale_max = 0.39999998
+scale_curve = SubResource("CurveTexture_v76gd")
+color_ramp = SubResource("GradientTexture1D_i06wt")
+
+[node name="SolarFlare" instance=ExtResource("1_4petx")]
+beam_width = 15.0
+charging_time = 0.3
+charging_color = Color(1, 0, 0.2509804, 1)
+warning_line_width = 3.0
+
+[node name="BeamLine" parent="." index="0"]
+texture = ExtResource("2_je7yv")
+
+[node name="LineParticle" parent="." index="1"]
+amount = 30
+process_material = SubResource("ParticleProcessMaterial_hjodr")
+
+[node name="ImpactParticle" parent="." index="2"]
+process_material = SubResource("ParticleProcessMaterial_cv6g6")
+
+[node name="BeamSound" parent="." index="3"]
+stream = ExtResource("3_cv6g6")

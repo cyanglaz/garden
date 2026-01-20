@@ -15,7 +15,7 @@ var _started := false
 
 func _ready() -> void:
 	field_container.setup_fields()
-	await weather_main.start(0)
+	await weather_main.start(0, CombatData.CombatType.COMMON)
 	_started = true
 	for field:Field in field_container.fields:
 		field.field_pressed.connect(_on_field_pressed.bind(field))

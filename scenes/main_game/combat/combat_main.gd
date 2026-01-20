@@ -126,7 +126,7 @@ func _start_new_level() -> void:
 	day_manager.start_new()
 	gui.update_with_combat(_combat, self)
 	level_started.emit()
-	await weather_main.start(_chapter)
+	await weather_main.start(_chapter, _combat.combat_type)
 	player.max_plants_index = plant_field_container.plants.size() - 1
 	player.current_field_index = 0
 	_start_turn()

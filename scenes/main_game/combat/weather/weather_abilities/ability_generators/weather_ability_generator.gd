@@ -4,9 +4,11 @@ extends RefCounted
 const WEATHER_ABILITIES_SCENE_PREFIX := "res://scenes/main_game/combat/weather/weather_abilities/abilities/weather_ability_%s.tscn"
 
 var weather_data:WeatherData
+var combat_type:CombatData.CombatType = CombatData.CombatType.COMMON
 
-func setup_with_weather_data(data:WeatherData) -> void:
-	self.weather_data = data
+func setup_with_weather_data(data:WeatherData, ct:CombatData.CombatType) -> void:
+	weather_data = data
+	combat_type = ct
 
 func generate_abilities(combat_main:CombatMain, turn_index:int) -> Array[WeatherAbility]:
 	return _generate_abilities(combat_main, turn_index)

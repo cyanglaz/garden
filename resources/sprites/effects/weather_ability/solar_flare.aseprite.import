@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c5u4vx3qyi1s6"
+path="res://.godot/imported/solar_flare.aseprite-90730ec20856b7216c38757060d2899f.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/weather_ability/solar_flare.aseprite"
+dest_files=["res://.godot/imported/solar_flare.aseprite-90730ec20856b7216c38757060d2899f.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
