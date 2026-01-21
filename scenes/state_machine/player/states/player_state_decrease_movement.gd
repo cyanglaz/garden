@@ -13,7 +13,7 @@ func enter() -> void:
 	animated_sprite_2d.show()
 	animated_sprite_2d.position = ANIMATION_ICON_POSITION
 	animated_sprite_2d.play("deploy")
-	animated_sprite_2d.animation_finished.connect(animated_sprite_2d.hide)
+	animated_sprite_2d.animation_finished.connect(_on_animation_finished)
 	decrease_movement_audio.play()
 	var value:int = params.get("value", 0)
 	assert(value >= 0, "Value must be positive")
@@ -22,3 +22,7 @@ func enter() -> void:
 	popup.setup(str("-",value), color, load(Util.get_image_path_for_resource_id(Util.get_action_id_with_action_type(ActionData.ActionType.UPDATE_MOVEMENT))))
 	Events.request_display_popup_things.emit(popup, 20, 5, Player.POPUP_SHOW_TIME, Player.POPUP_DESTROY_TIME, Util.get_node_canvas_position(player.player_sprite))
 	exit("")
+
+func _on_animation_finished() -> void:
+	animated_sprite_2d.animation_finished.disconnect(_on_animation_finished)
+	animated_sprite_2d.hide()

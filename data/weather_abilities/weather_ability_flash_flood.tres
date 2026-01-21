@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="WeatherAbilityData" load_steps=5 format=3 uid="uid://di0anp78tjplm"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_6u1c6"]
+[ext_resource type="Script" uid="uid://dfpccwvjf242h" path="res://data/models/weather/weather_ability_data.gd" id="2_ik2j7"]
+
+[sub_resource type="Resource" id="Resource_sys6w"]
+script = ExtResource("1_6u1c6")
+type = 2
+value = 3
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_65ett"]
+script = ExtResource("1_6u1c6")
+type = 15
+value = 3
+operator_type = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_ik2j7")
+action_datas = Array[ExtResource("1_6u1c6")]([SubResource("Resource_sys6w"), SubResource("Resource_65ett")])
+id = "flash_flood"
+display_name = "Flash Flood"
+note = "+ 3 water, -3 hp"
+metadata/_custom_type_script = "uid://dfpccwvjf242h"

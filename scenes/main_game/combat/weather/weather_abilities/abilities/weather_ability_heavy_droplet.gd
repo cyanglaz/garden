@@ -1,2 +1,2 @@
-class_name WeatherAbilityHeavyDroplet
+class_name WeatherAbilityFlashFlood
 extends WeatherAbility
