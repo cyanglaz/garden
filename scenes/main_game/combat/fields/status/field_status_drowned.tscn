@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://sxprdy4ui3u0"]
+
+[ext_resource type="PackedScene" uid="uid://k1nmjx4747gf" path="res://scenes/main_game/combat/fields/status/field_status.tscn" id="1_730dc"]
+[ext_resource type="Script" uid="uid://c5sr48u4natww" path="res://scenes/main_game/combat/fields/status/field_status_drowned.gd" id="2_730dc"]
+
+[node name="FieldStatusDrowned" instance=ExtResource("1_730dc")]
+script = ExtResource("2_730dc")

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FieldStatusData" load_steps=2 format=3 uid="uid://6tlgciry6qlj"]
+
+[ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/field_status_data.gd" id="1_0aw26"]
+
+[resource]
+script = ExtResource("1_0aw26")
+popup_message = "Water Rejected"
+stackable = true
+reduce_stack_on_turn_end = true
+id = "drowned"
+display_name = "Drowned"
+description = "Plant cannot gain {resource:water} for the 1 turn per stack."
+metadata/_custom_type_script = "uid://ep5ey6gqhty1"

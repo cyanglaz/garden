@@ -228,6 +228,8 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "update_movement"
 		ActionData.ActionType.ADD_CARD_DISCARD_PILE:
 			id = "add_card_discard_pile"
+		ActionData.ActionType.DROWNED:
+			id = "drowned"
 		ActionData.ActionType.NONE:
 			pass
 	return id
@@ -268,6 +270,8 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 			return ActionData.ActionType.UPDATE_MOVEMENT
 		"add_card_discard_pile":
 			return ActionData.ActionType.ADD_CARD_DISCARD_PILE
+		"drowned":
+			return ActionData.ActionType.DROWNED
 		"none":
 			return ActionData.ActionType.NONE
 	assert(false, "Invalid action id: " + action_id)
@@ -310,6 +314,8 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 			action_name = Util.get_localized_string("ACTION_NAME_UPDATE_MOVEMENT")
 		ActionData.ActionType.ADD_CARD_DISCARD_PILE:
 			action_name = Util.get_localized_string("ACTION_NAME_ADD_CARD_DISCARD_PILE")
+		ActionData.ActionType.DROWNED:
+			action_name = Util.get_localized_string("ACTION_NAME_DROWNED")
 		ActionData.ActionType.NONE:
 			pass
 	return action_name

@@ -74,7 +74,7 @@ func apply_actions(actions:Array) -> void:
 				await _apply_light_action(action)
 			ActionData.ActionType.WATER:
 				await _apply_water_action(action)
-			ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW:
+			ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW, ActionData.ActionType.DROWNED:
 				await _apply_field_status_action(action)
 			_:
 				pass
@@ -128,7 +128,6 @@ func _show_popup_action_indicator(action_data:ActionData) -> void:
 
 func _apply_light_action(action:ActionData) -> void:
 	var true_value := _get_action_true_value(action)
-	await _show_popup_action_indicator(action)
 	match action.operator_type:
 		ActionData.OperatorType.INCREASE:
 			light.value += true_value
@@ -136,19 +135,28 @@ func _apply_light_action(action:ActionData) -> void:
 			light.value -= true_value
 		ActionData.OperatorType.EQUAL_TO:
 			light.value = true_value
+	var prevent_resource_update_value:bool = await field_status_container.handle_prevent_resource_update_value_hook("light", self, light.value, light.value)
+	if prevent_resource_update_value:
+		return
+	await _show_popup_action_indicator(action)
 
 func _apply_water_action(action:ActionData) -> void:
 	var true_value := _get_action_true_value(action)
-	await _show_popup_action_indicator(action)
 	var old_water_value := water.value
+	var new_water_value := 0
 	match action.operator_type:
 		ActionData.OperatorType.INCREASE:
-			water.value += true_value
+			new_water_value = water.value + true_value
 		ActionData.OperatorType.DECREASE:
-			water.value -= true_value
+			new_water_value = water.value - true_value
 		ActionData.OperatorType.EQUAL_TO:
-			water.value = true_value
-	var water_increasing := water.value - old_water_value > 0
+			new_water_value = true_value
+	var prevent_resource_update_value:bool = await field_status_container.handle_prevent_resource_update_value_hook("water", self, old_water_value, new_water_value)
+	if prevent_resource_update_value:
+		return
+	var water_increasing := new_water_value - old_water_value > 0
+	await _show_popup_action_indicator(action)
+	water.value = new_water_value
 	if water_increasing:
 		await field_status_container.handle_add_water_hook(self)
 
