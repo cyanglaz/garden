@@ -14,7 +14,7 @@ func _generate_abilities(combat_main:CombatMain, turn_index:int) -> Array[Weathe
 	var ability_datas:Array[WeatherAbilityData]
 	match turn_index%6:
 		0:
-			ability_datas.append(FLASH_FLOOD_ABILITY.get_duplicate())
+			ability_datas.append(MIST_ABILITY.get_duplicate())
 		1:
 			ability_datas.append(MIST_ABILITY.get_duplicate())
 			ability_datas.append(MIST_ABILITY.get_duplicate())
