@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://46meqpaq3a76" path="res://scenes/main_game/combat/weather/weathers/weather.tscn" id="1_pjp8e"]
 [ext_resource type="PackedScene" uid="uid://d2yc6ykdqlb2a" path="res://scenes/main_game/combat/weather/weather_components/weather_sprite/weather_sprite_cloud.tscn" id="2_ecvaf"]
-[ext_resource type="Script" uid="uid://cgdkrbhatl2q1" path="res://scenes/main_game/combat/weather/weathers/weather_rainy.gd" id="2_wh204"]
+[ext_resource type="Script" uid="uid://cgdkrbhatl2q1" path="res://scenes/main_game/combat/weather/weathers/weather_tropical_storm.gd" id="2_wh204"]
 [ext_resource type="PackedScene" uid="uid://bdi3kgw2rsljf" path="res://scenes/main_game/combat/weather/weather_components/weather_particles/weather_particles_rain.tscn" id="3_3x76n"]
 [ext_resource type="Texture2D" uid="uid://tvbkpdpoekuv" path="res://resources/sprites/white_pixel.png" id="4_rcogy"]
 
@@ -54,7 +54,7 @@ gravity = Vector3(0, 200, 0)
 alpha_curve = SubResource("CurveTexture_frbj1")
 collision_mode = 2
 
-[node name="WeatherRainy" instance=ExtResource("1_pjp8e")]
+[node name="WeatherTropicalStorm" instance=ExtResource("1_pjp8e")]
 script = ExtResource("2_wh204")
 
 [node name="WeahterSpriteCloud" parent="WeatherSpriteContainer" index="0" instance=ExtResource("2_ecvaf")]

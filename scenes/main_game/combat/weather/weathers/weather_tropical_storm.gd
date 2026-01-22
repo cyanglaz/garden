@@ -1,4 +1,4 @@
-class_name WeatherRainy
+class_name WeatherTropicalStorm
 extends Weather
 
 func animate_in() -> void:

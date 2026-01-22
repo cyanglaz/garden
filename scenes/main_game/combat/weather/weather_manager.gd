@@ -5,7 +5,7 @@ signal weathers_updated()
 signal all_weather_actions_applied()
 
 const WEATHER_SUNNY := preload("res://data/weathers/all_chapters/weather_sunny.tres")
-const WEATHER_RAINY := preload("res://data/weathers/all_chapters/weather_rainy.tres")
+const WEATHER_RAINY := preload("res://data/weathers/all_chapters/weather_tropical_storm.tres")
 
 const WEATHER_APPLICATION_ICON_START_DELAY := 0.05
 

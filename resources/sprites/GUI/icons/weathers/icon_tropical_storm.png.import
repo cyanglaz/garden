@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bjm6j33heneke"
-path="res://.godot/imported/icon_rainy.png-02cdcab165b6a1ff91df939add31f322.ctex"
+path="res://.godot/imported/icon_tropical_storm.png-13dccac5780380a337a4e069721ef065.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/GUI/icons/weathers/icon_rainy.png"
-dest_files=["res://.godot/imported/icon_rainy.png-02cdcab165b6a1ff91df939add31f322.ctex"]
+source_file="res://resources/sprites/GUI/icons/weathers/icon_tropical_storm.png"
+dest_files=["res://.godot/imported/icon_tropical_storm.png-13dccac5780380a337a4e069721ef065.ctex"]
 
 [params]
 

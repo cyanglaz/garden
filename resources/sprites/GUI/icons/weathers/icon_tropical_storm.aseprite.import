@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dbrommhfxej44"
+path="res://.godot/imported/icon_tropical_storm.aseprite-afe00dd94af26de74a151e381a15330f.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/weathers/icon_tropical_storm.aseprite"
+dest_files=["res://.godot/imported/icon_tropical_storm.aseprite-afe00dd94af26de74a151e381a15330f.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
