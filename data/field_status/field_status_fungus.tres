@@ -6,6 +6,7 @@
 script = ExtResource("1_7d8cy")
 popup_message = "Water Reduced."
 stackable = true
+reduce_stack_on_turn_end = true
 id = "fungus"
 display_name = "Fungus"
 description = "The effected plant reduces {resource:water} by {value} at the end of turn."

@@ -6,6 +6,7 @@
 script = ExtResource("1_hiam4")
 popup_message = "Light Reduced"
 stackable = true
+reduce_stack_on_turn_end = true
 id = "pest"
 display_name = "Pest"
 description = "The effected plant reduces {resource:light} by {value} at the end of turn."

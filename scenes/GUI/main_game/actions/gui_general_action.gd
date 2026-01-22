@@ -14,7 +14,11 @@ const MAX_ACTION_TEXT := "MAX"
 func update_with_action(action_data:ActionData, target_plant:Plant) -> void:
 	_field_application_icon.hide()
 	_gui_action_type_icon.update_with_action_type(action_data.type)
-	_gui_action_value_icon.update_with_action(action_data, target_plant)
+	if action_data.type == ActionData.ActionType.NONE:
+		_gui_action_value_icon.hide()
+	else:
+		_gui_action_value_icon.show()
+		_gui_action_value_icon.update_with_action(action_data, target_plant)
 
 	for special:ActionData.Special in action_data.specials:
 		match special:

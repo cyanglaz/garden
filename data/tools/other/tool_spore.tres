@@ -14,7 +14,4 @@ rarity = -1
 specials = Array[int]([0])
 id = "spore"
 display_name = "Spore"
-description = null
-data = null
-note = null
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"
