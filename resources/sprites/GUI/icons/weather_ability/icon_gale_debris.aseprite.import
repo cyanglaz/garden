@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://b4iwqexan1ryi"
+path="res://.godot/imported/icon_gale_debris.aseprite-dbfee2c9994efb4f3521b037de640543.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/weather_ability/icon_gale_debris.aseprite"
+dest_files=["res://.godot/imported/icon_gale_debris.aseprite-dbfee2c9994efb4f3521b037de640543.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -230,6 +230,12 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "add_card_discard_pile"
 		ActionData.ActionType.DROWNED:
 			id = "drowned"
+		ActionData.ActionType.BURIED:
+			id = "buried"
+		ActionData.ActionType.MOVE_LEFT:
+			id = "move_left"
+		ActionData.ActionType.MOVE_RIGHT:
+			id = "move_right"
 		ActionData.ActionType.NONE:
 			pass
 	return id
@@ -272,6 +278,12 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 			return ActionData.ActionType.ADD_CARD_DISCARD_PILE
 		"drowned":
 			return ActionData.ActionType.DROWNED
+		"buried":
+			return ActionData.ActionType.BURIED
+		"move_left":
+			return ActionData.ActionType.MOVE_LEFT
+		"move_right":
+			return ActionData.ActionType.MOVE_RIGHT
 		"none":
 			return ActionData.ActionType.NONE
 	assert(false, "Invalid action id: " + action_id)
@@ -316,6 +328,12 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 			action_name = Util.get_localized_string("ACTION_NAME_ADD_CARD_DISCARD_PILE")
 		ActionData.ActionType.DROWNED:
 			action_name = Util.get_localized_string("ACTION_NAME_DROWNED")
+		ActionData.ActionType.BURIED:
+			action_name = Util.get_localized_string("ACTION_NAME_BURIED")
+		ActionData.ActionType.MOVE_LEFT:
+			action_name = Util.get_localized_string("ACTION_NAME_MOVE_LEFT")
+		ActionData.ActionType.MOVE_RIGHT:
+			action_name = Util.get_localized_string("ACTION_NAME_MOVE_RIGHT")
 		ActionData.ActionType.NONE:
 			pass
 	return action_name

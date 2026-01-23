@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://d0rfbm37yhgqy"
+path="res://.godot/imported/icon_move_left.aseprite-b42b7eb7e02839567ea4e156c2458acc.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_move_left.aseprite"
+dest_files=["res://.godot/imported/icon_move_left.aseprite-b42b7eb7e02839567ea4e156c2458acc.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

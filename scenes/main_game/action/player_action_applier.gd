@@ -34,6 +34,12 @@ func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_data
 		ActionData.ActionType.UPDATE_MOVEMENT:
 			Events.request_movement_update.emit(calculated_value, action.operator_type)
 			await Util.create_scaled_timer(GLOBAL_UPGRADE_PAUSE_TIME).timeout
+		ActionData.ActionType.MOVE_LEFT:
+			combat_main.player.current_field_index = max(combat_main.player.current_field_index - calculated_value, 0)
+			await Util.create_scaled_timer(GLOBAL_UPGRADE_PAUSE_TIME).timeout
+		ActionData.ActionType.MOVE_RIGHT:
+			combat_main.player.current_field_index = min(combat_main.player.current_field_index + calculated_value, combat_main.player.max_plants_index)
+			await Util.create_scaled_timer(GLOBAL_UPGRADE_PAUSE_TIME).timeout
 		ActionData.ActionType.ADD_CARD_DISCARD_PILE:
 			assert(calculated_value >= 0, "Add card discard pile action value must be greater than 0")
 			await _handle_add_card_discard_pile_action(action.data["card_id"], combat_main)

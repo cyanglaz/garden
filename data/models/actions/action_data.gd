@@ -21,6 +21,9 @@ enum ActionType {
 	UPDATE_MOVEMENT,
 	ADD_CARD_DISCARD_PILE,
 	DROWNED,
+	BURIED,
+	MOVE_LEFT,
+	MOVE_RIGHT,
 }
 
 enum ActionCategory {
@@ -61,9 +64,9 @@ enum CardSelectionType {
 const RESTRICTED_CARD_SELECTION_TYPES := [] # The action cannot be performed if not enough cards to select from.
 const NON_RESTRICTED_CARD_SELECTION_TYPES := [ActionType.DISCARD_CARD] # The action can be partially performed if not enough cards to select from.
 const NEED_CARD_SELECTION := RESTRICTED_CARD_SELECTION_TYPES + NON_RESTRICTED_CARD_SELECTION_TYPES
-const FIELD_ACTION_TYPES := [ActionType.LIGHT, ActionType.WATER, ActionType.PEST, ActionType.FUNGUS, ActionType.RECYCLE, ActionType.GREENHOUSE, ActionType.DEW, ActionType.DROWNED]
+const FIELD_ACTION_TYPES := [ActionType.LIGHT, ActionType.WATER, ActionType.PEST, ActionType.FUNGUS, ActionType.RECYCLE, ActionType.GREENHOUSE, ActionType.DEW, ActionType.DROWNED, ActionType.BURIED]
 const WEATHER_ACTION_TYPES := [ActionType.WEATHER_SUNNY, ActionType.WEATHER_RAINY]
-const PLAYER_ACTION_TYPES := [ActionType.ENERGY, ActionType.UPDATE_HP, ActionType.DRAW_CARD, ActionType.DISCARD_CARD, ActionType.UPDATE_GOLD, ActionType.UPDATE_MOVEMENT, ActionType.ADD_CARD_DISCARD_PILE]
+const PLAYER_ACTION_TYPES := [ActionType.ENERGY, ActionType.UPDATE_HP, ActionType.DRAW_CARD, ActionType.DISCARD_CARD, ActionType.UPDATE_GOLD, ActionType.UPDATE_MOVEMENT, ActionType.ADD_CARD_DISCARD_PILE, ActionType.MOVE_LEFT, ActionType.MOVE_RIGHT]
 const CARD_ACTION_TYPES := [ActionType.UPDATE_X]
 
 @export var type:ActionType

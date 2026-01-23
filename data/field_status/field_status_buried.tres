@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FieldStatusData" load_steps=2 format=3 uid="uid://cj3ejt8xq8sgh"]
+
+[ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/field_status_data.gd" id="1_38a6q"]
+
+[resource]
+script = ExtResource("1_38a6q")
+popup_message = "Light Rejected"
+stackable = true
+reduce_stack_on_turn_end = true
+id = "buried"
+display_name = "Buried"
+description = "Plant cannot gain {resource:light} for the 1 turn per stack."
+metadata/_custom_type_script = "uid://ep5ey6gqhty1"

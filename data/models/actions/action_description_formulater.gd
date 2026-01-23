@@ -33,7 +33,7 @@ static func get_raw_action_description(action_data:ActionData, target_plant:Plan
 			raw_action_description = _get_field_action_description(action_data, target_plant)
 		ActionData.ActionType.ENERGY, ActionData.ActionType.UPDATE_X, ActionData.ActionType.UPDATE_GOLD, ActionData.ActionType.UPDATE_HP, ActionData.ActionType.UPDATE_MOVEMENT:
 			raw_action_description = _get_resource_update_action_description(action_data, target_plant)
-		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW, ActionData.ActionType.DROWNED:
+		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW, ActionData.ActionType.DROWNED, ActionData.ActionType.BURIED:
 			raw_action_description = _get_field_status_description(action_data)
 		ActionData.ActionType.WEATHER_SUNNY, ActionData.ActionType.WEATHER_RAINY:
 			raw_action_description = _get_weather_action_description(action_data)
@@ -43,6 +43,10 @@ static func get_raw_action_description(action_data:ActionData, target_plant:Plan
 			raw_action_description = _get_discard_card_action_description(action_data, target_plant)
 		ActionData.ActionType.ADD_CARD_DISCARD_PILE:
 			raw_action_description = _get_add_card_discard_pile_action_description(action_data, target_plant)
+		ActionData.ActionType.MOVE_LEFT:
+			raw_action_description = _get_move_left_action_description(action_data, target_plant)
+		ActionData.ActionType.MOVE_RIGHT:
+			raw_action_description = _get_move_right_action_description(action_data, target_plant)
 		ActionData.ActionType.NONE:
 			pass
 	return raw_action_description
@@ -158,6 +162,16 @@ static func _get_discard_card_action_description(action_data:ActionData, target_
 
 static func _get_add_card_discard_pile_action_description(action_data:ActionData, target_plant:Plant) -> String:
 	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_ADD_CARD_DISCARD_PILE")
+	main_description = main_description % [_get_value_text(action_data, target_plant)]
+	return main_description
+
+static func _get_move_left_action_description(action_data:ActionData, target_plant:Plant) -> String:
+	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_MOVE_LEFT")
+	main_description = main_description % [_get_value_text(action_data, target_plant)]
+	return main_description
+
+static func _get_move_right_action_description(action_data:ActionData, target_plant:Plant) -> String:
+	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_MOVE_RIGHT")
 	main_description = main_description % [_get_value_text(action_data, target_plant)]
 	return main_description
 
