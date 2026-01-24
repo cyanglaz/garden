@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://desqnqeupvlbp"
+path="res://.godot/imported/icon_lightning_strike.aseprite-ca4d4674c17496aa9dc46f6888821767.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/weather_ability/icon_lightning_strike.aseprite"
+dest_files=["res://.godot/imported/icon_lightning_strike.aseprite-ca4d4674c17496aa9dc46f6888821767.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

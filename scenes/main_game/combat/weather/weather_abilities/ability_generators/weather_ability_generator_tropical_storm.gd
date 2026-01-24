@@ -2,6 +2,7 @@ class_name WeatherAbilityGeneratorTropicalStorm
 extends WeatherAbilityGenerator
 
 const GALE_DEBRIS_ABILITY := preload("res://data/weather_abilities/weather_ability_gale_debris.tres")
+const LIGHTNING_STRIKE_ABILITY := preload("res://data/weather_abilities/weather_ability_lightning_strike.tres")
 
 #region for override
 func _generate_abilities(combat_main:CombatMain, turn_index:int) -> Array[WeatherAbility]:
@@ -12,7 +13,7 @@ func _generate_abilities(combat_main:CombatMain, turn_index:int) -> Array[Weathe
 	var ability_datas:Array[WeatherAbilityData]
 	match turn_index%6:
 		0:
-			ability_datas.append(GALE_DEBRIS_ABILITY.get_duplicate())
+			ability_datas.append(LIGHTNING_STRIKE_ABILITY.get_duplicate())
 		1:
 			ability_datas.append(GALE_DEBRIS_ABILITY.get_duplicate())
 			ability_datas.append(GALE_DEBRIS_ABILITY.get_duplicate())
