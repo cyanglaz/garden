@@ -22,4 +22,6 @@ func start(_icon_position:Vector2, target_position:Vector2, _is_blocked:bool) ->
 	tween.set_parallel(true)
 	for i in NUMBER_OF_DEBRIS:
 		var trash := cluster.get_child(i)
-		tween.tween_callback(trash.fall.bind(Vector2.ZERO)).set_delay(DROP_DELAY * i)
+		tween.tween_callback(trash.fall.bind(global_position)).set_delay(DROP_DELAY * i)
+
+	await Util.create_scaled_timer(DROP_DELAY * NUMBER_OF_DEBRIS).timeout
