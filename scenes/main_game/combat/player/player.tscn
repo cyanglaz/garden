@@ -76,6 +76,7 @@ sprite_frames = SubResource("SpriteFrames_g2v38")
 
 [node name="DownArrow" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
+visible = false
 texture_filter = 1
 position = Vector2(0, 14)
 sprite_frames = SubResource("SpriteFrames_67t8q")

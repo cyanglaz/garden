@@ -74,7 +74,7 @@ func apply_actions(actions:Array) -> void:
 				await _apply_light_action(action)
 			ActionData.ActionType.WATER:
 				await _apply_water_action(action)
-			ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW, ActionData.ActionType.DROWNED:
+			ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW, ActionData.ActionType.DROWNED, ActionData.ActionType.BURIED:
 				await _apply_field_status_action(action)
 			_:
 				pass
@@ -128,17 +128,20 @@ func _show_popup_action_indicator(action_data:ActionData) -> void:
 
 func _apply_light_action(action:ActionData) -> void:
 	var true_value := _get_action_true_value(action)
+	var old_light_value := light.value
+	var new_light_value := 0
 	match action.operator_type:
 		ActionData.OperatorType.INCREASE:
-			light.value += true_value
+			new_light_value = light.value + true_value
 		ActionData.OperatorType.DECREASE:
-			light.value -= true_value
+			new_light_value = light.value - true_value
 		ActionData.OperatorType.EQUAL_TO:
-			light.value = true_value
-	var prevent_resource_update_value:bool = await field_status_container.handle_prevent_resource_update_value_hook("light", self, light.value, light.value)
+			new_light_value = true_value
+	var prevent_resource_update_value:bool = await field_status_container.handle_prevent_resource_update_value_hook("light", self, old_light_value, new_light_value)
 	if prevent_resource_update_value:
 		return
 	await _show_popup_action_indicator(action)
+	light.value = new_light_value
 
 func _apply_water_action(action:ActionData) -> void:
 	var true_value := _get_action_true_value(action)

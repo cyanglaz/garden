@@ -12,6 +12,7 @@ const DEBRIS_IMAGES := [DEBRIS_LEAF_IMAGE, DEBRIS_TWIG_IMAGE, DEBRIS_PEBBLE_IMAG
 
 @onready var gpu_particles_2d: GPUParticles2D = %GPUParticles2D
 @onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var impact_audio: AudioStreamPlayer2D = %ImpactAudio
 
 func _ready() -> void:
 	rotation = randf_range(-PI, PI)
@@ -24,5 +25,6 @@ func fall(target_position:Vector2) -> void:
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.tween_property(self, "global_position:y", target_position.y, DROP_DURATION).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	await tween.finished
+	impact_audio.play()
 	sprite_2d.hide()
 	gpu_particles_2d.restart()

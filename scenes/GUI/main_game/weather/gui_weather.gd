@@ -1,7 +1,6 @@
 class_name GUIWeather
 extends PanelContainer
 
-signal tooltips_removed()
 
 @export var has_tooltip:bool = false
 
@@ -10,7 +9,6 @@ signal tooltips_removed()
 
 var is_highlighted:bool = false:set = _set_is_highlighted
 var tooltip_anchor:Control
-var _tooltip_id:String = ""
 var _weak_weather_data:WeakRef
 
 #func _ready() -> void:

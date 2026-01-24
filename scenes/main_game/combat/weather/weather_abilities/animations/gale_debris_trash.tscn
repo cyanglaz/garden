@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://ck6msm3t6qw8s"]
+[gd_scene load_steps=9 format=3 uid="uid://ck6msm3t6qw8s"]
 
 [ext_resource type="Script" uid="uid://qd18h0tlwux1" path="res://scenes/main_game/combat/weather/weather_abilities/animations/gale_debris_trash.gd" id="1_id5ai"]
 [ext_resource type="Texture2D" uid="uid://0fgf3t3c1paq" path="res://resources/sprites/effects/particles/particle_smoke.png" id="2_pjuod"]
+[ext_resource type="AudioStream" uid="uid://bs67v3l7dbcpi" path="res://resources/sounds/SFX/weather/debris_impact.wav" id="3_02uv6"]
 
 [sub_resource type="Curve" id="Curve_pjuod"]
 _data = [Vector2(0, 0.7476518), 0.0, 0.0, 0, 0, Vector2(0.99999, 0.004174471), -1.4219401, -1.4219401, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -40,3 +41,8 @@ explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_pjuod")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="ImpactAudio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_02uv6")
+bus = &"SFX"
