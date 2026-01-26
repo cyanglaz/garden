@@ -35,7 +35,7 @@ static func get_raw_action_description(action_data:ActionData, target_plant:Plan
 			raw_action_description = _get_resource_update_action_description(action_data, target_plant)
 		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW, ActionData.ActionType.DROWNED, ActionData.ActionType.BURIED:
 			raw_action_description = _get_field_status_description(action_data)
-		ActionData.ActionType.WEATHER_SUNNY, ActionData.ActionType.WEATHER_RAINY:
+		ActionData.ActionType.WEATHER_RAINY:
 			raw_action_description = _get_weather_action_description(action_data)
 		ActionData.ActionType.DRAW_CARD:
 			raw_action_description = _get_draw_card_action_description(action_data, target_plant)
@@ -47,6 +47,8 @@ static func get_raw_action_description(action_data:ActionData, target_plant:Plan
 			raw_action_description = _get_move_left_action_description(action_data, target_plant)
 		ActionData.ActionType.MOVE_RIGHT:
 			raw_action_description = _get_move_right_action_description(action_data, target_plant)
+		ActionData.ActionType.STUN:
+			raw_action_description = _get_player_status_description(action_data)
 		ActionData.ActionType.NONE:
 			pass
 	return raw_action_description
