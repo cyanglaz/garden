@@ -2,8 +2,8 @@ class_name FieldStatus
 extends Node2D
 
 @warning_ignore("unused_private_class_variable")
-var status_data:FieldStatusData
-var stack:int
+var status_data:StatusData
+var stack:int:set = _set_stack, get = _get_stack
 
 @warning_ignore("unused_signal")
 signal hook_complicated()
@@ -101,3 +101,9 @@ func _handle_prevent_resource_update_value_hook(_resource_id:String, _plant:Plan
 	return false
 
 #endregion
+
+func _set_stack(value:int) -> void:
+	status_data.stack = value
+
+func _get_stack() -> int:
+	return status_data.stack

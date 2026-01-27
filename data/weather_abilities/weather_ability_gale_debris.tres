@@ -7,16 +7,6 @@
 script = ExtResource("1_ycepv")
 type = 19
 value = 2
-operator_type = null
-value_type = null
-specials = null
-x_value = null
-x_value_type = null
-id = null
-display_name = null
-description = null
-data = null
-note = null
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [sub_resource type="Resource" id="Resource_sys6w"]
@@ -24,30 +14,12 @@ script = ExtResource("1_ycepv")
 type = 15
 value = 1
 operator_type = 1
-value_type = null
-specials = null
-x_value = null
-x_value_type = null
-id = null
-display_name = null
-description = null
-data = null
-note = null
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [sub_resource type="Resource" id="Resource_65ett"]
 script = ExtResource("1_ycepv")
 type = 20
 value = 3
-value_type = null
-specials = null
-x_value = null
-x_value_type = null
-id = null
-display_name = null
-description = null
-data = null
-note = null
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]

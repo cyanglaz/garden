@@ -208,8 +208,8 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "draw_card"
 		ActionData.ActionType.DISCARD_CARD:
 			id = "discard_card"
-		ActionData.ActionType.WEATHER_SUNNY:
-			id = "sunny"
+		ActionData.ActionType.STUN:
+			id = "stun"
 		ActionData.ActionType.WEATHER_RAINY:
 			id = "rainy"
 		ActionData.ActionType.GREENHOUSE:
@@ -252,8 +252,8 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 			return ActionData.ActionType.FUNGUS
 		"recycle":
 			return ActionData.ActionType.RECYCLE
-		"sunny":
-			return ActionData.ActionType.WEATHER_SUNNY
+		"stun":
+			return ActionData.ActionType.STUN
 		"rainy":
 			return ActionData.ActionType.WEATHER_RAINY
 		"draw_card":
@@ -300,8 +300,8 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 			action_name = Util.get_localized_string("ACTION_NAME_PEST")
 		ActionData.ActionType.FUNGUS:
 			action_name = Util.get_localized_string("ACTION_NAME_FUNGUS")
-		ActionData.ActionType.WEATHER_SUNNY:
-			action_name = Util.get_localized_string("ACTION_NAME_WEATHER_SUNNY")
+		ActionData.ActionType.STUN:
+			action_name = Util.get_localized_string("ACTION_NAME_STUN")
 		ActionData.ActionType.WEATHER_RAINY:
 			action_name = Util.get_localized_string("ACTION_NAME_WEATHER_RAINY")
 		ActionData.ActionType.DRAW_CARD:

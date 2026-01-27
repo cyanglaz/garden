@@ -152,6 +152,7 @@ func _start_turn() -> void:
 func _end_turn() -> void:
 	gui.toggle_all_ui(false)
 	_clear_tool_selection()
+	player.handle_turn_end()
 	await _discard_all_tools()
 	energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
 	await plant_field_container.trigger_end_turn_hooks(self)

@@ -5,7 +5,7 @@ const FIELD_STATUS_SCENE_PREFIX := "res://scenes/main_game/combat/fields/status/
 
 signal status_updated()
 signal request_status_hook_animation(status_id:String)
-signal request_hook_message_popup(status_data:FieldStatusData)
+signal request_hook_message_popup(status_data:StatusData)
 
 var _bloom_hook_queue:Array = []
 var _current_bloom_hook_index:int = 0
@@ -192,7 +192,7 @@ func _handle_next_prevent_resource_update_value_hook(resource_id:String, plant:P
 	_current_prevent_resource_update_value_hook_index += 1
 	return await _handle_next_prevent_resource_update_value_hook(resource_id, plant, old_value, new_value)
 
-func _send_hook_animation_signals(status_data:FieldStatusData) -> void:
+func _send_hook_animation_signals(status_data:StatusData) -> void:
 	request_status_hook_animation.emit(status_data.id)
 	request_hook_message_popup.emit(status_data)
 	await Util.create_scaled_timer(Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION).timeout

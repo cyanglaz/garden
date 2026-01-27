@@ -45,8 +45,6 @@ func apply_weather_tool_action(action:ActionData, icon_move_start_position:Vecto
 	assert(action.action_category == ActionData.ActionCategory.WEATHER)
 	weathers.pop_front()
 	match action.type:
-		ActionData.ActionType.WEATHER_SUNNY:
-			weathers.push_front(WEATHER_SUNNY.get_duplicate())
 		ActionData.ActionType.WEATHER_RAINY:
 			weathers.push_front(WEATHER_RAINY.get_duplicate())
 		_:

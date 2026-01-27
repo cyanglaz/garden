@@ -22,6 +22,8 @@ const POSITION_Y_OFFSET := -38
 @onready var right_button: GUIImageButton = %RightButton
 @onready var move_indicator: Label = %MoveIndicator
 @onready var move_ui: Control = %MoveUI
+@onready var gui_player_status_container: GUIPlayerStatusContainer = %GUIPlayerStatusContainer
+@onready var player_status_container: PlayerStatusContainer = %PlayerStatusContainer
 
 var moves_left:int = 0: set = _set_moves_left
 var current_field_index:int = 0: set = _set_current_field_index
@@ -32,12 +34,18 @@ func _ready() -> void:
 	player_state_machine.start()
 	left_button.pressed.connect(_on_button_pressed.bind(MoveDirection.LEFT))
 	right_button.pressed.connect(_on_button_pressed.bind(MoveDirection.RIGHT))
+	gui_player_status_container.bind_with_player_status_container(player_status_container)
 
 func setup_with_player_data(pd:PlayerData) -> void:
 	player_data = pd
 	moves_left = pd.starting_movements
 
+func handle_turn_end() -> void:
+	player_status_container.handle_status_on_turn_end()
+
 func toggle_move_buttons(on:bool) -> void:
+	if player_status_container.handle_prevent_movement_hook():
+		on = false
 	left_button.button_state = GUIBasicButton.ButtonState.NORMAL if on else GUIBasicButton.ButtonState.DISABLED
 	right_button.button_state = GUIBasicButton.ButtonState.NORMAL if on else GUIBasicButton.ButtonState.DISABLED
 

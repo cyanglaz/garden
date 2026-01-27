@@ -9,7 +9,7 @@ const ANIMATION_OFFSET := 3
 @onready var _bad_animation_audio: AudioStreamPlayer2D = %BadAnimationAudio
 
 var status_id:String = ""
-var status_type:FieldStatusData.Type
+var status_type:StatusData.Type
 var is_highlighted:bool = false:set = _set_is_highlighted
 var display_mode := false: set = _set_display_mode
 var library_mode := false
@@ -21,7 +21,7 @@ func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 
-func setup_with_field_status_data(field_status_data:FieldStatusData, stack:int) -> void:
+func setup_with_field_status_data(field_status_data:StatusData, stack:int) -> void:
 	_weak_field_status_data = weakref(field_status_data)
 	_gui_icon.texture = load(Util.get_image_path_for_resource_id(field_status_data.id))
 	if field_status_data.stackable && stack > 0:
@@ -33,9 +33,9 @@ func setup_with_field_status_data(field_status_data:FieldStatusData, stack:int) 
 
 func play_trigger_animation() -> void:
 	match status_type:
-		FieldStatusData.Type.BAD:
+		StatusData.Type.BAD:
 			_bad_animation_audio.play()
-		FieldStatusData.Type.GOOD:
+		StatusData.Type.GOOD:
 			_good_animation_audio.play()
 	var original_position:Vector2 = _gui_icon.position
 	var tween:Tween = Util.create_scaled_tween(self)

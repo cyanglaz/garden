@@ -25,9 +25,8 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [sub_resource type="Resource" id="Resource_umusa"]
 script = ExtResource("1_omep2")
-type = 12
+type = 5
 value = 1
-operator_type = 1
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
@@ -35,5 +34,8 @@ script = ExtResource("2_8i536")
 action_datas = Array[ExtResource("1_omep2")]([SubResource("Resource_omep2"), SubResource("Resource_8i536"), SubResource("Resource_6txhh"), SubResource("Resource_umusa")])
 id = "lightning_strike"
 display_name = "Lightning Strike"
-note = "-1 pest, -1 light -1 movement"
+note = "+2 light
+-3 water
+-1 hp
+stun"
 metadata/_custom_type_script = "uid://dfpccwvjf242h"

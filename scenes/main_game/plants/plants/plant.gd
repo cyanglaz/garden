@@ -189,13 +189,13 @@ func _reposition_bloom_particle() -> void:
 	bloom_particle.position.y = - used_rect.size.y/2.0
 	
 #region events
-func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
+func _on_request_hook_message_popup(status_data:StatusData) -> void:
 	var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()
 	var color:Color = Constants.COLOR_RED2
 	match status_data.type:
-		FieldStatusData.Type.BAD:
+		StatusData.Type.BAD:
 			color = Constants.COLOR_RED2
-		FieldStatusData.Type.GOOD:
+		StatusData.Type.GOOD:
 			color = Constants.COLOR_YELLOW2
 	popup.setup(status_data.popup_message, color)
 	var popup_location:Vector2 = Util.get_node_canvas_position(self) + POPUP_OFFSET

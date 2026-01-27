@@ -35,7 +35,7 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	wrapper_button.mouse_entered.connect(func() -> void: tool_card_button.card_state = GUICardFace.CardState.HIGHLIGHTED)
 	wrapper_button.mouse_exited.connect(func() -> void: tool_card_button.card_state = GUICardFace.CardState.NORMAL)
 
-func update_with_field_status_data(field_status_data:FieldStatusData) -> void:
+func update_with_field_status_data(field_status_data:StatusData) -> void:
 	var wrapper_button:GUIBasicButton = GUIBasicButton.new()
 	add_child(wrapper_button)
 	wrapper_button.pressed.connect(func() -> void: button_evoked.emit(field_status_data))

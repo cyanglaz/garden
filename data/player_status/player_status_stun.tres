@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="StatusData" load_steps=2 format=3 uid="uid://bv0kntexd7tr5"]
+
+[ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/status_data.gd" id="1_7gi4n"]
+
+[resource]
+script = ExtResource("1_7gi4n")
+stackable = true
+reduce_stack_on_turn_end = true
+id = "stun"
+display_name = "Stun"
+metadata/_custom_type_script = "uid://ep5ey6gqhty1"

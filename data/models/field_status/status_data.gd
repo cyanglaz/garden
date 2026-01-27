@@ -1,4 +1,4 @@
-class_name FieldStatusData
+class_name StatusData
 extends ThingData
 
 enum Type {
@@ -14,9 +14,11 @@ enum Type {
 @export var reduce_stack_on_trigger:bool
 @export var remove_on_trigger:bool
 
+var stack:int: set = _set_stack
+
 func copy(other:ThingData) -> void:
 	super.copy(other)
-	var other_field_status_data := other as FieldStatusData
+	var other_field_status_data := other as StatusData
 	type = other_field_status_data.type
 	popup_message = other_field_status_data.popup_message
 	stackable = other_field_status_data.stackable
@@ -24,8 +26,13 @@ func copy(other:ThingData) -> void:
 	reduce_stack_on_turn_end = other_field_status_data.reduce_stack_on_turn_end
 	reduce_stack_on_trigger = other_field_status_data.reduce_stack_on_trigger
 	remove_on_trigger = other_field_status_data.remove_on_trigger
+	stack = other_field_status_data.stack
 
-func get_duplicate() -> FieldStatusData:
-	var dup:FieldStatusData = FieldStatusData.new()
+func get_duplicate() -> StatusData:
+	var dup:StatusData = StatusData.new()
 	dup.copy(self)
 	return dup
+
+func _set_stack(value:int) -> void:
+	stack = value
+	data["stack"] = str(value)

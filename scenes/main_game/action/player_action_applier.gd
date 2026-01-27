@@ -43,6 +43,8 @@ func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_data
 		ActionData.ActionType.ADD_CARD_DISCARD_PILE:
 			assert(calculated_value >= 0, "Add card discard pile action value must be greater than 0")
 			await _handle_add_card_discard_pile_action(action.data["card_id"], combat_main)
+		ActionData.ActionType.STUN:
+			combat_main.player.player_status_container.update_status(Util.get_action_id_with_action_type(action.type), calculated_value)
 		_:
 			assert(false, "Invalid player action type: %s" % action.type)
 	action_application_completed.emit()
