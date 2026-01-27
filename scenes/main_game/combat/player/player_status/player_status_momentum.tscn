@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdcv2466fap8"]
+
+[ext_resource type="Script" uid="uid://dv4wrl7nh3um2" path="res://scenes/main_game/combat/player/player_status/player_status_momentum.gd" id="1_tykqk"]
+[ext_resource type="PackedScene" uid="uid://bh342eajde68t" path="res://scenes/GUI/controls/buttons/gui_player_move_button.tscn" id="2_iegbc"]
+
+[node name="PlayerStatusMomentum" type="Node2D"]
+script = ExtResource("1_tykqk")
+
+[node name="MoveUI" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="LeftButton" parent="MoveUI" instance=ExtResource("2_iegbc")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 0
+offset_left = -25.0
+offset_top = -8.0
+offset_right = -9.0
+
+[node name="RightButton" parent="MoveUI" instance=ExtResource("2_iegbc")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 0
+offset_left = 9.0
+offset_top = -8.0
+offset_right = 25.0
+flip_image_h = true

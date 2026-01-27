@@ -8,10 +8,16 @@ var stack:int:set = _set_stack, get = _get_stack
 func has_prevent_movement_hook() -> bool:
 	return _has_prevent_movement_hook()
 
+func toggle_ui_buttons(on:bool) -> void:
+	_toggle_ui_buttons(on)
+
 #region for override
 
 func _has_prevent_movement_hook() -> bool:
 	return false
+
+func _toggle_ui_buttons(_on:bool) -> void:
+	pass
 
 #endregion
 

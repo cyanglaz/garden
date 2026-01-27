@@ -15,17 +15,24 @@ func handle_status_on_turn_end() -> void:
 			_remove_player_status(player_status)
 	status_updated.emit()
 
-func update_status(status_id:String, stack:int) -> void:
+func set_status(status_id:String, stack:int) -> void:
 	var player_status:PlayerStatus = _get_player_status(status_id)
 	if !player_status:
 		var player_status_scene:PackedScene = load(PLAYER_STATUS_SCENE_PREFIX % status_id)
 		player_status = player_status_scene.instantiate()
 		add_child(player_status)
 		player_status.status_data = MainDatabase.player_status_database.get_data_by_id(status_id)
-	player_status.stack += stack
+	player_status.stack = stack
 	if player_status.stack <= 0:
 		_remove_player_status(player_status)
 	status_updated.emit()
+
+func update_status(status_id:String, stack:int) -> void:
+	var current_stack:int = 0
+	var player_status:PlayerStatus = _get_player_status(status_id)
+	if player_status:
+		current_stack = player_status.stack
+	set_status(status_id, current_stack + stack)
 
 func clear_status(status_id:String) -> void:
 	var player_status:PlayerStatus = _get_player_status(status_id)
@@ -41,6 +48,15 @@ func clear_all_statuses() -> void:
 func get_all_player_statuses() -> Array:
 	return get_children()
 
+func get_status_stack(status_id:String) -> int:
+	var player_status:PlayerStatus = _get_player_status(status_id)
+	if player_status:
+		return player_status.stack
+	return 0
+
+func get_status(status_id:String) -> PlayerStatus:
+	return _get_player_status(status_id)
+
 #hooks
 
 func handle_prevent_movement_hook() -> bool:
@@ -48,6 +64,10 @@ func handle_prevent_movement_hook() -> bool:
 		if player_status.has_prevent_movement_hook():
 			return true
 	return false
+
+func toggle_ui_buttons(on:bool) -> void:
+	for player_status:PlayerStatus in get_all_player_statuses():
+		player_status.toggle_ui_buttons(on)
 
 #private functions
 

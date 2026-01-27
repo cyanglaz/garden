@@ -1,5 +1,5 @@
 class_name GUIPlayerStatus
-extends PanelContainer
+extends HBoxContainer
 
 const ICON_PREFIX := "res://resources/sprites/GUI/icons/resources/icon_%s.png"
 

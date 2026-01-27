@@ -43,7 +43,6 @@ func _ready() -> void:
 	Events.request_modify_hand_cards.connect(_on_request_modify_hand_cards)
 	Events.request_hp_update.connect(_on_request_hp_update)
 	Events.request_energy_update.connect(_on_request_energy_update)
-	Events.request_movement_update.connect(_on_request_movement_update)
 	gui.ui_lock_toggled.connect(_on_ui_lock_toggled)
 
 func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter:int, player_data:PlayerData) -> void:
@@ -86,7 +85,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 
 	_combat = combat
 	_chapter = chapter
-	player.setup_with_player_data(player_data)
+	player.setup_with_player_data(player_data, _combat.plants.size() - 1)
 	_start_new_level()
 
 func _input(event: InputEvent) -> void:
@@ -127,7 +126,6 @@ func _start_new_level() -> void:
 	gui.update_with_combat(_combat, self)
 	level_started.emit()
 	await weather_main.start(_chapter, _combat.combat_type)
-	player.max_plants_index = plant_field_container.plants.size() - 1
 	player.current_field_index = 0
 	_start_turn()
 
@@ -281,7 +279,7 @@ func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> vo
 		reward_finished.emit(tool_data, from_global_position)
 
 func _on_ui_lock_toggled(on:bool) -> void:
-	player.toggle_move_buttons(on)
+	player.toggle_ui_buttons(on)
 
 func _on_player_field_index_updated(index:int) -> void:
 	var destination_x := plant_field_container.get_field(index).global_position.x
@@ -358,9 +356,6 @@ func _on_request_modify_hand_cards(callable:Callable) -> void:
 func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
 	# The hp is handled by the main game
 	player.update_hp(val, operation)
-
-func _on_request_movement_update(val:int, operation:ActionData.OperatorType) -> void:
-	player.update_movement(val, operation)
 
 func _on_request_energy_update(val:int, operation:ActionData.OperatorType) -> void:
 	match operation:
