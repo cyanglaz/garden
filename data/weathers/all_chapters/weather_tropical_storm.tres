@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_o2cds")
-sky_color = Color(0, 0.22352941, 0.42745098, 1)
+sky_color = Color(0.25882354, 0.29803923, 0.43137255, 1)
 id = "tropical_storm"
 display_name = "Tropical Storm"
 metadata/_custom_type_script = "uid://g4t52w546b5k"
