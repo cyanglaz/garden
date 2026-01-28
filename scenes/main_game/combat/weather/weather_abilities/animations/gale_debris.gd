@@ -5,6 +5,7 @@ const DEBRIS_START_OFFSET := -100
 const NUMBER_OF_DEBRIS := 10
 const SPREAD := 10
 const DROP_DELAY := 0.05
+const DESTROY_TIME := 1.0
 
 const GALE_DEBRIS_TRASH_SCENE := preload("res://scenes/main_game/combat/weather/weather_abilities/animations/gale_debris_trash.tscn")
 

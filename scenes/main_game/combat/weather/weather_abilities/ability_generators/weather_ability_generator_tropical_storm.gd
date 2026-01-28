@@ -14,8 +14,7 @@ func _generate_abilities(combat_main:CombatMain, _turn_index:int) -> Array[Weath
 	var is_lightning_strike:bool = randf() < LIGHTNING_STRIKE_CHANCE
 	var ability_datas:Array[WeatherAbilityData] = []
 	if is_lightning_strike:
-		for i in field_indices.size() - 1:
-			ability_datas.append(LIGHTNING_STRIKE_ABILITY.get_duplicate())
+		ability_datas.append(LIGHTNING_STRIKE_ABILITY.get_duplicate())
 	else:
 		for i in field_indices.size() - 2:
 			ability_datas.append(GALE_DEBRIS_ABILITY.get_duplicate())
