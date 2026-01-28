@@ -26,7 +26,6 @@ var _weak_right_field:WeakRef = weakref(null)
 
 func _ready() -> void:
 	super._ready()
-	size = 1
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
 	_progress_bars.hide()
@@ -41,13 +40,6 @@ func plant_seed(plant_data:PlantData) -> void:
 	_container.add_child(plant)
 	plant.data = plant_data
 	plant.field = self
-	match plant.data.difficulty:
-		0:
-			size = 0
-		1:
-			size = 0
-		2:
-			size = 1
 	_show_progress_bars()
 	plant.bloom_started.connect(func(): plant_bloom_started.emit())
 	plant.bloom_completed.connect(func(): plant_bloom_completed.emit())
