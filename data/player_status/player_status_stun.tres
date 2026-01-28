@@ -8,4 +8,5 @@ stackable = true
 reduce_stack_on_turn_end = true
 id = "stun"
 display_name = "Stun"
+description = "Player cannot move for the next {stack} turn(s}."
 metadata/_custom_type_script = "uid://ep5ey6gqhty1"
