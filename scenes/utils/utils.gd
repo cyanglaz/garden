@@ -208,8 +208,8 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "draw_card"
 		ActionData.ActionType.DISCARD_CARD:
 			id = "discard_card"
-		ActionData.ActionType.WEATHER_SUNNY:
-			id = "sunny"
+		ActionData.ActionType.STUN:
+			id = "stun"
 		ActionData.ActionType.WEATHER_RAINY:
 			id = "rainy"
 		ActionData.ActionType.GREENHOUSE:
@@ -224,6 +224,18 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "gain_gold"
 		ActionData.ActionType.UPDATE_HP:
 			id = "update_hp"
+		ActionData.ActionType.MOMENTUM:
+			id = "momentum"
+		ActionData.ActionType.ADD_CARD_DISCARD_PILE:
+			id = "add_card_discard_pile"
+		ActionData.ActionType.DROWNED:
+			id = "drowned"
+		ActionData.ActionType.BURIED:
+			id = "buried"
+		ActionData.ActionType.MOVE_LEFT:
+			id = "move_left"
+		ActionData.ActionType.MOVE_RIGHT:
+			id = "move_right"
 		ActionData.ActionType.NONE:
 			pass
 	return id
@@ -240,8 +252,8 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 			return ActionData.ActionType.FUNGUS
 		"recycle":
 			return ActionData.ActionType.RECYCLE
-		"sunny":
-			return ActionData.ActionType.WEATHER_SUNNY
+		"stun":
+			return ActionData.ActionType.STUN
 		"rainy":
 			return ActionData.ActionType.WEATHER_RAINY
 		"draw_card":
@@ -260,6 +272,18 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 			return ActionData.ActionType.UPDATE_GOLD
 		"update_hp":
 			return ActionData.ActionType.UPDATE_HP
+		"momentum":
+			return ActionData.ActionType.MOMENTUM
+		"add_card_discard_pile":
+			return ActionData.ActionType.ADD_CARD_DISCARD_PILE
+		"drowned":
+			return ActionData.ActionType.DROWNED
+		"buried":
+			return ActionData.ActionType.BURIED
+		"move_left":
+			return ActionData.ActionType.MOVE_LEFT
+		"move_right":
+			return ActionData.ActionType.MOVE_RIGHT
 		"none":
 			return ActionData.ActionType.NONE
 	assert(false, "Invalid action id: " + action_id)
@@ -276,8 +300,8 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 			action_name = Util.get_localized_string("ACTION_NAME_PEST")
 		ActionData.ActionType.FUNGUS:
 			action_name = Util.get_localized_string("ACTION_NAME_FUNGUS")
-		ActionData.ActionType.WEATHER_SUNNY:
-			action_name = Util.get_localized_string("ACTION_NAME_WEATHER_SUNNY")
+		ActionData.ActionType.STUN:
+			action_name = Util.get_localized_string("ACTION_NAME_STUN")
 		ActionData.ActionType.WEATHER_RAINY:
 			action_name = Util.get_localized_string("ACTION_NAME_WEATHER_RAINY")
 		ActionData.ActionType.DRAW_CARD:
@@ -298,6 +322,18 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 			action_name = Util.get_localized_string("ACTION_NAME_UPDATE_GOLD")
 		ActionData.ActionType.UPDATE_HP:
 			action_name = Util.get_localized_string("ACTION_NAME_UPDATE_HP")
+		ActionData.ActionType.MOMENTUM:
+			action_name = Util.get_localized_string("ACTION_NAME_MOMENTUM")
+		ActionData.ActionType.ADD_CARD_DISCARD_PILE:
+			action_name = Util.get_localized_string("ACTION_NAME_ADD_CARD_DISCARD_PILE")
+		ActionData.ActionType.DROWNED:
+			action_name = Util.get_localized_string("ACTION_NAME_DROWNED")
+		ActionData.ActionType.BURIED:
+			action_name = Util.get_localized_string("ACTION_NAME_BURIED")
+		ActionData.ActionType.MOVE_LEFT:
+			action_name = Util.get_localized_string("ACTION_NAME_MOVE_LEFT")
+		ActionData.ActionType.MOVE_RIGHT:
+			action_name = Util.get_localized_string("ACTION_NAME_MOVE_RIGHT")
 		ActionData.ActionType.NONE:
 			pass
 	return action_name
@@ -340,6 +376,15 @@ static func get_id_for_action_speical(special:ActionData.Special) -> String:
 	match special:
 		ActionData.Special.ALL_FIELDS:
 			id = "all_fields"
+	return id
+
+static func get_id_for_attack_type(attack_type:AttackData.AttackType) -> String:
+	var id := ""
+	match attack_type:
+		AttackData.AttackType.SIMPLE:
+			id = "simple"
+		_:
+			assert(false, str("unrecognized attack type, ", attack_type))
 	return id
 
 static func find_tool_ids_in_data(data:Dictionary) -> Array[String]:

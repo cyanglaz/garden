@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bi1hvk6mo60lb"]
+
+[ext_resource type="Script" uid="uid://68q7vw3pcwr" path="res://scenes/main_game/combat/enemy/attack/attack.gd" id="1_1dfhc"]
+
+[node name="Attack" type="Node2D"]
+script = ExtResource("1_1dfhc")
+
+[node name="IndicatorContainer" type="Node2D" parent="."]
+unique_name_in_owner = true

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cbq35rwyy8m0f"]
+
+[ext_resource type="Script" uid="uid://di0k2kyj7ddnl" path="res://scenes/main_game/combat/weather/weather_ability_container.gd" id="1_pqbnj"]
+[ext_resource type="PackedScene" uid="uid://cw4xjceqlocrx" path="res://scenes/main_game/combat/weather/weather_ability_animation_container.tscn" id="2_eytep"]
+
+[node name="WeatherAbilityContainer" type="Node2D"]
+script = ExtResource("1_pqbnj")
+
+[node name="AbilityContainer" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="WeatherAbilityAnimationContainer" parent="." instance=ExtResource("2_eytep")]
+unique_name_in_owner = true

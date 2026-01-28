@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cluddrpk3n23"]
+
+[ext_resource type="Script" uid="uid://svf5irv761cw" path="res://scenes/GUI/combat_main/player/gui_player_status_container.gd" id="1_0uk5n"]
+
+[node name="GUIPlayerStatusContainer" type="HBoxContainer"]
+script = ExtResource("1_0uk5n")

@@ -48,6 +48,7 @@ theme_override_constants/separation = 8
 
 [node name="GUIPlayer" parent="MarginContainer/Container/LeftContainer" instance=ExtResource("4_mmkmm")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="GUIHP" parent="MarginContainer/Container/LeftContainer" instance=ExtResource("5_8mpe6")]

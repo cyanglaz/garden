@@ -1,0 +1,56 @@
+[gd_scene load_steps=11 format=3 uid="uid://bjxltwpa40twn"]
+
+[ext_resource type="Script" uid="uid://dbhqa2dlcu8m7" path="res://scenes/main_game/combat/weather/weather_abilities/animations/mist.gd" id="1_nvmrl"]
+[ext_resource type="Texture2D" uid="uid://0fgf3t3c1paq" path="res://resources/sprites/effects/particles/particle_smoke.png" id="2_2w0o6"]
+[ext_resource type="AudioStream" uid="uid://cxtiq0cjbwdkb" path="res://resources/sounds/SFX/weather/mist.wav" id="3_bb0fy"]
+
+[sub_resource type="Curve" id="Curve_bb0fy"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.49503726, 0.6879566), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_vc5ea"]
+curve = SubResource("Curve_bb0fy")
+
+[sub_resource type="Gradient" id="Gradient_2w0o6"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.5803922, 0.99215686, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bb0fy"]
+gradient = SubResource("Gradient_2w0o6")
+
+[sub_resource type="Curve" id="Curve_2w0o6"]
+_data = [Vector2(0, 0.49801707), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.9396298, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_bb0fy"]
+curve = SubResource("Curve_2w0o6")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2w0o6"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(8, 8, 1)
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 15.0
+angular_velocity_min = 29.999983
+angular_velocity_max = 29.999983
+gravity = Vector3(0, -10, 0)
+scale_min = 0.29999998
+scale_max = 0.29999998
+scale_curve = SubResource("CurveTexture_bb0fy")
+color_initial_ramp = SubResource("GradientTexture1D_bb0fy")
+alpha_curve = SubResource("CurveTexture_vc5ea")
+
+[node name="Mist" type="Node2D"]
+script = ExtResource("1_nvmrl")
+
+[node name="FogParticle" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+amount = 16
+texture = ExtResource("2_2w0o6")
+process_material = SubResource("ParticleProcessMaterial_2w0o6")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_bb0fy")
+bus = &"SFX"

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://sj3fvkj0ri5d"
+path="res://.godot/imported/enemy_particle.aseprite-dbff81438354c7ec81a5bcc5eb3a218d.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/particles/enemy_particle.aseprite"
+dest_files=["res://.godot/imported/enemy_particle.aseprite-dbff81438354c7ec81a5bcc5eb3a218d.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

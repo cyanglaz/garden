@@ -1,0 +1,48 @@
+[gd_scene load_steps=9 format=3 uid="uid://ck6msm3t6qw8s"]
+
+[ext_resource type="Script" uid="uid://qd18h0tlwux1" path="res://scenes/main_game/combat/weather/weather_abilities/animations/gale_debris_trash.gd" id="1_id5ai"]
+[ext_resource type="Texture2D" uid="uid://0fgf3t3c1paq" path="res://resources/sprites/effects/particles/particle_smoke.png" id="2_pjuod"]
+[ext_resource type="AudioStream" uid="uid://bs67v3l7dbcpi" path="res://resources/sounds/SFX/weather/debris_impact.wav" id="3_02uv6"]
+
+[sub_resource type="Curve" id="Curve_pjuod"]
+_data = [Vector2(0, 0.7476518), 0.0, 0.0, 0, 0, Vector2(0.99999, 0.004174471), -1.4219401, -1.4219401, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_02uv6"]
+curve = SubResource("Curve_pjuod")
+
+[sub_resource type="Gradient" id="Gradient_pjuod"]
+offsets = PackedFloat32Array(0, 0.69414896, 1)
+colors = PackedColorArray(0.3647059, 0.3647059, 0.3647059, 1, 0.52156866, 0.52156866, 0.52156866, 1, 0.7058824, 0.7058824, 0.7058824, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_02uv6"]
+gradient = SubResource("Gradient_pjuod")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pjuod"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(4, 1, 1)
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+gravity = Vector3(0, -50, 0)
+scale_min = 0.099999994
+scale_max = 0.29999998
+color_initial_ramp = SubResource("GradientTexture1D_02uv6")
+alpha_curve = SubResource("CurveTexture_02uv6")
+
+[node name="GaleDebrisTrash" type="Node2D"]
+script = ExtResource("1_id5ai")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+texture = ExtResource("2_pjuod")
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_pjuod")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="ImpactAudio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_02uv6")
+bus = &"SFX"

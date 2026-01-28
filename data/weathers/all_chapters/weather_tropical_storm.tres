@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WeatherData" load_steps=2 format=3 uid="uid://cytu2rr2gw3mi"]
+
+[ext_resource type="Script" uid="uid://g4t52w546b5k" path="res://data/models/weather/weather_data.gd" id="1_o2cds"]
+
+[resource]
+script = ExtResource("1_o2cds")
+sky_color = Color(0.25882354, 0.29803923, 0.43137255, 1)
+id = "tropical_storm"
+display_name = "Tropical Storm"
+metadata/_custom_type_script = "uid://g4t52w546b5k"

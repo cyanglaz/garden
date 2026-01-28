@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="WeatherAbilityData" load_steps=5 format=3 uid="uid://cjmpnf745acps"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_0ew7l"]
+[ext_resource type="Script" uid="uid://dfpccwvjf242h" path="res://data/models/weather/weather_ability_data.gd" id="2_jiwr5"]
+
+[sub_resource type="Resource" id="Resource_0ew7l"]
+script = ExtResource("1_0ew7l")
+type = 12
+value = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_jiwr5"]
+script = ExtResource("1_0ew7l")
+type = 1
+value = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_jiwr5")
+action_datas = Array[ExtResource("1_0ew7l")]([SubResource("Resource_0ew7l"), SubResource("Resource_jiwr5")])
+id = "solar_beam"
+display_name = "Solar Beam"
+note = "+1 energy, 
++1 light"
+metadata/_custom_type_script = "uid://dfpccwvjf242h"

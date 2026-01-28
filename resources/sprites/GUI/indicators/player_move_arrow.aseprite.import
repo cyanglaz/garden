@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bpmogr0n51ixv"
+path="res://.godot/imported/player_move_arrow.aseprite-a623be1f34aa51241026d4421bfcf451.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/indicators/player_move_arrow.aseprite"
+dest_files=["res://.godot/imported/player_move_arrow.aseprite-a623be1f34aa51241026d4421bfcf451.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

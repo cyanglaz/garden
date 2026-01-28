@@ -7,12 +7,11 @@ const SHOP_MAIN_SCENE := preload("res://scenes/main_game/shop/shop_main.tscn")
 const TOWN_MAIN_SCENE := preload("res://scenes/main_game/town/town_main.tscn")
 const CHEST_MAIN_SCENE := preload("res://scenes/main_game/chest/chest_main.tscn")
 
-const INITIAL_HP_VALUE := 10
-const INITIAL_HP_MAX_VALUE := 10
+const INITIAL_HP_VALUE := "res://data/player/player_pollinator.tres"
 const SCENE_TRANSITION_TIME := 0.2
 const NUMBER_OF_CHAPTERS := 1
 
-@export var player:PlayerData
+@export var player_data:PlayerData
 @export var test_tools:Array[ToolData]
 @export var test_weather:WeatherData
 @export var test_combat:CombatData
@@ -34,16 +33,14 @@ var _warning_manager:WarningManager = WarningManager.new(self)
 
 func _ready() -> void:
 	Singletons.main_game = self
-	
-	hp.setup(INITIAL_HP_VALUE, INITIAL_HP_MAX_VALUE)
-
+	hp.setup(player_data.hp, player_data.hp)
 	if test_tools.is_empty():
-		card_pool = player.initial_tools
+		card_pool = player_data.initial_tools
 	else:
 		card_pool = test_tools
 
 	#gui main signals
-	gui_main_game.update_player(player)
+	gui_main_game.update_player(player_data)
 	gui_main_game.bind_with_hp(hp)
 	gui_main_game.bind_cards(card_pool)
 	
@@ -72,13 +69,13 @@ func _start_new_chapter() -> void:
 
 	#_start_map_main_scene()
 	# Always start with a common node
-	#if test_combat:
-	#	_start_combat_main_scene.call_deferred(test_combat)
-	#else:
-	#	_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
+	if test_combat:
+		_start_combat_main_scene.call_deferred(test_combat)
+	else:
+		_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
 	#_start_shop()
 	#_start_chest()
-	_start_town()
+	#_start_town()
 	#_game_over()
 	#_game_win()
 
@@ -106,7 +103,7 @@ func _start_combat_main_scene(combat:CombatData) -> void:
 	combat_main.reward_finished.connect(_on_reward_finished)
 	combat_main.beat_final_boss.connect(_on_beat_final_boss)
 	start_scene_transition()
-	combat_main.start(card_pool, 3, combat, chapter_manager.current_chapter)
+	combat_main.start(card_pool, 3, combat, chapter_manager.current_chapter, player_data)
 
 func _start_shop() -> void:
 	var shop_main = SHOP_MAIN_SCENE.instantiate()
@@ -193,8 +190,14 @@ func _on_chest_reward_skipped() -> void:
 
 #region global events
 
-func _on_request_hp_update(val:int) -> void:
-	hp.value += val
+func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
+	match operation:
+		ActionData.OperatorType.INCREASE:
+			hp.value += val
+		ActionData.OperatorType.DECREASE:
+			hp.value -= val
+		ActionData.OperatorType.EQUAL_TO:
+			hp.value = val
 	await gui_main_game.animate_hp_update(val)
 	if hp.value == 0:
 		_game_over()

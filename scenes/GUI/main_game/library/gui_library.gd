@@ -56,7 +56,7 @@ func _list_items(category:String) -> void:
 			icon.update_with_plant_data(data)
 		elif data is ToolData:
 			icon.update_with_tool_data(data)
-		elif data is FieldStatusData:
+		elif data is StatusData:
 			icon.update_with_field_status_data(data)
 		elif data is PowerData:
 			icon.update_with_power_data(data)

@@ -1,5 +1,5 @@
 class_name State
-extends Node
+extends Node2D
 
 @export var log_state:bool = false
 @export var next_states:Array[State]

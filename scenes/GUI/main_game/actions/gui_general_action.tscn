@@ -25,7 +25,6 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 mouse_filter = 2
-expand_mode = 0
 
 [node name="GUIActionValueIcon" parent="SymbolContainer" instance=ExtResource("3_ew7wa")]
 unique_name_in_owner = true
@@ -33,6 +32,7 @@ layout_mode = 2
 
 [node name="FieldApplicationIcon" type="TextureRect" parent="SymbolContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(6, 6)
 layout_mode = 2
 texture = ExtResource("3_ttkmb")
 stretch_mode = 5

@@ -1,8 +1,6 @@
 class_name Plant
 extends Node2D
 
-const AREA_SIZE_PER_CURSE_PARTICLE := 3.0
-const CURSE_PARTICLE_Y_OFFSET := 4.0
 const POPUP_SHOW_TIME := 0.3
 const POPUP_DESTROY_TIME:= 1.2
 const POPUP_OFFSET := Vector2.RIGHT * 8 + Vector2.UP * 12
@@ -23,7 +21,6 @@ signal action_application_completed()
 
 @onready var plant_sprite: AnimatedSprite2D = %PlantSprite
 @onready var fsm: PlantStateMachine = %PlantStateMachine
-@onready var curse_particle: GPUParticles2D = %CurseParticle
 @onready var bloom_particle: GPUParticles2D = %BloomParticle
 @onready var plant_ability_container: PlantAbilityContainer = %PlantAbilityContainer
 @onready var field_status_container: FieldStatusContainer = %FieldStatusContainer
@@ -42,7 +39,6 @@ func _ready() -> void:
 	bloom_particle.one_shot = true
 	bloom_particle.emitting = false
 	field_status_container.request_hook_message_popup.connect(_on_request_hook_message_popup)
-	_resize_curse_particle()
 
 func trigger_ability(ability_type:AbilityType) -> void:
 	await plant_ability_container.trigger_ability(ability_type, self)
@@ -78,7 +74,7 @@ func apply_actions(actions:Array) -> void:
 				await _apply_light_action(action)
 			ActionData.ActionType.WATER:
 				await _apply_water_action(action)
-			ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW:
+			ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW, ActionData.ActionType.DROWNED, ActionData.ActionType.BURIED:
 				await _apply_field_status_action(action)
 			_:
 				pass
@@ -93,6 +89,13 @@ func bloom() -> void:
 func show_bloom_popup() -> void:
 	_point_audio.play()
 	# TODO:
+
+func get_pixel_height() -> float:
+	var sprite_frames:SpriteFrames = plant_sprite.sprite_frames
+	var frame_texture:Texture2D = sprite_frames.get_frame_texture("bloom", 0)
+	var image := frame_texture.get_image()
+	var used_rect := image.get_used_rect()
+	return used_rect.size.y
 
 #endregion
 
@@ -125,27 +128,38 @@ func _show_popup_action_indicator(action_data:ActionData) -> void:
 
 func _apply_light_action(action:ActionData) -> void:
 	var true_value := _get_action_true_value(action)
-	await _show_popup_action_indicator(action)
+	var old_light_value := light.value
+	var new_light_value := 0
 	match action.operator_type:
 		ActionData.OperatorType.INCREASE:
-			light.value += true_value
+			new_light_value = light.value + true_value
 		ActionData.OperatorType.DECREASE:
-			light.value -= true_value
+			new_light_value = light.value - true_value
 		ActionData.OperatorType.EQUAL_TO:
-			light.value = true_value
+			new_light_value = true_value
+	var prevent_resource_update_value:bool = await field_status_container.handle_prevent_resource_update_value_hook("light", self, old_light_value, new_light_value)
+	if prevent_resource_update_value:
+		return
+	await _show_popup_action_indicator(action)
+	light.value = new_light_value
 
 func _apply_water_action(action:ActionData) -> void:
 	var true_value := _get_action_true_value(action)
-	await _show_popup_action_indicator(action)
 	var old_water_value := water.value
+	var new_water_value := 0
 	match action.operator_type:
 		ActionData.OperatorType.INCREASE:
-			water.value += true_value
+			new_water_value = water.value + true_value
 		ActionData.OperatorType.DECREASE:
-			water.value -= true_value
+			new_water_value = water.value - true_value
 		ActionData.OperatorType.EQUAL_TO:
-			water.value = true_value
-	var water_increasing := water.value - old_water_value > 0
+			new_water_value = true_value
+	var prevent_resource_update_value:bool = await field_status_container.handle_prevent_resource_update_value_hook("water", self, old_water_value, new_water_value)
+	if prevent_resource_update_value:
+		return
+	var water_increasing := new_water_value - old_water_value > 0
+	await _show_popup_action_indicator(action)
+	water.value = new_water_value
 	if water_increasing:
 		await field_status_container.handle_add_water_hook(self)
 
@@ -166,18 +180,6 @@ func _apply_field_status_action(action:ActionData) -> void:
 func _get_action_true_value(action_data:ActionData) -> int:
 	return action_data.get_calculated_value(self)
 
-func _resize_curse_particle() -> void:
-	var sprite_frames:SpriteFrames = plant_sprite.sprite_frames
-	var current_animation:StringName = plant_sprite.animation
-	var frame_texture:Texture2D = sprite_frames.get_frame_texture(current_animation, 0)
-	var image := frame_texture.get_image()
-	var used_rect := image.get_used_rect()
-	curse_particle.process_material.emission_box_extents = Vector3(used_rect.size.x/2.0, used_rect.size.y/2.0, 1)
-	var area_size :float = curse_particle.process_material.emission_box_extents.x * curse_particle.process_material.emission_box_extents.y
-	var number_of_particles := area_size / (AREA_SIZE_PER_CURSE_PARTICLE * AREA_SIZE_PER_CURSE_PARTICLE)
-	curse_particle.amount = int(number_of_particles)
-	curse_particle.position.y = - used_rect.size.y/2.0 + CURSE_PARTICLE_Y_OFFSET
-
 func _reposition_bloom_particle() -> void:
 	var sprite_frames:SpriteFrames = plant_sprite.sprite_frames
 	var current_animation:StringName = plant_sprite.animation
@@ -187,13 +189,13 @@ func _reposition_bloom_particle() -> void:
 	bloom_particle.position.y = - used_rect.size.y/2.0
 	
 #region events
-func _on_request_hook_message_popup(status_data:FieldStatusData) -> void:
+func _on_request_hook_message_popup(status_data:StatusData) -> void:
 	var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()
 	var color:Color = Constants.COLOR_RED2
 	match status_data.type:
-		FieldStatusData.Type.BAD:
+		StatusData.Type.BAD:
 			color = Constants.COLOR_RED2
-		FieldStatusData.Type.GOOD:
+		StatusData.Type.GOOD:
 			color = Constants.COLOR_YELLOW2
 	popup.setup(status_data.popup_message, color)
 	var popup_location:Vector2 = Util.get_node_canvas_position(self) + POPUP_OFFSET

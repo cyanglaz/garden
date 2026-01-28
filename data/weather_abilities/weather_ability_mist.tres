@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="WeatherAbilityData" load_steps=6 format=3 uid="uid://cjsgiletqjgbr"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_65ett"]
+[ext_resource type="Script" uid="uid://dfpccwvjf242h" path="res://data/models/weather/weather_ability_data.gd" id="2_rt8bk"]
+
+[sub_resource type="Resource" id="Resource_mx06f"]
+script = ExtResource("1_65ett")
+type = 3
+value = 1
+operator_type = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_sys6w"]
+script = ExtResource("1_65ett")
+type = 1
+value = 1
+operator_type = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_65ett"]
+script = ExtResource("1_65ett")
+type = 16
+value = 1
+operator_type = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_rt8bk")
+action_datas = Array[ExtResource("1_65ett")]([SubResource("Resource_mx06f"), SubResource("Resource_sys6w"), SubResource("Resource_65ett")])
+id = "mist"
+display_name = "Mist"
+note = "-1 pest, -1 light -1 movement"
+metadata/_custom_type_script = "uid://dfpccwvjf242h"

@@ -38,7 +38,7 @@ func update_with_data(data:Variant, index_level:int) -> void:
 			_update_with_boss_data(data_to_show, i)
 		elif data_to_show is WeatherData:
 			_update_with_weather_data(data_to_show, i)
-		elif data_to_show is FieldStatusData || data_to_show is PowerData || data_to_show is PlantAbilityData:
+		elif data_to_show is StatusData || data_to_show is PowerData || data_to_show is PlantAbilityData:
 			_update_with_thing_data(data_to_show, i)
 		elif data_to_show is ActionData:
 			_update_with_action_data(data_to_show, i)

@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3k2tw11efux4"]
+
+[ext_resource type="PackedScene" uid="uid://cdjmlf4g26asd" path="res://scenes/main_game/combat/weather/weather_abilities/abilities/weather_ability.tscn" id="1_cauyt"]
+[ext_resource type="Script" uid="uid://d4ff6g7lnx6v5" path="res://scenes/main_game/combat/weather/weather_abilities/abilities/weather_ability_lightning_strike.gd" id="2_cauyt"]
+
+[node name="WeatherAbilityLightningStrike" instance=ExtResource("1_cauyt")]
+script = ExtResource("2_cauyt")

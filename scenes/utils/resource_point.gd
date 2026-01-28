@@ -49,7 +49,7 @@ func reset_estimate() -> void:
 
 func restore(amount:int):
 	var target_value = value + amount
-	value = min(target_value, max_value)
+	value = target_value
 	if value == max_value:
 		full.emit()
 		

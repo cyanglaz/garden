@@ -15,7 +15,7 @@ var _started := false
 
 func _ready() -> void:
 	field_container.setup_fields()
-	await weather_main.start(0)
+	await weather_main.start(0, CombatData.CombatType.COMMON)
 	_started = true
 	for field:Field in field_container.fields:
 		field.field_pressed.connect(_on_field_pressed.bind(field))
@@ -38,7 +38,7 @@ func _on_tavern_field_pressed(field:TavernField) -> void:
 	_interacted = true
 	field.interacted = true
 	await weather_main.night_fall()
-	Events.request_hp_update.emit(field.HP_INCREASE)
+	Events.request_hp_update.emit(field.HP_INCREASE, ActionData.OperatorType.INCREASE)
 	await Util.create_scaled_timer(TAVERN_WAIT_TIME).timeout
 	town_finished.emit()
 

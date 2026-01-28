@@ -5,7 +5,7 @@ const FIELD_STATUS_SCENE_PREFIX := "res://scenes/main_game/combat/fields/status/
 
 signal status_updated()
 signal request_status_hook_animation(status_id:String)
-signal request_hook_message_popup(status_data:FieldStatusData)
+signal request_hook_message_popup(status_data:StatusData)
 
 var _bloom_hook_queue:Array = []
 var _current_bloom_hook_index:int = 0
@@ -19,6 +19,8 @@ var _end_turn_hook_queue:Array = []
 var _current_end_turn_hook_index:int = 0
 var _add_water_hook_queue:Array = []
 var _current_add_water_hook_index:int = 0
+var _prevent_resource_update_value_hook_queue:Array = []
+var _current_prevent_resource_update_value_hook_index:int = 0
 
 func setup_with_plant(plant:Plant) -> void:
 	for field_status_id:String in plant.data.initial_field_status.keys():
@@ -171,7 +173,26 @@ func _handle_next_add_water_hook(plant:Plant) -> void:
 	_current_add_water_hook_index += 1
 	await _handle_next_add_water_hook(plant)
 
-func _send_hook_animation_signals(status_data:FieldStatusData) -> void:
+func handle_prevent_resource_update_value_hook(resource_id:String, plant:Plant, old_value:int, new_value:int) -> bool:
+	_prevent_resource_update_value_hook_queue = get_all_statuses().filter(func(field_status:FieldStatus) -> bool:
+		return field_status.has_prevent_resource_update_value_hook(resource_id, plant, old_value, new_value)
+	)
+	_current_prevent_resource_update_value_hook_index = 0
+	return await _handle_next_prevent_resource_update_value_hook(resource_id, plant, old_value, new_value)
+
+func _handle_next_prevent_resource_update_value_hook(resource_id:String, plant:Plant, old_value:int, new_value:int) -> bool:
+	if _current_prevent_resource_update_value_hook_index >= _prevent_resource_update_value_hook_queue.size():
+		return false
+	var field_status:FieldStatus = _prevent_resource_update_value_hook_queue[_current_prevent_resource_update_value_hook_index]
+	await _send_hook_animation_signals(field_status.status_data)
+	var prevent_resource_update_value:bool = field_status.handle_prevent_resource_update_value_hook(resource_id, plant, old_value, new_value)
+	if prevent_resource_update_value:
+		_handle_status_on_trigger(field_status)
+		return true
+	_current_prevent_resource_update_value_hook_index += 1
+	return await _handle_next_prevent_resource_update_value_hook(resource_id, plant, old_value, new_value)
+
+func _send_hook_animation_signals(status_data:StatusData) -> void:
 	request_status_hook_animation.emit(status_data.id)
 	request_hook_message_popup.emit(status_data)
 	await Util.create_scaled_timer(Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION).timeout

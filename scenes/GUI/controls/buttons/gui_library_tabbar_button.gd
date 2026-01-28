@@ -70,7 +70,7 @@ func _set_button_state(val:ButtonState) -> void:
 				border.region_rect.position = Vector2(16, 12)
 
 func _get_reference_button_icon_path(data:ThingData) -> String:
-	if data is FieldStatusData:
+	if data is StatusData:
 		return str(RESOURCE_ICON_PREFIX, data.id, ".png")
 	elif data is ActionData:
 		return str(RESOURCE_ICON_PREFIX, data.id, ".png")

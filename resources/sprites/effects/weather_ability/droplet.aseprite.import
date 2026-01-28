@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://b1lbjgxh2qtse"
+path="res://.godot/imported/droplet.aseprite-db25b08a611605f5570d2a3268e1a2d7.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/weather_ability/droplet.aseprite"
+dest_files=["res://.godot/imported/droplet.aseprite-db25b08a611605f5570d2a3268e1a2d7.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

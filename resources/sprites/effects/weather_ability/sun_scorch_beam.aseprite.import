@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://8pmec5vhw47g"
+path="res://.godot/imported/sun_scorch_beam.aseprite-8b657e9343fe634d9a3a0fdb4ec2f6f0.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/weather_ability/sun_scorch_beam.aseprite"
+dest_files=["res://.godot/imported/sun_scorch_beam.aseprite-8b657e9343fe634d9a3a0fdb4ec2f6f0.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,7 +1,8 @@
 class_name ActionDescriptionFormulator
 extends RefCounted
 
-const FIELD_STATUS_ACTION_TYPES := [ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW]
+const FIELD_STATUS_ACTION_TYPES := [ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW, ActionData.ActionType.DROWNED, ActionData.ActionType.BURIED]
+const PLAYER_STATUS_ACTION_TYPES := [ActionData.ActionType.STUN]
 
 const HIGHLIGHT_COLOR := Constants.COLOR_WHITE
 const X_DESCRIPTION_HIGHLIGHT_COLOR := Constants.COLOR_BLUE_3
@@ -10,11 +11,18 @@ static func get_action_description(action_data:ActionData, target_plant:Plant) -
 	var thing_data:ThingData = action_data
 	if action_data.type in FIELD_STATUS_ACTION_TYPES:
 		var id := Util.get_action_id_with_action_type(action_data.type)
-		var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(id)
+		var field_status_data:StatusData = MainDatabase.field_status_database.get_data_by_id(id)
 		thing_data = field_status_data
+		if action_data.operator_type == ActionData.OperatorType.INCREASE:
+			field_status_data.stack = action_data.get_calculated_value(null)
+	elif action_data.type in PLAYER_STATUS_ACTION_TYPES:
+		var id := Util.get_action_id_with_action_type(action_data.type)
+		var player_status_data:StatusData = MainDatabase.player_status_database.get_data_by_id(id)
+		thing_data = player_status_data
+		if action_data.operator_type == ActionData.OperatorType.INCREASE:
+			player_status_data.stack = action_data.get_calculated_value(null)
 	var action_description := get_raw_action_description(action_data, target_plant)
 	action_description = DescriptionParser.format_references(action_description, thing_data.data.duplicate(), thing_data.highlight_description_keys, func(_reference_id:String) -> bool: return false)
-
 	if action_description.contains("%s"):
 		action_description = action_description % _get_value_text(action_data, target_plant)
 	
@@ -31,16 +39,24 @@ static func get_raw_action_description(action_data:ActionData, target_plant:Plan
 	match action_data.type:
 		ActionData.ActionType.LIGHT, ActionData.ActionType.WATER:
 			raw_action_description = _get_field_action_description(action_data, target_plant)
-		ActionData.ActionType.ENERGY, ActionData.ActionType.UPDATE_X, ActionData.ActionType.UPDATE_GOLD, ActionData.ActionType.UPDATE_HP:
+		ActionData.ActionType.ENERGY, ActionData.ActionType.UPDATE_X, ActionData.ActionType.UPDATE_GOLD, ActionData.ActionType.UPDATE_HP, ActionData.ActionType.MOMENTUM:
 			raw_action_description = _get_resource_update_action_description(action_data, target_plant)
-		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW:
+		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW, ActionData.ActionType.DROWNED, ActionData.ActionType.BURIED:
 			raw_action_description = _get_field_status_description(action_data)
-		ActionData.ActionType.WEATHER_SUNNY, ActionData.ActionType.WEATHER_RAINY:
+		ActionData.ActionType.WEATHER_RAINY:
 			raw_action_description = _get_weather_action_description(action_data)
 		ActionData.ActionType.DRAW_CARD:
 			raw_action_description = _get_draw_card_action_description(action_data, target_plant)
 		ActionData.ActionType.DISCARD_CARD:
 			raw_action_description = _get_discard_card_action_description(action_data, target_plant)
+		ActionData.ActionType.ADD_CARD_DISCARD_PILE:
+			raw_action_description = _get_add_card_discard_pile_action_description(action_data, target_plant)
+		ActionData.ActionType.MOVE_LEFT:
+			raw_action_description = _get_move_left_action_description(action_data, target_plant)
+		ActionData.ActionType.MOVE_RIGHT:
+			raw_action_description = _get_move_right_action_description(action_data, target_plant)
+		ActionData.ActionType.STUN:
+			raw_action_description = _get_player_status_description(action_data)
 		ActionData.ActionType.NONE:
 			pass
 	return raw_action_description
@@ -133,8 +149,6 @@ static func _get_action_resource_value_update_description(action_data:ActionData
 static func _get_weather_action_description(action_data:ActionData) -> String:
 	var weather_name := ""
 	match action_data.type:
-		ActionData.ActionType.WEATHER_SUNNY:
-			weather_name = "sunny"
 		ActionData.ActionType.WEATHER_RAINY:
 			weather_name = "rainy"
 		_:
@@ -151,6 +165,21 @@ static func _get_draw_card_action_description(action_data:ActionData, target_pla
 
 static func _get_discard_card_action_description(action_data:ActionData, target_plant:Plant) -> String:
 	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_DISCARD_CARD")
+	main_description = main_description % [_get_value_text(action_data, target_plant)]
+	return main_description
+
+static func _get_add_card_discard_pile_action_description(action_data:ActionData, target_plant:Plant) -> String:
+	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_ADD_CARD_DISCARD_PILE")
+	main_description = main_description % [_get_value_text(action_data, target_plant)]
+	return main_description
+
+static func _get_move_left_action_description(action_data:ActionData, target_plant:Plant) -> String:
+	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_MOVE_LEFT")
+	main_description = main_description % [_get_value_text(action_data, target_plant)]
+	return main_description
+
+static func _get_move_right_action_description(action_data:ActionData, target_plant:Plant) -> String:
+	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_MOVE_RIGHT")
 	main_description = main_description % [_get_value_text(action_data, target_plant)]
 	return main_description
 
@@ -194,7 +223,14 @@ static func _get_x_value_text(action_data:ActionData, target_plant:Plant) -> Str
 
 static func _get_field_status_description(action_data:ActionData) -> String:
 	var id := Util.get_action_id_with_action_type(action_data.type)
-	var field_status_data:FieldStatusData = MainDatabase.field_status_database.get_data_by_id(id)
+	var field_status_data:StatusData = MainDatabase.field_status_database.get_data_by_id(id)
 	if !field_status_data:
 		return ""
 	return field_status_data.description
+
+static func _get_player_status_description(action_data:ActionData) -> String:
+	var id := Util.get_action_id_with_action_type(action_data.type)
+	var player_status_data:StatusData = MainDatabase.player_status_database.get_data_by_id(id)
+	if !player_status_data:
+		return ""
+	return player_status_data.description

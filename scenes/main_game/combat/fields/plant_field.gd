@@ -45,9 +45,9 @@ func plant_seed(plant_data:PlantData) -> void:
 		0:
 			size = 0
 		1:
-			size = 1
+			size = 0
 		2:
-			size = 2
+			size = 1
 	_show_progress_bars()
 	plant.bloom_started.connect(func(): plant_bloom_started.emit())
 	plant.bloom_completed.connect(func(): plant_bloom_completed.emit())
@@ -78,6 +78,9 @@ func bloom() -> void:
 	_gui_plant_ability_icon_container.hide()
 	_gui_field_status_container.hide()
 	_complete_check.show()
+
+func get_plant_height() -> float:
+	return plant.get_pixel_height()
 
 #region private methods
 

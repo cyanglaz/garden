@@ -1,7 +1,7 @@
 class_name FieldContainer
 extends Node2D
 
-const MAX_DISTANCE_BETWEEN_FIELDS := 15
+const MAX_DISTANCE_BETWEEN_FIELDS := 24
 const MARGIN := 36
 
 signal field_hovered(hovered:bool, index:int)

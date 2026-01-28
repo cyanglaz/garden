@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://b36ncp2wsq5kq"
+path="res://.godot/imported/icon_spore_drift.aseprite-1b533bee1532f796c66ef03aed33346b.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/weather_ability/icon_spore_drift.aseprite"
+dest_files=["res://.godot/imported/icon_spore_drift.aseprite-1b533bee1532f796c66ef03aed33346b.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

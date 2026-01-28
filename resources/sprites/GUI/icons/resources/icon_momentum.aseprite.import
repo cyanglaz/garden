@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dsi08grcstr3q"
+path="res://.godot/imported/icon_momentum.aseprite-e188a8fb965005d7d97d7650a7f9111d.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_momentum.aseprite"
+dest_files=["res://.godot/imported/icon_momentum.aseprite-e188a8fb965005d7d97d7650a7f9111d.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

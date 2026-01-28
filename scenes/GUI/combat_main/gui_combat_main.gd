@@ -6,6 +6,7 @@ signal tool_selected(tool_data:ToolData)
 signal card_use_button_pressed(tool_data:ToolData)
 signal mouse_exited_card(tool_data:ToolData)
 signal reward_finished(tool_data:ToolData, from_global_position:Vector2)
+signal ui_lock_toggled(on:bool)
 
 @onready var gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
 @onready var gui_tool_card_container: GUIToolCardContainer = %GUIToolCardContainer
@@ -82,7 +83,7 @@ func _toggle_ui(on:bool) -> void:
 		end_turn_button.button_state = GUIBasicButton.ButtonState.NORMAL
 	else:
 		end_turn_button.button_state = GUIBasicButton.ButtonState.DISABLED
-
+	ui_lock_toggled.emit(on)
 
 #region tools
 func update_tools(tool_datas:Array[ToolData]) -> void:

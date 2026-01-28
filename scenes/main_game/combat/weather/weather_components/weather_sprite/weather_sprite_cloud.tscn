@@ -88,7 +88,7 @@ transition_type = 2
 [node name="AnimatedSprite2D" parent="." index="0"]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_no6o5")
-animation = &"idle_white_0"
+animation = &"idle_gray_0"
 metadata/_aseprite_wizard_config_ = {
 "layers": [],
 "o_ex_p": "",

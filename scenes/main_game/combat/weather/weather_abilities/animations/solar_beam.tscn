@@ -1,0 +1,87 @@
+[gd_scene load_steps=13 format=3 uid="uid://dcnody3lch1ie"]
+
+[ext_resource type="Script" uid="uid://dwm2vrfwa5e3g" path="res://scenes/main_game/combat/weather/weather_abilities/animations/solar_beam.gd" id="1_kahwh"]
+[ext_resource type="Texture2D" uid="uid://d2esb6nytfckx" path="res://resources/sprites/effects/weather_ability/solar_beam.png" id="2_ptdnf"]
+[ext_resource type="Texture2D" uid="uid://0fgf3t3c1paq" path="res://resources/sprites/effects/particles/particle_smoke.png" id="3_ptdnf"]
+[ext_resource type="AudioStream" uid="uid://bbgnrbhcgwtxr" path="res://resources/sounds/SFX/weather/solar_beam.wav" id="4_i06wt"]
+
+[sub_resource type="Curve" id="Curve_ptdnf"]
+_data = [Vector2(0, 0.8209142), 0.0, 0.0, 0, 0, Vector2(0.7580645, 0.56585264), -0.89468795, -0.89468795, 0, 0, Vector2(1, 0.0068879128), -1.917733, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_i06wt"]
+curve = SubResource("Curve_ptdnf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kahwh"]
+resource_local_to_scene = true
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+direction = Vector3(0, -1, 0)
+spread = 0.0
+gravity = Vector3(0, -20, 0)
+scale_min = 0.049999997
+scale_max = 0.099999994
+alpha_curve = SubResource("CurveTexture_i06wt")
+
+[sub_resource type="Gradient" id="Gradient_ptdnf"]
+offsets = PackedFloat32Array(0, 0.47473404, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.92156863, 0.34117648, 1, 1, 0.63529414, 0.078431375, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_i06wt"]
+gradient = SubResource("Gradient_ptdnf")
+
+[sub_resource type="Curve" id="Curve_t5e3a"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.58808935, 0.8575454), -0.5046965, -0.5046965, 0, 0, Vector2(1, 0), -4.0880375, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_v76gd"]
+curve = SubResource("Curve_t5e3a")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ptdnf"]
+resource_local_to_scene = true
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 90.0
+initial_velocity_min = 80.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.099999994
+scale_max = 0.19999999
+scale_curve = SubResource("CurveTexture_v76gd")
+color_ramp = SubResource("GradientTexture1D_i06wt")
+
+[node name="SolarBeam" type="Node2D"]
+script = ExtResource("1_kahwh")
+
+[node name="BeamLine" type="Line2D" parent="."]
+unique_name_in_owner = true
+width = 0.0
+texture = ExtResource("2_ptdnf")
+texture_mode = 2
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="LineParticle" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+emitting = false
+amount = 20
+texture = ExtResource("3_ptdnf")
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_kahwh")
+
+[node name="ImpactParticle" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+emitting = false
+amount = 64
+texture = ExtResource("3_ptdnf")
+lifetime = 0.5
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_ptdnf")
+
+[node name="BeamSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_i06wt")
+volume_db = 5.0
+bus = &"SFX"

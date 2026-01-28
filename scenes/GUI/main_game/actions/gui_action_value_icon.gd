@@ -19,16 +19,16 @@ func update_with_action(action_data:ActionData, target_plant:Plant) -> void:
 	_number_sign_icon.hide()
 	match action_data.value_type:
 		ActionData.ValueType.NUMBER:
-			if action_data.get_calculated_value(target_plant) == 0:
-				_value_icon.hide()
-			else:
-				_value_icon.show()
-				var value_id := _get_value_id(action_data.get_calculated_value(target_plant))
-				var icon_path := VALUE_ICON_PATH + value_id + ".png"
-				_value_icon.texture = load(icon_path)
-				if action_data.operator_type == ActionData.OperatorType.DECREASE:
-					_sign_icon.show()
-					_sign_icon.texture = load(SIGN_ICON_PATH + "minus.png")
+			_value_icon.show()
+			var value_id := _get_value_id(action_data.get_calculated_value(target_plant))
+			var icon_path := VALUE_ICON_PATH + value_id + ".png"
+			_value_icon.texture = load(icon_path)
+			if action_data.operator_type == ActionData.OperatorType.DECREASE:
+				_sign_icon.show()
+				_sign_icon.texture = load(SIGN_ICON_PATH + "minus.png")
+				#elif action_data.operator_type == ActionData.OperatorType.INCREASE:
+					#_sign_icon.show()
+					#_sign_icon.texture = load(SIGN_ICON_PATH + "plus.png")
 		ActionData.ValueType.RANDOM:
 			_value_icon.show()
 			var value_id := _get_value_id(action_data.get_calculated_value(target_plant))

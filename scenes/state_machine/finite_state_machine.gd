@@ -1,5 +1,5 @@
 class_name FiniteStateMachine
-extends Node
+extends Node2D
 
 signal started()
 signal stopped()

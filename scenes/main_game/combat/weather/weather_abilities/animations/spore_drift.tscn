@@ -1,0 +1,61 @@
+[gd_scene load_steps=11 format=3 uid="uid://dw3gheu4m3imi"]
+
+[ext_resource type="Script" uid="uid://36aq41v4luhf" path="res://scenes/main_game/combat/weather/weather_abilities/animations/spore_drift.gd" id="1_bp7my"]
+[ext_resource type="AudioStream" uid="uid://cbudq2wh1d04t" path="res://resources/sounds/SFX/weather/spore_drift.wav" id="2_4h2xe"]
+[ext_resource type="Texture2D" uid="uid://0fgf3t3c1paq" path="res://resources/sprites/effects/particles/particle_smoke.png" id="4_ytieq"]
+
+[sub_resource type="Gradient" id="Gradient_4h2xe"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.72473407)
+colors = PackedColorArray(0.2, 0.59607846, 0.29411766, 1, 0.3529412, 0.77254903, 0.30980393, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bp7my"]
+gradient = SubResource("Gradient_4h2xe")
+
+[sub_resource type="Curve" id="Curve_4h2xe"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_bp7my"]
+curve = SubResource("Curve_4h2xe")
+
+[sub_resource type="Curve" id="Curve_7ysvl"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.4243443, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ppv5g"]
+curve = SubResource("Curve_7ysvl")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4h2xe"]
+resource_local_to_scene = true
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+radial_velocity_min = -2.2351742e-05
+radial_velocity_max = 49.999977
+radial_velocity_curve = SubResource("CurveTexture_bp7my")
+gravity = Vector3(0, 0, 0)
+scale_min = 0.099999994
+scale_max = 0.19999999
+scale_curve = SubResource("CurveTexture_ppv5g")
+color_initial_ramp = SubResource("GradientTexture1D_bp7my")
+turbulence_noise_strength = 0.05
+turbulence_noise_scale = 7.532
+turbulence_influence_min = 0.21300001
+turbulence_influence_max = 0.749
+turbulence_initial_displacement_min = -25.999998
+turbulence_initial_displacement_max = 1.490116e-06
+
+[node name="SporeDrift" type="Node2D"]
+script = ExtResource("1_bp7my")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("2_4h2xe")
+bus = &"SFX"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+amount = 50
+texture = ExtResource("4_ytieq")
+lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_4h2xe")

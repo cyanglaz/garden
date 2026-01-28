@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="StatusData" load_steps=2 format=3 uid="uid://wk17ds74l2cu"]
+
+[ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/status_data.gd" id="1_cyk6u"]
+
+[resource]
+script = ExtResource("1_cyk6u")
+type = 1
+stackable = true
+id = "momentum"
+display_name = "Momentum"
+metadata/_custom_type_script = "uid://ep5ey6gqhty1"

@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://bh342eajde68t"]
+
+[ext_resource type="PackedScene" uid="uid://brqskyknyma81" path="res://scenes/GUI/controls/buttons/gui_image_button.tscn" id="1_f14dv"]
+[ext_resource type="Texture2D" uid="uid://1m86lr1d66yk" path="res://resources/sprites/GUI/indicators/player_move_arrow.png" id="2_f14dv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hm5an"]
+resource_local_to_scene = true
+atlas = ExtResource("2_f14dv")
+region = Rect2(0, 0, 16, 16)
+
+[node name="GUIPlayerMoveButton" instance=ExtResource("1_f14dv")]
+image_size = Vector2i(16, 16)
+flip_image_h = false
+flip_image_v = false
+
+[node name="TextureRect" parent="." index="0"]
+texture = SubResource("AtlasTexture_hm5an")

@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://d2r3u3jd8tg3r"
+path="res://.godot/imported/bordered_background.aseprite-c1197c45006ea9f39a2ebfcf16e14337.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/backgrounds/bordered_background.aseprite"
+dest_files=["res://.godot/imported/bordered_background.aseprite-c1197c45006ea9f39a2ebfcf16e14337.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dn3uc3ci6ki83"]
+
+[ext_resource type="Script" uid="uid://casstdb42sdik" path="res://scenes/main_game/combat/player/player_status/player_status_stun.gd" id="1_4gc50"]
+
+[node name="PlayerStatusStun" type="Node2D"]
+script = ExtResource("1_4gc50")

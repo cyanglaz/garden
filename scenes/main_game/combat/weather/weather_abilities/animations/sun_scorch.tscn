@@ -1,0 +1,97 @@
+[gd_scene load_steps=15 format=3 uid="uid://b5lphlr3qimai"]
+
+[ext_resource type="Script" uid="uid://dcyo0cyxsh6ul" path="res://scenes/main_game/combat/weather/weather_abilities/animations/sun_scorch.gd" id="1_c53ot"]
+[ext_resource type="Texture2D" uid="uid://cpwjnomrxue57" path="res://resources/sprites/effects/weather_ability/sun_scorch_beam.png" id="2_c53ot"]
+[ext_resource type="Texture2D" uid="uid://0fgf3t3c1paq" path="res://resources/sprites/effects/particles/particle_smoke.png" id="3_julxc"]
+[ext_resource type="AudioStream" uid="uid://betske00q6uj3" path="res://resources/sounds/SFX/weather/sun_scorch.wav" id="4_c53ot"]
+
+[sub_resource type="Curve" id="Curve_ptdnf"]
+_data = [Vector2(0, 0.8209142), 0.0, 0.0, 0, 0, Vector2(0.7580645, 0.56585264), -0.89468795, -0.89468795, 0, 0, Vector2(1, 0.0068879128), -1.917733, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_i06wt"]
+curve = SubResource("Curve_ptdnf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kahwh"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+direction = Vector3(0, -1, 0)
+spread = 0.0
+gravity = Vector3(0, -20, 0)
+scale_min = 0.049999997
+scale_max = 0.099999994
+alpha_curve = SubResource("CurveTexture_i06wt")
+
+[sub_resource type="Gradient" id="Gradient_c53ot"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.50398934)
+colors = PackedColorArray(1, 0.92156863, 0.34117648, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_l66v4"]
+gradient = SubResource("Gradient_c53ot")
+
+[sub_resource type="Gradient" id="Gradient_ptdnf"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.18351063, 0.48404256, 0.78324467)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.92156863, 0.34117648, 1, 0.92941177, 0.4627451, 0.078431375, 1, 0.91764706, 0.19607843, 0.23529412, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_i06wt"]
+gradient = SubResource("Gradient_ptdnf")
+
+[sub_resource type="Curve" id="Curve_t5e3a"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.44913155, 0.7761427), -0.5046965, -0.5046965, 0, 0, Vector2(1, 0), -0.53685784, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_v76gd"]
+curve = SubResource("Curve_t5e3a")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ptdnf"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 2.0
+direction = Vector3(0, -1, 0)
+spread = 10.0
+initial_velocity_min = 90.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.099999994
+scale_max = 0.19999999
+scale_curve = SubResource("CurveTexture_v76gd")
+color_ramp = SubResource("GradientTexture1D_i06wt")
+color_initial_ramp = SubResource("GradientTexture1D_l66v4")
+
+[node name="SunScorch" type="Node2D"]
+script = ExtResource("1_c53ot")
+
+[node name="BeamLine" type="Line2D" parent="."]
+unique_name_in_owner = true
+width = 0.0
+texture = ExtResource("2_c53ot")
+texture_mode = 2
+joint_mode = 2
+begin_cap_mode = 1
+end_cap_mode = 1
+
+[node name="LineParticle" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+emitting = false
+amount = 20
+texture = ExtResource("3_julxc")
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_kahwh")
+
+[node name="ImpactParticle" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+emitting = false
+amount = 64
+texture = ExtResource("3_julxc")
+lifetime = 0.5
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_ptdnf")
+
+[node name="BeamSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_c53ot")
+volume_db = 5.0
+bus = &"SFX"

@@ -1,0 +1,68 @@
+[gd_scene load_steps=10 format=3 uid="uid://dunrmnpknjlw"]
+
+[ext_resource type="Script" uid="uid://by65481lj7n0e" path="res://scenes/main_game/combat/enemy/enemy.gd" id="1_fb5ct"]
+[ext_resource type="Texture2D" uid="uid://c5o26vnt4r8q" path="res://resources/sprites/effects/particles/enemy_particle.png" id="1_lijcv"]
+
+[sub_resource type="Curve" id="Curve_fb5ct"]
+_data = [Vector2(0, 0.6522836), 0.0, 0.0, 0, 0, Vector2(0.99999, 0.002775669), -0.5739946, -0.5739946, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_avrp0"]
+curve = SubResource("Curve_fb5ct")
+
+[sub_resource type="Gradient" id="Gradient_5k5wa"]
+colors = PackedColorArray(0.38431373, 0.14117648, 0.38039216, 1, 0.5764706, 0.21960784, 0.56078434, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_avrp0"]
+gradient = SubResource("Gradient_5k5wa")
+
+[sub_resource type="Curve" id="Curve_sbs5s"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_y51p7"]
+curve = SubResource("Curve_sbs5s")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ms28p"]
+resource_local_to_scene = true
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(16, 16, 1)
+direction = Vector3(0, -1, 0)
+spread = 5.0
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, -10, 0)
+scale_min = 0.5
+scale_max = 0.79999995
+scale_curve = SubResource("CurveTexture_y51p7")
+color_initial_ramp = SubResource("GradientTexture1D_avrp0")
+alpha_curve = SubResource("CurveTexture_avrp0")
+turbulence_enabled = true
+turbulence_noise_strength = 2.04
+turbulence_noise_scale = 4.473
+
+[node name="Enemy" type="Node2D"]
+script = ExtResource("1_fb5ct")
+
+[node name="EnemyParticle" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+amount = 4
+texture = ExtResource("1_lijcv")
+lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_ms28p")
+
+[node name="AttacksContainer" type="Node2D" parent="."]
+
+[node name="AttackIconContainer" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -24.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1

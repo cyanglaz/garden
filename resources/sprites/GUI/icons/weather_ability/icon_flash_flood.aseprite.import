@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bkoaku6kumqsq"
+path="res://.godot/imported/icon_flash_flood.aseprite-aa841b8d51383b2d543c899f6a40d80a.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/weather_ability/icon_flash_flood.aseprite"
+dest_files=["res://.godot/imported/icon_flash_flood.aseprite-aa841b8d51383b2d543c899f6a40d80a.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

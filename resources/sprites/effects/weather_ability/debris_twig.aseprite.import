@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c61xvtirc7yin"
+path="res://.godot/imported/debris_twig.aseprite-d597c3248c889d9c0127e1f10e3408a4.res"
+
+[deps]
+
+source_file="res://resources/sprites/effects/weather_ability/debris_twig.aseprite"
+dest_files=["res://.godot/imported/debris_twig.aseprite-d597c3248c889d9c0127e1f10e3408a4.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

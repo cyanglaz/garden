@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7qrwwkldceoi"]
+
+[ext_resource type="PackedScene" uid="uid://cxmcf82lrul4v" path="res://scenes/main_game/combat/weather/weather_abilities/animations/heavy_droplet.tscn" id="1_5dbbu"]
+
+[node name="FlashFlood" instance=ExtResource("1_5dbbu")]
+number_of_droplets = 5

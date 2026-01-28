@@ -7,14 +7,30 @@ const SPECIAL_ICON_PATH := "res://resources/sprites/GUI/icons/cards/specials/ico
 
 const MAX_ACTION_TEXT := "MAX"
 
+enum ActionAlignment {
+	LEFT,
+	CENTER,
+	RIGHT
+}
+
+@export var action_alignment:ActionAlignment = ActionAlignment.CENTER: set = _set_action_alignment
+
 @onready var _gui_action_type_icon: GUIActionTypeIcon = %GUIActionTypeIcon
 @onready var _field_application_icon: TextureRect = %FieldApplicationIcon
 @onready var _gui_action_value_icon: GUIActionValueIcon = %GUIActionValueIcon
+@onready var _symbol_container: HBoxContainer = %SymbolContainer
+
+func _ready() -> void:
+	_set_action_alignment(action_alignment)
 
 func update_with_action(action_data:ActionData, target_plant:Plant) -> void:
 	_field_application_icon.hide()
 	_gui_action_type_icon.update_with_action_type(action_data.type)
-	_gui_action_value_icon.update_with_action(action_data, target_plant)
+	if action_data.type == ActionData.ActionType.NONE:
+		_gui_action_value_icon.hide()
+	else:
+		_gui_action_value_icon.show()
+		_gui_action_value_icon.update_with_action(action_data, target_plant)
 
 	for special:ActionData.Special in action_data.specials:
 		match special:
@@ -33,3 +49,14 @@ func _get_value_id(value:int) -> String:
 	if value > 10:
 		value_id = "max"
 	return value_id
+
+func _set_action_alignment(value:ActionAlignment) -> void:
+	action_alignment = value
+	if _symbol_container:
+		match action_alignment:
+			ActionAlignment.LEFT:
+				_symbol_container.alignment = HBoxContainer.ALIGNMENT_BEGIN
+			ActionAlignment.CENTER:
+				_symbol_container.alignment = HBoxContainer.ALIGNMENT_CENTER
+			ActionAlignment.RIGHT:
+				_symbol_container.alignment = HBoxContainer.ALIGNMENT_END

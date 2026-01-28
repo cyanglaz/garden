@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://r5bgumdfs8wb"]
+
+[ext_resource type="Script" uid="uid://bv6vv0g8giq3s" path="res://scenes/main_game/combat/player/player_status_container.gd" id="1_2ydsb"]
+
+[node name="PlayerStatusContainer" type="Node2D"]
+script = ExtResource("1_2ydsb")

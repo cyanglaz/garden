@@ -16,6 +16,7 @@ const BACKGROUND_MUSIC_FADE_IN_TIME := 1.0
 
 @onready var weather_main: WeatherMain = %WeatherMain
 @onready var plant_field_container: PlantFieldContainer = %PlantFieldContainer
+@onready var player: Node2D = %Player
 @onready var gui: GUICombatMain = %GUI
 @onready var background_music_player: AudioStreamPlayer2D = %BackgroundMusicPlayer
 
@@ -40,8 +41,11 @@ func _ready() -> void:
 	Events.request_add_tools_to_hand.connect(_on_request_add_tools_to_hand)
 	Events.request_add_tools_to_discard_pile.connect(_on_request_add_tools_to_discard_pile)
 	Events.request_modify_hand_cards.connect(_on_request_modify_hand_cards)
+	Events.request_hp_update.connect(_on_request_hp_update)
+	Events.request_energy_update.connect(_on_request_energy_update)
+	gui.ui_lock_toggled.connect(_on_ui_lock_toggled)
 
-func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter:int) -> void:
+func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter:int, player_data:PlayerData) -> void:
 
 	session_summary = SessionSummary.new(combat)
 
@@ -70,6 +74,8 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	gui.mouse_exited_card.connect(_on_mouse_exited_card)
 	gui.reward_finished.connect(_on_reward_finished)
 
+	player.field_index_updated.connect(_on_player_field_index_updated)
+
 	combat_modifier_manager.setup(self)
 
 	max_energy = energy_cap
@@ -79,6 +85,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 
 	_combat = combat
 	_chapter = chapter
+	player.setup_with_player_data(player_data, _combat.plants.size() - 1)
 	_start_new_level()
 
 func _input(event: InputEvent) -> void:
@@ -118,19 +125,21 @@ func _start_new_level() -> void:
 	day_manager.start_new()
 	gui.update_with_combat(_combat, self)
 	level_started.emit()
-	await weather_main.start(_chapter)
+	await weather_main.start(_chapter, _combat.combat_type)
+	player.current_field_index = 0
 	_start_turn()
 
 func _start_turn() -> void:
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.TURN)
 	boost = maxi(boost - 1, 1)
 	gui.toggle_all_ui(false)
-	energy_tracker.setup(max_energy, max_energy)
 	day_manager.next_day()
+	weather_main.generate_next_weather_abilities(self, day_manager.day)
 	gui.clear_tool_selection()
 	if day_manager.day == 0:
 		_fade_music(true)
 		await gui.apply_boss_actions(GUIBoss.HookType.LEVEL_START)
+		energy_tracker.setup(max_energy, max_energy)
 	await gui.apply_boss_actions(GUIBoss.HookType.TURN_START)
 	await draw_cards(hand_size)
 	await plant_field_container.trigger_start_turn_hooks(self)
@@ -141,13 +150,16 @@ func _start_turn() -> void:
 func _end_turn() -> void:
 	gui.toggle_all_ui(false)
 	_clear_tool_selection()
+	player.handle_turn_end()
+	await _discard_all_tools()
+	energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
 	await plant_field_container.trigger_end_turn_hooks(self)
-	await weather_main.apply_weather_actions(plant_field_container.plants, self)
+	plant_field_container.handle_turn_end()
+	await weather_main.apply_weather_abilities(plant_field_container.plants, self)
 	await power_manager.handle_weather_application_hook(self, weather_main.get_current_weather())
 	tool_manager.card_use_limit_reached = false
 	await weather_main.night_fall()
 	await _trigger_turn_end_cards()
-	await _discard_all_tools()
 	if _met_win_condition():
 		return
 	tool_manager.cleanup_for_turn()
@@ -156,8 +168,7 @@ func _end_turn() -> void:
 	if _met_win_condition():
 		# _win() is called by _bloom()
 		return
-	plant_field_container.handle_turn_end()
-	await weather_main.pass_day()
+	await weather_main.new_day()
 	gui.toggle_all_ui(true)
 	_start_turn()
 
@@ -178,7 +189,7 @@ func _win() -> void:
 	weather_main.level_end_stop()
 	session_summary.total_days += day_manager.day
 	gui.animate_show_reward_main(_combat) 
-	
+
 func _trigger_turn_end_cards() -> void:
 	if tool_manager.tool_deck.hand.is_empty():
 		return
@@ -193,10 +204,6 @@ func _clear_tool_selection() -> void:
 	tool_manager.select_tool(null)
 	gui.clear_tool_selection()
 	plant_field_container.clear_tool_indicators()
-
-func _handle_select_tool(tool_data:ToolData) -> void:
-	plant_field_container.clear_tool_indicators()
-	tool_manager.select_tool(tool_data)
 
 func _bloom(plant_index:int) -> void:
 	var field:Field = plant_field_container.get_field(plant_index)
@@ -231,11 +238,14 @@ func _hide_custom_error(identifier:String) -> void:
 
 #region UI EVENTS
 func _on_tool_selected(tool_data:ToolData) -> void:
-	_handle_select_tool(tool_data)
-	if tool_data.all_fields:
-		plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT)
-	elif tool_data.need_select_field:
-		plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.READY)
+	tool_manager.select_tool(tool_data)
+	await _handle_card_use(player.current_field_index)
+	_clear_tool_selection()
+
+	#if tool_data.all_fields:
+	#	plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT)
+	#elif tool_data.need_select_field:
+	#	plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.READY)
 
 func _on_mouse_exited_card(tool_data:ToolData) -> void:
 	_hide_custom_error(tool_data.id)
@@ -267,6 +277,13 @@ func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> vo
 		pass # TODO: beat demo
 	else:
 		reward_finished.emit(tool_data, from_global_position)
+
+func _on_ui_lock_toggled(on:bool) -> void:
+	player.toggle_ui_buttons(on)
+
+func _on_player_field_index_updated(index:int) -> void:
+	var destination_x := plant_field_container.get_field(index).global_position.x
+	player.move_to_x(destination_x)
 
 #region other events
 
@@ -336,6 +353,19 @@ func _on_request_modify_hand_cards(callable:Callable) -> void:
 	tool_manager.refresh_ui()
 	gui.toggle_all_ui(true)
 
+func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
+	# The hp is handled by the main game
+	player.update_hp(val, operation)
+
+func _on_request_energy_update(val:int, operation:ActionData.OperatorType) -> void:
+	match operation:
+		ActionData.OperatorType.INCREASE:
+			energy_tracker.restore(val)
+		ActionData.OperatorType.DECREASE:
+			energy_tracker.spend(val)
+		ActionData.OperatorType.EQUAL_TO:
+			energy_tracker.value = val
+	player.update_energy(val, operation)
 #endregion
 
 #region setter/getter

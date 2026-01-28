@@ -1,0 +1,73 @@
+[gd_scene load_steps=11 format=3 uid="uid://bhruypapgspx1"]
+
+[ext_resource type="Script" uid="uid://4ea6bnnkq6df" path="res://scenes/main_game/combat/weather/weather_abilities/animations/lightning_strike.gd" id="1_27o42"]
+[ext_resource type="AudioStream" uid="uid://ce0stomlmb4yo" path="res://resources/sounds/SFX/weather/lightning_strike.wav" id="2_b5755"]
+[ext_resource type="Texture2D" uid="uid://0fgf3t3c1paq" path="res://resources/sprites/effects/particles/particle_smoke.png" id="3_b5755"]
+
+[sub_resource type="Gradient" id="Gradient_b5755"]
+offsets = PackedFloat32Array(0, 0.7859042, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.5803922, 0.99215686, 1, 1, 0.5803922, 0.99215686, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_coarf"]
+gradient = SubResource("Gradient_b5755")
+
+[sub_resource type="Curve" id="Curve_e5h3d"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.1611342, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_xfi8w"]
+curve = SubResource("Curve_e5h3d")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_b5755"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 75.0
+initial_velocity_min = 120.0
+initial_velocity_max = 200.0
+gravity = Vector3(0, 98, 0)
+scale_min = 0.099999994
+scale_max = 0.19999999
+scale_curve = SubResource("CurveTexture_xfi8w")
+color_ramp = SubResource("GradientTexture1D_coarf")
+
+[sub_resource type="Gradient" id="Gradient_coarf"]
+offsets = PackedFloat32Array(0.0035714286, 0.68214285)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_e5h3d"]
+gradient = SubResource("Gradient_coarf")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0)
+
+[node name="LightningStrike" type="Node2D"]
+script = ExtResource("1_27o42")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("2_b5755")
+bus = &"SFX"
+
+[node name="MainBolt" type="Line2D" parent="."]
+unique_name_in_owner = true
+points = PackedVector2Array(15, 5)
+width = 4.0
+default_color = Color(0.5803922, 0.99215686, 1, 1)
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="ImpactSparks" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+amount = 64
+texture = ExtResource("3_b5755")
+lifetime = 0.4
+explosiveness = 1.0
+draw_order = 0
+process_material = SubResource("ParticleProcessMaterial_b5755")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="ScorchMark" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+scale = Vector2(1.5, 0.5)
+texture = SubResource("GradientTexture2D_e5h3d")

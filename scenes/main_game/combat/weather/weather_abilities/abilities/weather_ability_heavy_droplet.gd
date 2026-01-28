@@ -1,0 +1,2 @@
+class_name WeatherAbilityFlashFlood
+extends WeatherAbility

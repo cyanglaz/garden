@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://dm6lkv7rfer26" path="res://scenes/GUI/shared/descriptions/shared_description/gui_action_list.gd" id="1_23qeg"]
 
 [node name="GUIActionList" type="VBoxContainer"]
-custom_minimum_size = Vector2(32, 0)
 offset_right = 32.0
 offset_bottom = 45.0
 theme_override_constants/separation = 2

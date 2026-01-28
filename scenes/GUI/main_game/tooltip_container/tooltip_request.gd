@@ -18,6 +18,7 @@ enum TooltipType {
 	REFERENCE_CARD,
 	PLANT_ABILITY,
 	TOWN_BUILDING,
+	WEATHER_ABILITY,
 }
 
 var tooltip_type:TooltipType

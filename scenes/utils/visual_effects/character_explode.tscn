@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://db2a541t8hjmo" path="res://scenes/utils/visual_effects/character_explode.gd" id="1_51nr7"]
 [ext_resource type="Shader" uid="uid://34gf44sogvfs" path="res://scenes/utils/visual_effects/character_explode.gdshader" id="2_7b8v7"]
 [ext_resource type="Texture2D" uid="uid://yx0f1vx5k1my" path="res://resources/sprites/4px.png" id="3_yqg2y"]
-[ext_resource type="AudioStream" uid="uid://cq88midfwani4" path="res://resources/sounds/SFX/other/character/building_explode.wav" id="5_8yk0w"]
+[ext_resource type="AudioStream" uid="uid://cq88midfwani4" path="res://resources/sounds/SFX/player/building_explode.wav" id="5_8yk0w"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5n3n8"]
 shader = ExtResource("2_7b8v7")

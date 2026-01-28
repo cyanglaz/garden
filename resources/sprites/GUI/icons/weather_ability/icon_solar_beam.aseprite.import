@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://j2f2fuiac0vg"
+path="res://.godot/imported/icon_solar_beam.aseprite-1763d47ae15d3f61af11dcc03c76fbdf.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/weather_ability/icon_solar_beam.aseprite"
+dest_files=["res://.godot/imported/icon_solar_beam.aseprite-1763d47ae15d3f61af11dcc03c76fbdf.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

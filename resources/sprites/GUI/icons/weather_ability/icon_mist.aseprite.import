@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cdg8xsf76vbg8"
+path="res://.godot/imported/icon_mist.aseprite-7ddba433d8a222cc9db3aa65e89a69a5.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/weather_ability/icon_mist.aseprite"
+dest_files=["res://.godot/imported/icon_mist.aseprite-7ddba433d8a222cc9db3aa65e89a69a5.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

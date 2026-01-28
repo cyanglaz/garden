@@ -5,7 +5,7 @@ signal weathers_updated()
 signal all_weather_actions_applied()
 
 const WEATHER_SUNNY := preload("res://data/weathers/all_chapters/weather_sunny.tres")
-const WEATHER_RAINY := preload("res://data/weathers/all_chapters/weather_rainy.tres")
+const WEATHER_RAINY := preload("res://data/weathers/all_chapters/weather_tropical_storm.tres")
 
 const WEATHER_APPLICATION_ICON_START_DELAY := 0.05
 
@@ -15,7 +15,7 @@ var test_weather:WeatherData
 
 #var level:int
 var weathers:Array[WeatherData]
-var forecast_days := 4
+var forecast_days := 1
 var _chapter:int
 
 func start(chapter:int) -> void:
@@ -45,8 +45,6 @@ func apply_weather_tool_action(action:ActionData, icon_move_start_position:Vecto
 	assert(action.action_category == ActionData.ActionCategory.WEATHER)
 	weathers.pop_front()
 	match action.type:
-		ActionData.ActionType.WEATHER_SUNNY:
-			weathers.push_front(WEATHER_SUNNY.get_duplicate())
 		ActionData.ActionType.WEATHER_RAINY:
 			weathers.push_front(WEATHER_RAINY.get_duplicate())
 		_:

@@ -2,8 +2,8 @@ class_name FieldStatus
 extends Node2D
 
 @warning_ignore("unused_private_class_variable")
-var status_data:FieldStatusData
-var stack:int
+var status_data:StatusData
+var stack:int:set = _set_stack, get = _get_stack
 
 @warning_ignore("unused_signal")
 signal hook_complicated()
@@ -47,6 +47,12 @@ func has_end_turn_hook(plant:Plant) -> bool:
 func handle_end_turn_hook(combat_main:CombatMain, plant:Plant) -> void:
 	await _handle_end_turn_hook(combat_main, plant)
 
+func has_prevent_resource_update_value_hook(resource_id:String, plant:Plant, old_value:int, new_value:int) -> bool:
+	return _has_prevent_resource_update_value_hook(resource_id, plant, old_value, new_value)
+
+func handle_prevent_resource_update_value_hook(resource_id:String, plant:Plant, old_value:int, new_value:int) -> bool:
+	return _handle_prevent_resource_update_value_hook(resource_id, plant, old_value, new_value)
+
 #region for override
 
 func _update_for_plant(_plant:Plant) -> void:
@@ -88,4 +94,16 @@ func _handle_end_turn_hook(_combat_main:CombatMain, _plant:Plant) -> void:
 func _handle_tool_discard_hook(_plant:Plant, _count:int) -> void:
 	await Util.await_for_tiny_time()
 
+func _has_prevent_resource_update_value_hook(_resource_id:String, _plant:Plant, _old_value:int, _new_value:int) -> bool:
+	return false
+
+func _handle_prevent_resource_update_value_hook(_resource_id:String, _plant:Plant, _old_value:int, _new_value:int) -> bool:
+	return false
+
 #endregion
+
+func _set_stack(value:int) -> void:
+	status_data.stack = value
+
+func _get_stack() -> int:
+	return status_data.stack

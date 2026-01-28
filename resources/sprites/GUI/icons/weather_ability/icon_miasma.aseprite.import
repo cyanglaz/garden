@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dnv72qlu2hu0s"
+path="res://.godot/imported/icon_miasma.aseprite-a436f1354fae9cab094b6813bc851b4d.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/weather_ability/icon_miasma.aseprite"
+dest_files=["res://.godot/imported/icon_miasma.aseprite-a436f1354fae9cab094b6813bc851b4d.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
