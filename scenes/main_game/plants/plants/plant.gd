@@ -30,6 +30,7 @@ signal action_application_completed()
 var light:ResourcePoint = ResourcePoint.new()
 var water:ResourcePoint = ResourcePoint.new()
 var field:Field: get = _get_field, set = _set_field
+var has_player:bool = false
 var _weak_field:WeakRef = weakref(null)
 
 var data:PlantData:set = _set_data
@@ -44,7 +45,7 @@ func trigger_ability(ability_type:AbilityType) -> void:
 	await plant_ability_container.trigger_ability(ability_type, self)
 
 func handle_turn_end() -> void:
-	field_status_container.handle_status_on_turn_end()
+	field_status_container.clear_status_on_turn_end()
 
 func handle_tool_application_hook() -> void:
 	await field_status_container.handle_tool_application_hook(self)

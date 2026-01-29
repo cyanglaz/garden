@@ -27,7 +27,7 @@ func setup_with_plant(plant:Plant) -> void:
 		var stack:int = (plant.data.initial_field_status[field_status_id] as int)
 		update_status(field_status_id, stack, plant)
 
-func handle_status_on_turn_end() -> void:
+func clear_status_on_turn_end() -> void:
 	for field_status:FieldStatus in get_all_statuses():
 		if field_status.status_data.reduce_stack_on_turn_end:
 			field_status.stack -= 1

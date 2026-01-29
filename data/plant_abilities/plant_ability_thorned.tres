@@ -4,8 +4,7 @@
 
 [resource]
 script = ExtResource("1_p8ojn")
-active_before_bloom = true
 id = "thorned"
 display_name = "Thorned"
-description = "At the end of each turn, shuffle a {card:thorn} into the discard pile."
+description = "At the end of each turn, if player is on this plant, shuffle a {card:thorn} into the discard pile."
 metadata/_custom_type_script = "uid://jejwqju653m5"

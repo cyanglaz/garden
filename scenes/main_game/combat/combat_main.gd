@@ -138,9 +138,9 @@ func _start_turn() -> void:
 	gui.clear_tool_selection()
 	if day_manager.day == 0:
 		_fade_music(true)
-		await gui.apply_boss_actions(GUIBoss.HookType.LEVEL_START)
+		#await gui.apply_boss_actions(GUIBoss.HookType.LEVEL_START)
 		energy_tracker.setup(max_energy, max_energy)
-	await gui.apply_boss_actions(GUIBoss.HookType.TURN_START)
+	#await gui.apply_boss_actions(GUIBoss.HookType.TURN_START)
 	await draw_cards(hand_size)
 	await plant_field_container.trigger_start_turn_hooks(self)
 	gui.toggle_all_ui(true)
@@ -263,8 +263,8 @@ func _on_field_hovered(hovered:bool, index:int) -> void:
 			plant_field_container.toggle_plant_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT, index)
 		else:
 			plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.READY)
-	else:
-		plant_field_container.toggle_tooltip_for_plant(index, hovered)
+	#else:
+	#	plant_field_container.toggle_tooltip_for_plant(index, hovered)
 
 func _on_field_pressed(index:int) -> void:
 	if !tool_manager.selected_tool || !tool_manager.selected_tool.has_field_action:
@@ -282,6 +282,7 @@ func _on_ui_lock_toggled(on:bool) -> void:
 	player.toggle_ui_buttons(on)
 
 func _on_player_field_index_updated(index:int) -> void:
+	plant_field_container.update_player_index(index)
 	var destination_x := plant_field_container.get_field(index).global_position.x
 	player.move_to_x(destination_x)
 
@@ -326,9 +327,9 @@ func _on_plant_bloom_started() -> void:
 func _on_plant_bloom_completed() -> void:
 	if _met_win_condition():
 		await _win()
-	else:
-		await draw_cards(boost)
-		boost += 1
+	#else:
+	#	await draw_cards(boost)
+	#	boost += 1
 	gui.toggle_all_ui(true)
 
 func _on_weathers_updated() -> void:

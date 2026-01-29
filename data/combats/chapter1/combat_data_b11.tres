@@ -9,7 +9,7 @@
 [resource]
 script = ExtResource("4_i28n1")
 combat_type = 2
-plants = Array[ExtResource("1_mhp1b")]([ExtResource("2_mhp1b"), ExtResource("3_mhp1b"), ExtResource("2_mhp1b")])
+plants = Array[ExtResource("1_mhp1b")]([ExtResource("3_mhp1b"), ExtResource("2_mhp1b"), ExtResource("3_mhp1b"), ExtResource("2_mhp1b"), ExtResource("3_mhp1b")])
 boss_data = ExtResource("1_f0jm2")
 id = "b11"
 metadata/_custom_type_script = "uid://ektnj8rt6k0k"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://hsuu8fkqji1d"]
+[gd_scene load_steps=17 format=3 uid="uid://hsuu8fkqji1d"]
 
 [ext_resource type="PackedScene" uid="uid://5hl240rod12d" path="res://scenes/main_game/plants/plants/plant.tscn" id="1_f68xb"]
 [ext_resource type="Texture2D" uid="uid://b2xxwnfxagg5s" path="res://resources/sprites/plants/plant_lily_of_the_valley.png" id="2_yuei4"]
@@ -45,19 +45,19 @@ shader_parameter/outline_size = 0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yuei4"]
 atlas = ExtResource("2_yuei4")
-region = Rect2(0, 0, 47, 64)
+region = Rect2(0, 0, 31, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ul4wl"]
 atlas = ExtResource("2_yuei4")
-region = Rect2(47, 0, 47, 64)
+region = Rect2(31, 0, 31, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oj6rk"]
 atlas = ExtResource("2_yuei4")
-region = Rect2(0, 64, 47, 64)
+region = Rect2(0, 64, 31, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mj418"]
 atlas = ExtResource("2_yuei4")
-region = Rect2(47, 64, 47, 64)
+region = Rect2(31, 64, 31, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5tg4u"]
 animations = [{
@@ -84,13 +84,49 @@ animations = [{
 "speed": 3.0
 }]
 
+[sub_resource type="Curve" id="Curve_y51p7"]
+_data = [Vector2(0, 1), 0.0, -0.24050502, 0, 0, Vector2(0.89970064, 0.6588443), -1.2151587, -1.2151587, 0, 0, Vector2(1, 0), -14.833195, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_wmubj"]
+curve = SubResource("Curve_y51p7")
+
+[sub_resource type="Gradient" id="Gradient_avrp0"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 0.92156863, 0.34117648, 0.78431374)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_cbxjf"]
+gradient = SubResource("Gradient_avrp0")
+
+[sub_resource type="Curve" id="Curve_avrp0"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.3261147, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_cbxjf"]
+curve = SubResource("Curve_avrp0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ejluc"]
+resource_local_to_scene = true
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 80.0
+initial_velocity_max = 120.0
+angular_velocity_min = -180.00002
+angular_velocity_max = 179.99998
+gravity = Vector3(0, 0, 0)
+scale_min = 0.79999995
+scale_curve = SubResource("CurveTexture_cbxjf")
+color_initial_ramp = SubResource("GradientTexture1D_cbxjf")
+alpha_curve = SubResource("CurveTexture_wmubj")
+
 [node name="PlantlilyOfTheValley" instance=ExtResource("1_f68xb")]
 
 [node name="PlantSprite" parent="." index="0"]
 texture_filter = 1
 material = SubResource("ShaderMaterial_txblc")
 sprite_frames = SubResource("SpriteFrames_5tg4u")
-animation = &"idle"
+animation = &"bloom"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
 "pending_changes": {}
@@ -105,4 +141,7 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/plants/plant_lily_of_the_valley.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "22fba8830c3927c05872001b6be6b469"
+metadata/_aseprite_wizard_source_file_hash_ = "cc53a5026f4825ec82cbd90343c3f942"
+
+[node name="BloomParticle" parent="." index="1"]
+process_material = SubResource("ParticleProcessMaterial_ejluc")

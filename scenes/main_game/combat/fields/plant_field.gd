@@ -26,7 +26,6 @@ var _weak_right_field:WeakRef = weakref(null)
 
 func _ready() -> void:
 	super._ready()
-	size = 1
 	_light_bar.segment_color = Constants.LIGHT_THEME_COLOR
 	_water_bar.segment_color = Constants.WATER_THEME_COLOR
 	_progress_bars.hide()
@@ -41,13 +40,6 @@ func plant_seed(plant_data:PlantData) -> void:
 	_container.add_child(plant)
 	plant.data = plant_data
 	plant.field = self
-	match plant.data.difficulty:
-		0:
-			size = 0
-		1:
-			size = 0
-		2:
-			size = 1
 	_show_progress_bars()
 	plant.bloom_started.connect(func(): plant_bloom_started.emit())
 	plant.bloom_completed.connect(func(): plant_bloom_completed.emit())
@@ -105,14 +97,14 @@ func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> vo
 		GUIBasicButton.ButtonState.HOVERED:
 			plant.plant_sprite.material.set_shader_parameter("outline_size", 1)
 
-func _on_gui_plant_button_mouse_entered() -> void:
-	if plant:
-		Events.update_hovered_data.emit(plant.data)
-	super._on_gui_plant_button_mouse_entered()
+#func _on_gui_plant_button_mouse_entered() -> void:
+#	if plant:
+#		Events.update_hovered_data.emit(plant.data)
+#	super._on_gui_plant_button_mouse_entered()
 
-func _on_gui_plant_button_mouse_exited() -> void:
-	Events.update_hovered_data.emit(null)
-	super._on_gui_plant_button_mouse_exited()
+#func _on_gui_plant_button_mouse_exited() -> void:
+#	Events.update_hovered_data.emit(null)
+#	super._on_gui_plant_button_mouse_exited()
 
 #endregion
 
@@ -136,7 +128,7 @@ func _set_size(val:int) -> void:
 		_progress_bars.position.x = - (size+2) * FieldLand.CELL_SIZE.x/2
 		_progress_bars.size.x = (size+2) * FieldLand.CELL_SIZE.x
 
-		_gui_field_status_container.position.x = (size+2) * FieldLand.CELL_SIZE.x/2 + 3
+		_gui_field_status_container.position.x = (size+2) * FieldLand.CELL_SIZE.x/2 + 1
 
-		_gui_plant_ability_icon_container.position.x = - (size+2) * FieldLand.CELL_SIZE.x/2 - 3 - PLANT_ABILITY_ICON_SIZE
+		_gui_plant_ability_icon_container.position.x = - (size+2) * FieldLand.CELL_SIZE.x/2 - 1 - PLANT_ABILITY_ICON_SIZE
 #endregion

@@ -11,8 +11,8 @@ metadata/_custom_type_script = "uid://dhvdja05rxru0"
 
 [resource]
 script = ExtResource("1_1q5i1")
-light = 7
-water = 7
+light = 3
+water = 3
 difficulty = 1
 chapters = Array[int]([1])
 attacks = Array[ExtResource("1_jm2lv")]([SubResource("Resource_qrtxv")])

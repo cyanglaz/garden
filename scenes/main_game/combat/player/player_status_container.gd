@@ -5,7 +5,7 @@ const PLAYER_STATUS_SCENE_PREFIX := "res://scenes/main_game/combat/player/player
 
 signal status_updated()
 
-func handle_status_on_turn_end() -> void:
+func clear_status_on_turn_end() -> void:
 	for player_status:PlayerStatus in get_all_player_statuses():
 		if player_status.status_data.reduce_stack_on_turn_end:
 			player_status.stack -= 1

@@ -4,8 +4,7 @@
 
 [resource]
 script = ExtResource("1_cufwi")
-active_before_bloom = true
 id = "tangled"
 display_name = "Tangled"
-description = "At the start of each turn, double the energy cost of of a random card on hand."
+description = "At the start of each turn, if player is on this plant, double the energy cost of of a random card on hand."
 metadata/_custom_type_script = "uid://jejwqju653m5"
