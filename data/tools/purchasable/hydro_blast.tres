@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=5 format=3 uid="uid://d2sv34nbvsh0t"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_i1n46"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_sexb3"]
+
+[sub_resource type="Resource" id="Resource_1cvc4"]
+script = ExtResource("1_i1n46")
+type = 2
+value = 5
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_wwf2g"]
+script = ExtResource("1_i1n46")
+type = 20
+value = 4
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_sexb3")
+energy_cost = 2
+actions = Array[ExtResource("1_i1n46")]([SubResource("Resource_1cvc4"), SubResource("Resource_wwf2g")])
+rarity = 2
+id = "hydro_blast"
+display_name = "Hydro Blast"
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

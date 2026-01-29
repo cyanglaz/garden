@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=6 format=3 uid="uid://61vunx743hu"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_lk4u0"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_pmjve"]
+
+[sub_resource type="Resource" id="Resource_1cvc4"]
+script = ExtResource("1_lk4u0")
+type = 3
+operator_type = 2
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_yamia"]
+script = ExtResource("1_lk4u0")
+type = 4
+operator_type = 2
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_wwf2g"]
+script = ExtResource("1_lk4u0")
+type = 20
+value = 3
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_pmjve")
+actions = Array[ExtResource("1_lk4u0")]([SubResource("Resource_1cvc4"), SubResource("Resource_yamia"), SubResource("Resource_wwf2g")])
+rarity = 2
+id = "the_big_gun"
+display_name = "The Big Gun"
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"
