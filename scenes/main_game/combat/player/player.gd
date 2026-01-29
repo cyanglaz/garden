@@ -9,7 +9,7 @@ signal field_index_updated(index:int)
 
 const MOVE_TIME := 0.1
 
-const POSITION_Y_OFFSET := -38
+const POSITION_Y_OFFSET := -30
 
 @onready var player_sprite: PlayerSprite = %PlayerSprite
 @onready var player_state_machine: PlayerStateMachine = %PlayerStateMachine
@@ -31,7 +31,7 @@ func setup_with_player_data(pd:PlayerData, max_plants_index:int) -> void:
 	player_status_container.set_status("momentum", pd.starting_movements)
 
 func handle_turn_end() -> void:
-	player_status_container.handle_status_on_turn_end()
+	player_status_container.clear_status_on_turn_end()
 
 func toggle_ui_buttons(on:bool) -> void:
 	if player_status_container.handle_prevent_movement_hook():

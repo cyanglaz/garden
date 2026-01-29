@@ -83,6 +83,7 @@ size_flags_horizontal = 8
 
 [node name="GUILibraryButton" parent="MarginContainer/Container/RightContainer" instance=ExtResource("7_ey64j")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="GUISettingsButton" parent="MarginContainer/Container/RightContainer" instance=ExtResource("9_j76ip")]

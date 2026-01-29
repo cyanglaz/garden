@@ -97,14 +97,14 @@ func _on_gui_field_button_state_updated(state: GUIBasicButton.ButtonState) -> vo
 		GUIBasicButton.ButtonState.HOVERED:
 			plant.plant_sprite.material.set_shader_parameter("outline_size", 1)
 
-func _on_gui_plant_button_mouse_entered() -> void:
-	if plant:
-		Events.update_hovered_data.emit(plant.data)
-	super._on_gui_plant_button_mouse_entered()
+#func _on_gui_plant_button_mouse_entered() -> void:
+#	if plant:
+#		Events.update_hovered_data.emit(plant.data)
+#	super._on_gui_plant_button_mouse_entered()
 
-func _on_gui_plant_button_mouse_exited() -> void:
-	Events.update_hovered_data.emit(null)
-	super._on_gui_plant_button_mouse_exited()
+#func _on_gui_plant_button_mouse_exited() -> void:
+#	Events.update_hovered_data.emit(null)
+#	super._on_gui_plant_button_mouse_exited()
 
 #endregion
 

@@ -88,6 +88,12 @@ func are_all_plants_bloom() -> bool:
 			return false
 	return true
 
+func update_player_index(index:int) -> void:
+	var i := 0
+	for plant in plants:
+		plant.has_player = index == i
+		i += 1
+
 func _get_mouse_plant() -> Plant:
 	return _weak_mouse_plant.get_ref()
 

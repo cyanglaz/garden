@@ -37,6 +37,7 @@ mouse_filter = 2
 
 [node name="GUIWeatherContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control" instance=ExtResource("3_sauxh")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 0
 offset_left = 292.0
 offset_right = 308.0
@@ -132,12 +133,14 @@ localization_text_key = "ACTION_END_TURN"
 
 [node name="GUIBoostTracker" parent="BaseMainMarginContainer/Container/MarginContainer/Control" instance=ExtResource("9_gub46")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 offset_right = 3.0
 offset_bottom = 9.0
 
 [node name="GUIEnemy" parent="BaseMainMarginContainer/Container/MarginContainer/Control" instance=ExtResource("11_8tokl")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
