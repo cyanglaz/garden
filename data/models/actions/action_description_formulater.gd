@@ -51,9 +51,9 @@ static func get_raw_action_description(action_data:ActionData, target_plant:Plan
 			raw_action_description = _get_discard_card_action_description(action_data, target_plant)
 		ActionData.ActionType.ADD_CARD_DISCARD_PILE:
 			raw_action_description = _get_add_card_discard_pile_action_description(action_data, target_plant)
-		ActionData.ActionType.MOVE_LEFT:
+		ActionData.ActionType.PUSH_LEFT:
 			raw_action_description = _get_move_left_action_description(action_data, target_plant)
-		ActionData.ActionType.MOVE_RIGHT:
+		ActionData.ActionType.PUSH_RIGHT:
 			raw_action_description = _get_move_right_action_description(action_data, target_plant)
 		ActionData.ActionType.STUN:
 			raw_action_description = _get_player_status_description(action_data)
@@ -174,12 +174,12 @@ static func _get_add_card_discard_pile_action_description(action_data:ActionData
 	return main_description
 
 static func _get_move_left_action_description(action_data:ActionData, target_plant:Plant) -> String:
-	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_MOVE_LEFT")
+	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_PUSH_LEFT")
 	main_description = main_description % [_get_value_text(action_data, target_plant)]
 	return main_description
 
 static func _get_move_right_action_description(action_data:ActionData, target_plant:Plant) -> String:
-	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_MOVE_RIGHT")
+	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_PUSH_RIGHT")
 	main_description = main_description % [_get_value_text(action_data, target_plant)]
 	return main_description
 

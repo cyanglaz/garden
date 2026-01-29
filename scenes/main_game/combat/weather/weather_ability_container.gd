@@ -32,30 +32,29 @@ func generate_next_weather_abilities(combat_main:CombatMain, turn_index:int) -> 
 		weather_ability.global_position = field_position + Vector2.UP * ABILITY_Y_OFFSET
 	weathers_abilities_updated.emit()
 
-func apply_weather_actions(plants:Array, combat_main:CombatMain) -> void:
-	await _apply_weather_action_to_next_plant(plants, plants.size() - 1, combat_main)
+func apply_weather_actions(combat_main:CombatMain) -> void:
+	await _apply_weather_action_to_next_plant(combat_main)
 
 func clear_all_weather_abilities() -> void:
 	Util.remove_all_children(ability_container)
 	weather_abilities.clear()
 	Util.remove_all_children(weather_ability_animation_container)
 
-func _apply_weather_action_to_next_plant(plants:Array, plant_index:int, combat_main:CombatMain) -> void:
-	if plant_index < 0:
+func _apply_weather_action_to_next_plant(combat_main:CombatMain) -> void:
+	weather_abilities.sort_custom(func(a:WeatherAbility, b:WeatherAbility): return a.field_index < b.field_index)
+	if weather_abilities.is_empty():
 		all_weather_actions_applied.emit()
 		return
-	var ability_index:int = Util.array_find(weather_abilities, func(ability:WeatherAbility): return ability.field_index == plant_index)
-	if ability_index == -1:
-		await _apply_weather_action_to_next_plant(plants, plant_index - 1, combat_main)
-		return
-	var weather_ability:WeatherAbility = weather_abilities[ability_index]
+	var weather_ability:WeatherAbility = weather_abilities.pop_back()
+	var plant_index := weather_ability.field_index
+	var plant:Plant = combat_main.plant_field_container.plants[plant_index]
 	var player = combat_main.player
 	var player_index:int = player.current_field_index
 	weather_ability.hide_icon()
 	if plant_index == player_index:
 		await weather_ability_animation_container.run_animation(weather_ability, player.global_position, true)
-		await weather_ability.apply_to_player(player, combat_main)
+		await weather_ability.apply_to_player(combat_main)
 	else:
-		await weather_ability_animation_container.run_animation(weather_ability, plants[plant_index].global_position, false)
-		await weather_ability.apply_to_plant(plants, plant_index, combat_main)
-	await _apply_weather_action_to_next_plant(plants, plant_index - 1, combat_main)
+		await weather_ability_animation_container.run_animation(weather_ability, plant.global_position, false)
+		await weather_ability.apply_to_plant(plant, combat_main)
+	await _apply_weather_action_to_next_plant(combat_main)

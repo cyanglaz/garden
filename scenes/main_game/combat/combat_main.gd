@@ -16,7 +16,7 @@ const BACKGROUND_MUSIC_FADE_IN_TIME := 1.0
 
 @onready var weather_main: WeatherMain = %WeatherMain
 @onready var plant_field_container: PlantFieldContainer = %PlantFieldContainer
-@onready var player: Node2D = %Player
+@onready var player: Player = %Player
 @onready var gui: GUICombatMain = %GUI
 @onready var background_music_player: AudioStreamPlayer2D = %BackgroundMusicPlayer
 
@@ -95,6 +95,13 @@ func _input(event: InputEvent) -> void:
 
 #endregion
 
+#region player
+
+func get_current_player_plant() -> Plant:
+	return plant_field_container.get_plant(player.current_field_index)
+
+#endregion
+
 #region cards
 func draw_cards(count:int) -> void:
 	var draw_results:Array = await tool_manager.draw_cards(count)
@@ -155,7 +162,7 @@ func _end_turn() -> void:
 	energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
 	await plant_field_container.trigger_end_turn_hooks(self)
 	plant_field_container.handle_turn_end()
-	await weather_main.apply_weather_abilities(plant_field_container.plants, self)
+	await weather_main.apply_weather_abilities(self)
 	await power_manager.handle_weather_application_hook(self, weather_main.get_current_weather())
 	tool_manager.card_use_limit_reached = false
 	await weather_main.night_fall()
@@ -193,7 +200,7 @@ func _win() -> void:
 func _trigger_turn_end_cards() -> void:
 	if tool_manager.tool_deck.hand.is_empty():
 		return
-	await tool_manager.trigger_turn_end_cards(self, plant_field_container.plants)
+	await tool_manager.trigger_turn_end_cards(self)
 
 func _discard_all_tools() -> void:
 	if tool_manager.tool_deck.hand.is_empty():
@@ -210,8 +217,8 @@ func _bloom(plant_index:int) -> void:
 	if field.can_bloom():
 		field.bloom()
 	
-func _handle_card_use(plant_index:int) -> void:
-	tool_manager.apply_tool(self, plant_field_container.plants, plant_index)
+func _handle_card_use() -> void:
+	tool_manager.apply_tool(self)
 	await tool_manager.tool_application_completed
 
 func _fade_music(fade_in:bool) -> void:
@@ -239,7 +246,7 @@ func _hide_custom_error(identifier:String) -> void:
 #region UI EVENTS
 func _on_tool_selected(tool_data:ToolData) -> void:
 	tool_manager.select_tool(tool_data)
-	await _handle_card_use(player.current_field_index)
+	await _handle_card_use()
 	_clear_tool_selection()
 
 	#if tool_data.all_fields:
@@ -252,7 +259,7 @@ func _on_mouse_exited_card(tool_data:ToolData) -> void:
 
 func _on_card_use_button_pressed(tool_data:ToolData) -> void:
 	assert(!tool_data.need_select_field)
-	_handle_card_use(0)
+	_handle_card_use()
 
 func _on_end_turn_button_pressed() -> void:
 	_end_turn()
@@ -267,9 +274,10 @@ func _on_field_hovered(hovered:bool, index:int) -> void:
 	#	plant_field_container.toggle_tooltip_for_plant(index, hovered)
 
 func _on_field_pressed(index:int) -> void:
-	if !tool_manager.selected_tool || !tool_manager.selected_tool.has_field_action:
-		return
-	_handle_card_use(index)
+	pass
+	#if !tool_manager.selected_tool || !tool_manager.selected_tool.has_field_action:
+	#	return
+	#_handle_card_use()
 
 func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> void:
 	if _combat.combat_type == CombatData.CombatType.BOSS:

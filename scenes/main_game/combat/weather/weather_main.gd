@@ -20,8 +20,8 @@ var weather_manager:WeatherManager = WeatherManager.new()
 
 var _current_weather:Weather
 
-func apply_weather_actions(plants:Array[Plant], combat_main:CombatMain) -> void:
-	await weather_manager.apply_weather_actions(plants, combat_main)
+func apply_weather_actions(combat_main:CombatMain) -> void:
+	await weather_manager.apply_weather_actions(combat_main)
 
 func apply_weather_tool_action(action:ActionData, icon_move_start_position:Vector2, combat_main:CombatMain) -> void:
 	await weather_manager.apply_weather_tool_action(action, icon_move_start_position, combat_main)
@@ -38,8 +38,8 @@ func start(chapter:int, combat_type:CombatData.CombatType) -> void:
 func generate_next_weather_abilities(combat_main:CombatMain, turn_index:int) -> void:
 	_weather_ability_container.generate_next_weather_abilities(combat_main, turn_index)
 
-func apply_weather_abilities(plants:Array, combat_main:CombatMain) -> void:
-	await _weather_ability_container.apply_weather_actions(plants, combat_main)
+func apply_weather_abilities(combat_main:CombatMain) -> void:
+	await _weather_ability_container.apply_weather_actions(combat_main)
 
 func level_end_stop() -> void:
 	if _current_weather:

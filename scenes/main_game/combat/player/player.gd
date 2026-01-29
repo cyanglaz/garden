@@ -18,16 +18,16 @@ const POSITION_Y_OFFSET := -30
 
 var current_field_index:int = 0: set = _set_current_field_index
 var player_data:PlayerData
-var _max_plants_index:int = 0
+var max_plants_index:int = 0
 
 func _ready() -> void:
 	player_state_machine.start()
 	gui_player_status_container.bind_with_player_status_container(player_status_container)
 	player_status_container.status_updated.connect(_on_status_updated)
 
-func setup_with_player_data(pd:PlayerData, max_plants_index:int) -> void:
+func setup_with_player_data(pd:PlayerData, mpi:int) -> void:
 	player_data = pd
-	_max_plants_index = max_plants_index
+	max_plants_index = mpi
 	player_status_container.set_status("momentum", pd.starting_movements)
 
 func handle_turn_end() -> void:
@@ -72,11 +72,11 @@ func _on_movement_button_pressed(move_direction:PlayerStatusMomentum.MoveDirecti
 	player_status_container.update_status("momentum", -1)
 
 func _set_current_field_index(value:int) -> void:
-	assert(_max_plants_index > 0)
+	assert(max_plants_index > 0)
 	current_field_index = value
 	var momentum_status:PlayerStatusMomentum = player_status_container.get_status("momentum")
 	if momentum_status:
-		momentum_status.update_current_field_index(current_field_index, _max_plants_index)
+		momentum_status.update_current_field_index(current_field_index, max_plants_index)
 	field_index_updated.emit(current_field_index)
 
 func _on_status_updated() -> void:

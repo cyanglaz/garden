@@ -3,9 +3,9 @@ extends ToolScript
 
 var _card_spawn_position:Vector2
 
-func apply_tool(_combat_main:CombatMain, plants:Array, field_index:int, tool_data:ToolData, _secondary_card_datas:Array) -> void:
+func apply_tool(combat_main:CombatMain, tool_data:ToolData, _secondary_card_datas:Array) -> void:
 	var action_data:ActionData = ActionData.new()
-	var plant:Plant = plants[field_index]
+	var plant:Plant = combat_main.get_current_player_plant()
 	action_data.type = ActionData.ActionType.WATER
 	var gain := tool_data.data["gain"] as int
 	action_data.operator_type = ActionData.OperatorType.INCREASE

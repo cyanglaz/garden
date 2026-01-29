@@ -31,10 +31,10 @@ func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_data
 		ActionData.ActionType.UPDATE_HP:
 			Events.request_hp_update.emit(calculated_value, action.operator_type)
 			await Util.create_scaled_timer(GLOBAL_UPGRADE_PAUSE_TIME).timeout
-		ActionData.ActionType.MOVE_LEFT:
+		ActionData.ActionType.PUSH_LEFT:
 			combat_main.player.current_field_index = max(combat_main.player.current_field_index - calculated_value, 0)
 			await Util.create_scaled_timer(GLOBAL_UPGRADE_PAUSE_TIME).timeout
-		ActionData.ActionType.MOVE_RIGHT:
+		ActionData.ActionType.PUSH_RIGHT:
 			combat_main.player.current_field_index = min(combat_main.player.current_field_index + calculated_value, combat_main.player.max_plants_index)
 			await Util.create_scaled_timer(GLOBAL_UPGRADE_PAUSE_TIME).timeout
 		ActionData.ActionType.ADD_CARD_DISCARD_PILE:

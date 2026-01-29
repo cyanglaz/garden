@@ -38,8 +38,8 @@ func get_forecasts() -> Array[WeatherData]:
 	var forecast := weathers.slice(1, 1 + forecast_days)
 	return forecast
 
-func apply_weather_actions(plants:Array[Plant], combat_main:CombatMain) -> void:
-	await _apply_weather_action_to_next_plant(plants, plants.size() - 1, combat_main)
+func apply_weather_actions(combat_main:CombatMain) -> void:
+	await _apply_weather_action_to_next_plant(combat_main)
 
 func apply_weather_tool_action(action:ActionData, icon_move_start_position:Vector2, combat_main:CombatMain) -> void:
 	assert(action.action_category == ActionData.ActionCategory.WEATHER)
@@ -60,18 +60,19 @@ func _generate_next_weather(chapter:int) -> void:
 	var weather:WeatherData = available_weathers.pick_random().get_duplicate()
 	weathers.append(weather)
 
-func _apply_weather_action_to_next_plant(plants:Array[Plant], plant_index:int, combat_main:CombatMain) -> void:
+func _apply_weather_action_to_next_plant(combat_main:CombatMain) -> void:
+	var plant_index:int = combat_main.player.current_field_index
+	var plant:Plant = combat_main.get_current_player_plant()
 	if plant_index < 0:
 		all_weather_actions_applied.emit()
 		return
-	var plant:Plant = plants[plant_index]
 	var today_weather:WeatherData = get_current_weather()
 	if !_should_weather_be_applied(today_weather, plant):
-		await _apply_weather_action_to_next_plant(plants, plant_index - 1, combat_main)
+		await _apply_weather_action_to_next_plant(combat_main)
 	else:
 		await combat_main.gui.gui_weather_container.animate_weather_application(today_weather, plant)
 		await plant.apply_weather_actions(today_weather)
-		await _apply_weather_action_to_next_plant(plants, plant_index - 1, combat_main)
+		await _apply_weather_action_to_next_plant(combat_main)
 
 func _should_weather_be_applied(weather_data:WeatherData, plant:Plant) -> bool:
 	if weather_data.actions.is_empty():
