@@ -4,6 +4,7 @@ extends Node2D
 const POPUP_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_label.tscn")
 const POPUP_SHOW_TIME := 0.5
 const POPUP_DESTROY_TIME := 0.5
+const MOVE_TILT_ANGLE := 15.0
 
 signal field_index_updated(index:int)
 
@@ -39,8 +40,12 @@ func toggle_ui_buttons(on:bool) -> void:
 	player_status_container.toggle_ui_buttons(on)
 
 func move_to_x(x: float) -> void:
-	var tween:Tween = create_tween()
+	#var tilt = MOVE_TILT_ANGLE if x > player_sprite.global_position.x else -MOVE_TILT_ANGLE
+	var tween: Tween = create_tween()
+	tween.set_parallel(true)
+	#player_sprite.rotation_degrees = tilt
 	tween.tween_property(self, "global_position", Vector2(x, POSITION_Y_OFFSET), MOVE_TIME).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
+	#tween.tween_property(player_sprite, "rotation_degrees", 0.0, 0.05).set_delay(MOVE_TIME)
 
 func push_state(state:String, params:Dictionary = {}) -> void:
 	player_state_machine.push(state, params)

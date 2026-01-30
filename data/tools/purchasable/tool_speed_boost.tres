@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=4 format=3 uid="uid://c04xw75umyp3p"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_rpsli"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_j4yff"]
+
+[sub_resource type="Resource" id="Resource_wwf2g"]
+script = ExtResource("1_rpsli")
+type = 16
+value = 3
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_j4yff")
+actions = Array[ExtResource("1_rpsli")]([SubResource("Resource_wwf2g")])
+rarity = 1
+id = "speed_bost"
+display_name = "Speed Boost"
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

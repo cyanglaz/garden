@@ -17,7 +17,9 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
 script = ExtResource("2_pib5k")
+energy_cost = 0
 actions = Array[ExtResource("1_4meus")]([SubResource("Resource_wwf2g"), SubResource("Resource_1cvc4")])
+rarity = 1
 id = "evade"
 display_name = "Evade"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"
