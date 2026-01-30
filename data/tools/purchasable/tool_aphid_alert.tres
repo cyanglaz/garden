@@ -13,12 +13,10 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("1_xnxx8")
 type = 3
 value = 1
-specials = Array[int]([0])
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
 script = ExtResource("2_xmbll")
-energy_cost = 0
 actions = Array[ExtResource("1_xnxx8")]([SubResource("Resource_xnxx8"), SubResource("Resource_oexgw")])
 id = "alphid_alert"
 display_name = "Alphid Alert"
