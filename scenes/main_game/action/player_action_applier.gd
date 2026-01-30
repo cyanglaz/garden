@@ -15,6 +15,9 @@ func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_data
 		ActionData.ActionType.DISCARD_CARD:
 			assert(calculated_value >= 0, "Discard card action value must be greater than 0")
 			await _handle_discard_card_action(action, combat_main, secondary_card_datas)
+		ActionData.ActionType.COMPOST:
+			assert(calculated_value >= 0, "Compost action value must be greater than 0")
+			await _handle_compost_action(action, combat_main, secondary_card_datas)
 		ActionData.ActionType.ENERGY:
 			Events.request_energy_update.emit(calculated_value, action.operator_type)
 			await Util.create_scaled_timer(GLOBAL_UPGRADE_PAUSE_TIME).timeout
@@ -54,6 +57,13 @@ func _handle_discard_card_action(_action:ActionData, combat_main:CombatMain, sec
 		return
 	await combat_main.discard_cards(secondary_card_datas)
 	await combat_main.plant_field_container.trigger_tool_discard_hook(discard_size)
+
+func _handle_compost_action(_action:ActionData, combat_main:CombatMain, secondary_card_datas:Array) -> void:
+	var discard_size := secondary_card_datas.size()
+	if discard_size <= 0:
+		await Util.await_for_tiny_time()
+		return
+	await combat_main.exhaust_cards(secondary_card_datas)
 
 func _handle_add_card_discard_pile_action(card_id:String, combat_main:CombatMain) -> void:
 	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id(card_id).get_duplicate()

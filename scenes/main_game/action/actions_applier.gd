@@ -4,7 +4,6 @@ extends RefCounted
 var card_action_applier:CardActionApplier = CardActionApplier.new()
 var plant_action_applier:PlantActionApplier = PlantActionApplier.new()
 var player_action_applier:PlayerActionApplier = PlayerActionApplier.new()
-var weather_action_applier:WeatherActionApplier = WeatherActionApplier.new()
 
 var _pending_actions:Array[ActionData] = []
 var _action_index:int = 0
@@ -28,6 +27,4 @@ func _apply_next_action(combat_main:CombatMain, tool_data:ToolData, secondary_ca
 			await plant_action_applier.apply_action(action, combat_main.get_current_player_plant(), combat_main)
 		ActionData.ActionCategory.PLAYER:
 			await player_action_applier.apply_action(action, combat_main, secondary_card_datas)
-		ActionData.ActionCategory.WEATHER:
-			await weather_action_applier.apply_action(action, combat_main)
 	await _apply_next_action(combat_main, tool_data, secondary_card_datas, tool_card)

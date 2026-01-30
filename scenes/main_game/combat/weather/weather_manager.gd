@@ -41,17 +41,6 @@ func get_forecasts() -> Array[WeatherData]:
 func apply_weather_actions(combat_main:CombatMain) -> void:
 	await _apply_weather_action_to_next_plant(combat_main)
 
-func apply_weather_tool_action(action:ActionData, icon_move_start_position:Vector2, combat_main:CombatMain) -> void:
-	assert(action.action_category == ActionData.ActionCategory.WEATHER)
-	weathers.pop_front()
-	match action.type:
-		ActionData.ActionType.WEATHER_RAINY:
-			weathers.push_front(WEATHER_RAINY.get_duplicate())
-		_:
-			assert(false, "Invalid action type for weather tool: " + str(action.action_type))
-	await combat_main.gui.gui_weather_container.animate_weather_update(weathers.front(), icon_move_start_position)
-	weathers_updated.emit()
-
 func _generate_next_weather(chapter:int) -> void:
 	if test_weather:
 		weathers.append(test_weather.get_duplicate())

@@ -43,12 +43,12 @@ static func get_raw_action_description(action_data:ActionData, target_plant:Plan
 			raw_action_description = _get_resource_update_action_description(action_data, target_plant)
 		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW, ActionData.ActionType.DROWNED, ActionData.ActionType.BURIED:
 			raw_action_description = _get_field_status_description(action_data)
-		ActionData.ActionType.WEATHER_RAINY:
-			raw_action_description = _get_weather_action_description(action_data)
 		ActionData.ActionType.DRAW_CARD:
 			raw_action_description = _get_draw_card_action_description(action_data, target_plant)
 		ActionData.ActionType.DISCARD_CARD:
 			raw_action_description = _get_discard_card_action_description(action_data, target_plant)
+		ActionData.ActionType.COMPOST:
+			raw_action_description = _get_compost_action_description(action_data, target_plant)
 		ActionData.ActionType.ADD_CARD_DISCARD_PILE:
 			raw_action_description = _get_add_card_discard_pile_action_description(action_data, target_plant)
 		ActionData.ActionType.PUSH_LEFT:
@@ -146,18 +146,6 @@ static func _get_action_resource_value_update_description(action_data:ActionData
 			main_description = Util.get_localized_string("ACTION_VALUE_DESCRIPTION_EQUAL")
 	return main_description
 
-static func _get_weather_action_description(action_data:ActionData) -> String:
-	var weather_name := ""
-	match action_data.type:
-		ActionData.ActionType.WEATHER_RAINY:
-			weather_name = "rainy"
-		_:
-			assert(false, "Invalid action type: %s" % action_data.type)
-	weather_name = str("{weather:", weather_name, "}")
-	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_CHANGE_WEATHER")
-	main_description = main_description % [weather_name]
-	return main_description
-
 static func _get_draw_card_action_description(action_data:ActionData, target_plant:Plant) -> String:
 	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_DRAW_CARD")
 	main_description = main_description % [_get_value_text(action_data, target_plant)]
@@ -165,6 +153,11 @@ static func _get_draw_card_action_description(action_data:ActionData, target_pla
 
 static func _get_discard_card_action_description(action_data:ActionData, target_plant:Plant) -> String:
 	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_DISCARD_CARD")
+	main_description = main_description % [_get_value_text(action_data, target_plant)]
+	return main_description
+
+static func _get_compost_action_description(action_data:ActionData, target_plant:Plant) -> String:
+	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_COMPOST")
 	main_description = main_description % [_get_value_text(action_data, target_plant)]
 	return main_description
 
