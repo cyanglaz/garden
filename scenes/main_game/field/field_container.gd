@@ -1,8 +1,9 @@
 class_name FieldContainer
 extends Node2D
 
-const MAX_DISTANCE_BETWEEN_FIELDS := 24
+const MAX_DISTANCE_BETWEEN_FIELDS := 28
 const MARGIN := 36
+const MAX_FIELDS := 5
 
 signal field_hovered(hovered:bool, index:int)
 signal field_pressed(index:int)
@@ -10,6 +11,7 @@ signal field_pressed(index:int)
 var fields:Array[Field] = []
 
 func setup_fields() -> void:
+	assert(get_child_count() <= MAX_FIELDS, "Field container can only have %s fields" % MAX_FIELDS)
 	for i in get_child_count():
 		var field:Field = get_child(i)
 		fields.append(field)

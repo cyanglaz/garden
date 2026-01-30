@@ -6,7 +6,7 @@ const ICON_PREFIX := "res://resources/sprites/GUI/icons/weather_ability/icon_%s.
 var player_actions_applier:PlayerActionApplier = PlayerActionApplier.new()
 var plant_actions_applier:PlantActionApplier = PlantActionApplier.new()
 var level:int = 0
-var field_index:int = -1
+var field_index:int = -1: set = _set_field_index
 
 var _pending_actions:Array[ActionData] = []
 var _action_index:int = 0
@@ -17,6 +17,7 @@ var weather_ability_data:WeatherAbilityData
 
 func _ready() -> void:
 	_weather_ability_icon.setup_with_weather_ability_data(weather_ability_data, level)
+	_set_field_index(field_index)
 
 func setup_with_weather_ability_data(data:WeatherAbilityData) -> void:
 	weather_ability_data = data
@@ -81,3 +82,14 @@ func _apply_to_plant_with_script(_plant:Plant, _combat_main:CombatMain) -> void:
 	await Util.await_for_tiny_time()
 
 #endregion
+
+func _set_field_index(value:int) -> void:
+	field_index = value
+	if !_weather_ability_icon:
+		return
+	@warning_ignore("integer_division")
+	if field_index > FieldContainer.MAX_FIELDS/2:
+		_weather_ability_icon.tooltip_position = GUITooltip.TooltipPosition.LEFT
+	else:
+		_weather_ability_icon.tooltip_position = GUITooltip.TooltipPosition.RIGHT
+		
