@@ -236,6 +236,8 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "move_left"
 		ActionData.ActionType.PUSH_RIGHT:
 			id = "move_right"
+		ActionData.ActionType.LOOP:
+			id = "loop"
 		ActionData.ActionType.NONE:
 			pass
 	return id
@@ -284,6 +286,8 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 			return ActionData.ActionType.PUSH_LEFT
 		"move_right":
 			return ActionData.ActionType.PUSH_RIGHT
+		"loop":
+			return ActionData.ActionType.LOOP
 		"none":
 			return ActionData.ActionType.NONE
 	assert(false, "Invalid action id: " + action_id)
@@ -334,6 +338,8 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 			action_name = Util.get_localized_string("ACTION_NAME_PUSH_LEFT")
 		ActionData.ActionType.PUSH_RIGHT:
 			action_name = Util.get_localized_string("ACTION_NAME_PUSH_RIGHT")
+		ActionData.ActionType.LOOP:
+			action_name = Util.get_localized_string("ACTION_NAME_LOOP")
 		ActionData.ActionType.NONE:
 			pass
 	return action_name

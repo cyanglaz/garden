@@ -57,6 +57,8 @@ static func get_raw_action_description(action_data:ActionData, target_plant:Plan
 			raw_action_description = _get_move_right_action_description(action_data, target_plant)
 		ActionData.ActionType.STUN:
 			raw_action_description = _get_player_status_description(action_data)
+		ActionData.ActionType.LOOP:
+			raw_action_description = _get_loop_action_description(action_data, target_plant)
 		ActionData.ActionType.NONE:
 			pass
 	return raw_action_description
@@ -173,6 +175,11 @@ static func _get_move_left_action_description(action_data:ActionData, target_pla
 
 static func _get_move_right_action_description(action_data:ActionData, target_plant:Plant) -> String:
 	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_PUSH_RIGHT")
+	main_description = main_description % [_get_value_text(action_data, target_plant)]
+	return main_description
+
+static func _get_loop_action_description(action_data:ActionData, target_plant:Plant) -> String:
+	var main_description := Util.get_localized_string("ACTION_DESCRIPTION_LOOP")
 	main_description = main_description % [_get_value_text(action_data, target_plant)]
 	return main_description
 

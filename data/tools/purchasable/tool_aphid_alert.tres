@@ -20,6 +20,6 @@ script = ExtResource("2_xmbll")
 actions = Array[ExtResource("1_xnxx8")]([SubResource("Resource_xnxx8"), SubResource("Resource_oexgw")])
 id = "alphid_alert"
 display_name = "Alphid Alert"
-note = "Draw 2 cards
-+1 pest to all lands"
+note = "Draw 3 cards
++1 pest"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

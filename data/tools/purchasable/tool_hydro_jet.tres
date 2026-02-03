@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ToolData" load_steps=7 format=3 uid="uid://cxewwfh76jr17"]
+[gd_resource type="Resource" script_class="ToolData" load_steps=6 format=3 uid="uid://cxewwfh76jr17"]
 
 [ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_yamia"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_y1ler"]
@@ -12,24 +12,19 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 [sub_resource type="Resource" id="Resource_1cvc4"]
 script = ExtResource("1_yamia")
 type = 2
-value = 1
+value = 2
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [sub_resource type="Resource" id="Resource_yamia"]
 script = ExtResource("1_yamia")
-type = 20
-value = 1
-metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
-
-[sub_resource type="Resource" id="Resource_y1ler"]
-script = ExtResource("1_yamia")
-type = 2
-value = 1
+type = 22
+value = 2
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
 script = ExtResource("2_y1ler")
-actions = Array[ExtResource("1_yamia")]([SubResource("Resource_wwf2g"), SubResource("Resource_1cvc4"), SubResource("Resource_yamia"), SubResource("Resource_y1ler")])
+energy_cost = 2
+actions = Array[ExtResource("1_yamia")]([SubResource("Resource_wwf2g"), SubResource("Resource_1cvc4"), SubResource("Resource_yamia")])
 rarity = 1
 id = "hydro_jet"
 display_name = "Hydro Jet"

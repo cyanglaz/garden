@@ -24,6 +24,7 @@ enum ActionType {
 	BURIED,
 	PUSH_LEFT,
 	PUSH_RIGHT,
+	LOOP,
 }
 
 enum ActionCategory {
@@ -65,7 +66,7 @@ const NON_RESTRICTED_CARD_SELECTION_TYPES := [ActionType.DISCARD_CARD, ActionTyp
 const NEED_CARD_SELECTION := RESTRICTED_CARD_SELECTION_TYPES + NON_RESTRICTED_CARD_SELECTION_TYPES
 const FIELD_ACTION_TYPES := [ActionType.LIGHT, ActionType.WATER, ActionType.PEST, ActionType.FUNGUS, ActionType.RECYCLE, ActionType.GREENHOUSE, ActionType.DEW, ActionType.DROWNED, ActionType.BURIED]
 const PLAYER_ACTION_TYPES := [ActionType.ENERGY, ActionType.UPDATE_HP, ActionType.DRAW_CARD, ActionType.DISCARD_CARD, ActionType.UPDATE_GOLD, ActionType.MOMENTUM, ActionType.ADD_CARD_DISCARD_PILE, ActionType.PUSH_LEFT, ActionType.PUSH_RIGHT, ActionType.STUN, ActionType.COMPOST]
-const CARD_ACTION_TYPES := [ActionType.UPDATE_X]
+const CARD_ACTION_TYPES := [ActionType.UPDATE_X, ActionType.LOOP]
 
 @export var type:ActionType
 @export var value:int:set = _set_value, get = _get_value
