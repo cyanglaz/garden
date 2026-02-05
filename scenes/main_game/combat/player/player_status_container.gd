@@ -27,12 +27,20 @@ func set_status(status_id:String, stack:int) -> void:
 		_remove_player_status(player_status)
 	status_updated.emit()
 
-func update_status(status_id:String, stack:int) -> void:
+func update_status(status_id:String, stack:int, operator_type:ActionData.OperatorType) -> void:
 	var current_stack:int = 0
 	var player_status:PlayerStatus = _get_player_status(status_id)
 	if player_status:
 		current_stack = player_status.stack
-	set_status(status_id, current_stack + stack)
+	var new_stack:int = current_stack
+	match operator_type:
+		ActionData.OperatorType.INCREASE:
+			new_stack = current_stack + stack
+		ActionData.OperatorType.DECREASE:
+			new_stack = current_stack - stack
+		ActionData.OperatorType.EQUAL_TO:
+			new_stack = stack
+	set_status(status_id, new_stack)
 
 func clear_status(status_id:String) -> void:
 	var player_status:PlayerStatus = _get_player_status(status_id)

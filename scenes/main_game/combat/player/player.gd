@@ -74,7 +74,7 @@ func _on_movement_button_pressed(move_direction:PlayerStatusMomentum.MoveDirecti
 			current_field_index -= 1
 		PlayerStatusMomentum.MoveDirection.RIGHT:
 			current_field_index += 1
-	player_status_container.update_status("momentum", -1)
+	player_status_container.update_status("momentum", 1, ActionData.OperatorType.DECREASE)
 
 func _set_current_field_index(value:int) -> void:
 	assert(max_plants_index > 0)
