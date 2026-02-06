@@ -75,6 +75,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	gui.reward_finished.connect(_on_reward_finished)
 
 	player.field_index_updated.connect(_on_player_field_index_updated)
+	player.player_status_container.status_activated.connect(_on_player_status_activated)
 
 	combat_modifier_manager.setup(self)
 
@@ -378,6 +379,9 @@ func _on_request_energy_update(val:int, operation:ActionData.OperatorType) -> vo
 		ActionData.OperatorType.EQUAL_TO:
 			energy_tracker.value = val
 	player.update_energy(val, operation)
+
+func _on_player_status_activated(player_status:PlayerStatus) -> void:
+	player_status.handle_activation_hook(self)
 
 #endregion
 

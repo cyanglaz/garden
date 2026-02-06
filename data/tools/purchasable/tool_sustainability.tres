@@ -5,7 +5,6 @@
 
 [resource]
 script = ExtResource("2_jp5gh")
-energy_cost = 2
 rarity = 2
 specials = Array[int]([0])
 type = 1
