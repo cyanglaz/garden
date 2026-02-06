@@ -29,6 +29,12 @@ func has_card_added_to_hand_hook(tool_datas:Array) -> bool:
 func handle_card_added_to_hand_hook(tool_datas:Array) -> void:
 	await _handle_card_added_to_hand_hook(tool_datas)
 
+func has_discard_hook(combat_main:CombatMain, tool_data:ToolData) -> bool:
+	return _has_discard_hook(combat_main, tool_data)
+
+func handle_discard_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
+	await _handle_discard_hook(combat_main, tool_data)
+
 #region for override
 
 func _has_prevent_movement_hook() -> bool:
@@ -53,6 +59,12 @@ func _has_card_added_to_hand_hook(_tool_datas:Array) -> bool:
 	return false
 
 func _handle_card_added_to_hand_hook(_tool_datas:Array) -> void:
+	await Util.await_for_tiny_time()
+
+func _has_discard_hook(_combat_main:CombatMain, _tool_data:ToolData) -> bool:
+	return false
+
+func _handle_discard_hook(_combat_main:CombatMain, _tool_data:ToolData) -> void:
 	await Util.await_for_tiny_time()
 
 #endregion

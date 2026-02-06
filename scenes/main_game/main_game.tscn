@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="3_mijjq"]
 [ext_resource type="Resource" uid="uid://mu3je3covgvl" path="res://data/combats/chapter1/combat_data_b11.tres" id="4_6eclk"]
 [ext_resource type="Resource" uid="uid://c537p5p88mdbg" path="res://data/tools/purchasable/tool_condensation.tres" id="4_fetp2"]
-[ext_resource type="Resource" uid="uid://c5kykt5rgjgx3" path="res://data/tools/other/tool_runoff.tres" id="5_fetp2"]
+[ext_resource type="Resource" uid="uid://dveio5prp3e4b" path="res://data/tools/purchasable/tool_burn.tres" id="5_fetp2"]
 [ext_resource type="Resource" uid="uid://s0blrnpmv88c" path="res://data/tools/purchasable/tool_ladybug_patrol.tres" id="6_r81kp"]
 [ext_resource type="Resource" uid="uid://pdqakkphtgxv" path="res://data/tools/purchasable/tool_sustainability.tres" id="8_b4n6q"]
 [ext_resource type="PackedScene" uid="uid://bqo51luu7itcc" path="res://scenes/main_game/map/map_main.tscn" id="14_s87mg"]

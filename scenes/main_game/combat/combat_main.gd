@@ -22,7 +22,6 @@ const BACKGROUND_MUSIC_FADE_IN_TIME := 1.0
 
 var energy_tracker:ResourcePoint = ResourcePoint.new()
 var combat_generator:CombatGenerator = CombatGenerator.new()
-var power_manager:PowerManager = PowerManager.new()
 var tool_manager:ToolManager
 var day_manager:DayManager = DayManager.new()
 var session_summary:SessionSummary
@@ -65,7 +64,6 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	tool_manager.tool_application_error.connect(_on_tool_application_error)
 	tool_manager.hand_updated.connect(_on_hand_updated)
 
-	gui.bind_power_manager(power_manager)
 	gui.bind_energy(energy_tracker)
 	gui.bind_tool_deck(tool_manager.tool_deck)
 	gui.end_turn_button_pressed.connect(_on_end_turn_button_pressed)
@@ -110,6 +108,8 @@ func draw_cards(count:int) -> void:
 
 func discard_cards(tools:Array) -> void:
 	await tool_manager.discard_cards(tools)
+	for tool_data in tools:
+		await player.player_status_container.handle_discard_hook(self, tool_data)
 
 func exhaust_cards(tools:Array) -> void:
 	await tool_manager.exhaust_cards(tools)
@@ -123,10 +123,6 @@ func add_card_to_deck(tool_data:ToolData) -> void:
 
 #endregion
 
-#powers
-func update_power(power_id:String, stack:int) -> void:
-	power_manager.update_power(power_id, stack)
-	await power_manager.handle_activation_hook(self)
 #region private
   
 func _start_new_level() -> void:
@@ -160,6 +156,7 @@ func _start_turn() -> void:
 
 func _end_turn() -> void:
 	gui.toggle_all_ui(false)
+	player.player_status_container.clear_single_turn_statuses()
 	_clear_tool_selection()
 	player.handle_turn_end()
 	await _discard_all_tools()
@@ -167,7 +164,6 @@ func _end_turn() -> void:
 	await plant_field_container.trigger_end_turn_hooks(self)
 	plant_field_container.handle_turn_end()
 	await weather_main.apply_weather_abilities(self)
-	await power_manager.handle_weather_application_hook(self, weather_main.get_current_weather())
 	tool_manager.card_use_limit_reached = false
 	await weather_main.night_fall()
 	await _trigger_turn_end_cards()
@@ -175,7 +171,6 @@ func _end_turn() -> void:
 		return
 	tool_manager.cleanup_for_turn()
 	combat_modifier_manager.clear_for_turn()
-	power_manager.remove_single_turn_powers()
 	if _met_win_condition():
 		# _win() is called by _bloom()
 		return
@@ -277,7 +272,7 @@ func _on_field_hovered(hovered:bool, index:int) -> void:
 	#else:
 	#	plant_field_container.toggle_tooltip_for_plant(index, hovered)
 
-func _on_field_pressed(index:int) -> void:
+func _on_field_pressed(_index:int) -> void:
 	pass
 	#if !tool_manager.selected_tool || !tool_manager.selected_tool.has_field_action:
 	#	return
