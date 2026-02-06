@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="StatusData" load_steps=2 format=3 uid="uid://c7peeembpt1rg"]
+
+[ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/status_data.gd" id="1_5sn2f"]
+
+[resource]
+script = ExtResource("1_5sn2f")
+type = 1
+stackable = true
+single_turn = true
+id = "condensation"
+display_name = "Condensation"
+description = "This turn, when discard a card, target plant +{value} {resource:water}."
+data = {
+&"value": "1"
+}
+metadata/_custom_type_script = "uid://ep5ey6gqhty1"

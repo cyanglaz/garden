@@ -105,7 +105,7 @@ func get_current_player_plant() -> Plant:
 #region cards
 func draw_cards(count:int) -> void:
 	var draw_results:Array = await tool_manager.draw_cards(count)
-	await power_manager.handle_card_added_to_hand_hook(draw_results)
+	await player.player_status_container.handle_card_added_to_hand_hook(draw_results)
 
 func discard_cards(tools:Array) -> void:
 	await tool_manager.discard_cards(tools)
@@ -114,7 +114,7 @@ func exhaust_cards(tools:Array) -> void:
 	await tool_manager.exhaust_cards(tools)
 
 func add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
-	await power_manager.handle_card_added_to_hand_hook(tool_datas)
+	await player.player_status_container.handle_card_added_to_hand_hook(tool_datas)
 	await tool_manager.add_tools_to_hand(tool_datas, from_global_position, pause)
 
 func add_card_to_deck(tool_data:ToolData) -> void:
@@ -308,7 +308,7 @@ func _on_tool_application_started(tool_data:ToolData) -> void:
 func _on_tool_application_completed(tool_data:ToolData) -> void:
 	if tool_manager.number_of_card_used_this_turn >= combat_modifier_manager.card_use_limit():
 		tool_manager.card_use_limit_reached = true
-	await power_manager.handle_tool_application_hook(self, tool_data)
+	await player.player_status_container.handle_tool_application_hook(self, tool_data)
 	gui.toggle_all_ui(true)
 
 func _on_tool_application_error(tool_data:ToolData, error_message:String) -> void:
@@ -378,6 +378,7 @@ func _on_request_energy_update(val:int, operation:ActionData.OperatorType) -> vo
 		ActionData.OperatorType.EQUAL_TO:
 			energy_tracker.value = val
 	player.update_energy(val, operation)
+
 #endregion
 
 #region setter/getter

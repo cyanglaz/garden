@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c1lsbibvgbjl4"]
+
+[ext_resource type="Script" uid="uid://coke5r5g5887o" path="res://scenes/main_game/combat/player/player_status/player_status_sustainability.gd" id="1_40qir"]
+
+[node name="PlayerStatusSustainability" type="Node2D"]
+script = ExtResource("1_40qir")

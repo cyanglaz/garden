@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="3_mijjq"]
 [ext_resource type="Resource" uid="uid://mu3je3covgvl" path="res://data/combats/chapter1/combat_data_b11.tres" id="4_6eclk"]
-[ext_resource type="Resource" uid="uid://cl2royx6nwdg7" path="res://data/tools/purchasable/tool_combustion.tres" id="4_fetp2"]
+[ext_resource type="Resource" uid="uid://c537p5p88mdbg" path="res://data/tools/purchasable/tool_condensation.tres" id="4_fetp2"]
 [ext_resource type="Resource" uid="uid://dto5q1yjp6hmt" path="res://data/tools/purchasable/tool_discharge.tres" id="5_b4n6q"]
 [ext_resource type="Resource" uid="uid://s0blrnpmv88c" path="res://data/tools/purchasable/tool_ladybug_patrol.tres" id="6_r81kp"]
 [ext_resource type="Resource" uid="uid://cxewwfh76jr17" path="res://data/tools/purchasable/tool_hydro_jet.tres" id="7_fetp2"]

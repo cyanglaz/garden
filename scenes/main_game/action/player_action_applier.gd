@@ -1,8 +1,6 @@
 class_name PlayerActionApplier
 extends RefCounted
 
-const GLOBAL_UPGRADE_PAUSE_TIME := 0.2
-
 signal action_application_completed()
 
 func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_datas:Array) -> void:
@@ -20,7 +18,7 @@ func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_data
 			await _handle_compost_action(action, combat_main, secondary_card_datas)
 		ActionData.ActionType.ENERGY:
 			Events.request_energy_update.emit(calculated_value, action.operator_type)
-			await Util.create_scaled_timer(GLOBAL_UPGRADE_PAUSE_TIME).timeout
+			await Util.create_scaled_timer(Constants.GLOBAL_UPGRADE_PAUSE_TIME).timeout
 		ActionData.ActionType.UPDATE_GOLD:
 			var real_value := calculated_value
 			match action.operator_type:
@@ -33,19 +31,19 @@ func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_data
 			Events.request_update_gold.emit(real_value, true)
 		ActionData.ActionType.UPDATE_HP:
 			Events.request_hp_update.emit(calculated_value, action.operator_type)
-			await Util.create_scaled_timer(GLOBAL_UPGRADE_PAUSE_TIME).timeout
+			await Util.create_scaled_timer(Constants.GLOBAL_UPGRADE_PAUSE_TIME).timeout
 		ActionData.ActionType.PUSH_LEFT:
 			combat_main.player.current_field_index = max(combat_main.player.current_field_index - calculated_value, 0)
-			await Util.create_scaled_timer(GLOBAL_UPGRADE_PAUSE_TIME).timeout
+			await Util.create_scaled_timer(Constants.GLOBAL_UPGRADE_PAUSE_TIME).timeout
 		ActionData.ActionType.PUSH_RIGHT:
 			combat_main.player.current_field_index = min(combat_main.player.current_field_index + calculated_value, combat_main.player.max_plants_index)
-			await Util.create_scaled_timer(GLOBAL_UPGRADE_PAUSE_TIME).timeout
+			await Util.create_scaled_timer(Constants.GLOBAL_UPGRADE_PAUSE_TIME).timeout
 		ActionData.ActionType.ADD_CARD_DISCARD_PILE:
 			assert(calculated_value >= 0, "Add card discard pile action value must be greater than 0")
 			await _handle_add_card_discard_pile_action(action.data["card_id"], combat_main)
 		ActionData.ActionType.STUN, ActionData.ActionType.MOMENTUM:
 			combat_main.player.player_status_container.update_status(Util.get_action_id_with_action_type(action.type), calculated_value, action.operator_type)
-			await Util.create_scaled_timer(GLOBAL_UPGRADE_PAUSE_TIME).timeout
+			await Util.create_scaled_timer(Constants.GLOBAL_UPGRADE_PAUSE_TIME).timeout
 		_:
 			assert(false, "Invalid player action type: %s" % action.type)
 	action_application_completed.emit()

@@ -165,7 +165,7 @@ func _get_all_fields() -> bool:
 
 func _get_description() -> String:
 	if type == Type.POWER:
-		return MainDatabase.power_database.get_data_by_id(id).description
+		return MainDatabase.player_status_database.get_data_by_id(id).description
 	return super._get_description()
 
 func _get_combat_main() -> CombatMain:

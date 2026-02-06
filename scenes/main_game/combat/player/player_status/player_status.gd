@@ -11,6 +11,24 @@ func has_prevent_movement_hook() -> bool:
 func toggle_ui_buttons(on:bool) -> void:
 	_toggle_ui_buttons(on)
 
+func has_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> bool:
+	return _has_tool_application_hook(combat_main, tool_data)
+
+func handle_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
+	await _handle_tool_application_hook(combat_main, tool_data)
+
+func has_activation_hook(combat_main:CombatMain) -> bool:
+	return _has_activation_hook(combat_main)
+
+func handle_activation_hook(combat_main:CombatMain) -> void:
+	await _handle_activation_hook(combat_main)
+
+func has_card_added_to_hand_hook(tool_datas:Array) -> bool:
+	return _has_card_added_to_hand_hook(tool_datas)
+
+func handle_card_added_to_hand_hook(tool_datas:Array) -> void:
+	await _handle_card_added_to_hand_hook(tool_datas)
+
 #region for override
 
 func _has_prevent_movement_hook() -> bool:
@@ -18,6 +36,24 @@ func _has_prevent_movement_hook() -> bool:
 
 func _toggle_ui_buttons(_on:bool) -> void:
 	pass
+
+func _has_tool_application_hook(_combat_main:CombatMain, _tool_data:ToolData) -> bool:
+	return false
+
+func _handle_tool_application_hook(_combat_main:CombatMain, _tool_data:ToolData) -> void:
+	await Util.await_for_tiny_time()
+
+func _has_activation_hook(_combat_main:CombatMain) -> bool:
+	return false
+
+func _handle_activation_hook(_combat_main:CombatMain) -> void:
+	await Util.await_for_tiny_time()
+
+func _has_card_added_to_hand_hook(_tool_datas:Array) -> bool:
+	return false
+
+func _handle_card_added_to_hand_hook(_tool_datas:Array) -> void:
+	await Util.await_for_tiny_time()
 
 #endregion
 
