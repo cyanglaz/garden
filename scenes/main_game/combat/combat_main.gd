@@ -105,11 +105,11 @@ func get_current_player_plant() -> Plant:
 func draw_cards(count:int) -> void:
 	var draw_results:Array = await tool_manager.draw_cards(count)
 	await player.player_status_container.handle_card_added_to_hand_hook(draw_results)
+	await player.player_status_container.handle_draw_hook(self, draw_results)
 
 func discard_cards(tools:Array) -> void:
 	await tool_manager.discard_cards(tools)
-	for tool_data in tools:
-		await player.player_status_container.handle_discard_hook(self, tool_data)
+	await player.player_status_container.handle_discard_hook(self, tools)
 
 func exhaust_cards(tools:Array) -> void:
 	await tool_manager.exhaust_cards(tools)

@@ -16,6 +16,8 @@ var _activation_hook_queue:Array = []
 var _current_activation_hook_index:int = 0
 var _discard_hook_queue:Array = []
 var _current_discard_hook_index:int = 0
+var _draw_hook_queue:Array = []
+var _current_draw_hook_index:int = 0
 
 func clear_status_on_turn_end() -> void:
 	for player_status:PlayerStatus in get_all_player_statuses():
@@ -145,22 +147,39 @@ func _handle_next_activation_hook(combat_main:CombatMain) -> void:
 	_current_activation_hook_index += 1
 	await _handle_next_activation_hook(combat_main)
 
-func handle_discard_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
+func handle_discard_hook(combat_main:CombatMain, tool_datas:Array) -> void:
 	var all_player_statuses:Array = get_all_player_statuses()
 	_discard_hook_queue = all_player_statuses.filter(func(player_status:PlayerStatus) -> bool:
-		return player_status.has_discard_hook(combat_main, tool_data)
+		return player_status.has_discard_hook(combat_main, tool_datas)
 	)
 	_current_discard_hook_index = 0
-	await _handle_next_discard_hook(combat_main, tool_data)
+	await _handle_next_discard_hook(combat_main, tool_datas)
 
-func _handle_next_discard_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
+func _handle_next_discard_hook(combat_main:CombatMain, tool_datas:Array) -> void:
 	if _current_discard_hook_index >= _discard_hook_queue.size():
 		return
 	var player_status:PlayerStatus = _discard_hook_queue[_current_discard_hook_index]
 	_send_hook_animation_signals(player_status.status_data)
-	await player_status.handle_discard_hook(combat_main, tool_data)
+	await player_status.handle_discard_hook(combat_main, tool_datas)
 	_current_discard_hook_index += 1
-	await _handle_next_discard_hook(combat_main, tool_data)
+	await _handle_next_discard_hook(combat_main, tool_datas)
+
+func handle_draw_hook(combat_main:CombatMain, tool_datas:Array) -> void:
+	var all_player_statuses:Array = get_all_player_statuses()
+	_draw_hook_queue = all_player_statuses.filter(func(player_status:PlayerStatus) -> bool:
+		return player_status.has_draw_hook(combat_main, tool_datas)
+	)
+	_current_draw_hook_index = 0
+	await _handle_next_draw_hook(combat_main, tool_datas)
+
+func _handle_next_draw_hook(combat_main:CombatMain, tool_datas:Array) -> void:
+	if _current_draw_hook_index >= _draw_hook_queue.size():
+		return
+	var player_status:PlayerStatus = _draw_hook_queue[_current_draw_hook_index]
+	_send_hook_animation_signals(player_status.status_data)
+	await player_status.handle_draw_hook(combat_main, tool_datas)
+	_current_draw_hook_index += 1
+	await _handle_next_draw_hook(combat_main, tool_datas)
 
 func toggle_ui_buttons(on:bool) -> void:
 	for player_status:PlayerStatus in get_all_player_statuses():

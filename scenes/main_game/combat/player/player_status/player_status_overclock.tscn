@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8xktjnr7hyg"]
+
+[ext_resource type="Script" uid="uid://cdnbv30khx7md" path="res://scenes/main_game/combat/player/player_status/player_status_overclock.gd" id="1_23lbb"]
+
+[node name="PlayerStatusOverclock" type="Node2D"]
+script = ExtResource("1_23lbb")

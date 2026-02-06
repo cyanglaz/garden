@@ -29,11 +29,17 @@ func has_card_added_to_hand_hook(tool_datas:Array) -> bool:
 func handle_card_added_to_hand_hook(tool_datas:Array) -> void:
 	await _handle_card_added_to_hand_hook(tool_datas)
 
-func has_discard_hook(combat_main:CombatMain, tool_data:ToolData) -> bool:
-	return _has_discard_hook(combat_main, tool_data)
+func has_discard_hook(combat_main:CombatMain, tool_datas:Array) -> bool:
+	return _has_discard_hook(combat_main, tool_datas)
 
-func handle_discard_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
-	await _handle_discard_hook(combat_main, tool_data)
+func handle_discard_hook(combat_main:CombatMain, tool_datas:Array) -> void:
+	await _handle_discard_hook(combat_main, tool_datas)
+
+func has_draw_hook(combat_main:CombatMain, tool_datas:Array) -> bool:
+	return _has_draw_hook(combat_main, tool_datas)
+
+func handle_draw_hook(combat_main:CombatMain, tool_datas:Array) -> void:
+	await _handle_draw_hook(combat_main, tool_datas)
 
 #region for override
 
@@ -61,10 +67,16 @@ func _has_card_added_to_hand_hook(_tool_datas:Array) -> bool:
 func _handle_card_added_to_hand_hook(_tool_datas:Array) -> void:
 	await Util.await_for_tiny_time()
 
-func _has_discard_hook(_combat_main:CombatMain, _tool_data:ToolData) -> bool:
+func _has_discard_hook(_combat_main:CombatMain, _tool_datas:Array) -> bool:
 	return false
 
-func _handle_discard_hook(_combat_main:CombatMain, _tool_data:ToolData) -> void:
+func _handle_discard_hook(_combat_main:CombatMain, _tool_datas:Array) -> void:
+	await Util.await_for_tiny_time()
+
+func _has_draw_hook(_combat_main:CombatMain, _tool_datas:Array) -> bool:
+	return false
+
+func _handle_draw_hook(_combat_main:CombatMain, _tool_datas:Array) -> void:
 	await Util.await_for_tiny_time()
 
 #endregion
