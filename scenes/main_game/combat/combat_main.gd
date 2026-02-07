@@ -74,6 +74,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 
 	player.field_index_updated.connect(_on_player_field_index_updated)
 	player.player_status_container.status_activated.connect(_on_player_status_activated)
+	player.player_status_container.status_stack_updated.connect(_on_player_status_stack_updated)
 
 	combat_modifier_manager.setup(self)
 
@@ -377,6 +378,9 @@ func _on_request_energy_update(val:int, operation:ActionData.OperatorType) -> vo
 
 func _on_player_status_activated(player_status:PlayerStatus) -> void:
 	player_status.handle_activation_hook(self)
+
+func _on_player_status_stack_updated(status_id:String, diff:int) -> void:
+	player.player_status_container.handle_status_stack_update_hook(self, status_id, diff)
 
 #endregion
 

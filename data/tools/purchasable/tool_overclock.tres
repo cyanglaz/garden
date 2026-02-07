@@ -5,6 +5,7 @@
 
 [resource]
 script = ExtResource("2_cm2j4")
+energy_cost = 0
 rarity = 1
 specials = Array[int]([0])
 type = 1

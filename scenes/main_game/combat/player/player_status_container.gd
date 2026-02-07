@@ -7,6 +7,7 @@ signal status_updated()
 signal status_activated(player_status:PlayerStatus)
 signal request_status_hook_animation(status_id:String)
 signal request_hook_message_popup(status_data:StatusData)
+signal status_stack_updated(status_id:String, diff:int)
 
 var _tool_application_hook_queue:Array = []
 var _current_tool_application_hook_index:int = 0
@@ -18,6 +19,8 @@ var _discard_hook_queue:Array = []
 var _current_discard_hook_index:int = 0
 var _draw_hook_queue:Array = []
 var _current_draw_hook_index:int = 0
+var _status_stack_update_hook_queue:Array = []
+var _current_status_stack_update_hook_index:int = 0
 
 func clear_status_on_turn_end() -> void:
 	for player_status:PlayerStatus in get_all_player_statuses():
@@ -43,6 +46,8 @@ func set_status(status_id:String, stack:int) -> void:
 	if stack - previous_stack > 0:
 		status_activated.emit(player_status)
 	status_updated.emit()
+	if stack - previous_stack != 0:
+		status_stack_updated.emit(status_id, stack - previous_stack)
 
 func update_status(status_id:String, stack:int, operator_type:ActionData.OperatorType) -> void:
 	var current_stack:int = 0
@@ -180,6 +185,23 @@ func _handle_next_draw_hook(combat_main:CombatMain, tool_datas:Array) -> void:
 	await player_status.handle_draw_hook(combat_main, tool_datas)
 	_current_draw_hook_index += 1
 	await _handle_next_draw_hook(combat_main, tool_datas)
+
+func handle_status_stack_update_hook(combat_main:CombatMain, status_id:String, diff:int) -> void:
+	var all_player_statuses:Array = get_all_player_statuses()
+	_status_stack_update_hook_queue = all_player_statuses.filter(func(player_status:PlayerStatus) -> bool:
+		return player_status.has_status_stack_update_hook(combat_main, status_id, diff)
+	)
+	_current_status_stack_update_hook_index = 0
+	await _handle_next_status_stack_update_hook(combat_main, status_id, diff)
+
+func _handle_next_status_stack_update_hook(combat_main:CombatMain, status_id:String, diff:int) -> void:
+	if _current_status_stack_update_hook_index >= _status_stack_update_hook_queue.size():
+		return
+	var player_status:PlayerStatus = _status_stack_update_hook_queue[_current_status_stack_update_hook_index]
+	_send_hook_animation_signals(player_status.status_data)
+	await player_status.handle_status_stack_update_hook(combat_main, status_id, diff)
+	_current_status_stack_update_hook_index += 1
+	await _handle_next_status_stack_update_hook(combat_main, status_id, diff)
 
 func toggle_ui_buttons(on:bool) -> void:
 	for player_status:PlayerStatus in get_all_player_statuses():

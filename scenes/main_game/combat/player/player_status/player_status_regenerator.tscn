@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bbyoy0s6x60fb"]
+
+[ext_resource type="Script" uid="uid://cvmwer3qaoqrs" path="res://scenes/main_game/combat/player/player_status/player_status_regenerator.gd" id="1_jnyyh"]
+
+[node name="PlayerStatusRegenerator" type="Node2D"]
+script = ExtResource("1_jnyyh")
