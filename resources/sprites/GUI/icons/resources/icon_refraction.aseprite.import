@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://crhub5sjhlrc5"
+path="res://.godot/imported/icon_refraction.aseprite-df71ce6f641b808168d67d60d238be92.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_refraction.aseprite"
+dest_files=["res://.godot/imported/icon_refraction.aseprite-df71ce6f641b808168d67d60d238be92.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
