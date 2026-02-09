@@ -47,6 +47,13 @@ func has_status_stack_update_hook(combat_main:CombatMain, status_id:String, diff
 func handle_status_stack_update_hook(combat_main:CombatMain, status_id:String, diff:int) -> void:
 	await _handle_status_stack_update_hook(combat_main, status_id, diff)
 
+func has_target_plant_water_update_hook(combat_main:CombatMain, plant:Plant, diff:int) -> bool:
+	return _has_target_plant_water_update_hook(combat_main, plant, diff)
+
+func handle_target_plant_water_update_hook(combat_main:CombatMain, plant:Plant, diff:int) -> void:
+	await _handle_target_plant_water_update_hook(combat_main, plant, diff)
+
+
 #region for override
 
 func _has_prevent_movement_hook() -> bool:
@@ -89,6 +96,12 @@ func _has_status_stack_update_hook(_combat_main:CombatMain, _status_id:String, _
 	return false
 
 func _handle_status_stack_update_hook(_combat_main:CombatMain, _status_id:String, _diff:int) -> void:
+	await Util.await_for_tiny_time()
+
+func _has_target_plant_water_update_hook(_combat_main:CombatMain, _plant:Plant, _diff:int) -> bool:
+	return false
+
+func _handle_target_plant_water_update_hook(_combat_main:CombatMain, _plant:Plant, _diff:int) -> void:
 	await Util.await_for_tiny_time()
 
 #endregion
