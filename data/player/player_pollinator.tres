@@ -1,15 +1,16 @@
-[gd_resource type="Resource" script_class="PlayerData" load_steps=7 format=3 uid="uid://4dslofp7rfib"]
+[gd_resource type="Resource" script_class="PlayerData" load_steps=8 format=3 uid="uid://4dslofp7rfib"]
 
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_m7e3l"]
 [ext_resource type="Resource" uid="uid://dr13xwnk1wtam" path="res://data/tools/defaults/tool_sunlight.tres" id="2_xkk26"]
 [ext_resource type="Resource" uid="uid://cd1g4filickxd" path="res://data/tools/defaults/tool_drizzle.tres" id="3_ey6mw"]
 [ext_resource type="Resource" uid="uid://bbksfeisauffm" path="res://data/tools/purchasable/tool_bug_spray.tres" id="4_gxn42"]
 [ext_resource type="Resource" uid="uid://c45qafafbmxe3" path="res://data/tools/defaults/tool_momentum.tres" id="5_i6yaf"]
+[ext_resource type="Resource" uid="uid://fw57p6nrrvtr" path="res://data/tools/purchasable/tool_fungicide.tres" id="6_ek6fd"]
 [ext_resource type="Script" uid="uid://tci75sqv26ut" path="res://data/models/characters/player/player_data.gd" id="7_gxn42"]
 
 [resource]
 script = ExtResource("7_gxn42")
-initial_tools = Array[ExtResource("2_m7e3l")]([ExtResource("2_xkk26"), ExtResource("2_xkk26"), ExtResource("2_xkk26"), ExtResource("3_ey6mw"), ExtResource("3_ey6mw"), ExtResource("4_gxn42"), ExtResource("5_i6yaf"), ExtResource("3_ey6mw")])
+initial_tools = Array[ExtResource("2_m7e3l")]([ExtResource("2_xkk26"), ExtResource("2_xkk26"), ExtResource("2_xkk26"), ExtResource("3_ey6mw"), ExtResource("3_ey6mw"), ExtResource("4_gxn42"), ExtResource("5_i6yaf"), ExtResource("3_ey6mw"), ExtResource("6_ek6fd")])
 id = "pollinator"
 display_name = "The Pollinator"
 description = "On Bloom, shuffle a +3 {sunlight} card to hand."
