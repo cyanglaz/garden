@@ -25,7 +25,7 @@ func apply_weather_actions(combat_main:CombatMain) -> void:
 
 func start(chapter:int, combat_type:CombatData.CombatType) -> void:
 	weather_manager.test_weather = test_weather
-	weather_manager.start(chapter)
+	weather_manager.start(chapter, combat_type)
 	assert(_current_weather == null)
 	var current_weather_data := weather_manager.get_current_weather()
 	_add_new_weather(current_weather_data, combat_type)
