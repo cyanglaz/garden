@@ -2,6 +2,7 @@ class_name WeatherData
 extends ThingData
 
 @export var sky_color:Color
+@export var boss:bool
 
 func copy(other:ThingData) -> void:
 	super.copy(other)

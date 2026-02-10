@@ -14,40 +14,28 @@ const GUI_WEATHER_SCENE := preload("res://scenes/GUI/main_game/weather/gui_weath
 var test_weather:WeatherData
 
 #var level:int
-var weathers:Array[WeatherData]
-var forecast_days := 1
+var current_weather:WeatherData
 var _chapter:int
 
-func start(chapter:int) -> void:
+func start(chapter:int, combat_type:CombatData.CombatType) -> void:
 	_chapter = chapter
-	_generate_next_weathers(_chapter)
+	_generate_next_weathers(_chapter, combat_type)
 
-func pass_day() -> void:
-	weathers.pop_front()
-	_generate_next_weathers(_chapter)
-
-func _generate_next_weathers(chapter:int) -> void:
-	for _day in forecast_days - weathers.size():
-		_generate_next_weather(chapter)
-	weathers_updated.emit()
+func _generate_next_weathers(chapter:int, combat_type:CombatData.CombatType) -> void:
+	if test_weather:
+		current_weather = test_weather.get_duplicate()
+		return
+	var available_weathers := MainDatabase.weather_database.get_weathers_by_chapter(chapter)
+	available_weathers = available_weathers.filter(func(weather_data:WeatherData) -> bool:
+		return weather_data.boss == (combat_type == CombatData.CombatType.BOSS)
+	)
+	current_weather = available_weathers.pick_random().get_duplicate()
 
 func get_current_weather() -> WeatherData:
-	return weathers.front()
-
-func get_forecasts() -> Array[WeatherData]:
-	var forecast := weathers.slice(1, 1 + forecast_days)
-	return forecast
+	return current_weather
 
 func apply_weather_actions(combat_main:CombatMain) -> void:
 	await _apply_weather_action_to_next_plant(combat_main)
-
-func _generate_next_weather(chapter:int) -> void:
-	if test_weather:
-		weathers.append(test_weather.get_duplicate())
-		return
-	var available_weathers := MainDatabase.weather_database.get_weathers_by_chapter(chapter)
-	var weather:WeatherData = available_weathers.pick_random().get_duplicate()
-	weathers.append(weather)
 
 func _apply_weather_action_to_next_plant(combat_main:CombatMain) -> void:
 	var plant_index:int = combat_main.player.current_field_index
