@@ -7,6 +7,6 @@
 
 [resource]
 script = ExtResource("4_x0v5h")
-plants = Array[ExtResource("1_g47ou")]([ExtResource("2_wm1px"), ExtResource("3_omh45"), ExtResource("2_wm1px")])
+plants = Array[ExtResource("1_g47ou")]([ExtResource("2_wm1px"), ExtResource("2_wm1px"), ExtResource("3_omh45")])
 id = "c15"
 metadata/_custom_type_script = "uid://ektnj8rt6k0k"
