@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="StatusData" load_steps=2 format=3 uid="uid://b8wbbtdjpikxh"]
+
+[ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/status_data.gd" id="1_qsb8i"]
+
+[resource]
+script = ExtResource("1_qsb8i")
+type = 1
+stackable = true
+single_turn = true
+id = "contrail"
+display_name = "Contrail"
+description = "This turn, when the player is moved, target plant +{value}{resource:water}."
+data = {
+&"value": "1"
+}
+metadata/_custom_type_script = "uid://ep5ey6gqhty1"

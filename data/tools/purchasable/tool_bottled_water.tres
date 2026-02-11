@@ -11,6 +11,6 @@ id = "bottled_water"
 display_name = "Bottled Water"
 description = "+{gain} {resource:water}. Shuffle an {card:empty_bottle} to the discard pile."
 data = {
-"gain": "1"
+"gain": "2"
 }
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

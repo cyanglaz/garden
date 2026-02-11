@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://de3fe3423asgi"]
+
+[ext_resource type="Script" uid="uid://bwtics4orcgt3" path="res://scenes/main_game/combat/player/player_status/player_status_contrail.gd" id="1_gqh4f"]
+
+[node name="PlayerStatusContrail" type="Node2D"]
+script = ExtResource("1_gqh4f")

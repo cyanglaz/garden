@@ -21,6 +21,8 @@ var _draw_hook_queue:Array = []
 var _current_draw_hook_index:int = 0
 var _status_stack_update_hook_queue:Array = []
 var _current_status_stack_update_hook_index:int = 0
+var _player_move_hook_queue:Array = []
+var _current_player_move_hook_index:int = 0
 
 func clear_status_on_turn_end() -> void:
 	for player_status:PlayerStatus in get_all_player_statuses():
@@ -202,6 +204,23 @@ func _handle_next_status_stack_update_hook(combat_main:CombatMain, status_id:Str
 	await player_status.handle_status_stack_update_hook(combat_main, status_id, diff)
 	_current_status_stack_update_hook_index += 1
 	await _handle_next_status_stack_update_hook(combat_main, status_id, diff)
+
+func handle_player_move_hook(main_game:CombatMain) -> void:
+	var all_player_statuses:Array = get_all_player_statuses()
+	_player_move_hook_queue = all_player_statuses.filter(func(player_status:PlayerStatus) -> bool:
+		return player_status.has_player_move_hook(main_game)
+	)
+	_current_player_move_hook_index = 0
+	await _handle_next_player_move_hook(main_game)
+
+func _handle_next_player_move_hook(main_game:CombatMain) -> void:
+	if _current_player_move_hook_index >= _player_move_hook_queue.size():
+		return
+	var player_status:PlayerStatus = _player_move_hook_queue[_current_player_move_hook_index]
+	_send_hook_animation_signals(player_status.status_data)
+	await player_status.handle_player_move_hook(main_game)
+	_current_player_move_hook_index += 1
+	await _handle_next_player_move_hook(main_game)
 
 func toggle_ui_buttons(on:bool) -> void:
 	for player_status:PlayerStatus in get_all_player_statuses():

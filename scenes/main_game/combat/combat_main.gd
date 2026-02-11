@@ -289,10 +289,12 @@ func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> vo
 func _on_ui_lock_toggled(on:bool) -> void:
 	player.toggle_ui_buttons(on)
 
-func _on_player_field_index_updated(index:int) -> void:
-	plant_field_container.update_player_index(index)
-	var destination_x := plant_field_container.get_field(index).global_position.x
+func _on_player_field_index_updated(from:int, to:int) -> void:
+	plant_field_container.update_player_index(to)
+	var destination_x := plant_field_container.get_field(to).global_position.x
 	player.move_to_x(destination_x)
+	if from != to:
+		await player.player_status_container.handle_player_move_hook(self)
 
 #region other events
 

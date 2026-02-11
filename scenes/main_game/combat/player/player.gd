@@ -6,7 +6,7 @@ const POPUP_SHOW_TIME := 0.5
 const POPUP_DESTROY_TIME := 0.5
 const MOVE_TILT_ANGLE := 15.0
 
-signal field_index_updated(index:int)
+signal field_index_updated(from:int, to:int)
 
 const MOVE_TIME := 0.1
 
@@ -78,11 +78,12 @@ func _on_movement_button_pressed(move_direction:PlayerStatusMomentum.MoveDirecti
 
 func _set_current_field_index(value:int) -> void:
 	assert(max_plants_index > 0)
+	var previous_index:int = current_field_index
 	current_field_index = value
 	var momentum_status:PlayerStatusMomentum = player_status_container.get_status("momentum")
 	if momentum_status:
 		momentum_status.update_current_field_index(current_field_index, max_plants_index)
-	field_index_updated.emit(current_field_index)
+	field_index_updated.emit(previous_index, current_field_index)
 
 func _on_status_updated() -> void:
 	for player_status:PlayerStatus in player_status_container.get_all_player_statuses():

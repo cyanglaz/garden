@@ -53,6 +53,11 @@ func has_target_plant_water_update_hook(combat_main:CombatMain, plant:Plant, dif
 func handle_target_plant_water_update_hook(combat_main:CombatMain, plant:Plant, diff:int) -> void:
 	await _handle_target_plant_water_update_hook(combat_main, plant, diff)
 
+func has_player_move_hook(main_game:CombatMain) -> bool:
+	return _has_player_move_hook(main_game)
+
+func handle_player_move_hook(main_game:CombatMain) -> void:
+	await _handle_player_move_hook(main_game)
 
 #region for override
 
@@ -102,6 +107,12 @@ func _has_target_plant_water_update_hook(_combat_main:CombatMain, _plant:Plant, 
 	return false
 
 func _handle_target_plant_water_update_hook(_combat_main:CombatMain, _plant:Plant, _diff:int) -> void:
+	await Util.await_for_tiny_time()
+
+func _has_player_move_hook(_main_game:CombatMain) -> bool:
+	return false
+
+func _handle_player_move_hook(_main_game:CombatMain) -> void:
 	await Util.await_for_tiny_time()
 
 #endregion

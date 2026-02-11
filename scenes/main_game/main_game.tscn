@@ -1,13 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://bbcxpceayay3"]
+[gd_scene load_steps=9 format=3 uid="uid://bbcxpceayay3"]
 
 [ext_resource type="Script" uid="uid://sc1eubamsw6x" path="res://scenes/main_game/main_game.gd" id="1_yra6k"]
 [ext_resource type="Resource" uid="uid://4dslofp7rfib" path="res://data/player/player_pollinator.tres" id="2_8ywsm"]
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="3_mijjq"]
+[ext_resource type="Resource" uid="uid://cjmbchusw7prr" path="res://data/tools/purchasable/tool_rainbow_arc.tres" id="4_6eclk"]
+[ext_resource type="Resource" uid="uid://dj416bbevrx7w" path="res://data/tools/purchasable/tool_flash_forward.tres" id="4_fetp2"]
+[ext_resource type="Resource" uid="uid://b06k4u3v4afth" path="res://data/tools/purchasable/tool_contrail.tres" id="5_mijjq"]
 [ext_resource type="PackedScene" uid="uid://bqo51luu7itcc" path="res://scenes/main_game/map/map_main.tscn" id="14_s87mg"]
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_yra6k")
 player_data = ExtResource("2_8ywsm")
+test_tools = Array[ExtResource("3_mijjq")]([ExtResource("4_6eclk"), ExtResource("5_mijjq"), ExtResource("4_fetp2")])
 
 [node name="MapMain" parent="." instance=ExtResource("14_s87mg")]
 unique_name_in_owner = true
