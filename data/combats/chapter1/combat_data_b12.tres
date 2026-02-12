@@ -2,7 +2,7 @@
 
 [ext_resource type="Resource" uid="uid://bvk6ymex4dlcq" path="res://data/bosses/boss_the_binder.tres" id="1_cqexx"]
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="2_12b68"]
-[ext_resource type="Resource" uid="uid://0avopik8d762" path="res://data/plants/chapter0/plant_data_sunflower.tres" id="3_cqexx"]
+[ext_resource type="Resource" uid="uid://77nrfqt5l4mx" path="res://data/plants/chapter0/plant_data_hibiscus.tres" id="3_cqexx"]
 [ext_resource type="Resource" uid="uid://bo0md1siwv4eu" path="res://data/plants/chapter0/plant_data_morning_glory.tres" id="4_cqexx"]
 [ext_resource type="Script" uid="uid://ektnj8rt6k0k" path="res://data/models/combats/combat_data.gd" id="5_vprp8"]
 

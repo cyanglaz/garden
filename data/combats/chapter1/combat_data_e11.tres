@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_uux8n"]
 [ext_resource type="Resource" uid="uid://cqxom50e8wuof" path="res://data/plants/chapter0/plant_data_lily_of_the_valley.tres" id="2_sd8g0"]
-[ext_resource type="Resource" uid="uid://dmmqf31ijms54" path="res://data/plants/chapter0/plant_data_peace_lily.tres" id="3_uux8n"]
+[ext_resource type="Resource" uid="uid://0avopik8d762" path="res://data/plants/chapter0/plant_data_sunflower.tres" id="2_uux8n"]
 [ext_resource type="Script" uid="uid://ektnj8rt6k0k" path="res://data/models/combats/combat_data.gd" id="4_60bbp"]
 
 [resource]
 script = ExtResource("4_60bbp")
 combat_type = 1
-plants = Array[ExtResource("1_uux8n")]([ExtResource("3_uux8n"), ExtResource("2_sd8g0"), ExtResource("2_sd8g0"), ExtResource("3_uux8n")])
+plants = Array[ExtResource("1_uux8n")]([ExtResource("2_uux8n"), ExtResource("2_sd8g0"), ExtResource("2_sd8g0"), ExtResource("2_uux8n")])
 id = "e11"
 metadata/_custom_type_script = "uid://ektnj8rt6k0k"
