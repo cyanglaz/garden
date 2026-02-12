@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://dcr3n4u3dmdbd"]
+[gd_resource type="TileSet" format=3 uid="uid://dcr3n4u3dmdbd"]
 
 [ext_resource type="Texture2D" uid="uid://c6fh0udy8eryv" path="res://resources/sprites/combat_scene/background_tileset.png" id="1_eddp8"]
 
