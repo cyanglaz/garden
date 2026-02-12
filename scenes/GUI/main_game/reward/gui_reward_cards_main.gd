@@ -97,7 +97,7 @@ func _animate_pack_open(booster_pack_type:CombatData.BoosterPackType, g_position
 	gui_booster_pack_image.show()
 	gui_booster_pack_image.update_with_booster_pack_type(booster_pack_type)
 	gui_booster_pack_image.global_position = g_position
-	gui_booster_pack_image.pivot_offset = gui_booster_pack_image.size/2
+	gui_booster_pack_image.pivot_offset_ratio = Vector2.ONE * 0.5
 	gui_booster_pack_image.has_outline = true
 	var tween:Tween = Util.create_scaled_tween(self)
 	print(gui_booster_pack_image.size)

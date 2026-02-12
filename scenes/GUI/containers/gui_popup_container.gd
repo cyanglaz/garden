@@ -61,7 +61,7 @@ func _animate_pop_from_top() -> void:
 
 func _animate_pop_in_center() -> void:
 
-	pivot_offset = Vector2(size.x / 2, size.y / 2)
+	pivot_offset_ratio = Vector2.ONE * 0.5
 	# Center the panel
 	position = Vector2(
 		get_viewport_rect().size.x / 2 - size.x / 2,

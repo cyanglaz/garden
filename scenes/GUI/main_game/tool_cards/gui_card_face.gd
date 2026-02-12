@@ -118,13 +118,13 @@ func animate_flip(on:bool) -> void:
 	if on :
 		visible = true
 	_gui_use_card_button.hide()
-	var original_pivot_offset := pivot_offset
-	pivot_offset = size / 2
+	var original_pivot_offset_ratio := pivot_offset_ratio
+	pivot_offset_ratio = Vector2.ONE * 0.5
 	var target_x_scale := 1.0 if on else 0.0
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(self, "scale:x", target_x_scale, FLIP_ANIMATION_DURATION)
 	await tween.finished
-	pivot_offset = original_pivot_offset
+	pivot_offset_ratio = original_pivot_offset_ratio
 	if on:
 		if card_state == CardState.SELECTED && !tool_data.need_select_field:
 			_gui_use_card_button.show()

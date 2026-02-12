@@ -85,7 +85,7 @@ func _play_hp_drop_animation() -> void:
 
 func _play_hp_increase_animation() -> void:
 	_up_sound.play()
-	_texture_rect.pivot_offset = _texture_rect.size/2
+	_texture_rect.pivot_offset_ratio = Vector2.ONE * 0.5
 	var _texture_rect_position:Vector2 = _texture_rect.position
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
