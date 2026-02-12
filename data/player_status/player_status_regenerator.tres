@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="StatusData" load_steps=2 format=3 uid="uid://6a0jjcus5w5a"]
+
+[ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/status_data.gd" id="1_kwmcc"]
+
+[resource]
+script = ExtResource("1_kwmcc")
+type = 1
+stackable = true
+single_turn = true
+id = "regenerator"
+display_name = "Regenerator"
+description = "This turn, when consuming {resource:momentum}, target plant +{value}{resource:light}."
+data = {
+&"value": "1"
+}
+metadata/_custom_type_script = "uid://ep5ey6gqhty1"

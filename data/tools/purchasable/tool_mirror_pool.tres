@@ -13,7 +13,6 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
 script = ExtResource("2_28b6n")
-energy_cost = 2
 actions = Array[ExtResource("1_o6ad8")]([SubResource("Resource_mxmch")])
 rarity = 2
 id = "mirror_pool"

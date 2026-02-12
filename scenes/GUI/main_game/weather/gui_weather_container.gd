@@ -17,15 +17,15 @@ func update_with_weather_manager(weather_manager:WeatherManager) -> void:
 	var today_weather := weather_manager.get_current_weather()
 	_today_weather_icon.setup_with_weather_data(today_weather)
 	_today_weather_icon.has_tooltip = true
-	var forecasts := weather_manager.get_forecasts()
-	for weather_data:WeatherData in forecasts:
-		var gui_weather := GUI_WEATHER_SCENE.instantiate()
-		gui_weather.has_tooltip = true
-		var gui_weather_size:float = gui_weather.custom_minimum_size.x
-		var scaled_size := floori(gui_weather_size * FORECAST_SIZE_SCALE)
-		gui_weather.custom_minimum_size = Vector2(scaled_size, scaled_size)
-		_forecast_container.add_child(gui_weather)
-		gui_weather.setup_with_weather_data(weather_data)
+	#var forecasts := weather_manager.get_forecasts()
+	#for weather_data:WeatherData in forecasts:
+		#var gui_weather := GUI_WEATHER_SCENE.instantiate()
+		#gui_weather.has_tooltip = true
+		#var gui_weather_size:float = gui_weather.custom_minimum_size.x
+		#var scaled_size := floori(gui_weather_size * FORECAST_SIZE_SCALE)
+		#gui_weather.custom_minimum_size = Vector2(scaled_size, scaled_size)
+		#_forecast_container.add_child(gui_weather)
+		#gui_weather.setup_with_weather_data(weather_data)
 
 func animate_weather_application(today_weather:WeatherData, plant:Plant) -> void:
 	var gui_weather_copy := GUI_WEATHER_SCENE.instantiate()

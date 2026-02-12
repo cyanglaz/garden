@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=6 format=3 uid="uid://cjmbchusw7prr"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_g1aij"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_sysyf"]
+
+[sub_resource type="Resource" id="Resource_4ky0d"]
+script = ExtResource("1_g1aij")
+type = 21
+value = 2
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_2mmqm"]
+script = ExtResource("1_g1aij")
+type = 1
+value = 2
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_g1aij"]
+script = ExtResource("1_g1aij")
+type = 2
+value = 2
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_sysyf")
+actions = Array[ExtResource("1_g1aij")]([SubResource("Resource_4ky0d"), SubResource("Resource_2mmqm"), SubResource("Resource_g1aij")])
+rarity = 2
+id = "rainbow_arc"
+display_name = "Rainbow Arc"
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

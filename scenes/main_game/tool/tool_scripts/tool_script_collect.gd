@@ -1,9 +1,9 @@
 class_name ToolScriptCollect
 extends ToolScript
 
-func apply_tool(_combat_main:CombatMain, plants:Array, field_index:int, _tool_data:ToolData, _secondary_card_datas:Array) -> void:
+func apply_tool(combat_main:CombatMain, _tool_data:ToolData, _secondary_card_datas:Array) -> void:
 	var action_data:ActionData = ActionData.new()
-	var plant:Plant = plants[field_index]
+	var plant:Plant = combat_main.get_current_player_plant()
 	action_data.type = ActionData.ActionType.WATER
 	var water_to_reduce := plant.water.value
 	action_data.operator_type = ActionData.OperatorType.EQUAL_TO
@@ -16,7 +16,7 @@ func apply_tool(_combat_main:CombatMain, plants:Array, field_index:int, _tool_da
 	var cards:Array = []
 	for i in number_of_cards:
 		cards.append(tool_data.get_duplicate())
-	await _combat_main.add_tools_to_hand(cards, from_position, true)
+	await combat_main.add_tools_to_hand(cards, from_position, true)
 
 func need_select_field() -> bool:
 	return true

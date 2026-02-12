@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgpsedq1m4wko"]
+
+[ext_resource type="Script" uid="uid://c7do72gibbs57" path="res://scenes/main_game/combat/player/player_status/player_status_clean_energy.gd" id="1_k6boa"]
+
+[node name="PlayerStatusCleanEnergy" type="Node2D"]
+script = ExtResource("1_k6boa")

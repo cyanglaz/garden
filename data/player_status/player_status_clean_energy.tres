@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="StatusData" load_steps=2 format=3 uid="uid://bgi8tdwbvug6w"]
+
+[ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/status_data.gd" id="1_btesh"]
+
+[resource]
+script = ExtResource("1_btesh")
+type = 1
+stackable = true
+single_turn = true
+id = "clean_energy"
+display_name = "Clean Energy"
+description = "This turn, when a cost {bordered_text:0} card is used, all plant +{value} {resource:light}."
+data = {
+&"value": "1"
+}
+metadata/_custom_type_script = "uid://ep5ey6gqhty1"

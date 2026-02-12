@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dilr4s7m5mray"]
+
+[ext_resource type="Script" uid="uid://b75ta7fd1bp6r" path="res://scenes/main_game/combat/player/player_status/player_status_refraction.gd" id="1_4bnqw"]
+
+[node name="PlayerStatusRefraction" type="Node2D"]
+script = ExtResource("1_4bnqw")

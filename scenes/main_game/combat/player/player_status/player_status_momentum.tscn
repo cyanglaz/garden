@@ -10,8 +10,6 @@ script = ExtResource("1_tykqk")
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
 
 [node name="LeftButton" parent="MoveUI" instance=ExtResource("2_iegbc")]
 unique_name_in_owner = true

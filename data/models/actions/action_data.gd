@@ -8,7 +8,7 @@ enum ActionType {
 	PEST,
 	FUNGUS,
 	STUN,
-	WEATHER_RAINY,
+	COMPOST,
 	DRAW_CARD,
 	DISCARD_CARD,
 	RECYCLE,
@@ -22,14 +22,14 @@ enum ActionType {
 	ADD_CARD_DISCARD_PILE,
 	DROWNED,
 	BURIED,
-	MOVE_LEFT,
-	MOVE_RIGHT,
+	PUSH_LEFT,
+	PUSH_RIGHT,
+	LOOP,
 }
 
 enum ActionCategory {
 	NONE,
 	FIELD,
-	WEATHER,
 	PLAYER,
 	CARD,
 }
@@ -62,12 +62,13 @@ enum CardSelectionType {
 }
 
 const RESTRICTED_CARD_SELECTION_TYPES := [] # The action cannot be performed if not enough cards to select from.
-const NON_RESTRICTED_CARD_SELECTION_TYPES := [ActionType.DISCARD_CARD] # The action can be partially performed if not enough cards to select from.
+const NON_RESTRICTED_CARD_SELECTION_TYPES := [ActionType.DISCARD_CARD, ActionType.COMPOST] # The action can be partially performed if not enough cards to select from.
 const NEED_CARD_SELECTION := RESTRICTED_CARD_SELECTION_TYPES + NON_RESTRICTED_CARD_SELECTION_TYPES
 const FIELD_ACTION_TYPES := [ActionType.LIGHT, ActionType.WATER, ActionType.PEST, ActionType.FUNGUS, ActionType.RECYCLE, ActionType.GREENHOUSE, ActionType.DEW, ActionType.DROWNED, ActionType.BURIED]
-const WEATHER_ACTION_TYPES := [ActionType.WEATHER_RAINY]
-const PLAYER_ACTION_TYPES := [ActionType.ENERGY, ActionType.UPDATE_HP, ActionType.DRAW_CARD, ActionType.DISCARD_CARD, ActionType.UPDATE_GOLD, ActionType.MOMENTUM, ActionType.ADD_CARD_DISCARD_PILE, ActionType.MOVE_LEFT, ActionType.MOVE_RIGHT, ActionType.STUN]
-const CARD_ACTION_TYPES := [ActionType.UPDATE_X]
+const PLAYER_ACTION_TYPES := [ActionType.ENERGY, ActionType.UPDATE_HP, ActionType.DRAW_CARD, ActionType.DISCARD_CARD, 
+								ActionType.UPDATE_GOLD, ActionType.MOMENTUM, ActionType.ADD_CARD_DISCARD_PILE, ActionType.PUSH_LEFT, 
+								ActionType.PUSH_RIGHT, ActionType.STUN, ActionType.COMPOST]
+const CARD_ACTION_TYPES := [ActionType.UPDATE_X, ActionType.LOOP]
 
 @export var type:ActionType
 @export var value:int:set = _set_value, get = _get_value
@@ -135,8 +136,6 @@ func get_calculated_x_value(target_plant:Plant) -> int:
 func _get_action_category() -> ActionCategory:
 	if FIELD_ACTION_TYPES.has(type):
 		return ActionCategory.FIELD
-	elif WEATHER_ACTION_TYPES.has(type):
-		return ActionCategory.WEATHER
 	elif PLAYER_ACTION_TYPES.has(type):
 		return ActionCategory.PLAYER
 	elif CARD_ACTION_TYPES.has(type):

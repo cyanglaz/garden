@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="StatusData" load_steps=2 format=3 uid="uid://dxvx025rsislt"]
+
+[ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/status_data.gd" id="1_qa5dr"]
+
+[resource]
+script = ExtResource("1_qa5dr")
+type = 1
+stackable = true
+id = "sustainability"
+display_name = "Sustainability"
+description = "{card:runoff} adds {value} more {resource:water}."
+data = {
+&"value": "1"
+}
+metadata/_custom_type_script = "uid://ep5ey6gqhty1"

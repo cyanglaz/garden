@@ -11,6 +11,7 @@ const ACTION_LIST_SCENE := preload("res://scenes/GUI/shared/descriptions/shared_
 @onready var right_action_container: PanelContainer = %RightActionContainer
 @onready var level_label: Label = $LevelLabel
 
+var tooltip_position:GUITooltip.TooltipPosition = GUITooltip.TooltipPosition.RIGHT
 var _weather_ability_data:WeatherAbilityData
 var _action_datas:Array[ActionData]
 var _tooltip_id:String = ""
@@ -49,7 +50,10 @@ func _on_mouse_entered() -> void:
 	gui_icon.is_highlighted = true
 	gui_icon.has_outline = true
 	_tooltip_id = Util.get_uuid()
-	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.ACTIONS, _action_datas, _tooltip_id, right_action_container, GUITooltip.TooltipPosition.RIGHT))
+	if tooltip_position == GUITooltip.TooltipPosition.RIGHT:
+		Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.ACTIONS, _action_datas, _tooltip_id, right_action_container, tooltip_position))
+	else:
+		Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.ACTIONS, _action_datas, _tooltip_id, left_action_container, tooltip_position))
 
 func _on_mouse_exited() -> void:
 	gui_icon.is_highlighted = false

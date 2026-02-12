@@ -6,17 +6,17 @@ signal _all_plant_action_application_completed()
 
 var _plant_application_index_counter:int = 0
 
-func apply_action(action:ActionData, plants:Array, plant_index:int) -> void:
+func apply_action(action:ActionData, target_plant:Plant, combat_main:CombatMain) -> void:
 	assert(action.action_category == ActionData.ActionCategory.FIELD)
+	var all_plants:Array = combat_main.plant_field_container.plants
 	match action.action_category:
 		ActionData.ActionCategory.FIELD:
 			var plants_to_apply:Array = []
 			if action.specials.has(ActionData.Special.ALL_FIELDS):
-				plants_to_apply = plants
+				plants_to_apply = all_plants
 				plants_to_apply = plants_to_apply.filter(func(plant:Plant): return !plant.is_bloom())
 			else:
-				if plant_index >= 0 && plant_index < plants.size():
-					plants_to_apply.append(plants[plant_index])
+				plants_to_apply.append(target_plant)
 			await _apply_plant_tool_action(action, plants_to_apply)
 		_:
 			assert(false, "Invalid plant action type: %s" % action.type)

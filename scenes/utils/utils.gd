@@ -210,8 +210,8 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "discard_card"
 		ActionData.ActionType.STUN:
 			id = "stun"
-		ActionData.ActionType.WEATHER_RAINY:
-			id = "rainy"
+		ActionData.ActionType.COMPOST:
+			id = "compost"
 		ActionData.ActionType.GREENHOUSE:
 			id = "greenhouse"
 		ActionData.ActionType.DEW:
@@ -232,10 +232,12 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "drowned"
 		ActionData.ActionType.BURIED:
 			id = "buried"
-		ActionData.ActionType.MOVE_LEFT:
+		ActionData.ActionType.PUSH_LEFT:
 			id = "move_left"
-		ActionData.ActionType.MOVE_RIGHT:
+		ActionData.ActionType.PUSH_RIGHT:
 			id = "move_right"
+		ActionData.ActionType.LOOP:
+			id = "loop"
 		ActionData.ActionType.NONE:
 			pass
 	return id
@@ -254,8 +256,8 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 			return ActionData.ActionType.RECYCLE
 		"stun":
 			return ActionData.ActionType.STUN
-		"rainy":
-			return ActionData.ActionType.WEATHER_RAINY
+		"compost":
+			return ActionData.ActionType.COMPOST
 		"draw_card":
 			return ActionData.ActionType.DRAW_CARD
 		"discard_card":
@@ -281,9 +283,11 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 		"buried":
 			return ActionData.ActionType.BURIED
 		"move_left":
-			return ActionData.ActionType.MOVE_LEFT
+			return ActionData.ActionType.PUSH_LEFT
 		"move_right":
-			return ActionData.ActionType.MOVE_RIGHT
+			return ActionData.ActionType.PUSH_RIGHT
+		"loop":
+			return ActionData.ActionType.LOOP
 		"none":
 			return ActionData.ActionType.NONE
 	assert(false, "Invalid action id: " + action_id)
@@ -302,8 +306,8 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 			action_name = Util.get_localized_string("ACTION_NAME_FUNGUS")
 		ActionData.ActionType.STUN:
 			action_name = Util.get_localized_string("ACTION_NAME_STUN")
-		ActionData.ActionType.WEATHER_RAINY:
-			action_name = Util.get_localized_string("ACTION_NAME_WEATHER_RAINY")
+		ActionData.ActionType.COMPOST:
+			action_name = Util.get_localized_string("ACTION_NAME_COMPOST")
 		ActionData.ActionType.DRAW_CARD:
 			action_name = Util.get_localized_string("ACTION_NAME_DRAW_CARD")
 		ActionData.ActionType.DISCARD_CARD:
@@ -330,10 +334,12 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 			action_name = Util.get_localized_string("ACTION_NAME_DROWNED")
 		ActionData.ActionType.BURIED:
 			action_name = Util.get_localized_string("ACTION_NAME_BURIED")
-		ActionData.ActionType.MOVE_LEFT:
-			action_name = Util.get_localized_string("ACTION_NAME_MOVE_LEFT")
-		ActionData.ActionType.MOVE_RIGHT:
-			action_name = Util.get_localized_string("ACTION_NAME_MOVE_RIGHT")
+		ActionData.ActionType.PUSH_LEFT:
+			action_name = Util.get_localized_string("ACTION_NAME_PUSH_LEFT")
+		ActionData.ActionType.PUSH_RIGHT:
+			action_name = Util.get_localized_string("ACTION_NAME_PUSH_RIGHT")
+		ActionData.ActionType.LOOP:
+			action_name = Util.get_localized_string("ACTION_NAME_LOOP")
 		ActionData.ActionType.NONE:
 			pass
 	return action_name

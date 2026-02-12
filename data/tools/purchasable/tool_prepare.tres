@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=5 format=3 uid="uid://b0uknwicx5fws"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_f1f7w"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_awyaa"]
+
+[sub_resource type="Resource" id="Resource_wwf2g"]
+script = ExtResource("1_f1f7w")
+type = 16
+value = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_ykckt"]
+script = ExtResource("1_f1f7w")
+type = 7
+value = 2
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_awyaa")
+actions = Array[ExtResource("1_f1f7w")]([SubResource("Resource_wwf2g"), SubResource("Resource_ykckt")])
+rarity = 1
+id = "prepare"
+display_name = "Prepare"
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

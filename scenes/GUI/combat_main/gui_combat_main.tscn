@@ -1,9 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://dl31u6exk8l35"]
+[gd_scene load_steps=11 format=3 uid="uid://dl31u6exk8l35"]
 
 [ext_resource type="Script" uid="uid://tokn1oo5af3y" path="res://scenes/GUI/combat_main/gui_combat_main.gd" id="1_lrbaq"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_sjsh0"]
 [ext_resource type="PackedScene" uid="uid://b224jou4wqp13" path="res://scenes/GUI/main_game/weather/gui_weather_container.tscn" id="3_sauxh"]
-[ext_resource type="PackedScene" uid="uid://dknalx44eyqdt" path="res://scenes/GUI/main_game/power/gui_power_container.tscn" id="4_mu1du"]
 [ext_resource type="PackedScene" uid="uid://b8ixx2yg4dgov" path="res://scenes/GUI/controls/buttons/gui_deck_button.tscn" id="5_qa4s6"]
 [ext_resource type="PackedScene" uid="uid://bpirre4ebu4op" path="res://scenes/GUI/combat_main/energy/gui_energy_tracker.tscn" id="6_56cmi"]
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="7_y1ukl"]
@@ -57,11 +56,6 @@ grow_vertical = 0
 [node name="VBoxContainer" type="VBoxContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer"]
 layout_mode = 2
 theme_override_constants/separation = 4
-
-[node name="GUIPowerContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer/VBoxContainer" instance=ExtResource("4_mu1du")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 10
 
 [node name="Container" type="Control" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=5 format=3 uid="uid://c45qafafbmxe3"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_dnn0o"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_5q6pk"]
+
+[sub_resource type="Resource" id="Resource_wwf2g"]
+script = ExtResource("1_dnn0o")
+type = 16
+value = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_mpvv5"]
+script = ExtResource("1_dnn0o")
+type = 1
+value = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_5q6pk")
+energy_cost = 2
+actions = Array[ExtResource("1_dnn0o")]([SubResource("Resource_wwf2g"), SubResource("Resource_mpvv5")])
+id = "momentum"
+display_name = "Momentum"
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

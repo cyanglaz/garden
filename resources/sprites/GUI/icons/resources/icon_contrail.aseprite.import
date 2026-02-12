@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://f8kex1hsa1ns"
+path="res://.godot/imported/icon_contrail.aseprite-085f74f4b6a708e00894550c2cf50088.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_contrail.aseprite"
+dest_files=["res://.godot/imported/icon_contrail.aseprite-085f74f4b6a708e00894550c2cf50088.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

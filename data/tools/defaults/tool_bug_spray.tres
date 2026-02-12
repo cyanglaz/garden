@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=5 format=3 uid="uid://bbksfeisauffm"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_kpiag"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_pv4lb"]
+
+[sub_resource type="Resource" id="Resource_oexgw"]
+script = ExtResource("1_kpiag")
+type = 3
+value = 1
+operator_type = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_boyyu"]
+script = ExtResource("1_kpiag")
+type = 2
+value = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_pv4lb")
+actions = Array[ExtResource("1_kpiag")]([SubResource("Resource_oexgw"), SubResource("Resource_boyyu")])
+id = "bug_spray"
+display_name = "Bug Spray"
+note = "-1 bug"
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

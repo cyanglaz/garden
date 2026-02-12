@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="StatusData" load_steps=2 format=3 uid="uid://daeiyarirnx2w"]
+
+[ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/status_data.gd" id="1_m1wbh"]
+
+[resource]
+script = ExtResource("1_m1wbh")
+type = 1
+stackable = true
+single_turn = true
+id = "overclock"
+display_name = "Overclock"
+description = "This turn, when draw a card, +{value} {resource:momentum}."
+data = {
+&"value": "1"
+}
+metadata/_custom_type_script = "uid://ep5ey6gqhty1"

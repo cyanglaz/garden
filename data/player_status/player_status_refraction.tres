@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="StatusData" load_steps=2 format=3 uid="uid://dyui3awhawrr7"]
+
+[ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/status_data.gd" id="1_eccs8"]
+
+[resource]
+script = ExtResource("1_eccs8")
+type = 1
+stackable = true
+single_turn = true
+id = "refraction"
+display_name = "Refraction"
+description = "This turn, when the traget plant gain {resource:water}, it also gains {value} {resource:light}."
+data = {
+&"value": "1"
+}
+metadata/_custom_type_script = "uid://ep5ey6gqhty1"

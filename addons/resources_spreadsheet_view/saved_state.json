@@ -33,6 +33,17 @@
         "visibility": 0.0
       }
     },
+    "res://data/player_status/": {
+      "metadata/_custom_type_script": {
+        "visibility": 0
+      },
+      "resource_local_to_scene": {
+        "visibility": 0
+      },
+      "resource_name": {
+        "visibility": 0
+      }
+    },
     "res://data/tools/other/": {
       "metadata/_custom_type_script": {
         "visibility": 0.0
@@ -61,7 +72,8 @@
     "res://data/tools/other/",
     "res://data/tools/purchasable/",
     "res://data/plant_abilities/",
-    "res://data/plants/chapter0/"
+    "res://data/plants/chapter0/",
+    "res://data/player_status/"
   ],
   "table_functions": {
     "filter": [
