@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=33 format=3 uid="uid://cot0ve5mv1sh0"]
+[gd_resource type="Theme" format=3 uid="uid://cot0ve5mv1sh0"]
 
 [ext_resource type="Texture2D" uid="uid://cri834mdsuxcn" path="res://resources/sprites/GUI/menu/seperator_line.png" id="1_x68bo"]
 [ext_resource type="Texture2D" uid="uid://coidqgp281swn" path="res://resources/sprites/GUI/menu/slider_knob.png" id="2_hva41"]
