@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CombatData" load_steps=6 format=3 uid="uid://mu3je3covgvl"]
+[gd_resource type="Resource" script_class="CombatData" format=3 uid="uid://mu3je3covgvl"]
 
 [ext_resource type="Resource" uid="uid://bfjvutu1dux0h" path="res://data/bosses/boss_the_bramble.tres" id="1_f0jm2"]
 [ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_mhp1b"]
