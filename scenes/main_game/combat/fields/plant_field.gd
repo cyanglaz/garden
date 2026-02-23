@@ -127,8 +127,6 @@ func _set_size(val:int) -> void:
 	if _progress_bars:
 		_progress_bars.position.x = - (size+2) * FieldLand.CELL_SIZE.x/2
 		_progress_bars.size.x = (size+2) * FieldLand.CELL_SIZE.x
-
 		_gui_field_status_container.position.x = (size+2) * FieldLand.CELL_SIZE.x/2 -1
-
 		_gui_plant_ability_icon_container.position.x = - (size+2) * FieldLand.CELL_SIZE.x/2 + 1 - PLANT_ABILITY_ICON_SIZE
 #endregion

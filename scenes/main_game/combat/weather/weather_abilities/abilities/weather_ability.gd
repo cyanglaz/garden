@@ -51,8 +51,10 @@ func _apply_next_player_action(combat_main:CombatMain) -> void:
 		_pending_actions.clear()
 		_action_index = 0
 		return
-	var action:ActionData = _pending_actions[_action_index]
+	var action:ActionData = _pending_actions[_action_index].get_duplicate()
 	action.value += level
+	print("level: ", level)
+	print("action value: ", action.value)
 	_action_index += 1
 	await player_actions_applier.apply_action(action, combat_main, [])
 	await _apply_next_player_action(combat_main)
@@ -67,7 +69,7 @@ func _apply_next_plant_action(plant:Plant, combat_main:CombatMain) -> void:
 		_pending_actions.clear()
 		_action_index = 0
 		return
-	var action:ActionData = _pending_actions[_action_index]
+	var action:ActionData = _pending_actions[_action_index].get_duplicate()
 	action.value += level
 	_action_index += 1
 	await plant_actions_applier.apply_action(action, plant, combat_main)
