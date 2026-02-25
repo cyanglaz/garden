@@ -53,8 +53,6 @@ func _apply_next_player_action(combat_main:CombatMain) -> void:
 		return
 	var action:ActionData = _pending_actions[_action_index].get_duplicate()
 	action.value += level
-	print("level: ", level)
-	print("action value: ", action.value)
 	_action_index += 1
 	await player_actions_applier.apply_action(action, combat_main, [])
 	await _apply_next_player_action(combat_main)
