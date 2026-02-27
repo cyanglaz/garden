@@ -19,7 +19,7 @@ const COSTS := {
 
 enum Special {
 	COMPOST,
-	WITHER,
+	HANDY,
 	NIGHTFALL,
 	FLIP_FRONT,
 	FLIP_BACK,
