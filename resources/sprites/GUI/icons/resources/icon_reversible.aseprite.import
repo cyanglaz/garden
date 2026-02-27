@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bjdouoqq5buy0"
+path="res://.godot/imported/icon_reversible.aseprite-367e1ff3c8c70d4f1ab26d7f0352b84f.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_reversible.aseprite"
+dest_files=["res://.godot/imported/icon_reversible.aseprite-367e1ff3c8c70d4f1ab26d7f0352b84f.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

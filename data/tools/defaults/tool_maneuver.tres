@@ -12,7 +12,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 [resource]
 script = ExtResource("2_f4kwd")
 actions = Array[ExtResource("1_dllx3")]([SubResource("Resource_oexgw")])
-specials = Array[int]([1])
+specials = Array[int]([1, 5])
 id = "maneuver"
 display_name = "Maneuver"
 note = "+1 light"

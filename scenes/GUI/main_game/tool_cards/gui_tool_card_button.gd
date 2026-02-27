@@ -115,6 +115,9 @@ func animate_flip() -> void:
 	await current_face.animate_flip(true)
 	_flipping = false
 
+func animate_reverse() -> void:
+	pass
+
 func play_error_shake_animation() -> void:
 	await current_face.play_error_shake_animation()
 
@@ -262,6 +265,8 @@ func _on_special_interacted(special:ToolData.Special, _face:GUICardFace) -> void
 	match special:
 		ToolData.Special.FLIP_FRONT, ToolData.Special.FLIP_BACK:
 			animate_flip()
+		ToolData.Special.REVERSIBLE:
+			animate_reverse()
 		_:
 			pass
 

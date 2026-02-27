@@ -23,6 +23,7 @@ enum Special {
 	NIGHTFALL,
 	FLIP_FRONT,
 	FLIP_BACK,
+	REVERSIBLE,
 }
 
 enum Type {
@@ -30,7 +31,7 @@ enum Type {
 	POWER,
 }
 
-const INTERACTIVE_SPECIALS := [Special.FLIP_FRONT, Special.FLIP_BACK]
+const INTERACTIVE_SPECIALS := [Special.FLIP_FRONT, Special.FLIP_BACK, Special.REVERSIBLE]
 
 @export var energy_cost:int = 1
 @export var actions:Array[ActionData]

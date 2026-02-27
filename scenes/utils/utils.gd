@@ -357,6 +357,8 @@ static func get_id_for_tool_speical(special:ToolData.Special) -> String:
 			id = "flip_front"
 		ToolData.Special.FLIP_BACK:
 			id = "flip_back"
+		ToolData.Special.REVERSIBLE:
+			id = "reversible"
 		_:
 			assert(false, "special id not implemented")
 	return id
@@ -373,6 +375,8 @@ static func get_special_from_id(id:String) -> ToolData.Special:
 			return ToolData.Special.FLIP_FRONT
 		"flip_back":
 			return ToolData.Special.FLIP_BACK
+		"reversible":
+			return ToolData.Special.REVERSIBLE
 		_:
 			assert(false, "Invalid special id: %s" % id)
 	return ToolData.Special.COMPOST
