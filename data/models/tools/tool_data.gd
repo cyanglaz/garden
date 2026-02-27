@@ -124,6 +124,15 @@ func get_card_selection_custom_error_message() -> String:
 		return tool_script.get_card_selection_custom_error_message()
 	return ""
 
+func reverse() -> void:
+	assert(specials.has(Special.REVERSIBLE), "Card is not reversible")
+	for action:ActionData in actions:
+		if action.type == ActionData.ActionType.PUSH_LEFT:
+			action.type = ActionData.ActionType.PUSH_RIGHT
+		elif action.type == ActionData.ActionType.PUSH_RIGHT:
+			action.type = ActionData.ActionType.PUSH_LEFT
+	request_refresh.emit()
+
 func _get_cost() -> int:
 	return COSTS[rarity]
 

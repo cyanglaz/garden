@@ -116,7 +116,7 @@ func animate_flip() -> void:
 	_flipping = false
 
 func animate_reverse() -> void:
-	pass
+	tool_data.reverse()
 
 func play_error_shake_animation() -> void:
 	await current_face.play_error_shake_animation()
