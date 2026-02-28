@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://fepy2dfd3275"]
+
+[ext_resource type="Script" uid="uid://blq4y7o5lqsle" path="res://scenes/GUI/event/gui_event_main.gd" id="1_hb5ut"]
+[ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="1_nghej"]
+[ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="2_hb5ut"]
+[ext_resource type="Texture2D" uid="uid://b0nsc2v1cdqqd" path="res://resources/sprites/GUI/shared/panel_background_simple.png" id="3_jjehe"]
+[ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="4_iauo7"]
+
+[node name="GUIEventMain" type="CanvasLayer" unique_id=1130445629]
+script = ExtResource("1_hb5ut")
+
+[node name="GUIOverlayBackground" parent="." unique_id=749911905 instance=ExtResource("1_nghej")]
+color = Color(0.92941177, 0.67058825, 0.3137255, 1)
+
+[node name="MainMarginContainer" parent="." unique_id=563500642 instance=ExtResource("2_hb5ut")]
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMarginContainer" unique_id=1705670018]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="MainPanel" type="PanelContainer" parent="MainMarginContainer/MarginContainer" unique_id=13813305]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 120)
+layout_mode = 2
+
+[node name="Background" type="NinePatchRect" parent="MainMarginContainer/MarginContainer/MainPanel" unique_id=668976298]
+self_modulate = Color(0.5411765, 0.28235295, 0.21176471, 1)
+layout_mode = 2
+texture = ExtResource("3_jjehe")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMarginContainer/MarginContainer/MainPanel/Background" unique_id=1650929988]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMarginContainer/MarginContainer/MainPanel/Background/MarginContainer" unique_id=1805708097]
+layout_mode = 2
+
+[node name="Description" type="RichTextLabel" parent="MainMarginContainer/MarginContainer/MainPanel/Background/MarginContainer/VBoxContainer" unique_id=291649543]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"RichTextLabelEventDescription"
+bbcode_enabled = true
+text = "A stout bee wearing a tiny, stained leaf-satchel hovers lazily over a bark table. She’s surrounded by a mountain of shimmering nectars and sun-dried seeds, currently mid-chew on a piece of honeycomb.
+
+She eyes you with deep suspicion, hugging a jar of jelly to her chest. \"Want a bite? Fine,\" she hums with a lazy, raspy tune. \"But I'm only parting with one—my stomach can't handle any more heartbreak. Leave your coin and be gone. \""
+fit_content = true
+scroll_active = false
+
+[node name="ButtonContainers" type="HBoxContainer" parent="MainMarginContainer/MarginContainer/MainPanel/Background/MarginContainer/VBoxContainer" unique_id=1576056286]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Border" type="NinePatchRect" parent="MainMarginContainer/MarginContainer/MainPanel" unique_id=1024408754]
+self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
+layout_mode = 2
+texture = ExtResource("4_iauo7")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dquhvllsiqkb4"]
+
+[ext_resource type="Script" uid="uid://bu12ajjraopi5" path="res://scenes/main_game/event/event_main.gd" id="1_6g17c"]
+
+[node name="EventMain" type="Node2D" unique_id=1887688530]
+script = ExtResource("1_6g17c")
