@@ -23,12 +23,12 @@ func _set_button_state(val:ButtonState) -> void:
 		return
 	if button_state in [ButtonState.HOVERED]:
 		gui_icon.is_highlighted = true
-		gui_icon.pivot_offset = gui_icon.size/2
+		gui_icon.pivot_offset_ratio = Vector2.ONE * 0.5
 		gui_icon.scale = Vector2.ONE * 1.8
 		gui_icon.z_index = 1
 	else:
 		gui_icon.is_highlighted = false
-		gui_icon.pivot_offset = Vector2.ZERO
+		gui_icon.pivot_offset_ratio = Vector2.ZERO
 		gui_icon.scale = Vector2.ONE
 		gui_icon.z_index = 0
 

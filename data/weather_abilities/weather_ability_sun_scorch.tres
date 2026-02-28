@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="WeatherAbilityData" load_steps=5 format=3 uid="uid://bdekp7d82cvcs"]
+[gd_resource type="Resource" script_class="WeatherAbilityData" format=3 uid="uid://bdekp7d82cvcs"]
 
 [ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_mx06f"]
 [ext_resource type="Script" uid="uid://dfpccwvjf242h" path="res://data/models/weather/weather_ability_data.gd" id="2_sys6w"]

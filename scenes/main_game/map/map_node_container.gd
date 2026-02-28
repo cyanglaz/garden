@@ -9,8 +9,8 @@ const MAP_LINE_SCENE := preload("res://scenes/main_game/map/map_line.tscn")
 @onready var lines_container: Node2D = %LinesContainer
 @onready var nodes_container: Node2D = %NodesContainer
 
-const LAYER_SPACING := 24
-const ROW_SPACING := 22
+const LAYER_SPACING := 28
+const ROW_SPACING := 24
 const NODE_POSITION_NOISE := 1.0
 const NODE_RADIUS := 3
 const LINE_WIDTH := 1.0

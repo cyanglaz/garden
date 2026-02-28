@@ -14,7 +14,7 @@ var show_level := false
 
 func _ready():
 	_set_interactable(interactable)
-	pivot_offset = size/2.0
+	pivot_offset_ratio = Vector2.ONE * 0.5
 
 func _set_texture(val:Texture2D):
 	texture = val

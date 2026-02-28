@@ -349,14 +349,16 @@ static func get_id_for_tool_speical(special:ToolData.Special) -> String:
 	match special:
 		ToolData.Special.COMPOST:
 			id = "compost"
-		ToolData.Special.WITHER:
-			id = "wither"
+		ToolData.Special.HANDY:
+			id = "handy"
 		ToolData.Special.NIGHTFALL:
 			id = "nightfall"
 		ToolData.Special.FLIP_FRONT:
 			id = "flip_front"
 		ToolData.Special.FLIP_BACK:
 			id = "flip_back"
+		ToolData.Special.REVERSIBLE:
+			id = "reversible"
 		_:
 			assert(false, "special id not implemented")
 	return id
@@ -365,14 +367,16 @@ static func get_special_from_id(id:String) -> ToolData.Special:
 	match id:
 		"compost":
 			return ToolData.Special.COMPOST
-		"wither":
-			return ToolData.Special.WITHER
+		"handy":
+			return ToolData.Special.HANDY
 		"nightfall":
 			return ToolData.Special.NIGHTFALL
 		"flip_front":
 			return ToolData.Special.FLIP_FRONT
 		"flip_back":
 			return ToolData.Special.FLIP_BACK
+		"reversible":
+			return ToolData.Special.REVERSIBLE
 		_:
 			assert(false, "Invalid special id: %s" % id)
 	return ToolData.Special.COMPOST
@@ -430,6 +434,13 @@ static func array_find(array:Array, callable:Callable) -> int:
 			return index
 		index += 1
 	return -1
+
+static func array_find_all(array:Array, callable:Callable) -> Array:
+	var found_indices:Array = []
+	for i in range(array.size()):
+		if callable.call(array[i]):
+			found_indices.append(i)
+	return found_indices
 
 static func get_color_for_rarity(rarity:int) -> Color:
 	match rarity:

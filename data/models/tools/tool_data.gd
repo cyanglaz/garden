@@ -19,10 +19,11 @@ const COSTS := {
 
 enum Special {
 	COMPOST,
-	WITHER,
+	HANDY,
 	NIGHTFALL,
 	FLIP_FRONT,
 	FLIP_BACK,
+	REVERSIBLE,
 }
 
 enum Type {
@@ -30,7 +31,7 @@ enum Type {
 	POWER,
 }
 
-const INTERACTIVE_SPECIALS := [Special.FLIP_FRONT, Special.FLIP_BACK]
+const INTERACTIVE_SPECIALS := [Special.FLIP_FRONT, Special.FLIP_BACK, Special.REVERSIBLE]
 
 @export var energy_cost:int = 1
 @export var actions:Array[ActionData]
@@ -122,6 +123,15 @@ func get_card_selection_custom_error_message() -> String:
 	if tool_script:
 		return tool_script.get_card_selection_custom_error_message()
 	return ""
+
+func reverse() -> void:
+	assert(specials.has(Special.REVERSIBLE), "Card is not reversible")
+	for action:ActionData in actions:
+		if action.type == ActionData.ActionType.PUSH_LEFT:
+			action.type = ActionData.ActionType.PUSH_RIGHT
+		elif action.type == ActionData.ActionType.PUSH_RIGHT:
+			action.type = ActionData.ActionType.PUSH_LEFT
+	request_refresh.emit()
 
 func _get_cost() -> int:
 	return COSTS[rarity]

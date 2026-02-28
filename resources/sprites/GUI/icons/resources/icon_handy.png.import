@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b0hwob22c3vkm"
-path="res://.godot/imported/icon_wither.png-9cff11f337ed72a67e5e6951c1918c7a.ctex"
+path="res://.godot/imported/icon_handy.png-af8246eae0e44c02ba99efe55e6ede0e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/GUI/icons/resources/icon_wither.png"
-dest_files=["res://.godot/imported/icon_wither.png-9cff11f337ed72a67e5e6951c1918c7a.ctex"]
+source_file="res://resources/sprites/GUI/icons/resources/icon_handy.png"
+dest_files=["res://.godot/imported/icon_handy.png-af8246eae0e44c02ba99efe55e6ede0e.ctex"]
 
 [params]
 

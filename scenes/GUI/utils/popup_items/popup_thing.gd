@@ -20,7 +20,7 @@ func _ready() -> void:
 	top_level = true
 
 func animate_show(height:float, spread:float, time:float):
-	pivot_offset = size/2
+	pivot_offset_ratio = Vector2.ONE * 0.5
 	var from_global_position = global_position - size/2
 	global_position = from_global_position
 	var tween = Util.create_scaled_tween(self)

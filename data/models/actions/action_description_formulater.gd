@@ -68,14 +68,16 @@ static func get_special_name(special:ToolData.Special) -> String:
 	match special:
 		ToolData.Special.COMPOST:
 			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_COMPOST")
-		ToolData.Special.WITHER:
-			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_WITHER")
+		ToolData.Special.HANDY:
+			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_HANDY")
 		ToolData.Special.NIGHTFALL:
 			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_TURN_END")
 		ToolData.Special.FLIP_FRONT:
 			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_FLIP_FRONT")
 		ToolData.Special.FLIP_BACK:
 			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_FLIP_BACK")
+		ToolData.Special.REVERSIBLE:
+			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_REVERSIBLE")
 		_:
 			assert(false, "Invalid special: %s" % special)
 	return special_name
@@ -85,14 +87,16 @@ static func get_special_description(special:ToolData.Special) -> String:
 	match special:
 		ToolData.Special.COMPOST:
 			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_COMPOST")
-		ToolData.Special.WITHER:
-			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_WITHER")
+		ToolData.Special.HANDY:
+			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_HANDY")
 		ToolData.Special.NIGHTFALL:
-			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_TURN_END")
+			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_NIGHTFALL")
 		ToolData.Special.FLIP_FRONT:
 			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_FLIP_FRONT")
 		ToolData.Special.FLIP_BACK:
 			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_FLIP_BACK")
+		ToolData.Special.REVERSIBLE:
+			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_REVERSIBLE")
 		_:
 			assert(false, "Invalid special: %s" % special)
 	return special_description

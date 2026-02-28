@@ -51,14 +51,21 @@ func cleanup_for_turn() -> void:
 	number_of_card_used_this_turn = 0
 	card_use_limit_reached = false
 
-func draw_cards(count:int) -> Array:
+func draw_cards(count:int, first_turn_draw:bool) -> Array:
 	var _display_index = tool_deck.hand.size() - 1
-	var draw_results:Array = tool_deck.draw(count)
+	var draw_results:Array = []
+	var random_draw_count := count
+	if first_turn_draw:
+		draw_results.append_array(tool_deck.draw_specific(func(tool_data:ToolData): return tool_data.specials.has(ToolData.Special.HANDY)))
+		random_draw_count -= draw_results.size()
+	if random_draw_count <= 0:
+		return draw_results
+	draw_results.append_array(tool_deck.draw(random_draw_count))
 	await _gui_tool_card_container.animate_draw(draw_results)
-	if draw_results.size() < count:
+	if draw_results.size() < random_draw_count:
 		# If no sufficient cards in draw pool, shuffle discard pile and draw again.
 		await shuffle()
-		var second_draw_result:Array = tool_deck.draw(count - draw_results.size())
+		var second_draw_result:Array = tool_deck.draw(random_draw_count - draw_results.size())
 		await _gui_tool_card_container.animate_draw(second_draw_result)
 		draw_results.append_array(second_draw_result)
 	return draw_results

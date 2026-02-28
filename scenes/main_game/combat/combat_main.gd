@@ -104,7 +104,8 @@ func get_current_player_plant() -> Plant:
 
 #region cards
 func draw_cards(count:int) -> void:
-	var draw_results:Array = await tool_manager.draw_cards(count)
+	var first_turn_draw := day_manager.day == 0
+	var draw_results:Array = await tool_manager.draw_cards(count, first_turn_draw)
 	await player.player_status_container.handle_card_added_to_hand_hook(draw_results)
 	await player.player_status_container.handle_draw_hook(self, draw_results)
 
@@ -205,7 +206,8 @@ func _trigger_turn_end_cards() -> void:
 func _discard_all_tools() -> void:
 	if tool_manager.tool_deck.hand.is_empty():
 		return
-	await tool_manager.discard_cards(tool_manager.tool_deck.hand.duplicate())
+	var cards_to_discard:Array = tool_manager.tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return !tool_data.specials.has(ToolData.Special.HANDY))
+	await tool_manager.discard_cards(cards_to_discard)
 
 func _clear_tool_selection() -> void:
 	tool_manager.select_tool(null)

@@ -41,18 +41,26 @@ func shuffle_draw_pool() -> void:
 	discard_pool.clear()
 	discard_pool_updated.emit(discard_pool)
 
-func draw(count:int, indices:Array = []) -> Array:
-	indices = indices.duplicate()
-	indices.sort()
+func draw_specific(condition:Callable) -> Array:
+	var found_indices:Array = Util.array_find_all(draw_pool, condition)
+	var drawn_cards:Array = []
+	for index in found_indices:
+		var item:Variant = draw_pool[index]
+		hand.append(item)
+		drawn_cards.append(item)
+	for card in drawn_cards:
+		draw_pool.erase(card)
+	hand_updated.emit()
+	draw_pool_updated.emit(draw_pool)
+	return drawn_cards
+
+func draw(count:int) -> Array:
 	var drawn_items:Array = []
 	for i in count:
 		if draw_pool.is_empty():
 			break
 		var item:Variant = draw_pool.pop_front()
-		if indices.is_empty():
-			hand.append(item)
-		else:
-			hand.insert(indices.pop_front(), item)
+		hand.append(item)
 		drawn_items.append(item)
 	hand_updated.emit()
 	draw_pool_updated.emit(draw_pool)

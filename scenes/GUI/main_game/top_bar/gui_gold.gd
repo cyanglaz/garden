@@ -28,8 +28,8 @@ func update_gold(gold_diff:int, animation_type:AnimationType, increment_step:int
 	var final_gold:int = _current_gold + gold_diff
 	if animation_type != AnimationType.NONE:
 		var tween:Tween = Util.create_scaled_tween(self)
-		_label.pivot_offset = _label.size/2
-		_texture_rect.pivot_offset = _texture_rect.size/2
+		_label.pivot_offset_ratio = Vector2.ONE * 0.5
+		_texture_rect.pivot_offset_ratio = Vector2.ONE * 0.5
 		# Animate texture 
 		# Add a slight pause because the animation
 		tween.set_parallel(true)

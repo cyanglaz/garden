@@ -16,7 +16,7 @@ func play_insufficient_energy_animation() -> void:
 func _on_energy_tracker_value_updated(energy_tracker:ResourcePoint, animated:bool) -> void:
 	_label.text = str(energy_tracker.value)
 	if animated:
-		pivot_offset = size/2
+		pivot_offset_ratio = Vector2.ONE * 0.5
 		var tween:Tween = Util.create_scaled_tween(self)
 		tween.tween_property(self, "scale", Vector2.ONE * 2, 0.1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		tween.tween_property(self, "scale", Vector2.ONE, 0.1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)

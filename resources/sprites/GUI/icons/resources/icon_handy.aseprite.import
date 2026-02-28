@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://nc5de1m06pll"
+path="res://.godot/imported/icon_handy.aseprite-237171fcc65cd7cd8a84a39f52d98f58.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_handy.aseprite"
+dest_files=["res://.godot/imported/icon_handy.aseprite-237171fcc65cd7cd8a84a39f52d98f58.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

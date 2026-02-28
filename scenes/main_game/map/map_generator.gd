@@ -9,11 +9,11 @@ const MAX_ROWS := 6
 const TOTAL_PATHS := 4
 @warning_ignore("integer_division")
 
-const DEFAULT_TYPE_CHANGES := {
-	MapNode.NodeType.NORMAL: 40,
-	MapNode.NodeType.ELITE: 16,
-	MapNode.NodeType.SHOP: 5,
-	MapNode.NodeType.TOWN: 12,
+const DEFAULT_TYPE_CHANCES := {
+	MapNode.NodeType.NORMAL: 30,
+	MapNode.NodeType.ELITE: 18,
+	MapNode.NodeType.SHOP: 10,
+	MapNode.NodeType.TOWN: 15,
 	MapNode.NodeType.EVENT: 27,
 	MapNode.NodeType.CHEST: 0,
 }
@@ -200,7 +200,7 @@ func _constraint_node_count(layers:Array) -> void:
 				node_to_update.type = MapNode.NodeType.NORMAL
 
 func _get_candidates(node:MapNode) -> Dictionary:
-	var candidates:Dictionary = DEFAULT_TYPE_CHANGES.duplicate()
+	var candidates:Dictionary = DEFAULT_TYPE_CHANCES.duplicate()
 	for type:MapNode.NodeType in NO_CONSECUTIVE_TYPES:
 		if _is_consecutive_type(node, type):
 			candidates.erase(type)
