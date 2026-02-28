@@ -4,6 +4,7 @@ extends GUIBasicButton
 const ICON_PATH_PREFIX := "res://resources/sprites/map/map_icon_"
 
 @onready var icon: TextureRect = %Icon
+@onready var gui_map_node_background: GUIIcon = %GUIMapNodeBackground
 
 var node_state:MapNode.NodeState = MapNode.NodeState.NORMAL: set = _set_node_state
 
@@ -27,28 +28,26 @@ func update_with_node(node:MapNode) -> void:
 
 func _set_button_state(val:ButtonState) -> void:
 	super._set_button_state(val)
-	if !icon:
+	if !gui_map_node_background:
 		return
-	icon.has_outline = false
+	gui_map_node_background.has_outline = false
 	if button_state in [ButtonState.HOVERED, ButtonState.SELECTED]:
-		icon.has_outline = true
+		gui_map_node_background.has_outline = true
 	else:
-		icon.has_outline = false
+		gui_map_node_background.has_outline = false
 
 func _set_node_state(val:MapNode.NodeState) -> void:
 	node_state = val
-	#if val in [MapNode.NodeState.COMPLETED, MapNode.NodeState.UNREACHABLE]:
-		#overlay.show()
-	#else:
-		#overlay.hide()
-	#match val:
-		#MapNode.NodeState.NORMAL:
-			#state_indicator.region_rect.position = Vector2(0, 0)
-		#MapNode.NodeState.CURRENT:
-			#state_indicator.region_rect.position = Vector2(16, 0)
-		#MapNode.NodeState.NEXT:
-			#state_indicator.region_rect.position = Vector2(32, 0)
-		#MapNode.NodeState.COMPLETED:
-			#state_indicator.region_rect.position = Vector2(48, 0)
-		#MapNode.NodeState.UNREACHABLE:
-			#state_indicator.region_rect.position = Vector2(64, 0)
+	if !gui_map_node_background:
+		return
+	match val:
+		MapNode.NodeState.NORMAL:
+			(gui_map_node_background.texture as AtlasTexture).region.position = Vector2(0, 0)
+		MapNode.NodeState.CURRENT:
+			(gui_map_node_background.texture as AtlasTexture).region.position = Vector2(32, 0)
+		MapNode.NodeState.NEXT:
+			(gui_map_node_background.texture as AtlasTexture).region.position = Vector2(48, 0)
+		MapNode.NodeState.COMPLETED:
+			(gui_map_node_background.texture as AtlasTexture).region.position = Vector2(32, 0)
+		MapNode.NodeState.UNREACHABLE:
+			(gui_map_node_background.texture as AtlasTexture).region.position = Vector2(16, 0)

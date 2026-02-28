@@ -1,6 +1,7 @@
 class_name WeatherManager
 extends RefCounted
 
+@warning_ignore("unused_signal")
 signal weathers_updated()
 signal all_weather_actions_applied()
 

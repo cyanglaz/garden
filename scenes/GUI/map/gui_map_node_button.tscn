@@ -1,10 +1,24 @@
-[gd_scene load_steps=7 format=3 uid="uid://dulskrlufh4h3"]
+[gd_scene format=3 uid="uid://dulskrlufh4h3"]
 
 [ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_we0g4"]
 [ext_resource type="Script" uid="uid://vqse2kirano5" path="res://scenes/GUI/map/gui_map_node_button.gd" id="2_6lnkn"]
 [ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="3_1lvg7"]
+[ext_resource type="Texture2D" uid="uid://bob3mebvc55g" path="res://resources/sprites/map/map_node_background.png" id="3_ov53k"]
 [ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="4_ov53k"]
 [ext_resource type="Texture2D" uid="uid://b2vycpeodbahl" path="res://resources/sprites/map/map_icon_normal.png" id="5_1lvg7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1lvg7"]
+resource_local_to_scene = true
+shader = ExtResource("4_ov53k")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1lvg7"]
+resource_local_to_scene = true
+atlas = ExtResource("3_ov53k")
+region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6lnkn"]
 resource_local_to_scene = true
@@ -14,36 +28,22 @@ shader_parameter/outline_size = 0
 shader_parameter/blend_color = Color(1, 1, 1, 1)
 shader_parameter/blend_strength = 0.0
 
-[node name="GUIMapNodeButton" instance=ExtResource("1_we0g4")]
-custom_minimum_size = Vector2(0, 0)
+[node name="GUIMapNodeButton" unique_id=751440987 instance=ExtResource("1_we0g4")]
+custom_minimum_size = Vector2(16, 16)
 offset_right = 16.0
 offset_bottom = 16.0
 script = ExtResource("2_6lnkn")
-short_cut = null
-action_type = null
-hold_time = null
-button_state = null
-tool_tip_localized_string = null
-tooltip_position = null
-hover_sound = null
-click_sound = null
 
-[node name="CenterContainer" type="Control" parent="." index="0"]
+[node name="GUIMapNodeBackground" parent="." index="0" unique_id=1078791939 instance=ExtResource("3_1lvg7")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_1lvg7")
 layout_mode = 2
-mouse_filter = 2
+texture = SubResource("AtlasTexture_1lvg7")
+expand_mode = 1
 
-[node name="IconContainer" type="Control" parent="CenterContainer" index="0"]
-anchors_preset = 0
-offset_right = 16.0
-offset_bottom = 16.0
-mouse_filter = 2
-
-[node name="Icon" parent="CenterContainer/IconContainer" index="0" instance=ExtResource("3_1lvg7")]
+[node name="Icon" parent="." index="1" unique_id=540568901 instance=ExtResource("3_1lvg7")]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_6lnkn")
-layout_mode = 0
-offset_left = 2.0
-offset_top = 2.0
-offset_right = 14.0
-offset_bottom = 14.0
+layout_mode = 2
 texture = ExtResource("5_1lvg7")
+stretch_mode = 3
