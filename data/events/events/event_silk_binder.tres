@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EventData" format=3 uid="uid://58f7vvqx7473"]
+
+[ext_resource type="Script" uid="uid://erp5k732oer4" path="res://data/models/event/event_data.gd" id="1_71l14"]
+
+[resource]
+script = ExtResource("1_71l14")
+chapters = Array[int]([0])
+option_ids = Array[String](["offer", "bind", "pack"])
+id = "silk_binder"
+description = "A huge spider with legs like silver needles sits amidst a web of shimmering scrolls. She is busy binding cards with glowing silk.
+
+She stops. Her eyes fix on you, cold and empty. \"Threads,\" she vibrates. \"Cards... packs...\""
+metadata/_custom_type_script = "uid://erp5k732oer4"

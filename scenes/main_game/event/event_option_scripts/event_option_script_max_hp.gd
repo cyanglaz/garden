@@ -2,7 +2,7 @@ class_name EventOptionScriptMaxHP
 extends EventOptionScript
 
 
-func _run(option_data:EventOptionData) -> Variant:
+func _run(option_data:EventOptionData, _main_game:MainGame) -> Variant:
 	var max_hp_value := option_data.data["max_hp"] as int
 	if max_hp_value > 0:
 		Events.request_max_hp_update.emit(max_hp_value, ActionData.OperatorType.INCREASE)

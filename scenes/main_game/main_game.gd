@@ -17,6 +17,7 @@ const EVENT_CHANCE := 0.5
 @export var test_tools:Array[ToolData]
 @export var test_weather:WeatherData
 @export var test_combat:CombatData
+@export var test_event_data:EventData
 
 @onready var gui_main_game: GUIMainGame = %GUIMainGame
 @onready var node_container: Node2D = %NodeContainer
@@ -63,6 +64,8 @@ func _register_global_events() -> void:
 	Events.request_hide_warning.connect(_on_request_hide_warning)
 	Events.request_show_custom_error.connect(_on_request_show_custom_error)
 	Events.request_hide_custom_error.connect(_on_request_hide_custom_error)
+	Events.bind_finished.connect(_on_bind_finished)
+	Events.bind_card_pressed.connect(_on_bind_card_pressed)
 
 #endregion
 
@@ -122,8 +125,6 @@ func _start_shop() -> void:
 func _start_town() -> void:
 	var town_main = TOWN_MAIN_SCENE.instantiate()
 	town_main.town_finished.connect(_on_town_finished)
-	town_main.forge_finished.connect(_on_forge_finished)
-	town_main.forged_card_pressed.connect(_on_forged_card_pressed)
 	node_container.add_child(town_main)
 	town_main.setup_with_card_pool(card_pool)
 	start_scene_transition()
@@ -143,6 +144,8 @@ func _start_event() -> void:
 	if _benched_events.is_empty():
 		_benched_events = MainDatabase.event_database.get_events_by_chapter(chapter_manager.current_chapter)
 	var next_event_data:EventData = _benched_events.pop_back()
+	if test_event_data:
+		next_event_data = test_event_data
 	event_main.start(next_event_data, self)
 
 func start_scene_transition() -> void:
@@ -183,16 +186,15 @@ func _on_shop_finish_button_pressed() -> void:
 func _on_town_finished() -> void:
 	_complete_current_node()
 
-func _on_forge_finished(tool_data:ToolData, front_card_data_to_erase:ToolData, back_card_data_to_erase:ToolData) -> void:
+func _on_bind_finished(tool_data:ToolData, front_card_data_to_erase:ToolData, back_card_data_to_erase:ToolData) -> void:
 	assert(card_pool.has(front_card_data_to_erase), "Front card not in card pool")
 	assert(card_pool.has(back_card_data_to_erase), "Back card not in card pool")
 	card_pool.erase(front_card_data_to_erase)
 	card_pool.erase(back_card_data_to_erase)
 	card_pool.append(tool_data)
 
-func _on_forged_card_pressed(tool_data:ToolData, forged_card_global_position:Vector2) -> void:
-	await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(forged_card_global_position, tool_data)
-	_complete_current_node()
+func _on_bind_card_pressed(tool_data:ToolData, bind_card_global_position:Vector2) -> void:
+	await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(bind_card_global_position, tool_data)
 
 func _on_chest_card_reward_selected(tool_data:ToolData, from_global_position:Vector2) -> void:
 	if tool_data:

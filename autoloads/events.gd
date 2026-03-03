@@ -64,3 +64,9 @@ signal request_modify_hand_cards(callable:Callable)
 signal request_add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:bool)
 @warning_ignore("unused_signal")
 signal request_add_tools_to_discard_pile(tool_datas:Array, from_global_position:Vector2, pause:bool)
+
+# Bind cards
+@warning_ignore("unused_signal")
+signal bind_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData)
+@warning_ignore("unused_signal")
+signal bind_card_pressed(tool_data:ToolData, bind_card_global_position:Vector2)

@@ -1,7 +1,7 @@
 class_name EventOptionScriptHP
 extends EventOptionScript
 
-func _run(option_data:EventOptionData) -> Variant:
+func _run(option_data:EventOptionData, _main_game:MainGame) -> Variant:
 	var hp_value := option_data.data["hp"] as int
 	if hp_value > 0:
 		Events.request_hp_update.emit(hp_value, ActionData.OperatorType.INCREASE)

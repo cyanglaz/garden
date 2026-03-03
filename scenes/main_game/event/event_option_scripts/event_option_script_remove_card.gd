@@ -1,4 +1,4 @@
-class_name EventOptionScriptObtainCard
+class_name EventOptionScriptRemoveCard
 extends EventOptionScript
 
 func _run(option_data:EventOptionData, _main_game:MainGame) -> Variant:
@@ -13,7 +13,3 @@ func _should_enable(option_data:EventOptionData, main_game:MainGame) -> bool:
 	elif option_data.data.has("hp"):
 		return main_game.hp.value >= (option_data.data["hp"] as int)
 	return true
-
-func _prepare(event_data:EventData, _main_game:MainGame, option_data:EventOptionData) -> void:
-	var card_id:String = event_data.data["card"]
-	option_data.data["card"] = card_id

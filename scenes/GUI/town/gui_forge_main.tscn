@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b3lbertwi6gfq"]
+[gd_scene format=3 uid="uid://b3lbertwi6gfq"]
 
 [ext_resource type="Script" uid="uid://c5o3m4ctgvux0" path="res://scenes/GUI/town/gui_forge_main.gd" id="1_otpxr"]
 [ext_resource type="PackedScene" uid="uid://bc1bdskri1rtq" path="res://scenes/GUI/main_game/tool_cards/gui_card_placeholder.tscn" id="2_n2jby"]
@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="5_331gr"]
 [ext_resource type="PackedScene" uid="uid://ymknautcwhvf" path="res://scenes/GUI/town/gui_forge_animation_container.tscn" id="6_mxaiw"]
 
-[node name="GUIForgeMain" type="Control"]
+[node name="GUIForgeMain" type="Control" unique_id=434024845]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,7 +16,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_otpxr")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=881183106]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,30 +28,30 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 
-[node name="GUIOverlayBackground" parent="MarginContainer" instance=ExtResource("5_331gr")]
+[node name="GUIOverlayBackground" parent="MarginContainer" unique_id=2021503457 instance=ExtResource("5_331gr")]
 layout_mode = 2
 color = Color(0.52156866, 0.52156866, 0.52156866, 0.9411765)
 
-[node name="Content" type="MarginContainer" parent="MarginContainer"]
+[node name="Content" type="MarginContainer" parent="MarginContainer" unique_id=1943654786]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content" unique_id=1335449363]
 layout_mode = 2
 
-[node name="TitleLabel" type="Label" parent="MarginContainer/Content/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="MarginContainer/Content/VBoxContainer" unique_id=206044408]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HUD_LARGE"
 text = "Title"
 horizontal_alignment = 1
 
-[node name="CardsContainer" type="Control" parent="MarginContainer/Content/VBoxContainer"]
+[node name="CardsContainer" type="Control" parent="MarginContainer/Content/VBoxContainer" unique_id=369591073]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="FrontCard" type="VBoxContainer" parent="MarginContainer/Content/VBoxContainer/CardsContainer"]
+[node name="FrontCard" type="VBoxContainer" parent="MarginContainer/Content/VBoxContainer/CardsContainer" unique_id=17845793]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -62,19 +62,19 @@ offset_right = 110.0
 offset_bottom = -44.0
 grow_vertical = 0
 
-[node name="FrontCardLabel" type="Label" parent="MarginContainer/Content/VBoxContainer/CardsContainer/FrontCard"]
+[node name="FrontCardLabel" type="Label" parent="MarginContainer/Content/VBoxContainer/CardsContainer/FrontCard" unique_id=376796922]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HUD_mid"
 horizontal_alignment = 1
 
-[node name="FrontCardPlaceholder" parent="MarginContainer/Content/VBoxContainer/CardsContainer/FrontCard" instance=ExtResource("2_n2jby")]
+[node name="FrontCardPlaceholder" parent="MarginContainer/Content/VBoxContainer/CardsContainer/FrontCard" unique_id=47234723 instance=ExtResource("2_n2jby")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 5
 
-[node name="BackCard" type="VBoxContainer" parent="MarginContainer/Content/VBoxContainer/CardsContainer"]
+[node name="BackCard" type="VBoxContainer" parent="MarginContainer/Content/VBoxContainer/CardsContainer" unique_id=1454002486]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -88,37 +88,37 @@ offset_bottom = -44.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="BackCardLabel" type="Label" parent="MarginContainer/Content/VBoxContainer/CardsContainer/BackCard"]
+[node name="BackCardLabel" type="Label" parent="MarginContainer/Content/VBoxContainer/CardsContainer/BackCard" unique_id=1539066891]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HUD_mid"
 horizontal_alignment = 1
 
-[node name="BackCardPlaceholder" parent="MarginContainer/Content/VBoxContainer/CardsContainer/BackCard" instance=ExtResource("2_n2jby")]
+[node name="BackCardPlaceholder" parent="MarginContainer/Content/VBoxContainer/CardsContainer/BackCard" unique_id=1812249655 instance=ExtResource("2_n2jby")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 5
 
-[node name="ButtonContainer" type="HBoxContainer" parent="MarginContainer/Content/VBoxContainer"]
+[node name="ButtonContainer" type="HBoxContainer" parent="MarginContainer/Content/VBoxContainer" unique_id=370838127]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="CancelButton" parent="MarginContainer/Content/VBoxContainer/ButtonContainer" instance=ExtResource("4_hc48t")]
+[node name="CancelButton" parent="MarginContainer/Content/VBoxContainer/ButtonContainer" unique_id=89566239 instance=ExtResource("4_hc48t")]
 unique_name_in_owner = true
 layout_mode = 2
 localization_text_key = "CANCEL"
 
-[node name="ForgeButton" parent="MarginContainer/Content/VBoxContainer/ButtonContainer" instance=ExtResource("4_hc48t")]
+[node name="ForgeButton" parent="MarginContainer/Content/VBoxContainer/ButtonContainer" unique_id=1758669017 instance=ExtResource("4_hc48t")]
 unique_name_in_owner = true
 layout_mode = 2
-localization_text_key = "FORGE"
+localization_text_key = "BIND"
 
-[node name="GUIToolCardsViewer" parent="." instance=ExtResource("4_331gr")]
+[node name="GUIToolCardsViewer" parent="." unique_id=459831514 instance=ExtResource("4_331gr")]
 unique_name_in_owner = true
 layout_mode = 1
 
-[node name="GUIForgeAnimationContainer" parent="." instance=ExtResource("6_mxaiw")]
+[node name="GUIForgeAnimationContainer" parent="." unique_id=1465753006 instance=ExtResource("6_mxaiw")]
 unique_name_in_owner = true
 layout_mode = 1

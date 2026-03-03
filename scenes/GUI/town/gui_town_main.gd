@@ -1,8 +1,8 @@
 class_name GUITownMain
 extends CanvasLayer
 
-signal forge_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData)
-signal forged_card_pressed(tool_data:ToolData, forged_card_global_position:Vector2)
+signal bind_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData)
+signal bind_card_pressed(tool_data:ToolData, bind_card_global_position:Vector2)
 
 @onready var gui_forge_main: GUIForgeMain = %GUIForgeMain
 
@@ -17,7 +17,7 @@ func show_forge_main() -> void:
 	gui_forge_main.show()
 
 func _on_forge_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData) -> void:
-	forge_finished.emit(tool_data, front_card_data, back_card_data)
+	bind_finished.emit(tool_data, front_card_data, back_card_data)
 
 func _on_forged_card_pressed(tool_data:ToolData, forged_card_global_position:Vector2) -> void:
-	forged_card_pressed.emit(tool_data, forged_card_global_position)
+	bind_card_pressed.emit(tool_data, forged_card_global_position)

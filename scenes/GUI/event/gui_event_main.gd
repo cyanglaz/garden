@@ -9,6 +9,7 @@ signal event_finished(meta:Variant)
 
 @onready var description: RichTextLabel = %Description
 @onready var button_containers: VBoxContainer = %ButtonContainers
+@onready var sub_scene_container: Control = %SubSceneContainer
 
 func _ready() -> void:
 	description.meta_underlined = false
@@ -28,7 +29,7 @@ func update_with_event(event:EventData, main_game:MainGame) -> void:
 		var option_button: GUIEventOptionButton = OPTION_BUTTON_SCENE.instantiate()
 		button_containers.add_child(option_button)
 		option_button.update_with_option(option_data)
-		option_button.pressed.connect(_on_option_button_pressed.bind(event, option_data))
+		option_button.pressed.connect(_on_option_button_pressed.bind(event, option_data, main_game))
 		option_button.mouse_entered.connect(_on_option_button_mouse_entered.bind(option_data))
 		option_button.mouse_exited.connect(_on_option_button_mouse_exited.bind(option_data))
 		if script.should_enable(option_data, main_game):
@@ -63,9 +64,10 @@ func _on_meta_clicked(meta: String, event_data: EventData) -> void:
 		var card_data:ToolData = MainDatabase.tool_database.get_data_by_id(card_id)
 		Events.request_show_info_view.emit(card_data)
 
-func _on_option_button_pressed(event: EventData, option_data: EventOptionData) -> void:
+func _on_option_button_pressed(event: EventData, option_data: EventOptionData, main_game: MainGame) -> void:
 	var script: EventOptionScript = _get_option_script(event.id, option_data)
-	var meta:Variant = await script.run(option_data)
+	script.request_add_sub_scene.connect(_on_request_add_sub_scene)
+	var meta:Variant = await script.run(option_data, main_game)
 	event_finished.emit(meta)
 
 func _on_option_button_mouse_entered(option_data: EventOptionData) -> void:
@@ -76,3 +78,6 @@ func _on_option_button_mouse_entered(option_data: EventOptionData) -> void:
 
 func _on_option_button_mouse_exited(_option_data: EventOptionData) -> void:
 	Events.update_hovered_data.emit(null)
+
+func _on_request_add_sub_scene(sub_scene: Node) -> void:
+	sub_scene_container.add_child(sub_scene)

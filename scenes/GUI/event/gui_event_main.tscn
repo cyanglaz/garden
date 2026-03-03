@@ -15,6 +15,7 @@ color = Color(0.92941177, 0.67058825, 0.3137255, 1)
 [node name="MainMarginContainer" parent="." unique_id=563500642 instance=ExtResource("2_hb5ut")]
 
 [node name="MarginContainer" type="MarginContainer" parent="MainMarginContainer" unique_id=1705670018]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
@@ -70,3 +71,15 @@ patch_margin_left = 3
 patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 3
+
+[node name="SubSceneContainer" type="Control" parent="." unique_id=1223124171]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
