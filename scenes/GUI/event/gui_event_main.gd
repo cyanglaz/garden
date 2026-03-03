@@ -23,11 +23,14 @@ func update_with_event(event:EventData, main_game:MainGame) -> void:
 	description.meta_clicked.connect(_on_meta_clicked.bind(event))
 	for option_id in event.option_ids:
 		var option_data: EventOptionData = MainDatabase.event_option_database.get_data_by_id(str(event.id, "_", option_id))
+		var script: EventOptionScript = _get_option_script(event.id, option_data)
+		script.prepare(event, main_game, option_data)
 		var option_button: GUIEventOptionButton = OPTION_BUTTON_SCENE.instantiate()
 		button_containers.add_child(option_button)
 		option_button.update_with_option(option_data)
 		option_button.pressed.connect(_on_option_button_pressed.bind(event, option_data))
-		var script: EventOptionScript = _get_option_script(event.id, option_data)
+		option_button.mouse_entered.connect(_on_option_button_mouse_entered.bind(option_data))
+		option_button.mouse_exited.connect(_on_option_button_mouse_exited.bind(option_data))
 		if script.should_enable(option_data, main_game):
 			option_button.button_state = GUIBasicButton.ButtonState.NORMAL
 		else:
@@ -64,3 +67,12 @@ func _on_option_button_pressed(event: EventData, option_data: EventOptionData) -
 	var script: EventOptionScript = _get_option_script(event.id, option_data)
 	await script.run(option_data)
 	event_finished.emit()
+
+func _on_option_button_mouse_entered(option_data: EventOptionData) -> void:
+	if option_data.data.has("card"):
+		var card_id:String = option_data.data["card"]
+		var card_data:ToolData = MainDatabase.tool_database.get_data_by_id(card_id)
+		Events.update_hovered_data.emit(card_data)
+
+func _on_option_button_mouse_exited(_option_data: EventOptionData) -> void:
+	Events.update_hovered_data.emit(null)

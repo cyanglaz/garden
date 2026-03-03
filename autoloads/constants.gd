@@ -113,9 +113,9 @@ const TOOLTIP_HIGHLIGHT_COLOR_RED := Constants.COLOR_RED2
 
 const CARD_RARITY_COLOR := {
 	-1: Constants.COLOR_BLUE_GRAY_1,
-	0: Constants.COLOR_BEIGE_1,
-	1: Constants.COLOR_BLUE_3,
-	2: Constants.COLOR_PURPLE3,
+	0: Constants.COLOR_BEIGE_2,
+	1: Constants.COLOR_GREEN2,
+	2: Constants.COLOR_PURPLE2,
 }
 
 # Mob Addons

@@ -13,3 +13,7 @@ func _run(option_data:EventOptionData) -> void:
 
 func _should_enable(option_data:EventOptionData, main_game:MainGame) -> bool:
 	return true
+
+func _prepare(event_data:EventData, _main_game:MainGame, option_data:EventOptionData) -> void:
+	var card_id:String = event_data.data["card"]
+	option_data.data["card"] = card_id

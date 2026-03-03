@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_mqtw3")
-positive_description = "Add the card to your deck."
+positive_description = "Add {card:dt_card} to your deck."
 negative_description = "- {hp} {resource:vitality}."
 script_id = "obtain_card"
 id = "wasp_merchant_rob"
