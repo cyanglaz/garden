@@ -47,6 +47,8 @@ static func _format_reference(reference_key:String, data_to_format:Dictionary, h
 	else:
 		var reference_category:String = reference_parts[0]
 		var reference_id:String = reference_parts[1]
+		if reference_id.begins_with("dt_"):
+			reference_id = data_to_format[reference_id.substr(3)]
 		if (highlight_description_keys.has(reference_id) && highlight_description_keys[reference_id] == true) || highlight:
 			highlight_color = Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
 		if reference_category == "field_status" || reference_category == "resource" || reference_category == "action" || reference_category == "power":

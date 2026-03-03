@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EventOptionData" format=3 uid="uid://d2i42ti8l8oou"]
+
+[ext_resource type="Script" uid="uid://crrap2q1ee4im" path="res://data/models/event/event_option_data.gd" id="1_in5p0"]
+
+[resource]
+script = ExtResource("1_in5p0")
+positive_description = "Add the card to your deck."
+negative_description = "- {gold} {resource:gold}"
+script_id = "obtain_card"
+id = "wasp_merchant_buy"
+display_name = "Offer to Buy"
+data = {
+&"gold": "8"
+}

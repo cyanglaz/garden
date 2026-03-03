@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EventData" format=3 uid="uid://b0ssdtrfq0bjl"]
+
+[ext_resource type="Script" uid="uid://erp5k732oer4" path="res://data/models/event/event_data.gd" id="1_um8pq"]
+
+[resource]
+script = ExtResource("1_um8pq")
+chapters = Array[int]([0])
+option_ids = Array[String](["buy", "rob", "leave"])
+id = "wasp_merchant"
+description = "A tall merchant wasp flies low, hovering just inches above the dead grass. He is dragging a heavy, shimmering a [url=card]{card:dt_card}[/url] card behind him with his rear legs—the very last item in his inventory.
+
+The drone of his wings is jagged and metallic as he struggles with the weight, his back turned to you. He hasn't noticed your presence yet, preoccupied with dragging his haul toward the darker edge of the garden."
+data = {
+"card": "runoff"
+}
+metadata/_custom_type_script = "uid://erp5k732oer4"

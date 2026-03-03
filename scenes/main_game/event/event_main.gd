@@ -10,6 +10,8 @@ signal event_finished()
 
 func _ready() -> void:
 	gui_event_main.event_finished.connect(_on_event_finished)
+	#if test_event_data:
+		#start(test_event_data, null)
 
 func start(event_data:EventData, main_game:MainGame) -> void:
 	gui_event_main.update_with_event(event_data, main_game)
