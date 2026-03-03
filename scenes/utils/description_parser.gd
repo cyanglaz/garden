@@ -20,7 +20,7 @@ static func find_all_reference_pairs(formatted_description:String) -> Array:
 		searching_start_index = end_index + 1
 	return pairs
 
-static func format_references(formatted_description:String, data_to_format:Dictionary, highlight_description_keys:Dictionary, additional_highlight_check:Callable, ) -> String:
+static func format_references(formatted_description:String, data_to_format:Dictionary, highlight_description_keys:Dictionary, additional_highlight_check:Callable, highlight_color:Color = Constants.COLOR_WHITE) -> String:
 	var searching_start_index := 0
 	while true:
 		var start_index := formatted_description.find("{", searching_start_index)
@@ -31,15 +31,14 @@ static func format_references(formatted_description:String, data_to_format:Dicti
 			break
 		var reference_key := formatted_description.substr(start_index + 1, end_index - start_index - 1)
 		var highlight:bool = additional_highlight_check.call(reference_key)
-		var formatted_string := _format_reference(reference_key, data_to_format, highlight_description_keys, highlight)
+		var formatted_string := _format_reference(reference_key, data_to_format, highlight_description_keys, highlight, highlight_color)
 		formatted_description = formatted_description.substr(0, start_index) + formatted_string + formatted_description.substr(end_index + 1)
 		searching_start_index = start_index + formatted_string.length()
 	return formatted_description
 
-static func _format_reference(reference_key:String, data_to_format:Dictionary, highlight_description_keys:Dictionary, highlight:bool) -> String:
+static func _format_reference(reference_key:String, data_to_format:Dictionary, highlight_description_keys:Dictionary, highlight:bool, highlight_color:Color = Constants.COLOR_WHITE) -> String:
 	# Find the referenced id under the umbrella id
 	var parsed_string := ""
-	var highlight_color := Constants.COLOR_WHITE
 	var reference_parts:Array = reference_key.split(":")
 	if reference_parts.size() == 1:
 		if data_to_format.has(reference_key):

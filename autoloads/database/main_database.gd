@@ -8,6 +8,8 @@ var tool_database:ToolDatabase = ToolDatabase.new()
 var plant_ability_database:PlantAbilityDatabase = PlantAbilityDatabase.new()
 var combat_database:CombatDatabase = CombatDatabase.new()
 var player_status_database:PlayerStatusDatabase = PlayerStatusDatabase.new()
+var event_database:EventDatabase = EventDatabase.new()
+var event_option_database:EventOptionDatabase = EventOptionDatabase.new()
 
 func _ready() -> void:
 	#add_child(item_database)
@@ -18,3 +20,5 @@ func _ready() -> void:
 	add_child(plant_ability_database)
 	add_child(combat_database)
 	add_child(player_status_database)
+	add_child(event_database)
+	add_child(event_option_database)

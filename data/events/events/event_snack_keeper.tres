@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_qgoj6")
+chapters = Array[int]([0])
 option_ids = Array[String](["pollen_puff", "crystallized_nectar", "leave"])
 id = "snack_keeper"
 description = "A stout bee in a stained leaf-satchel hovers over a bark table. She’s surrounded by pollen puffs and crystallized nectar, currently mid-chew on a piece of sticky honeycomb.

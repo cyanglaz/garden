@@ -57,9 +57,10 @@ She eyes you with deep suspicion, hugging a jar of jelly to her chest. \"Want a 
 fit_content = true
 scroll_active = false
 
-[node name="ButtonContainers" type="HBoxContainer" parent="MainMarginContainer/MarginContainer/MainPanel/Background/MarginContainer/VBoxContainer" unique_id=1576056286]
+[node name="ButtonContainers" type="VBoxContainer" parent="MainMarginContainer/MarginContainer/MainPanel/Background/MarginContainer/VBoxContainer" unique_id=1662836526]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 10
 
 [node name="Border" type="NinePatchRect" parent="MainMarginContainer/MarginContainer/MainPanel" unique_id=1024408754]
 self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)

@@ -17,7 +17,7 @@ const TEXTURE_SHAKE_DISTANCE := 1
 @onready var _texture_rect: TextureRect = %TextureRect
 @onready var _up_sound: AudioStreamPlayer2D = %UpSound
 @onready var _animation_player: AnimationPlayer = %AnimationPlayer
-@onready var _segment_container: GridContainer = %SegmentContainer
+@onready var _segment_container: HBoxContainer = %SegmentContainer
 @onready var _label: Label = %Label
 
 var _current_value:int = -1

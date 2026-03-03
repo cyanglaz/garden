@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_x6ac2")
+script_id = "exit"
 id = "snack_keeper_leave"
-display_name = "I'm good, thank you."
+display_name = "I'm good, thank you"
 metadata/_custom_type_script = "uid://crrap2q1ee4im"

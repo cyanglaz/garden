@@ -6,10 +6,12 @@ const COMBAT_MAIN_SCENE := preload("res://scenes/main_game/combat/combat_main.ts
 const SHOP_MAIN_SCENE := preload("res://scenes/main_game/shop/shop_main.tscn")
 const TOWN_MAIN_SCENE := preload("res://scenes/main_game/town/town_main.tscn")
 const CHEST_MAIN_SCENE := preload("res://scenes/main_game/chest/chest_main.tscn")
+const EVENT_MAIN_SCENE := preload("res://scenes/main_game/event/event_main.tscn")
 
 const INITIAL_HP_VALUE := "res://data/player/player_pollinator.tres"
 const SCENE_TRANSITION_TIME := 0.2
 const NUMBER_OF_CHAPTERS := 1
+const EVENT_CHANCE := 0.5
 
 @export var player_data:PlayerData
 @export var test_tools:Array[ToolData]
@@ -28,8 +30,9 @@ var _current_scene:Node2D: get = _get_current_scene
 var chapter_manager:ChapterManager = ChapterManager.new()
 var card_pool:Array[ToolData]
 var hp:ResourcePoint = ResourcePoint.new()
-var _gold:int = 0
+var gold:int = 0
 var _warning_manager:WarningManager = WarningManager.new(self)
+var _benched_events:Array = []
 
 func _ready() -> void:
 	Singletons.main_game = self
@@ -49,10 +52,12 @@ func _ready() -> void:
 	_register_global_events()
 
 	Events.request_update_gold.emit(0, false)
+	_on_request_update_gold(10, false)
 	_start_new_chapter()
 
 func _register_global_events() -> void:
 	Events.request_hp_update.connect(_on_request_hp_update)
+	Events.request_max_hp_update.connect(_on_request_max_hp_update)
 	Events.request_update_gold.connect(_on_request_update_gold)
 	Events.request_show_warning.connect(_on_request_show_warning)
 	Events.request_hide_warning.connect(_on_request_hide_warning)
@@ -66,6 +71,7 @@ func _register_global_events() -> void:
 func _start_new_chapter() -> void:
 	chapter_manager.next_chapter()
 	_generate_chapter_data()
+	_benched_events = MainDatabase.event_database.get_events_by_chapter(chapter_manager.current_chapter)
 
 	#_start_map_main_scene()
 	# Always start with a common node
@@ -73,7 +79,7 @@ func _start_new_chapter() -> void:
 	#	_start_combat_main_scene.call_deferred(test_combat)
 	#else:
 	#	_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
-	_start_shop()
+	_start_event()
 	#_start_chest()
 	#_start_town()
 	#_game_over()
@@ -111,7 +117,7 @@ func _start_shop() -> void:
 	shop_main.finish_button_pressed.connect(_on_shop_finish_button_pressed)
 	node_container.add_child(shop_main)
 	start_scene_transition()
-	shop_main.start(_gold)
+	shop_main.start(gold)
 
 func _start_town() -> void:
 	var town_main = TOWN_MAIN_SCENE.instantiate()
@@ -128,6 +134,16 @@ func _start_chest() -> void:
 	chest_main.skipped.connect(_on_chest_reward_skipped)
 	node_container.add_child(chest_main)
 	start_scene_transition()
+
+func _start_event() -> void:
+	var event_main:EventMain = EVENT_MAIN_SCENE.instantiate()
+	event_main.event_finished.connect(_on_event_finished)
+	node_container.add_child(event_main)
+	start_scene_transition()
+	if _benched_events.is_empty():
+		_benched_events = MainDatabase.event_database.get_events_by_chapter(chapter_manager.current_chapter)
+	var next_event_data:EventData = _benched_events.pop_back()
+	event_main.start(next_event_data, self)
 
 func start_scene_transition() -> void:
 	map_main.hide()
@@ -159,7 +175,7 @@ func _on_tool_shop_button_pressed(tool_data:ToolData, from_global_position:Vecto
 		card_pool.append(tool_data)
 		await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
 	Events.request_update_gold.emit(-tool_data.cost, true)
-	(_current_scene as ShopMain).update_for_gold(_gold)
+	(_current_scene as ShopMain).update_for_gold(gold)
 
 func _on_shop_finish_button_pressed() -> void:
 	_complete_current_node()
@@ -184,6 +200,9 @@ func _on_chest_card_reward_selected(tool_data:ToolData, from_global_position:Vec
 		await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
 	_complete_current_node()
 
+func _on_event_finished() -> void:
+	_complete_current_node()
+
 func _on_chest_reward_skipped() -> void:
 	_complete_current_node()
 #endregion 
@@ -202,11 +221,20 @@ func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
 	if hp.value == 0:
 		_game_over()
 
+func _on_request_max_hp_update(val:int, operation:ActionData.OperatorType) -> void:
+	match operation:
+		ActionData.OperatorType.INCREASE:
+			hp.max_value += val
+		ActionData.OperatorType.DECREASE:
+			hp.max_value -= val
+		ActionData.OperatorType.EQUAL_TO:
+			hp.max_value = val
+
 func _on_request_update_gold(val:int, animated:bool) -> void:
 	var diff := val
-	if _gold + diff < 0:
-		diff = -_gold
-	_gold += diff
+	if gold + diff < 0:
+		diff = -gold
+	gold += diff
 	await gui_main_game.update_gold(diff, animated)
 
 func _on_request_show_warning(warning_type:WarningManager.WarningType) -> void:
@@ -228,9 +256,10 @@ func _on_request_hide_custom_error(id:String) -> void:
 func _on_map_node_selected(node:MapNode) -> void:
 	var node_type:MapNode.NodeType = node.type
 	if node.type == MapNode.NodeType.EVENT:
-		# TODO: Add more event nodes
-		const EVENT_NODES := [MapNode.NodeType.CHEST, MapNode.NodeType.SHOP, MapNode.NodeType.TOWN, MapNode.NodeType.NORMAL]
-		node_type = Util.unweighted_roll(EVENT_NODES, 1).front()
+		if randf() > EVENT_CHANCE:
+			# Chance for non-event nodes
+			const EVENT_NODES := [MapNode.NodeType.CHEST, MapNode.NodeType.SHOP, MapNode.NodeType.TOWN, MapNode.NodeType.NORMAL]
+			node_type = Util.unweighted_roll(EVENT_NODES, 1).front()
 	await gui_main_game.transition(TransitionOverlay.Type.FADE_OUT, SCENE_TRANSITION_TIME)
 	match node_type:
 		MapNode.NodeType.NORMAL:
@@ -245,6 +274,8 @@ func _on_map_node_selected(node:MapNode) -> void:
 			_start_town()
 		MapNode.NodeType.CHEST:
 			_start_chest()
+		MapNode.NodeType.EVENT:
+			_start_event()
 		_:
 			assert(false, "Invalid event node type: %s" % node_type)
 

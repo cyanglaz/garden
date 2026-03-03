@@ -4,10 +4,11 @@
 
 [resource]
 script = ExtResource("1_i2tka")
-positive_description = "+ {hp} {resource:hp}"
-negative_description = "- {gold} {resource:gold}"
+positive_description = "+ {hp} {resource:vitality}."
+negative_description = "- {gold} {resource:gold}."
+script_id = "hp"
 id = "snack_keeper_pollen_puff"
-display_name = "Take Pollen Puff."
+display_name = "Take Pollen Puff"
 data = {
 &"gold": "10",
 &"hp": "2"

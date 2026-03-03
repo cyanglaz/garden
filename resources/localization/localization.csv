@@ -94,7 +94,7 @@ WEEK_SUMMARY_SUCCESS_BUTTON, "Go to Shop"
 ACTION_MAIN_MENU, "Main Menu"
 GAME_OVER_TITLE, "Game Over"
 GAME_OVER_WEEK, "Week"
-GAME_OVER_TOTAL_GOLD_EARNED, "Total Gold Earned"
+GAME_OVER_TOTAL_GOLD_EARNED, "Total Gold Earned",
 
 CARD_SPECIAL_NAME_COMPOST, "Self Compost"
 CARD_SPECIAL_DESCRIPTION_COMPOST, "After use, this card cannot be played this level."
