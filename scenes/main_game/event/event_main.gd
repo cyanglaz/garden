@@ -1,7 +1,7 @@
 class_name EventMain
 extends Node2D
 
-signal event_finished()
+signal event_finished(meta:Variant)
 
 @warning_ignore("unused_variable")
 @export var test_event_data:EventData
@@ -16,5 +16,5 @@ func _ready() -> void:
 func start(event_data:EventData, main_game:MainGame) -> void:
 	gui_event_main.update_with_event(event_data, main_game)
 
-func _on_event_finished() -> void:
-	event_finished.emit()
+func _on_event_finished(meta:Variant) -> void:
+	event_finished.emit(meta)

@@ -5,7 +5,7 @@ const OPTION_SCRIPT_PREFIX := "res://scenes/main_game/event/event_option_scripts
 const EVENT_SCRIPT_PREFIX := "res://scenes/main_game/event/event_scripts/event_script_"
 const OPTION_BUTTON_SCENE := preload("res://scenes/GUI/controls/buttons/gui_event_option_button.tscn")
 
-signal event_finished()
+signal event_finished(meta:Variant)
 
 @onready var description: RichTextLabel = %Description
 @onready var button_containers: VBoxContainer = %ButtonContainers
@@ -65,8 +65,8 @@ func _on_meta_clicked(meta: String, event_data: EventData) -> void:
 
 func _on_option_button_pressed(event: EventData, option_data: EventOptionData) -> void:
 	var script: EventOptionScript = _get_option_script(event.id, option_data)
-	await script.run(option_data)
-	event_finished.emit()
+	var meta:Variant = await script.run(option_data)
+	event_finished.emit(meta)
 
 func _on_option_button_mouse_entered(option_data: EventOptionData) -> void:
 	if option_data.data.has("card"):
