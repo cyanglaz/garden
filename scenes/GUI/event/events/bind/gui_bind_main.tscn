@@ -7,17 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://cq1vyx3yrtj8p" path="res://scenes/GUI/main_game/tool_cards/gui_tool_cards_viewer.tscn" id="5_rubib"]
 [ext_resource type="PackedScene" uid="uid://ymknautcwhvf" path="res://scenes/GUI/event/events/bind/gui_bind_animation_container.tscn" id="6_ncm5x"]
 
-[node name="GUIBindMain" type="Control" unique_id=434024845]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="GUIBindMain" type="CanvasLayer" unique_id=1781250918]
 script = ExtResource("1_8iw64")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=881183106]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -117,8 +110,6 @@ localization_text_key = "BIND"
 
 [node name="GUIToolCardsViewer" parent="." unique_id=459831514 instance=ExtResource("5_rubib")]
 unique_name_in_owner = true
-layout_mode = 1
 
 [node name="GUIBindAnimationContainer" parent="." unique_id=1465753006 instance=ExtResource("6_ncm5x")]
 unique_name_in_owner = true
-layout_mode = 1

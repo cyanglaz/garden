@@ -1,5 +1,5 @@
 class_name GUIBindMain
-extends Control
+extends CanvasLayer
 
 signal bind_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData)
 signal bind_card_pressed(tool_data:ToolData, bind_card_global_position:Vector2)

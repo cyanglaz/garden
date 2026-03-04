@@ -121,6 +121,7 @@ func _on_library_button_evoked() -> void:
 #region global events
 
 func _on_request_view_cards(cards:Array, title:String) -> void:
+	_gui_tool_cards_viewer.hide()
 	_gui_tool_cards_viewer.animated_show_with_pool(cards, title)
 
 func _on_request_show_info_view(data:Resource) -> void:

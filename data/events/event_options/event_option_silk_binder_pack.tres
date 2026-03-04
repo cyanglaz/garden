@@ -8,6 +8,3 @@ positive_description = "Open a {pack_type} card pack."
 script_id = "pack"
 id = "silk_binder_pack"
 display_name = "Ask for a gift"
-data = {
-&"pack_type": "common"
-}

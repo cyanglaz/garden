@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cyd2pmyuelacd"]
+[gd_scene format=3 uid="uid://cyd2pmyuelacd"]
 
 [ext_resource type="Script" uid="uid://b3s0cai251tmf" path="res://scenes/GUI/main_game/gui_main_game.gd" id="1_48pcf"]
 [ext_resource type="PackedScene" uid="uid://bp2sap1brkhfa" path="res://scenes/GUI/main_game/top_bar/gui_top_bar.tscn" id="2_fu4tq"]
@@ -14,45 +14,45 @@
 [ext_resource type="PackedScene" uid="uid://d2tcfmwnpscj8" path="res://scenes/GUI/main_game/library/gui_thing_info_view.tscn" id="20_7fnwq"]
 [ext_resource type="PackedScene" uid="uid://gi0c6au5p0sr" path="res://scenes/GUI/main_game/animation/gui_top_animation_overlay.tscn" id="23_32sqg"]
 
-[node name="GUIMainGame" type="CanvasLayer"]
+[node name="GUIMainGame" type="CanvasLayer" unique_id=628099050]
 process_mode = 3
 script = ExtResource("1_48pcf")
 
-[node name="GUITopBar" parent="." instance=ExtResource("2_fu4tq")]
+[node name="GUITopBar" parent="." unique_id=719395272 instance=ExtResource("2_fu4tq")]
 unique_name_in_owner = true
 mouse_filter = 2
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1285024577]
 layer = 3
 
-[node name="GUITooltipsContainer" parent="CanvasLayer" instance=ExtResource("3_ho5j6")]
+[node name="GUITooltipsContainer" parent="CanvasLayer" unique_id=998583093 instance=ExtResource("3_ho5j6")]
 unique_name_in_owner = true
 
-[node name="GUIToolCardsViewer" parent="CanvasLayer" instance=ExtResource("11_648op")]
-unique_name_in_owner = true
-visible = false
-
-[node name="GUILibrary" parent="CanvasLayer" instance=ExtResource("18_kno36")]
+[node name="GUIToolCardsViewer" parent="CanvasLayer" unique_id=2068006809 instance=ExtResource("11_648op")]
 unique_name_in_owner = true
 visible = false
 
-[node name="GUIThingInfoView" parent="CanvasLayer" instance=ExtResource("20_7fnwq")]
+[node name="GUILibrary" parent="CanvasLayer" unique_id=762133886 instance=ExtResource("18_kno36")]
 unique_name_in_owner = true
 visible = false
 
-[node name="GUISettingsMain" parent="CanvasLayer" instance=ExtResource("12_wnks3")]
+[node name="GUIThingInfoView" parent="CanvasLayer" unique_id=1278494747 instance=ExtResource("20_7fnwq")]
 unique_name_in_owner = true
 visible = false
 
-[node name="GUIGameOverMain" parent="CanvasLayer" instance=ExtResource("8_70io0")]
+[node name="GUISettingsMain" parent="CanvasLayer" unique_id=1203353529 instance=ExtResource("12_wnks3")]
 unique_name_in_owner = true
 visible = false
 
-[node name="GUIDemoEndMain" parent="CanvasLayer" instance=ExtResource("9_wnks3")]
+[node name="GUIGameOverMain" parent="CanvasLayer" unique_id=299203832 instance=ExtResource("8_70io0")]
 unique_name_in_owner = true
 visible = false
 
-[node name="DialogueOverlay" type="Control" parent="CanvasLayer"]
+[node name="GUIDemoEndMain" parent="CanvasLayer" unique_id=148715594 instance=ExtResource("9_wnks3")]
+unique_name_in_owner = true
+visible = false
+
+[node name="DialogueOverlay" type="Control" parent="CanvasLayer" unique_id=615989029]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
@@ -64,7 +64,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="GUIDialogueWindow" parent="CanvasLayer/DialogueOverlay" instance=ExtResource("13_di7a2")]
+[node name="GUIDialogueWindow" parent="CanvasLayer/DialogueOverlay" unique_id=2100088589 instance=ExtResource("13_di7a2")]
 unique_name_in_owner = true
 z_index = 101
 z_as_relative = false
@@ -79,11 +79,11 @@ offset_bottom = 19.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="GUITopAnimationOverlay" parent="CanvasLayer" instance=ExtResource("23_32sqg")]
+[node name="GUITopAnimationOverlay" parent="CanvasLayer" unique_id=1653862392 instance=ExtResource("23_32sqg")]
 unique_name_in_owner = true
 mouse_filter = 2
 
-[node name="GUIPopupThingsContainer" parent="CanvasLayer" instance=ExtResource("10_fu4tq")]
+[node name="GUIPopupThingsContainer" parent="CanvasLayer" unique_id=1485283460 instance=ExtResource("10_fu4tq")]
 
-[node name="TransitionOverlay" parent="CanvasLayer" instance=ExtResource("11_70io0")]
+[node name="TransitionOverlay" parent="CanvasLayer" unique_id=927253540 instance=ExtResource("11_70io0")]
 unique_name_in_owner = true

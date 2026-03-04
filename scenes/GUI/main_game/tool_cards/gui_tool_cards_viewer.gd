@@ -18,7 +18,6 @@ func _ready() -> void:
 	_back_button.hide()
 
 func animated_show_with_pool(pool:Array, title:String) -> void:
-	PauseManager.try_pause()
 	_title.text = title
 	show()
 	Util.remove_all_children(_grid_container)
@@ -52,7 +51,6 @@ func _play_show_animation() -> void:
 	_back_button.show()
 
 func animate_hide() -> void:
-	PauseManager.try_unpause()
 	_back_button.hide()
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(_main_container, "position:y", Constants.PENEL_HIDE_Y, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
