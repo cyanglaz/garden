@@ -4,10 +4,11 @@ extends Control
 const CARD_PADDING := 16
 const SCALE_FACTOR:float = 1.5
 const CENTER_PACK_IMAGE_ANIMATION_TIME := 0.2
+const REWARD_FINISHED_PAUSE := 0.2
 
 const GUI_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
-signal card_selected(tool_data:ToolData, from_global_position:Vector2)
+signal reward_finished()
 
 @onready var cards_container: Control = %CardsContainer
 @onready var gui_booster_pack_image: GUIBoosterPackImage = %GUIBoosterPackImage
@@ -104,6 +105,7 @@ func _animate_pack_open(booster_pack_type:CombatData.BoosterPackType, g_position
 	var final_position_y:float = (size.y - gui_booster_pack_image.size.y)/2
 	tween.tween_property(gui_booster_pack_image, "position:y", final_position_y, CENTER_PACK_IMAGE_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await gui_booster_pack_image.play_open_animation()
+	gui_booster_pack_image.hide()
 
 func _animate_card_fly_out() -> void:
 	var tween:Tween = Util.create_scaled_tween(self)
@@ -132,7 +134,10 @@ func _handle_card_selection_ended(tool_data:ToolData, from_global_position:Vecto
 	skip_card_button.hide()
 	Util.remove_all_children(cards_container)
 	hide()
-	card_selected.emit(tool_data, from_global_position)
+	if tool_data:
+		Events.request_add_card_to_deck.emit(tool_data, from_global_position)
+	await Util.create_scaled_timer(REWARD_FINISHED_PAUSE).timeout
+	reward_finished.emit()
 
 func _on_mouse_entered(gui_tool_card_button:GUIToolCardButton) -> void:
 	gui_tool_card_button.card_state = GUICardFace.CardState.HIGHLIGHTED

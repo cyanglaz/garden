@@ -1,4 +1,4 @@
-class_name ForgeGatheringStream
+class_name BindGatheringStream
 extends Node2D
 
 @onready var left_stream: GPUParticles2D = %LeftStream
@@ -6,7 +6,7 @@ extends Node2D
 @onready var left_card: GPUParticles2D = %LeftCard
 @onready var right_card: GPUParticles2D = %RightCard
 
-func play_forge_gathering_stream(left_card_position:Vector2, right_card_position:Vector2, card_size:Vector2, center_world_position:Vector2) -> void:
+func play_bind_gathering_stream(left_card_position:Vector2, right_card_position:Vector2, card_size:Vector2, center_world_position:Vector2) -> void:
 	show()
 
 	left_stream.emitting = false

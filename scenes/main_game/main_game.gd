@@ -65,7 +65,7 @@ func _register_global_events() -> void:
 	Events.request_show_custom_error.connect(_on_request_show_custom_error)
 	Events.request_hide_custom_error.connect(_on_request_hide_custom_error)
 	Events.bind_finished.connect(_on_bind_finished)
-	Events.bind_card_pressed.connect(_on_bind_card_pressed)
+	Events.request_add_card_to_deck.connect(_on_request_add_card_to_deck)
 
 #endregion
 
@@ -116,7 +116,7 @@ func _start_combat_main_scene(combat:CombatData) -> void:
 
 func _start_shop() -> void:
 	var shop_main = SHOP_MAIN_SCENE.instantiate()
-	shop_main.tool_shop_button_pressed.connect(_on_tool_shop_button_pressed)
+	shop_main.shop_button_pressed.connect(_on_shop_button_pressed)
 	shop_main.finish_button_pressed.connect(_on_shop_finish_button_pressed)
 	node_container.add_child(shop_main)
 	start_scene_transition()
@@ -163,22 +163,17 @@ func _complete_current_node() -> void:
 
 #region main scene events
 
-func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> void:
-	if tool_data:
-		card_pool.append(tool_data)
-		await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
+func _on_reward_finished() -> void:
 	# go to map
 	_complete_current_node()
 
 func _on_beat_final_boss() -> void:
 	_game_win()
 
-func _on_tool_shop_button_pressed(tool_data:ToolData, from_global_position:Vector2) -> void:
-	if tool_data:
-		card_pool.append(tool_data)
-		await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
-	Events.request_update_gold.emit(-tool_data.cost, true)
-	(_current_scene as ShopMain).update_for_gold(gold)
+func _on_shop_button_pressed(cost:int) -> void:
+	if cost > 0:
+		Events.request_update_gold.emit(-cost, true)
+		(_current_scene as ShopMain).update_for_gold(gold)
 
 func _on_shop_finish_button_pressed() -> void:
 	_complete_current_node()
@@ -193,7 +188,8 @@ func _on_bind_finished(tool_data:ToolData, front_card_data_to_erase:ToolData, ba
 	card_pool.erase(back_card_data_to_erase)
 	card_pool.append(tool_data)
 
-func _on_bind_card_pressed(tool_data:ToolData, bind_card_global_position:Vector2) -> void:
+func _on_request_add_card_to_deck(tool_data:ToolData, bind_card_global_position:Vector2) -> void:
+	card_pool.append(tool_data)
 	await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(bind_card_global_position, tool_data)
 
 func _on_chest_card_reward_selected(tool_data:ToolData, from_global_position:Vector2) -> void:

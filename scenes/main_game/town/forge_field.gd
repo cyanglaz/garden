@@ -11,7 +11,7 @@ func _on_gui_plant_button_mouse_entered() -> void:
 	forge_sign.highlighted = true
 	forge.highlighted = true
 	var building_name := Util.get_localized_string("FORGE_NAME")
-	var building_description := Util.get_localized_string("FORGE_DESCRIPTION")
+	var building_description := Util.get_localized_string("BIND_DESCRIPTION")
 	building_description = DescriptionParser.format_references(building_description, {}, {}, func(_reference_id:String) -> bool: return false)
 	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.TOWN_BUILDING, null, _tooltip_id, _gui_field_button, GUITooltip.TooltipPosition.BOTTOM, {"name": building_name, "description": building_description}))
 

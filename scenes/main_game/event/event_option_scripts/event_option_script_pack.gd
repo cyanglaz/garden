@@ -1,15 +1,29 @@
 class_name EventOptionScriptPack
 extends EventOptionScript
 
-func _run(option_data:EventOptionData, _main_game:MainGame) -> Variant:
-	var card_id:String = option_data.data["card"]
-	var card_data:ToolData = MainDatabase.tool_database.get_data_by_id(card_id)
-	Util.await_for_tiny_time()
-	return card_data
+const REWARD_MAIN_SCENE: PackedScene = preload("res://scenes/GUI/event/events/reward/gui_reward_main.tscn")
+var _reward_main: GUIRewardMain = null
 
-func _should_enable(option_data:EventOptionData, main_game:MainGame) -> bool:
+func _run(option_data:EventOptionData, _main_game:MainGame) -> Variant:
+	_reward_main = REWARD_MAIN_SCENE.instantiate()
+	request_add_sub_scene.emit(_reward_main)
+	var hp := 0
+	var gold := 0
+	var pack_type := CombatData.BoosterPackType.COMMON
+	if option_data.data.has("hp"):
+		hp = option_data.data["hp"] as int
 	if option_data.data.has("gold"):
-		return main_game.gold >= (option_data.data["gold"] as int)
-	elif option_data.data.has("hp"):
-		return main_game.hp.value >= (option_data.data["hp"] as int)
-	return true
+		gold = option_data.data["gold"] as int
+	if option_data.data.has("pack_type"):
+		var pack_type_string = option_data.data["pack_type"] as String
+		match pack_type_string:
+			"common":
+				pack_type = CombatData.BoosterPackType.COMMON
+			"rare":
+				pack_type = CombatData.BoosterPackType.RARE
+			"legendary":
+				pack_type = CombatData.BoosterPackType.LEGENDARY
+	_reward_main.show_with_data(gold, hp, pack_type)
+	await _reward_main.reward_finished
+	_reward_main.queue_free()
+	return null

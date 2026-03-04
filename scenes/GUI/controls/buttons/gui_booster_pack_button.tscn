@@ -1,8 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://ctjggegiourgw"]
+[gd_scene format=3 uid="uid://ctjggegiourgw"]
 
 [ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_kehks"]
 [ext_resource type="Script" uid="uid://cb163m78jcwr" path="res://scenes/GUI/controls/buttons/gui_booster_pack_button.gd" id="2_ee5ms"]
-[ext_resource type="PackedScene" uid="uid://cp4hifbli0slg" path="res://scenes/GUI/main_game/reward/gui_booster_pack_image.tscn" id="3_7yqk0"]
+[ext_resource type="PackedScene" uid="uid://cp4hifbli0slg" path="res://scenes/GUI/event/events/reward/gui_booster_pack_image.tscn" id="3_7yqk0"]
 
 [sub_resource type="Shader" id="Shader_7yqk0"]
 code = "shader_type canvas_item;

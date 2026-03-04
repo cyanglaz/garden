@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://c00mbn24rioim"]
+[gd_scene format=3 uid="uid://c00mbn24rioim"]
 
-[ext_resource type="Script" uid="uid://c2dnukd3j5niw" path="res://scenes/GUI/main_game/reward/gui_reward_gold.gd" id="1_i4i2a"]
+[ext_resource type="Script" uid="uid://c2dnukd3j5niw" path="res://scenes/GUI/event/events/reward/gui_reward_gold.gd" id="1_i4i2a"]
 [ext_resource type="Texture2D" uid="uid://d1hlhkeceq461" path="res://resources/sprites/GUI/icons/resources/icon_gold.png" id="1_w0qte"]
 
 [node name="GUIRewardGold" type="PanelContainer"]

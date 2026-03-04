@@ -1,7 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://cp4hifbli0slg"]
+[gd_scene format=3 uid="uid://cp4hifbli0slg"]
 
-[ext_resource type="Shader" uid="uid://bxaetpcw72v7e" path="res://scenes/GUI/main_game/reward/gui_booster_pack_image.gdshader" id="1_mexut"]
-[ext_resource type="Script" uid="uid://cqr1nsy2ofabr" path="res://scenes/GUI/main_game/reward/gui_booster_pack_image.gd" id="2_ac46u"]
+[ext_resource type="Shader" uid="uid://bxaetpcw72v7e" path="res://scenes/GUI/event/events/reward/gui_booster_pack_image.gdshader" id="1_mexut"]
+[ext_resource type="Script" uid="uid://cqr1nsy2ofabr" path="res://scenes/GUI/event/events/reward/gui_booster_pack_image.gd" id="2_ac46u"]
 [ext_resource type="Texture2D" uid="uid://b26rpyvy6fljt" path="res://resources/sprites/booster_packs/booster_pack_common.png" id="2_i1l1f"]
 [ext_resource type="Script" uid="uid://cm3abed122s44" path="res://scenes/utils/shake.gd" id="4_i1l1f"]
 [ext_resource type="AudioStream" uid="uid://bebtnif22cnll" path="res://resources/sounds/SFX/tool_cards/pack_shaking.wav" id="5_ju2c4"]

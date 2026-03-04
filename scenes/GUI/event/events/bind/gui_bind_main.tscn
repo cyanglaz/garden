@@ -1,20 +1,20 @@
 [gd_scene format=3 uid="uid://b3lbertwi6gfq"]
 
-[ext_resource type="Script" uid="uid://c5o3m4ctgvux0" path="res://scenes/GUI/town/gui_forge_main.gd" id="1_otpxr"]
-[ext_resource type="PackedScene" uid="uid://bc1bdskri1rtq" path="res://scenes/GUI/main_game/tool_cards/gui_card_placeholder.tscn" id="2_n2jby"]
-[ext_resource type="PackedScene" uid="uid://cq1vyx3yrtj8p" path="res://scenes/GUI/main_game/tool_cards/gui_tool_cards_viewer.tscn" id="4_331gr"]
-[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="4_hc48t"]
-[ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="5_331gr"]
-[ext_resource type="PackedScene" uid="uid://ymknautcwhvf" path="res://scenes/GUI/town/gui_forge_animation_container.tscn" id="6_mxaiw"]
+[ext_resource type="Script" uid="uid://c5o3m4ctgvux0" path="res://scenes/GUI/event/events/bind/gui_bind_main..gd" id="1_8iw64"]
+[ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="2_vtpgu"]
+[ext_resource type="PackedScene" uid="uid://bc1bdskri1rtq" path="res://scenes/GUI/main_game/tool_cards/gui_card_placeholder.tscn" id="3_ldxbx"]
+[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="4_hu1h4"]
+[ext_resource type="PackedScene" uid="uid://cq1vyx3yrtj8p" path="res://scenes/GUI/main_game/tool_cards/gui_tool_cards_viewer.tscn" id="5_rubib"]
+[ext_resource type="PackedScene" uid="uid://ymknautcwhvf" path="res://scenes/GUI/event/events/bind/gui_bind_animation_container.tscn" id="6_ncm5x"]
 
-[node name="GUIForgeMain" type="Control" unique_id=434024845]
+[node name="GUIBindMain" type="Control" unique_id=434024845]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_otpxr")
+script = ExtResource("1_8iw64")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=881183106]
 layout_mode = 1
@@ -28,7 +28,7 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 
-[node name="GUIOverlayBackground" parent="MarginContainer" unique_id=2021503457 instance=ExtResource("5_331gr")]
+[node name="GUIOverlayBackground" parent="MarginContainer" unique_id=2021503457 instance=ExtResource("2_vtpgu")]
 layout_mode = 2
 color = Color(0.52156866, 0.52156866, 0.52156866, 0.9411765)
 
@@ -68,7 +68,7 @@ layout_mode = 2
 theme_type_variation = &"HUD_mid"
 horizontal_alignment = 1
 
-[node name="FrontCardPlaceholder" parent="MarginContainer/Content/VBoxContainer/CardsContainer/FrontCard" unique_id=47234723 instance=ExtResource("2_n2jby")]
+[node name="FrontCardPlaceholder" parent="MarginContainer/Content/VBoxContainer/CardsContainer/FrontCard" unique_id=47234723 instance=ExtResource("3_ldxbx")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -94,7 +94,7 @@ layout_mode = 2
 theme_type_variation = &"HUD_mid"
 horizontal_alignment = 1
 
-[node name="BackCardPlaceholder" parent="MarginContainer/Content/VBoxContainer/CardsContainer/BackCard" unique_id=1812249655 instance=ExtResource("2_n2jby")]
+[node name="BackCardPlaceholder" parent="MarginContainer/Content/VBoxContainer/CardsContainer/BackCard" unique_id=1812249655 instance=ExtResource("3_ldxbx")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -105,20 +105,20 @@ layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="CancelButton" parent="MarginContainer/Content/VBoxContainer/ButtonContainer" unique_id=89566239 instance=ExtResource("4_hc48t")]
+[node name="CancelButton" parent="MarginContainer/Content/VBoxContainer/ButtonContainer" unique_id=89566239 instance=ExtResource("4_hu1h4")]
 unique_name_in_owner = true
 layout_mode = 2
 localization_text_key = "CANCEL"
 
-[node name="ForgeButton" parent="MarginContainer/Content/VBoxContainer/ButtonContainer" unique_id=1758669017 instance=ExtResource("4_hc48t")]
+[node name="BindButton" parent="MarginContainer/Content/VBoxContainer/ButtonContainer" unique_id=1758669017 instance=ExtResource("4_hu1h4")]
 unique_name_in_owner = true
 layout_mode = 2
 localization_text_key = "BIND"
 
-[node name="GUIToolCardsViewer" parent="." unique_id=459831514 instance=ExtResource("4_331gr")]
+[node name="GUIToolCardsViewer" parent="." unique_id=459831514 instance=ExtResource("5_rubib")]
 unique_name_in_owner = true
 layout_mode = 1
 
-[node name="GUIForgeAnimationContainer" parent="." unique_id=1465753006 instance=ExtResource("6_mxaiw")]
+[node name="GUIBindAnimationContainer" parent="." unique_id=1465753006 instance=ExtResource("6_ncm5x")]
 unique_name_in_owner = true
 layout_mode = 1

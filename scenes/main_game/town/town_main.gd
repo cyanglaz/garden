@@ -41,7 +41,7 @@ func _on_tavern_field_pressed(field:TavernField) -> void:
 	town_finished.emit()
 
 func _on_forge_field_pressed(_field:ForgeField) -> void:
-	gui_town_main.show_forge_main()
+	gui_town_main.show_bind_main()
 
 func _on_bind_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData) -> void:
 	Events.bind_finished.emit(tool_data, front_card_data, back_card_data)

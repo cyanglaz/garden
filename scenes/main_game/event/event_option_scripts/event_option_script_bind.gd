@@ -1,15 +1,15 @@
 class_name EventOptionScriptBind
 extends EventOptionScript
 
-const BIND_MAIN_SCENE: PackedScene = preload("res://scenes/GUI/town/gui_forge_main.tscn")
+const BIND_MAIN_SCENE: PackedScene = preload("res://scenes/GUI/event/events/bind/gui_bind_main.tscn")
 signal _bind_finished()
-var _bind_main: GUIForgeMain = null
+var _bind_main: GUIBindMain = null
 
 func _run(_option_data:EventOptionData, _main_game:MainGame) -> Variant:
 	_bind_main = BIND_MAIN_SCENE.instantiate()
 	_bind_main.setup_with_card_pool(_main_game.card_pool)
-	_bind_main.forge_finished.connect(_on_forge_finished)
-	_bind_main.forged_card_pressed.connect(_on_forged_card_pressed)
+	_bind_main.bind_finished.connect(_on_bind_finished)
+	_bind_main.bind_card_pressed.connect(_on_bind_card_pressed)
 	request_add_sub_scene.emit(_bind_main)
 	await _bind_finished
 	return null
@@ -21,11 +21,11 @@ func _should_enable(option_data:EventOptionData, main_game:MainGame) -> bool:
 		return main_game.hp.value >= (option_data.data["hp"] as int)
 	return true
 
-func _on_forge_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData) -> void:
+func _on_bind_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData) -> void:
 	Events.bind_finished.emit(tool_data, front_card_data, back_card_data)
 
-func _on_forged_card_pressed(tool_data:ToolData, forged_card_global_position:Vector2) -> void:
-	Events.bind_card_pressed.emit(tool_data, forged_card_global_position)
+func _on_bind_card_pressed(tool_data:ToolData, bind_card_global_position:Vector2) -> void:
+	Events.bind_card_pressed.emit(tool_data, bind_card_global_position)
 	await Util.await_for_tiny_time()
 	_bind_finished.emit()
 	_bind_main.queue_free()

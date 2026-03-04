@@ -1,4 +1,4 @@
-class_name ForgeCoreBurst
+class_name BindCoreBurst
 extends Node2D
 
 const WAIT_TIME := 0.1

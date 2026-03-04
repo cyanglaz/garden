@@ -1,8 +1,8 @@
-class_name GUIForgeMain
+class_name GUIBindMain
 extends Control
 
-signal forge_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData)
-signal forged_card_pressed(tool_data:ToolData, forged_card_global_position:Vector2)
+signal bind_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData)
+signal bind_card_pressed(tool_data:ToolData, bind_card_global_position:Vector2)
 
 const TOOL_CARD_BUTTON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
@@ -12,10 +12,10 @@ const TOOL_CARD_BUTTON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/g
 @onready var front_card_label: Label = %FrontCardLabel
 @onready var back_card_label: Label = %BackCardLabel
 @onready var cancel_button: GUIRichTextButton = %CancelButton
-@onready var forge_button: GUIRichTextButton = %ForgeButton
+@onready var bind_button: GUIRichTextButton = %BindButton
 @onready var gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
 @onready var cards_container: Control = %CardsContainer
-@onready var gui_forge_animation_container: GUIForgeAnimationContainer = %GUIForgeAnimationContainer
+@onready var gui_bind_animation_container: GUIBindAnimationContainer = %GUIBindAnimationContainer
 
 var _card_pool:Array = []
 var _selecting_front_card:bool = false
@@ -27,10 +27,10 @@ var _front_card_data_to_erase:ToolData = null
 var _back_card_data_to_erase:ToolData = null
 
 func _ready() -> void:
-	forge_button.button_state = GUIBasicButton.ButtonState.DISABLED
-	title_label.text = Util.get_localized_string("FORGE_TITLE")
-	front_card_label.text = Util.get_localized_string("FORGE_FRONT_CARD_LABEL")
-	back_card_label.text = Util.get_localized_string("FORGE_BACK_CARD_LABEL")
+	bind_button.button_state = GUIBasicButton.ButtonState.DISABLED
+	title_label.text = Util.get_localized_string("BIND_TITLE")
+	front_card_label.text = Util.get_localized_string("BIND_FRONT_CARD_LABEL")
+	back_card_label.text = Util.get_localized_string("BIND_BACK_CARD_LABEL")
 	front_card_placeholder.button_enabled = true
 	back_card_placeholder.button_enabled = true
 	front_card_placeholder.button_pressed.connect(_on_front_card_placeholder_button_pressed)
@@ -38,9 +38,9 @@ func _ready() -> void:
 	gui_tool_cards_viewer.hide()
 	gui_tool_cards_viewer.card_selected.connect(_on_card_selected)
 	cancel_button.pressed.connect(_on_cancel_button_pressed)
-	forge_button.pressed.connect(_on_forge_button_pressed)
-	gui_forge_animation_container.hide()
-	gui_forge_animation_container.forged_card_pressed.connect(_on_forged_card_pressed)
+	bind_button.pressed.connect(_on_bind_button_pressed)
+	gui_bind_animation_container.hide()
+	gui_bind_animation_container.bind_card_pressed.connect(_on_bind_card_pressed)
 
 func setup_with_card_pool(card_pool:Array) -> void:
 	_card_pool = card_pool
@@ -63,7 +63,7 @@ func _dismiss() -> void:
 		_back_card.queue_free()
 		_back_card = null
 
-func _get_card_pool_for_forge() -> Array:
+func _get_card_pool_for_bind() -> Array:
 	var card_pool:Array = _card_pool.duplicate()
 	if _front_card != null:
 		card_pool.erase(_front_card.tool_data)
@@ -78,14 +78,14 @@ func _on_front_card_placeholder_button_pressed() -> void:
 	if _front_card != null:
 		_front_card.queue_free()
 		_front_card = null
-	gui_tool_cards_viewer.animated_show_with_pool(_get_card_pool_for_forge(), Util.get_localized_string("FORGE_FRONT_CARD_TITLE"))
+	gui_tool_cards_viewer.animated_show_with_pool(_get_card_pool_for_bind(), Util.get_localized_string("BIND_FRONT_CARD_TITLE"))
 
 func _on_back_card_placeholder_button_pressed() -> void:
 	_selecting_front_card = false
 	if _back_card != null:
 		_back_card.queue_free()
 		_back_card = null
-	gui_tool_cards_viewer.animated_show_with_pool(_get_card_pool_for_forge(), Util.get_localized_string("FORGE_BACK_CARD_TITLE"))
+	gui_tool_cards_viewer.animated_show_with_pool(_get_card_pool_for_bind(), Util.get_localized_string("BIND_BACK_CARD_TITLE"))
 
 func _on_card_selected(gui_tool_card:GUIToolCardButton) -> void:
 	var new_card:GUIToolCardButton
@@ -110,9 +110,9 @@ func _on_card_selected(gui_tool_card:GUIToolCardButton) -> void:
 	new_card.mouse_disabled = false
 	new_card.pressed.connect(_on_new_card_pressed.bind(new_card))
 	if _front_card && _back_card:
-		forge_button.button_state = GUIBasicButton.ButtonState.NORMAL
+		bind_button.button_state = GUIBasicButton.ButtonState.NORMAL
 	else:
-		forge_button.button_state = GUIBasicButton.ButtonState.DISABLED
+		bind_button.button_state = GUIBasicButton.ButtonState.DISABLED
 
 func _on_new_card_pressed(new_card:GUIToolCardButton) -> void:
 	if new_card == _front_card:
@@ -123,9 +123,9 @@ func _on_new_card_pressed(new_card:GUIToolCardButton) -> void:
 func _on_cancel_button_pressed() -> void:
 	_dismiss()
 
-func _on_forge_button_pressed() -> void:
+func _on_bind_button_pressed() -> void:
 	cancel_button.hide()
-	forge_button.hide()
+	bind_button.hide()
 	front_card_placeholder.hide()
 	back_card_placeholder.hide()
 	front_card_label.hide()
@@ -151,12 +151,12 @@ func _on_forge_button_pressed() -> void:
 	var new_card_back_data:ToolData = back_card_data.get_duplicate()
 	_new_card_data = new_card_front_data.get_duplicate()
 	_new_card_data.back_card = new_card_back_data
-	forge_finished.emit(_new_card_data, front_card_data, back_card_data)
-	gui_forge_animation_container.play_animation(new_card_front_data, new_card_back_data, _front_card.global_position, _back_card.global_position, _new_card_data)	#forge_finished.emit(new_card_front_data, front_card_data, back_card_data)
+	bind_finished.emit(_new_card_data, front_card_data, back_card_data)
+	gui_bind_animation_container.play_animation(new_card_front_data, new_card_back_data, _front_card.global_position, _back_card.global_position, _new_card_data)	#bind_finished.emit(new_card_front_data, front_card_data, back_card_data)
 	#_dismiss()
 
-func _on_forged_card_pressed(card_global_position:Vector2) -> void:
-	forged_card_pressed.emit(_new_card_data, card_global_position)
+func _on_bind_card_pressed(card_global_position:Vector2) -> void:
+	bind_card_pressed.emit(_new_card_data, card_global_position)
 	_dismiss()
 
 #endregion
