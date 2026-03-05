@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://dquhvllsiqkb4"]
+
+[ext_resource type="Script" uid="uid://bu12ajjraopi5" path="res://scenes/main_game/event/event_main.gd" id="1_6g17c"]
+[ext_resource type="PackedScene" uid="uid://fepy2dfd3275" path="res://scenes/GUI/event/gui_event_main.tscn" id="2_ih3fo"]
+[ext_resource type="Resource" uid="uid://b0ssdtrfq0bjl" path="res://data/events/events/event_wasp_merchant.tres" id="2_s34pt"]
+
+[node name="EventMain" type="Node2D" unique_id=1887688530]
+script = ExtResource("1_6g17c")
+test_event_data = ExtResource("2_s34pt")
+
+[node name="GUIEventMain" parent="." unique_id=1130445629 instance=ExtResource("2_ih3fo")]
+unique_name_in_owner = true

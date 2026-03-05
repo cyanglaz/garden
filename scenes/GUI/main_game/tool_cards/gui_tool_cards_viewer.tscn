@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cq1vyx3yrtj8p"]
+[gd_scene format=3 uid="uid://cq1vyx3yrtj8p"]
 
 [ext_resource type="Script" uid="uid://be6geqqepvpqt" path="res://scenes/GUI/main_game/tool_cards/gui_tool_cards_viewer.gd" id="1_fr6vb"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="2_kgyom"]
@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="4_6nd7b"]
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="5_6nd7b"]
 
-[node name="GUIToolCardsViewer" type="Control"]
+[node name="GUIToolCardsViewer" type="Control" unique_id=448125924]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -14,13 +14,30 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_fr6vb")
 
-[node name="GUIOverlayBackground" parent="." instance=ExtResource("2_kgyom")]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1505317430]
 layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="GUIOverlayBackground" parent="MarginContainer" unique_id=1953806687 instance=ExtResource("2_kgyom")]
+layout_mode = 2
 color = Color(0.52156866, 0.52156866, 0.52156866, 0.9411765)
 
-[node name="MainContainer" type="VBoxContainer" parent="."]
+[node name="Container" type="Control" parent="MarginContainer" unique_id=560001178]
+layout_mode = 2
+
+[node name="MainContainer" type="VBoxContainer" parent="MarginContainer/Container" unique_id=721197392]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(160, 118)
 layout_mode = 1
@@ -28,27 +45,28 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -80.0
-offset_top = 14.0
+offset_top = 9.0
 offset_right = 80.0
-offset_bottom = 149.0
+offset_bottom = 144.0
 grow_horizontal = 2
+alignment = 1
 
-[node name="TitleContainer" type="HBoxContainer" parent="MainContainer"]
+[node name="TitleContainer" type="HBoxContainer" parent="MarginContainer/Container/MainContainer" unique_id=1622420569]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Title" type="Label" parent="MainContainer/TitleContainer"]
+[node name="Title" type="Label" parent="MarginContainer/Container/MainContainer/TitleContainer" unique_id=1596193704]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HUD"
 
-[node name="PanelContainer" type="PanelContainer" parent="MainContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/Container/MainContainer" unique_id=1212349246]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(160, 120)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Background" type="NinePatchRect" parent="MainContainer/PanelContainer"]
+[node name="Background" type="NinePatchRect" parent="MarginContainer/Container/MainContainer/PanelContainer" unique_id=941829314]
 self_modulate = Color(0.258824, 0.298039, 0.431373, 1)
 layout_mode = 2
 texture = ExtResource("3_2hebc")
@@ -57,7 +75,7 @@ patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 3
 
-[node name="Border" type="NinePatchRect" parent="MainContainer/PanelContainer"]
+[node name="Border" type="NinePatchRect" parent="MarginContainer/Container/MainContainer/PanelContainer" unique_id=550755216]
 self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
 layout_mode = 2
 texture = ExtResource("4_6nd7b")
@@ -66,42 +84,39 @@ patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 3
 
-[node name="MarginContainer2" type="MarginContainer" parent="MainContainer/PanelContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/Container/MainContainer/PanelContainer" unique_id=187385962]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 1
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MainContainer/PanelContainer/MarginContainer2"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/Container/MainContainer/PanelContainer/MarginContainer2" unique_id=1606691829]
 unique_name_in_owner = true
 layout_mode = 2
 horizontal_scroll_mode = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="MainContainer/PanelContainer/MarginContainer2/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Container/MainContainer/PanelContainer/MarginContainer2/ScrollContainer" unique_id=1617898206]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_right = 4
 
-[node name="GridContainer" type="GridContainer" parent="MainContainer/PanelContainer/MarginContainer2/ScrollContainer/MarginContainer"]
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/Container/MainContainer/PanelContainer/MarginContainer2/ScrollContainer/MarginContainer" unique_id=1058349536]
 unique_name_in_owner = true
 layout_mode = 2
 columns = 4
 
-[node name="BackButton" parent="." instance=ExtResource("5_6nd7b")]
+[node name="BackButton" parent="MarginContainer/Container" unique_id=629855401 instance=ExtResource("5_6nd7b")]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -15.0
-offset_top = -21.0
-offset_right = 15.0
-offset_bottom = -5.0
-grow_horizontal = 2
+offset_left = 6.0
+offset_top = -22.0
+offset_right = 36.0
+offset_bottom = -6.0
 grow_vertical = 0
 localization_text_key = "BACK"

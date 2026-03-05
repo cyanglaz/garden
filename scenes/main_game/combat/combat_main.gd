@@ -281,12 +281,12 @@ func _on_field_pressed(_index:int) -> void:
 	#	return
 	#_handle_card_use()
 
-func _on_reward_finished(tool_data:ToolData, from_global_position:Vector2) -> void:
+func _on_reward_finished() -> void:
 	if _combat.combat_type == CombatData.CombatType.BOSS:
 		#beat demo
 		pass # TODO: beat demo
 	else:
-		reward_finished.emit(tool_data, from_global_position)
+		reward_finished.emit()
 
 func _on_ui_lock_toggled(on:bool) -> void:
 	player.toggle_ui_buttons(on)

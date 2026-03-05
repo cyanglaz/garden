@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EventData" format=3 uid="uid://cy1xj3ohlxrt4"]
+
+[ext_resource type="Script" uid="uid://erp5k732oer4" path="res://data/models/event/event_data.gd" id="1_qgoj6"]
+
+[resource]
+script = ExtResource("1_qgoj6")
+chapters = Array[int]([0])
+option_ids = Array[String](["pollen_puff", "crystallized_nectar", "leave"])
+id = "snack_keeper"
+description = "A stout bee in a stained leaf-satchel hovers over a bark table. She’s surrounded by pollen puffs and crystallized nectar, currently mid-chew on a piece of sticky honeycomb.
+
+She eyes you with deep suspicion, hugging a jar of jelly to her chest. \"Want a bite? Fine,\" she hums with a lazy, raspy tune. \"But I'm only parting with one—my stomach can't handle any more heartbreak. Leave your coin and be gone. \""
+metadata/_custom_type_script = "uid://erp5k732oer4"

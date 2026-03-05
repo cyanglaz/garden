@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://ty8iumahplcv"]
+
+[ext_resource type="Script" uid="uid://m10lvmxnnlig" path="res://scenes/GUI/event/events/remove_card/gui_remove_card_main.gd" id="1_kcekl"]
+[ext_resource type="PackedScene" uid="uid://cq1vyx3yrtj8p" path="res://scenes/GUI/main_game/tool_cards/gui_tool_cards_viewer.tscn" id="5_13ayq"]
+
+[node name="GUIRemoveCardMain" type="CanvasLayer" unique_id=299658785]
+script = ExtResource("1_kcekl")
+
+[node name="GUIToolCardsViewer" parent="." unique_id=1172941616 instance=ExtResource("5_13ayq")]
+unique_name_in_owner = true

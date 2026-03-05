@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://buo1xh0muuno"
+path="res://.godot/imported/event_option_button_border.aseprite-5b1497e5c54210e32b6388ead1e092aa.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/theme/event_option_button_border.aseprite"
+dest_files=["res://.godot/imported/event_option_button_border.aseprite-5b1497e5c54210e32b6388ead1e092aa.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

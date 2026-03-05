@@ -1,11 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://btg5np7yclg88"]
+[gd_scene format=3 uid="uid://btg5np7yclg88"]
 
 [ext_resource type="Script" uid="uid://bcxjhkl4ttctf" path="res://scenes/GUI/town/gui_town_main.gd" id="1_6fnso"]
-[ext_resource type="PackedScene" uid="uid://b3lbertwi6gfq" path="res://scenes/GUI/town/gui_forge_main.tscn" id="3_re1qj"]
+[ext_resource type="PackedScene" uid="uid://b3lbertwi6gfq" path="res://scenes/GUI/event/events/bind/gui_bind_main.tscn" id="3_re1qj"]
 
-[node name="GUITownMain" type="CanvasLayer"]
+[node name="GUITownMain" type="CanvasLayer" unique_id=905801516]
 script = ExtResource("1_6fnso")
 
-[node name="GUIForgeMain" parent="." instance=ExtResource("3_re1qj")]
+[node name="GUIBindMain" parent="." unique_id=686009217 instance=ExtResource("3_re1qj")]
 unique_name_in_owner = true
 visible = false

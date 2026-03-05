@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cu82s1rr2eqbq"]
+[gd_scene format=3 uid="uid://cu82s1rr2eqbq"]
 
 [ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="1_08lsh"]
 [ext_resource type="Texture2D" uid="uid://b0nsc2v1cdqqd" path="res://resources/sprites/GUI/shared/panel_background_simple.png" id="1_21fji"]
@@ -7,17 +7,18 @@
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="3_4afxj"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="4_ul7c2"]
 
-[node name="GUIShopMain" type="CanvasLayer"]
+[node name="GUIShopMain" type="CanvasLayer" unique_id=1246838602]
 script = ExtResource("1_157dq")
 
-[node name="GUIOverlayBackground" parent="." instance=ExtResource("4_ul7c2")]
+[node name="GUIOverlayBackground" parent="." unique_id=147683246 instance=ExtResource("4_ul7c2")]
+color = Color(0.25882354, 0.29803923, 0.43137255, 1)
 
-[node name="MainMarginContainer" parent="." instance=ExtResource("2_pcc0i")]
+[node name="MainMarginContainer" parent="." unique_id=2136241162 instance=ExtResource("2_pcc0i")]
 
-[node name="Control" type="Control" parent="MainMarginContainer"]
+[node name="Control" type="Control" parent="MainMarginContainer" unique_id=1454561920]
 layout_mode = 2
 
-[node name="MainPanel" type="PanelContainer" parent="MainMarginContainer/Control"]
+[node name="MainPanel" type="PanelContainer" parent="MainMarginContainer/Control" unique_id=535263696]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(220, 120)
 layout_mode = 1
@@ -30,8 +31,8 @@ offset_right = 110.0
 offset_bottom = 132.0
 grow_horizontal = 2
 
-[node name="Background" type="NinePatchRect" parent="MainMarginContainer/Control/MainPanel"]
-self_modulate = Color(0.396078, 0.45098, 0.572549, 1)
+[node name="Background" type="NinePatchRect" parent="MainMarginContainer/Control/MainPanel" unique_id=411927262]
+self_modulate = Color(1, 0.63529414, 0.078431375, 1)
 layout_mode = 2
 texture = ExtResource("1_21fji")
 patch_margin_left = 3
@@ -39,7 +40,7 @@ patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 3
 
-[node name="Border" type="NinePatchRect" parent="MainMarginContainer/Control/MainPanel"]
+[node name="Border" type="NinePatchRect" parent="MainMarginContainer/Control/MainPanel" unique_id=702235186]
 self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
 layout_mode = 2
 texture = ExtResource("1_08lsh")
@@ -48,29 +49,29 @@ patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="MainMarginContainer/Control/MainPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="MainMarginContainer/Control/MainPanel" unique_id=931057039]
 layout_mode = 2
 theme_override_constants/margin_left = 6
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 4
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMarginContainer/Control/MainPanel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMarginContainer/Control/MainPanel/MarginContainer" unique_id=1557180420]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Titles" type="VBoxContainer" parent="MainMarginContainer/Control/MainPanel/MarginContainer/VBoxContainer"]
+[node name="Titles" type="VBoxContainer" parent="MainMarginContainer/Control/MainPanel/MarginContainer/VBoxContainer" unique_id=1974956779]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="Title" type="Label" parent="MainMarginContainer/Control/MainPanel/MarginContainer/VBoxContainer/Titles"]
+[node name="Title" type="Label" parent="MainMarginContainer/Control/MainPanel/MarginContainer/VBoxContainer/Titles" unique_id=1209907765]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HUD"
 text = "Shop"
 horizontal_alignment = 1
 
-[node name="SubTitle" type="Label" parent="MainMarginContainer/Control/MainPanel/MarginContainer/VBoxContainer/Titles"]
+[node name="SubTitle" type="Label" parent="MainMarginContainer/Control/MainPanel/MarginContainer/VBoxContainer/Titles" unique_id=1310635363]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -78,18 +79,18 @@ theme_type_variation = &"HUD_small"
 theme_override_colors/font_color = Color(0.705882, 0.705882, 0.705882, 1)
 horizontal_alignment = 1
 
-[node name="ToolSeedContainer" type="HBoxContainer" parent="MainMarginContainer/Control/MainPanel/MarginContainer/VBoxContainer"]
+[node name="ToolSeedContainer" type="HBoxContainer" parent="MainMarginContainer/Control/MainPanel/MarginContainer/VBoxContainer" unique_id=1146455647]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="ToolContainer" type="HBoxContainer" parent="MainMarginContainer/Control/MainPanel/MarginContainer/VBoxContainer/ToolSeedContainer"]
+[node name="ToolContainer" type="HBoxContainer" parent="MainMarginContainer/Control/MainPanel/MarginContainer/VBoxContainer/ToolSeedContainer" unique_id=1238689262]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
-[node name="FinishButton" parent="MainMarginContainer/Control" instance=ExtResource("3_4afxj")]
+[node name="FinishButton" parent="MainMarginContainer/Control" unique_id=498094661 instance=ExtResource("3_4afxj")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7

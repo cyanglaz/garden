@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EventOptionData" format=3 uid="uid://bbcpmhrh3ayxm"]
+
+[ext_resource type="Script" uid="uid://crrap2q1ee4im" path="res://data/models/event/event_option_data.gd" id="1_mqtw3"]
+
+[resource]
+script = ExtResource("1_mqtw3")
+positive_description = "Add {card:dt_card} to your deck."
+negative_description = "- {hp} {resource:vitality}."
+script_id = "obtain_card"
+id = "wasp_merchant_rob"
+display_name = "Attack and Rob"
+data = {
+&"hp": "1"
+}

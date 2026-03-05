@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bp2sap1brkhfa"]
+[gd_scene format=3 uid="uid://bp2sap1brkhfa"]
 
 [ext_resource type="Texture2D" uid="uid://0weng6gyg3pu" path="res://resources/sprites/GUI/menu/top_bar_background.png" id="1_8mpe6"]
 [ext_resource type="Script" uid="uid://bm2lnsffltmvn" path="res://scenes/GUI/main_game/top_bar/gui_top_bar.gd" id="1_om12v"]
@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://c6xeh4cid7k8w" path="res://scenes/GUI/controls/buttons/gui_library_button.tscn" id="7_ey64j"]
 [ext_resource type="PackedScene" uid="uid://bv0vcudygflck" path="res://scenes/GUI/controls/buttons/gui_settings_button.tscn" id="9_j76ip"]
 
-[node name="GUITopBar" type="PanelContainer"]
+[node name="GUITopBar" type="PanelContainer" unique_id=751614204]
 custom_minimum_size = Vector2(0, 16)
 anchors_preset = 10
 anchor_right = 1.0
@@ -17,7 +17,7 @@ offset_bottom = 4.0
 grow_horizontal = 2
 script = ExtResource("1_om12v")
 
-[node name="Background" type="NinePatchRect" parent="."]
+[node name="Background" type="NinePatchRect" parent="." unique_id=1097303179]
 layout_mode = 2
 texture = ExtResource("1_8mpe6")
 patch_margin_left = 2
@@ -25,17 +25,17 @@ patch_margin_top = 2
 patch_margin_right = 2
 patch_margin_bottom = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=2125254156]
 layout_mode = 2
 theme_override_constants/margin_left = 6
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 0
 
-[node name="Container" type="Control" parent="MarginContainer"]
+[node name="Container" type="Control" parent="MarginContainer" unique_id=629286608]
 layout_mode = 2
 
-[node name="LeftContainer" type="HBoxContainer" parent="MarginContainer/Container"]
+[node name="LeftContainer" type="HBoxContainer" parent="MarginContainer/Container" unique_id=2021223967]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -46,22 +46,17 @@ offset_bottom = 6.0
 grow_vertical = 2
 theme_override_constants/separation = 8
 
-[node name="GUIPlayer" parent="MarginContainer/Container/LeftContainer" instance=ExtResource("4_mmkmm")]
+[node name="GUIPlayer" parent="MarginContainer/Container/LeftContainer" unique_id=123249903 instance=ExtResource("4_mmkmm")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="GUIHP" parent="MarginContainer/Container/LeftContainer" instance=ExtResource("5_8mpe6")]
+[node name="GUIHP" parent="MarginContainer/Container/LeftContainer" unique_id=1550812048 instance=ExtResource("5_8mpe6")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="GUIGold" parent="MarginContainer/Container/LeftContainer" instance=ExtResource("2_mmkmm")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 4
-
-[node name="RightContainer" type="HBoxContainer" parent="MarginContainer/Container"]
+[node name="RightContainer" type="HBoxContainer" parent="MarginContainer/Container" unique_id=543574480]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -76,17 +71,22 @@ grow_vertical = 2
 theme_override_constants/separation = 6
 alignment = 2
 
-[node name="GUIFullDeckButton" parent="MarginContainer/Container/RightContainer" instance=ExtResource("6_mmkmm")]
+[node name="GUIGold" parent="MarginContainer/Container/RightContainer" unique_id=530858444 instance=ExtResource("2_mmkmm")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="GUIFullDeckButton" parent="MarginContainer/Container/RightContainer" unique_id=1630214810 instance=ExtResource("6_mmkmm")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="GUILibraryButton" parent="MarginContainer/Container/RightContainer" instance=ExtResource("7_ey64j")]
+[node name="GUILibraryButton" parent="MarginContainer/Container/RightContainer" unique_id=463433002 instance=ExtResource("7_ey64j")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="GUISettingsButton" parent="MarginContainer/Container/RightContainer" instance=ExtResource("9_j76ip")]
+[node name="GUISettingsButton" parent="MarginContainer/Container/RightContainer" unique_id=50888351 instance=ExtResource("9_j76ip")]
 unique_name_in_owner = true
 process_mode = 3
 layout_mode = 2

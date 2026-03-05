@@ -3,7 +3,7 @@ extends CanvasLayer
 
 const ADD_CARD_TO_PILE_ANIMATION_TIME := 0.3
 
-signal tool_shop_button_pressed(tool_data:ToolData, from_global_position:Vector2)
+signal shop_button_pressed(cost:int)
 signal finish_button_pressed()
 
 const ANIMATING_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
@@ -64,7 +64,8 @@ func _play_show_animation() -> void:
 func _on_tool_shop_button_pressed(gui_shop_button:GUIShopButton, tool_data:ToolData) -> void:
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
 	if gui_shop_button.sufficient_gold:
-		tool_shop_button_pressed.emit(tool_data, gui_shop_button.global_position)
+		Events.request_add_card_to_deck.emit(tool_data, gui_shop_button.global_position)
+		shop_button_pressed.emit(tool_data.cost)
 		gui_shop_button.queue_free()
 	else:
 		Util.play_error_shake_animation(gui_shop_button, "position", gui_shop_button.position)

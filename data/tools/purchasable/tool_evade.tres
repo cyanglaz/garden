@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ToolData" load_steps=5 format=3 uid="uid://cdfhw4k15nex6"]
+[gd_resource type="Resource" script_class="ToolData" format=3 uid="uid://cdfhw4k15nex6"]
 
 [ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_4meus"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_pib5k"]

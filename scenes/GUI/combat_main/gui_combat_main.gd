@@ -5,7 +5,7 @@ signal end_turn_button_pressed()
 signal tool_selected(tool_data:ToolData)
 signal card_use_button_pressed(tool_data:ToolData)
 signal mouse_exited_card(tool_data:ToolData)
-signal reward_finished(tool_data:ToolData, from_global_position:Vector2)
+signal reward_finished()
 signal ui_lock_toggled(on:bool)
 
 @onready var gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
@@ -28,7 +28,7 @@ func _ready() -> void:
 	gui_tool_card_container.tool_selected.connect(func(tool_data:ToolData) -> void: tool_selected.emit(tool_data))
 	gui_tool_card_container.card_use_button_pressed.connect(func(tool_data:ToolData) -> void: card_use_button_pressed.emit(tool_data))
 	gui_tool_card_container.mouse_exited_card.connect(func(tool_data:ToolData) -> void: mouse_exited_card.emit(tool_data))
-	gui_reward_main.reward_finished.connect(func(tool_data:ToolData, from_global_position:Vector2) -> void: reward_finished.emit(tool_data, from_global_position))
+	gui_reward_main.reward_finished.connect(func() -> void: reward_finished.emit())
 	gui_tool_card_container.setup.call_deferred(gui_draw_box_button, gui_discard_box_button)
 
 #region enemy

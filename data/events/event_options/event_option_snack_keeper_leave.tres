@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EventOptionData" format=3 uid="uid://cdtrjcou850nx"]
+
+[ext_resource type="Script" uid="uid://crrap2q1ee4im" path="res://data/models/event/event_option_data.gd" id="1_x6ac2"]
+
+[resource]
+script = ExtResource("1_x6ac2")
+script_id = "exit"
+id = "snack_keeper_leave"
+display_name = "I'm good, thank you"
+metadata/_custom_type_script = "uid://crrap2q1ee4im"

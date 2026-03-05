@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://gbvb5ymqals0"]
+[gd_scene format=3 uid="uid://gbvb5ymqals0"]
 
 [ext_resource type="Script" uid="uid://d2wx3xn5vkqcm" path="res://scenes/GUI/main_game/top_bar/gui_hp.gd" id="1_2kdio"]
 [ext_resource type="Texture2D" uid="uid://dgbr5rmxdmpib" path="res://resources/sprites/GUI/icons/resources/heart.png" id="4_fh45k"]
@@ -82,67 +82,63 @@ _data = {
 &"hp_drop": SubResource("Animation_xiu2t")
 }
 
-[node name="GUIHP" type="PanelContainer"]
+[node name="GUIHP" type="PanelContainer" unique_id=811673080]
 offset_right = 38.0
 offset_bottom = 11.0
 script = ExtResource("1_2kdio")
 
-[node name="DropSound" type="AudioStreamPlayer2D" parent="."]
+[node name="DropSound" type="AudioStreamPlayer2D" parent="." unique_id=410316447]
 unique_name_in_owner = true
 stream = ExtResource("4_p4iye")
 bus = &"SFX"
 
-[node name="UpSound" type="AudioStreamPlayer2D" parent="."]
+[node name="UpSound" type="AudioStreamPlayer2D" parent="." unique_id=356577404]
 unique_name_in_owner = true
 stream = ExtResource("5_6trgl")
 bus = &"SFX"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1225252246]
 unique_name_in_owner = true
 root_node = NodePath("../MainContainer")
-libraries = {
-&"": SubResource("AnimationLibrary_o8pcr")
-}
+libraries/ = SubResource("AnimationLibrary_o8pcr")
 
-[node name="MainContainer" type="HBoxContainer" parent="."]
+[node name="MainContainer" type="HBoxContainer" parent="." unique_id=1729220862]
 layout_mode = 2
 theme_override_constants/separation = 1
 
-[node name="TextureRect" type="TextureRect" parent="MainContainer"]
+[node name="TextureRect" type="TextureRect" parent="MainContainer" unique_id=822563119]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("4_fh45k")
 stretch_mode = 5
 
-[node name="SegmentContainer" type="GridContainer" parent="MainContainer"]
+[node name="SegmentContainer" type="HBoxContainer" parent="MainContainer" unique_id=1896247445]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-theme_override_constants/h_separation = 1
-theme_override_constants/v_separation = 1
-columns = 10
+theme_override_constants/separation = 1
 
-[node name="GUIHpSegment" parent="MainContainer/SegmentContainer" instance=ExtResource("5_xiu2t")]
+[node name="GUIHpSegment" parent="MainContainer/SegmentContainer" unique_id=1816827369 instance=ExtResource("5_xiu2t")]
 layout_mode = 2
 
-[node name="GUIHpSegment2" parent="MainContainer/SegmentContainer" instance=ExtResource("5_xiu2t")]
+[node name="GUIHpSegment2" parent="MainContainer/SegmentContainer" unique_id=1378118156 instance=ExtResource("5_xiu2t")]
 layout_mode = 2
 
-[node name="GUIHpSegment3" parent="MainContainer/SegmentContainer" instance=ExtResource("5_xiu2t")]
+[node name="GUIHpSegment3" parent="MainContainer/SegmentContainer" unique_id=928280312 instance=ExtResource("5_xiu2t")]
 layout_mode = 2
 
-[node name="GUIHpSegment4" parent="MainContainer/SegmentContainer" instance=ExtResource("5_xiu2t")]
+[node name="GUIHpSegment4" parent="MainContainer/SegmentContainer" unique_id=1744781965 instance=ExtResource("5_xiu2t")]
 layout_mode = 2
 
-[node name="GUIHpSegment5" parent="MainContainer/SegmentContainer" instance=ExtResource("5_xiu2t")]
+[node name="GUIHpSegment5" parent="MainContainer/SegmentContainer" unique_id=15717679 instance=ExtResource("5_xiu2t")]
 layout_mode = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="MainContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MainContainer" unique_id=187406988]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MainContainer/PanelContainer"]
+[node name="Label" type="Label" parent="MainContainer/PanelContainer" unique_id=503927394]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dl31u6exk8l35"]
+[gd_scene format=3 uid="uid://dl31u6exk8l35"]
 
 [ext_resource type="Script" uid="uid://tokn1oo5af3y" path="res://scenes/GUI/combat_main/gui_combat_main.gd" id="1_lrbaq"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_sjsh0"]
@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://csrspsf8vl2ux" path="res://scenes/GUI/combat_main/momentum/gui_boost_tracker.tscn" id="9_gub46"]
 [ext_resource type="PackedScene" uid="uid://dn7qgrdxuu5fq" path="res://scenes/GUI/combat_main/enemy/gui_enemy.tscn" id="11_8tokl"]
 [ext_resource type="PackedScene" uid="uid://canp4x5u3afyb" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_container.tscn" id="11_sauxh"]
-[ext_resource type="PackedScene" uid="uid://3rrhwgyv2qp3" path="res://scenes/GUI/main_game/reward/gui_reward_main.tscn" id="13_8tokl"]
+[ext_resource type="PackedScene" uid="uid://3rrhwgyv2qp3" path="res://scenes/GUI/event/events/reward/gui_reward_main.tscn" id="13_8tokl"]
 
 [node name="GUICombatMain" type="CanvasLayer"]
 script = ExtResource("1_lrbaq")
