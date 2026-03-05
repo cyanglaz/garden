@@ -1,8 +1,6 @@
-class_name PlayerStatus
+class_name PlayerUpgrade
 extends Node2D
 
-@warning_ignore("unused_private_class_variable")
-var status_data:StatusData
 var stack:int:set = _set_stack, get = _get_stack
 
 func has_prevent_movement_hook() -> bool:
@@ -118,7 +116,8 @@ func _handle_player_move_hook(_main_game:CombatMain) -> void:
 #endregion
 
 func _set_stack(value:int) -> void:
-	status_data.stack = value
+	assert(false, "must be implemented")
 
 func _get_stack() -> int:
-	return status_data.stack
+	assert(false, "must be implemented")
+	return 0

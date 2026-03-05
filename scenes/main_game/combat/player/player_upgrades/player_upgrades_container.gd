@@ -1,7 +1,7 @@
-class_name PlayerStatusContainer
+class_name PlayerUpgradesContainer
 extends Node2D
 
-const PLAYER_STATUS_SCENE_PREFIX := "res://scenes/main_game/combat/player/player_status/player_status_%s.tscn"
+const PLAYER_STATUS_SCENE_PREFIX := "res://scenes/main_game/combat/player/player_upgrades/player_status/player_status_%s.tscn"
 
 signal status_updated()
 signal status_activated(player_status:PlayerStatus)
