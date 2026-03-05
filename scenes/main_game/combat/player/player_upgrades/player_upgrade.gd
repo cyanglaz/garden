@@ -2,6 +2,7 @@ class_name PlayerUpgrade
 extends Node2D
 
 var stack:int:set = _set_stack, get = _get_stack
+var data:ThingData
 
 func has_prevent_movement_hook() -> bool:
 	return _has_prevent_movement_hook()
@@ -39,11 +40,11 @@ func has_draw_hook(combat_main:CombatMain, tool_datas:Array) -> bool:
 func handle_draw_hook(combat_main:CombatMain, tool_datas:Array) -> void:
 	await _handle_draw_hook(combat_main, tool_datas)
 
-func has_status_stack_update_hook(combat_main:CombatMain, status_id:String, diff:int) -> bool:
-	return _has_status_stack_update_hook(combat_main, status_id, diff)
+func has_stack_update_hook(combat_main:CombatMain, id:String, diff:int) -> bool:
+	return _has_stack_update_hook(combat_main, id, diff)
 
-func handle_status_stack_update_hook(combat_main:CombatMain, status_id:String, diff:int) -> void:
-	await _handle_status_stack_update_hook(combat_main, status_id, diff)
+func handle_stack_update_hook(combat_main:CombatMain, id:String, diff:int) -> void:
+	await _handle_stack_update_hook(combat_main, id, diff)
 
 func has_target_plant_water_update_hook(combat_main:CombatMain, plant:Plant, diff:int) -> bool:
 	return _has_target_plant_water_update_hook(combat_main, plant, diff)
@@ -95,10 +96,10 @@ func _has_draw_hook(_combat_main:CombatMain, _tool_datas:Array) -> bool:
 func _handle_draw_hook(_combat_main:CombatMain, _tool_datas:Array) -> void:
 	await Util.await_for_tiny_time()
 
-func _has_status_stack_update_hook(_combat_main:CombatMain, _status_id:String, _diff:int) -> bool:
+func _has_stack_update_hook(_combat_main:CombatMain, _id:String, _diff:int) -> bool:
 	return false
 
-func _handle_status_stack_update_hook(_combat_main:CombatMain, _status_id:String, _diff:int) -> void:
+func _handle_stack_update_hook(_combat_main:CombatMain, _id:String, _diff:int) -> void:
 	await Util.await_for_tiny_time()
 
 func _has_target_plant_water_update_hook(_combat_main:CombatMain, _plant:Plant, _diff:int) -> bool:

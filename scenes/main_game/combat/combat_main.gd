@@ -73,8 +73,8 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	gui.reward_finished.connect(_on_reward_finished)
 
 	player.field_index_updated.connect(_on_player_field_index_updated)
-	player.player_status_container.status_activated.connect(_on_player_status_activated)
-	player.player_status_container.status_stack_updated.connect(_on_player_status_stack_updated)
+	player.player_status_container.player_upgrade_activated.connect(_on_player_player_upgrade_activated)
+	player.player_status_container.player_upgrade_stack_updated.connect(_on_player_player_upgrade_stack_updated)
 
 	combat_modifier_manager.setup(self)
 
@@ -158,7 +158,7 @@ func _start_turn() -> void:
 
 func _end_turn() -> void:
 	gui.toggle_all_ui(false)
-	player.player_status_container.clear_single_turn_statuses()
+	player.player_status_container.clear_single_turn_player_upgrades()
 	_clear_tool_selection()
 	player.handle_turn_end()
 	await _discard_all_tools()
@@ -380,11 +380,11 @@ func _on_request_energy_update(val:int, operation:ActionData.OperatorType) -> vo
 			energy_tracker.value = val
 	player.update_energy(val, operation)
 
-func _on_player_status_activated(player_status:PlayerStatus) -> void:
-	player_status.handle_activation_hook(self)
+func _on_player_player_upgrade_activated(player_upgrade:PlayerUpgrade) -> void:
+	player_upgrade.handle_activation_hook(self)
 
-func _on_player_status_stack_updated(status_id:String, diff:int) -> void:
-	player.player_status_container.handle_status_stack_update_hook(self, status_id, diff)
+func _on_player_player_upgrade_stack_updated(id:String, diff:int) -> void:
+	player.player_status_container.handle_stack_update_hook(self, id, diff)
 
 #endregion
 
