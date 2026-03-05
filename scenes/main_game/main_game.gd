@@ -66,6 +66,7 @@ func _register_global_events() -> void:
 	Events.request_hide_custom_error.connect(_on_request_hide_custom_error)
 	Events.bind_finished.connect(_on_bind_finished)
 	Events.request_add_card_to_deck.connect(_on_request_add_card_to_deck)
+	Events.request_remove_card_from_deck.connect(_on_request_remove_card_from_deck)
 
 #endregion
 
@@ -191,6 +192,9 @@ func _on_bind_finished(tool_data:ToolData, front_card_data_to_erase:ToolData, ba
 func _on_request_add_card_to_deck(tool_data:ToolData, bind_card_global_position:Vector2) -> void:
 	card_pool.append(tool_data)
 	await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(bind_card_global_position, tool_data)
+
+func _on_request_remove_card_from_deck(tool_data:ToolData) -> void:
+	card_pool.erase(tool_data)
 
 func _on_chest_card_reward_selected(tool_data:ToolData, from_global_position:Vector2) -> void:
 	if tool_data:
