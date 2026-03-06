@@ -58,6 +58,12 @@ func has_player_move_hook(main_game:CombatMain) -> bool:
 func handle_player_move_hook(main_game:CombatMain) -> void:
 	await _handle_player_move_hook(main_game)
 
+func has_end_turn_hook(combat_main:CombatMain) -> bool:
+	return _has_end_turn_hook(combat_main)
+
+func handle_end_turn_hook(combat_main:CombatMain) -> void:
+	await _handle_end_turn_hook(combat_main)
+
 #region for override
 
 func _has_prevent_movement_hook() -> bool:
@@ -112,6 +118,12 @@ func _has_player_move_hook(_main_game:CombatMain) -> bool:
 	return false
 
 func _handle_player_move_hook(_main_game:CombatMain) -> void:
+	await Util.await_for_tiny_time()
+
+func _has_end_turn_hook(_combat_main:CombatMain) -> bool:
+	return false
+
+func _handle_end_turn_hook(_combat_main:CombatMain) -> void:
 	await Util.await_for_tiny_time()
 
 #endregion

@@ -13,6 +13,12 @@ func clear_status_on_turn_end() -> void:
 			_remove_player_upgrade(player_status)
 	player_upgrades_updated.emit()
 
+func clear_single_turn_player_upgrades() -> void:
+	for player_upgrade:PlayerUpgrade in get_all_player_upgrades():
+		if player_upgrade.data.single_turn:
+			_remove_player_upgrade(player_upgrade)
+	player_upgrades_updated.emit()
+
 func _get_player_upgrade_scene(id:String) -> PackedScene:
 	return load(PLAYER_STATUS_SCENE_PREFIX % id)
 

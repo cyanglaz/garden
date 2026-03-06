@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TrinketData" format=3 uid="uid://sqd8cf4rpycc"]
+
+[ext_resource type="Script" uid="uid://dr261i4fd8jf0" path="res://data/models/trinkets/trinket_data.gd" id="1_e8wan"]
+
+[resource]
+script = ExtResource("1_e8wan")
+id = "sun_shard"
+display_name = "Sun Shard"
+description = "At end of turn, current plant +{light} {resource:light}."
+data = {
+&"light": "1"
+}
+metadata/_custom_type_script = "uid://dr261i4fd8jf0"

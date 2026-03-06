@@ -14,10 +14,7 @@ const NUMBER_OF_CHAPTERS := 1
 const EVENT_CHANCE := 0.5
 
 @export var player_data:PlayerData
-@export var test_tools:Array[ToolData]
-@export var test_weather:WeatherData
-@export var test_combat:CombatData
-@export var test_event_data:EventData
+@export var test_data:MainGameTest
 
 @onready var gui_main_game: GUIMainGame = %GUIMainGame
 @onready var node_container: Node2D = %NodeContainer
@@ -39,10 +36,15 @@ var _benched_events:Array = []
 func _ready() -> void:
 	Singletons.main_game = self
 	hp.setup(player_data.hp, player_data.hp)
-	if test_tools.is_empty():
+	if test_data && test_data.test_tools.is_empty():
 		card_pool = player_data.initial_tools
 	else:
-		card_pool = test_tools
+		card_pool = test_data.test_tools
+
+	if test_data && test_data.test_trinket_data:
+		trinket_pool = [test_data.test_trinket_data]
+	else:
+		trinket_pool = player_data.initial_trinkets
 
 	#gui main signals
 	gui_main_game.update_player(player_data)
@@ -80,8 +82,8 @@ func _start_new_chapter() -> void:
 
 	#_start_map_main_scene()
 	# Always start with a common node
-	if test_combat:
-		_start_combat_main_scene.call_deferred(test_combat)
+	if test_data && test_data.test_combat:
+		_start_combat_main_scene.call_deferred(test_data.test_combat)
 	else:
 		_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
 	#_start_event()
@@ -109,7 +111,7 @@ func _remove_current_scene() -> void:
 
 func _start_combat_main_scene(combat:CombatData) -> void:
 	var combat_main:CombatMain = COMBAT_MAIN_SCENE.instantiate()
-	combat_main.test_weather = test_weather
+	combat_main.test_weather = test_data.test_weather
 	node_container.add_child(combat_main)
 	combat_main.reward_finished.connect(_on_reward_finished)
 	combat_main.beat_final_boss.connect(_on_beat_final_boss)
@@ -146,8 +148,8 @@ func _start_event() -> void:
 	if _benched_events.is_empty():
 		_benched_events = MainDatabase.event_database.get_events_by_chapter(chapter_manager.current_chapter)
 	var next_event_data:EventData = _benched_events.pop_back()
-	if test_event_data:
-		next_event_data = test_event_data
+	if test_data && test_data.test_event_data:
+		next_event_data = test_data.test_event_data
 	event_main.start(next_event_data, self)
 
 func start_scene_transition() -> void:

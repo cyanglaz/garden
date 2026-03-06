@@ -21,6 +21,8 @@ var _stack_update_hook_queue:Array = []
 var _current_stack_update_hook_index:int = 0
 var _player_move_hook_queue:Array = []
 var _current_player_move_hook_index:int = 0
+var _end_turn_hook_queue:Array = []
+var _current_end_turn_hook_index:int = 0
 
 func set_player_upgrade(id:String, stack:int) -> void:
 	var player_upgrade:PlayerUpgrade = _get_player_upgrade(id)
@@ -63,12 +65,6 @@ func clear_player_upgrade(id:String) -> void:
 func clear_all_player_upgrades() -> void:
 	for player_upgrade:PlayerUpgrade in get_all_player_upgrades():
 		_remove_player_upgrade(player_upgrade)
-	player_upgrades_updated.emit()
-
-func clear_single_turn_player_upgrades() -> void:
-	for player_upgrade:PlayerUpgrade in get_all_player_upgrades():
-		if player_upgrade.data.single_turn:
-			_remove_player_upgrade(player_upgrade)
 	player_upgrades_updated.emit()
 
 func get_all_player_upgrades() -> Array:
@@ -214,6 +210,22 @@ func toggle_ui_buttons(on:bool) -> void:
 	for player_upgrade:PlayerUpgrade in get_all_player_upgrades():
 		player_upgrade.toggle_ui_buttons(on)
 
+func handle_end_turn_hook(combat_main:CombatMain) -> void:
+	var all_player_upgradees:Array = get_all_player_upgrades()
+	_end_turn_hook_queue = all_player_upgradees.filter(func(player_upgrade:PlayerUpgrade) -> bool:
+		return player_upgrade.has_end_turn_hook(combat_main)
+	)
+	_current_end_turn_hook_index = 0
+	await _handle_next_end_turn_hook(combat_main)
+
+func _handle_next_end_turn_hook(combat_main:CombatMain) -> void:
+	if _current_end_turn_hook_index >= _end_turn_hook_queue.size():
+		return
+	var player_upgrade:PlayerUpgrade = _end_turn_hook_queue[_current_end_turn_hook_index]
+	_send_hook_animation_signals(player_upgrade.data)
+	await player_upgrade.handle_end_turn_hook(combat_main)
+	_current_end_turn_hook_index += 1
+	await _handle_next_end_turn_hook(combat_main)
 #private functions
 
 func _remove_player_upgrade(player_upgrade:PlayerUpgrade) -> void:
@@ -226,9 +238,9 @@ func _get_player_upgrade(id:String) -> PlayerUpgrade:
 			return player_upgrade
 	return null
 
-func _send_hook_animation_signals(status_data:StatusData) -> void:
-	request_player_upgrade_hook_animation.emit(status_data.id)
-	request_hook_message_popup.emit(status_data)
+func _send_hook_animation_signals(data:ThingData) -> void:
+	request_player_upgrade_hook_animation.emit(data.id)
+	request_hook_message_popup.emit(data)
 	await Util.create_scaled_timer(Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION).timeout
 
 # for override

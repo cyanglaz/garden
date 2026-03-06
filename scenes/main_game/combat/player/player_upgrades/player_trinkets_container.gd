@@ -1,7 +1,7 @@
 class_name PlayerTrinketsContainer
 extends PlayerUpgradesContainer
 
-const PLAYER_TRINKET_SCENE_PREFIX := "res://scenes/main_game/combat/player/player_upgrades/player_trinkets/player_trinket_%s.tscn"
+const PLAYER_TRINKET_SCENE_PREFIX := "res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_%s.tscn"
 
 func setup_with_trinket_datas(trinket_datas:Array) -> void:
 	for trinket_data:TrinketData in trinket_datas:
