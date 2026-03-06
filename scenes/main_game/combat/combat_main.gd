@@ -44,7 +44,7 @@ func _ready() -> void:
 	Events.request_energy_update.connect(_on_request_energy_update)
 	gui.ui_lock_toggled.connect(_on_ui_lock_toggled)
 
-func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter:int, player_data:PlayerData) -> void:
+func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter:int, player_data:PlayerData, trinket_datas:Array) -> void:
 
 	session_summary = SessionSummary.new(combat)
 
@@ -85,7 +85,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 
 	_combat = combat
 	_chapter = chapter
-	player.setup_with_player_data(player_data, _combat.plants.size() - 1)
+	player.setup(player_data, _combat.plants.size() - 1, trinket_datas)
 	_start_new_level()
 
 func _input(event: InputEvent) -> void:

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b5ggjq34p2xp5"]
+
+[ext_resource type="Script" uid="uid://cigvpm008ul7p" path="res://scenes/main_game/combat/player/player_upgrades/player_trinkets_container.gd" id="1_u7qia"]
+
+[node name="PlayerTrinketsContainer" type="Node2D" unique_id=1727699446]
+script = ExtResource("1_u7qia")

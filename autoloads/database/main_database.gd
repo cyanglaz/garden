@@ -10,6 +10,7 @@ var combat_database:CombatDatabase = CombatDatabase.new()
 var player_status_database:PlayerStatusDatabase = PlayerStatusDatabase.new()
 var event_database:EventDatabase = EventDatabase.new()
 var event_option_database:EventOptionDatabase = EventOptionDatabase.new()
+var trinket_database:TrinketDatabase = TrinketDatabase.new()
 
 func _ready() -> void:
 	#add_child(item_database)
@@ -22,3 +23,4 @@ func _ready() -> void:
 	add_child(player_status_database)
 	add_child(event_database)
 	add_child(event_option_database)
+	add_child(trinket_database)

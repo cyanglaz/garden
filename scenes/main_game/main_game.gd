@@ -30,6 +30,7 @@ var _current_scene:Node2D: get = _get_current_scene
 
 var chapter_manager:ChapterManager = ChapterManager.new()
 var card_pool:Array[ToolData]
+var trinket_pool:Array[TrinketData]
 var hp:ResourcePoint = ResourcePoint.new()
 var gold:int = 0
 var _warning_manager:WarningManager = WarningManager.new(self)
@@ -113,7 +114,7 @@ func _start_combat_main_scene(combat:CombatData) -> void:
 	combat_main.reward_finished.connect(_on_reward_finished)
 	combat_main.beat_final_boss.connect(_on_beat_final_boss)
 	start_scene_transition()
-	combat_main.start(card_pool, 3, combat, chapter_manager.current_chapter, player_data)
+	combat_main.start(card_pool, 3, combat, chapter_manager.current_chapter, player_data, trinket_pool)
 
 func _start_shop() -> void:
 	var shop_main = SHOP_MAIN_SCENE.instantiate()

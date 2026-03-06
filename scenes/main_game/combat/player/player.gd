@@ -16,6 +16,7 @@ const POSITION_Y_OFFSET := -30
 @onready var player_state_machine: PlayerStateMachine = %PlayerStateMachine
 @onready var gui_player_status_container: GUIPlayerStatusContainer = %GUIPlayerStatusContainer
 @onready var player_status_container: PlayerStatusContainer = %PlayerStatusContainer
+@onready var player_trinkets_container: PlayerTrinketsContainer = %PlayerTrinketsContainer
 
 var current_field_index:int = 0: set = _set_current_field_index
 var player_data:PlayerData
@@ -26,10 +27,11 @@ func _ready() -> void:
 	gui_player_status_container.bind_with_player_status_container(player_status_container)
 	player_status_container.player_upgrades_updated.connect(_on_player_upgrades_updated)
 
-func setup_with_player_data(pd:PlayerData, mpi:int) -> void:
+func setup(pd:PlayerData, mpi:int, trinket_datas:Array) -> void:
 	player_data = pd
 	max_plants_index = mpi
 	player_status_container.set_player_upgrade("momentum", pd.starting_movements)
+	player_trinkets_container.setup_with_trinket_datas(trinket_datas)
 
 func handle_turn_end() -> void:
 	player_status_container.clear_status_on_turn_end()
