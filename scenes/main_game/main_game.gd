@@ -36,13 +36,13 @@ var _benched_events:Array = []
 func _ready() -> void:
 	Singletons.main_game = self
 	hp.setup(player_data.hp, player_data.hp)
-	if test_data && test_data.test_tools.is_empty():
-		card_pool = player_data.initial_tools
-	else:
+	if test_data && !test_data.test_tools.is_empty():
 		card_pool = test_data.test_tools
+	else:
+		card_pool = player_data.initial_tools
 
-	if test_data && test_data.test_trinket_data:
-		trinket_pool = [test_data.test_trinket_data]
+	if test_data && !test_data.test_trinket_datas.is_empty():
+		trinket_pool = test_data.test_trinket_datas
 	else:
 		trinket_pool = player_data.initial_trinkets
 

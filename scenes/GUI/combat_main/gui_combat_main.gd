@@ -18,7 +18,7 @@ signal ui_lock_toggled(on:bool)
 @onready var end_turn_button: GUIRichTextButton = %EndTurnButton
 @onready var gui_enemy: GUIEnemy = %GUIEnemy
 @onready var gui_reward_main: GUIRewardMain = %GUIRewardMain
-
+@onready var gui_trinket_container: GUITrinketContainer = %GUITrinketContainer
 
 var _toggle_ui_semaphore := 0
 var _ui_perm_lock := false
@@ -35,6 +35,7 @@ func _ready() -> void:
 
 func update_with_combat(combat:CombatData, combat_main:CombatMain) -> void:
 	gui_enemy.update_with_combat(combat, combat_main)
+	gui_trinket_container.bind_with_trinket_container(combat_main.player.player_trinkets_container)
 
 func apply_boss_actions(hook_type:GUIBoss.HookType) -> void:
 	await gui_enemy.apply_boss_actions(hook_type)

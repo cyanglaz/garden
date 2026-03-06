@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://v4urkffwoobw"]
+[gd_scene format=3 uid="uid://v4urkffwoobw"]
 
 [ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="1_nqrh1"]
 [ext_resource type="Script" uid="uid://6kf8qm57xqqs" path="res://scenes/GUI/combat_main/player/gui_player_status.gd" id="1_p2bps"]

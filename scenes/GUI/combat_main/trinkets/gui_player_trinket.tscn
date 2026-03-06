@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://buj5nfbiivgnq"]
+
+[ext_resource type="Script" uid="uid://c0q2gli0ywl41" path="res://scenes/GUI/combat_main/trinkets/gui_player_trinket.gd" id="1_rrsh8"]
+[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="2_alt1p"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="3_q3g18"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rrsh8"]
+resource_local_to_scene = true
+shader = ExtResource("3_q3g18")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
+
+[node name="GUIPlayerTrinket" type="PanelContainer" unique_id=627482359]
+offset_right = 12.0
+offset_bottom = 11.0
+size_flags_horizontal = 0
+script = ExtResource("1_rrsh8")
+
+[node name="GUIIcon" parent="." unique_id=1558720819 instance=ExtResource("2_alt1p")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_rrsh8")
+layout_mode = 2
+
+[node name="Stack" type="Label" parent="." unique_id=649379095]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_type_variation = &"HUD_small"
+horizontal_alignment = 2
+vertical_alignment = 2
