@@ -57,3 +57,7 @@ func toggle_ui_buttons(on:bool) -> void:
 func handle_end_turn_hook(combat_main:CombatMain) -> void:
 	for container in player_upgrade_containers:
 		await container.handle_end_turn_hook(combat_main)
+
+func handle_start_turn_hook(combat_main:CombatMain) -> void:
+	for container in player_upgrade_containers:
+		await container.handle_start_turn_hook(combat_main)

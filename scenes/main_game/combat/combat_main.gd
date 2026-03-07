@@ -151,6 +151,7 @@ func _start_turn() -> void:
 		energy_tracker.setup(max_energy, max_energy)
 	#await gui.apply_boss_actions(GUIBoss.HookType.TURN_START)
 	await draw_cards(hand_size)
+	await player.handle_start_turn(self)
 	await plant_field_container.trigger_start_turn_hooks(self)
 	gui.toggle_all_ui(true)
 	turn_started.emit()

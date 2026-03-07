@@ -23,6 +23,8 @@ var _player_move_hook_queue:Array = []
 var _current_player_move_hook_index:int = 0
 var _end_turn_hook_queue:Array = []
 var _current_end_turn_hook_index:int = 0
+var _start_turn_hook_queue:Array = []
+var _current_start_turn_hook_index:int = 0
 
 func set_player_upgrade(id:String, stack:int) -> void:
 	var player_upgrade:PlayerUpgrade = _get_player_upgrade(id)
@@ -226,6 +228,24 @@ func _handle_next_end_turn_hook(combat_main:CombatMain) -> void:
 	await player_upgrade.handle_end_turn_hook(combat_main)
 	_current_end_turn_hook_index += 1
 	await _handle_next_end_turn_hook(combat_main)
+
+func handle_start_turn_hook(combat_main:CombatMain) -> void:
+	var all_player_upgradees:Array = get_all_player_upgrades()
+	_start_turn_hook_queue = all_player_upgradees.filter(func(player_upgrade:PlayerUpgrade) -> bool:
+		return player_upgrade.has_start_turn_hook(combat_main)
+	)
+	_current_start_turn_hook_index = 0
+	await _handle_next_start_turn_hook(combat_main)
+
+func _handle_next_start_turn_hook(combat_main:CombatMain) -> void:	
+	if _current_start_turn_hook_index >= _start_turn_hook_queue.size():
+		return
+	var player_upgrade:PlayerUpgrade = _start_turn_hook_queue[_current_start_turn_hook_index]
+	_send_hook_animation_signals(player_upgrade.data)
+	await player_upgrade.handle_start_turn_hook(combat_main)
+	_current_start_turn_hook_index += 1
+	await _handle_next_start_turn_hook(combat_main)
+
 #private functions
 
 func _remove_player_upgrade(player_upgrade:PlayerUpgrade) -> void:
