@@ -11,6 +11,7 @@ func _ready() -> void:
 
 func bind_with_trinket_container(trinket_container:PlayerTrinketsContainer) -> void:
 	trinket_container.player_upgrades_updated.connect(_on_trinket_updated.bind(trinket_container))
+	trinket_container.request_player_upgrade_hook_animation.connect(_on_player_upgrade_hook_animation_requested)
 	_on_trinket_updated(trinket_container)
 
 func _on_trinket_updated(trinket_container:PlayerTrinketsContainer) -> void:
@@ -30,3 +31,13 @@ func _add_row() -> HBoxContainer:
 	current_hbox.add_theme_constant_override("separation", trinket_spacing)
 	move_child(current_hbox, 0)
 	return current_hbox
+
+func _on_player_upgrade_hook_animation_requested(id:String) -> void:
+	var animating_trinket:GUIPlayerTrinket
+	for current_hbox:HBoxContainer in get_children():
+		for child in current_hbox.get_children():
+			if child is GUIPlayerTrinket && child.trinket_id == id:
+				animating_trinket = child
+				break
+	assert(animating_trinket !=null, "Animating trinket not found")
+	animating_trinket.play_trigger_animation()

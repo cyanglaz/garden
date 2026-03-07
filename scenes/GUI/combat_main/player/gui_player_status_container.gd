@@ -5,6 +5,7 @@ const PLAYER_STATUS_SCENE := preload("res://scenes/GUI/combat_main/player/gui_pl
 
 func bind_with_player_status_container(player_status_container:PlayerStatusContainer) -> void:
 	player_status_container.player_upgrades_updated.connect(_on_player_upgrades_updated.bind(player_status_container))
+	player_status_container.request_player_upgrade_hook_animation.connect(_on_player_upgrade_hook_animation_requested)
 	_on_player_upgrades_updated(player_status_container)
 
 func _on_player_upgrades_updated(player_status_container:PlayerStatusContainer) -> void:
@@ -13,3 +14,11 @@ func _on_player_upgrades_updated(player_status_container:PlayerStatusContainer) 
 		var gui_player_status:GUIPlayerStatus = PLAYER_STATUS_SCENE.instantiate()
 		add_child(gui_player_status)
 		gui_player_status.update_with_player_status_data(player_status.data)
+
+func _on_player_upgrade_hook_animation_requested(player_upgrade_id:String) -> void:
+	var animating_player_status:GUIPlayerStatus
+	for player_status:GUIPlayerStatus in get_children():
+		if player_status.player_status_id == player_upgrade_id:
+			animating_player_status = player_status
+	assert(animating_player_status !=null, "Animating player status not found")
+	animating_player_status.play_trigger_animation()

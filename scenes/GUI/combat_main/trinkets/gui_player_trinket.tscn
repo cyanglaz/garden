@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://c0q2gli0ywl41" path="res://scenes/GUI/combat_main/trinkets/gui_player_trinket.gd" id="1_rrsh8"]
 [ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="2_alt1p"]
 [ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="3_q3g18"]
+[ext_resource type="AudioStream" uid="uid://doilouvmfbgsc" path="res://resources/sounds/SFX/field/field_status_good.wav" id="4_g3v3j"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rrsh8"]
 resource_local_to_scene = true
@@ -31,3 +32,8 @@ size_flags_vertical = 8
 theme_type_variation = &"HUD_small"
 horizontal_alignment = 2
 vertical_alignment = 2
+
+[node name="GoodAnimationAudio" type="AudioStreamPlayer2D" parent="." unique_id=1974896194]
+unique_name_in_owner = true
+stream = ExtResource("4_g3v3j")
+bus = &"SFX"
