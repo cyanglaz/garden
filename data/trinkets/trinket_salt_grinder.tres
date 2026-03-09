@@ -6,7 +6,7 @@
 script = ExtResource("1_tm8od")
 id = "salt_grinder"
 display_name = "Salt Grinder"
-description = "At end of turn, current plant -{pest}{resource:pest}, -{fungus}{resource:fungus}"
+description = "At the end of turn, current plant -{pest}{resource:pest}, -{fungus}{resource:fungus}"
 data = {
 &"fungus": "1",
 &"pest": "1"

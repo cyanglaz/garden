@@ -6,7 +6,7 @@
 script = ExtResource("1_m082o")
 id = "sun_shard"
 display_name = "Sun Shard"
-description = "At end of turn, current plant +{light}{resource:light}."
+description = "At the end of turn, current plant +{light}{resource:light}.s"
 data = {
 &"light": "1"
 }

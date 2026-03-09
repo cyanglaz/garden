@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dyp5njawxkys0"
+path="res://.godot/imported/icon_spare_wing.aseprite-f95443ba5bbc4e5ff97311a9377b1364.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_spare_wing.aseprite"
+dest_files=["res://.godot/imported/icon_spare_wing.aseprite-f95443ba5bbc4e5ff97311a9377b1364.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
