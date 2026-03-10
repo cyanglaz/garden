@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://b6jo53032hi52"
+path="res://.godot/imported/icon_ice_shard.aseprite-31577d98ce67b77a4b809afe3383f115.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_ice_shard.aseprite"
+dest_files=["res://.godot/imported/icon_ice_shard.aseprite-31577d98ce67b77a4b809afe3383f115.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dkd4bj1mctay0"
-path="res://.godot/imported/icon_sun_shard.png-902e2adfed7911c23413798ce628ed9f.ctex"
+uid="uid://gwocge0s5wfi"
+path="res://.godot/imported/icon_ice_shard.png-684fccbda3482a6364d9fde609473a2e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/GUI/icons/trinkets/icon_sun_shard.png"
-dest_files=["res://.godot/imported/icon_sun_shard.png-902e2adfed7911c23413798ce628ed9f.ctex"]
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_ice_shard.png"
+dest_files=["res://.godot/imported/icon_ice_shard.png-684fccbda3482a6364d9fde609473a2e.ctex"]
 
 [params]
 
