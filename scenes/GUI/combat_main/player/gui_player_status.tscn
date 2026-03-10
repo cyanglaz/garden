@@ -1,10 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://v4urkffwoobw"]
+[gd_scene format=3 uid="uid://v4urkffwoobw"]
 
 [ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="1_nqrh1"]
 [ext_resource type="Script" uid="uid://6kf8qm57xqqs" path="res://scenes/GUI/combat_main/player/gui_player_status.gd" id="1_p2bps"]
 [ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="2_p2bps"]
+[ext_resource type="AudioStream" uid="uid://doilouvmfbgsc" path="res://resources/sounds/SFX/field/field_status_good.wav" id="4_gdo48"]
+[ext_resource type="AudioStream" uid="uid://dgbyahxwlc0ak" path="res://resources/sounds/SFX/field/field_status_bad.wav" id="5_4gsd3"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_f27pk"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s0sx6"]
 resource_local_to_scene = true
 shader = ExtResource("2_p2bps")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
@@ -12,21 +14,32 @@ shader_parameter/outline_size = 0
 shader_parameter/blend_color = Color(1, 1, 1, 1)
 shader_parameter/blend_strength = 0.0
 
-[node name="GUIPlayerStatus" type="HBoxContainer"]
+[node name="GUIPlayerStatus" type="HBoxContainer" unique_id=1827089554]
 offset_right = 12.0
 offset_bottom = 11.0
 size_flags_horizontal = 0
 theme_override_constants/separation = 0
 script = ExtResource("1_p2bps")
 
-[node name="GUIIcon" parent="." instance=ExtResource("1_nqrh1")]
+[node name="GUIIcon" parent="." unique_id=1950463212 instance=ExtResource("1_nqrh1")]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_f27pk")
+material = SubResource("ShaderMaterial_s0sx6")
 layout_mode = 2
 
-[node name="Stack" type="Label" parent="."]
+[node name="Stack" type="Label" parent="." unique_id=559453340]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
 theme_type_variation = &"HUD_small"
 vertical_alignment = 2
+
+[node name="GoodAnimationAudio" type="AudioStreamPlayer2D" parent="." unique_id=2096024868]
+unique_name_in_owner = true
+stream = ExtResource("4_gdo48")
+bus = &"SFX"
+
+[node name="BadAnimationAudio" type="AudioStreamPlayer2D" parent="." unique_id=1575557623]
+unique_name_in_owner = true
+stream = ExtResource("5_4gsd3")
+volume_db = 5.0
+bus = &"SFX"

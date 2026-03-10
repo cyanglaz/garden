@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://f7nml8ht7nho"]
+
+[ext_resource type="Script" uid="uid://qdb8h1pg2a2d" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_sun_shard.gd" id="1_c50y5"]
+
+[node name="PlayerTrinketSunShard" type="Node2D" unique_id=235224774]
+script = ExtResource("1_c50y5")

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="TrinketData" format=3 uid="uid://diyej0scn6ow1"]
+
+[ext_resource type="Script" uid="uid://dr261i4fd8jf0" path="res://data/models/trinkets/trinket_data.gd" id="1_tm8od"]
+
+[resource]
+script = ExtResource("1_tm8od")
+id = "salt_grinder"
+display_name = "Salt Grinder"
+description = "At the end of turn, current plant -{pest}{resource:pest}, -{fungus}{resource:fungus}"
+data = {
+&"fungus": "1",
+&"pest": "1"
+}
+metadata/_custom_type_script = "uid://dr261i4fd8jf0"

@@ -3,13 +3,24 @@
 [ext_resource type="Script" uid="uid://sc1eubamsw6x" path="res://scenes/main_game/main_game.gd" id="1_yra6k"]
 [ext_resource type="Resource" uid="uid://4dslofp7rfib" path="res://data/player/player_pollinator.tres" id="2_8ywsm"]
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
-[ext_resource type="Resource" uid="uid://58f7vvqx7473" path="res://data/events/events/event_silk_binder.tres" id="4_6eclk"]
+[ext_resource type="Script" uid="uid://d4ngj3465rhxa" path="res://data/test_data/main_game_test.gd" id="3_i3kwu"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="4_mijjq"]
+[ext_resource type="Script" uid="uid://dr261i4fd8jf0" path="res://data/models/trinkets/trinket_data.gd" id="5_i3kwu"]
+[ext_resource type="Resource" uid="uid://ctdlb0yamace4" path="res://data/trinkets/trinket_sun_shard.tres" id="5_ldk84"]
+[ext_resource type="Resource" uid="uid://diyej0scn6ow1" path="res://data/trinkets/trinket_salt_grinder.tres" id="6_ldk84"]
+[ext_resource type="Resource" uid="uid://dx4wyc54drvms" path="res://data/trinkets/trinket_ice_shard.tres" id="7_r81kp"]
+[ext_resource type="Resource" uid="uid://bhuqfhg7en6d6" path="res://data/trinkets/trinket_spare_wing.tres" id="8_r81kp"]
 [ext_resource type="PackedScene" uid="uid://bqo51luu7itcc" path="res://scenes/main_game/map/map_main.tscn" id="14_s87mg"]
+
+[sub_resource type="Resource" id="Resource_r81kp"]
+script = ExtResource("3_i3kwu")
+test_trinket_datas = Array[ExtResource("5_i3kwu")]([ExtResource("6_ldk84"), ExtResource("7_r81kp"), ExtResource("8_r81kp"), ExtResource("5_ldk84")])
+metadata/_custom_type_script = "uid://d4ngj3465rhxa"
 
 [node name="MainGame" type="Node2D" unique_id=729241411]
 script = ExtResource("1_yra6k")
 player_data = ExtResource("2_8ywsm")
-test_event_data = ExtResource("4_6eclk")
+test_data = SubResource("Resource_r81kp")
 
 [node name="MapMain" parent="." unique_id=1002418759 instance=ExtResource("14_s87mg")]
 unique_name_in_owner = true

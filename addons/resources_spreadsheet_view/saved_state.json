@@ -2,13 +2,13 @@
   "column_properties": {
     "res://data/events/event_options/": {
       "metadata/_custom_type_script": {
-        "visibility": 0
+        "visibility": 0.0
       },
       "resource_local_to_scene": {
-        "visibility": 0
+        "visibility": 0.0
       },
       "resource_name": {
-        "visibility": 0
+        "visibility": 0.0
       }
     },
     "res://data/plant_abilities/": {
@@ -76,6 +76,17 @@
       "resource_name": {
         "visibility": 0.0
       }
+    },
+    "res://data/trinkets/": {
+      "metadata/_custom_type_script": {
+        "visibility": 0
+      },
+      "resource_local_to_scene": {
+        "visibility": 0
+      },
+      "resource_name": {
+        "visibility": 0
+      }
     }
   },
   "recent_paths": [
@@ -85,7 +96,8 @@
     "res://data/plant_abilities/",
     "res://data/plants/chapter0/",
     "res://data/player_status/",
-    "res://data/events/event_options/"
+    "res://data/events/event_options/",
+    "res://data/trinkets/"
   ],
   "table_functions": {
     "filter": [

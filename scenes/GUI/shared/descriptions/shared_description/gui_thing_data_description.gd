@@ -6,9 +6,9 @@ extends VBoxContainer
 @onready var rich_text_label: RichTextLabel = %RichTextLabel
 
 func update_with_thing_data(thing_data:ThingData) -> void:
-	var image := Util.get_image_path_for_resource_id(thing_data.id)
-	if image:
-		texture_rect.texture = load(Util.get_image_path_for_resource_id(thing_data.id))
+	var image_path := Util.get_image_path_for_resource_id(thing_data.id)
+	if ResourceLoader.exists(image_path):
+		texture_rect.texture = load(image_path)
 	else:
 		texture_rect.hide()
 	title_label.text = thing_data.get_display_name()

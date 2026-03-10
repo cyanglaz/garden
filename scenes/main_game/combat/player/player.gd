@@ -7,6 +7,8 @@ const POPUP_DESTROY_TIME := 0.5
 const MOVE_TILT_ANGLE := 15.0
 
 signal field_index_updated(from:int, to:int)
+signal player_upgrade_activated(player_upgrade:PlayerUpgrade)
+signal player_upgrade_stack_updated(id:String, diff:int)
 
 const MOVE_TIME := 0.1
 
@@ -16,28 +18,39 @@ const POSITION_Y_OFFSET := -30
 @onready var player_state_machine: PlayerStateMachine = %PlayerStateMachine
 @onready var gui_player_status_container: GUIPlayerStatusContainer = %GUIPlayerStatusContainer
 @onready var player_status_container: PlayerStatusContainer = %PlayerStatusContainer
+@onready var player_trinkets_container: PlayerTrinketsContainer = %PlayerTrinketsContainer
 
 var current_field_index:int = 0: set = _set_current_field_index
 var player_data:PlayerData
 var max_plants_index:int = 0
+var player_upgrades_manager: PlayerUpgradesManager = PlayerUpgradesManager.new()
 
 func _ready() -> void:
 	player_state_machine.start()
 	gui_player_status_container.bind_with_player_status_container(player_status_container)
-	player_status_container.status_updated.connect(_on_status_updated)
+	player_status_container.player_upgrades_updated.connect(_on_player_upgrades_updated)
+	player_upgrades_manager.player_upgrade_activated.connect(func(player_upgrade:PlayerUpgrade): player_upgrade_activated.emit(player_upgrade))
+	player_upgrades_manager.player_upgrade_stack_updated.connect(func(id:String, diff:int): player_upgrade_stack_updated.emit(id, diff))
 
-func setup_with_player_data(pd:PlayerData, mpi:int) -> void:
+func setup(pd:PlayerData, mpi:int, trinket_datas:Array) -> void:
 	player_data = pd
 	max_plants_index = mpi
-	player_status_container.set_status("momentum", pd.starting_movements)
+	player_status_container.set_player_upgrade("momentum", pd.starting_movements)
+	player_trinkets_container.setup_with_trinket_datas(trinket_datas)
+	player_upgrades_manager.setup([player_status_container, player_trinkets_container])
 
-func handle_turn_end() -> void:
+func handle_start_turn(combat_main:CombatMain) -> void:
+	await player_upgrades_manager.handle_start_turn_hook(combat_main)
+
+func handle_turn_end(combat_main:CombatMain) -> void:
 	player_status_container.clear_status_on_turn_end()
+	player_status_container.clear_single_turn_player_upgrades()
+	await player_upgrades_manager.handle_end_turn_hook(combat_main)
 
 func toggle_ui_buttons(on:bool) -> void:
-	if player_status_container.handle_prevent_movement_hook():
+	if player_upgrades_manager.handle_prevent_movement_hook():
 		on = false
-	player_status_container.toggle_ui_buttons(on)
+	player_upgrades_manager.toggle_ui_buttons(on)
 
 func move_to_x(x: float) -> void:
 	#var tilt = MOVE_TILT_ANGLE if x > player_sprite.global_position.x else -MOVE_TILT_ANGLE
@@ -74,20 +87,20 @@ func _on_movement_button_pressed(move_direction:PlayerStatusMomentum.MoveDirecti
 			current_field_index -= 1
 		PlayerStatusMomentum.MoveDirection.RIGHT:
 			current_field_index += 1
-	player_status_container.update_status("momentum", 1, ActionData.OperatorType.DECREASE)
+	player_status_container.update_player_upgrade("momentum", 1, ActionData.OperatorType.DECREASE)
 
 func _set_current_field_index(value:int) -> void:
 	assert(max_plants_index > 0)
 	var previous_index:int = current_field_index
 	current_field_index = value
-	var momentum_status:PlayerStatusMomentum = player_status_container.get_status("momentum")
+	var momentum_status:PlayerStatusMomentum = player_status_container.get_player_upgrade("momentum")
 	if momentum_status:
 		momentum_status.update_current_field_index(current_field_index, max_plants_index)
 	field_index_updated.emit(previous_index, current_field_index)
 
-func _on_status_updated() -> void:
-	for player_status:PlayerStatus in player_status_container.get_all_player_statuses():
-		if player_status.status_data.id == "momentum":
+func _on_player_upgrades_updated() -> void:
+	for player_status:PlayerStatus in player_status_container.get_all_player_upgrades():
+		if player_status.data.id == "momentum":
 			var player_status_momentum:PlayerStatusMomentum = player_status
 			if !player_status_momentum.button_pressed.is_connected(_on_movement_button_pressed):
 				player_status_momentum.button_pressed.connect(_on_movement_button_pressed)

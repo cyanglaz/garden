@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://jgby34y1664r"]
+[gd_scene format=3 uid="uid://jgby34y1664r"]
 
 [ext_resource type="Script" uid="uid://dn5567lxyuyyi" path="res://scenes/main_game/combat/player/player.gd" id="1_3t8ap"]
 [ext_resource type="PackedScene" uid="uid://dcsmfjbtvdbk3" path="res://scenes/main_game/combat/player/player_sprite.tscn" id="1_4v0bi"]
@@ -6,7 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://dachyaiwwtbrh" path="res://resources/sprites/GUI/indicators/player_down_arrow.png" id="4_0f2bv"]
 [ext_resource type="PackedScene" uid="uid://blco6hprwp4nn" path="res://scenes/state_machine/player/player_state_machine.tscn" id="5_0f2bv"]
 [ext_resource type="PackedScene" uid="uid://cluddrpk3n23" path="res://scenes/GUI/combat_main/player/gui_player_status_container.tscn" id="5_g2v38"]
-[ext_resource type="PackedScene" uid="uid://r5bgumdfs8wb" path="res://scenes/main_game/combat/player/player_status_container.tscn" id="7_3ckgi"]
+[ext_resource type="PackedScene" uid="uid://r5bgumdfs8wb" path="res://scenes/main_game/combat/player/player_upgrades/player_status_container.tscn" id="7_3ckgi"]
+[ext_resource type="PackedScene" uid="uid://b5ggjq34p2xp5" path="res://scenes/main_game/combat/player/player_upgrades/player_trinkets_container.tscn" id="8_g2v38"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0f2bv"]
 atlas = ExtResource("2_hap8c")
@@ -68,14 +69,14 @@ animations = [{
 "speed": 7.0
 }]
 
-[node name="Player" type="Node2D"]
+[node name="Player" type="Node2D" unique_id=1079137254]
 script = ExtResource("1_3t8ap")
 
-[node name="PlayerSprite" parent="." instance=ExtResource("1_4v0bi")]
+[node name="PlayerSprite" parent="." unique_id=1873760386 instance=ExtResource("1_4v0bi")]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_g2v38")
 
-[node name="DownArrow" type="AnimatedSprite2D" parent="."]
+[node name="DownArrow" type="AnimatedSprite2D" parent="." unique_id=969151177]
 unique_name_in_owner = true
 visible = false
 texture_filter = 1
@@ -99,12 +100,12 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "6b22151874ffbec597e7bd8c3cb5111c"
 
-[node name="GUI" type="Control" parent="."]
+[node name="GUI" type="Control" parent="." unique_id=1387913076]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="GUI"]
+[node name="HBoxContainer" type="HBoxContainer" parent="GUI" unique_id=151014834]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -114,12 +115,15 @@ offset_right = 1.0
 offset_bottom = -10.0
 grow_horizontal = 2
 
-[node name="GUIPlayerStatusContainer" parent="GUI/HBoxContainer" instance=ExtResource("5_g2v38")]
+[node name="GUIPlayerStatusContainer" parent="GUI/HBoxContainer" unique_id=633817548 instance=ExtResource("5_g2v38")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="PlayerStateMachine" parent="." instance=ExtResource("5_0f2bv")]
+[node name="PlayerStateMachine" parent="." unique_id=1347661521 instance=ExtResource("5_0f2bv")]
 unique_name_in_owner = true
 
-[node name="PlayerStatusContainer" parent="." instance=ExtResource("7_3ckgi")]
+[node name="PlayerStatusContainer" parent="." unique_id=250686147 instance=ExtResource("7_3ckgi")]
+unique_name_in_owner = true
+
+[node name="PlayerTrinketsContainer" parent="." unique_id=1727699446 instance=ExtResource("8_g2v38")]
 unique_name_in_owner = true

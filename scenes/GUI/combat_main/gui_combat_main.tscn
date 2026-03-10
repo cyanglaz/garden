@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://tokn1oo5af3y" path="res://scenes/GUI/combat_main/gui_combat_main.gd" id="1_lrbaq"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_sjsh0"]
 [ext_resource type="PackedScene" uid="uid://b224jou4wqp13" path="res://scenes/GUI/main_game/weather/gui_weather_container.tscn" id="3_sauxh"]
+[ext_resource type="PackedScene" uid="uid://dg4x2kcr7yw1p" path="res://scenes/GUI/combat_main/trinkets/gui_trinket_container.tscn" id="4_yxdr4"]
 [ext_resource type="PackedScene" uid="uid://b8ixx2yg4dgov" path="res://scenes/GUI/controls/buttons/gui_deck_button.tscn" id="5_qa4s6"]
 [ext_resource type="PackedScene" uid="uid://bpirre4ebu4op" path="res://scenes/GUI/combat_main/energy/gui_energy_tracker.tscn" id="6_56cmi"]
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="7_y1ukl"]
@@ -11,13 +12,13 @@
 [ext_resource type="PackedScene" uid="uid://canp4x5u3afyb" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_container.tscn" id="11_sauxh"]
 [ext_resource type="PackedScene" uid="uid://3rrhwgyv2qp3" path="res://scenes/GUI/event/events/reward/gui_reward_main.tscn" id="13_8tokl"]
 
-[node name="GUICombatMain" type="CanvasLayer"]
+[node name="GUICombatMain" type="CanvasLayer" unique_id=208953526]
 script = ExtResource("1_lrbaq")
 
-[node name="BaseMainMarginContainer" parent="." instance=ExtResource("1_sjsh0")]
+[node name="BaseMainMarginContainer" parent="." unique_id=977569557 instance=ExtResource("1_sjsh0")]
 size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="BaseMainMarginContainer/Container" index="0"]
+[node name="MarginContainer" type="MarginContainer" parent="BaseMainMarginContainer/Container" index="0" unique_id=723065649]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,11 +31,11 @@ theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="Control" type="Control" parent="BaseMainMarginContainer/Container/MarginContainer"]
+[node name="Control" type="Control" parent="BaseMainMarginContainer/Container/MarginContainer" unique_id=2023337463]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="GUIWeatherContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control" instance=ExtResource("3_sauxh")]
+[node name="GUIWeatherContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control" unique_id=1725838040 instance=ExtResource("3_sauxh")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 0
@@ -44,24 +45,33 @@ offset_bottom = 24.0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 
-[node name="BottomLeftContainer" type="VBoxContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control"]
+[node name="BottomLeftContainer" type="VBoxContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control" unique_id=2078085820]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -20.0
+offset_top = -16.0
 offset_right = 35.0
 grow_vertical = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer" unique_id=877704607]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Container" type="Control" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer/VBoxContainer"]
+[node name="GUITrinketContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer/VBoxContainer" unique_id=637306554 instance=ExtResource("4_yxdr4")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+columns = 4
+
+[node name="Container" type="Control" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer/VBoxContainer" unique_id=1977938613]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 
-[node name="GUIDrawBoxButton" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer/VBoxContainer/Container" instance=ExtResource("5_qa4s6")]
+[node name="GUIDrawBoxButton" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer/VBoxContainer/Container" unique_id=819308548 instance=ExtResource("5_qa4s6")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 2
@@ -74,7 +84,7 @@ offset_bottom = 0.0
 grow_vertical = 0
 size_flags_vertical = 8
 
-[node name="GUIEnergyTracker" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer/VBoxContainer/Container" instance=ExtResource("6_56cmi")]
+[node name="GUIEnergyTracker" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer/VBoxContainer/Container" unique_id=1138970077 instance=ExtResource("6_56cmi")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 2
@@ -85,7 +95,7 @@ offset_right = 16.0
 grow_vertical = 0
 size_flags_vertical = 8
 
-[node name="BottomRightContainer" type="VBoxContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control"]
+[node name="BottomRightContainer" type="VBoxContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control" unique_id=585966849]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -99,7 +109,7 @@ grow_vertical = 0
 theme_override_constants/separation = 2
 alignment = 2
 
-[node name="GUIExhaustBoxButton" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomRightContainer" instance=ExtResource("5_qa4s6")]
+[node name="GUIExhaustBoxButton" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomRightContainer" unique_id=593743202 instance=ExtResource("5_qa4s6")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
@@ -107,32 +117,32 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 type = 3
 
-[node name="GUIDiscardBoxButton" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomRightContainer" instance=ExtResource("5_qa4s6")]
+[node name="GUIDiscardBoxButton" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomRightContainer" unique_id=1288460925 instance=ExtResource("5_qa4s6")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 type = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomRightContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomRightContainer" unique_id=1091260451]
 layout_mode = 2
 alignment = 2
 
-[node name="EndTurnButton" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomRightContainer/HBoxContainer" instance=ExtResource("7_y1ukl")]
+[node name="EndTurnButton" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomRightContainer/HBoxContainer" unique_id=1001043097 instance=ExtResource("7_y1ukl")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 localization_text_key = "ACTION_END_TURN"
 
-[node name="GUIBoostTracker" parent="BaseMainMarginContainer/Container/MarginContainer/Control" instance=ExtResource("9_gub46")]
+[node name="GUIBoostTracker" parent="BaseMainMarginContainer/Container/MarginContainer/Control" unique_id=1916947003 instance=ExtResource("9_gub46")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
 offset_right = 3.0
 offset_bottom = 9.0
 
-[node name="GUIEnemy" parent="BaseMainMarginContainer/Container/MarginContainer/Control" instance=ExtResource("11_8tokl")]
+[node name="GUIEnemy" parent="BaseMainMarginContainer/Container/MarginContainer/Control" unique_id=1735269795 instance=ExtResource("11_8tokl")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -145,11 +155,11 @@ offset_bottom = 11.0
 grow_horizontal = 0
 alignment = 0
 
-[node name="GUIToolCardContainer" parent="BaseMainMarginContainer/Container" index="1" instance=ExtResource("11_sauxh")]
+[node name="GUIToolCardContainer" parent="BaseMainMarginContainer/Container" index="1" unique_id=1231839358 instance=ExtResource("11_sauxh")]
 unique_name_in_owner = true
 layout_mode = 1
 
-[node name="GUIRewardMain" parent="." instance=ExtResource("13_8tokl")]
+[node name="GUIRewardMain" parent="." unique_id=703410061 instance=ExtResource("13_8tokl")]
 unique_name_in_owner = true
 visible = false
 

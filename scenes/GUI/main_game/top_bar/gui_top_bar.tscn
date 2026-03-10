@@ -46,15 +46,20 @@ offset_bottom = 6.0
 grow_vertical = 2
 theme_override_constants/separation = 8
 
-[node name="GUIPlayer" parent="MarginContainer/Container/LeftContainer" unique_id=123249903 instance=ExtResource("4_mmkmm")]
+[node name="GUIGold" parent="MarginContainer/Container/LeftContainer" unique_id=530858444 instance=ExtResource("2_mmkmm")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
+size_flags_vertical = 4
 
 [node name="GUIHP" parent="MarginContainer/Container/LeftContainer" unique_id=1550812048 instance=ExtResource("5_8mpe6")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
+
+[node name="GUIPlayer" parent="MarginContainer/Container/LeftContainer" unique_id=123249903 instance=ExtResource("4_mmkmm")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
 
 [node name="RightContainer" type="HBoxContainer" parent="MarginContainer/Container" unique_id=543574480]
 layout_mode = 1
@@ -70,11 +75,6 @@ grow_horizontal = 0
 grow_vertical = 2
 theme_override_constants/separation = 6
 alignment = 2
-
-[node name="GUIGold" parent="MarginContainer/Container/RightContainer" unique_id=530858444 instance=ExtResource("2_mmkmm")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 4
 
 [node name="GUIFullDeckButton" parent="MarginContainer/Container/RightContainer" unique_id=1630214810 instance=ExtResource("6_mmkmm")]
 unique_name_in_owner = true

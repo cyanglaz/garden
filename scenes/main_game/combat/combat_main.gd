@@ -44,7 +44,7 @@ func _ready() -> void:
 	Events.request_energy_update.connect(_on_request_energy_update)
 	gui.ui_lock_toggled.connect(_on_ui_lock_toggled)
 
-func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter:int, player_data:PlayerData) -> void:
+func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter:int, player_data:PlayerData, trinket_datas:Array) -> void:
 
 	session_summary = SessionSummary.new(combat)
 
@@ -73,8 +73,8 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	gui.reward_finished.connect(_on_reward_finished)
 
 	player.field_index_updated.connect(_on_player_field_index_updated)
-	player.player_status_container.status_activated.connect(_on_player_status_activated)
-	player.player_status_container.status_stack_updated.connect(_on_player_status_stack_updated)
+	player.player_upgrade_activated.connect(_on_player_player_upgrade_activated)
+	player.player_upgrade_stack_updated.connect(_on_player_player_upgrade_stack_updated)
 
 	combat_modifier_manager.setup(self)
 
@@ -85,7 +85,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 
 	_combat = combat
 	_chapter = chapter
-	player.setup_with_player_data(player_data, _combat.plants.size() - 1)
+	player.setup(player_data, _combat.plants.size() - 1, trinket_datas)
 	_start_new_level()
 
 func _input(event: InputEvent) -> void:
@@ -106,18 +106,18 @@ func get_current_player_plant() -> Plant:
 func draw_cards(count:int) -> void:
 	var first_turn_draw := day_manager.day == 0
 	var draw_results:Array = await tool_manager.draw_cards(count, first_turn_draw)
-	await player.player_status_container.handle_card_added_to_hand_hook(draw_results)
-	await player.player_status_container.handle_draw_hook(self, draw_results)
+	await player.player_upgrades_manager.handle_card_added_to_hand_hook(draw_results)
+	await player.player_upgrades_manager.handle_draw_hook(self, draw_results)
 
 func discard_cards(tools:Array) -> void:
 	await tool_manager.discard_cards(tools)
-	await player.player_status_container.handle_discard_hook(self, tools)
+	await player.player_upgrades_manager.handle_discard_hook(self, tools)
 
 func exhaust_cards(tools:Array) -> void:
 	await tool_manager.exhaust_cards(tools)
 
 func add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
-	await player.player_status_container.handle_card_added_to_hand_hook(tool_datas)
+	await player.player_upgrades_manager.handle_card_added_to_hand_hook(tool_datas)
 	await tool_manager.add_tools_to_hand(tool_datas, from_global_position, pause)
 
 func add_card_to_deck(tool_data:ToolData) -> void:
@@ -151,6 +151,7 @@ func _start_turn() -> void:
 		energy_tracker.setup(max_energy, max_energy)
 	#await gui.apply_boss_actions(GUIBoss.HookType.TURN_START)
 	await draw_cards(hand_size)
+	await player.handle_start_turn(self)
 	await plant_field_container.trigger_start_turn_hooks(self)
 	gui.toggle_all_ui(true)
 	turn_started.emit()
@@ -158,9 +159,8 @@ func _start_turn() -> void:
 
 func _end_turn() -> void:
 	gui.toggle_all_ui(false)
-	player.player_status_container.clear_single_turn_statuses()
 	_clear_tool_selection()
-	player.handle_turn_end()
+	await player.handle_turn_end(self)
 	await _discard_all_tools()
 	energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
 	await plant_field_container.trigger_end_turn_hooks(self)
@@ -296,7 +296,7 @@ func _on_player_field_index_updated(from:int, to:int) -> void:
 	var destination_x := plant_field_container.get_field(to).global_position.x
 	player.move_to_x(destination_x)
 	if from != to:
-		await player.player_status_container.handle_player_move_hook(self)
+		await player.player_upgrades_manager.handle_player_move_hook(self)
 
 #region other events
 
@@ -309,7 +309,7 @@ func _on_tool_application_started(tool_data:ToolData) -> void:
 func _on_tool_application_completed(tool_data:ToolData) -> void:
 	if tool_manager.number_of_card_used_this_turn >= combat_modifier_manager.card_use_limit():
 		tool_manager.card_use_limit_reached = true
-	await player.player_status_container.handle_tool_application_hook(self, tool_data)
+	await player.player_upgrades_manager.handle_tool_application_hook(self, tool_data)
 	gui.toggle_all_ui(true)
 
 func _on_tool_application_error(tool_data:ToolData, error_message:String) -> void:
@@ -380,11 +380,11 @@ func _on_request_energy_update(val:int, operation:ActionData.OperatorType) -> vo
 			energy_tracker.value = val
 	player.update_energy(val, operation)
 
-func _on_player_status_activated(player_status:PlayerStatus) -> void:
-	player_status.handle_activation_hook(self)
+func _on_player_player_upgrade_activated(player_upgrade:PlayerUpgrade) -> void:
+	player_upgrade.handle_activation_hook(self)
 
-func _on_player_status_stack_updated(status_id:String, diff:int) -> void:
-	player.player_status_container.handle_status_stack_update_hook(self, status_id, diff)
+func _on_player_player_upgrade_stack_updated(id:String, diff:int) -> void:
+	player.player_upgrades_manager.handle_stack_update_hook(self, id, diff)
 
 #endregion
 

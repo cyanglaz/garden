@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://fa35a6giafuj"]
+
+[ext_resource type="Script" uid="uid://cfurctxdqtj6h" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_spare_wing.gd" id="1_jfq8a"]
+
+[node name="PlayerTrinketSpareWing" type="Node2D" unique_id=235224774]
+script = ExtResource("1_jfq8a")
