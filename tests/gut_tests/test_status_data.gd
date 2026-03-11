@@ -226,3 +226,9 @@ func test_power_stack_independent():
 	var dup := pd.get_duplicate()
 	dup.stack = 99
 	assert_eq(pd.stack, 2)
+
+func test_power_script_returns_null_for_unknown_id():
+	var pd := _make_power()
+	pd.id = "nonexistent_power_xyz"
+	# No script file exists for this id → power_script should return null without crashing
+	assert_eq(pd.power_script, null)
