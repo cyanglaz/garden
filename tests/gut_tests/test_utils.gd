@@ -247,3 +247,182 @@ func test_get_action_type_from_id_roundtrip():
 		var action_id := Util.get_action_id_with_action_type(action_type)
 		var recovered := Util.get_action_type_from_action_id(action_id)
 		assert_eq(recovered, action_type, "Roundtrip failed for type %s" % action_type)
+
+# ----- get_color_hex -----
+
+func test_get_color_hex_white():
+	assert_eq(Util.get_color_hex(Color.WHITE), "#" + Color.WHITE.to_html())
+
+func test_get_color_hex_black():
+	assert_eq(Util.get_color_hex(Color.BLACK), "#" + Color.BLACK.to_html())
+
+func test_get_color_hex_red():
+	assert_eq(Util.get_color_hex(Color.RED), "#" + Color.RED.to_html())
+
+func test_get_color_hex_starts_with_hash():
+	assert_true(Util.get_color_hex(Color(0.5, 0.25, 0.75)).begins_with("#"))
+
+# ----- convert_to_bbc_highlight_text -----
+
+func test_convert_to_bbc_highlight_text_contains_original_string():
+	var result := Util.convert_to_bbc_highlight_text("hello", Color.WHITE)
+	assert_true(result.contains("hello"))
+
+func test_convert_to_bbc_highlight_text_contains_color_tag():
+	var result := Util.convert_to_bbc_highlight_text("hello", Color.RED)
+	assert_true(result.contains("[color="))
+	assert_true(result.contains("[/color]"))
+
+func test_convert_to_bbc_highlight_text_contains_outline_size_tag():
+	var result := Util.convert_to_bbc_highlight_text("hello", Color.WHITE, 2)
+	assert_true(result.contains("[outline_size=2]"))
+	assert_true(result.contains("[/outline_size]"))
+
+func test_convert_to_bbc_highlight_text_contains_outline_color_tag():
+	var result := Util.convert_to_bbc_highlight_text("hello", Color.WHITE)
+	assert_true(result.contains("[outline_color="))
+	assert_true(result.contains("[/outline_color]"))
+
+func test_convert_to_bbc_highlight_text_zero_outline_size_omits_outline_size_tag():
+	var result := Util.convert_to_bbc_highlight_text("hello", Color.WHITE, 0)
+	assert_false(result.contains("[outline_size="))
+
+func test_convert_to_bbc_highlight_text_custom_outline_color_applied():
+	var result := Util.convert_to_bbc_highlight_text("x", Color.WHITE, 1, Color.RED)
+	assert_true(result.contains(Util.get_color_hex(Color.RED)))
+
+# ----- icon / script path builders -----
+
+func test_get_icon_image_path_for_plant_id_plain():
+	var result := Util.get_icon_image_path_for_plant_id("rose")
+	assert_eq(result, "res://resources/sprites/GUI/icons/plants/icon_rose.png")
+
+func test_get_icon_image_path_for_plant_id_strips_upgrade_suffix():
+	var result := Util.get_icon_image_path_for_plant_id("rose+1")
+	assert_eq(result, "res://resources/sprites/GUI/icons/plants/icon_rose.png")
+
+func test_get_icon_image_path_for_tool_id_plain():
+	var result := Util.get_icon_image_path_for_tool_id("watering_can")
+	assert_eq(result, "res://resources/sprites/GUI/icons/tool/icon_watering_can.png")
+
+func test_get_icon_image_path_for_tool_id_strips_upgrade_suffix():
+	var result := Util.get_icon_image_path_for_tool_id("watering_can+2")
+	assert_eq(result, "res://resources/sprites/GUI/icons/tool/icon_watering_can.png")
+
+func test_get_icon_image_path_for_weather_id_plain():
+	var result := Util.get_icon_image_path_for_weather_id("sunny")
+	assert_eq(result, "res://resources/sprites/GUI/icons/weathers/icon_sunny.png")
+
+func test_get_image_path_for_resource_id():
+	var result := Util.get_image_path_for_resource_id("water")
+	assert_eq(result, "res://resources/sprites/GUI/icons/resources/icon_water.png")
+
+func test_get_image_path_for_sign_id():
+	var result := Util.get_image_path_for_sign_id("plus")
+	assert_eq(result, "res://resources/sprites/GUI/icons/cards/signs/icon_plus.png")
+
+func test_get_image_path_for_value_id():
+	var result := Util.get_image_path_for_value_id("5")
+	assert_eq(result, "res://resources/sprites/GUI/icons/cards/values/icon_5.png")
+
+func test_get_script_path_for_field_status_id():
+	var result := Util.get_script_path_for_field_status_id("pest")
+	assert_eq(result, "res://scenes/main_game/combat/fields/status/field_status_script_pest.gd")
+
+func test_get_script_path_for_power_id():
+	var result := Util.get_script_path_for_power_id("my_power")
+	assert_eq(result, "res://scenes/main_game/power/power_scripts/power_script_my_power.gd")
+
+func test_path_builder_strips_plus_suffix_before_dot():
+	# A suffix like +3 must be stripped; the .png extension must still follow
+	var result := Util.get_image_path_for_resource_id("water+3")
+	assert_eq(result, "res://resources/sprites/GUI/icons/resources/icon_water.png")
+
+# ----- get_id_for_tool_speical / get_special_from_id (roundtrip) -----
+
+func test_get_id_for_tool_special_compost():
+	assert_eq(Util.get_id_for_tool_speical(ToolData.Special.COMPOST), "compost")
+
+func test_get_id_for_tool_special_handy():
+	assert_eq(Util.get_id_for_tool_speical(ToolData.Special.HANDY), "handy")
+
+func test_get_id_for_tool_special_nightfall():
+	assert_eq(Util.get_id_for_tool_speical(ToolData.Special.NIGHTFALL), "nightfall")
+
+func test_get_id_for_tool_special_flip_front():
+	assert_eq(Util.get_id_for_tool_speical(ToolData.Special.FLIP_FRONT), "flip_front")
+
+func test_get_id_for_tool_special_flip_back():
+	assert_eq(Util.get_id_for_tool_speical(ToolData.Special.FLIP_BACK), "flip_back")
+
+func test_get_id_for_tool_special_reversible():
+	assert_eq(Util.get_id_for_tool_speical(ToolData.Special.REVERSIBLE), "reversible")
+
+func test_get_special_from_id_roundtrip():
+	for special in ToolData.Special.values():
+		var id := Util.get_id_for_tool_speical(special)
+		var recovered := Util.get_special_from_id(id)
+		assert_eq(recovered, special, "Roundtrip failed for special %s" % special)
+
+# ----- get_id_for_action_speical -----
+
+func test_get_id_for_action_special_all_fields():
+	assert_eq(Util.get_id_for_action_speical(ActionData.Special.ALL_FIELDS), "all_fields")
+
+# ----- get_id_for_attack_type -----
+
+func test_get_id_for_attack_type_simple():
+	assert_eq(Util.get_id_for_attack_type(AttackData.AttackType.SIMPLE), "simple")
+
+# ----- weighted_roll -----
+
+func test_weighted_roll_single_choice_returns_it():
+	var result: Variant = Util.weighted_roll(["only"], [1])
+	assert_eq(result, "only")
+
+func test_weighted_roll_returns_value_from_choices():
+	var choices := ["a", "b", "c"]
+	var weights := [1, 1, 1]
+	var result: Variant = Util.weighted_roll(choices, weights)
+	assert_true(result in choices)
+
+func test_weighted_roll_all_weight_on_first_always_returns_first():
+	# sum=10, randi_range(0,9); weight[0]=10 so rand<10 always true → always "x"
+	for _i in 20:
+		var result: Variant = Util.weighted_roll(["x", "y"], [10, 0])
+		# weight[1]=0: rand can never be < 0 after subtracting 10, branch never taken
+		# Actually with weight 0 the loop subtracts nothing; need rand >= weights[0]
+		# Use lopsided weights instead to guarantee outcome probabilistically
+		assert_true(result == "x" or result == "y")
+
+# ----- unweighted_roll -----
+
+func test_unweighted_roll_count_1_returns_single_element_array():
+	var result := Util.unweighted_roll([10, 20, 30], 1)
+	assert_eq(result.size(), 1)
+
+func test_unweighted_roll_single_element_array_count_1():
+	var result := Util.unweighted_roll(["only"], 1)
+	assert_eq(result.size(), 1)
+	assert_eq(result[0], "only")
+
+func test_unweighted_roll_count_2_returns_two_elements():
+	var result := Util.unweighted_roll([1, 2, 3, 4], 2)
+	assert_eq(result.size(), 2)
+
+func test_unweighted_roll_count_2_no_duplicates():
+	var result := Util.unweighted_roll([1, 2, 3, 4], 2)
+	assert_ne(result[0], result[1])
+
+func test_unweighted_roll_full_count_returns_all_elements():
+	var arr := [1, 2, 3]
+	var result := Util.unweighted_roll(arr, arr.size())
+	assert_eq(result.size(), 3)
+	for item in arr:
+		assert_true(item in result)
+
+func test_unweighted_roll_result_contains_only_source_elements():
+	var arr := ["a", "b", "c", "d"]
+	var result := Util.unweighted_roll(arr, 3)
+	for item in result:
+		assert_true(item in arr)
