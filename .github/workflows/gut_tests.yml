@@ -1,0 +1,49 @@
+name: GUT Tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  checks: write
+  pull-requests: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.6.0
+          use-dotnet: false
+
+      - name: Import project assets
+        run: godot --headless --import || true
+
+      - name: Run GUT tests
+        run: |
+          godot --headless \
+            -s res://addons/gut/gut_cmdln.gd \
+            -- \
+            -gconfig=res://.gutconfig.json \
+            -gexit \
+            -gjunit_xml_file=res://test_results.xml \
+            -gdisable_colors
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test_results.xml
+
+      - name: Publish test results
+        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: test_results.xml
