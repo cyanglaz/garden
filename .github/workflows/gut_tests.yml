@@ -24,7 +24,7 @@ jobs:
       - name: Run GUT tests
         run: |
           godot --headless \
-            -s res://addons/gut/cli/gut_cli.gd \
+            -s res://addons/gut/gut_cmdln.gd \
             -- \
             -gconfig=res://.gutconfig.json \
             -gexit \
