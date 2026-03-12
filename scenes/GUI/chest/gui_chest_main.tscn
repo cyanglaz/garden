@@ -18,6 +18,20 @@ color = Color(0, 0, 0, 0.9411765)
 layout_mode = 2
 mouse_filter = 2
 
+[node name="TitleLabel" type="Label" parent="MainMarginContainer/Container2"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -160.0
+offset_top = 2.0
+offset_right = 160.0
+offset_bottom = 11.0
+grow_horizontal = 2
+theme_type_variation = &"HeaderMedium"
+horizontal_alignment = 1
+
 [node name="SkipButton" parent="MainMarginContainer/Container2" unique_id=894396127 instance=ExtResource("4_l6t8n")]
 unique_name_in_owner = true
 layout_mode = 1

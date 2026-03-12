@@ -156,7 +156,7 @@ TOWN_FREE_RATING, "Stand on a table and make an announcement. (+%s{resource:vita
 TOWN_PAID_RATING, "Pay the bard to sing your praises. (+%s{resource:vitality} -%s{resource:gold})"
 TOWN_GAIN_GOLD, "Help the tavern owner clean up. (+%s{resource:gold})"
 
-CHEST_MAIN_TITLE_TEXT, "Select A Reward"
+CHEST_MAIN_TITLE_TEXT, "Collect Reward"
 
 MAP_NODE_TYPE_NORMAL, "Normal"
 MAP_NODE_TYPE_ELITE, "Elite"
