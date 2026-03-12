@@ -12,3 +12,6 @@ func get_duplicate() -> BossData:
 	var dup:BossData = BossData.new()
 	dup.copy(self)
 	return dup
+
+func _get_localization_prefix() -> String:
+	return "BOSS_"

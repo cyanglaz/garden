@@ -43,16 +43,30 @@ func get_duplicate() -> ThingData:
 	dup.copy(self)
 	return dup
 
+func _get_localization_prefix() -> String:
+	return ""
+
 func get_display_name() -> String:
+	var localized_name := display_name
+	var prefix := _get_localization_prefix()
+	if !prefix.is_empty() && !base_id.is_empty():
+		var key := prefix + base_id.to_upper() + "_NAME"
+		var localized := Util.get_localized_string(key)
+		if localized != key:
+			localized_name = localized
 	if name_postfix.is_empty():
-		return display_name
-	else:
-		return display_name + name_postfix
+		return localized_name
+	return localized_name + name_postfix
 
 func get_display_description() -> String:
-	var formatted_description := description
-	formatted_description = DescriptionParser.format_references(formatted_description, data, highlight_description_keys, _additional_highlight_check)
-	return formatted_description
+	var raw_description := description
+	var prefix := _get_localization_prefix()
+	if !prefix.is_empty() && !base_id.is_empty():
+		var key := prefix + base_id.to_upper() + "_DESCRIPTION"
+		var localized := Util.get_localized_string(key)
+		if localized != key:
+			raw_description = localized
+	return DescriptionParser.format_references(raw_description, data, highlight_description_keys, _additional_highlight_check)
 
 func _additional_highlight_check(_reference_id:String) -> bool:
 	return false

@@ -8,14 +8,14 @@ const NEGATIVE_DESCRIPTION_COLOR := Constants.COLOR_RED2
 @onready var label: RichTextLabel = %Label
 
 func update_with_option(option:EventOptionData) -> void:
-	var action_description:String = str("[", option.display_name, "]")
+	var action_description:String = str("[", option.get_display_name(), "]")
 	var positive_description := ""
 	var negative_description := ""
 	if !option.positive_description.is_empty():
-		positive_description = DescriptionParser.format_references(option.positive_description, option.data, {}, func(_reference_id:String) -> bool: return false, POSITIVE_DESCRIPTION_COLOR)
+		positive_description = DescriptionParser.format_references(option.get_display_positive_description(), option.data, {}, func(_reference_id:String) -> bool: return false, POSITIVE_DESCRIPTION_COLOR)
 		positive_description = Util.convert_to_bbc_highlight_text(positive_description, POSITIVE_DESCRIPTION_COLOR)
 	if !option.negative_description.is_empty():
-		negative_description = DescriptionParser.format_references(option.negative_description, option.data, {}, func(_reference_id:String) -> bool: return false, NEGATIVE_DESCRIPTION_COLOR)
+		negative_description = DescriptionParser.format_references(option.get_display_negative_description(), option.data, {}, func(_reference_id:String) -> bool: return false, NEGATIVE_DESCRIPTION_COLOR)
 		negative_description = Util.convert_to_bbc_highlight_text(negative_description, NEGATIVE_DESCRIPTION_COLOR)
 	label.text = str(action_description, " ", positive_description, " ", negative_description)
 

@@ -22,3 +22,6 @@ func get_duplicate() -> PlantData:
 	var dup:PlantData = PlantData.new()
 	dup.copy(self)
 	return dup
+
+func _get_localization_prefix() -> String:
+	return "PLANT_"

@@ -90,6 +90,9 @@ func get_duplicate() -> ToolData:
 	dup.copy(self)
 	return dup
 
+func _get_localization_prefix() -> String:
+	return "TOOL_"
+
 func get_final_energy_cost() -> int:
 	return energy_cost + get_total_energy_modifier()
 

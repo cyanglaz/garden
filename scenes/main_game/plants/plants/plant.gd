@@ -198,7 +198,7 @@ func _on_request_hook_message_popup(status_data:StatusData) -> void:
 			color = Constants.COLOR_RED2
 		StatusData.Type.GOOD:
 			color = Constants.COLOR_YELLOW2
-	popup.setup(status_data.popup_message, color)
+	popup.setup(status_data.get_display_popup_message(), color)
 	var popup_location:Vector2 = Util.get_node_canvas_position(self) + POPUP_OFFSET
 	Events.request_display_popup_things.emit(popup, 10, 1, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, popup_location)
 	await Util.create_scaled_timer(POPUP_SHOW_TIME).timeout

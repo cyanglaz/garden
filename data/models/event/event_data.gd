@@ -14,3 +14,6 @@ func get_duplicate() -> EventData:
 	var dup:EventData = EventData.new()
 	dup.copy(self)
 	return dup
+
+func _get_localization_prefix() -> String:
+	return "EVENT_"
