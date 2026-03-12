@@ -82,12 +82,12 @@ func _start_new_chapter() -> void:
 
 	#_start_map_main_scene()
 	# Always start with a common node
-	if test_data && test_data.test_combat:
-		_start_combat_main_scene.call_deferred(test_data.test_combat)
-	else:
-		_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
+	#if test_data && test_data.test_combat:
+		#_start_combat_main_scene.call_deferred(test_data.test_combat)
+	#else:
+		#_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
 	#_start_event()
-	#_start_chest()
+	_start_chest()
 	#_start_town()
 	#_game_over()
 	#_game_win()
@@ -134,11 +134,12 @@ func _start_town() -> void:
 	start_scene_transition()
 
 func _start_chest() -> void:
-	var chest_main:ChestMain = CHEST_MAIN_SCENE.instantiate()
-	chest_main.card_reward_selected.connect(_on_chest_card_reward_selected)
+	var chest_main: ChestMain = CHEST_MAIN_SCENE.instantiate()
+	chest_main.trinket_reward_selected.connect(_on_chest_trinket_reward_selected)
 	chest_main.skipped.connect(_on_chest_reward_skipped)
 	node_container.add_child(chest_main)
 	start_scene_transition()
+	chest_main.start(trinket_pool)
 
 func _start_event() -> void:
 	var event_main:EventMain = EVENT_MAIN_SCENE.instantiate()
@@ -199,10 +200,8 @@ func _on_request_add_card_to_deck(tool_data:ToolData, bind_card_global_position:
 func _on_request_remove_card_from_deck(tool_data:ToolData) -> void:
 	card_pool.erase(tool_data)
 
-func _on_chest_card_reward_selected(tool_data:ToolData, from_global_position:Vector2) -> void:
-	if tool_data:
-		card_pool.append(tool_data)
-		await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(from_global_position, tool_data)
+func _on_chest_trinket_reward_selected(trinket_data: TrinketData) -> void:
+	trinket_pool.append(trinket_data)
 	_complete_current_node()
 
 func _on_event_finished(meta:Variant) -> void:

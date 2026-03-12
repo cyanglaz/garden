@@ -5,7 +5,7 @@
 [ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="3_q3g18"]
 [ext_resource type="AudioStream" uid="uid://doilouvmfbgsc" path="res://resources/sounds/SFX/field/field_status_good.wav" id="4_g3v3j"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rrsh8"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g3v3j"]
 resource_local_to_scene = true
 shader = ExtResource("3_q3g18")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
@@ -21,7 +21,7 @@ script = ExtResource("1_rrsh8")
 
 [node name="GUIIcon" parent="." unique_id=1558720819 instance=ExtResource("2_alt1p")]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_rrsh8")
+material = SubResource("ShaderMaterial_g3v3j")
 layout_mode = 2
 
 [node name="Stack" type="Label" parent="." unique_id=649379095]
