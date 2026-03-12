@@ -1,12 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://bk7t4np2vy6r8"]
+[gd_scene format=3 uid="uid://bk7t4np2vy6r8"]
 
 [ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_btn"]
 [ext_resource type="Script" uid="uid://cr5m8nf2xb1j0" path="res://scenes/GUI/chest/gui_chest_reward_trinket.gd" id="2_scr"]
 [ext_resource type="PackedScene" uid="uid://buj5nfbiivgnq" path="res://scenes/GUI/combat_main/trinkets/gui_player_trinket.tscn" id="3_ptrk"]
 
-[node name="GUIChestRewardTrinket" instance=ExtResource("1_btn")]
+[node name="GUIChestRewardTrinket" unique_id=2045249524 instance=ExtResource("1_btn")]
+custom_minimum_size = Vector2(0, 0)
+offset_right = 11.0
+offset_bottom = 11.0
 script = ExtResource("2_scr")
 
-[node name="GUIPlayerTrinket" parent="." instance=ExtResource("3_ptrk")]
+[node name="GUIPlayerTrinket" parent="." index="0" unique_id=237832581 instance=ExtResource("3_ptrk")]
 layout_mode = 2
 mouse_filter = 1

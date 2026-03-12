@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bcabalm40spo5"]
+[gd_scene format=3 uid="uid://bcabalm40spo5"]
 
 [ext_resource type="Script" uid="uid://dqbtvw5m2b31u" path="res://scenes/GUI/chest/gui_chest_main.gd" id="1_4jgan"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="1_4lroq"]
@@ -6,18 +6,19 @@
 [ext_resource type="PackedScene" uid="uid://buvmk7slt2yq6" path="res://scenes/GUI/chest/gui_chest_reward_container.tscn" id="3_whn2w"]
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="4_l6t8n"]
 
-[node name="GUIChestMain" type="CanvasLayer"]
+[node name="GUIChestMain" type="CanvasLayer" unique_id=1137828450]
 script = ExtResource("1_4jgan")
 
-[node name="GUIOverlayBackground" parent="." instance=ExtResource("1_4lroq")]
+[node name="GUIOverlayBackground" parent="." unique_id=122767240 instance=ExtResource("1_4lroq")]
+color = Color(0, 0, 0, 0.9411765)
 
-[node name="MainMarginContainer" parent="." instance=ExtResource("2_s7l4h")]
+[node name="MainMarginContainer" parent="." unique_id=1604981010 instance=ExtResource("2_s7l4h")]
 
-[node name="Container2" type="Control" parent="MainMarginContainer"]
+[node name="Container2" type="Control" parent="MainMarginContainer" unique_id=1328997046]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="SkipButton" parent="MainMarginContainer/Container2" instance=ExtResource("4_l6t8n")]
+[node name="SkipButton" parent="MainMarginContainer/Container2" unique_id=894396127 instance=ExtResource("4_l6t8n")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
@@ -33,7 +34,7 @@ grow_horizontal = 2
 grow_vertical = 0
 localization_text_key = "ACTION_SKIP"
 
-[node name="GUIChestRewardContainer" parent="MainMarginContainer" instance=ExtResource("3_whn2w")]
+[node name="GUIChestRewardContainer" parent="MainMarginContainer" unique_id=2056810897 instance=ExtResource("3_whn2w")]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
