@@ -139,8 +139,7 @@ func _start_chest() -> void:
 	chest_main.skipped.connect(_on_chest_reward_skipped)
 	node_container.add_child(chest_main)
 	start_scene_transition()
-	var excluded_ids: Array[String] = trinket_pool.map(func(t: TrinketData) -> String: return t.id)
-	chest_main.start(MainDatabase.trinket_database.roll_trinket(excluded_ids))
+	chest_main.start(trinket_pool)
 
 func _start_event() -> void:
 	var event_main:EventMain = EVENT_MAIN_SCENE.instantiate()
