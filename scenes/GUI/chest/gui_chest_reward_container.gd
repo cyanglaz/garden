@@ -1,77 +1,42 @@
 class_name GUIChestRewardContainer
 extends Control
 
-signal card_reward_selected(tool_data:ToolData, from_position:Vector2)
+signal trinket_reward_selected(trinket_data: TrinketData)
 
-const PADDING := 32
-const INITIAL_SCALE_FACTOR:float = 0.5
-const CARD_DROP_DELAY := 0.05
-const Y_OFFSET := 8.0
-const SPAWN_DELAY := 0.05
+const INITIAL_SCALE_FACTOR: float = 0.5
 const SPAWN_TRANSITION_TIME := 0.4
 
-const TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
+const TRINKET_REWARD_SCENE := preload("res://scenes/GUI/chest/gui_chest_reward_trinket.tscn")
 
-var _reward_datas:Array
-
-func spawn_cards(number_of_cards:int, rarity:int, spawn_position:Vector2) -> void:
-	_reward_datas = MainDatabase.tool_database.roll_tools(number_of_cards, rarity)
+func spawn_trinket(trinket_data: TrinketData, spawn_position: Vector2) -> void:
 	Util.remove_all_children(self)
-	var index := 0
-	for pick in _reward_datas:
-		var gui_reward_card: GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
-		add_child(gui_reward_card)
-		gui_reward_card.hide()
-		gui_reward_card.update_with_tool_data(pick)
-		gui_reward_card.pressed.connect(_on_card_reward_selected.bind(pick, index))
-		index += 1
+	if trinket_data == null:
+		return
+	var gui_reward_trinket: GUIChestRewardTrinket = TRINKET_REWARD_SCENE.instantiate()
+	add_child(gui_reward_trinket)
+	gui_reward_trinket.hide()
+	gui_reward_trinket.mouse_disabled = true
+	gui_reward_trinket.update_with_trinket_data(trinket_data)
+	gui_reward_trinket.trinket_selected.connect(_on_trinket_reward_selected.bind(trinket_data))
 	await _animate_spawn(spawn_position)
-	for gui_reward_card in get_children():
-		gui_reward_card.mouse_disabled = false
+	gui_reward_trinket.mouse_disabled = false
 
-func _animate_spawn(spawn_position:Vector2) -> void:
-	for child in get_children():
-		child.global_position = spawn_position
-		child.scale = Vector2.ONE * INITIAL_SCALE_FACTOR
-	var tween:Tween = Util.create_scaled_tween(self)
+func _animate_spawn(spawn_position: Vector2) -> void:
+	var child: GUIChestRewardTrinket = get_child(0)
+	child.global_position = spawn_position
+	child.scale = Vector2.ONE * INITIAL_SCALE_FACTOR
+	child.show()
+	await get_tree().process_frame
+	var tween: Tween = Util.create_scaled_tween(self)
+	var target_position := Vector2(
+		(size.x - child.size.x) / 2.0,
+		(size.y - child.size.y) / 2.0
+	)
 	tween.set_parallel(true)
-	for i in range(get_child_count()):
-		var child = get_child(i)
-		var target_position: Vector2 = _get_all_reward_positions()[i]
-		Util.create_scaled_timer(SPAWN_DELAY*i).timeout.connect(func() -> void: 
-			child.show()
-			child.play_discard_sound()
-		)
-		tween.tween_property(child, "global_position", target_position, SPAWN_TRANSITION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(SPAWN_DELAY * i)
-		tween.tween_property(child, "scale", Vector2.ONE, SPAWN_TRANSITION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(SPAWN_DELAY * i)
+	tween.tween_property(child, "global_position", target_position, SPAWN_TRANSITION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(child, "scale", Vector2.ONE, SPAWN_TRANSITION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await tween.finished
 
-func _get_all_reward_positions() -> Array[Vector2]:
-	var positions: Array[Vector2] = []
-	var total_width: float = 0.0
-	var child_count: int = get_child_count()
-
-	# Calculate total width needed for all cards including padding
-	for i in range(child_count):
-		var child = get_child(i)
-		total_width += child.size.x
-		if i < child_count - 1:
-			total_width += PADDING
-
-	# Calculate starting x position to center the cards
-	var start_x: float = (size.x - total_width) / 2.0
-	var current_x: float = start_x
-
-	# Calculate positions for each card
-	for i in range(child_count):
-		var child = get_child(i)
-		var target_position: Vector2 = Vector2(current_x, (size.y - child.size.y) / 2.0 + Y_OFFSET)
-		positions.append(target_position)
-		current_x += child.size.x + PADDING
-
-	return positions
-
-func _on_card_reward_selected(tool_data:ToolData, index:int) -> void:
-	for child in get_children():
-		child.hide()
-	card_reward_selected.emit(tool_data, get_child(index).global_position)
+func _on_trinket_reward_selected(trinket_data: TrinketData) -> void:
+	get_child(0).hide()
+	trinket_reward_selected.emit(trinket_data)
