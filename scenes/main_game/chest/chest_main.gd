@@ -26,6 +26,8 @@ func _on_chest_reward_skipped() -> void:
 	skipped.emit()
 
 func _on_chest_opened(chest: Chest) -> void:
-	var excluded_ids: Array[String] = _owned_trinkets.map(func(t: TrinketData) -> String: return t.id)
+	var excluded_ids: Array[String] = []
+	for t: TrinketData in _owned_trinkets:
+		excluded_ids.append(t.id)
 	var trinket_data: TrinketData = MainDatabase.trinket_database.roll_trinket(excluded_ids)
 	gui_chest_main.spawn_trinket(trinket_data, Util.get_node_canvas_position(chest))
