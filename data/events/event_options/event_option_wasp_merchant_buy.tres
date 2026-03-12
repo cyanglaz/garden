@@ -8,7 +8,6 @@ positive_description = "Add {card:dt_card} to your deck."
 negative_description = "- {gold} {resource:gold}"
 script_id = "obtain_card"
 id = "wasp_merchant_buy"
-display_name = "Offer to Buy"
 data = {
 &"gold": "8"
 }

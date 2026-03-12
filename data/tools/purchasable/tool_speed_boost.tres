@@ -14,5 +14,4 @@ script = ExtResource("2_j4yff")
 actions = Array[ExtResource("1_rpsli")]([SubResource("Resource_wwf2g")])
 rarity = 1
 id = "speed_bost"
-display_name = "Speed Boost"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

@@ -28,7 +28,6 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_lg66d")
 action_datas = Array[ExtResource("1_3hhv1")]([SubResource("Resource_sys6w"), SubResource("Resource_2cmnj"), SubResource("Resource_65ett")])
 id = "miasma"
-display_name = "Miasma"
 note = "+1 fungus
 +1 card"
 metadata/_custom_type_script = "uid://dfpccwvjf242h"

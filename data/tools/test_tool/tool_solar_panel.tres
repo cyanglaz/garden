@@ -9,7 +9,6 @@ rarity = 2
 specials = Array[int]([0])
 type = 1
 id = "solar_panel"
-display_name = "Solar Panel"
 data = {
 "value": "1"
 }

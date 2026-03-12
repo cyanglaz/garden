@@ -20,6 +20,5 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_o52lf")
 action_datas = Array[ExtResource("1_jnypc")]([SubResource("Resource_sys6w"), SubResource("Resource_65ett")])
 id = "heavy_droplet"
-display_name = "Heavy Droplet"
 note = "+ 1 water, -2 hp"
 metadata/_custom_type_script = "uid://dfpccwvjf242h"

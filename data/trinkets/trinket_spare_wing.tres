@@ -5,8 +5,7 @@
 [resource]
 script = ExtResource("1_tg1u4")
 id = "spare_wing"
-display_name = "Spare Wing"
-description = "At the start of turn, if the player has no {resource:momentum}, +{momemtum}{resource:momentum}"
+
 data = {
 &"momentum": "1"
 }

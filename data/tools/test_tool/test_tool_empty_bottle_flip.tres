@@ -16,5 +16,4 @@ actions = Array[ExtResource("1_n842k")]([SubResource("Resource_t4j2x")])
 specials = Array[int]([0])
 back_card = ExtResource("2_l85wk")
 id = "test_empty_bottle_flip"
-display_name = "Empty Bottle Back"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

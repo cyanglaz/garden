@@ -8,8 +8,7 @@ type = 1
 stackable = true
 single_turn = true
 id = "regenerator"
-display_name = "Regenerator"
-description = "This turn, when consuming {resource:momentum}, target plant +{value}{resource:light}."
+
 data = {
 &"value": "1"
 }

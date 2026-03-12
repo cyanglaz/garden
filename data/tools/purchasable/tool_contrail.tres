@@ -9,7 +9,6 @@ rarity = 2
 specials = Array[int]([0])
 type = 1
 id = "contrail"
-display_name = "Contrail"
 data = {
 "value": "1"
 }

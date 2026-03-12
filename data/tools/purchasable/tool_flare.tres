@@ -20,5 +20,4 @@ script = ExtResource("2_ywwbo")
 energy_cost = 2
 actions = Array[ExtResource("1_174g6")]([SubResource("Resource_4ky0d"), SubResource("Resource_2mmqm")])
 id = "flare"
-display_name = "Flare"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

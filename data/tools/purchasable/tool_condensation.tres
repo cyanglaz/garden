@@ -8,7 +8,6 @@ script = ExtResource("2_wogjl")
 rarity = 1
 type = 1
 id = "condensation"
-display_name = "Condensation"
 data = {
 "value": "1"
 }

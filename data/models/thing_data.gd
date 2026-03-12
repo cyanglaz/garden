@@ -10,8 +10,8 @@ enum ReferenceType {
 }
 
 @export var id:String
-@export var display_name:String
-@export_multiline var description:String:get = _get_description
+var display_name:String
+var description:String:get = _get_description
 @export var data:Dictionary
 @export_multiline var note:String
 
@@ -58,15 +58,18 @@ func get_display_name() -> String:
 		return localized_name
 	return localized_name + name_postfix
 
-func get_display_description() -> String:
-	var raw_description := description
+func get_raw_description() -> String:
+	var raw := description
 	var prefix := _get_localization_prefix()
 	if !prefix.is_empty() && !base_id.is_empty():
 		var key := prefix + base_id.to_upper() + "_DESCRIPTION"
 		var localized := Util.get_localized_string(key)
 		if localized != key:
-			raw_description = localized
-	return DescriptionParser.format_references(raw_description, data, highlight_description_keys, _additional_highlight_check)
+			raw = localized
+	return raw
+
+func get_display_description() -> String:
+	return DescriptionParser.format_references(get_raw_description(), data, highlight_description_keys, _additional_highlight_check)
 
 func _additional_highlight_check(_reference_id:String) -> bool:
 	return false

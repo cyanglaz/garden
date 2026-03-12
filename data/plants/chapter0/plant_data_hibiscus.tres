@@ -16,8 +16,7 @@ water = 2
 chapters = Array[int]([1])
 attacks = Array[ExtResource("1_rwa2x")]([SubResource("Resource_u2yex")])
 id = "hibiscus"
-display_name = "Hibiscus"
-description = "+{card} {action:draw_card} on {resource:light} gain."
+
 data = {
 "card": "1"
 }

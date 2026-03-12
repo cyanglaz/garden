@@ -13,5 +13,4 @@ actions = Array[ExtResource("1_cn4a6")]([SubResource("Resource_cn4a6")])
 rarity = -1
 specials = Array[int]([0])
 id = "spore"
-display_name = "Spore"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

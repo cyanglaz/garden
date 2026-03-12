@@ -7,4 +7,3 @@ script = ExtResource("1_brit1")
 positive_description = "Remove a card."
 script_id = "remove_card"
 id = "silk_binder_offer"
-display_name = "Offer"

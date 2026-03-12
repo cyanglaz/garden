@@ -15,5 +15,4 @@ water = 4
 chapters = Array[int]([0, 1, 2, 3])
 attacks = Array[ExtResource("1_y4mvn")]([SubResource("Resource_pecjr")])
 id = "peace_lily"
-display_name = "Peace Lily"
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

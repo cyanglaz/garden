@@ -8,8 +8,7 @@ type = 1
 stackable = true
 single_turn = true
 id = "contrail"
-display_name = "Contrail"
-description = "This turn, when the player is moved, target plant +{value}{resource:water}."
+
 data = {
 &"value": "1"
 }

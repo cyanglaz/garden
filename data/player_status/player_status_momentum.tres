@@ -7,6 +7,5 @@ script = ExtResource("1_cyk6u")
 type = 1
 stackable = true
 id = "momentum"
-display_name = "Momentum"
-description = "Allow free moves."
+
 metadata/_custom_type_script = "uid://ep5ey6gqhty1"

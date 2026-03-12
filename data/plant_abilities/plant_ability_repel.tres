@@ -5,6 +5,5 @@
 [resource]
 script = ExtResource("1_4ml5e")
 id = "repel"
-display_name = "Repel"
-description = "On bloom, reduce {stack} {field_status:pest} from adjacent plants."
+
 metadata/_custom_type_script = "uid://jejwqju653m5"

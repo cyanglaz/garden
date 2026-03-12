@@ -15,7 +15,6 @@ light = 5
 chapters = Array[int]([1])
 attacks = Array[ExtResource("1_onoes")]([SubResource("Resource_42rld")])
 id = "sunflower"
-display_name = "Sunflower"
 data = {
 "light": "1"
 }

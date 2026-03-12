@@ -20,7 +20,6 @@ script = ExtResource("2_pc4tl")
 energy_cost = 2
 actions = Array[ExtResource("1_0wo8n")]([SubResource("Resource_oexgw"), SubResource("Resource_0wo8n")])
 id = "photosynthesis"
-display_name = "Photosynthesis"
 note = "+2 light
 +1 card"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

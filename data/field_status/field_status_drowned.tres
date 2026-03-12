@@ -8,6 +8,5 @@ popup_message = "Water Rejected"
 stackable = true
 reduce_stack_on_turn_end = true
 id = "drowned"
-display_name = "Drowned"
-description = "Plant cannot gain {resource:water} for the next {stack} turns."
+
 metadata/_custom_type_script = "uid://ep5ey6gqhty1"

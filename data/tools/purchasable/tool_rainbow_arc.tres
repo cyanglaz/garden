@@ -26,5 +26,4 @@ script = ExtResource("2_sysyf")
 actions = Array[ExtResource("1_g1aij")]([SubResource("Resource_4ky0d"), SubResource("Resource_2mmqm"), SubResource("Resource_g1aij")])
 rarity = 2
 id = "rainbow_arc"
-display_name = "Rainbow Arc"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

@@ -17,5 +17,4 @@ difficulty = 1
 chapters = Array[int]([0])
 attacks = Array[ExtResource("1_y7oj0")]([SubResource("Resource_riulj")])
 id = "lily_of_the_valley"
-display_name = "Lily of The Valley"
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

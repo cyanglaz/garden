@@ -26,7 +26,6 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_ik2j7")
 action_datas = Array[ExtResource("1_6u1c6")]([SubResource("Resource_sys6w"), SubResource("Resource_6u1c6"), SubResource("Resource_65ett")])
 id = "flash_flood"
-display_name = "Flash Flood"
 note = "+ 3 water, 
 Drowned
 -3 hp"

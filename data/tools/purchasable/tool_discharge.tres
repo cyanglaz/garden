@@ -21,7 +21,6 @@ script = ExtResource("2_ah4gd")
 energy_cost = 0
 actions = Array[ExtResource("1_l7bea")]([SubResource("Resource_l00fl"), SubResource("Resource_oexgw")])
 id = "discarge"
-display_name = "Discharge"
 note = "-1 momentum
 +1 light
 "

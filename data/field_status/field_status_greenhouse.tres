@@ -9,8 +9,7 @@ popup_message = "Light Gained"
 stackable = true
 single_turn = true
 id = "greenhouse"
-display_name = "Greenhouse"
-description = "The target plant gain {light} {resource:light} when a card is used."
+
 data = {
 "light": "1"
 }

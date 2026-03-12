@@ -16,5 +16,4 @@ actions = Array[ExtResource("1_p1wuh")]([SubResource("Resource_cn4a6")])
 rarity = -1
 specials = Array[int]([2])
 id = "parasite"
-display_name = "Parasite"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

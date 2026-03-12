@@ -21,6 +21,5 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_csya6")
 action_datas = Array[ExtResource("1_d8ch7")]([SubResource("Resource_sys6w"), SubResource("Resource_65ett")])
 id = "gloom"
-display_name = "Gloom"
 note = "-2 light, -1 movement"
 metadata/_custom_type_script = "uid://dfpccwvjf242h"

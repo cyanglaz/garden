@@ -5,8 +5,7 @@
 [resource]
 script = ExtResource("1_gohme")
 id = "ice_shard"
-display_name = "Ice Shard"
-description = "At the end of turn, current plant +{water}{resource:water}."
+
 data = {
 &"water": "1"
 }
