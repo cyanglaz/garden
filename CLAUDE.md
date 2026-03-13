@@ -3,7 +3,7 @@
 ## Project Overview
 
 - **Engine:** Godot 4.6
-- **Platform:** Mobile-first
+- **Platform:** PC (Steam release); mobile support planned for later
 - **Genre:** Tactical / deck-building game with a plants & flowers theme
 - **Base Resolution:** 320×180 (scaled up to 2560×1440), pixel-art style
 
