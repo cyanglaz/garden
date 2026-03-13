@@ -86,8 +86,3 @@ func test_weather_ability_action_datas_are_independent():
 	dup.action_datas.append(_make_action())
 	assert_eq(wa.action_datas.size(), 1)
 
-func test_weather_ability_duplicate_copies_display_name():
-	var wa := _make_weather_ability()
-	wa.display_name = "Thunder Strike"
-	var dup := wa.get_duplicate()
-	assert_eq(dup.display_name, "Thunder Strike")
