@@ -8,7 +8,6 @@ func _make_weather(id_val: String = "sunny") -> WeatherData:
 	var wd := WeatherData.new()
 	wd.set("_original_resource_path", FAKE_PATH)
 	wd.id = id_val
-	wd.display_name = "Sunny"
 	wd.sky_color = Color.WHITE
 	wd.boss = false
 	return wd
@@ -17,7 +16,6 @@ func _make_weather_ability(id_val: String = "rain_shower") -> WeatherAbilityData
 	var wa := WeatherAbilityData.new()
 	wa.set("_original_resource_path", FAKE_PATH)
 	wa.id = id_val
-	wa.display_name = "Rain Shower"
 	wa.action_datas = []
 	return wa
 
@@ -53,11 +51,6 @@ func test_weather_duplicate_copies_boss_true():
 	var dup := wd.get_duplicate()
 	assert_true(dup.boss)
 
-func test_weather_duplicate_copies_display_name():
-	var wd := _make_weather()
-	wd.display_name = "Blizzard"
-	var dup := wd.get_duplicate()
-	assert_eq(dup.display_name, "Blizzard")
 
 func test_weather_boss_flag_independent():
 	var wd := _make_weather()

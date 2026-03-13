@@ -10,7 +10,6 @@ func _make_tool(id_val: String = "test_fixture") -> ToolData:
 	var td := ToolData.new()
 	td.set("_original_resource_path", FAKE_PATH)
 	td.id = id_val
-	td.display_name = id_val
 	td.energy_cost = 1
 	return td
 

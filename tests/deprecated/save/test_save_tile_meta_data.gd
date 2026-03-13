@@ -29,8 +29,6 @@ func test_load():
 	SaveTestHelper.recursive_compare(self, obj, loaded_obj)
 	assert_eq(obj.type, loaded_obj.type)
 	assert_eq(obj.action_data, loaded_obj.action_data)
-	assert_eq(obj.display_name, loaded_obj.display_name)
-	assert_eq(obj.description, loaded_obj.description)
 	assert_eq(obj.source_coord, loaded_obj.source_coord)
 
 func _dictionary() -> Dictionary:

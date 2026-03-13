@@ -176,10 +176,10 @@ func _get_all_fields() -> bool:
 		return false
 	return true
 
-func _get_description() -> String:
+func get_raw_description() -> String:
 	if type == Type.POWER:
-		return MainDatabase.player_status_database.get_data_by_id(id).description
-	return super._get_description()
+		return MainDatabase.player_status_database.get_data_by_id(id).get_raw_description()
+	return super.get_raw_description()
 
 func _get_combat_main() -> CombatMain:
 	return _weak_combat_main.get_ref()

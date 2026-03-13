@@ -10,8 +10,6 @@ enum ReferenceType {
 }
 
 @export var id:String
-var display_name:String
-var description:String:get = _get_description
 @export var data:Dictionary
 @export_multiline var note:String
 
@@ -34,9 +32,7 @@ func copy(other:ThingData) -> void:
 	else:
 		_original_resource_path = other.resource_path
 	id = other.id
-	description = other.description
 	data = other.data.duplicate()
-	display_name = other.display_name
 
 func get_duplicate() -> ThingData:
 	var dup:ThingData = ThingData.new()
@@ -47,7 +43,7 @@ func _get_localization_prefix() -> String:
 	return ""
 
 func get_display_name() -> String:
-	var localized_name := display_name
+	var localized_name := ""
 	var prefix := _get_localization_prefix()
 	if !prefix.is_empty() && !base_id.is_empty():
 		var key := prefix + base_id.to_upper() + "_NAME"
@@ -59,7 +55,7 @@ func get_display_name() -> String:
 	return localized_name + name_postfix
 
 func get_raw_description() -> String:
-	var raw := description
+	var raw := ""
 	var prefix := _get_localization_prefix()
 	if !prefix.is_empty() && !base_id.is_empty():
 		var key := prefix + base_id.to_upper() + "_DESCRIPTION"
@@ -95,6 +91,3 @@ func _get_upgraded_from_id() -> String:
 	if level == 1:
 		return base_id
 	return base_id + "+" + str(level - 1)
-
-func _get_description() -> String:
-	return description

@@ -25,10 +25,6 @@ func test_load():
 	assert_eq(obj.deploy_range, loaded_obj.deploy_range)
 	assert_eq(obj.delayed, loaded_obj.delayed)
 	assert_eq(obj.sprite_indicator_name, loaded_obj.sprite_indicator_name)
-	assert_eq(obj.display_name, loaded_obj.display_name)
-
-	assert_eq(obj.description, loaded_obj.description)
-
 func _dictionary() -> Dictionary:
 	return {
 			"Scrypt": ActionData,

@@ -8,7 +8,6 @@ func _make_ability(id_val: String = "photosynthesis") -> PlantAbilityData:
 	var ad := PlantAbilityData.new()
 	ad.set("_original_resource_path", FAKE_PATH)
 	ad.id = id_val
-	ad.display_name = "Photosynthesis"
 	ad.cooldown = 0
 	return ad
 
@@ -49,11 +48,6 @@ func test_duplicate_cooldown_is_independent():
 	dup.cooldown = 99
 	assert_eq(ad.cooldown, 2)
 
-func test_duplicate_copies_display_name():
-	var ad := _make_ability()
-	ad.display_name = "Sleep"
-	var dup := ad.get_duplicate()
-	assert_eq(dup.display_name, "Sleep")
 
 func test_duplicate_zero_cooldown():
 	var ad := _make_ability()
