@@ -35,7 +35,7 @@ func _ready() -> void:
 func animate_show() -> void:
 	PauseManager.try_pause()
 	if Singletons.main_game:
-		_seed_label.text = "Seed: %s"%Singletons.main_game.session_seed
+		_seed_label.text = Util.get_localized_string("SETTINGS_SEED_LABEL") % Singletons.main_game.session_seed
 	else:
 		_seed_label.text = ""
 	show()

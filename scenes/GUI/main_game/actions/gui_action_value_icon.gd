@@ -39,7 +39,7 @@ func update_with_action(action_data:ActionData, target_plant:Plant) -> void:
 			_value_icon.show()
 			_value_icon.texture = load(VALUE_ICON_PATH + "x.png")
 			_x_value_label.show()
-			_x_value_label.text = "(%s)"%[_get_x_value(action_data, target_plant)]
+			_x_value_label.text = Util.get_localized_string("ACTION_X_VALUE_LABEL") % [_get_x_value(action_data, target_plant)]
 	if action_data.modified_value > 0:
 		_value_icon.modulate = Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
 	elif action_data.modified_value < 0:
