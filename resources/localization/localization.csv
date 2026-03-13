@@ -93,6 +93,12 @@ SHOP_SUBTITLE, ""
 WEEK_SUMMARY_TITLE, "Week Summary"
 WEEK_SUMMARY_SUCCESS_BUTTON, "Go to Shop"
 
+DEMO_END_TITLE,"You Beat The Demo!"
+DEMO_END_SUBTITLE,"Thank you for playing."
+
+CREDITS_CREATED_BY,"Created By:"
+CREDITS_MUSIC,"Music:"
+
 ACTION_MAIN_MENU, "Main Menu"
 GAME_OVER_TITLE, "Game Over"
 GAME_OVER_WEEK, "Week"
