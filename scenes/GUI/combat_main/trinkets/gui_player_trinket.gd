@@ -12,6 +12,7 @@ const ICON_PREFIX := "res://resources/sprites/GUI/icons/trinkets/icon_%s.png"
 var _tooltip_id:String = ""
 var _trinket_data:TrinketData = null
 var trinket_id:String = ""
+var tooltip_position: GUITooltip.TooltipPosition = GUITooltip.TooltipPosition.TOP_RIGHT
 
 func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
@@ -36,7 +37,7 @@ func play_trigger_animation() -> void:
 
 func _on_mouse_entered() -> void:
 	gui_icon.has_outline = true
-	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.THING_DATA, _trinket_data, _tooltip_id, self, GUITooltip.TooltipPosition.TOP_RIGHT))
+	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.THING_DATA, _trinket_data, _tooltip_id, self, tooltip_position))
 
 func _on_mouse_exited() -> void:
 	gui_icon.has_outline = false
