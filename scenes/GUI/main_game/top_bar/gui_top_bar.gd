@@ -6,6 +6,7 @@ const DETAIL_TOOLTIP_ICON_PATH := "res://resources/sprites/GUI/icons/inputs/inpu
 signal setting_button_evoked()
 signal full_deck_button_evoked()
 signal library_button_evoked()
+signal trinket_button_evoked()
 
 @onready var gui_full_deck_button: GUIDeckButton = %GUIFullDeckButton
 @onready var gui_gold: GUIGold = %GUIGold
@@ -13,11 +14,13 @@ signal library_button_evoked()
 @onready var _gui_player: GUICharacter = %GUIPlayer
 @onready var _gui_library_button: GUILibraryButton = %GUILibraryButton
 @onready var _guihp: GUIHP = %GUIHP
+@onready var _gui_trinket_button: Button = %GUITrinketButton
 
 func _ready() -> void:
 	_gui_settings_button.pressed.connect(func() -> void: setting_button_evoked.emit())
 	gui_full_deck_button.pressed.connect(func() -> void: full_deck_button_evoked.emit())
 	_gui_library_button.pressed.connect(func() -> void: library_button_evoked.emit())
+	_gui_trinket_button.pressed.connect(func() -> void: trinket_button_evoked.emit())
 
 func bind_with_hp(hp:ResourcePoint) -> void:
 	_guihp.bind_with_hp(hp)
