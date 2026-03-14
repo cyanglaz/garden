@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="WeatherData" load_steps=2 format=3 uid="uid://cytu2rr2gw3mi"]
+[gd_resource type="Resource" script_class="WeatherData" format=3 uid="uid://cytu2rr2gw3mi"]
 
 [ext_resource type="Script" uid="uid://g4t52w546b5k" path="res://data/models/weather/weather_data.gd" id="1_o2cds"]
 

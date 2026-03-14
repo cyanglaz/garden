@@ -6,7 +6,7 @@ func _has_discard_hook(_combat_main:CombatMain, _tool_datas:Array) -> bool:
 
 func _handle_discard_hook(combat_main:CombatMain, tool_datas:Array) -> void:
 	var action:ActionData = ActionData.new()
-	var water_gain := (status_data.data["value"] as int) * stack * tool_datas.size()
+	var water_gain := (data.data["value"] as int) * stack * tool_datas.size()
 	action.type = ActionData.ActionType.WATER
 	action.operator_type = ActionData.OperatorType.INCREASE
 	action.value = water_gain

@@ -5,7 +5,6 @@
 [resource]
 script = ExtResource("1_tg1u4")
 id = "spare_wing"
-
 data = {
 &"momentum": "1"
 }

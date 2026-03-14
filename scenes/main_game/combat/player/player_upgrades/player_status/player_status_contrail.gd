@@ -9,5 +9,5 @@ func _handle_player_move_hook(main_game:CombatMain) -> void:
 	var action:ActionData = ActionData.new()
 	action.type = ActionData.ActionType.WATER
 	action.operator_type = ActionData.OperatorType.INCREASE
-	action.value = stack * (status_data.data["value"] as int)
+	action.value = stack * (data.data["value"] as int)
 	await plant.apply_actions([action])
