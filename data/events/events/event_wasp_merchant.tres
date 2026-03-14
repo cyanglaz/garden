@@ -7,7 +7,6 @@ script = ExtResource("1_um8pq")
 chapters = Array[int]([0])
 option_ids = Array[String](["buy", "rob", "leave"])
 id = "wasp_merchant"
-
 data = {
 "card": "runoff"
 }

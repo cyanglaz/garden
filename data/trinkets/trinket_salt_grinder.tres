@@ -5,7 +5,6 @@
 [resource]
 script = ExtResource("1_tm8od")
 id = "salt_grinder"
-
 data = {
 &"fungus": "1",
 &"pest": "1"
