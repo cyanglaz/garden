@@ -50,7 +50,8 @@ func _ready() -> void:
 	gui_main_game.update_player(player_data)
 	gui_main_game.bind_with_hp(hp)
 	gui_main_game.bind_cards(card_pool)
-	
+	gui_main_game.bind_trinkets(trinket_pool)
+
 	map_main.node_selected.connect(_on_map_node_selected)
 	
 	_register_global_events()

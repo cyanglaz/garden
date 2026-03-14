@@ -14,7 +14,7 @@ signal trinket_button_evoked()
 @onready var _gui_player: GUICharacter = %GUIPlayer
 @onready var _gui_library_button: GUILibraryButton = %GUILibraryButton
 @onready var _guihp: GUIHP = %GUIHP
-@onready var _gui_trinket_button: Button = %GUITrinketButton
+@onready var _gui_trinket_button: GUIBasicButton = %GUITrinketButton
 
 func _ready() -> void:
 	_gui_settings_button.pressed.connect(func() -> void: setting_button_evoked.emit())
