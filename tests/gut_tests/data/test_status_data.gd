@@ -9,7 +9,6 @@ func _make_status(type: StatusData.Type = StatusData.Type.BAD) -> StatusData:
 	var sd := StatusData.new()
 	sd.set("_original_resource_path", FAKE_PATH)
 	sd.id = "drowned"
-	sd.display_name = "Drowned"
 	sd.type = type
 	sd.popup_message = "Drowned!"
 	sd.stackable = true
@@ -23,7 +22,6 @@ func _make_trinket(rarity: int = 0) -> TrinketData:
 	var td := TrinketData.new()
 	td.set("_original_resource_path", FAKE_PATH)
 	td.id = "lucky_charm"
-	td.display_name = "Lucky Charm"
 	td.rarity = rarity
 	return td
 
@@ -31,7 +29,6 @@ func _make_power() -> PowerData:
 	var pd := PowerData.new()
 	pd.set("_original_resource_path", FAKE_PATH)
 	pd.id = "photosynthesis_power"
-	pd.display_name = "Photosynthesis"
 	pd.single_turn = false
 	pd.stack = 0
 	return pd

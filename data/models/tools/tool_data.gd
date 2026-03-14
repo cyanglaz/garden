@@ -90,6 +90,9 @@ func get_duplicate() -> ToolData:
 	dup.copy(self)
 	return dup
 
+func _get_localization_prefix() -> String:
+	return "TOOL_"
+
 func get_final_energy_cost() -> int:
 	return energy_cost + get_total_energy_modifier()
 
@@ -173,10 +176,10 @@ func _get_all_fields() -> bool:
 		return false
 	return true
 
-func _get_description() -> String:
+func get_raw_description() -> String:
 	if type == Type.POWER:
-		return MainDatabase.player_status_database.get_data_by_id(id).description
-	return super._get_description()
+		return MainDatabase.player_status_database.get_data_by_id(id).get_raw_description()
+	return super.get_raw_description()
 
 func _get_combat_main() -> CombatMain:
 	return _weak_combat_main.get_ref()

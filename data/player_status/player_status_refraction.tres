@@ -8,8 +8,7 @@ type = 1
 stackable = true
 single_turn = true
 id = "refraction"
-display_name = "Refraction"
-description = "This turn, when the traget plant gain {resource:water}, it also gains {value} {resource:light}."
+
 data = {
 &"value": "1"
 }

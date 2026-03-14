@@ -27,6 +27,5 @@ energy_cost = 2
 actions = Array[ExtResource("1_ivafd")]([SubResource("Resource_oexgw"), SubResource("Resource_5ducw"), SubResource("Resource_0k4mw")])
 rarity = 1
 id = "irrigation"
-display_name = "Irrigation"
 note = "+1 water all"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

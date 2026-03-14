@@ -17,5 +17,4 @@ difficulty = 1
 chapters = Array[int]([0])
 attacks = Array[ExtResource("1_jtf3x")]([SubResource("Resource_lxfbc")])
 id = "peony"
-display_name = "Peony"
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

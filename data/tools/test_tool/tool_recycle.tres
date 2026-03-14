@@ -15,6 +15,5 @@ energy_cost = 2
 actions = Array[ExtResource("1_dyj2c")]([SubResource("Resource_dyj2c")])
 rarity = 1
 id = "recycle"
-display_name = "Recycle"
 note = "+ 3 water recycle"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

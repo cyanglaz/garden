@@ -26,6 +26,5 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_qnhvd")
 action_datas = Array[ExtResource("1_ycepv")]([SubResource("Resource_mx06f"), SubResource("Resource_sys6w"), SubResource("Resource_65ett")])
 id = "gale_debris"
-display_name = "Gale Debris"
 note = "-1 pest, -1 light -1 movement"
 metadata/_custom_type_script = "uid://dfpccwvjf242h"

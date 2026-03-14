@@ -19,5 +19,4 @@ abilities = {
 }
 attacks = Array[ExtResource("1_udig0")]([SubResource("Resource_v2uel")])
 id = "daffodil"
-display_name = "Daffodil"
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

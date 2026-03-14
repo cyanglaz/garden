@@ -20,5 +20,4 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_5mvj8")
 actions = Array[ExtResource("1_rha33")]([SubResource("Resource_oexgw"), SubResource("Resource_xbadh")])
 id = "fungicide"
-display_name = "Fungicide"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

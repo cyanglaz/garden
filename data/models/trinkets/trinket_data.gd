@@ -16,6 +16,9 @@ func get_duplicate() -> TrinketData:
 	dup.copy(self)
 	return dup
 
+func _get_localization_prefix() -> String:
+	return "TRINKET_"
+
 func _set_stack(value:int) -> void:
 	stack = value
 	data["stack"] = str(value)

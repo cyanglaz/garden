@@ -8,7 +8,6 @@ func _make_tool(rarity_val: int = 0) -> ToolData:
 	var td := ToolData.new()
 	td.set("_original_resource_path", FAKE_PATH)
 	td.id = "test_fixture"
-	td.display_name = "Watering Can"
 	td.rarity = rarity_val
 	td.energy_cost = 1
 	td.turn_energy_modifier = 0

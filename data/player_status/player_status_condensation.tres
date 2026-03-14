@@ -8,8 +8,7 @@ type = 1
 stackable = true
 single_turn = true
 id = "condensation"
-display_name = "Condensation"
-description = "This turn, when discard a card, target plant +{value} {resource:water}."
+
 data = {
 &"value": "1"
 }

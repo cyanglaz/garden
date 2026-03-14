@@ -8,6 +8,5 @@ popup_message = "Light Rejected"
 stackable = true
 reduce_stack_on_turn_end = true
 id = "buried"
-display_name = "Buried"
-description = "Plant cannot gain {resource:light} for the next {stack} turns."
+
 metadata/_custom_type_script = "uid://ep5ey6gqhty1"

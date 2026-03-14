@@ -26,7 +26,6 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_oxroq")
 action_datas = Array[ExtResource("1_p1rpt")]([SubResource("Resource_0ew7l"), SubResource("Resource_jiwr5"), SubResource("Resource_p1rpt")])
 id = "solar_flare"
-display_name = "Solar Flare"
 note = "+1 energy, 
 +1 light"
 metadata/_custom_type_script = "uid://dfpccwvjf242h"

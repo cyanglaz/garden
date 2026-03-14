@@ -6,8 +6,7 @@
 script = ExtResource("1_itd44")
 cooldown = 2
 id = "attack"
-display_name = "Attack"
-description = "Shuffle a {card:damage}({stack}) to your hand at the start of the turn."
+
 data = {
 "stack": "x"
 }

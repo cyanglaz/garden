@@ -18,7 +18,7 @@ func update_with_event(event:EventData, main_game:MainGame) -> void:
 	var event_script: EventScript = _get_event_script(event.id)
 	if event_script:
 		event_script.prepare(event, main_game)
-	description.text = DescriptionParser.format_references(event.description, event.data, {}, func(_reference_id:String) -> bool: return false)
+	description.text = event.get_display_description()
 	description.meta_hover_started.connect(_on_meta_hover_started.bind(event))
 	description.meta_hover_ended.connect(_on_meta_hover_ended.bind(event))
 	description.meta_clicked.connect(_on_meta_clicked.bind(event))

@@ -14,3 +14,6 @@ func get_duplicate() -> WeatherData:
 	var dup:WeatherData = WeatherData.new()
 	dup.copy(self)
 	return dup
+
+func _get_localization_prefix() -> String:
+	return "WEATHER_"

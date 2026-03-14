@@ -19,8 +19,10 @@ const MENU_SCENE_PATH = "res://scenes/GUI/menu/gui_main_menu.tscn"
 @onready var _game_play: VBoxContainer = %GamePlay
 @onready var _audios: VBoxContainer = %Audios
 @onready var _seed_label: Label = %SeedLabel
+@onready var _options_label: Label = %Label
 
 func _ready() -> void:
+	_options_label.text = Util.get_localized_string("OPTIONS")
 	_master_audio.value_changed.connect(_on_audio_value_changed.bind(PlayerSettings.AudioBus.MASTER))
 	_music_audio.value_changed.connect(_on_audio_value_changed.bind(PlayerSettings.AudioBus.MUSIC))
 	_sfx_audio.value_changed.connect(_on_audio_value_changed.bind(PlayerSettings.AudioBus.SFX))
@@ -35,7 +37,7 @@ func _ready() -> void:
 func animate_show() -> void:
 	PauseManager.try_pause()
 	if Singletons.main_game:
-		_seed_label.text = "Seed: %s"%Singletons.main_game.session_seed
+		_seed_label.text = Util.get_localized_string("SETTINGS_SEED_LABEL") % Singletons.main_game.session_seed
 	else:
 		_seed_label.text = ""
 	show()

@@ -10,8 +10,6 @@ const FAKE_PATH := "res://fake/test_resource.tres"
 func _make_thing(id_val: String = "flower") -> ThingData:
 	var td := ThingData.new()
 	td.id = id_val
-	td.display_name = "Flower"
-	td.description = "A lovely flower."
 	td.data = {}
 	# Required by copy() when resource_path is empty (freshly constructed).
 	td.set("_original_resource_path", FAKE_PATH)
@@ -85,21 +83,18 @@ func test_upgraded_from_id_at_level_three():
 
 func test_display_name_without_postfix():
 	var td := _make_thing("sunflower")
-	td.display_name = "Sunflower"
 	td.name_postfix = ""
-	assert_eq(td.get_display_name(), "Sunflower")
+	assert_eq(td.get_display_name(), "")
 
 func test_display_name_with_postfix():
 	var td := _make_thing("sunflower")
-	td.display_name = "Sunflower"
 	td.name_postfix = " +"
-	assert_eq(td.get_display_name(), "Sunflower +")
+	assert_true(td.get_display_name().ends_with(" +"))
 
 func test_display_name_with_empty_postfix():
 	var td := _make_thing("sunflower")
-	td.display_name = "Sunflower"
 	td.name_postfix = ""
-	assert_eq(td.get_display_name(), "Sunflower")
+	assert_eq(td.get_display_name(), "")
 
 # ----- copy / get_duplicate -----
 
@@ -108,11 +103,6 @@ func test_get_duplicate_copies_id():
 	var dup := td.get_duplicate()
 	assert_eq(dup.id, "orchid")
 
-func test_get_duplicate_copies_display_name():
-	var td := _make_thing("orchid")
-	td.display_name = "Orchid"
-	var dup := td.get_duplicate()
-	assert_eq(dup.display_name, "Orchid")
 
 func test_get_duplicate_copies_data_dictionary():
 	var td := _make_thing("orchid")

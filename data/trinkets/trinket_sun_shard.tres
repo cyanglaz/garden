@@ -5,8 +5,7 @@
 [resource]
 script = ExtResource("1_m082o")
 id = "sun_shard"
-display_name = "Sun Shard"
-description = "At the end of turn, if the player is at an edge plant, the target plant +{light}{resource:light}."
+
 data = {
 &"light": "2"
 }

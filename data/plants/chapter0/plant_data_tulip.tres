@@ -19,7 +19,6 @@ abilities = {
 }
 attacks = Array[ExtResource("1_ke2wj")]([SubResource("Resource_s08on")])
 id = "tulip"
-display_name = "Tulip"
 data = {
 "card": "1"
 }

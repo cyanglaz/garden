@@ -16,5 +16,4 @@ water = 3
 chapters = Array[int]([0])
 attacks = Array[ExtResource("1_ofsq0")]([SubResource("Resource_8nc0q")])
 id = "primrose"
-display_name = "Primrose"
 metadata/_custom_type_script = "uid://c6qubfqdqqjrs"

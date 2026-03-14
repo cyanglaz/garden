@@ -16,5 +16,4 @@ script = ExtResource("2_28b6n")
 actions = Array[ExtResource("1_o6ad8")]([SubResource("Resource_mxmch")])
 rarity = 2
 id = "mirror_pool"
-display_name = "Mirror Pool"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

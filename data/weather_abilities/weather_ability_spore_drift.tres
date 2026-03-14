@@ -22,7 +22,6 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_5ywuk")
 action_datas = Array[ExtResource("1_d23yx")]([SubResource("Resource_sys6w"), SubResource("Resource_65ett")])
 id = "spore_drift"
-display_name = "Spore Drift"
 note = "+1 fungus
 +1 card"
 metadata/_custom_type_script = "uid://dfpccwvjf242h"

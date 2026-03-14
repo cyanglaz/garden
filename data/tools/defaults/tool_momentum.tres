@@ -20,5 +20,4 @@ script = ExtResource("2_5q6pk")
 energy_cost = 2
 actions = Array[ExtResource("1_dnn0o")]([SubResource("Resource_wwf2g"), SubResource("Resource_mpvv5")])
 id = "momentum"
-display_name = "Momentum"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

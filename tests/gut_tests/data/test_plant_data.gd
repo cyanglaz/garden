@@ -8,7 +8,6 @@ func _make_plant(id_val: String = "rose") -> PlantData:
 	var pd := PlantData.new()
 	pd.set("_original_resource_path", FAKE_PATH)
 	pd.id = id_val
-	pd.display_name = "Rose"
 	pd.light = 3
 	pd.water = 2
 	pd.difficulty = 1
@@ -85,11 +84,6 @@ func test_duplicate_initial_field_status_is_independent():
 	dup.initial_field_status["pest"] = 1
 	assert_false(pd.initial_field_status.has("pest"))
 
-func test_duplicate_display_name():
-	var pd := _make_plant()
-	pd.display_name = "Orchid"
-	var dup := pd.get_duplicate()
-	assert_eq(dup.display_name, "Orchid")
 
 # ----- level / base_id (inherited from ThingData) -----
 
@@ -105,12 +99,10 @@ func test_plant_base_id_stripped():
 
 func test_get_display_name_no_postfix():
 	var pd := _make_plant()
-	pd.display_name = "Rose"
 	pd.name_postfix = ""
 	assert_eq(pd.get_display_name(), "Rose")
 
 func test_get_display_name_with_postfix():
 	var pd := _make_plant()
-	pd.display_name = "Rose"
 	pd.name_postfix = " +"
 	assert_eq(pd.get_display_name(), "Rose +")

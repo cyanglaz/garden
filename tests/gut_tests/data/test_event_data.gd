@@ -8,7 +8,6 @@ func _make_event(id_val: String = "forest_encounter") -> EventData:
 	var ed := EventData.new()
 	ed.set("_original_resource_path", FAKE_PATH)
 	ed.id = id_val
-	ed.display_name = "Forest Encounter"
 	ed.chapters = [1, 2]
 	ed.option_ids = ["help", "flee"]
 	return ed
@@ -17,7 +16,6 @@ func _make_event_option(id_val: String = "help_option") -> EventOptionData:
 	var eod := EventOptionData.new()
 	eod.set("_original_resource_path", FAKE_PATH)
 	eod.id = id_val
-	eod.display_name = "Help the traveler"
 	eod.positive_description = "You gain gold."
 	eod.negative_description = "You lose HP."
 	eod.script_id = "event_option_help"
@@ -30,11 +28,6 @@ func test_event_duplicate_copies_id():
 	var dup := ed.get_duplicate()
 	assert_eq(dup.id, "cave_trap")
 
-func test_event_duplicate_copies_display_name():
-	var ed := _make_event()
-	ed.display_name = "Cave Trap"
-	var dup := ed.get_duplicate()
-	assert_eq(dup.display_name, "Cave Trap")
 
 func test_event_duplicate_copies_chapters():
 	var ed := _make_event()
@@ -98,11 +91,6 @@ func test_option_duplicate_copies_negative_description():
 	var dup := eod.get_duplicate()
 	assert_eq(dup.negative_description, "You lose 5 HP.")
 
-func test_option_duplicate_copies_display_name():
-	var eod := _make_event_option()
-	eod.display_name = "Flee!"
-	var dup := eod.get_duplicate()
-	assert_eq(dup.display_name, "Flee!")
 
 func test_option_duplicate_empty_descriptions():
 	var eod := _make_event_option()

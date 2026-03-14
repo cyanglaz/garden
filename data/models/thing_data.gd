@@ -10,8 +10,6 @@ enum ReferenceType {
 }
 
 @export var id:String
-@export var display_name:String
-@export_multiline var description:String:get = _get_description
 @export var data:Dictionary
 @export_multiline var note:String
 
@@ -34,25 +32,40 @@ func copy(other:ThingData) -> void:
 	else:
 		_original_resource_path = other.resource_path
 	id = other.id
-	description = other.description
 	data = other.data.duplicate()
-	display_name = other.display_name
 
 func get_duplicate() -> ThingData:
 	var dup:ThingData = ThingData.new()
 	dup.copy(self)
 	return dup
 
+func _get_localization_prefix() -> String:
+	return ""
+
 func get_display_name() -> String:
+	var localized_name := ""
+	var prefix := _get_localization_prefix()
+	if !prefix.is_empty() && !base_id.is_empty():
+		var key := prefix + base_id.to_upper() + "_NAME"
+		var localized := Util.get_localized_string(key)
+		if localized != key:
+			localized_name = localized
 	if name_postfix.is_empty():
-		return display_name
-	else:
-		return display_name + name_postfix
+		return localized_name
+	return localized_name + name_postfix
+
+func get_raw_description() -> String:
+	var raw := ""
+	var prefix := _get_localization_prefix()
+	if !prefix.is_empty() && !base_id.is_empty():
+		var key := prefix + base_id.to_upper() + "_DESCRIPTION"
+		var localized := Util.get_localized_string(key)
+		if localized != key:
+			raw = localized
+	return raw
 
 func get_display_description() -> String:
-	var formatted_description := description
-	formatted_description = DescriptionParser.format_references(formatted_description, data, highlight_description_keys, _additional_highlight_check)
-	return formatted_description
+	return DescriptionParser.format_references(get_raw_description(), data, highlight_description_keys, _additional_highlight_check)
 
 func _additional_highlight_check(_reference_id:String) -> bool:
 	return false
@@ -78,6 +91,3 @@ func _get_upgraded_from_id() -> String:
 	if level == 1:
 		return base_id
 	return base_id + "+" + str(level - 1)
-
-func _get_description() -> String:
-	return description

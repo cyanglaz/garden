@@ -20,5 +20,4 @@ script = ExtResource("2_awyaa")
 actions = Array[ExtResource("1_f1f7w")]([SubResource("Resource_wwf2g"), SubResource("Resource_ykckt")])
 rarity = 1
 id = "prepare"
-display_name = "Prepare"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

@@ -30,7 +30,6 @@ func test_load():
 	SaveTestHelper.recursive_compare(self, obj, loaded_obj)
 	assert_eq_deep(obj.action_datas, loaded_obj.action_datas)
 	assert_eq(obj.id, loaded_obj.id)
-	assert_eq(obj.display_name, loaded_obj.display_name)
 	assert_eq(obj.type, loaded_obj.type)
 	assert_eq(obj.max_hp, loaded_obj.max_hp)
 	assert_eq(obj.movement_speed, loaded_obj.movement_speed)

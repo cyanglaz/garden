@@ -8,7 +8,6 @@ positive_description = "Bind 2 cards."
 negative_description = "- {gold} {resource:gold}."
 script_id = "bind"
 id = "silk_binder_bind"
-display_name = "Bind"
 data = {
 &"gold": "10"
 }

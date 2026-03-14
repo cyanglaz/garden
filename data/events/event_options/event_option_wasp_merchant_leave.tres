@@ -6,4 +6,3 @@
 script = ExtResource("1_m0uk1")
 script_id = "exit"
 id = "wasp_merchant_leave"
-display_name = "Leave"

@@ -13,8 +13,7 @@
 script = ExtResource("7_gxn42")
 initial_tools = Array[ExtResource("2_m7e3l")]([ExtResource("2_xkk26"), ExtResource("2_xkk26"), ExtResource("2_xkk26"), ExtResource("3_ey6mw"), ExtResource("3_ey6mw"), ExtResource("3_ey6mw"), ExtResource("4_h5ruy"), ExtResource("5_i6yaf"), ExtResource("6_iv15t"), ExtResource("7_elg6j")])
 id = "pollinator"
-display_name = "The Pollinator"
-description = "On Bloom, shuffle a +3 {sunlight} card to hand."
+
 data = {
 &"card": "1"
 }

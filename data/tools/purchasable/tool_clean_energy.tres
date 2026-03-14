@@ -8,7 +8,6 @@ script = ExtResource("2_7dex1")
 rarity = 2
 type = 1
 id = "clean_energy"
-display_name = "Clean Energy"
 data = {
 "value": "1"
 }

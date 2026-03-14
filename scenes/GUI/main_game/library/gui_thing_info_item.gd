@@ -25,7 +25,7 @@ func update_with_plant_data(plant_data:PlantData) -> void:
 	plant_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	add_child(plant_tooltip)
 	plant_tooltip.update_with_request(TooltipRequest.new(TooltipRequest.TooltipType.PLANT, plant_data, "", null, GUITooltip.TooltipPosition.RIGHT))
-	_find_reference_pairs_and_add_buttons(plant_data.description)
+	_find_reference_pairs_and_add_buttons(plant_data.get_raw_description())
 	var ability_pairs:Array = []
 	for plant_ability_id:String in plant_data.abilities.keys():
 		ability_pairs.append(["plant_ability", plant_ability_id])
@@ -39,7 +39,7 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	card_button.mouse_entered.connect(func() -> void: card_button.card_state = GUICardFace.CardState.HIGHLIGHTED)
 	card_button.mouse_exited.connect(func() -> void: card_button.card_state = GUICardFace.CardState.NORMAL)
 	card_button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	_find_reference_pairs_and_add_buttons(tool_data.description)
+	_find_reference_pairs_and_add_buttons(tool_data.get_raw_description())
 	var action_pairs:Array = []
 	for action_data:ActionData in tool_data.actions:
 		action_pairs.append(["action", action_data])
@@ -68,7 +68,7 @@ func update_with_boss_data(boss_data:BossData) -> void:
 	add_child(boss_tooltip)
 	boss_tooltip.update_with_request(TooltipRequest.new(TooltipRequest.TooltipType.BOSS, boss_data, "", null, GUITooltip.TooltipPosition.RIGHT))
 	boss_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	_find_reference_pairs_and_add_buttons(boss_data.description)
+	_find_reference_pairs_and_add_buttons(boss_data.get_raw_description())
 
 func update_with_weather_data(weather_data:WeatherData) -> void:
 	var weather_tooltip:GUIWeatherTooltip = GUITooltipContainer.GUI_WEATHER_TOOLTIP_SCENE.instantiate()
@@ -76,7 +76,7 @@ func update_with_weather_data(weather_data:WeatherData) -> void:
 	weather_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	add_child(weather_tooltip)
 	weather_tooltip.update_with_request(TooltipRequest.new(TooltipRequest.TooltipType.WEATHER, weather_data, "", null, GUITooltip.TooltipPosition.RIGHT))
-	_find_reference_pairs_and_add_buttons(weather_data.description)
+	_find_reference_pairs_and_add_buttons(weather_data.get_raw_description())
 	var action_pairs:Array = []
 	for action_data:ActionData in weather_data.actions:
 		action_pairs.append(["action", action_data])
@@ -87,7 +87,7 @@ func update_with_thing_data(thing_data:ThingData) -> void:
 	add_child(thing_data_tooltip)
 	thing_data_tooltip.update_with_request(TooltipRequest.new(TooltipRequest.TooltipType.THING_DATA, thing_data, "", null, GUITooltip.TooltipPosition.RIGHT))
 	thing_data_tooltip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	_find_reference_pairs_and_add_buttons(thing_data.description)
+	_find_reference_pairs_and_add_buttons(thing_data.get_raw_description())
 
 func _find_reference_pairs_and_add_buttons(description:String) -> void:
 	var reference_pairs:Array = DescriptionParser.find_all_reference_pairs(description)

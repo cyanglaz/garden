@@ -33,7 +33,6 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_8i536")
 action_datas = Array[ExtResource("1_omep2")]([SubResource("Resource_omep2"), SubResource("Resource_8i536"), SubResource("Resource_6txhh"), SubResource("Resource_umusa")])
 id = "lightning_strike"
-display_name = "Lightning Strike"
 note = "+2 light
 -3 water
 -1 hp

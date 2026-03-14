@@ -8,7 +8,6 @@ positive_description = "Add {card:dt_card} to your deck."
 negative_description = "- {hp} {resource:vitality}."
 script_id = "obtain_card"
 id = "wasp_merchant_rob"
-display_name = "Attack and Rob"
 data = {
 &"hp": "1"
 }

@@ -19,7 +19,6 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_0fovf")
 actions = Array[ExtResource("1_mxp0w")]([SubResource("Resource_oexgw"), SubResource("Resource_70opx")])
 id = "light_pistol"
-display_name = "Light Pistol"
 note = "+1 light
 push left 1"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

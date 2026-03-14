@@ -27,7 +27,6 @@ script = ExtResource("2_j2bcf")
 actions = Array[ExtResource("1_btxg8")]([SubResource("Resource_oexgw"), SubResource("Resource_d8ry7"), SubResource("Resource_aukty")])
 rarity = 1
 id = "ladybug_patrol"
-display_name = "Ladybug Patrol"
 note = "-1 pest
 push left, 
 loop 5"

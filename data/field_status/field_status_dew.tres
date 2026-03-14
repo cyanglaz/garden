@@ -9,8 +9,7 @@ popup_message = "Water Gained"
 stackable = true
 single_turn = true
 id = "dew"
-display_name = "Dew"
-description = "For each stack, the affected field gain {water} {resource:water} when a card is discarded."
+
 data = {
 &"water": "1"
 }

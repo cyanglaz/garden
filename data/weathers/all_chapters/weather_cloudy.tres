@@ -6,6 +6,5 @@
 script = ExtResource("2_uen8h")
 sky_color = Color(0, 0.8039216, 0.9764706, 1)
 id = "cloudy"
-display_name = "Cloudy"
 note = "gloom"
 metadata/_custom_type_script = "uid://g4t52w546b5k"

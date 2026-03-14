@@ -156,7 +156,7 @@ func _toggle_reference_card_tooltip(on:bool) -> void:
 
 func _find_card_references() -> Array[String]:
 	var card_references:Array[String] = []
-	var reference_pairs:Array = DescriptionParser.find_all_reference_pairs(tool_data.description)
+	var reference_pairs:Array = DescriptionParser.find_all_reference_pairs(tool_data.get_raw_description())
 	for reference_pair:Array in reference_pairs:
 		if reference_pair[0] == "card":
 			card_references.append(reference_pair[1])

@@ -5,6 +5,5 @@
 [resource]
 script = ExtResource("1_7gi4n")
 id = "test_fixture"
-display_name = "Test Fixture"
-description = "Test fixture status for unit tests."
+
 metadata/_custom_type_script = "uid://ep5ey6gqhty1"

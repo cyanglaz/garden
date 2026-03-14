@@ -8,8 +8,7 @@ type = 1
 stackable = true
 single_turn = true
 id = "overclock"
-display_name = "Overclock"
-description = "This turn, when draw a card, +{value} {resource:momentum}."
+
 data = {
 &"value": "1"
 }

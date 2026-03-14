@@ -14,6 +14,5 @@ script = ExtResource("2_f4kwd")
 actions = Array[ExtResource("1_dllx3")]([SubResource("Resource_oexgw")])
 specials = Array[int]([1, 5])
 id = "maneuver"
-display_name = "Maneuver"
 note = "+1 light"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

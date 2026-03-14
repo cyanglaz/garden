@@ -26,7 +26,6 @@ script = ExtResource("2_l0p5b")
 actions = Array[ExtResource("1_yjg3g")]([SubResource("Resource_l00fl"), SubResource("Resource_oexgw"), SubResource("Resource_i3oxf")])
 rarity = 1
 id = "combustion"
-display_name = "Combustion"
 note = "discard a card
 +2 light
 push left

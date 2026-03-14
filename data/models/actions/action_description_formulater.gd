@@ -230,11 +230,11 @@ static func _get_field_status_description(action_data:ActionData) -> String:
 	var field_status_data:StatusData = MainDatabase.field_status_database.get_data_by_id(id)
 	if !field_status_data:
 		return ""
-	return field_status_data.description
+	return field_status_data.get_raw_description()
 
 static func _get_player_status_description(action_data:ActionData) -> String:
 	var id := Util.get_action_id_with_action_type(action_data.type)
 	var player_status_data:StatusData = MainDatabase.player_status_database.get_data_by_id(id)
 	if !player_status_data:
 		return ""
-	return player_status_data.description
+	return player_status_data.get_raw_description()

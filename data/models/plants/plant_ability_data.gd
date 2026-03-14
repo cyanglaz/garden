@@ -15,6 +15,9 @@ func get_duplicate() -> PlantAbilityData:
 	dup.copy(self)
 	return dup
 
+func _get_localization_prefix() -> String:
+	return "PLANT_ABILITY_"
+
 func get_ability_path() -> String:
 	var scene_path := PLANT_ABILITY_SCRIPT_PATH % [id]
 	return scene_path
