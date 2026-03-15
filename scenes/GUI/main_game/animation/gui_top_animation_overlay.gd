@@ -38,9 +38,9 @@ func animate_add_trinket_to_collection(from_global_position:Vector2, trinket_dat
 	add_child(animating_trinket)
 	animating_trinket.update_with_trinket_data(trinket_data)
 	animating_trinket.global_position = from_global_position
+	var trinket_button_center := _trinket_button_global_position + _trinket_button_size / 2
+	var target_position := trinket_button_center - animating_trinket.size / 2
 	var tween := Util.create_scaled_tween(self)
-	tween.set_parallel(true)
-	tween.tween_property(animating_trinket, "global_position", _trinket_button_global_position, ADD_TRINKET_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(animating_trinket, "size", _trinket_button_size, ADD_TRINKET_ANIMATION_TIME * 0.75).set_delay(ADD_TRINKET_ANIMATION_TIME * 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(animating_trinket, "global_position", target_position, ADD_TRINKET_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	await tween.finished
 	animating_trinket.queue_free()
