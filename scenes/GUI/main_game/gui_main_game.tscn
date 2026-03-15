@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://s0blay2xi65f" path="res://scenes/GUI/main_game/library/gui_library.tscn" id="18_kno36"]
 [ext_resource type="PackedScene" uid="uid://d2tcfmwnpscj8" path="res://scenes/GUI/main_game/library/gui_thing_info_view.tscn" id="20_7fnwq"]
 [ext_resource type="PackedScene" uid="uid://gi0c6au5p0sr" path="res://scenes/GUI/main_game/animation/gui_top_animation_overlay.tscn" id="23_32sqg"]
+[ext_resource type="PackedScene" uid="uid://c8n4vwx2qpbr7" path="res://scenes/GUI/main_game/trinket_viewer/gui_trinket_viewer.tscn" id="24_trnkv"]
 
 [node name="GUIMainGame" type="CanvasLayer" unique_id=628099050]
 process_mode = 3
@@ -31,6 +32,16 @@ unique_name_in_owner = true
 [node name="GUIToolCardsViewer" parent="CanvasLayer" unique_id=2068006809 instance=ExtResource("11_648op")]
 unique_name_in_owner = true
 visible = false
+
+[node name="GUITrinketViewer" parent="CanvasLayer" unique_id=2068006810 instance=ExtResource("24_trnkv")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 1
+offset_left = -8.0
+offset_top = 18.0
+offset_right = 0.0
+offset_bottom = 26.0
 
 [node name="GUILibrary" parent="CanvasLayer" unique_id=762133886 instance=ExtResource("18_kno36")]
 unique_name_in_owner = true

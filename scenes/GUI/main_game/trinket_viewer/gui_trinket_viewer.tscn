@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://c8n4vwx2qpbr7"]
+
+[ext_resource type="Script" uid="uid://bk5m9fxn2rtep" path="res://scenes/GUI/main_game/trinket_viewer/gui_trinket_viewer.gd" id="1_abc12"]
+[ext_resource type="Texture2D" uid="uid://b0nsc2v1cdqqd" path="res://resources/sprites/GUI/shared/panel_background_simple.png" id="2_abc12"]
+[ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="3_abc12"]
+
+[node name="GUITrinketViewer" type="PanelContainer" unique_id=100000001]
+process_mode = 3
+layout_mode = 1
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_top = 0.0
+anchor_bottom = 0.0
+offset_top = 18.0
+offset_right = -6.0
+grow_horizontal = 0
+grow_vertical = 1
+script = ExtResource("1_abc12")
+
+[node name="Background" type="NinePatchRect" parent="." unique_id=100000002]
+self_modulate = Color(0.258824, 0.298039, 0.431373, 1)
+layout_mode = 2
+texture = ExtResource("2_abc12")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="Border" type="NinePatchRect" parent="." unique_id=100000003]
+self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
+layout_mode = 2
+texture = ExtResource("3_abc12")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=100000004]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer" unique_id=100000005]
+unique_name_in_owner = true
+layout_mode = 2
+layout_direction = 3
+columns = 6

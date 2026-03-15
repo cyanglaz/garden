@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://ct8p64yajr0fh" path="res://scenes/GUI/controls/buttons/gui_full_deck_button.tscn" id="6_mmkmm"]
 [ext_resource type="PackedScene" uid="uid://c6xeh4cid7k8w" path="res://scenes/GUI/controls/buttons/gui_library_button.tscn" id="7_ey64j"]
 [ext_resource type="PackedScene" uid="uid://bv0vcudygflck" path="res://scenes/GUI/controls/buttons/gui_settings_button.tscn" id="9_j76ip"]
+[ext_resource type="PackedScene" uid="uid://dq7m8bfp3nkxy" path="res://scenes/GUI/controls/buttons/gui_trinket_button.tscn" id="10_trnkt"]
 
 [node name="GUITopBar" type="PanelContainer" unique_id=751614204]
 custom_minimum_size = Vector2(0, 16)
@@ -75,6 +76,11 @@ grow_horizontal = 0
 grow_vertical = 2
 theme_override_constants/separation = 6
 alignment = 2
+
+[node name="GUITrinketButton" parent="MarginContainer/Container/RightContainer" unique_id=1630214811 instance=ExtResource("10_trnkt")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
 
 [node name="GUIFullDeckButton" parent="MarginContainer/Container/RightContainer" unique_id=1630214810 instance=ExtResource("6_mmkmm")]
 unique_name_in_owner = true

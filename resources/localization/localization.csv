@@ -79,6 +79,7 @@ ACTION_DESCRIPTION_LOOP, "Repeat the above action(s) %s times"
 BUTTON_TOOLTIP_SHOW_CONTRACT, "View Contract"
 BUTTON_TOOLTIP_FULL_DECK, "View Cards"
 BUTTON_TOOLTIP_LIBRARY, "Library"
+BUTTON_TOOLTIP_TRINKETS, "View Trinkets"
 
 
 WARNING_INSUFFICIENT_ENERGY, "Not Enough Energy."

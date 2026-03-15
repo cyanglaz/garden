@@ -14,6 +14,7 @@ const DETAIL_TOOLTIP_DELAY := 0.8
 @onready var _gui_game_over_main: GUIGameOverMain = %GUIGameOverMain
 @onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
+@onready var _gui_trinket_viewer: GUITrinketViewer = %GUITrinketViewer
 @onready var _transition_overlay: TransitionOverlay = %TransitionOverlay
 @onready var _gui_demo_end_main: GUIDemoEndMain = %GUIDemoEndMain
 
@@ -22,6 +23,7 @@ var _hovered_data:ThingData
 
 func _ready() -> void:
 	_gui_tool_cards_viewer.hide()
+	_gui_trinket_viewer.hide()
 	gui_top_bar.setting_button_evoked.connect(_on_settings_button_evoked)
 	gui_top_bar.library_button_evoked.connect(_on_library_button_evoked)
 	gui_top_animation_overlay.setup.call_deferred(self)
@@ -72,6 +74,9 @@ func update_player(player_data:PlayerData) -> void:
 func bind_cards(cards:Array[ToolData]) -> void:
 	gui_top_bar.full_deck_button_evoked.connect(_on_request_view_cards.bind(cards, tr("FULL_DECK_TITLE")))
 
+func bind_trinkets(trinkets: Array[TrinketData]) -> void:
+	gui_top_bar.trinket_button_evoked.connect(_on_trinket_button_evoked.bind(trinkets))
+
 #endregion
 
 #region transitions
@@ -115,6 +120,12 @@ func _on_settings_button_evoked() -> void:
 func _on_library_button_evoked() -> void:
 	_clear_tooltips()
 	gui_library.animate_show()
+
+func _on_trinket_button_evoked(trinkets: Array) -> void:
+	if _gui_trinket_viewer.visible:
+		_gui_trinket_viewer.animate_hide()
+	else:
+		_gui_trinket_viewer.show_with_trinkets(trinkets)
 
 #endregion
 
