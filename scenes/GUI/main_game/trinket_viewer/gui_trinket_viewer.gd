@@ -8,15 +8,26 @@ const RIGHT_MARGIN := 6
 @onready var _grid_container: GridContainer = %GridContainer
 @onready var _margin_container: MarginContainer = %MarginContainer
 
+func bind(trinket_manager: TrinketManager) -> void:
+	trinket_manager.trinket_pool_updated.connect(_on_trinket_pool_updated)
+
 func show_with_trinkets(trinkets: Array) -> void:
 	show()
+	_update_content(trinkets)
+	_play_show_animation()
+
+func _update_content(trinkets: Array) -> void:
 	Util.remove_all_children(_grid_container)
 	for trinket_data in trinkets:
 		var gui_trinket: GUIPlayerTrinket = PLAYER_TRINKET_SCENE.instantiate()
 		_grid_container.add_child(gui_trinket)
 		gui_trinket.update_with_trinket_data(trinket_data)
 		gui_trinket.tooltip_position = GUITooltip.TooltipPosition.BOTTOM_RIGHT
-	_play_show_animation()
+
+func _on_trinket_pool_updated(trinkets: Array[TrinketData]) -> void:
+	_update_content(trinkets)
+	if visible:
+		position.x = _get_display_x()
 
 func _get_panel_width() -> float:
 	var item := _grid_container.get_child(0) as Control
