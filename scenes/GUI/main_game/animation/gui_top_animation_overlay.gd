@@ -5,6 +5,7 @@ const ANIMATING_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_card
 const ANIMATING_TRINKET_SCENE := preload("res://scenes/GUI/combat_main/trinkets/gui_player_trinket.tscn")
 const ADD_CARD_TO_PILE_ANIMATION_TIME := 0.5
 const ADD_TRINKET_ANIMATION_TIME := 0.5
+const TRINKET_COLLECT_SOUND := preload("res://resources/sounds/SFX/other/loot/loot_drop.wav")
 
 var _full_deck_button_global_position:Vector2
 var _full_deck_button_size:Vector2
@@ -38,6 +39,7 @@ func animate_add_trinket_to_collection(from_global_position:Vector2, trinket_dat
 	add_child(animating_trinket)
 	animating_trinket.update_with_trinket_data(trinket_data)
 	animating_trinket.global_position = from_global_position
+	GlobalSoundManager.play_sound(TRINKET_COLLECT_SOUND)
 	var trinket_button_center := _trinket_button_global_position + _trinket_button_size / 2
 	var target_position := trinket_button_center - animating_trinket.size / 2
 	var tween := Util.create_scaled_tween(self)
