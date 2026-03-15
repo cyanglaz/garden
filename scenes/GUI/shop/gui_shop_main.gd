@@ -3,7 +3,7 @@ extends CanvasLayer
 
 const ADD_CARD_TO_PILE_ANIMATION_TIME := 0.3
 
-signal shop_button_pressed(data: Object, from_position: Vector2, cost: int)
+signal shop_button_pressed(cost: int)
 signal finish_button_pressed()
 
 const TOOL_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/shop/shop_buttons/gui_tool_shop_button.tscn")
@@ -78,7 +78,8 @@ func _play_show_animation() -> void:
 func _on_tool_shop_button_pressed(gui_shop_button:GUIShopButton, tool_data:ToolData) -> void:
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
 	if gui_shop_button.sufficient_gold:
-		shop_button_pressed.emit(tool_data, gui_shop_button.global_position, tool_data.cost)
+		Events.request_add_card_to_deck.emit(tool_data, gui_shop_button.global_position)
+		shop_button_pressed.emit(tool_data.cost)
 		gui_shop_button.queue_free()
 	else:
 		Util.play_error_shake_animation(gui_shop_button, "position", gui_shop_button.position)
@@ -87,7 +88,8 @@ func _on_tool_shop_button_pressed(gui_shop_button:GUIShopButton, tool_data:ToolD
 func _on_trinket_shop_button_pressed(gui_shop_button: GUIShopButton, trinket_data: TrinketData) -> void:
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
 	if gui_shop_button.sufficient_gold:
-		shop_button_pressed.emit(trinket_data, gui_shop_button.global_position, trinket_data.cost)
+		Events.request_add_trinket_to_collection.emit(trinket_data, gui_shop_button.global_position)
+		shop_button_pressed.emit(trinket_data.cost)
 		gui_shop_button.queue_free()
 	else:
 		Util.play_error_shake_animation(gui_shop_button, "position", gui_shop_button.position)

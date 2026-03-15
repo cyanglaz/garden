@@ -71,6 +71,7 @@ func _register_global_events() -> void:
 	Events.bind_finished.connect(_on_bind_finished)
 	Events.request_add_card_to_deck.connect(_on_request_add_card_to_deck)
 	Events.request_remove_card_from_deck.connect(_on_request_remove_card_from_deck)
+	Events.request_add_trinket_to_collection.connect(_on_request_add_trinket_to_collection)
 
 #endregion
 
@@ -176,15 +177,10 @@ func _on_reward_finished() -> void:
 func _on_beat_final_boss() -> void:
 	_game_win()
 
-func _on_shop_button_pressed(data: Object, from_position: Vector2, cost: int) -> void:
+func _on_shop_button_pressed(cost: int) -> void:
 	if cost > 0:
 		Events.request_update_gold.emit(-cost, true)
-	if data is ToolData:
-		Events.request_add_card_to_deck.emit(data, from_position)
-	elif data is TrinketData:
-		trinket_manager.add_trinket(data)
-		await gui_main_game.gui_top_animation_overlay.animate_add_trinket_to_collection(from_position, data)
-	(_current_scene as ShopMain).update_for_gold(gold)
+		(_current_scene as ShopMain).update_for_gold(gold)
 
 func _on_shop_finish_button_pressed() -> void:
 	_complete_current_node()
@@ -205,6 +201,10 @@ func _on_request_add_card_to_deck(tool_data:ToolData, bind_card_global_position:
 
 func _on_request_remove_card_from_deck(tool_data:ToolData) -> void:
 	card_pool.erase(tool_data)
+
+func _on_request_add_trinket_to_collection(trinket_data: TrinketData, from_global_position: Vector2) -> void:
+	trinket_manager.add_trinket(trinket_data)
+	await gui_main_game.gui_top_animation_overlay.animate_add_trinket_to_collection(from_global_position, trinket_data)
 
 func _on_chest_trinket_reward_selected(trinket_data: TrinketData, from_global_position: Vector2) -> void:
 	trinket_manager.add_trinket(trinket_data)

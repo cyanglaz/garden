@@ -4,12 +4,12 @@ extends Node2D
 const NUMBER_OF_CARDS := 5
 
 signal finish_button_pressed()
-signal shop_button_pressed(data: Object, from_position: Vector2, cost: int)
+signal shop_button_pressed(cost: int)
 
 @onready var gui_shop_main: GUIShopMain = %GUIShopMain
 
 func _ready() -> void:
-	gui_shop_main.shop_button_pressed.connect(func(data, pos, cost): shop_button_pressed.emit(data, pos, cost))
+	gui_shop_main.shop_button_pressed.connect(func(cost): shop_button_pressed.emit(cost))
 	gui_shop_main.finish_button_pressed.connect(func(): finish_button_pressed.emit())
 
 func start(gold:int) -> void:
