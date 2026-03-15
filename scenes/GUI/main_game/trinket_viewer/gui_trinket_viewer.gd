@@ -3,6 +3,8 @@ extends PanelContainer
 
 const PLAYER_TRINKET_SCENE := preload("res://scenes/GUI/combat_main/trinkets/gui_player_trinket.tscn")
 
+const RIGHT_MARGIN := 6
+
 @onready var _grid_container: GridContainer = %GridContainer
 @onready var _margin_container: MarginContainer = %MarginContainer
 
@@ -28,7 +30,7 @@ func _get_panel_width() -> float:
 			+ margin_h
 
 func _get_display_x() -> float:
-	return get_viewport_rect().size.x - _get_panel_width() - 6
+	return get_viewport_rect().size.x - _get_panel_width() - RIGHT_MARGIN
 
 func _play_show_animation() -> void:
 	var panel_width := _get_panel_width()
