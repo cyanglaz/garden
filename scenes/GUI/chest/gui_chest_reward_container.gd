@@ -1,7 +1,7 @@
 class_name GUIChestRewardContainer
 extends Control
 
-signal trinket_reward_selected(trinket_data: TrinketData)
+signal trinket_reward_selected(trinket_data: TrinketData, from_global_position: Vector2)
 
 const INITIAL_SCALE_FACTOR: float = 0.5
 const SPAWN_TRANSITION_TIME := 0.4
@@ -17,7 +17,7 @@ func spawn_trinket(trinket_data: TrinketData, spawn_position: Vector2) -> void:
 	gui_reward_trinket.hide()
 	gui_reward_trinket.mouse_disabled = true
 	gui_reward_trinket.update_with_trinket_data(trinket_data)
-	gui_reward_trinket.trinket_selected.connect(_on_trinket_reward_selected.bind(trinket_data))
+	gui_reward_trinket.trinket_selected.connect(_on_trinket_reward_selected.bind(trinket_data, gui_reward_trinket))
 	await _animate_spawn(spawn_position)
 	gui_reward_trinket.mouse_disabled = false
 
@@ -37,6 +37,7 @@ func _animate_spawn(spawn_position: Vector2) -> void:
 	tween.tween_property(child, "scale", Vector2.ONE, SPAWN_TRANSITION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await tween.finished
 
-func _on_trinket_reward_selected(trinket_data: TrinketData) -> void:
-	get_child(0).hide()
-	trinket_reward_selected.emit(trinket_data)
+func _on_trinket_reward_selected(trinket_data: TrinketData, gui_trinket: GUIChestRewardTrinket) -> void:
+	var from_global_position := gui_trinket.global_position
+	gui_trinket.hide()
+	trinket_reward_selected.emit(trinket_data, from_global_position)

@@ -201,8 +201,9 @@ func _on_request_add_card_to_deck(tool_data:ToolData, bind_card_global_position:
 func _on_request_remove_card_from_deck(tool_data:ToolData) -> void:
 	card_pool.erase(tool_data)
 
-func _on_chest_trinket_reward_selected(trinket_data: TrinketData) -> void:
+func _on_chest_trinket_reward_selected(trinket_data: TrinketData, from_global_position: Vector2) -> void:
 	trinket_pool.append(trinket_data)
+	await gui_main_game.gui_top_animation_overlay.animate_add_trinket_to_collection(from_global_position, trinket_data)
 	_complete_current_node()
 
 func _on_event_finished(meta:Variant) -> void:
