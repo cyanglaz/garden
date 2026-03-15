@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="2_alt1p"]
 [ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="3_q3g18"]
 [ext_resource type="AudioStream" uid="uid://doilouvmfbgsc" path="res://resources/sounds/SFX/field/field_status_good.wav" id="4_g3v3j"]
+[ext_resource type="AudioStream" uid="uid://cwbc48f551lkm" path="res://resources/sounds/SFX/other/loot/trinket_collect_sound.wav" id="5_mv4q6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g3v3j"]
 resource_local_to_scene = true
@@ -36,4 +37,9 @@ vertical_alignment = 2
 [node name="GoodAnimationAudio" type="AudioStreamPlayer2D" parent="." unique_id=1974896194]
 unique_name_in_owner = true
 stream = ExtResource("4_g3v3j")
+bus = &"SFX"
+
+[node name="CollectSound" type="AudioStreamPlayer2D" parent="." unique_id=1993458736]
+unique_name_in_owner = true
+stream = ExtResource("5_mv4q6")
 bus = &"SFX"

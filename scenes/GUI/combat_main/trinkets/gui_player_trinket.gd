@@ -8,6 +8,7 @@ const ICON_PREFIX := "res://resources/sprites/GUI/icons/trinkets/icon_%s.png"
 @onready var gui_icon: GUIIcon = %GUIIcon
 @onready var stack: Label = %Stack
 @onready var good_animation_audio: AudioStreamPlayer2D = %GoodAnimationAudio
+@onready var collect_sound: AudioStreamPlayer2D = %CollectSound
 
 var _tooltip_id:String = ""
 var _trinket_data:TrinketData = null
@@ -34,6 +35,9 @@ func play_trigger_animation() -> void:
 	for i in 2:
 		tween.tween_property(gui_icon, "position", gui_icon.position + Vector2.UP * ANIMATION_OFFSET, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		tween.tween_property(gui_icon, "position", original_position, Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION/4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+func play_collect_sound() -> void:
+	collect_sound.play()
 
 func _on_mouse_entered() -> void:
 	gui_icon.has_outline = true
