@@ -27,7 +27,7 @@ var _current_scene:Node2D: get = _get_current_scene
 
 var chapter_manager:ChapterManager = ChapterManager.new()
 var card_pool:Array[ToolData]
-var trinket_pool:Array[TrinketData]
+var trinket_manager:TrinketManager = TrinketManager.new()
 var hp:ResourcePoint = ResourcePoint.new()
 var gold:int = 0
 var _warning_manager:WarningManager = WarningManager.new(self)
@@ -42,15 +42,15 @@ func _ready() -> void:
 		card_pool = player_data.initial_tools
 
 	if test_data && !test_data.test_trinket_datas.is_empty():
-		trinket_pool = test_data.test_trinket_datas
+		trinket_manager.setup(test_data.test_trinket_datas)
 	else:
-		trinket_pool = player_data.initial_trinkets
+		trinket_manager.setup(player_data.initial_trinkets)
 
 	#gui main signals
 	gui_main_game.update_player(player_data)
 	gui_main_game.bind_with_hp(hp)
 	gui_main_game.bind_cards(card_pool)
-	gui_main_game.bind_trinkets(trinket_pool)
+	gui_main_game.bind_trinkets(trinket_manager)
 
 	map_main.node_selected.connect(_on_map_node_selected)
 	
@@ -117,7 +117,7 @@ func _start_combat_main_scene(combat:CombatData) -> void:
 	combat_main.reward_finished.connect(_on_reward_finished)
 	combat_main.beat_final_boss.connect(_on_beat_final_boss)
 	start_scene_transition()
-	combat_main.start(card_pool, 3, combat, chapter_manager.current_chapter, player_data, trinket_pool)
+	combat_main.start(card_pool, 3, combat, chapter_manager.current_chapter, player_data, trinket_manager.trinket_pool)
 
 func _start_shop() -> void:
 	var shop_main = SHOP_MAIN_SCENE.instantiate()
@@ -140,7 +140,7 @@ func _start_chest() -> void:
 	chest_main.skipped.connect(_on_chest_reward_skipped)
 	node_container.add_child(chest_main)
 	start_scene_transition()
-	chest_main.start(trinket_pool)
+	chest_main.start(trinket_manager.trinket_pool)
 
 func _start_event() -> void:
 	var event_main:EventMain = EVENT_MAIN_SCENE.instantiate()
@@ -202,7 +202,7 @@ func _on_request_remove_card_from_deck(tool_data:ToolData) -> void:
 	card_pool.erase(tool_data)
 
 func _on_chest_trinket_reward_selected(trinket_data: TrinketData, from_global_position: Vector2) -> void:
-	trinket_pool.append(trinket_data)
+	trinket_manager.add_trinket(trinket_data)
 	await gui_main_game.gui_top_animation_overlay.animate_add_trinket_to_collection(from_global_position, trinket_data)
 	_complete_current_node()
 

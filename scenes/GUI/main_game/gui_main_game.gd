@@ -20,6 +20,7 @@ const DETAIL_TOOLTIP_DELAY := 0.8
 
 var _toggle_ui_semaphore := 0
 var _hovered_data:ThingData
+var _trinket_manager: TrinketManager
 
 func _ready() -> void:
 	_gui_tool_cards_viewer.hide()
@@ -74,8 +75,10 @@ func update_player(player_data:PlayerData) -> void:
 func bind_cards(cards:Array[ToolData]) -> void:
 	gui_top_bar.full_deck_button_evoked.connect(_on_request_view_cards.bind(cards, tr("FULL_DECK_TITLE")))
 
-func bind_trinkets(trinkets: Array[TrinketData]) -> void:
-	gui_top_bar.trinket_button_evoked.connect(_on_trinket_button_evoked.bind(trinkets))
+func bind_trinkets(trinket_manager: TrinketManager) -> void:
+	_trinket_manager = trinket_manager
+	_gui_trinket_viewer.bind(trinket_manager)
+	gui_top_bar.trinket_button_evoked.connect(_on_trinket_button_evoked)
 
 #endregion
 
@@ -121,11 +124,11 @@ func _on_library_button_evoked() -> void:
 	_clear_tooltips()
 	gui_library.animate_show()
 
-func _on_trinket_button_evoked(trinkets: Array) -> void:
+func _on_trinket_button_evoked() -> void:
 	if _gui_trinket_viewer.visible:
 		_gui_trinket_viewer.animate_hide()
 	else:
-		_gui_trinket_viewer.show_with_trinkets(trinkets)
+		_gui_trinket_viewer.show_with_trinkets(_trinket_manager.trinket_pool)
 
 #endregion
 
