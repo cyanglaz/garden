@@ -22,12 +22,13 @@ func _get_panel_width() -> float:
 	var h_sep := _grid_container.get_theme_constant("h_separation")
 	var margin_h := _margin_container.get_theme_constant("margin_left") \
 				+ _margin_container.get_theme_constant("margin_right")
-	return _grid_container.columns * item_width \
+	var true_number_of_columns:int = min(_grid_container.columns, _grid_container.get_child_count())
+	return true_number_of_columns * item_width \
 			+ (_grid_container.columns - 1) * h_sep \
 			+ margin_h
 
 func _get_display_x() -> float:
-	return get_viewport_rect().size.x + get_offset(SIDE_RIGHT) - _get_panel_width()
+	return get_viewport_rect().size.x - _get_panel_width() - 6
 
 func _play_show_animation() -> void:
 	var panel_width := _get_panel_width()

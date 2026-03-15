@@ -6,9 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://c2ttrcf1bo4ju" path="res://scenes/GUI/main_game/characters/gui_player.tscn" id="4_mmkmm"]
 [ext_resource type="PackedScene" uid="uid://gbvb5ymqals0" path="res://scenes/GUI/main_game/top_bar/gui_hp.tscn" id="5_8mpe6"]
 [ext_resource type="PackedScene" uid="uid://ct8p64yajr0fh" path="res://scenes/GUI/controls/buttons/gui_full_deck_button.tscn" id="6_mmkmm"]
-[ext_resource type="PackedScene" uid="uid://dq7m8bfp3nkxy" path="res://scenes/GUI/controls/buttons/gui_trinket_button.tscn" id="10_trnkt"]
 [ext_resource type="PackedScene" uid="uid://c6xeh4cid7k8w" path="res://scenes/GUI/controls/buttons/gui_library_button.tscn" id="7_ey64j"]
 [ext_resource type="PackedScene" uid="uid://bv0vcudygflck" path="res://scenes/GUI/controls/buttons/gui_settings_button.tscn" id="9_j76ip"]
+[ext_resource type="PackedScene" uid="uid://dq7m8bfp3nkxy" path="res://scenes/GUI/controls/buttons/gui_trinket_button.tscn" id="10_trnkt"]
 
 [node name="GUITopBar" type="PanelContainer" unique_id=751614204]
 custom_minimum_size = Vector2(0, 16)
