@@ -27,7 +27,7 @@ func _update_content(trinkets: Array) -> void:
 func _on_trinket_pool_updated(trinkets: Array[TrinketData]) -> void:
 	_update_content(trinkets)
 	if visible:
-		position.x = _get_display_x()
+		_play_show_animation()
 
 func _get_panel_width() -> float:
 	var item := _grid_container.get_child(0) as Control
@@ -44,11 +44,8 @@ func _get_display_x() -> float:
 	return get_viewport_rect().size.x - _get_panel_width() - RIGHT_MARGIN
 
 func _play_show_animation() -> void:
-	var panel_width := _get_panel_width()
-	var display_x := _get_display_x()
-	position.x = display_x + panel_width
 	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(self, "position:x", display_x, Constants.SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "position:x", _get_display_x(), Constants.SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 
 func animate_hide() -> void:
 	var tween := Util.create_scaled_tween(self)
