@@ -8,11 +8,8 @@ func roll_trinkets(count: int) -> Array[TrinketData]:
 	var available: Array = get_all_datas().duplicate()
 	var result: Array[TrinketData] = []
 	for i in min(count, available.size()):
-		var pool: Array = []
-		for t: TrinketData in available:
-			for _w in RARITY_WEIGHTS.get(t.rarity, 1):
-				pool.append(t)
-		var chosen: TrinketData = pool.pick_random()
+		var weights: Array = available.map(func(t: TrinketData) -> int: return RARITY_WEIGHTS.get(t.rarity, 1))
+		var chosen: TrinketData = Util.weighted_roll(available, weights)
 		result.append(chosen.get_duplicate())
 		available.erase(chosen)
 	return result
