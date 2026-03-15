@@ -3,13 +3,14 @@ extends CanvasLayer
 
 const ADD_CARD_TO_PILE_ANIMATION_TIME := 0.3
 
-signal shop_button_pressed(cost:int)
+signal shop_button_pressed(data: Object, from_position: Vector2, cost: int)
 signal finish_button_pressed()
 
-const ANIMATING_TOOL_CARD_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 const TOOL_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/shop/shop_buttons/gui_tool_shop_button.tscn")
+const TRINKET_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/shop/shop_buttons/gui_trinket_shop_button.tscn")
 
 @onready var tool_container: HBoxContainer = %ToolContainer
+@onready var trinket_container: HBoxContainer = %TrinketContainer
 @onready var finish_button: GUIRichTextButton = %FinishButton
 @onready var _main_panel: PanelContainer = %MainPanel
 @onready var _title: Label = %Title
@@ -38,11 +39,14 @@ func animate_hide() -> void:
 	hide()
 
 func update_for_gold(gold:int) -> void:
-	for gui_shop_button:GUIShopButton in tool_container.get_children():
+	for gui_shop_button: GUIShopButton in tool_container.get_children():
+		gui_shop_button.update_for_gold(gold)
+	for gui_shop_button: GUIShopButton in trinket_container.get_children():
 		gui_shop_button.update_for_gold(gold)
 
 func _populate_shop(number_of_tools:int) -> void:
 	_populate_tools(number_of_tools)
+	_populate_trinkets(3)
 
 func _populate_tools(number_of_tools) -> void:
 	Util.remove_all_children(tool_container)
@@ -54,6 +58,16 @@ func _populate_tools(number_of_tools) -> void:
 		tool_shop_button.pressed.connect(_on_tool_shop_button_pressed.bind(tool_shop_button, tool_data))
 		tool_shop_button.mouse_exited.connect(_on_shop_button_mouse_exited.bind())
 
+func _populate_trinkets(count: int) -> void:
+	Util.remove_all_children(trinket_container)
+	var trinkets := MainDatabase.trinket_database.roll_trinkets(count)
+	for trinket_data: TrinketData in trinkets:
+		var trinket_shop_button: GUITrinketShopButton = TRINKET_SHOP_BUTTON_SCENE.instantiate()
+		trinket_container.add_child(trinket_shop_button)
+		trinket_shop_button.update_with_trinket_data(trinket_data)
+		trinket_shop_button.pressed.connect(_on_trinket_shop_button_pressed.bind(trinket_shop_button, trinket_data))
+		trinket_shop_button.mouse_exited.connect(_on_shop_button_mouse_exited.bind())
+
 func _play_show_animation() -> void:
 	_main_panel.position.y = Constants.PENEL_HIDE_Y
 	var tween := Util.create_scaled_tween(self)
@@ -64,8 +78,16 @@ func _play_show_animation() -> void:
 func _on_tool_shop_button_pressed(gui_shop_button:GUIShopButton, tool_data:ToolData) -> void:
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
 	if gui_shop_button.sufficient_gold:
-		Events.request_add_card_to_deck.emit(tool_data, gui_shop_button.global_position)
-		shop_button_pressed.emit(tool_data.cost)
+		shop_button_pressed.emit(tool_data, gui_shop_button.global_position, tool_data.cost)
+		gui_shop_button.queue_free()
+	else:
+		Util.play_error_shake_animation(gui_shop_button, "position", gui_shop_button.position)
+		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
+
+func _on_trinket_shop_button_pressed(gui_shop_button: GUIShopButton, trinket_data: TrinketData) -> void:
+	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
+	if gui_shop_button.sufficient_gold:
+		shop_button_pressed.emit(trinket_data, gui_shop_button.global_position, trinket_data.cost)
 		gui_shop_button.queue_free()
 	else:
 		Util.play_error_shake_animation(gui_shop_button, "position", gui_shop_button.position)

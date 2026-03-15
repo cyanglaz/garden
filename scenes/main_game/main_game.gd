@@ -176,10 +176,15 @@ func _on_reward_finished() -> void:
 func _on_beat_final_boss() -> void:
 	_game_win()
 
-func _on_shop_button_pressed(cost:int) -> void:
+func _on_shop_button_pressed(data: Object, from_position: Vector2, cost: int) -> void:
 	if cost > 0:
 		Events.request_update_gold.emit(-cost, true)
-		(_current_scene as ShopMain).update_for_gold(gold)
+	if data is ToolData:
+		Events.request_add_card_to_deck.emit(data, from_position)
+	elif data is TrinketData:
+		trinket_manager.add_trinket(data)
+		await gui_main_game.gui_top_animation_overlay.animate_add_trinket_to_collection(from_position, data)
+	(_current_scene as ShopMain).update_for_gold(gold)
 
 func _on_shop_finish_button_pressed() -> void:
 	_complete_current_node()

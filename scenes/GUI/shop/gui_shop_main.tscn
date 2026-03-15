@@ -90,6 +90,11 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
+[node name="TrinketContainer" type="HBoxContainer" parent="MainMarginContainer/Control/MainPanel/MarginContainer/VBoxContainer" unique_id=892341057]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
 [node name="FinishButton" parent="MainMarginContainer/Control" unique_id=498094661 instance=ExtResource("3_4afxj")]
 unique_name_in_owner = true
 layout_mode = 1
