@@ -7,7 +7,7 @@ signal skipped()
 const BACKGROUND_SHOW_DELAY_TIME := 0.3
 
 @onready var gui_chest_reward_container: GUIChestRewardContainer = %GUIChestRewardContainer
-@onready var gui_overlay_background: ColorRect = $GUIOverlayBackground
+@onready var gui_overlay_background: ColorRect = %GUIOverlayBackground
 @onready var title_label: Label = %TitleLabel
 @onready var skip_button: GUIRichTextButton = %SkipButton
 
