@@ -5,11 +5,6 @@ const PLAYER_TRINKET_SCENE := preload("res://scenes/GUI/combat_main/trinkets/gui
 
 @onready var _grid_container: GridContainer = %GridContainer
 
-var _display_x := 0.0
-
-func _ready() -> void:
-	_display_x = position.x
-
 func show_with_trinkets(trinkets: Array) -> void:
 	show()
 	Util.remove_all_children(_grid_container)
@@ -21,12 +16,14 @@ func show_with_trinkets(trinkets: Array) -> void:
 	_play_show_animation()
 
 func _play_show_animation() -> void:
-	position.x = _display_x + get_size().x
+	await get_tree().process_frame
+	var display_x := position.x
+	position.x = display_x + size.x
 	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(self, "position:x", _display_x, Constants.SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "position:x", display_x, Constants.SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 
 func animate_hide() -> void:
 	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(self, "position:x", _display_x + get_size().x, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
+	tween.tween_property(self, "position:x", position.x + size.x, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	await tween.finished
 	hide()
