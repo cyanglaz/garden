@@ -4,9 +4,9 @@ extends ThingData
 @export var rarity:int = 0 #0: common, 1: uncommon, 2: rare
 
 const COSTS := {
-	0: 6,   # common
-	1: 11,  # uncommon
-	2: 19,  # rare
+	0: 20,   # common
+	1: 38,  # uncommon
+	2: 62,  # rare
 }
 
 var cost: int: get = _get_cost
