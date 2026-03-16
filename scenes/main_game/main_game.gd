@@ -89,10 +89,11 @@ func _start_new_chapter() -> void:
 	#else:
 		#_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
 	#_start_event()
-	_start_chest()
+	#_start_chest()
 	#_start_town()
 	#_game_over()
 	#_game_win()
+	_start_shop()
 
 func _generate_chapter_data() -> void:
 	map_main.generate_map(session_seed)

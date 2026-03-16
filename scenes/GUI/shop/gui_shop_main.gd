@@ -14,7 +14,6 @@ const TRINKET_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/shop/shop_buttons/g
 @onready var finish_button: GUIRichTextButton = %FinishButton
 @onready var _main_panel: PanelContainer = %MainPanel
 @onready var _title: Label = %Title
-@onready var _sub_title: Label = %SubTitle
 @onready var _insufficient_gold_audio: AudioStreamPlayer2D = %InsufficientGoldAudio
 
 var _display_y := 0.0
@@ -23,7 +22,6 @@ func _ready() -> void:
 	_display_y = _main_panel.position.y
 	finish_button.pressed.connect(_on_finish_button_pressed)
 	_title.text = Util.get_localized_string("SHOP_TITLE")
-	_sub_title.text = Util.get_localized_string("SHOP_SUBTITLE")
 
 func animate_show(number_of_tools:int, gold:int, excluded_trinket_ids: Array[String] = []) -> void:
 	show()
