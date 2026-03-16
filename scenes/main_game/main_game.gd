@@ -137,8 +137,7 @@ func _start_town() -> void:
 
 func _start_chest() -> void:
 	var chest_main: ChestMain = CHEST_MAIN_SCENE.instantiate()
-	chest_main.trinket_reward_selected.connect(_on_chest_trinket_reward_selected)
-	chest_main.skipped.connect(_on_chest_reward_skipped)
+	chest_main.chest_finished.connect(_on_chest_finished)
 	node_container.add_child(chest_main)
 	start_scene_transition()
 	chest_main.start(trinket_manager.trinket_pool)
@@ -206,9 +205,7 @@ func _on_request_add_trinket_to_collection(trinket_data: TrinketData, from_globa
 	trinket_manager.add_trinket(trinket_data)
 	await gui_main_game.gui_top_animation_overlay.animate_add_trinket_to_collection(from_global_position, trinket_data)
 
-func _on_chest_trinket_reward_selected(trinket_data: TrinketData, from_global_position: Vector2) -> void:
-	trinket_manager.add_trinket(trinket_data)
-	await gui_main_game.gui_top_animation_overlay.animate_add_trinket_to_collection(from_global_position, trinket_data)
+func _on_chest_finished() -> void:
 	_complete_current_node()
 
 func _on_event_finished(meta:Variant) -> void:
@@ -217,9 +214,7 @@ func _on_event_finished(meta:Variant) -> void:
 		await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(gui_main_game.gui_top_animation_overlay.size/2, meta)
 	_complete_current_node()
 
-func _on_chest_reward_skipped() -> void:
-	_complete_current_node()
-#endregion 
+#endregion
 
 #region global events
 

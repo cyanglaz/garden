@@ -1,8 +1,7 @@
 class_name ChestMain
 extends Node2D
 
-signal trinket_reward_selected(trinket_data: TrinketData, from_global_position: Vector2)
-signal skipped()
+signal chest_finished()
 
 @onready var gui_chest_main: GUIChestMain = %GUIChestMain
 @onready var weather_main: WeatherMain = %WeatherMain
@@ -19,11 +18,11 @@ func _ready() -> void:
 func start(owned_trinkets: Array[TrinketData]) -> void:
 	_owned_trinkets = owned_trinkets
 
-func _on_trinket_reward_selected(trinket_data: TrinketData, from_global_position: Vector2) -> void:
-	trinket_reward_selected.emit(trinket_data, from_global_position)
+func _on_trinket_reward_selected() -> void:
+	chest_finished.emit()
 
 func _on_chest_reward_skipped() -> void:
-	skipped.emit()
+	chest_finished.emit()
 
 func _on_chest_opened(chest: Chest) -> void:
 	var excluded_ids: Array[String] = []

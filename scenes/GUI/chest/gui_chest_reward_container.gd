@@ -1,7 +1,7 @@
 class_name GUIChestRewardContainer
 extends Control
 
-signal trinket_reward_selected(trinket_data: TrinketData, from_global_position: Vector2)
+signal trinket_reward_selected()
 
 const INITIAL_SCALE_FACTOR: float = 0.5
 const SPAWN_TRANSITION_TIME := 0.4
@@ -40,4 +40,5 @@ func _animate_spawn(spawn_position: Vector2) -> void:
 func _on_trinket_reward_selected(trinket_data: TrinketData, gui_trinket: GUIChestRewardTrinket) -> void:
 	var from_global_position := gui_trinket.global_position
 	gui_trinket.hide()
-	trinket_reward_selected.emit(trinket_data, from_global_position)
+	Events.request_add_trinket_to_collection.emit(trinket_data, from_global_position)
+	trinket_reward_selected.emit()

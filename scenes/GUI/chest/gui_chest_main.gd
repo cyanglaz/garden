@@ -1,7 +1,7 @@
 class_name GUIChestMain
 extends CanvasLayer
 
-signal trinket_reward_selected(trinket_data: TrinketData, from_global_position: Vector2)
+signal trinket_reward_selected()
 signal skipped()
 
 const BACKGROUND_SHOW_DELAY_TIME := 0.3
@@ -31,5 +31,5 @@ func spawn_trinket(trinket_data: TrinketData, spawn_position: Vector2) -> void:
 func _on_skip_button_pressed() -> void:
 	skipped.emit()
 
-func _on_trinket_reward_selected(trinket_data: TrinketData, from_global_position: Vector2) -> void:
-	trinket_reward_selected.emit(trinket_data, from_global_position)
+func _on_trinket_reward_selected() -> void:
+	trinket_reward_selected.emit()
