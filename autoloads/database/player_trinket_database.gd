@@ -4,8 +4,10 @@ extends Database
 const DIR = "res://data/trinkets"
 const RARITY_WEIGHTS := {0: 6, 1: 3, 2: 1}
 
-func roll_trinkets(count: int) -> Array[TrinketData]:
-	var available: Array = get_all_datas().duplicate()
+func roll_trinkets(count: int, excluded_ids: Array[String] = []) -> Array[TrinketData]:
+	var available: Array = get_all_datas().filter(
+		func(t: TrinketData) -> bool: return !excluded_ids.has(t.id)
+	).duplicate()
 	var result: Array[TrinketData] = []
 	for i in min(count, available.size()):
 		var weights: Array = available.map(func(t: TrinketData) -> int: return RARITY_WEIGHTS.get(t.rarity, 1))

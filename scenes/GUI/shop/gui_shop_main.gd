@@ -24,9 +24,9 @@ func _ready() -> void:
 	_title.text = Util.get_localized_string("SHOP_TITLE")
 	_sub_title.text = Util.get_localized_string("SHOP_SUBTITLE")
 
-func animate_show(number_of_tools:int, gold:int) -> void:
+func animate_show(number_of_tools:int, gold:int, excluded_trinket_ids: Array[String] = []) -> void:
 	show()
-	_populate_shop(number_of_tools)
+	_populate_shop(number_of_tools, excluded_trinket_ids)
 	update_for_gold(gold)
 	await _play_show_animation()
 
@@ -44,9 +44,9 @@ func update_for_gold(gold:int) -> void:
 	for gui_shop_button: GUIShopButton in trinket_container.get_children():
 		gui_shop_button.update_for_gold(gold)
 
-func _populate_shop(number_of_tools:int) -> void:
+func _populate_shop(number_of_tools:int, excluded_trinket_ids: Array[String] = []) -> void:
 	_populate_tools(number_of_tools)
-	_populate_trinkets(3)
+	_populate_trinkets(3, excluded_trinket_ids)
 
 func _populate_tools(number_of_tools) -> void:
 	Util.remove_all_children(tool_container)
@@ -58,9 +58,9 @@ func _populate_tools(number_of_tools) -> void:
 		tool_shop_button.pressed.connect(_on_tool_shop_button_pressed.bind(tool_shop_button, tool_data))
 		tool_shop_button.mouse_exited.connect(_on_shop_button_mouse_exited.bind())
 
-func _populate_trinkets(count: int) -> void:
+func _populate_trinkets(count: int, excluded_trinket_ids: Array[String] = []) -> void:
 	Util.remove_all_children(trinket_container)
-	var trinkets := MainDatabase.trinket_database.roll_trinkets(count)
+	var trinkets := MainDatabase.trinket_database.roll_trinkets(count, excluded_trinket_ids)
 	for trinket_data: TrinketData in trinkets:
 		var trinket_shop_button: GUITrinketShopButton = TRINKET_SHOP_BUTTON_SCENE.instantiate()
 		trinket_container.add_child(trinket_shop_button)

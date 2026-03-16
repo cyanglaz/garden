@@ -126,7 +126,7 @@ func _start_shop() -> void:
 	shop_main.finish_button_pressed.connect(_on_shop_finish_button_pressed)
 	node_container.add_child(shop_main)
 	start_scene_transition()
-	shop_main.start(gold)
+	shop_main.start(gold, trinket_manager.trinket_pool)
 
 func _start_town() -> void:
 	var town_main = TOWN_MAIN_SCENE.instantiate()
