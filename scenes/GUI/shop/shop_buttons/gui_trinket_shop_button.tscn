@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqw7bnm4x3vyc"]
+
+[ext_resource type="PackedScene" uid="uid://b1s3tro034n0x" path="res://scenes/GUI/utils/gui_shop_button.tscn" id="1_t8k3p"]
+[ext_resource type="Script" uid="uid://c5rp2nxm7lhbv" path="res://scenes/GUI/shop/shop_buttons/gui_trinket_shop_button.gd" id="2_t8k3p"]
+[ext_resource type="PackedScene" uid="uid://buj5nfbiivgnq" path="res://scenes/GUI/combat_main/trinkets/gui_player_trinket.tscn" id="3_t8k3p"]
+
+[node name="GUITrinketShopButton" instance=ExtResource("1_t8k3p")]
+script = ExtResource("2_t8k3p")
+
+[node name="GUIPlayerTrinket" parent="VBoxContainer/MarginContainer" index="0" instance=ExtResource("3_t8k3p")]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1

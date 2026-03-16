@@ -39,7 +39,6 @@ visible = false
 layout_mode = 3
 anchors_preset = 1
 offset_left = -8.0
-offset_top = 18.0
 offset_right = 0.0
 offset_bottom = 26.0
 
@@ -90,11 +89,11 @@ offset_bottom = 19.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="GUITopAnimationOverlay" parent="CanvasLayer" unique_id=1653862392 instance=ExtResource("23_32sqg")]
-unique_name_in_owner = true
-mouse_filter = 2
-
 [node name="GUIPopupThingsContainer" parent="CanvasLayer" unique_id=1485283460 instance=ExtResource("10_fu4tq")]
 
 [node name="TransitionOverlay" parent="CanvasLayer" unique_id=927253540 instance=ExtResource("11_70io0")]
 unique_name_in_owner = true
+
+[node name="GUITopAnimationOverlay" parent="CanvasLayer" unique_id=1653862392 instance=ExtResource("23_32sqg")]
+unique_name_in_owner = true
+mouse_filter = 2

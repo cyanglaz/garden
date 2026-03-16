@@ -353,7 +353,7 @@ TRINKET_ICE_SHARD_DESCRIPTION,"At the end of turn, current plant +{water} {resou
 TRINKET_SALT_GRINDER_NAME,"Salt Grinder"
 TRINKET_SALT_GRINDER_DESCRIPTION,"At the end of turn, current plant -{pest} {resource:pest}, -{fungus} {resource:fungus}"
 TRINKET_SPARE_WING_NAME,"Spare Wing"
-TRINKET_SPARE_WING_DESCRIPTION,"At the start of turn, if the player has no {resource:momentum}, +{momemtum} {resource:momentum}"
+TRINKET_SPARE_WING_DESCRIPTION,"At the start of turn, if the player has no {resource:momentum}, +{momentum} {resource:momentum}"
 TRINKET_SUN_SHARD_NAME,"Sun Shard"
 TRINKET_SUN_SHARD_DESCRIPTION,"At the end of turn, if the player is at an edge plant, the target plant +{light} {resource:light}."
 

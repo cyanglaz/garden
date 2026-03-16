@@ -3,6 +3,13 @@ extends ThingData
 
 @export var rarity:int = 0 #0: common, 1: uncommon, 2: rare
 
+const COSTS := {
+	0: 20,   # common
+	1: 38,  # uncommon
+	2: 62,  # rare
+}
+
+var cost: int: get = _get_cost
 var stack:int: set = _set_stack
 
 func copy(other:ThingData) -> void:
@@ -15,6 +22,9 @@ func get_duplicate() -> TrinketData:
 	var dup:TrinketData = TrinketData.new()
 	dup.copy(self)
 	return dup
+
+func _get_cost() -> int:
+	return COSTS[rarity]
 
 func _get_localization_prefix() -> String:
 	return "TRINKET_"
