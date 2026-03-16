@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="2_pcc0i"]
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="3_4afxj"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="4_ul7c2"]
+[ext_resource type="AudioStream" uid="uid://04xuhdaa8y11" path="res://resources/sounds/SFX/other/loot/item_no_collection_error.wav" id="5_shop"]
 
 [node name="GUIShopMain" type="CanvasLayer" unique_id=1246838602]
 script = ExtResource("1_157dq")
@@ -93,6 +94,11 @@ alignment = 1
 [node name="TrinketContainer" type="HBoxContainer" parent="MainMarginContainer/Control/MainPanel/MarginContainer/VBoxContainer" unique_id=892341057]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="InsufficientGoldAudio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("5_shop")
+bus = &"SFX"
 
 [node name="FinishButton" parent="MainMarginContainer/Control" unique_id=498094661 instance=ExtResource("3_4afxj")]
 unique_name_in_owner = true

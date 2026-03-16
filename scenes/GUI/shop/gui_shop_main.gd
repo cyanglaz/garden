@@ -15,6 +15,7 @@ const TRINKET_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/shop/shop_buttons/g
 @onready var _main_panel: PanelContainer = %MainPanel
 @onready var _title: Label = %Title
 @onready var _sub_title: Label = %SubTitle
+@onready var _insufficient_gold_audio: AudioStreamPlayer2D = %InsufficientGoldAudio
 
 var _display_y := 0.0
 
@@ -84,6 +85,7 @@ func _on_tool_shop_button_pressed(gui_shop_button:GUIShopButton, tool_data:ToolD
 	else:
 		Util.play_error_shake_animation(gui_shop_button, "position", gui_shop_button.position)
 		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
+		_insufficient_gold_audio.play()
 
 func _on_trinket_shop_button_pressed(gui_shop_button: GUIShopButton, trinket_data: TrinketData) -> void:
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
@@ -94,6 +96,7 @@ func _on_trinket_shop_button_pressed(gui_shop_button: GUIShopButton, trinket_dat
 	else:
 		Util.play_error_shake_animation(gui_shop_button, "position", gui_shop_button.position)
 		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
+		_insufficient_gold_audio.play()
 
 func _on_finish_button_pressed() -> void:
 	await animate_hide()
