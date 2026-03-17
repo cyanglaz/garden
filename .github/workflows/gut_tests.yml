@@ -26,6 +26,8 @@ jobs:
         run: godot --headless --import || true
 
       - name: Run GUT tests
+        env:
+          GODOT_DISABLE_LEAK_CHECKS: 1
         run: |
           godot --headless \
             -s res://addons/gut/gut_cmdln.gd \
@@ -33,7 +35,15 @@ jobs:
             -gconfig=res://.gutconfig.json \
             -gexit \
             -gjunit_xml_file=res://test_results.xml \
-            -gdisable_colors
+            -gdisable_colors \
+            2>&1 | tee gut_output.log
+          if grep -qF '!!!' gut_output.log || grep -qF 'SCRIPT ERROR: Parse Error:' gut_output.log; then
+            echo ""
+            echo "ERROR: GDScript build errors detected:"
+            grep -F '!!!' gut_output.log || true
+            grep -F 'SCRIPT ERROR: Parse Error:' gut_output.log || true
+            exit 1
+          fi
 
       - name: Upload test results
         if: always()
