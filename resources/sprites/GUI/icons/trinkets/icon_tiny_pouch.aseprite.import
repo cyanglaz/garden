@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dsc4cs38r74sp"
+path="res://.godot/imported/icon_tiny_pouch.aseprite-960810beb43bf6daa3061f65e5247124.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_tiny_pouch.aseprite"
+dest_files=["res://.godot/imported/icon_tiny_pouch.aseprite-960810beb43bf6daa3061f65e5247124.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
