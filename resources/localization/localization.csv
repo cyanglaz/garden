@@ -358,6 +358,8 @@ TRINKET_SUN_SHARD_NAME,"Sun Shard"
 TRINKET_SUN_SHARD_DESCRIPTION,"At the end of turn, if the player is at an edge plant, the target plant +{light} {resource:light}."
 TRINKET_TINY_POUCH_NAME,"Tiny Pouch"
 TRINKET_TINY_POUCH_DESCRIPTION,"On turn 1, draw {draw} additional cards."
+TRINKET_GLASS_MARBLE_NAME,"Glass Marble"
+TRINKET_GLASS_MARBLE_DESCRIPTION,"On turn 1, current plant +{light} {resource:light}."
 
 PLAYER_POLLINATOR_NAME,"The Pollinator"
 PLAYER_POLLINATOR_DESCRIPTION,"On Bloom, shuffle a +3 {sunlight} card to hand."
