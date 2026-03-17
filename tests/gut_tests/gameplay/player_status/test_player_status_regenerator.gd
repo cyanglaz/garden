@@ -4,7 +4,7 @@ const PLANT_SCENE := preload("res://scenes/main_game/plants/plants/plant.tscn")
 
 # ----- Stubs -----
 
-class FakeCombatMain:
+class FakeCombatMain extends CombatMain:
 	var _plant: Plant
 	func get_current_player_plant() -> Plant:
 		return _plant
@@ -21,7 +21,8 @@ func _make_plant(light_max: int = 20, water_max: int = 20) -> Plant:
 	return plant
 
 func _make_status(value: int, stack: int) -> PlayerStatusRegenerator:
-	var s := add_child_autofree(PlayerStatusRegenerator.new())
+	var s := PlayerStatusRegenerator.new()
+	add_child_autofree(s)
 	var sd := StatusData.new()
 	sd.data["value"] = value
 	s.data = sd
@@ -31,19 +32,23 @@ func _make_status(value: int, stack: int) -> PlayerStatusRegenerator:
 # ----- has_stack_update_hook -----
 
 func test_has_hook_true_for_momentum_negative_diff() -> void:
-	var s := add_child_autofree(PlayerStatusRegenerator.new())
+	var s := PlayerStatusRegenerator.new()
+	add_child_autofree(s)
 	assert_true(s.has_stack_update_hook(null, "momentum", -1))
 
 func test_has_hook_false_for_momentum_zero_diff() -> void:
-	var s := add_child_autofree(PlayerStatusRegenerator.new())
+	var s := PlayerStatusRegenerator.new()
+	add_child_autofree(s)
 	assert_false(s.has_stack_update_hook(null, "momentum", 0))
 
 func test_has_hook_false_for_momentum_positive_diff() -> void:
-	var s := add_child_autofree(PlayerStatusRegenerator.new())
+	var s := PlayerStatusRegenerator.new()
+	add_child_autofree(s)
 	assert_false(s.has_stack_update_hook(null, "momentum", 1))
 
 func test_has_hook_false_for_other_status_negative_diff() -> void:
-	var s := add_child_autofree(PlayerStatusRegenerator.new())
+	var s := PlayerStatusRegenerator.new()
+	add_child_autofree(s)
 	assert_false(s.has_stack_update_hook(null, "water", -1))
 
 # ----- handle_stack_update_hook -----

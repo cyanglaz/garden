@@ -2,14 +2,12 @@ extends GutTest
 
 # ----- Stubs -----
 
-class FakeDeck:
-	var hand: Array = []
+class FakeToolManager extends ToolManager:
+	func _init() -> void:
+		tool_deck = Deck.new([])
 
-class FakeToolManager:
-	var tool_deck := FakeDeck.new()
-
-class FakeCombatMain:
-	var tool_manager := FakeToolManager.new()
+class FakeCombatMain extends CombatMain:
+	pass
 
 # ----- Helpers -----
 
@@ -30,7 +28,8 @@ func _make_tool(id: String, energy_cost: int = 1) -> ToolData:
 	return td
 
 func _make_status(stack_count: int) -> PlayerStatusSustainability:
-	var s := add_child_autofree(PlayerStatusSustainability.new())
+	var s := PlayerStatusSustainability.new()
+	add_child_autofree(s)
 	s.data = StatusData.new()
 	s.stack = stack_count
 	return s
@@ -38,28 +37,35 @@ func _make_status(stack_count: int) -> PlayerStatusSustainability:
 # ----- has_card_added_to_hand_hook -----
 
 func test_has_hand_hook_true_with_runoff() -> void:
-	var s := add_child_autofree(PlayerStatusSustainability.new())
+	var s := PlayerStatusSustainability.new()
+	add_child_autofree(s)
 	assert_true(s.has_card_added_to_hand_hook([_make_runoff_tool()]))
 
 func test_has_hand_hook_false_without_runoff() -> void:
-	var s := add_child_autofree(PlayerStatusSustainability.new())
+	var s := PlayerStatusSustainability.new()
+	add_child_autofree(s)
 	assert_false(s.has_card_added_to_hand_hook([_make_tool("watering_can")]))
 
 func test_has_hand_hook_false_for_empty_array() -> void:
-	var s := add_child_autofree(PlayerStatusSustainability.new())
+	var s := PlayerStatusSustainability.new()
+	add_child_autofree(s)
 	assert_false(s.has_card_added_to_hand_hook([]))
 
 # ----- has_activation_hook -----
 
 func test_has_activation_hook_true_with_runoff_in_hand() -> void:
-	var s := add_child_autofree(PlayerStatusSustainability.new())
+	var s := PlayerStatusSustainability.new()
+	add_child_autofree(s)
 	var cm := FakeCombatMain.new()
+	cm.tool_manager = FakeToolManager.new()
 	cm.tool_manager.tool_deck.hand = [_make_runoff_tool()]
 	assert_true(s.has_activation_hook(cm))
 
 func test_has_activation_hook_false_with_empty_hand() -> void:
-	var s := add_child_autofree(PlayerStatusSustainability.new())
+	var s := PlayerStatusSustainability.new()
+	add_child_autofree(s)
 	var cm := FakeCombatMain.new()
+	cm.tool_manager = FakeToolManager.new()
 	cm.tool_manager.tool_deck.hand = []
 	assert_false(s.has_activation_hook(cm))
 

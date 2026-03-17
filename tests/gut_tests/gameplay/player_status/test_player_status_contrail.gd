@@ -4,7 +4,7 @@ const PLANT_SCENE := preload("res://scenes/main_game/plants/plants/plant.tscn")
 
 # ----- Stubs -----
 
-class FakeCombatMain:
+class FakeCombatMain extends CombatMain:
 	var _plant: Plant
 	func get_current_player_plant() -> Plant:
 		return _plant
@@ -21,7 +21,8 @@ func _make_plant(light_max: int = 20, water_max: int = 20) -> Plant:
 	return plant
 
 func _make_status(value: int, stack_count: int) -> PlayerStatusContrail:
-	var s := add_child_autofree(PlayerStatusContrail.new())
+	var s := PlayerStatusContrail.new()
+	add_child_autofree(s)
 	var sd := StatusData.new()
 	sd.data["value"] = value
 	s.data = sd
@@ -31,7 +32,8 @@ func _make_status(value: int, stack_count: int) -> PlayerStatusContrail:
 # ----- has_player_move_hook -----
 
 func test_has_player_move_hook_returns_true() -> void:
-	var s := add_child_autofree(PlayerStatusContrail.new())
+	var s := PlayerStatusContrail.new()
+	add_child_autofree(s)
 	assert_true(s.has_player_move_hook(null))
 
 # ----- handle_player_move_hook -----

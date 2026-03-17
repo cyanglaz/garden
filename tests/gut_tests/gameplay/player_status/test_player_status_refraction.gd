@@ -14,7 +14,8 @@ func _make_plant(light_max: int = 20, water_max: int = 20) -> Plant:
 	return plant
 
 func _make_status(value: int, stack_count: int) -> PlayerRefraction:
-	var s := add_child_autofree(PlayerRefraction.new())
+	var s := PlayerRefraction.new()
+	add_child_autofree(s)
 	var sd := StatusData.new()
 	sd.data["value"] = value
 	s.data = sd
@@ -24,15 +25,18 @@ func _make_status(value: int, stack_count: int) -> PlayerRefraction:
 # ----- has_target_plant_water_update_hook -----
 
 func test_has_hook_true_for_positive_diff() -> void:
-	var s := add_child_autofree(PlayerRefraction.new())
+	var s := PlayerRefraction.new()
+	add_child_autofree(s)
 	assert_true(s.has_target_plant_water_update_hook(null, null, 1))
 
 func test_has_hook_false_for_zero_diff() -> void:
-	var s := add_child_autofree(PlayerRefraction.new())
+	var s := PlayerRefraction.new()
+	add_child_autofree(s)
 	assert_false(s.has_target_plant_water_update_hook(null, null, 0))
 
 func test_has_hook_false_for_negative_diff() -> void:
-	var s := add_child_autofree(PlayerRefraction.new())
+	var s := PlayerRefraction.new()
+	add_child_autofree(s)
 	assert_false(s.has_target_plant_water_update_hook(null, null, -1))
 
 # ----- handle_target_plant_water_update_hook -----

@@ -4,7 +4,7 @@ const PLANT_SCENE := preload("res://scenes/main_game/plants/plants/plant.tscn")
 
 # ----- Stubs -----
 
-class FakeCombatMain:
+class FakeCombatMain extends CombatMain:
 	var _plant: Plant
 	func get_current_player_plant() -> Plant:
 		return _plant
@@ -21,7 +21,8 @@ func _make_plant(light_max: int = 20, water_max: int = 40) -> Plant:
 	return plant
 
 func _make_status(value: int, stack_count: int) -> PlayerStatusCondensation:
-	var s := add_child_autofree(PlayerStatusCondensation.new())
+	var s := PlayerStatusCondensation.new()
+	add_child_autofree(s)
 	var sd := StatusData.new()
 	sd.data["value"] = value
 	s.data = sd
@@ -31,11 +32,13 @@ func _make_status(value: int, stack_count: int) -> PlayerStatusCondensation:
 # ----- has_discard_hook -----
 
 func test_has_discard_hook_returns_true() -> void:
-	var s := add_child_autofree(PlayerStatusCondensation.new())
+	var s := PlayerStatusCondensation.new()
+	add_child_autofree(s)
 	assert_true(s.has_discard_hook(null, []))
 
 func test_has_discard_hook_true_with_cards() -> void:
-	var s := add_child_autofree(PlayerStatusCondensation.new())
+	var s := PlayerStatusCondensation.new()
+	add_child_autofree(s)
 	assert_true(s.has_discard_hook(null, [ToolData.new(), ToolData.new()]))
 
 # ----- handle_discard_hook -----
