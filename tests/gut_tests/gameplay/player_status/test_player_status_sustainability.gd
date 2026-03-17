@@ -57,16 +57,22 @@ func test_has_activation_hook_true_with_runoff_in_hand() -> void:
 	var s := PlayerStatusSustainability.new()
 	add_child_autofree(s)
 	var cm := FakeCombatMain.new()
-	cm.tool_manager = FakeToolManager.new()
-	cm.tool_manager.tool_deck.hand = [_make_runoff_tool()]
+	autofree(cm)
+	var fake_tm := FakeToolManager.new()
+	autofree(fake_tm)
+	cm.tool_manager = fake_tm
+	fake_tm.tool_deck.hand = [_make_runoff_tool()]
 	assert_true(s.has_activation_hook(cm))
 
 func test_has_activation_hook_false_with_empty_hand() -> void:
 	var s := PlayerStatusSustainability.new()
 	add_child_autofree(s)
 	var cm := FakeCombatMain.new()
-	cm.tool_manager = FakeToolManager.new()
-	cm.tool_manager.tool_deck.hand = []
+	autofree(cm)
+	var fake_tm := FakeToolManager.new()
+	autofree(fake_tm)
+	cm.tool_manager = fake_tm
+	fake_tm.tool_deck.hand = []
 	assert_false(s.has_activation_hook(cm))
 
 # ----- handle_card_added_to_hand_hook -----

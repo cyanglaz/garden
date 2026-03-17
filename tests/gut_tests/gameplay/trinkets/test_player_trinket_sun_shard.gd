@@ -17,9 +17,13 @@ func _make_trinket(light_value: int = 3) -> PlayerTrinketSunShard:
 
 func _make_combat_main(field_index: int, max_idx: int) -> FakeCombatMain:
 	var cm := FakeCombatMain.new()
+	autofree(cm)
+	var psc := PlayerStatusContainer.new()
+	autofree(psc)
 	var p := Player.new()
+	autofree(p)
+	p.player_status_container = psc
 	p.max_plants_index = max_idx
-	p.player_status_container = PlayerStatusContainer.new()
 	p.current_field_index = field_index
 	cm.player = p
 	return cm
