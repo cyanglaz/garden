@@ -170,7 +170,7 @@ static func load_script_ignoring_all_warnings(path : String) -> Variant:
 static func load_script_using_custom_warnings(path : String, warnings_dictionary : Dictionary) -> Variant:
 	var current_warns = create_warnings_dictionary_from_project_settings()
 	apply_warnings_dictionary(warnings_dictionary)
-	var s = load(path)
+	var s: Resource = load(path)
 	apply_warnings_dictionary(current_warns)
 
 	return s

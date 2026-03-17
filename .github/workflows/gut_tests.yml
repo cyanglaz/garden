@@ -37,10 +37,11 @@ jobs:
             -gjunit_xml_file=res://test_results.xml \
             -gdisable_colors \
             2>&1 | tee gut_output.log
-          if grep -qF '!!!' gut_output.log; then
+          if grep -qF '!!!' gut_output.log || grep -qF 'SCRIPT ERROR: Parse Error:' gut_output.log; then
             echo ""
-            echo "ERROR: one or more test scripts failed to load (compile/parse errors):"
-            grep -F '!!!' gut_output.log
+            echo "ERROR: GDScript build errors detected:"
+            grep -F '!!!' gut_output.log || true
+            grep -F 'SCRIPT ERROR: Parse Error:' gut_output.log || true
             exit 1
           fi
 
