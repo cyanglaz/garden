@@ -356,6 +356,8 @@ TRINKET_SPARE_WING_NAME,"Spare Wing"
 TRINKET_SPARE_WING_DESCRIPTION,"At the start of turn, if the player has no {resource:momentum}, +{momentum} {resource:momentum}"
 TRINKET_SUN_SHARD_NAME,"Sun Shard"
 TRINKET_SUN_SHARD_DESCRIPTION,"At the end of turn, if the player is at an edge plant, the target plant +{light} {resource:light}."
+TRINKET_TINY_POUCH_NAME,"Tiny Pouch"
+TRINKET_TINY_POUCH_DESCRIPTION,"On turn 1, draw {draw} additional cards."
 
 PLAYER_POLLINATOR_NAME,"The Pollinator"
 PLAYER_POLLINATOR_DESCRIPTION,"On Bloom, shuffle a +3 {sunlight} card to hand."
