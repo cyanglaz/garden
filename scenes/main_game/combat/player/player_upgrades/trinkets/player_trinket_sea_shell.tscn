@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dq7t6p2n8cv4w"]
+
+[ext_resource type="Script" uid="uid://b8xn2kqm5dve3" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_sea_shell.gd" id="1_ss001"]
+
+[node name="PlayerTrinketSeaShell" type="Node2D" unique_id=312847651]
+script = ExtResource("1_ss001")

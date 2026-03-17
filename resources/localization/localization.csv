@@ -360,6 +360,8 @@ TRINKET_TINY_POUCH_NAME,"Tiny Pouch"
 TRINKET_TINY_POUCH_DESCRIPTION,"On turn 1, draw {draw} additional cards."
 TRINKET_GLASS_MARBLE_NAME,"Glass Marble"
 TRINKET_GLASS_MARBLE_DESCRIPTION,"On turn 1, current plant +{light} {resource:light}."
+TRINKET_SEA_SHELL_NAME,"Sea Shell"
+TRINKET_SEA_SHELL_DESCRIPTION,"On turn 1, current plant +{water} {resource:water}."
 
 PLAYER_POLLINATOR_NAME,"The Pollinator"
 PLAYER_POLLINATOR_DESCRIPTION,"On Bloom, shuffle a +3 {sunlight} card to hand."
