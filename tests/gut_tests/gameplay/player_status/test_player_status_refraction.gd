@@ -1,13 +1,17 @@
 extends GutTest
 
-# ----- Stubs -----
-
-class FakePlant:
-	var last_actions: Array = []
-	func apply_actions(actions: Array) -> void:
-		last_actions = actions
+const PLANT_SCENE := preload("res://scenes/main_game/plants/plants/plant.tscn")
 
 # ----- Helpers -----
+
+func _make_plant(light_max: int = 20, water_max: int = 20) -> Plant:
+	var plant: Plant = PLANT_SCENE.instantiate()
+	add_child_autofree(plant)
+	var pd := PlantData.new()
+	pd.light = light_max
+	pd.water = water_max
+	plant.data = pd
+	return plant
 
 func _make_status(value: int, stack_count: int) -> PlayerRefraction:
 	var s := add_child_autofree(PlayerRefraction.new())
@@ -33,15 +37,8 @@ func test_has_hook_false_for_negative_diff() -> void:
 
 # ----- handle_target_plant_water_update_hook -----
 
-func test_handle_applies_light_increase() -> void:
+func test_handle_increases_plant_light_by_stack_times_value() -> void:
+	var plant := _make_plant()
 	var s := _make_status(4, 2)
-	var plant := FakePlant.new()
 	await s.handle_target_plant_water_update_hook(null, plant, 1)
-	assert_eq(plant.last_actions[0].type, ActionData.ActionType.LIGHT)
-	assert_eq(plant.last_actions[0].operator_type, ActionData.OperatorType.INCREASE)
-
-func test_handle_light_value_is_stack_times_data_value() -> void:
-	var s := _make_status(4, 2)
-	var plant := FakePlant.new()
-	await s.handle_target_plant_water_update_hook(null, plant, 1)
-	assert_eq(plant.last_actions[0].value, 8)
+	assert_eq(plant.light.value, 8)

@@ -1,15 +1,12 @@
 extends GutTest
 
+const PLANT_SCENE := preload("res://scenes/main_game/plants/plants/plant.tscn")
+
 # ----- Stubs -----
 
-class FakePlant:
-	var last_actions: Array = []
-	func apply_actions(actions: Array) -> void:
-		last_actions = actions
-
 class FakePlantFieldContainer:
-	var _plant := FakePlant.new()
-	func get_plant(_index: int) -> FakePlant:
+	var _plant: Plant
+	func get_plant(_index: int) -> Plant:
 		return _plant
 
 class FakePlayer:
@@ -21,11 +18,27 @@ class FakeCombatMain:
 
 # ----- Helpers -----
 
-func _make_trinket() -> PlayerTrinketSaltGrinder:
+func _make_plant(light_max: int = 20, water_max: int = 20) -> Plant:
+	var plant: Plant = PLANT_SCENE.instantiate()
+	add_child_autofree(plant)
+	var pd := PlantData.new()
+	pd.light = light_max
+	pd.water = water_max
+	plant.data = pd
+	return plant
+
+func _add_field_status(plant: Plant, action_type: ActionData.ActionType, value: int) -> void:
+	var action := ActionData.new()
+	action.type = action_type
+	action.operator_type = ActionData.OperatorType.INCREASE
+	action.value = value
+	await plant.apply_actions([action])
+
+func _make_trinket(pest: int = 2, fungus: int = 1) -> PlayerTrinketSaltGrinder:
 	var t := add_child_autofree(PlayerTrinketSaltGrinder.new())
 	var td := TrinketData.new()
-	td.data["pest"] = 2
-	td.data["fungus"] = 1
+	td.data["pest"] = pest
+	td.data["fungus"] = fungus
 	t.data = td
 	return t
 
@@ -41,46 +54,20 @@ func test_has_no_end_turn_hook() -> void:
 
 # ----- handle_start_turn_hook -----
 
-func test_handle_start_turn_applies_pest_action() -> void:
-	var t := _make_trinket()
+func test_handle_decreases_pest_by_data_value() -> void:
+	var plant := _make_plant()
+	await _add_field_status(plant, ActionData.ActionType.PEST, 5)
+	var t := _make_trinket(2, 1)
 	var cm := FakeCombatMain.new()
+	cm.plant_field_container._plant = plant
 	await t.handle_start_turn_hook(cm)
-	assert_eq(cm.plant_field_container._plant.last_actions[0].type, ActionData.ActionType.PEST)
+	assert_eq(plant.field_status_container._get_field_status("pest").stack, 3)
 
-func test_handle_start_turn_pest_is_decrease() -> void:
-	var t := _make_trinket()
+func test_handle_decreases_fungus_by_data_value() -> void:
+	var plant := _make_plant()
+	await _add_field_status(plant, ActionData.ActionType.FUNGUS, 5)
+	var t := _make_trinket(2, 1)
 	var cm := FakeCombatMain.new()
+	cm.plant_field_container._plant = plant
 	await t.handle_start_turn_hook(cm)
-	assert_eq(cm.plant_field_container._plant.last_actions[0].operator_type, ActionData.OperatorType.DECREASE)
-
-func test_handle_start_turn_pest_value_from_data() -> void:
-	var t := add_child_autofree(PlayerTrinketSaltGrinder.new())
-	var td := TrinketData.new()
-	td.data["pest"] = 5
-	td.data["fungus"] = 1
-	t.data = td
-	var cm := FakeCombatMain.new()
-	await t.handle_start_turn_hook(cm)
-	assert_eq(cm.plant_field_container._plant.last_actions[0].value, 5)
-
-func test_handle_start_turn_applies_fungus_action() -> void:
-	var t := _make_trinket()
-	var cm := FakeCombatMain.new()
-	await t.handle_start_turn_hook(cm)
-	assert_eq(cm.plant_field_container._plant.last_actions[1].type, ActionData.ActionType.FUNGUS)
-
-func test_handle_start_turn_fungus_is_decrease() -> void:
-	var t := _make_trinket()
-	var cm := FakeCombatMain.new()
-	await t.handle_start_turn_hook(cm)
-	assert_eq(cm.plant_field_container._plant.last_actions[1].operator_type, ActionData.OperatorType.DECREASE)
-
-func test_handle_start_turn_fungus_value_from_data() -> void:
-	var t := add_child_autofree(PlayerTrinketSaltGrinder.new())
-	var td := TrinketData.new()
-	td.data["pest"] = 1
-	td.data["fungus"] = 4
-	t.data = td
-	var cm := FakeCombatMain.new()
-	await t.handle_start_turn_hook(cm)
-	assert_eq(cm.plant_field_container._plant.last_actions[1].value, 4)
+	assert_eq(plant.field_status_container._get_field_status("fungus").stack, 4)
