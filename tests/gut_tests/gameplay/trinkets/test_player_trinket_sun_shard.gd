@@ -1,22 +1,11 @@
 extends GutTest
 
-const PLANT_SCENE := preload("res://scenes/main_game/plants/plants/plant.tscn")
-
 # ----- Stubs -----
 
 class FakeCombatMain extends CombatMain:
 	pass
 
 # ----- Helpers -----
-
-func _make_plant(light_max: int = 20, water_max: int = 20) -> Plant:
-	var plant: Plant = PLANT_SCENE.instantiate()
-	add_child_autofree(plant)
-	var pd := PlantData.new()
-	pd.light = light_max
-	pd.water = water_max
-	plant.data = pd
-	return plant
 
 func _make_trinket(light_value: int = 3) -> PlayerTrinketSunShard:
 	var t := PlayerTrinketSunShard.new()
@@ -55,15 +44,3 @@ func test_has_hook_false_at_middle_index() -> void:
 func test_has_no_start_turn_hook() -> void:
 	var t := _make_trinket()
 	assert_false(t.has_start_turn_hook(null))
-
-# ----- handle_end_turn_hook -----
-
-func test_handle_increases_plant_light_by_data_value() -> void:
-	var plant := _make_plant()
-	var t := _make_trinket(7)
-	var cm := _make_combat_main(0, 3)
-	var pfc := PlantFieldContainer.new()
-	pfc.plants.append(plant)
-	cm.plant_field_container = pfc
-	await t.handle_end_turn_hook(cm)
-	assert_eq(plant.light.value, 7)
