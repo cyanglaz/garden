@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crvkug70y6w5o"
-path="res://.godot/imported/icon_nectar_shot.png-bd419924e03cceba0367fec76b3b3001.ctex"
+uid="uid://dpfxgqf3x1y25"
+path="res://.godot/imported/icon_nectar_refresher.png-b710f44c0e24030bc84a8976ab02bf9b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/GUI/icons/trinkets/icon_nectar_shot.png"
-dest_files=["res://.godot/imported/icon_nectar_shot.png-bd419924e03cceba0367fec76b3b3001.ctex"]
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_nectar_refresher.png"
+dest_files=["res://.godot/imported/icon_nectar_refresher.png-b710f44c0e24030bc84a8976ab02bf9b.ctex"]
 
 [params]
 
