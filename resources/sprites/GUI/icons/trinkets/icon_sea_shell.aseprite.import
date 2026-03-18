@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://comohii5h03u2"
+path="res://.godot/imported/icon_sea_shell.aseprite-7231825e6a72596779fc88c648de8a61.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_sea_shell.aseprite"
+dest_files=["res://.godot/imported/icon_sea_shell.aseprite-7231825e6a72596779fc88c648de8a61.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

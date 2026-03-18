@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://bm5v9j2nw8dq6"]
+[gd_scene format=3 uid="uid://bm5waj2nw8dq6"]
 
 [ext_resource type="Script" uid="uid://c7gx4hbn3kqp8" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_nectar_juice.gd" id="1_nj001"]
 
