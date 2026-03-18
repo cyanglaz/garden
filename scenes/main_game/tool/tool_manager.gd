@@ -137,6 +137,9 @@ func apply_tool(combat_main:CombatMain) -> void:
 func discardable_cards() -> Array:
 	return tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return tool_data != selected_tool)
 
+func select_cards(count: int, from_cards: Array) -> Array:
+	return await _gui_tool_card_container.select_cards(count, from_cards)
+
 func add_tool_to_deck(tool_data:ToolData) -> void:
 	tool_deck.add_item(tool_data)
 

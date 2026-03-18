@@ -108,6 +108,12 @@ func select_secondary_cards(number_of_cards:int, selecting_from_cards:Array) -> 
 	_toggle_card_selection(true, selecting_from_cards)
 	return await _card_selection_container.start_selection(number_of_cards, selecting_from_cards)
 
+func select_cards(number_of_cards: int, selecting_from_cards: Array) -> Array:
+	_toggle_card_selection(true, selecting_from_cards)
+	var result := await _card_selection_container.start_selection(number_of_cards, selecting_from_cards)
+	await clear_selection()
+	return result
+
 func _toggle_card_selection(on:bool, selecting_from_cards:Array) -> void:
 	var selecting_from_card_index := []
 	for tool_data:ToolData in selecting_from_cards:
