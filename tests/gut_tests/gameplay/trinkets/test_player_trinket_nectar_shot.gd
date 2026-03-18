@@ -7,8 +7,8 @@ class FakeCombatMain extends CombatMain:
 
 # ----- Helpers -----
 
-func _make_trinket() -> PlayerTrinketNectarJuice:
-	var t := PlayerTrinketNectarJuice.new()
+func _make_trinket() -> PlayerTrinketNectarShot:
+	var t := PlayerTrinketNectarShot.new()
 	add_child_autofree(t)
 	var td := TrinketData.new()
 	td.data[&"momentum"] = "2"

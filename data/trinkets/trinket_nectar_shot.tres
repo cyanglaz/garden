@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_gohme")
-id = "nectar_juice"
+id = "nectar_shot"
 data = {
 &"momentum": "2"
 }
