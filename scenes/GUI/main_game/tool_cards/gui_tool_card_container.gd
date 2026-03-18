@@ -293,6 +293,8 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 		return
 	if selected_index >= 0:
 		return
+	if card_selection_mode:
+		return
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	if positions.size() < 2:
 		return
@@ -325,6 +327,8 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 	if !is_instance_valid(mouse_exit_card):
 		return
 	if selected_index >= 0:
+		return
+	if card_selection_mode:
 		return
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	var tween:Tween = Util.create_scaled_tween(self)
