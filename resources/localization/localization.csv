@@ -369,7 +369,7 @@ TRINKET_NECTAR_REFRESHER_DESCRIPTION,"On turn 3, +{momentum} {resource:momentum}
 TRINKET_SILVER_THIMBLE_NAME,"Silver Thimble"
 TRINKET_SILVER_THIMBLE_DESCRIPTION,"At start of turn, draw {draw} card, then discard {discard} card."
 TRINKET_BOTTOMLESS_POCKET_NAME,"Bottomless Pocket"
-TRINKET_BOTTOMLESS_POCKET_DESCRIPTION,"When you discard or exhaust a card, if your hand is empty, draw {draw} card."
+TRINKET_BOTTOMLESS_POCKET_DESCRIPTION,"During the turn, when there are no cards in your hand, draw {draw} card."
 
 PLAYER_POLLINATOR_NAME,"The Pollinator"
 PLAYER_POLLINATOR_DESCRIPTION,"On Bloom, shuffle a +3 {sunlight} card to hand."

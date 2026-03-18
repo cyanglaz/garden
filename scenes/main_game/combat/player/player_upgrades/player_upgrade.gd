@@ -82,6 +82,12 @@ func has_hand_size_hook(combat_main: CombatMain) -> bool:
 func handle_hand_size_hook(combat_main: CombatMain) -> int:
 	return await _handle_hand_size_hook(combat_main)
 
+func has_hand_updated_hook(combat_main:CombatMain) -> bool:
+	return _has_hand_updated_hook(combat_main)
+
+func handle_hand_updated_hook(combat_main:CombatMain) -> void:
+	await _handle_hand_updated_hook(combat_main)
+
 #region for override
 
 func _has_prevent_movement_hook() -> bool:
@@ -161,6 +167,12 @@ func _has_hand_size_hook(_combat_main: CombatMain) -> bool:
 
 func _handle_hand_size_hook(_combat_main: CombatMain) -> int:
 	return 0
+
+func _has_hand_updated_hook(_combat_main:CombatMain) -> bool:
+	return false
+
+func _handle_hand_updated_hook(_combat_main:CombatMain) -> void:
+	await Util.await_for_tiny_time()
 
 #endregion
 
