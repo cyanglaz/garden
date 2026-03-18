@@ -115,6 +115,7 @@ func discard_cards(tools:Array) -> void:
 
 func exhaust_cards(tools:Array) -> void:
 	await tool_manager.exhaust_cards(tools)
+	await player.player_upgrades_manager.handle_exhaust_hook(self, tools)
 
 func add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
 	await player.player_upgrades_manager.handle_card_added_to_hand_hook(tool_datas)

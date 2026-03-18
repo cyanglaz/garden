@@ -15,6 +15,8 @@ var _activation_hook_queue:Array = []
 var _current_activation_hook_index:int = 0
 var _discard_hook_queue:Array = []
 var _current_discard_hook_index:int = 0
+var _exhaust_hook_queue:Array = []
+var _current_exhaust_hook_index:int = 0
 var _draw_hook_queue:Array = []
 var _current_draw_hook_index:int = 0
 var _stack_update_hook_queue:Array = []
@@ -156,6 +158,23 @@ func _handle_next_discard_hook(combat_main:CombatMain, tool_datas:Array) -> void
 	await player_upgrade.handle_discard_hook(combat_main, tool_datas)
 	_current_discard_hook_index += 1
 	await _handle_next_discard_hook(combat_main, tool_datas)
+
+func handle_exhaust_hook(combat_main:CombatMain, tool_datas:Array) -> void:
+	var all_player_upgrades:Array = get_all_player_upgrades()
+	_exhaust_hook_queue = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
+		return player_upgrade.has_exhaust_hook(combat_main, tool_datas)
+	)
+	_current_exhaust_hook_index = 0
+	await _handle_next_exhaust_hook(combat_main, tool_datas)
+
+func _handle_next_exhaust_hook(combat_main:CombatMain, tool_datas:Array) -> void:
+	if _current_exhaust_hook_index >= _exhaust_hook_queue.size():
+		return
+	var player_upgrade:PlayerUpgrade = _exhaust_hook_queue[_current_exhaust_hook_index]
+	_send_hook_animation_signals(player_upgrade.data)
+	await player_upgrade.handle_exhaust_hook(combat_main, tool_datas)
+	_current_exhaust_hook_index += 1
+	await _handle_next_exhaust_hook(combat_main, tool_datas)
 
 func handle_draw_hook(combat_main:CombatMain, tool_datas:Array) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()

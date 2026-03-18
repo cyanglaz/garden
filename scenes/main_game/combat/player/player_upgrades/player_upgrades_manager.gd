@@ -34,6 +34,10 @@ func handle_discard_hook(combat_main:CombatMain, tool_datas:Array) -> void:
 	for container in player_upgrade_containers:
 		await container.handle_discard_hook(combat_main, tool_datas)
 
+func handle_exhaust_hook(combat_main:CombatMain, tool_datas:Array) -> void:
+	for container in player_upgrade_containers:
+		await container.handle_exhaust_hook(combat_main, tool_datas)
+
 func handle_draw_hook(combat_main:CombatMain, tool_datas:Array) -> void:
 	for container in player_upgrade_containers:
 		await container.handle_draw_hook(combat_main, tool_datas)
