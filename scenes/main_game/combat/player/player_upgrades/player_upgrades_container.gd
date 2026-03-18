@@ -250,6 +250,7 @@ func handle_hand_size_hook(combat_main: CombatMain) -> int:
 	var diff := 0
 	for player_upgrade: PlayerUpgrade in get_all_player_upgrades():
 		if player_upgrade.has_hand_size_hook(combat_main):
+			_send_hook_animation_signals(player_upgrade.data)
 			diff += await player_upgrade.handle_hand_size_hook(combat_main)
 	return diff
 
