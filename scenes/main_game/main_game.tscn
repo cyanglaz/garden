@@ -8,11 +8,12 @@
 [ext_resource type="Script" uid="uid://dr261i4fd8jf0" path="res://data/models/trinkets/trinket_data.gd" id="5_i3kwu"]
 [ext_resource type="Resource" uid="uid://c3smn8fvp7qe1" path="res://data/trinkets/trinket_sea_shell.tres" id="7_ldk84"]
 [ext_resource type="Resource" uid="uid://dn4p7c8qrv2t5" path="res://data/trinkets/trinket_nectar_shot.tres" id="10_nj001"]
+[ext_resource type="Resource" uid="uid://bk6v3p9qwx8m2" path="res://data/trinkets/trinket_nectar_refresher.tres" id="11_nr001"]
 [ext_resource type="PackedScene" uid="uid://bqo51luu7itcc" path="res://scenes/main_game/map/map_main.tscn" id="14_s87mg"]
 
 [sub_resource type="Resource" id="Resource_r81kp"]
 script = ExtResource("3_i3kwu")
-test_trinket_datas = Array[ExtResource("5_i3kwu")]([ExtResource("10_nj001"), ExtResource("7_ldk84")])
+test_trinket_datas = Array[ExtResource("5_i3kwu")]([ExtResource("10_nj001"), ExtResource("7_ldk84"), ExtResource("11_nr001")])
 metadata/_custom_type_script = "uid://d4ngj3465rhxa"
 
 [node name="MainGame" type="Node2D" unique_id=729241411]

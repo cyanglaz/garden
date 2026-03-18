@@ -364,6 +364,8 @@ TRINKET_SEA_SHELL_NAME,"Sea Shell"
 TRINKET_SEA_SHELL_DESCRIPTION,"On turn 1, current plant +{water} {resource:water}."
 TRINKET_NECTAR_SHOT_NAME,"Nectar Shot"
 TRINKET_NECTAR_SHOT_DESCRIPTION,"On turn 1, +{momentum} {resource:momentum}."
+TRINKET_NECTAR_REFRESHER_NAME,"Nectar Refresher"
+TRINKET_NECTAR_REFRESHER_DESCRIPTION,"On turn 3, +{momentum} {resource:momentum}."
 
 PLAYER_POLLINATOR_NAME,"The Pollinator"
 PLAYER_POLLINATOR_DESCRIPTION,"On Bloom, shuffle a +3 {sunlight} card to hand."
