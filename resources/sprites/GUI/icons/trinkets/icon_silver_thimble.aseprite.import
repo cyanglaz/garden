@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://doq7fb2l8ot8x"
+path="res://.godot/imported/icon_silver_thimble.aseprite-ca40ee6f8ace96b77e103e5619a72f96.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_silver_thimble.aseprite"
+dest_files=["res://.godot/imported/icon_silver_thimble.aseprite-ca40ee6f8ace96b77e103e5619a72f96.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
