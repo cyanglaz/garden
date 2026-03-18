@@ -11,6 +11,12 @@ func _make_trinket() -> PlayerTrinketSilverThimble:
 	t.data = td
 	return t
 
+# ----- has_hand_size_hook -----
+
+func test_has_hand_size_hook_returns_true() -> void:
+	var t := _make_trinket()
+	assert_true(t.has_hand_size_hook(null))
+
 # ----- has_start_turn_hook -----
 
 func test_has_start_turn_hook_returns_true() -> void:

@@ -61,3 +61,9 @@ func handle_end_turn_hook(combat_main:CombatMain) -> void:
 func handle_start_turn_hook(combat_main:CombatMain) -> void:
 	for container in player_upgrade_containers:
 		await container.handle_start_turn_hook(combat_main)
+
+func handle_hand_size_hook(combat_main: CombatMain) -> int:
+	var diff := 0
+	for container in player_upgrade_containers:
+		diff += await container.handle_hand_size_hook(combat_main)
+	return diff

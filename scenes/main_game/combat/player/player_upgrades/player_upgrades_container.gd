@@ -237,7 +237,7 @@ func handle_start_turn_hook(combat_main:CombatMain) -> void:
 	_current_start_turn_hook_index = 0
 	await _handle_next_start_turn_hook(combat_main)
 
-func _handle_next_start_turn_hook(combat_main:CombatMain) -> void:	
+func _handle_next_start_turn_hook(combat_main:CombatMain) -> void:
 	if _current_start_turn_hook_index >= _start_turn_hook_queue.size():
 		return
 	var player_upgrade:PlayerUpgrade = _start_turn_hook_queue[_current_start_turn_hook_index]
@@ -245,6 +245,13 @@ func _handle_next_start_turn_hook(combat_main:CombatMain) -> void:
 	await player_upgrade.handle_start_turn_hook(combat_main)
 	_current_start_turn_hook_index += 1
 	await _handle_next_start_turn_hook(combat_main)
+
+func handle_hand_size_hook(combat_main: CombatMain) -> int:
+	var diff := 0
+	for player_upgrade: PlayerUpgrade in get_all_player_upgrades():
+		if player_upgrade.has_hand_size_hook(combat_main):
+			diff += await player_upgrade.handle_hand_size_hook(combat_main)
+	return diff
 
 #private functions
 
