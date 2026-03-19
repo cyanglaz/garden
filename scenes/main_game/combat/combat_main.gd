@@ -105,7 +105,7 @@ func get_current_player_plant() -> Plant:
 
 #region cards
 func draw_cards(count:int) -> void:
-	var first_turn_draw := day_manager.day == 0
+	var first_turn_draw := day_manager.day == 0 && !is_mid_turn
 	var draw_results:Array = await tool_manager.draw_cards(count, first_turn_draw)
 	await player.player_upgrades_manager.handle_card_added_to_hand_hook(draw_results)
 	await player.player_upgrades_manager.handle_draw_hook(self, draw_results)

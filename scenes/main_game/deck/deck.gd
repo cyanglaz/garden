@@ -56,14 +56,17 @@ func draw_specific(condition:Callable) -> Array:
 
 func draw(count:int) -> Array:
 	var drawn_items:Array = []
+	var cards_drawn := 0
 	for i in count:
 		if draw_pool.is_empty():
 			break
 		var item:Variant = draw_pool.pop_front()
 		hand.append(item)
 		drawn_items.append(item)
-	hand_updated.emit()
-	draw_pool_updated.emit(draw_pool)
+		cards_drawn += 1
+	if cards_drawn > 0:
+		hand_updated.emit()
+		draw_pool_updated.emit(draw_pool)
 	return drawn_items
 
 func discard(items:Array) -> void:
