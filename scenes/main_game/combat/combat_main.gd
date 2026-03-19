@@ -113,20 +113,14 @@ func draw_cards(count:int) -> void:
 func discard_cards(tools:Array) -> void:
 	await tool_manager.discard_cards(tools)
 	await player.player_upgrades_manager.handle_discard_hook(self, tools)
-	if is_mid_turn:
-		await player.player_upgrades_manager.handle_hand_updated_hook(self)
 
 func exhaust_cards(tools:Array) -> void:
 	await tool_manager.exhaust_cards(tools)
 	await player.player_upgrades_manager.handle_exhaust_hook(self, tools)
-	if is_mid_turn:
-		await player.player_upgrades_manager.handle_hand_updated_hook(self)
 
 func add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
 	await player.player_upgrades_manager.handle_card_added_to_hand_hook(tool_datas)
 	await tool_manager.add_tools_to_hand(tool_datas, from_global_position, pause)
-	if is_mid_turn:
-		await player.player_upgrades_manager.handle_hand_updated_hook(self)
 
 func add_card_to_deck(tool_data:ToolData) -> void:
 	tool_manager.add_tool_to_deck(tool_data)
@@ -340,7 +334,9 @@ func _on_hand_updated(hand:Array) -> void:
 	for tool_data in hand:
 		tool_data.combat_main = self
 		tool_data.request_refresh.emit()
-	
+	if is_mid_turn:
+		await player.player_upgrades_manager.handle_hand_updated_hook(self)
+
 func _on_plant_action_application_completed(index:int) -> void:
 	_bloom(index)
 
