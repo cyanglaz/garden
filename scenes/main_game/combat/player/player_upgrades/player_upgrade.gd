@@ -80,7 +80,7 @@ func has_hand_size_hook(combat_main: CombatMain) -> bool:
 	return _has_hand_size_hook(combat_main)
 
 func handle_hand_size_hook(combat_main: CombatMain) -> int:
-	return await _handle_hand_size_hook(combat_main)
+	return _handle_hand_size_hook(combat_main)
 
 func has_hand_updated_hook(combat_main:CombatMain) -> bool:
 	return _has_hand_updated_hook(combat_main)
@@ -176,7 +176,7 @@ func _handle_hand_updated_hook(_combat_main:CombatMain) -> void:
 
 #endregion
 
-func _set_stack(value:int) -> void:
+func _set_stack(_value:int) -> void:
 	assert(false, "must be implemented")
 
 func _get_stack() -> int:

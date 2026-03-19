@@ -289,7 +289,7 @@ func handle_hand_size_hook(combat_main: CombatMain) -> int:
 	for player_upgrade: PlayerUpgrade in get_all_player_upgrades():
 		if player_upgrade.has_hand_size_hook(combat_main):
 			_send_hook_animation_signals(player_upgrade.data)
-			diff += await player_upgrade.handle_hand_size_hook(combat_main)
+			diff += player_upgrade.handle_hand_size_hook(combat_main)
 	return diff
 
 #private functions
@@ -311,10 +311,10 @@ func _send_hook_animation_signals(data:ThingData) -> void:
 
 # for override
 
-func _get_player_upgrade_scene(id:String) -> PackedScene:
+func _get_player_upgrade_scene(_id:String) -> PackedScene:
 	assert(false, "Override this function")
 	return null
 
-func _get_player_upgrade_data(id:String) -> ThingData:
+func _get_player_upgrade_data(_id:String) -> ThingData:
 	assert(false, "Override this function")
 	return null
