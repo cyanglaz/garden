@@ -4,9 +4,14 @@ extends PanelContainer
 const PLAYER_TRINKET_SCENE := preload("res://scenes/GUI/combat_main/trinkets/gui_player_trinket.tscn")
 
 const RIGHT_MARGIN := 6
+const TOP_MARGIN := 18
 
 @onready var _grid_container: GridContainer = %GridContainer
 @onready var _margin_container: MarginContainer = %MarginContainer
+
+func _ready() -> void:
+	position.y = TOP_MARGIN
+	position.x = _get_hide_position_x()
 
 func bind(trinket_manager: TrinketManager) -> void:
 	trinket_manager.trinket_pool_updated.connect(_on_trinket_pool_updated)
@@ -16,18 +21,11 @@ func show_with_trinkets(trinkets: Array) -> void:
 	_update_content(trinkets)
 	_play_show_animation()
 
-func _update_content(trinkets: Array) -> void:
-	Util.remove_all_children(_grid_container)
-	for trinket_data in trinkets:
-		var gui_trinket: GUIPlayerTrinket = PLAYER_TRINKET_SCENE.instantiate()
-		_grid_container.add_child(gui_trinket)
-		gui_trinket.update_with_trinket_data(trinket_data)
-		gui_trinket.tooltip_position = GUITooltip.TooltipPosition.BOTTOM_RIGHT
-
-func _on_trinket_pool_updated(trinkets: Array[TrinketData]) -> void:
-	_update_content(trinkets)
-	if visible:
-		_play_show_animation()
+func animate_hide() -> void:
+	var tween := Util.create_scaled_tween(self)
+	tween.tween_property(self, "position:x", _get_display_x() + _get_panel_width(), Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
+	await tween.finished
+	hide()
 
 func _get_panel_width() -> float:
 	var item := _grid_container.get_child(0) as Control
@@ -47,8 +45,18 @@ func _play_show_animation() -> void:
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(self, "position:x", _get_display_x(), Constants.SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 
-func animate_hide() -> void:
-	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(self, "position:x", _get_display_x() + _get_panel_width(), Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
-	await tween.finished
-	hide()
+func _update_content(trinkets: Array) -> void:
+	Util.remove_all_children(_grid_container)
+	for trinket_data in trinkets:
+		var gui_trinket: GUIPlayerTrinket = PLAYER_TRINKET_SCENE.instantiate()
+		_grid_container.add_child(gui_trinket)
+		gui_trinket.update_with_trinket_data(trinket_data)
+		gui_trinket.tooltip_position = GUITooltip.TooltipPosition.BOTTOM_RIGHT
+
+func _get_hide_position_x() -> float:
+	return get_viewport_rect().size.x + RIGHT_MARGIN
+
+func _on_trinket_pool_updated(trinkets: Array[TrinketData]) -> void:
+	_update_content(trinkets)
+	if visible:
+		_play_show_animation()

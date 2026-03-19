@@ -6,12 +6,8 @@
 
 [node name="GUITrinketViewer" type="PanelContainer" unique_id=100000001]
 process_mode = 3
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_top = 18.0
-offset_right = -6.0
-grow_horizontal = 0
+offset_right = 8.0
+offset_bottom = 8.0
 script = ExtResource("1_abc12")
 
 [node name="Background" type="NinePatchRect" parent="." unique_id=100000002]
@@ -23,7 +19,7 @@ patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 3
 
-[node name="Border" type="NinePatchRect" parent="." unique_id=100000003]
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=100000003]
 self_modulate = Color(0.0745098, 0.0745098, 0.0745098, 1)
 layout_mode = 2
 texture = ExtResource("3_abc12")

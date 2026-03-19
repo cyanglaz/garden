@@ -37,7 +37,6 @@ func _on_player_upgrade_hook_animation_requested(id:String) -> void:
 	for current_hbox:HBoxContainer in get_children():
 		for child in current_hbox.get_children():
 			if child is GUIPlayerTrinket && child.trinket_id == id:
-				print("animating_trinket: ", child.trinket_id)
 				animating_trinket = child
 				break
 	assert(animating_trinket !=null, "Animating trinket not found")

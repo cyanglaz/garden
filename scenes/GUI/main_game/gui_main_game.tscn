@@ -36,11 +36,6 @@ visible = false
 [node name="GUITrinketViewer" parent="CanvasLayer" unique_id=2068006810 instance=ExtResource("24_trnkv")]
 unique_name_in_owner = true
 visible = false
-layout_mode = 3
-anchors_preset = 1
-offset_left = -8.0
-offset_right = 0.0
-offset_bottom = 26.0
 
 [node name="GUILibrary" parent="CanvasLayer" unique_id=762133886 instance=ExtResource("18_kno36")]
 unique_name_in_owner = true
