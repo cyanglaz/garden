@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cb10kiju70uct"
+path="res://.godot/imported/trinket_button.aseprite-1b8f363ed41df71022e470c70a10ac10.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/trinket_button.aseprite"
+dest_files=["res://.godot/imported/trinket_button.aseprite-1b8f363ed41df71022e470c70a10ac10.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true

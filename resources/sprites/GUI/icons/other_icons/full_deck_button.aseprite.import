@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c2fhnf01cowoh"
+path="res://.godot/imported/full_deck_button.aseprite-f3754e8f58dd167f6b7da0994e3e24de.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/full_deck_button.aseprite"
+dest_files=["res://.godot/imported/full_deck_button.aseprite-f3754e8f58dd167f6b7da0994e3e24de.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true
