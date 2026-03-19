@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bfq7yt4mnw3k1"]
+
+[ext_resource type="Script" uid="uid://dkx8r3n2qvp9m" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_bottomless_pocket.gd" id="1_bp001"]
+
+[node name="PlayerTrinketBottomlessPocket" type="Node2D" unique_id=712384956]
+script = ExtResource("1_bp001")

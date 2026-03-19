@@ -34,6 +34,10 @@ func handle_discard_hook(combat_main:CombatMain, tool_datas:Array) -> void:
 	for container in player_upgrade_containers:
 		await container.handle_discard_hook(combat_main, tool_datas)
 
+func handle_exhaust_hook(combat_main:CombatMain, tool_datas:Array) -> void:
+	for container in player_upgrade_containers:
+		await container.handle_exhaust_hook(combat_main, tool_datas)
+
 func handle_draw_hook(combat_main:CombatMain, tool_datas:Array) -> void:
 	for container in player_upgrade_containers:
 		await container.handle_draw_hook(combat_main, tool_datas)
@@ -61,3 +65,13 @@ func handle_end_turn_hook(combat_main:CombatMain) -> void:
 func handle_start_turn_hook(combat_main:CombatMain) -> void:
 	for container in player_upgrade_containers:
 		await container.handle_start_turn_hook(combat_main)
+
+func handle_hand_updated_hook(combat_main:CombatMain) -> void:
+	for container in player_upgrade_containers:
+		await container.handle_hand_updated_hook(combat_main)
+
+func handle_hand_size_hook(combat_main: CombatMain) -> int:
+	var diff := 0
+	for container in player_upgrade_containers:
+		diff += await container.handle_hand_size_hook(combat_main)
+	return diff

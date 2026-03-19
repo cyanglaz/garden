@@ -12,6 +12,7 @@ signal tool_application_started(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
 signal tool_application_error(tool_data:ToolData, warning_type:WarningManager.WarningType)
 signal hand_updated(hand:Array)
+signal cards_removed_from_hand(tool_data:ToolData, updated_hand:Array) # Triggers after the removal animation (discard or exhaust)
 signal _tool_lifecycle_completed(tool_data:ToolData, combat_main:CombatMain)
 signal _tool_actions_completed(tool_data:ToolData, combat_main:CombatMain)
 signal _all_turn_end_cards_completed()
@@ -93,12 +94,14 @@ func discard_cards(tools:Array) -> void:
 			tool_data.back_card.refresh_for_turn()
 	tool_deck.discard(tools)
 	await _gui_tool_card_container.animate_discard(tools)
+	cards_removed_from_hand.emit([tools], tool_deck.hand)
 
 func exhaust_cards(tools:Array) -> void:
 	assert(tools.size() > 0)
 	# Order is important, exhaust first, then animate
 	tool_deck.exhaust(tools)
 	await _gui_tool_card_container.animate_exhaust(tools)
+	cards_removed_from_hand.emit([tools], tool_deck.hand)
 
 func use_card(tool_data:ToolData) -> void:
 	tool_deck.use(tool_data)
@@ -136,6 +139,9 @@ func apply_tool(combat_main:CombatMain) -> void:
 
 func discardable_cards() -> Array:
 	return tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return tool_data != selected_tool)
+
+func select_cards(count: int, from_cards: Array) -> Array:
+	return await _gui_tool_card_container.select_cards(count, from_cards)
 
 func add_tool_to_deck(tool_data:ToolData) -> void:
 	tool_deck.add_item(tool_data)

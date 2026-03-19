@@ -42,6 +42,9 @@ func setup(pd:PlayerData, mpi:int, trinket_datas:Array) -> void:
 func handle_start_turn(combat_main:CombatMain) -> void:
 	await player_upgrades_manager.handle_start_turn_hook(combat_main)
 
+func handle_hand_size(combat_main: CombatMain) -> int:
+	return await player_upgrades_manager.handle_hand_size_hook(combat_main)
+
 func handle_turn_end(combat_main:CombatMain) -> void:
 	player_status_container.clear_status_on_turn_end()
 	player_status_container.clear_single_turn_player_upgrades()

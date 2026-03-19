@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://gkuawrhjtagu"
+path="res://.godot/imported/icon_nectar_refresher.aseprite-61f005dfc852955333ff4af488073796.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_nectar_refresher.aseprite"
+dest_files=["res://.godot/imported/icon_nectar_refresher.aseprite-61f005dfc852955333ff4af488073796.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

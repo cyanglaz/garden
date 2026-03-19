@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://ngb4t0vikfpr"
+path="res://.godot/imported/icon_glass_marble.aseprite-a2ce6c1abb6fde48fdd762f4e190f220.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_glass_marble.aseprite"
+dest_files=["res://.godot/imported/icon_glass_marble.aseprite-a2ce6c1abb6fde48fdd762f4e190f220.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

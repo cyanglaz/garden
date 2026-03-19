@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TrinketData" format=3 uid="uid://cx5qah4k2nbt3"]
+
+[ext_resource type="Script" uid="uid://dr261i4fd8jf0" path="res://data/models/trinkets/trinket_data.gd" id="1_bpk01"]
+
+[resource]
+script = ExtResource("1_bpk01")
+id = "bottomless_pocket"
+data = {
+&"draw": "1"
+}
+metadata/_custom_type_script = "uid://dr261i4fd8jf0"

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bvj4yr5nwq0t3"]
+
+[ext_resource type="Script" uid="uid://cqthbnm4sxdj1" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_silver_thimble.gd" id="1_st001"]
+
+[node name="PlayerTrinketSilverThimble" type="Node2D" unique_id=634291847]
+script = ExtResource("1_st001")

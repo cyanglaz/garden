@@ -31,6 +31,7 @@ var _combat:CombatData
 var _tool_application_error_timers:Dictionary = {}
 
 var is_finished:bool = false
+var is_mid_turn:bool = false
 
 # From main_game:
 var max_energy := 3
@@ -63,6 +64,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
 	tool_manager.tool_application_error.connect(_on_tool_application_error)
 	tool_manager.hand_updated.connect(_on_hand_updated)
+	tool_manager.cards_removed_from_hand.connect(_on_cards_removed_from_hand)
 
 	gui.bind_energy(energy_tracker)
 	gui.bind_tool_deck(tool_manager.tool_deck)
@@ -104,7 +106,7 @@ func get_current_player_plant() -> Plant:
 
 #region cards
 func draw_cards(count:int) -> void:
-	var first_turn_draw := day_manager.day == 0
+	var first_turn_draw := day_manager.day == 0 && !is_mid_turn
 	var draw_results:Array = await tool_manager.draw_cards(count, first_turn_draw)
 	await player.player_upgrades_manager.handle_card_added_to_hand_hook(draw_results)
 	await player.player_upgrades_manager.handle_draw_hook(self, draw_results)
@@ -115,6 +117,7 @@ func discard_cards(tools:Array) -> void:
 
 func exhaust_cards(tools:Array) -> void:
 	await tool_manager.exhaust_cards(tools)
+	await player.player_upgrades_manager.handle_exhaust_hook(self, tools)
 
 func add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
 	await player.player_upgrades_manager.handle_card_added_to_hand_hook(tool_datas)
@@ -150,7 +153,9 @@ func _start_turn() -> void:
 		#await gui.apply_boss_actions(GUIBoss.HookType.LEVEL_START)
 		energy_tracker.setup(max_energy, max_energy)
 	#await gui.apply_boss_actions(GUIBoss.HookType.TURN_START)
-	await draw_cards(hand_size)
+	var draw_count := hand_size + await player.handle_hand_size(self)
+	await draw_cards(draw_count)
+	is_mid_turn = true
 	await player.handle_start_turn(self)
 	await plant_field_container.trigger_start_turn_hooks(self)
 	gui.toggle_all_ui(true)
@@ -158,6 +163,7 @@ func _start_turn() -> void:
 	#_win()
 
 func _end_turn() -> void:
+	is_mid_turn = false
 	gui.toggle_all_ui(false)
 	_clear_tool_selection()
 	await player.handle_turn_end(self)
@@ -329,7 +335,13 @@ func _on_hand_updated(hand:Array) -> void:
 	for tool_data in hand:
 		tool_data.combat_main = self
 		tool_data.request_refresh.emit()
-	
+
+func _on_cards_removed_from_hand(_tool_datas:Array, _updated_hand:Array) -> void:
+	if is_mid_turn:
+		gui.toggle_all_ui(false)
+		await player.player_upgrades_manager.handle_hand_updated_hook(self)
+		gui.toggle_all_ui(true)
+
 func _on_plant_action_application_completed(index:int) -> void:
 	_bloom(index)
 

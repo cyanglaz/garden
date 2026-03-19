@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cx8t2p6nv3jf5"]
+
+[ext_resource type="Script" uid="uid://d9mn5r7kvb4q1" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_nectar_refresher.gd" id="1_nr001"]
+
+[node name="PlayerTrinketNectarRefresher" type="Node2D" unique_id=573918264]
+script = ExtResource("1_nr001")

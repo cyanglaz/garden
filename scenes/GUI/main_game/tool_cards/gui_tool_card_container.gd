@@ -108,6 +108,12 @@ func select_secondary_cards(number_of_cards:int, selecting_from_cards:Array) -> 
 	_toggle_card_selection(true, selecting_from_cards)
 	return await _card_selection_container.start_selection(number_of_cards, selecting_from_cards)
 
+func select_cards(number_of_cards: int, selecting_from_cards: Array) -> Array:
+	_toggle_card_selection(true, selecting_from_cards)
+	var result := await _card_selection_container.start_selection(number_of_cards, selecting_from_cards)
+	await clear_selection()
+	return result
+
 func _toggle_card_selection(on:bool, selecting_from_cards:Array) -> void:
 	var selecting_from_card_index := []
 	for tool_data:ToolData in selecting_from_cards:
@@ -287,6 +293,8 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 		return
 	if selected_index >= 0:
 		return
+	if card_selection_mode:
+		return
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	if positions.size() < 2:
 		return
@@ -319,6 +327,8 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 	if !is_instance_valid(mouse_exit_card):
 		return
 	if selected_index >= 0:
+		return
+	if card_selection_mode:
 		return
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	var tween:Tween = Util.create_scaled_tween(self)

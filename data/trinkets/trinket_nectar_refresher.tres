@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TrinketData" format=3 uid="uid://bk6v3qaqwx8m2"]
+
+[ext_resource type="Script" uid="uid://dr261i4fd8jf0" path="res://data/models/trinkets/trinket_data.gd" id="1_gohme"]
+
+[resource]
+script = ExtResource("1_gohme")
+id = "nectar_refresher"
+data = {
+&"momentum": "3"
+}
+metadata/_custom_type_script = "uid://dr261i4fd8jf0"

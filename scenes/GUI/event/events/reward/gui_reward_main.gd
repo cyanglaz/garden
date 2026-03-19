@@ -52,7 +52,7 @@ func show_with_data(gold:int, hp:int, booster_pack_type:CombatData.BoosterPackTy
 		Events.request_hp_update.emit(hp, ActionData.OperatorType.INCREASE)
 
 func show_with_combat_data(combat_data:CombatData) -> void:
-	show_with_data(combat_data.reward_gold, combat_data.reward_hp, combat_data.reward_booster_pack_type)
+	await show_with_data(combat_data.reward_gold, combat_data.reward_hp, combat_data.reward_booster_pack_type)
 
 func _collect_rewards(gold:int, hp:int, booster_pack_type:CombatData.BoosterPackType) -> void:
 	if gold > 0:

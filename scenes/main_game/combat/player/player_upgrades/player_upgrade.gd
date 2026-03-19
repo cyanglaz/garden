@@ -34,6 +34,12 @@ func has_discard_hook(combat_main:CombatMain, tool_datas:Array) -> bool:
 func handle_discard_hook(combat_main:CombatMain, tool_datas:Array) -> void:
 	await _handle_discard_hook(combat_main, tool_datas)
 
+func has_exhaust_hook(combat_main:CombatMain, tool_datas:Array) -> bool:
+	return _has_exhaust_hook(combat_main, tool_datas)
+
+func handle_exhaust_hook(combat_main:CombatMain, tool_datas:Array) -> void:
+	await _handle_exhaust_hook(combat_main, tool_datas)
+
 func has_draw_hook(combat_main:CombatMain, tool_datas:Array) -> bool:
 	return _has_draw_hook(combat_main, tool_datas)
 
@@ -70,6 +76,18 @@ func has_start_turn_hook(combat_main:CombatMain) -> bool:
 func handle_start_turn_hook(combat_main:CombatMain) -> void:
 	await _handle_start_turn_hook(combat_main)
 
+func has_hand_size_hook(combat_main: CombatMain) -> bool:
+	return _has_hand_size_hook(combat_main)
+
+func handle_hand_size_hook(combat_main: CombatMain) -> int:
+	return _handle_hand_size_hook(combat_main)
+
+func has_hand_updated_hook(combat_main:CombatMain) -> bool:
+	return _has_hand_updated_hook(combat_main)
+
+func handle_hand_updated_hook(combat_main:CombatMain) -> void:
+	await _handle_hand_updated_hook(combat_main)
+
 #region for override
 
 func _has_prevent_movement_hook() -> bool:
@@ -100,6 +118,12 @@ func _has_discard_hook(_combat_main:CombatMain, _tool_datas:Array) -> bool:
 	return false
 
 func _handle_discard_hook(_combat_main:CombatMain, _tool_datas:Array) -> void:
+	await Util.await_for_tiny_time()
+
+func _has_exhaust_hook(_combat_main:CombatMain, _tool_datas:Array) -> bool:
+	return false
+
+func _handle_exhaust_hook(_combat_main:CombatMain, _tool_datas:Array) -> void:
 	await Util.await_for_tiny_time()
 
 func _has_draw_hook(_combat_main:CombatMain, _tool_datas:Array) -> bool:
@@ -138,9 +162,21 @@ func _has_start_turn_hook(_combat_main:CombatMain) -> bool:
 func _handle_start_turn_hook(_combat_main:CombatMain) -> void:
 	await Util.await_for_tiny_time()
 
+func _has_hand_size_hook(_combat_main: CombatMain) -> bool:
+	return false
+
+func _handle_hand_size_hook(_combat_main: CombatMain) -> int:
+	return 0
+
+func _has_hand_updated_hook(_combat_main:CombatMain) -> bool:
+	return false
+
+func _handle_hand_updated_hook(_combat_main:CombatMain) -> void:
+	await Util.await_for_tiny_time()
+
 #endregion
 
-func _set_stack(value:int) -> void:
+func _set_stack(_value:int) -> void:
 	assert(false, "must be implemented")
 
 func _get_stack() -> int:
