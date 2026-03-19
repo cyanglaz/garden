@@ -33,7 +33,6 @@ func _add_row() -> HBoxContainer:
 	return current_hbox
 
 func _on_player_upgrade_hook_animation_requested(id:String) -> void:
-	print("on_player_upgrade_hook_animation_requested: ", id)
 	var animating_trinket:GUIPlayerTrinket
 	for current_hbox:HBoxContainer in get_children():
 		for child in current_hbox.get_children():

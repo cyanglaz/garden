@@ -64,6 +64,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
 	tool_manager.tool_application_error.connect(_on_tool_application_error)
 	tool_manager.hand_updated.connect(_on_hand_updated)
+	tool_manager.cards_removed_from_hand.connect(_on_cards_removed_from_hand)
 
 	gui.bind_energy(energy_tracker)
 	gui.bind_tool_deck(tool_manager.tool_deck)
@@ -334,8 +335,12 @@ func _on_hand_updated(hand:Array) -> void:
 	for tool_data in hand:
 		tool_data.combat_main = self
 		tool_data.request_refresh.emit()
+
+func _on_cards_removed_from_hand(_tool_datas:Array, _updated_hand:Array) -> void:
 	if is_mid_turn:
+		gui.toggle_all_ui(false)
 		await player.player_upgrades_manager.handle_hand_updated_hook(self)
+		gui.toggle_all_ui(true)
 
 func _on_plant_action_application_completed(index:int) -> void:
 	_bloom(index)

@@ -161,9 +161,9 @@ func _animate_draw(animation_item:AnimationQueueItem) -> void:
 		else:
 			animating_card = _tool_card_container.add_card(draw_results[i - starting_index])
 			animating_card.hide()
-			animating_card.animation_mode = true
 			animating_card.global_position = _draw_deck_button_global_position
 			animating_card.size = _draw_deck_size
+			animating_card.pivot_offset_ratio = Vector2(0.5, 0.5)
 			delay_index += 1
 		animating_card.mouse_disabled = true
 		animating_cards.append(animating_card)
