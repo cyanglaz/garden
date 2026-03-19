@@ -1,28 +1,6 @@
-[gd_scene format=3 uid="uid://ct8p64yajr0fh"]
+[gd_scene format=3 uid="uid://b5v15ithy6iak"]
 
-[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_g4dd5"]
-[ext_resource type="Script" uid="uid://cgarmj21lpjto" path="res://scenes/GUI/controls/buttons/deck_buttons/gui_full_deck_button.gd" id="2_3y73l"]
-[ext_resource type="Texture2D" uid="uid://bcyw84d3qfjj4" path="res://resources/sprites/GUI/icons/other_icons/full_deck_button.png" id="3_xmc0j"]
+[ext_resource type="PackedScene" uid="uid://b8ixx2yg4dgov" path="res://scenes/GUI/controls/buttons/deck_buttons/gui_deck_button.tscn" id="1_wlhde"]
 
-[node name="GUIFullDeckButton" unique_id=2099722002 instance=ExtResource("1_g4dd5")]
-custom_minimum_size = Vector2(12, 12)
-offset_right = 12.0
-offset_bottom = 12.0
-script = ExtResource("2_3y73l")
-tool_tip_localized_string = "BUTTON_TOOLTIP_FULL_DECK"
-tooltip_position = 3
-
-[node name="NinePatchRect" type="NinePatchRect" parent="." index="0" unique_id=1002255040]
-unique_name_in_owner = true
-layout_mode = 2
-texture = ExtResource("3_xmc0j")
-region_rect = Rect2(0, 0, 12, 12)
-
-[node name="Label" type="Label" parent="." index="1" unique_id=626753383]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme_type_variation = &"HUD_tiny"
-horizontal_alignment = 2
-vertical_alignment = 2
+[node name="GUIFullDeckButton" unique_id=247096784 instance=ExtResource("1_wlhde")]
+region_size = Vector2(12, 12)

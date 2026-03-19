@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bh6c5g646i0je"
+path="res://.godot/imported/exhaust_deck_button.aseprite-ba5447478bd3f955aa3a8a6a05700be5.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/exhaust_deck_button.aseprite"
+dest_files=["res://.godot/imported/exhaust_deck_button.aseprite-ba5447478bd3f955aa3a8a6a05700be5.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true

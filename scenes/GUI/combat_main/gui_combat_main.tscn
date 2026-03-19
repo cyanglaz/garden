@@ -4,8 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="1_sjsh0"]
 [ext_resource type="PackedScene" uid="uid://b224jou4wqp13" path="res://scenes/GUI/main_game/weather/gui_weather_container.tscn" id="3_sauxh"]
 [ext_resource type="PackedScene" uid="uid://dg4x2kcr7yw1p" path="res://scenes/GUI/combat_main/trinkets/gui_trinket_container.tscn" id="4_yxdr4"]
-[ext_resource type="PackedScene" uid="uid://b8ixx2yg4dgov" path="res://scenes/GUI/controls/buttons/deck_buttons/gui_deck_button.tscn" id="5_qa4s6"]
+[ext_resource type="PackedScene" uid="uid://qmbk675laar0" path="res://scenes/GUI/controls/buttons/deck_buttons/gui_draw_deck_button.tscn" id="6_4giq6"]
 [ext_resource type="PackedScene" uid="uid://bpirre4ebu4op" path="res://scenes/GUI/combat_main/energy/gui_energy_tracker.tscn" id="6_56cmi"]
+[ext_resource type="PackedScene" uid="uid://b20jdmfcspw26" path="res://scenes/GUI/controls/buttons/deck_buttons/gui_discard_deck_button.tscn" id="7_8tokl"]
+[ext_resource type="PackedScene" uid="uid://c488yscnrrgnb" path="res://scenes/GUI/controls/buttons/deck_buttons/gui_exhaust_deck_button.tscn" id="7_iqu6t"]
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="7_y1ukl"]
 [ext_resource type="PackedScene" uid="uid://csrspsf8vl2ux" path="res://scenes/GUI/combat_main/momentum/gui_boost_tracker.tscn" id="9_gub46"]
 [ext_resource type="PackedScene" uid="uid://dn7qgrdxuu5fq" path="res://scenes/GUI/combat_main/enemy/gui_enemy.tscn" id="11_8tokl"]
@@ -63,26 +65,10 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
-theme_override_constants/h_separation = 1
-theme_override_constants/v_separation = 1
-columns = 4
 
 [node name="Container" type="Control" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer/VBoxContainer" unique_id=1977938613]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
-
-[node name="GUIDrawBoxButton" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer/VBoxContainer/Container" unique_id=819308548 instance=ExtResource("5_qa4s6")]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 19.0
-offset_top = -16.0
-offset_right = 31.0
-offset_bottom = 0.0
-grow_vertical = 0
-size_flags_vertical = 8
 
 [node name="GUIEnergyTracker" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer/VBoxContainer/Container" unique_id=1138970077 instance=ExtResource("6_56cmi")]
 unique_name_in_owner = true
@@ -94,6 +80,18 @@ offset_top = -16.0
 offset_right = 16.0
 grow_vertical = 0
 size_flags_vertical = 8
+
+[node name="GUIDrawDeckButton" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomLeftContainer/VBoxContainer/Container" unique_id=247096784 instance=ExtResource("6_4giq6")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = -15.0
+offset_right = 31.0
+offset_bottom = 1.0
+grow_vertical = 0
 
 [node name="BottomRightContainer" type="VBoxContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control" unique_id=585966849]
 layout_mode = 1
@@ -109,19 +107,17 @@ grow_vertical = 0
 theme_override_constants/separation = 2
 alignment = 2
 
-[node name="GUIExhaustBoxButton" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomRightContainer" unique_id=593743202 instance=ExtResource("5_qa4s6")]
+[node name="GUIExhaustButtonDeck" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomRightContainer" unique_id=1896682183 instance=ExtResource("7_iqu6t")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 size_flags_horizontal = 8
-size_flags_vertical = 8
-type = 3
+size_flags_vertical = 4
 
-[node name="GUIDiscardBoxButton" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomRightContainer" unique_id=1288460925 instance=ExtResource("5_qa4s6")]
+[node name="GUIDiscardDeckButton" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomRightContainer" unique_id=1084918279 instance=ExtResource("7_8tokl")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
-size_flags_vertical = 8
+size_flags_vertical = 4
 type = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="BaseMainMarginContainer/Container/MarginContainer/Control/BottomRightContainer" unique_id=1091260451]

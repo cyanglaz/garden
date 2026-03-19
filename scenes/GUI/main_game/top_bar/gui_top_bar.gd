@@ -8,7 +8,7 @@ signal full_deck_button_evoked()
 signal library_button_evoked()
 signal trinket_button_evoked()
 
-@onready var gui_full_deck_button: GUIFullDeckButton = %GUIFullDeckButton
+@onready var gui_full_deck_button: GUIDeckButton = %GUIFullDeckButton
 @onready var gui_gold: GUIGold = %GUIGold
 @onready var _gui_settings_button: GUISettingsButton = %GUISettingsButton
 @onready var _gui_player: GUICharacter = %GUIPlayer

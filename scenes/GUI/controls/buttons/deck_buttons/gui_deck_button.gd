@@ -8,48 +8,50 @@ enum Type {
 	EXHAUST
 }
 
+@export var region_size:Vector2
 @export var type:Type
 @onready var _label: Label = %Label
-@onready var _background: NinePatchRect = %Background
+@onready var _texture_rect: NinePatchRect = %NinePatchRect
 
-var _normal_background_color:Color
 var _size:int = 0
 var _label_update_tween:Tween
 
 func _ready() -> void:
-	_normal_background_color = _background.self_modulate
 	super._ready()
 
 func bind_deck(deck:Deck) -> void:
 	var pool := []
 	match type:
 		Type.ALL:
-			_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			pool = deck.pool
 			deck.pool_updated.connect(_on_pool_updated)
 		Type.DRAW:
-			_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 			pool = deck.draw_pool
 			deck.draw_pool_updated.connect(_on_pool_updated)
 		Type.DISCARD:
-			_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 			pool = deck.discard_pool
 			deck.discard_pool_updated.connect(_on_pool_updated)
 		Type.EXHAUST:
-			_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			pool = deck.exhaust_pool
 			deck.exhaust_pool_updated.connect(_on_pool_updated)
 	_on_pool_updated(pool)
 
 func _set_button_state(val:ButtonState) -> void:
 	super._set_button_state(val)
-	if !_background:
+	if !_texture_rect:
 		return
 	match button_state:
-		ButtonState.NORMAL, ButtonState.PRESSED, ButtonState.DISABLED, ButtonState.SELECTED:
-			_background.self_modulate = _normal_background_color
+		ButtonState.NORMAL:
+			_texture_rect.region_rect.position = Vector2(0, 0)
+		ButtonState.PRESSED:
+			_texture_rect.region_rect.position = Vector2(region_size.x, 0)
 		ButtonState.HOVERED:
-			_background.self_modulate = Constants.COLOR_BEIGE_1
+			_texture_rect.region_rect.position = Vector2(region_size.x*2, 0)
+		ButtonState.DISABLED:
+			_texture_rect.region_rect.position = Vector2(0, region_size.y)
+		ButtonState.SELECTED:
+			_texture_rect.region_rect.position = Vector2(region_size.x*2, region_size.y)		
+
 
 func _on_pool_updated(pool:Array) -> void:
 	var old_size := _size

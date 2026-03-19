@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dm1jpn72n0ue7" path="res://scenes/GUI/main_game/top_bar/gui_gold.tscn" id="2_mmkmm"]
 [ext_resource type="PackedScene" uid="uid://c2ttrcf1bo4ju" path="res://scenes/GUI/main_game/characters/gui_player.tscn" id="4_mmkmm"]
 [ext_resource type="PackedScene" uid="uid://gbvb5ymqals0" path="res://scenes/GUI/main_game/top_bar/gui_hp.tscn" id="5_8mpe6"]
-[ext_resource type="PackedScene" uid="uid://ct8p64yajr0fh" path="res://scenes/GUI/controls/buttons/deck_buttons/gui_full_deck_button.tscn" id="6_mmkmm"]
+[ext_resource type="PackedScene" uid="uid://b5v15ithy6iak" path="res://scenes/GUI/controls/buttons/deck_buttons/gui_full_deck_button.tscn" id="6_mmkmm"]
 [ext_resource type="PackedScene" uid="uid://c6xeh4cid7k8w" path="res://scenes/GUI/controls/buttons/gui_library_button.tscn" id="7_ey64j"]
 [ext_resource type="PackedScene" uid="uid://bv0vcudygflck" path="res://scenes/GUI/controls/buttons/gui_settings_button.tscn" id="9_j76ip"]
 [ext_resource type="PackedScene" uid="uid://dq7m8bfp3nkxy" path="res://scenes/GUI/controls/buttons/gui_trinket_button.tscn" id="10_trnkt"]
@@ -82,10 +82,9 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="GUIFullDeckButton" parent="MarginContainer/Container/RightContainer" unique_id=1630214810 instance=ExtResource("6_mmkmm")]
+[node name="GUIFullDeckButton" parent="MarginContainer/Container/RightContainer" unique_id=247096784 instance=ExtResource("6_mmkmm")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 8
 
 [node name="GUILibraryButton" parent="MarginContainer/Container/RightContainer" unique_id=463433002 instance=ExtResource("7_ey64j")]
 unique_name_in_owner = true

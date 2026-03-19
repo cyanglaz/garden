@@ -10,9 +10,10 @@ signal ui_lock_toggled(on:bool)
 
 @onready var gui_weather_container: GUIWeatherContainer = %GUIWeatherContainer
 @onready var gui_tool_card_container: GUIToolCardContainer = %GUIToolCardContainer
-@onready var gui_draw_box_button: GUIDeckButton = %GUIDrawBoxButton
-@onready var gui_discard_box_button: GUIDeckButton = %GUIDiscardBoxButton
-@onready var gui_exhaust_box_button: GUIDeckButton = %GUIExhaustBoxButton
+@onready var gui_exhaust_deck_button: GUIDeckButton = %GUIExhaustButtonDeck
+
+@onready var gui_draw_deck_button: GUIDeckButton = %GUIDrawDeckButton
+@onready var gui_discard_deck_button: GUIDeckButton = %GUIDiscardDeckButton
 @onready var gui_boost_tracker: GUIBoostTracker = %GUIBoostTracker
 @onready var gui_energy_tracker: GUIEnergyTracker = %GUIEnergyTracker
 @onready var end_turn_button: GUIRichTextButton = %EndTurnButton
@@ -29,7 +30,7 @@ func _ready() -> void:
 	gui_tool_card_container.card_use_button_pressed.connect(func(tool_data:ToolData) -> void: card_use_button_pressed.emit(tool_data))
 	gui_tool_card_container.mouse_exited_card.connect(func(tool_data:ToolData) -> void: mouse_exited_card.emit(tool_data))
 	gui_reward_main.reward_finished.connect(func() -> void: reward_finished.emit())
-	gui_tool_card_container.setup.call_deferred(gui_draw_box_button, gui_discard_box_button)
+	gui_tool_card_container.setup.call_deferred(gui_draw_deck_button, gui_discard_deck_button)
 
 #region enemy
 
@@ -86,12 +87,12 @@ func clear_tool_selection() -> void:
 	gui_tool_card_container.clear_selection()
 
 func bind_tool_deck(tool_deck:Deck) -> void:
-	gui_draw_box_button.bind_deck(tool_deck)
-	gui_discard_box_button.bind_deck(tool_deck)
-	gui_exhaust_box_button.bind_deck(tool_deck)
-	gui_draw_box_button.pressed.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DRAW_POOL_TITLE"), gui_draw_box_button.type))
-	gui_discard_box_button.pressed.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DISCARD_POOL_TITLE"), gui_discard_box_button.type))
-	gui_exhaust_box_button.pressed.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_EXHAUST_POOL_TITLE"), gui_exhaust_box_button.type))
+	gui_draw_deck_button.bind_deck(tool_deck)
+	gui_discard_deck_button.bind_deck(tool_deck)
+	gui_exhaust_deck_button.bind_deck(tool_deck)
+	gui_draw_deck_button.pressed.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DRAW_POOL_TITLE"), gui_draw_deck_button.type))
+	gui_discard_deck_button.pressed.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_DISCARD_POOL_TITLE"), gui_discard_deck_button.type))
+	gui_exhaust_deck_button.pressed.connect(_on_deck_button_pressed.bind(tool_deck, tr("DECK_EXHAUST_POOL_TITLE"), gui_exhaust_deck_button.type))
 #endregion
 
 #region energy

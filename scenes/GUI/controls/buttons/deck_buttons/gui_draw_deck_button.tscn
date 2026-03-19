@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://qmbk675laar0"]
+
+[ext_resource type="PackedScene" uid="uid://b8ixx2yg4dgov" path="res://scenes/GUI/controls/buttons/deck_buttons/gui_deck_button.tscn" id="1_fjdkq"]
+[ext_resource type="Texture2D" uid="uid://bq0fxvsmu8u12" path="res://resources/sprites/GUI/icons/other_icons/draw_deck_button.png" id="2_8lgp8"]
+
+[node name="GUIDrawDeckButton" unique_id=247096784 instance=ExtResource("1_fjdkq")]
+offset_right = 13.0
+offset_bottom = 16.0
+region_size = Vector2(13, 16)
+
+[node name="NinePatchRect" parent="." index="0" unique_id=983001331]
+texture = ExtResource("2_8lgp8")
+region_rect = Rect2(0, 0, 13, 16)
