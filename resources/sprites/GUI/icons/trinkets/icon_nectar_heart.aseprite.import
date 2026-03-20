@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://sjsitrwkv0mx"
+path="res://.godot/imported/icon_nectar_heart.aseprite-86f3e95799b6b1b85ae1db7caf225052.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_nectar_heart.aseprite"
+dest_files=["res://.godot/imported/icon_nectar_heart.aseprite-86f3e95799b6b1b85ae1db7caf225052.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

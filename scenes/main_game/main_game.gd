@@ -35,6 +35,7 @@ var _benched_events:Array = []
 
 func _ready() -> void:
 	Singletons.main_game = self
+	_register_global_events()
 	hp.setup(player_data.hp, player_data.hp)
 	if test_data && !test_data.test_tools.is_empty():
 		card_pool = test_data.test_tools
@@ -53,8 +54,6 @@ func _ready() -> void:
 	gui_main_game.bind_trinkets(trinket_manager)
 
 	map_main.node_selected.connect(_on_map_node_selected)
-	
-	_register_global_events()
 
 	Events.request_update_gold.emit(0, false)
 	_on_request_update_gold(10, false)

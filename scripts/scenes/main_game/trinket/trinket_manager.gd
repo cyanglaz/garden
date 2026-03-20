@@ -7,7 +7,8 @@ var trinket_pool: Array[TrinketData]
 var trinket_global_script_manager: TrinketGlobalScriptManager = TrinketGlobalScriptManager.new()
 
 func setup(trinkets: Array[TrinketData]) -> void:
-	trinket_pool = trinkets
+	for trinket in trinkets:
+		add_trinket(trinket)
 
 func add_trinket(trinket_data: TrinketData) -> void:
 	trinket_pool.append(trinket_data)

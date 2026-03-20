@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://rnbweggtscn56"]
+[gd_scene format=3 uid="uid://b6of07rtji544"]
 
 [ext_resource type="Script" uid="uid://rnbwegggds123" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_rainbow_egg.gd" id="1_re001"]
 

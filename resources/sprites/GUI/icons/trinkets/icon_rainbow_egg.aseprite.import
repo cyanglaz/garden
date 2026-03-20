@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dq0w8lrgmycra"
+path="res://.godot/imported/icon_rainbow_egg.aseprite-7223e49359a7211a451fbd9799c253b1.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_rainbow_egg.aseprite"
+dest_files=["res://.godot/imported/icon_rainbow_egg.aseprite-7223e49359a7211a451fbd9799c253b1.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
