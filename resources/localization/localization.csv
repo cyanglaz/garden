@@ -375,6 +375,8 @@ TRINKET_NECTAR_HEART_NAME,"Nectar Heart"
 TRINKET_NECTAR_HEART_DESCRIPTION,"Increase max HP by {max_hp}."
 TRINKET_RAINBOW_EGG_NAME,"Rainbow Egg"
 TRINKET_RAINBOW_EGG_DESCRIPTION,"On turn {turn}, all plants +{water} {resource:water} and +{light} {resource:light}."
+TRINKET_FIELD_LOG_NAME,"Field Log"
+TRINKET_FIELD_LOG_DESCRIPTION,"The first time you move to the rightmost plant each combat, +{energy} energy."
 
 PLAYER_POLLINATOR_NAME,"The Pollinator"
 PLAYER_POLLINATOR_DESCRIPTION,"On Bloom, shuffle a +3 {sunlight} card to hand."

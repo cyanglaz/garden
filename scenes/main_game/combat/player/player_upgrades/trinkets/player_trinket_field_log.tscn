@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://3xyv7bymdae4"]
+
+[ext_resource type="Script" uid="uid://vnohgfhllp07" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_field_log.gd" id="1_fl000"]
+
+[node name="PlayerTrinketFieldLog" type="Node2D" unique_id=482917365]
+script = ExtResource("1_fl000")
