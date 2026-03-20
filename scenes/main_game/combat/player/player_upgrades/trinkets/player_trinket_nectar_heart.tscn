@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://nctrhrtscn456"]
+
+[ext_resource type="Script" uid="uid://nctrhrtgd1234" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_nectar_heart.gd" id="1_nh001"]
+
+[node name="PlayerTrinketNectarHeart" type="Node2D" unique_id=235224775]
+script = ExtResource("1_nh001")
