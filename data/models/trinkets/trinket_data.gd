@@ -1,6 +1,8 @@
 class_name TrinketData
 extends ThingData
 
+const GLOBAL_SCRIPT_PATH := "res://scenes/main_game/trinket/global_scripts/trinket_global_script_%s.gd"
+
 @export var rarity:int = 0 #0: common, 1: uncommon, 2: rare
 
 const COSTS := {
@@ -22,6 +24,16 @@ func get_duplicate() -> TrinketData:
 	var dup:TrinketData = TrinketData.new()
 	dup.copy(self)
 	return dup
+
+func has_global_script() -> bool:
+	return ResourceLoader.exists(GLOBAL_SCRIPT_PATH % [id])
+
+func get_global_script() -> TrinketGlobalScript:
+	assert(has_global_script(), "Trinket %s has no global script" % [id])
+	var path := GLOBAL_SCRIPT_PATH % [id]
+	var global_script:TrinketGlobalScript = load(path).new()
+	global_script.trinket_data = self
+	return global_script
 
 func _get_cost() -> int:
 	return COSTS[rarity]
