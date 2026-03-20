@@ -374,7 +374,7 @@ TRINKET_BOTTOMLESS_POCKET_DESCRIPTION,"During the turn, when there are no cards 
 TRINKET_NECTAR_HEART_NAME,"Nectar Heart"
 TRINKET_NECTAR_HEART_DESCRIPTION,"Increase max HP by {max_hp}."
 TRINKET_RAINBOW_EGG_NAME,"Rainbow Egg"
-TRINKET_RAINBOW_EGG_DESCRIPTION,"On turn 6, all plants +{water} {resource:water} and +{light} {resource:light}."
+TRINKET_RAINBOW_EGG_DESCRIPTION,"On turn {turn}, all plants +{water} {resource:water} and +{light} {resource:light}."
 
 PLAYER_POLLINATOR_NAME,"The Pollinator"
 PLAYER_POLLINATOR_DESCRIPTION,"On Bloom, shuffle a +3 {sunlight} card to hand."
