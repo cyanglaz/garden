@@ -371,6 +371,8 @@ TRINKET_SILVER_THIMBLE_NAME,"Silver Thimble"
 TRINKET_SILVER_THIMBLE_DESCRIPTION,"At start of turn, draw {draw} card, then discard {discard} card."
 TRINKET_BOTTOMLESS_POCKET_NAME,"Bottomless Pocket"
 TRINKET_BOTTOMLESS_POCKET_DESCRIPTION,"During the turn, when there are no cards in your hand, draw {draw} card."
+TRINKET_NECTAR_HEART_NAME,"Nectar Heart"
+TRINKET_NECTAR_HEART_DESCRIPTION,"Increase max HP by {max_hp}."
 
 PLAYER_POLLINATOR_NAME,"The Pollinator"
 PLAYER_POLLINATOR_DESCRIPTION,"On Bloom, shuffle a +3 {sunlight} card to hand."
