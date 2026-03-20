@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://couwytd0lfn1f"
+path="res://.godot/imported/discard_deck_button.aseprite-2d5e44de84fb2bfd117205f0e991246e.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/discard_deck_button.aseprite"
+dest_files=["res://.godot/imported/discard_deck_button.aseprite-2d5e44de84fb2bfd117205f0e991246e.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true

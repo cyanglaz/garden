@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://445sjuj30imu"
+path="res://.godot/imported/draw_deck_button.aseprite-3596170a01341f97047084a773e61281.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/draw_deck_button.aseprite"
+dest_files=["res://.godot/imported/draw_deck_button.aseprite-3596170a01341f97047084a773e61281.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=true

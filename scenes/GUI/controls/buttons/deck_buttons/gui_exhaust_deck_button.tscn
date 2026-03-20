@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://c488yscnrrgnb"]
+
+[ext_resource type="PackedScene" uid="uid://b8ixx2yg4dgov" path="res://scenes/GUI/controls/buttons/deck_buttons/gui_deck_button.tscn" id="1_ge2bb"]
+[ext_resource type="Texture2D" uid="uid://dqk2ctqml3lgt" path="res://resources/sprites/GUI/icons/other_icons/exhaust_deck_button.png" id="2_bfroj"]
+
+[node name="GUIExhaustButtonDeck" unique_id=247096784 instance=ExtResource("1_ge2bb")]
+region_size = Vector2(9, 9)
+
+[node name="NinePatchRect" parent="." index="0" unique_id=983001331]
+custom_minimum_size = Vector2(9, 9)
+texture = ExtResource("2_bfroj")
+region_rect = Rect2(0, 0, 9, 9)
+
+[node name="Label" parent="." index="1" unique_id=1613601082]
+horizontal_alignment = 0

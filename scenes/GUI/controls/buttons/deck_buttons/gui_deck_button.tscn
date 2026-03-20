@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://b8ixx2yg4dgov"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_o3xsk"]
+[ext_resource type="Script" uid="uid://cfxb4l5fytuhx" path="res://scenes/GUI/controls/buttons/deck_buttons/gui_deck_button.gd" id="2_60uvu"]
+[ext_resource type="Texture2D" uid="uid://bcyw84d3qfjj4" path="res://resources/sprites/GUI/icons/other_icons/full_deck_button.png" id="3_53e05"]
+
+[node name="GUIDeckButton" unique_id=247096784 instance=ExtResource("1_o3xsk")]
+custom_minimum_size = Vector2(12, 12)
+offset_right = 12.0
+offset_bottom = 12.0
+script = ExtResource("2_60uvu")
+type = 1
+
+[node name="NinePatchRect" type="NinePatchRect" parent="." index="0" unique_id=983001331]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("3_53e05")
+region_rect = Rect2(0, 0, 12, 12)
+
+[node name="Label" type="Label" parent="." index="1" unique_id=1613601082]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_type_variation = &"HUD_mid"
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 2

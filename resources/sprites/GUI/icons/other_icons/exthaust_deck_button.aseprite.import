@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c3fdnug64g6l0"
+path="res://.godot/imported/exthaust_deck_button.aseprite-722d997e3d3cbd1cbaae0df9b3b9eaed.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/other_icons/exthaust_deck_button.aseprite"
+dest_files=["res://.godot/imported/exthaust_deck_button.aseprite-722d997e3d3cbd1cbaae0df9b3b9eaed.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
