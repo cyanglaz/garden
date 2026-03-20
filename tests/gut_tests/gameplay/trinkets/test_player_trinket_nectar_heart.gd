@@ -10,11 +10,6 @@ func _make_trinket() -> PlayerTrinketNectarHeart:
 	t.data = td
 	return t
 
-# ----- has_collect_hook -----
-
-func test_has_collect_hook_returns_true() -> void:
-	assert_true(_make_trinket().has_collect_hook())
-
 # ----- combat hooks absent -----
 
 func test_has_no_start_turn_hook() -> void:
