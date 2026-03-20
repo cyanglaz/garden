@@ -11,3 +11,6 @@ region_size = Vector2(13, 16)
 [node name="NinePatchRect" parent="." index="0" unique_id=983001331]
 texture = ExtResource("2_8lgp8")
 region_rect = Rect2(0, 0, 13, 16)
+
+[node name="Label" parent="." index="1" unique_id=1613601082]
+theme_type_variation = &"HUD_LARGE"

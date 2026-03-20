@@ -3,4 +3,14 @@
 [ext_resource type="PackedScene" uid="uid://b8ixx2yg4dgov" path="res://scenes/GUI/controls/buttons/deck_buttons/gui_deck_button.tscn" id="1_wlhde"]
 
 [node name="GUIFullDeckButton" unique_id=247096784 instance=ExtResource("1_wlhde")]
-region_size = Vector2(12, 12)
+custom_minimum_size = Vector2(10, 12)
+offset_right = 10.0
+region_size = Vector2(11, 12)
+tool_tip_localized_string = "BUTTON_TOOLTIP_FULL_DECK"
+tooltip_position = 3
+
+[node name="NinePatchRect" parent="." index="0" unique_id=983001331]
+region_rect = Rect2(0, 0, 11, 12)
+
+[node name="Label" parent="." index="1" unique_id=1613601082]
+visible = false

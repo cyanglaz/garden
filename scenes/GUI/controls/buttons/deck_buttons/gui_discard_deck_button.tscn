@@ -4,12 +4,15 @@
 [ext_resource type="Texture2D" uid="uid://lwwdi50s33do" path="res://resources/sprites/GUI/icons/other_icons/discard_deck_button.png" id="2_mlts4"]
 
 [node name="GUIDiscardDeckButton" unique_id=247096784 instance=ExtResource("1_mlts4")]
+custom_minimum_size = Vector2(13, 16)
+offset_right = 9.0
+offset_bottom = 9.0
 region_size = Vector2(13, 16)
 
 [node name="NinePatchRect" parent="." index="0" unique_id=983001331]
-custom_minimum_size = Vector2(13, 16)
 texture = ExtResource("2_mlts4")
 region_rect = Rect2(0, 0, 13, 16)
 
 [node name="Label" parent="." index="1" unique_id=1613601082]
+theme_type_variation = &"HUD_LARGE"
 horizontal_alignment = 0

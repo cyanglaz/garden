@@ -67,4 +67,4 @@ func _on_pool_updated(pool:Array) -> void:
 	for i in number_of_increament:
 		_label_update_tween.tween_property(_label, "text", str(old_size + increment * (i + 1)), Constants.CARD_ANIMATION_DELAY).set_delay(Constants.CARD_ANIMATION_DELAY * i)
 
-	# _label.text = str(_size)
+	_label.text = str(_size)
