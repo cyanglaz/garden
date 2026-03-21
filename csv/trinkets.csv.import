@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://brs421rqsphhr"
+
+[deps]
+
+files=["res://csv/trinkets.Name.translation", "res://csv/trinkets.effects.translation", "res://csv/trinkets.rarity.translation", "res://csv/trinkets.impelmented.translation"]
+
+source_file="res://csv/trinkets.csv"
+dest_files=["res://csv/trinkets.Name.translation", "res://csv/trinkets.effects.translation", "res://csv/trinkets.rarity.translation", "res://csv/trinkets.impelmented.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true
