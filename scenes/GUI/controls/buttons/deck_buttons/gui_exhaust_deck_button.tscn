@@ -5,6 +5,7 @@
 
 [node name="GUIExhaustButtonDeck" unique_id=247096784 instance=ExtResource("1_ge2bb")]
 region_size = Vector2(9, 9)
+type = 3
 
 [node name="NinePatchRect" parent="." index="0" unique_id=983001331]
 custom_minimum_size = Vector2(9, 9)
