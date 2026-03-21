@@ -71,7 +71,7 @@ window/defaults/default_clear_color=Color(0.3, 0.3, 0.3, 1)
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/PaletteTools/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/gut/plugin.cfg", "res://addons/resources_spreadsheet_view/plugin.cfg")
+enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/PaletteTools/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/gut/plugin.cfg", "res://addons/resources_spreadsheet_view/plugin.cfg", "res://addons/sync_spreadsheets/plugin.cfg")
 
 [file_customization]
 
