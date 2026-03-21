@@ -84,4 +84,4 @@ Specialized databases exist for: plants, combat, bosses, events, event options, 
 - **Localization:** English translation at `resources/localization/localization.en.translation`.
 - **Physics:** Gravity is effectively zero (this is not a physics-simulation game).
 - **New tests:** Copy `tests/template.gd` as a starting point; name files `test_*.gd`.
-- **Trinket tests:** When implementing a new trinket, also create a matching test file at `tests/gut_tests/gameplay/trinkets/test_player_trinket_<id>.gd`. Test the `has_*_hook` conditionals; see existing trinket tests for the pattern.
+- **Trinkets:** Use create-trinket skill to implement trinkets.
