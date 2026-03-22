@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bx0fqo505qc6e"
+path="res://.godot/imported/icon_enrichment_vial.aseprite-03b7ed46231b69eb96e7d5f00b854c86.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_enrichment_vial.aseprite"
+dest_files=["res://.godot/imported/icon_enrichment_vial.aseprite-03b7ed46231b69eb96e7d5f00b854c86.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
