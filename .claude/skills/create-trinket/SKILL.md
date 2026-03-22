@@ -19,3 +19,4 @@ When implement a trinket, also include:
 2. **Trinket tests:** When implementing a new trinket, also create a matching test file at `tests/gut_tests/gameplay/trinkets/test_player_trinket_<id>.gd`. Test the `has_*_hook` conditionals; see existing trinket tests for the pattern.
 3. Add the trinket's tres file to main_game scene so i can test directly
 4. Before implement a new trinket, always pull to make sure update from me is included.
+5. **Localization:** Add `TRINKET_<UPPERCASE_ID>_NAME` and `TRINKET_<UPPERCASE_ID>_DESCRIPTION` entries to `resources/localization/localization.csv`. Follow the key pattern and description token format (e.g. `{resource:light}`, `{resource:water}`) used by existing trinket entries.

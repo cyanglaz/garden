@@ -377,6 +377,8 @@ TRINKET_RAINBOW_EGG_NAME,"Rainbow Egg"
 TRINKET_RAINBOW_EGG_DESCRIPTION,"On turn {turn}, all plants +{water} {resource:water} and +{light} {resource:light}."
 TRINKET_FIELD_LOG_NAME,"Field Log"
 TRINKET_FIELD_LOG_DESCRIPTION,"The first time you move to the rightmost plant each combat, +{energy} energy."
+TRINKET_ENRICHMENT_VIAL_NAME,"Enrichment Vial"
+TRINKET_ENRICHMENT_VIAL_DESCRIPTION,"The first time you discard a card each turn, current plant +{light} {resource:light} and +{water} {resource:water}."
 
 PLAYER_POLLINATOR_NAME,"The Pollinator"
 PLAYER_POLLINATOR_DESCRIPTION,"On Bloom, shuffle a +3 {sunlight} card to hand."
