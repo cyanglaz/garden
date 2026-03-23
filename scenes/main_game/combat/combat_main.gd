@@ -351,9 +351,8 @@ func _on_plant_bloom_started() -> void:
 func _on_plant_bloom_completed() -> void:
 	if _met_win_condition():
 		await _win()
-	#else:
-	#	await draw_cards(boost)
-	#	boost += 1
+	else:
+		await player.player_upgrades_manager.handle_plant_bloom_hook(self)
 	gui.toggle_all_ui(true)
 
 func _on_weathers_updated() -> void:

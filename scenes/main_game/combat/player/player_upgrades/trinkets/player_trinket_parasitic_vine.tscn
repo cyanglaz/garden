@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bprsticvne001"]
+
+[ext_resource type="Script" uid="uid://parasticvine01" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_parasitic_vine.gd" id="1_pv001"]
+
+[node name="PlayerTrinketParasiticVine" type="Node2D" unique_id=812736451]
+script = ExtResource("1_pv001")

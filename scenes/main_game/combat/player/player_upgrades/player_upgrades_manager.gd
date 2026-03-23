@@ -70,6 +70,10 @@ func handle_hand_updated_hook(combat_main:CombatMain) -> void:
 	for container in player_upgrade_containers:
 		await container.handle_hand_updated_hook(combat_main)
 
+func handle_plant_bloom_hook(combat_main:CombatMain) -> void:
+	for container in player_upgrade_containers:
+		await container.handle_plant_bloom_hook(combat_main)
+
 func handle_hand_size_hook(combat_main: CombatMain) -> int:
 	var diff := 0
 	for container in player_upgrade_containers:
