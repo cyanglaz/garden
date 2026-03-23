@@ -11,29 +11,35 @@ func _make_trinket() -> PlayerTrinketDraftingPetal:
 	t.data = td
 	return t
 
-func _make_combat_main(day: int) -> FakeCombatMain:
+func _make_combat_main(day: int, mid_turn: bool) -> FakeCombatMain:
 	var cm := FakeCombatMain.new()
 	autofree(cm)
 	cm.day_manager.day = day
+	cm.is_mid_turn = mid_turn
 	return cm
 
 # ----- has_draw_hook -----
 
-func test_has_draw_hook_true_on_fresh_trinket() -> void:
+func test_has_draw_hook_false_during_start_of_turn_draw() -> void:
 	var t := _make_trinket()
-	var cm := _make_combat_main(0)
+	var cm := _make_combat_main(0, false)
+	assert_false(t.has_draw_hook(cm, []))
+
+func test_has_draw_hook_true_during_mid_turn() -> void:
+	var t := _make_trinket()
+	var cm := _make_combat_main(0, true)
 	assert_true(t.has_draw_hook(cm, []))
 
 func test_has_draw_hook_false_after_triggered_same_turn() -> void:
 	var t := _make_trinket()
-	var cm := _make_combat_main(0)
+	var cm := _make_combat_main(0, true)
 	t._last_triggered_turn = 0
 	assert_false(t.has_draw_hook(cm, []))
 
 func test_has_draw_hook_true_on_new_turn() -> void:
 	var t := _make_trinket()
 	t._last_triggered_turn = 0
-	var cm := _make_combat_main(1)
+	var cm := _make_combat_main(1, true)
 	assert_true(t.has_draw_hook(cm, []))
 
 # ----- other hooks absent -----

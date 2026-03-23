@@ -20,3 +20,4 @@ When implement a trinket, also include:
 3. Add the trinket's tres file to main_game scene so i can test directly
 4. Before implement a new trinket, always pull to make sure update from me is included.
 5. **Localization:** Add `TRINKET_<UPPERCASE_ID>_NAME` and `TRINKET_<UPPERCASE_ID>_DESCRIPTION` entries to `resources/localization/localization.csv`. Follow the key pattern and description token format (e.g. `{resource:light}`, `{resource:water}`) used by existing trinket entries.
+6. **Draw hooks fire for all draws**, including the start-of-turn draw (which happens before `is_mid_turn` is set to `true`). All "after drawing a card" trinket effects must guard with `combat_main.is_mid_turn` in `_has_draw_hook`.
