@@ -382,7 +382,7 @@ TRINKET_ENRICHMENT_VIAL_DESCRIPTION,"The first time you discard a card each turn
 TRINKET_DRAFTING_PETAL_NAME,"Drafting Petal"
 TRINKET_DRAFTING_PETAL_DESCRIPTION,"Once per turn, after drawing a card, +{momentum} {resource:momentum}."
 TRINKET_PARASITIC_VINE_NAME,"Parasitic Vine"
-TRINKET_PARASITIC_VINE_DESCRIPTION,"-{max_hp} {resource:max_hp}. Every time a plant blooms, +{hp} {resource:hp}."
+TRINKET_PARASITIC_VINE_DESCRIPTION,"-{max_hp} max {resource:vitality}. Every time a plant blooms, +{hp} {resource:vitality}."
 
 PLAYER_POLLINATOR_NAME,"The Pollinator"
 PLAYER_POLLINATOR_DESCRIPTION,"On Bloom, shuffle a +3 {sunlight} card to hand."

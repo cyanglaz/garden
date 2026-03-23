@@ -7,7 +7,6 @@ const POPUP_LABEL_SCENE := preload("res://scenes/GUI/utils/popup_items/popup_lab
 
 func enter() -> void:
 	super.enter()
-	player.player_sprite.play_hurt()
 	var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()
 	popup.bump_direction = PopupThing.BumpDirection.UP
 	var value:int = params.get("value", 0)

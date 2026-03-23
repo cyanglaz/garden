@@ -7,6 +7,7 @@ When creating plan, also include:
 
 1. **The name and id of the trinket at the start of the plan view** , this is for me to confirm you are implementing the correct trinket.
 2. **A complete code diff**
+3. **Remove old plan for the previously implemented trinket**. Only show plans for the trinket you are actively working on right now.
 
 When deciding which trinket to implement, following the below priority:
 
