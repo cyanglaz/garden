@@ -383,6 +383,8 @@ TRINKET_DRAFTING_PETAL_NAME,"Drafting Petal"
 TRINKET_DRAFTING_PETAL_DESCRIPTION,"Once per turn, after drawing a card, +{momentum} {resource:momentum}."
 TRINKET_PARASITIC_VINE_NAME,"Parasitic Vine"
 TRINKET_PARASITIC_VINE_DESCRIPTION,"-{max_hp} max {resource:vitality}. Every time a plant blooms, +{hp} {resource:vitality}."
+TRINKET_DEWDROP_COFFEE_NAME,"Dewdrop Coffee"
+TRINKET_DEWDROP_COFFEE_DESCRIPTION,"On turn {turn}, +{energy} energy."
 
 PLAYER_POLLINATOR_NAME,"The Pollinator"
 PLAYER_POLLINATOR_DESCRIPTION,"On Bloom, shuffle a +3 {sunlight} card to hand."

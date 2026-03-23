@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dewdropcoffee1"]
+
+[ext_resource type="Script" uid="uid://dewdropcoffeesc" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_dewdrop_coffee.gd" id="1_dc001"]
+
+[node name="PlayerTrinketDewdropCoffee" type="Node2D" unique_id=100000019]
+script = ExtResource("1_dc001")
