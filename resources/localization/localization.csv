@@ -387,6 +387,8 @@ TRINKET_DEWDROP_COFFEE_NAME,"Dewdrop Coffee"
 TRINKET_DEWDROP_COFFEE_DESCRIPTION,"On turn {turn}, +{energy} energy."
 TRINKET_SECOND_WIND_CHIME_NAME,"Second Wind Chime"
 TRINKET_SECOND_WIND_CHIME_DESCRIPTION,"For every {threshold} cards played, +{energy} energy."
+TRINKET_HUMMINGBIRD_FEATHER_NAME,"Hummingbird Feather"
+TRINKET_HUMMINGBIRD_FEATHER_DESCRIPTION,"For every {threshold} cards played, +{momentum} momentum."
 
 PLAYER_POLLINATOR_NAME,"The Pollinator"
 PLAYER_POLLINATOR_DESCRIPTION,"On Bloom, shuffle a +3 {sunlight} card to hand."

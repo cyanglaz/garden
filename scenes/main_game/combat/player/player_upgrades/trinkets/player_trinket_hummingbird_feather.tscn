@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://hbfscene001"]
+
+[ext_resource type="Script" uid="uid://hbfscript01" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_hummingbird_feather.gd" id="1_hbf01"]
+
+[node name="PlayerTrinketHummingbirdFeather" type="Node2D" unique_id=100000021]
+script = ExtResource("1_hbf01")
