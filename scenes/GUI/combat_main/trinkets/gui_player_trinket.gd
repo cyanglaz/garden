@@ -14,6 +14,7 @@ var _tooltip_id:String = ""
 var _trinket_data:TrinketData = null
 var trinket_id:String = ""
 var tooltip_position: GUITooltip.TooltipPosition = GUITooltip.TooltipPosition.TOP_RIGHT
+var show_stack: bool = false
 
 func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
@@ -23,7 +24,7 @@ func update_with_trinket_data(trinket_data:TrinketData) -> void:
 	_trinket_data = trinket_data
 	trinket_id = trinket_data.id
 	gui_icon.texture = load(ICON_PREFIX % trinket_data.id)
-	if trinket_data.stack > 0:
+	if show_stack and trinket_data.stack > 0:
 		stack.text = str(trinket_data.stack)
 	else:
 		stack.text = ""

@@ -50,6 +50,7 @@ func _update_content(trinkets: Array) -> void:
 	for trinket_data in trinkets:
 		var gui_trinket: GUIPlayerTrinket = PLAYER_TRINKET_SCENE.instantiate()
 		_grid_container.add_child(gui_trinket)
+		gui_trinket.show_stack = true
 		gui_trinket.update_with_trinket_data(trinket_data)
 		gui_trinket.tooltip_position = GUITooltip.TooltipPosition.BOTTOM_RIGHT
 
