@@ -21,13 +21,17 @@ func _ready() -> void:
 	mouse_exited.connect(_on_mouse_exited)
 
 func update_with_trinket_data(trinket_data:TrinketData) -> void:
+	if _trinket_data != null and _trinket_data.stack_changed.is_connected(_refresh_stack):
+		_trinket_data.stack_changed.disconnect(_refresh_stack)
 	_trinket_data = trinket_data
 	trinket_id = trinket_data.id
 	gui_icon.texture = load(ICON_PREFIX % trinket_data.id)
-	if show_stack and trinket_data.stack > 0:
-		stack.text = str(trinket_data.stack)
-	else:
-		stack.text = ""
+	_refresh_stack(trinket_data.stack)
+	if show_stack:
+		trinket_data.stack_changed.connect(_refresh_stack)
+
+func _refresh_stack(new_value: int) -> void:
+	stack.text = str(new_value) if show_stack and new_value > 0 else ""
 
 func play_trigger_animation() -> void:
 	good_animation_audio.play()

@@ -20,19 +20,30 @@ func test_has_tool_application_hook_always_true() -> void:
 	autofree(cm)
 	assert_true(t.has_tool_application_hook(cm, null))
 
-func test_has_tool_application_hook_true_when_stack_is_9() -> void:
+# ----- stack increments and resets -----
+
+func test_stack_increments_before_threshold() -> void:
+	var t := _make_trinket()
+	var cm := FakeCombatMain.new()
+	autofree(cm)
+	t._handle_tool_application_hook(cm, null)
+	assert_eq((t.data as TrinketData).stack, 1)
+
+func test_stack_resets_at_threshold() -> void:
 	var t := _make_trinket()
 	var cm := FakeCombatMain.new()
 	autofree(cm)
 	(t.data as TrinketData).stack = 9
-	assert_true(t.has_tool_application_hook(cm, null))
+	t._handle_tool_application_hook(cm, null)
+	assert_eq((t.data as TrinketData).stack, 0)
 
-func test_has_tool_application_hook_true_when_stack_is_10() -> void:
+func test_stack_does_not_reset_before_threshold() -> void:
 	var t := _make_trinket()
 	var cm := FakeCombatMain.new()
 	autofree(cm)
-	(t.data as TrinketData).stack = 10
-	assert_true(t.has_tool_application_hook(cm, null))
+	(t.data as TrinketData).stack = 8
+	t._handle_tool_application_hook(cm, null)
+	assert_eq((t.data as TrinketData).stack, 9)
 
 # ----- other hooks absent -----
 

@@ -14,6 +14,8 @@ const COSTS := {
 var cost: int: get = _get_cost
 var stack:int: set = _set_stack
 
+signal stack_changed(new_value: int)
+
 func copy(other:ThingData) -> void:
 	super.copy(other)
 	var other_trinket_data := other as TrinketData
@@ -44,3 +46,4 @@ func _get_localization_prefix() -> String:
 func _set_stack(value:int) -> void:
 	stack = value
 	data["stack"] = str(value)
+	stack_changed.emit(value)
