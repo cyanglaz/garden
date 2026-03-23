@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dewdropcoffee1"]
+[gd_scene format=3 uid="uid://ckdaq6iu5xqxe"]
 
 [ext_resource type="Script" uid="uid://dewdropcoffeesc" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_dewdrop_coffee.gd" id="1_dc001"]
 
