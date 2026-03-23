@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://swcscene001"]
+
+[ext_resource type="Script" uid="uid://swcscript01" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_second_wind_chime.gd" id="1_swc01"]
+
+[node name="PlayerTrinketSecondWindChime" type="Node2D" unique_id=100000020]
+script = ExtResource("1_swc01")
