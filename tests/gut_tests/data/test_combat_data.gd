@@ -42,7 +42,7 @@ func test_reward_hp_common_is_zero():
 
 func test_reward_hp_elite():
 	var cd := _make_combat(CombatData.CombatType.ELITE)
-	assert_eq(cd.reward_hp, 1)
+	assert_eq(cd.reward_hp, 0)
 
 func test_reward_hp_boss():
 	var cd := _make_combat(CombatData.CombatType.BOSS)
@@ -71,8 +71,27 @@ func test_reward_gold_constant_values():
 
 func test_reward_hp_constant_values():
 	assert_eq(CombatData.REWARD_HP[CombatData.CombatType.COMMON], 0)
-	assert_eq(CombatData.REWARD_HP[CombatData.CombatType.ELITE], 1)
+	assert_eq(CombatData.REWARD_HP[CombatData.CombatType.ELITE], 0)
 	assert_eq(CombatData.REWARD_HP[CombatData.CombatType.BOSS], 5)
+
+# ----- reward_trinket -----
+
+func test_reward_trinket_common_is_false():
+	var cd := _make_combat(CombatData.CombatType.COMMON)
+	assert_false(cd.reward_trinket)
+
+func test_reward_trinket_elite_is_true():
+	var cd := _make_combat(CombatData.CombatType.ELITE)
+	assert_true(cd.reward_trinket)
+
+func test_reward_trinket_boss_is_false():
+	var cd := _make_combat(CombatData.CombatType.BOSS)
+	assert_false(cd.reward_trinket)
+
+func test_reward_trinket_constant_values():
+	assert_false(CombatData.REWARD_TRINKET[CombatData.CombatType.COMMON])
+	assert_true(CombatData.REWARD_TRINKET[CombatData.CombatType.ELITE])
+	assert_false(CombatData.REWARD_TRINKET[CombatData.CombatType.BOSS])
 
 func test_number_of_cards_in_booster_pack():
 	assert_eq(CombatData.NUMBER_OF_CARDS_IN_BOOSTER_PACK, 3)

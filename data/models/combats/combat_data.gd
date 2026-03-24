@@ -33,8 +33,14 @@ const REWARD_GOLD := {
 
 const REWARD_HP := {
 	CombatType.COMMON: 0,
-	CombatType.ELITE: 1,
+	CombatType.ELITE: 0,
 	CombatType.BOSS: 5,
+}
+
+const REWARD_TRINKET := {
+	CombatType.COMMON: false,
+	CombatType.ELITE: true,
+	CombatType.BOSS: false,
 }
 
 const NUMBER_OF_CARDS_IN_BOOSTER_PACK := 3
@@ -46,6 +52,7 @@ const NUMBER_OF_CARDS_IN_BOOSTER_PACK := 3
 var reward_gold:int: get = _get_reward_gold
 var reward_hp:int: get = _get_reward_hp
 var reward_booster_pack_type:BoosterPackType: get = _get_reward_booster_pack_type
+var reward_trinket:bool: get = _get_reward_trinket
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
@@ -84,6 +91,9 @@ func _get_reward_gold() -> int:
 
 func _get_reward_hp() -> int:
 	return REWARD_HP[combat_type]
+
+func _get_reward_trinket() -> bool:
+	return REWARD_TRINKET[combat_type]
 
 func _get_reward_booster_pack_type() -> BoosterPackType:
 	match combat_type:

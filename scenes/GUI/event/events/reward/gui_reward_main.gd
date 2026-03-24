@@ -14,8 +14,10 @@ signal reward_finished()
 @onready var gui_reward_cards_main: GUIRewardCardsMain = %GUIRewardCardsMain
 @onready var panel_container: PanelContainer = %PanelContainer
 @onready var main_margin_container: MarginContainer = %MainMarginContainer
+@onready var gui_chest_reward_container: GUIChestRewardContainer = %GUIChestRewardContainer
 
 var _booster_pack_type:CombatData.BoosterPackType
+var _reward_trinket: bool = false
 
 var _original_panel_y:float
 
@@ -52,6 +54,7 @@ func show_with_data(gold:int, hp:int, booster_pack_type:CombatData.BoosterPackTy
 		Events.request_hp_update.emit(hp, ActionData.OperatorType.INCREASE)
 
 func show_with_combat_data(combat_data:CombatData) -> void:
+	_reward_trinket = combat_data.reward_trinket
 	await show_with_data(combat_data.reward_gold, combat_data.reward_hp, combat_data.reward_booster_pack_type)
 
 func _collect_rewards(gold:int, hp:int, booster_pack_type:CombatData.BoosterPackType) -> void:
@@ -67,5 +70,11 @@ func _booster_pack_button_pressed() -> void:
 	gui_reward_cards_main.spawn_cards_with_pack_type(_booster_pack_type, gui_booster_pack_button.global_position)
 
 func _on_reward_finished() -> void:
+	if _reward_trinket:
+		var trinket_data := MainDatabase.trinket_database.roll_trinket([])
+		gui_chest_reward_container.show()
+		gui_chest_reward_container.spawn_trinket(trinket_data, Vector2.ZERO)
+		await gui_chest_reward_container.trinket_reward_selected
+		gui_chest_reward_container.hide()
 	PauseManager.try_unpause()
 	reward_finished.emit()
