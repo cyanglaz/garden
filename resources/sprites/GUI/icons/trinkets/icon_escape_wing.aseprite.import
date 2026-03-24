@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dqhiw7gynf1js"
+path="res://.godot/imported/icon_escape_wing.aseprite-bdb5941f0d9aeb683bce4430a4dae12f.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_escape_wing.aseprite"
+dest_files=["res://.godot/imported/icon_escape_wing.aseprite-bdb5941f0d9aeb683bce4430a4dae12f.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

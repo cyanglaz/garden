@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://escapewing001"]
+[gd_scene format=3 uid="uid://wwe4cy8285aa"]
 
 [ext_resource type="Script" uid="uid://p1p4rjdvagk8" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_escape_wing.gd" id="1_pb000"]
 
