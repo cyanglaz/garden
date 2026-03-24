@@ -20,7 +20,7 @@
 "second_wind_chime","Second Wind Chime","For every 10 cards played, +1 energy","0","YES"
 "hummingbird_feather","Hummingbird Feather","For every 6 cards played, +1 momentum","0","YES"
 "fermentation_flask","Fermentation Flask","During a turn, for every 3 card discarded, currenet plant +2 light and +2 water.","1","YES"
-"mix_sprayer","Mix Sprayer","After exthaust a card, a random card on hand costs 0 this turn.","1","YES"
+"mix_sprayer","Mix Sprayer","After exthaust a card, a random card on hand costs 0 this turn.","1",""
 "panic_button","Panic Button","The first time you take damage each combat, +2 Momentum.","0",""
 "bounty_jar","Bounty Jar","Whenever you remove a Pest, gain 3 Gold.","0",""
 "spore_glass","Spore Glass","At the start of turn, if there is a Fungus on any field, draw 1 addtional card.","0",""
