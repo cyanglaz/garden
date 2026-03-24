@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://panicbutton01"]
+
+[ext_resource type="Script" uid="uid://p1p4rjdvagk8" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_panic_button.gd" id="1_pb000"]
+
+[node name="PlayerTrinketPanicButton" type="Node2D" unique_id=400000024]
+script = ExtResource("1_pb000")

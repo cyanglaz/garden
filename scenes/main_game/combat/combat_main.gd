@@ -380,6 +380,8 @@ func _on_request_modify_hand_cards(callable:Callable) -> void:
 func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
 	# The hp is handled by the main game
 	player.update_hp(val, operation)
+	if operation == ActionData.OperatorType.DECREASE:
+		await player.player_upgrades_manager.handle_damage_taken_hook(self, val)
 
 func _on_request_energy_update(val:int, operation:ActionData.OperatorType) -> void:
 	match operation:

@@ -31,6 +31,8 @@ var _hand_updated_hook_queue:Array = []
 var _current_hand_updated_hook_index:int = 0
 var _plant_bloom_hook_queue:Array = []
 var _current_plant_bloom_hook_index:int = 0
+var _damage_taken_hook_queue:Array = []
+var _current_damage_taken_hook_index:int = 0
 
 func set_player_upgrade(id:String, stack:int) -> void:
 	var player_upgrade:PlayerUpgrade = _get_player_upgrade(id)
@@ -302,6 +304,23 @@ func _handle_next_plant_bloom_hook(combat_main:CombatMain) -> void:
 	await player_upgrade.handle_plant_bloom_hook(combat_main)
 	_current_plant_bloom_hook_index += 1
 	await _handle_next_plant_bloom_hook(combat_main)
+
+func handle_damage_taken_hook(combat_main:CombatMain, damage:int) -> void:
+	var all_player_upgrades:Array = get_all_player_upgrades()
+	_damage_taken_hook_queue = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
+		return player_upgrade.has_damage_taken_hook(combat_main, damage)
+	)
+	_current_damage_taken_hook_index = 0
+	await _handle_next_damage_taken_hook(combat_main, damage)
+
+func _handle_next_damage_taken_hook(combat_main:CombatMain, damage:int) -> void:
+	if _current_damage_taken_hook_index >= _damage_taken_hook_queue.size():
+		return
+	var player_upgrade:PlayerUpgrade = _damage_taken_hook_queue[_current_damage_taken_hook_index]
+	_send_hook_animation_signals(player_upgrade.data)
+	await player_upgrade.handle_damage_taken_hook(combat_main, damage)
+	_current_damage_taken_hook_index += 1
+	await _handle_next_damage_taken_hook(combat_main, damage)
 
 func handle_hand_size_hook(combat_main: CombatMain) -> int:
 	var diff := 0
