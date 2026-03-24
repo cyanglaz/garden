@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="TrinketData" format=3 uid="uid://msdata0000001"]
+[gd_resource type="Resource" script_class="TrinketData" format=3 uid="uid://64n14aacfeqq"]
 
 [ext_resource type="Script" uid="uid://dr261i4fd8jf0" path="res://data/models/trinkets/trinket_data.gd" id="1_gohme"]
 
