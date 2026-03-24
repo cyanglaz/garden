@@ -82,7 +82,7 @@ func _start_new_chapter() -> void:
 	_benched_events = MainDatabase.event_database.get_events_by_chapter(chapter_manager.current_chapter)
 
 	#_start_map_main_scene()
-	# Always start with a common node
+	## Always start with a common node
 	if test_data && test_data.test_combat:
 		_start_combat_main_scene.call_deferred(test_data.test_combat)
 	else:
@@ -113,7 +113,8 @@ func _remove_current_scene() -> void:
 
 func _start_combat_main_scene(combat:CombatData) -> void:
 	var combat_main:CombatMain = COMBAT_MAIN_SCENE.instantiate()
-	combat_main.test_weather = test_data.test_weather
+	if test_data && test_data.test_weather:
+		combat_main.test_weather = test_data.test_weather
 	node_container.add_child(combat_main)
 	combat_main.reward_finished.connect(_on_reward_finished)
 	combat_main.beat_final_boss.connect(_on_beat_final_boss)

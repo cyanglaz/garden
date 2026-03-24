@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://csa2po82ejf1r"
+path="res://.godot/imported/icon_spore_glass.aseprite-d00087d73b9fb34a6763be75199f8543.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_spore_glass.aseprite"
+dest_files=["res://.godot/imported/icon_spore_glass.aseprite-d00087d73b9fb34a6763be75199f8543.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

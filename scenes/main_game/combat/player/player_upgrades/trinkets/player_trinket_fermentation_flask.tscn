@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://fftscn000001"]
+
+[ext_resource type="Script" uid="uid://fermentflask1" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_fermentation_flask.gd" id="1_ff000"]
+
+[node name="PlayerTrinketFermentationFlask" type="Node2D" unique_id=400000022]
+script = ExtResource("1_ff000")

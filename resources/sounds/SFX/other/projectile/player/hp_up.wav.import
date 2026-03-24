@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://jn6jsousg3qy"
-path="res://.godot/imported/hp_up.wav-7951f9704dad750a149327aa738bc116.sample"
+path="res://.godot/imported/hp_up.wav-6c3f57d28c73d645ac23013ef0a06ae2.sample"
 
 [deps]
 
-source_file="res://resources/sounds/SFX/hp/hp_up.wav"
-dest_files=["res://.godot/imported/hp_up.wav-7951f9704dad750a149327aa738bc116.sample"]
+source_file="res://resources/sounds/SFX/other/projectile/player/hp_up.wav"
+dest_files=["res://.godot/imported/hp_up.wav-6c3f57d28c73d645ac23013ef0a06ae2.sample"]
 
 [params]
 

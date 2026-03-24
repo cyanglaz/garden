@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="TrinketData" format=3 uid="uid://swcdata001"]
+
+[ext_resource type="Script" uid="uid://dr261i4fd8jf0" path="res://data/models/trinkets/trinket_data.gd" id="1_gohme"]
+
+[resource]
+script = ExtResource("1_gohme")
+id = "second_wind_chime"
+data = {
+&"energy": "1",
+&"threshold": "10"
+}
+metadata/_custom_type_script = "uid://dr261i4fd8jf0"

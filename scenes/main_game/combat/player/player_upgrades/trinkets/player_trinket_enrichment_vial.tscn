@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://j4t2frldftrd"]
+
+[ext_resource type="Script" uid="uid://enrichmentvial1" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_enrichment_vial.gd" id="1_ev000"]
+
+[node name="PlayerTrinketEnrichmentVial" type="Node2D" unique_id=619234871]
+script = ExtResource("1_ev000")

@@ -88,6 +88,18 @@ func has_hand_updated_hook(combat_main:CombatMain) -> bool:
 func handle_hand_updated_hook(combat_main:CombatMain) -> void:
 	await _handle_hand_updated_hook(combat_main)
 
+func has_plant_bloom_hook(combat_main:CombatMain) -> bool:
+	return _has_plant_bloom_hook(combat_main)
+
+func handle_plant_bloom_hook(combat_main:CombatMain) -> void:
+	await _handle_plant_bloom_hook(combat_main)
+
+func has_damage_taken_hook(combat_main:CombatMain, damage:int) -> bool:
+	return _has_damage_taken_hook(combat_main, damage)
+
+func handle_damage_taken_hook(combat_main:CombatMain, damage:int) -> void:
+	await _handle_damage_taken_hook(combat_main, damage)
+
 #region for override
 
 func _has_prevent_movement_hook() -> bool:
@@ -172,6 +184,18 @@ func _has_hand_updated_hook(_combat_main:CombatMain) -> bool:
 	return false
 
 func _handle_hand_updated_hook(_combat_main:CombatMain) -> void:
+	await Util.await_for_tiny_time()
+
+func _has_plant_bloom_hook(_combat_main:CombatMain) -> bool:
+	return false
+
+func _handle_plant_bloom_hook(_combat_main:CombatMain) -> void:
+	await Util.await_for_tiny_time()
+
+func _has_damage_taken_hook(_combat_main:CombatMain, _damage:int) -> bool:
+	return false
+
+func _handle_damage_taken_hook(_combat_main:CombatMain, _damage:int) -> void:
 	await Util.await_for_tiny_time()
 
 #endregion

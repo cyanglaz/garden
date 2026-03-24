@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bbf6l6ctxaiu6"
+path="res://.godot/imported/icon_parasitic_vine.aseprite-e9c4c074e408ebffcddcf18286250c12.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_parasitic_vine.aseprite"
+dest_files=["res://.godot/imported/icon_parasitic_vine.aseprite-e9c4c074e408ebffcddcf18286250c12.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

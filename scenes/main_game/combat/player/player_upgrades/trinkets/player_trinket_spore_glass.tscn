@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cr66f8sg4150u"]
+
+[ext_resource type="Script" uid="uid://x2ig6wv882f96" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_spore_glass.gd" id="1_sg001"]
+
+[node name="PlayerTrinketSporeGlass" type="Node2D" unique_id=500000001]
+script = ExtResource("1_sg001")

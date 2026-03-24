@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://mstscn000001"]
+
+[ext_resource type="Script" uid="uid://mixsprayer001" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_mix_sprayer.gd" id="1_ms000"]
+
+[node name="PlayerTrinketMixSprayer" type="Node2D" unique_id=400000023]
+script = ExtResource("1_ms000")

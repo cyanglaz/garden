@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://d2wx3xn5vkqcm" path="res://scenes/GUI/main_game/top_bar/gui_hp.gd" id="1_2kdio"]
 [ext_resource type="Texture2D" uid="uid://dgbr5rmxdmpib" path="res://resources/sprites/GUI/icons/resources/heart.png" id="4_fh45k"]
 [ext_resource type="AudioStream" uid="uid://bv5cmeun7grfy" path="res://resources/sounds/SFX/hp/hp_drop.wav" id="4_p4iye"]
-[ext_resource type="AudioStream" uid="uid://jn6jsousg3qy" path="res://resources/sounds/SFX/hp/hp_up.wav" id="5_6trgl"]
+[ext_resource type="AudioStream" uid="uid://jn6jsousg3qy" path="res://resources/sounds/SFX/other/projectile/player/hp_up.wav" id="5_6trgl"]
 [ext_resource type="PackedScene" uid="uid://cq7734s7t5y87" path="res://scenes/GUI/main_game/top_bar/gui_hp_segment.tscn" id="5_xiu2t"]
 
 [sub_resource type="Animation" id="Animation_o8pcr"]

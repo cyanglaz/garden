@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://ndak2vxsn43p"
+path="res://.godot/imported/icon_fermentation_flask.aseprite-55138d30ee4bc9aa14690b27664f09e4.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_fermentation_flask.aseprite"
+dest_files=["res://.godot/imported/icon_fermentation_flask.aseprite-55138d30ee4bc9aa14690b27664f09e4.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

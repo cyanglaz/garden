@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://i8cywsmfhepd"]
+
+[ext_resource type="Script" uid="uid://draftingpetal1" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_drafting_petal.gd" id="1_dp000"]
+
+[node name="PlayerTrinketDraftingPetal" type="Node2D" unique_id=731845920]
+script = ExtResource("1_dp000")
