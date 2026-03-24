@@ -17,7 +17,9 @@ func test_has_hand_size_hook_false_when_no_plants() -> void:
 	var t := _make_trinket()
 	var cm := FakeCombatMain.new()
 	autofree(cm)
-	cm.plant_field_container = PlantFieldContainer.new()
+	var plant_field_container := PlantFieldContainer.new()
+	autofree(plant_field_container)
+	cm.plant_field_container = plant_field_container
 	assert_false(t.has_hand_size_hook(cm))
 
 # ----- other hooks absent -----
