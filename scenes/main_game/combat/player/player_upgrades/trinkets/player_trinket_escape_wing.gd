@@ -1,4 +1,4 @@
-class_name PlayerTrinketPanicButton
+class_name PlayerTrinketEscapeWing
 extends PlayerTrinket
 
 var _triggered := false

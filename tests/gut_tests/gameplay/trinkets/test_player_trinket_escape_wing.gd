@@ -1,7 +1,7 @@
 extends GutTest
 
-func _make_trinket() -> PlayerTrinketPanicButton:
-	var t := PlayerTrinketPanicButton.new()
+func _make_trinket() -> PlayerTrinketEscapeWing:
+	var t := PlayerTrinketEscapeWing.new()
 	add_child_autofree(t)
 	t.data = TrinketData.new()
 	return t
