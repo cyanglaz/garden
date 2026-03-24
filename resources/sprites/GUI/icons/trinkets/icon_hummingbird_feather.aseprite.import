@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://ccb5nq1k0n7x7"
+path="res://.godot/imported/icon_hummingbird_feather.aseprite-9497d88e3040c1f91e04cba0edd24d80.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_hummingbird_feather.aseprite"
+dest_files=["res://.godot/imported/icon_hummingbird_feather.aseprite-9497d88e3040c1f91e04cba0edd24d80.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
