@@ -29,6 +29,7 @@ var combat_modifier_manager:CombatModifierManager = CombatModifierManager.new()
 var boost := 1: set = _set_boost
 var _combat:CombatData
 var _tool_application_error_timers:Dictionary = {}
+var _owned_trinkets:Array
 
 var is_finished:bool = false
 var is_mid_turn:bool = false
@@ -87,7 +88,8 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 
 	_combat = combat
 	_chapter = chapter
-	player.setup(player_data, _combat.plants.size() - 1, trinket_datas)
+	_owned_trinkets = trinket_datas
+	player.setup(player_data, _combat.plants.size() - 1, _owned_trinkets)
 	_start_new_level()
 
 func _input(event: InputEvent) -> void:
@@ -202,7 +204,7 @@ func _win() -> void:
 	await _discard_all_tools()
 	weather_main.level_end_stop()
 	session_summary.total_days += day_manager.day
-	gui.animate_show_reward_main(_combat) 
+	gui.animate_show_reward_main(_combat, _owned_trinkets) 
 
 func _trigger_turn_end_cards() -> void:
 	if tool_manager.tool_deck.hand.is_empty():

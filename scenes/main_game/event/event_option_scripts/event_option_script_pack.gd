@@ -23,7 +23,7 @@ func _run(option_data:EventOptionData, _main_game:MainGame) -> Variant:
 				pack_type = CombatData.BoosterPackType.RARE
 			"legendary":
 				pack_type = CombatData.BoosterPackType.LEGENDARY
-	_reward_main.show_with_data(gold, hp, pack_type)
+	_reward_main.show_with_data(gold, hp, pack_type, null)
 	await _reward_main.reward_finished
 	_reward_main.queue_free()
 	return null
