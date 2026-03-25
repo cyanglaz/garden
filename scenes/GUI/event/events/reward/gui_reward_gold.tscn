@@ -3,22 +3,33 @@
 [ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_btn"]
 [ext_resource type="Script" uid="uid://c2dnukd3j5niw" path="res://scenes/GUI/event/events/reward/gui_reward_gold.gd" id="2_scr"]
 [ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="3_icon"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="4_hnke2"]
 [ext_resource type="Texture2D" uid="uid://d1hlhkeceq461" path="res://resources/sprites/GUI/icons/resources/icon_gold.png" id="4_tex"]
 
-[node name="GUIRewardGold" instance=ExtResource("1_btn")]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hj8vt"]
+resource_local_to_scene = true
+shader = ExtResource("4_hnke2")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
+
+[node name="GUIRewardGold" unique_id=1673498322 instance=ExtResource("1_btn")]
 offset_right = 14.0
 offset_bottom = 12.0
 script = ExtResource("2_scr")
 
-[node name="GUIIcon" parent="." unique_id=1001001001 instance=ExtResource("3_icon")]
+[node name="GUIIcon" parent="." index="0" unique_id=1001001001 instance=ExtResource("3_icon")]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_hj8vt")
 layout_mode = 2
 texture = ExtResource("4_tex")
 
-[node name="LabelContainer" type="Control" parent="."]
+[node name="LabelContainer" type="Control" parent="." index="1" unique_id=805894071]
 layout_mode = 2
+mouse_filter = 2
 
-[node name="Label" type="Label" parent="LabelContainer"]
+[node name="Label" type="Label" parent="LabelContainer" index="0" unique_id=1405345551]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 9

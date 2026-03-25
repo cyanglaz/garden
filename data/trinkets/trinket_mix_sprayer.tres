@@ -5,5 +5,4 @@
 [resource]
 script = ExtResource("1_gohme")
 id = "mix_sprayer"
-data = {}
 metadata/_custom_type_script = "uid://dr261i4fd8jf0"

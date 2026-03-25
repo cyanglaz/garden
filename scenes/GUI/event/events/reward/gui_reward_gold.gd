@@ -15,8 +15,8 @@ func update_with_value(val: int) -> void:
 
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
-	gui_icon.is_highlighted = true
+	gui_icon.has_outline = true
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
-	gui_icon.is_highlighted = false
+	gui_icon.has_outline = false
