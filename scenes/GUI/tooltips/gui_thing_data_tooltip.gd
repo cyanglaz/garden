@@ -41,11 +41,14 @@ func _schedule_secondary_tooltip(status_items: Array) -> void:
 	await get_tree().create_timer(SECONDARY_TOOLTIP_DELAY).timeout
 	if !is_inside_tree():
 		return
+	var anchor_node := _tooltip_request.on_control_node
+	if anchor_node == null:
+		return
 	var request := TooltipRequest.new(
 		TooltipRequest.TooltipType.SECONDARY_ICON,
 		status_items,
 		_tooltip_request.id,
-		_tooltip_request.on_control_node,
+		anchor_node,
 		_tooltip_request.tooltip_position
 	)
 	Events.request_display_tooltip.emit(request)
