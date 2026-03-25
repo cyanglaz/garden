@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://ctjggegiourgw" path="res://scenes/GUI/controls/buttons/gui_booster_pack_button.tscn" id="5_rqta2"]
 [ext_resource type="AudioStream" uid="uid://dnjnf11sfdhai" path="res://resources/sounds/SFX/summary/reward_3.wav" id="8_jo3ev"]
 [ext_resource type="PackedScene" uid="uid://d07xoskgg1bxi" path="res://scenes/GUI/event/events/reward/gui_reward_cards_main.tscn" id="8_pi043"]
-[ext_resource type="PackedScene" uid="uid://buvmk7slt2yq6" path="res://scenes/GUI/chest/gui_chest_reward_container.tscn" id="9_trinkt"]
 
 [node name="GUIRewardMain" type="CanvasLayer" unique_id=936430536]
 process_mode = 2
@@ -81,6 +80,7 @@ theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MainMarginContainer/MarginContainer/Control/PanelContainer/MarginContainer" unique_id=1515546723]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
@@ -118,13 +118,3 @@ offset_right = 316.0
 offset_bottom = 176.0
 grow_horizontal = 1
 grow_vertical = 1
-
-[node name="GUIChestRewardContainer" parent="." unique_id=3841692847 instance=ExtResource("9_trinkt")]
-unique_name_in_owner = true
-visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
