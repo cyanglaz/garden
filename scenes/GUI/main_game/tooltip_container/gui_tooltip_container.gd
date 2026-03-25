@@ -20,6 +20,7 @@ const GUI_REFERENCE_CARD_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui
 const GUI_PLANT_ABILITY_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_plant_ability_tooltip.tscn")
 const GUI_TOWN_BUILDING_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_town_building_tooltip.tscn")
 const GUI_WEATHER_ABILITY_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_weather_ability_tooltip.tscn")
+const GUI_SECONDARY_ICON_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_secondary_icon_tooltip.tscn")
 
 var _tooltips:Dictionary = {}
 
@@ -88,6 +89,8 @@ func _create_tooltip(tooltip_type:TooltipRequest.TooltipType) -> GUITooltip:
 			return GUI_TOWN_BUILDING_TOOLTIP_SCENE.instantiate()
 		TooltipRequest.TooltipType.WEATHER_ABILITY:
 			return GUI_WEATHER_ABILITY_TOOLTIP_SCENE.instantiate()
+		TooltipRequest.TooltipType.SECONDARY_ICON:
+			return GUI_SECONDARY_ICON_TOOLTIP_SCENE.instantiate()
 		_:
 			assert(false, "Invalid tooltip type: %s" % tooltip_type)
 			return null

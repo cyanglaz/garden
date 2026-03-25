@@ -27,3 +27,8 @@ func _get_action_description(action_data:ActionData, target_plant:Plant) -> Stri
 	if !action_description.ends_with("."):
 		action_description += "."
 	return action_description
+
+func update_with_status_data(status_data: ThingData) -> void:
+	texture_rect.texture = load(Util.get_image_path_for_resource_id(status_data.id))
+	title_label.text = status_data.get_display_name()
+	rich_text_label.text = status_data.get_display_description()
