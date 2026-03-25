@@ -6,7 +6,7 @@
 script = ExtResource("1_gohme")
 id = "parasitic_vine"
 data = {
-&"max_hp": "5",
-&"hp": "1"
+&"hp": "1",
+&"max_hp": "5"
 }
 metadata/_custom_type_script = "uid://dr261i4fd8jf0"

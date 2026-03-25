@@ -28,5 +28,9 @@ func _on_chest_opened(chest: Chest) -> void:
 	var excluded_ids: Array[String] = []
 	for t: TrinketData in _owned_trinkets:
 		excluded_ids.append(t.id)
-	var trinket_data: TrinketData = MainDatabase.trinket_database.roll_trinket(excluded_ids)
+	var trinket_datas: Array[TrinketData] = MainDatabase.trinket_database.roll_trinkets(1, excluded_ids)
+	var trinket_data := trinket_datas[0] if !trinket_datas.is_empty() else null
+	if !trinket_data:
+		chest_finished.emit()
+		return
 	gui_chest_main.spawn_trinket(trinket_data, Util.get_node_canvas_position(chest))

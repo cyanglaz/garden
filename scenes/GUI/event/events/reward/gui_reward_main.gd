@@ -3,6 +3,8 @@ extends CanvasLayer
 
 const SHOW_ANIMATION_TIME := 0.5
 
+const TRINKET_REWARD_SCENE := preload("res://scenes/GUI/chest/gui_chest_reward_trinket.tscn")
+
 signal reward_finished()
 
 @onready var title_label: Label = %TitleLabel
@@ -14,21 +16,42 @@ signal reward_finished()
 @onready var gui_reward_cards_main: GUIRewardCardsMain = %GUIRewardCardsMain
 @onready var panel_container: PanelContainer = %PanelContainer
 @onready var main_margin_container: MarginContainer = %MainMarginContainer
+@onready var vbox_container: VBoxContainer = %VBoxContainer
 
-var _booster_pack_type:CombatData.BoosterPackType
+var _booster_pack_type: CombatData.BoosterPackType
+var _gold: int = 0
+var _hp: int = 0
+var _trinket_data: TrinketData = null
+var _gui_reward_trinket: GUIChestRewardTrinket = null
+var _gold_collected: bool = true
+var _hp_collected: bool = true
+var _trinket_collected: bool = true
+var _card_collected: bool = false
 
-var _original_panel_y:float
+var _original_panel_y: float
 
 func _ready() -> void:
 	title_label.text = Util.get_localized_string("REWARD_MAIN_TITLE_TEXT")
 	gui_booster_pack_button.pressed.connect(_booster_pack_button_pressed)
 	gui_reward_cards_main.reward_finished.connect(_on_reward_finished)
+	gui_reward_gold.gold_collected.connect(_on_gold_collected)
+	gui_reward_hp.hp_collected.connect(_on_hp_collected)
 	_original_panel_y = panel_container.position.y
-	
+
 	#var combat_data = CombatData.new()
 	#show_with_combat_data(combat_data)
 
-func show_with_data(gold:int, hp:int, booster_pack_type:CombatData.BoosterPackType) -> void:
+func show_with_data(gold: int, hp: int, booster_pack_type: CombatData.BoosterPackType, trinket_data: TrinketData) -> void:
+	if trinket_data:
+		_trinket_data = trinket_data
+		_trinket_collected = false
+	else:
+		_trinket_data = null
+		_trinket_collected = true
+	_gold = gold
+	_hp = hp
+	_gold_collected = gold == 0
+	_hp_collected = hp == 0
 	margin_container.show()
 	title_label.show()
 	gui_reward_gold.hide()
@@ -46,19 +69,31 @@ func show_with_data(gold:int, hp:int, booster_pack_type:CombatData.BoosterPackTy
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(panel_container, "position:y", _original_panel_y, SHOW_ANIMATION_TIME).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	await tween.finished
-	if gold > 0:
-		Events.request_update_gold.emit(gold, true)
-	if hp > 0:
-		Events.request_hp_update.emit(hp, ActionData.OperatorType.INCREASE)
 
-func show_with_combat_data(combat_data:CombatData) -> void:
-	await show_with_data(combat_data.reward_gold, combat_data.reward_hp, combat_data.reward_booster_pack_type)
+func show_with_combat_data(combat_data: CombatData, owned_trinkets:Array[String]) -> void:
+	_card_collected = false
+	var trinket_datas: Array[TrinketData] = []
+	var reward_hp := combat_data.reward_hp
+	if combat_data.reward_trinket:
+		trinket_datas = MainDatabase.trinket_database.roll_trinkets(1, owned_trinkets)
+		if trinket_datas.is_empty():
+			assert(reward_hp == 0, "Reward HP is not 0 when reward trinket is true")
+			reward_hp = 1
+	var trinket_data := trinket_datas[0] if !trinket_datas.is_empty() else null
+	await show_with_data(combat_data.reward_gold, reward_hp, combat_data.reward_booster_pack_type, trinket_data)
 
-func _collect_rewards(gold:int, hp:int, booster_pack_type:CombatData.BoosterPackType) -> void:
+func _collect_rewards(gold: int, hp: int, booster_pack_type: CombatData.BoosterPackType) -> void:
 	if gold > 0:
 		gui_reward_gold.show()
 	if hp > 0:
 		gui_reward_hp.show()
+	if _trinket_data != null:
+		_gui_reward_trinket = TRINKET_REWARD_SCENE.instantiate()
+		vbox_container.add_child(_gui_reward_trinket)
+		vbox_container.move_child(_gui_reward_trinket, gui_booster_pack_button.get_index())
+		_gui_reward_trinket.update_with_trinket_data(_trinket_data)
+		_gui_reward_trinket.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		_gui_reward_trinket.trinket_selected.connect(_on_trinket_pressed)
 	_booster_pack_type = booster_pack_type
 	gui_booster_pack_button.show()
 
@@ -66,6 +101,34 @@ func _booster_pack_button_pressed() -> void:
 	margin_container.hide()
 	gui_reward_cards_main.spawn_cards_with_pack_type(_booster_pack_type, gui_booster_pack_button.global_position)
 
+func _on_gold_collected() -> void:
+	gui_reward_gold.hide()
+	Events.request_update_gold.emit(_gold, true)
+	_gold_collected = true
+	_try_finish_rewards()
+
+func _on_hp_collected() -> void:
+	gui_reward_hp.hide()
+	Events.request_hp_update.emit(_hp, ActionData.OperatorType.INCREASE)
+	_hp_collected = true
+	_try_finish_rewards()
+
 func _on_reward_finished() -> void:
-	PauseManager.try_unpause()
-	reward_finished.emit()
+	_card_collected = true
+	_try_finish_rewards()
+
+func _on_trinket_pressed() -> void:
+	var from_position := _gui_reward_trinket.global_position
+	_gui_reward_trinket.queue_free()
+	_gui_reward_trinket = null
+	Events.request_add_trinket_to_collection.emit(_trinket_data, from_position)
+	_trinket_collected = true
+	_try_finish_rewards()
+
+func _try_finish_rewards() -> void:
+	if _gold_collected and _hp_collected and _trinket_collected and _card_collected:
+		PauseManager.try_unpause()
+		reward_finished.emit()
+	elif _card_collected:
+		gui_booster_pack_button.hide()
+		margin_container.show()
