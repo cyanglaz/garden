@@ -13,6 +13,7 @@ signal tool_application_completed(tool_data:ToolData)
 signal tool_application_error(tool_data:ToolData, warning_type:WarningManager.WarningType)
 signal hand_updated(hand:Array)
 signal cards_removed_from_hand(tool_data:ToolData, updated_hand:Array) # Triggers after the removal animation (discard or exhaust)
+signal max_hand_size_reached()
 signal _tool_lifecycle_completed(tool_data:ToolData, combat_main:CombatMain)
 signal _tool_actions_completed(tool_data:ToolData, combat_main:CombatMain)
 signal _all_turn_end_cards_completed()
@@ -61,6 +62,13 @@ func draw_cards(count:int, first_turn_draw:bool) -> Array:
 		random_draw_count -= draw_results.size()
 	if random_draw_count <= 0:
 		return draw_results
+	var available_slots := Constants.MAX_HAND_SIZE - tool_deck.hand.size()
+	var hand_size_limited := random_draw_count > available_slots
+	random_draw_count = mini(random_draw_count, available_slots)
+	if random_draw_count <= 0:
+		if hand_size_limited:
+			max_hand_size_reached.emit()
+		return draw_results
 	draw_results.append_array(tool_deck.draw(random_draw_count))
 	await _gui_tool_card_container.animate_draw(draw_results)
 	if draw_results.size() < random_draw_count:
@@ -69,6 +77,8 @@ func draw_cards(count:int, first_turn_draw:bool) -> Array:
 		var second_draw_result:Array = tool_deck.draw(random_draw_count - draw_results.size())
 		await _gui_tool_card_container.animate_draw(second_draw_result)
 		draw_results.append_array(second_draw_result)
+	if hand_size_limited:
+		max_hand_size_reached.emit()
 	return draw_results
 
 func shuffle() -> void:

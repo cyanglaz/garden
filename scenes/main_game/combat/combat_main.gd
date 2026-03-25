@@ -10,6 +10,7 @@ var hand_size := 5
 const WIN_PAUSE_TIME := 0.5
 const INSTANT_CARD_USE_DELAY := 0.3
 const TOOL_APPLICATION_ERROR_HIDE_DELAY := 3.0
+const MAX_HAND_WARNING_HIDE_DELAY := 2.0
 const BACKGROUND_MUSIC_FADE_IN_TIME := 1.0
 
 @export var test_weather:WeatherData
@@ -29,6 +30,7 @@ var combat_modifier_manager:CombatModifierManager = CombatModifierManager.new()
 var boost := 1: set = _set_boost
 var _combat:CombatData
 var _tool_application_error_timers:Dictionary = {}
+var _max_hand_warning_timer:SceneTreeTimer = null
 var _owned_trinkets:Array
 
 var is_finished:bool = false
@@ -66,6 +68,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	tool_manager.tool_application_error.connect(_on_tool_application_error)
 	tool_manager.hand_updated.connect(_on_hand_updated)
 	tool_manager.cards_removed_from_hand.connect(_on_cards_removed_from_hand)
+	tool_manager.max_hand_size_reached.connect(_on_max_hand_size_reached)
 
 	gui.bind_energy(energy_tracker)
 	gui.bind_tool_deck(tool_manager.tool_deck)
@@ -335,6 +338,17 @@ func _on_tool_application_error(tool_data:ToolData, error_message:String) -> voi
 
 func _on_tool_application_error_timer_timeout(id:String) -> void:
 	_hide_custom_error(id)
+
+func _on_max_hand_size_reached() -> void:
+	Events.request_show_warning.emit(WarningManager.WarningType.MAX_HAND_SIZE_REACHED)
+	if _max_hand_warning_timer:
+		_max_hand_warning_timer.timeout.disconnect(_on_max_hand_warning_timer_timeout)
+	_max_hand_warning_timer = Util.create_scaled_timer(MAX_HAND_WARNING_HIDE_DELAY)
+	_max_hand_warning_timer.timeout.connect(_on_max_hand_warning_timer_timeout)
+
+func _on_max_hand_warning_timer_timeout() -> void:
+	_max_hand_warning_timer = null
+	Events.request_hide_warning.emit(WarningManager.WarningType.MAX_HAND_SIZE_REACHED)
 
 func _on_hand_updated(hand:Array) -> void:
 	for tool_data in hand:

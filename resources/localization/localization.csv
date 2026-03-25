@@ -88,6 +88,7 @@ WARNING_INSUFFICIENT_GOLD, "Not Enough %s."
 WARNING_CANNOT_USE_CARD, "Cannot Use This Card."
 WARNING_CARD_USE_LIMIT_REACHED, "You cannot play more cards this turn."
 WARNING_NO_CARD_IN_HAND, "There are no {card:%s} in your hand."
+WARNING_MAX_HAND_SIZE_REACHED, "Hand is full."
 
 SHOP_TITLE, "Shop" 
 SHOP_SUBTITLE, ""
