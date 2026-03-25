@@ -19,6 +19,7 @@ enum TooltipType {
 	PLANT_ABILITY,
 	TOWN_BUILDING,
 	WEATHER_ABILITY,
+	SECONDARY_ICON,
 }
 
 var tooltip_type:TooltipType
