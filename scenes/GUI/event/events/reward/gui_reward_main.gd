@@ -70,18 +70,16 @@ func show_with_data(gold: int, hp: int, booster_pack_type: CombatData.BoosterPac
 	tween.tween_property(panel_container, "position:y", _original_panel_y, SHOW_ANIMATION_TIME).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	await tween.finished
 
-func show_with_combat_data(combat_data: CombatData, owned_trinkets:Array) -> void:
+func show_with_combat_data(combat_data: CombatData, owned_trinkets:Array[String]) -> void:
 	_card_collected = false
-	var trinket_data: TrinketData = null
+	var trinket_datas: Array[TrinketData] = []
 	var reward_hp := combat_data.reward_hp
 	if combat_data.reward_trinket:
-		trinket_data = MainDatabase.trinket_database.roll_trinket(owned_trinkets)
-		if !trinket_data:
+		trinket_datas = MainDatabase.trinket_database.roll_trinkets(1, owned_trinkets)
+		if trinket_datas.is_empty():
 			assert(reward_hp == 0, "Reward HP is not 0 when reward trinket is true")
 			reward_hp = 1
-	else:
-		trinket_data = null
-	
+	var trinket_data := trinket_datas[0] if !trinket_datas.is_empty() else null
 	await show_with_data(combat_data.reward_gold, reward_hp, combat_data.reward_booster_pack_type, trinket_data)
 
 func _collect_rewards(gold: int, hp: int, booster_pack_type: CombatData.BoosterPackType) -> void:

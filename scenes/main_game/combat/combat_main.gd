@@ -204,7 +204,10 @@ func _win() -> void:
 	await _discard_all_tools()
 	weather_main.level_end_stop()
 	session_summary.total_days += day_manager.day
-	gui.animate_show_reward_main(_combat, _owned_trinkets) 
+	var owned_trinket_ids: Array[String] = []
+	for trinket: TrinketData in _owned_trinkets:
+		owned_trinket_ids.append(trinket.id)
+	gui.animate_show_reward_main(_combat, owned_trinket_ids) 
 
 func _trigger_turn_end_cards() -> void:
 	if tool_manager.tool_deck.hand.is_empty():

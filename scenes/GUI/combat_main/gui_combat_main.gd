@@ -115,7 +115,7 @@ func update_boost(boost:int) -> void:
 
 #region reward
 
-func animate_show_reward_main(combat_data:CombatData, owned_trinkets:Array) -> void:
+func animate_show_reward_main(combat_data:CombatData, owned_trinkets:Array[String]) -> void:
 	await gui_reward_main.show_with_combat_data(combat_data, owned_trinkets)
 
 #endregion
