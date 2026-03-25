@@ -66,13 +66,18 @@ func show_with_data(gold: int, hp: int, booster_pack_type: CombatData.BoosterPac
 
 func show_with_combat_data(combat_data: CombatData) -> void:
 	_card_collected = false
+	var bonus_hp := 0
 	if combat_data.reward_trinket:
 		_trinket_data = MainDatabase.trinket_database.roll_trinket([])
-		_trinket_collected = false
+		if _trinket_data != null:
+			_trinket_collected = false
+		else:
+			_trinket_collected = true
+			bonus_hp = 1
 	else:
 		_trinket_data = null
 		_trinket_collected = true
-	await show_with_data(combat_data.reward_gold, combat_data.reward_hp, combat_data.reward_booster_pack_type)
+	await show_with_data(combat_data.reward_gold, combat_data.reward_hp + bonus_hp, combat_data.reward_booster_pack_type)
 
 func _collect_rewards(gold: int, hp: int, booster_pack_type: CombatData.BoosterPackType) -> void:
 	if gold > 0:
