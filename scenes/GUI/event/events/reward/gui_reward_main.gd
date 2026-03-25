@@ -104,4 +104,5 @@ func _try_finish_rewards() -> void:
 		PauseManager.try_unpause()
 		reward_finished.emit()
 	elif _card_collected:
+		gui_booster_pack_button.hide()
 		margin_container.show()
