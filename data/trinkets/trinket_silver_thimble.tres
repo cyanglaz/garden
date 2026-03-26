@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_st001")
+rarity = 1
 id = "silver_thimble"
 data = {
 &"discard": "1",

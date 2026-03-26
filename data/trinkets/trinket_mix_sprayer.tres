@@ -4,5 +4,6 @@
 
 [resource]
 script = ExtResource("1_gohme")
+rarity = 1
 id = "mix_sprayer"
 metadata/_custom_type_script = "uid://dr261i4fd8jf0"

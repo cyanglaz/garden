@@ -45,7 +45,7 @@ func update_for_gold(gold:int) -> void:
 
 func _populate_shop(number_of_tools:int, excluded_trinket_ids: Array[String] = []) -> void:
 	_populate_tools(number_of_tools)
-	_populate_trinkets(3, excluded_trinket_ids)
+	_populate_trinkets(excluded_trinket_ids)
 
 func _populate_tools(number_of_tools) -> void:
 	Util.remove_all_children(tool_container)
@@ -57,9 +57,9 @@ func _populate_tools(number_of_tools) -> void:
 		tool_shop_button.pressed.connect(_on_tool_shop_button_pressed.bind(tool_shop_button, tool_data))
 		tool_shop_button.mouse_exited.connect(_on_shop_button_mouse_exited.bind())
 
-func _populate_trinkets(count: int, excluded_trinket_ids: Array[String] = []) -> void:
+func _populate_trinkets(excluded_trinket_ids: Array[String] = []) -> void:
 	Util.remove_all_children(trinket_container)
-	var trinkets := MainDatabase.trinket_database.roll_trinkets(count, excluded_trinket_ids)
+	var trinkets := MainDatabase.trinket_database.roll_shop_trinkets(excluded_trinket_ids)
 	for trinket_data: TrinketData in trinkets:
 		var trinket_shop_button: GUITrinketShopButton = TRINKET_SHOP_BUTTON_SCENE.instantiate()
 		trinket_container.add_child(trinket_shop_button)

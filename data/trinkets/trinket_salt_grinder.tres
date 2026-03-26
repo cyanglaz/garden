@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_tm8od")
+rarity = 1
 id = "salt_grinder"
 data = {
 &"fungus": "1",

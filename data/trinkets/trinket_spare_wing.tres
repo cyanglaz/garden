@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_tg1u4")
+rarity = 1
 id = "spare_wing"
 data = {
 &"momentum": "1"

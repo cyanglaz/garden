@@ -27,7 +27,6 @@ var _snapshot := Snapshot.new(self, [])
 
 func copy(other:ThingData) -> void:
 	if other.resource_path.is_empty():
-		assert(!other._original_resource_path.is_empty())
 		_original_resource_path = other._original_resource_path
 	else:
 		_original_resource_path = other.resource_path
