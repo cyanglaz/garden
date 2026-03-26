@@ -39,9 +39,9 @@ func test_get_special_name_reversible_returns_string():
 func test_get_special_names_are_all_distinct():
 	var seen := []
 	for special in ToolData.Special.values():
-		var name := ActionDescriptionFormulator.get_special_name(special)
-		assert_false(name in seen, "Duplicate special name: %s" % name)
-		seen.append(name)
+		var special_name := ActionDescriptionFormulator.get_special_name(special)
+		assert_false(special_name in seen, "Duplicate special name: %s" % special_name)
+		seen.append(special_name)
 
 # ----- get_special_description -----
 

@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1_gohme")
-id = "fermentation_flask"
 rarity = 1
+id = "fermentation_flask"
 data = {
 &"discard_count": "3",
 &"light": "2",

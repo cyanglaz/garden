@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1_gohme")
-id = "enrichment_vial"
 rarity = 1
+id = "enrichment_vial"
 data = {
 &"light": "1",
 &"water": "1"

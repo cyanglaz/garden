@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1_gohme")
-id = "drafting_petal"
 rarity = 1
+id = "drafting_petal"
 data = {
 &"momentum": "1"
 }

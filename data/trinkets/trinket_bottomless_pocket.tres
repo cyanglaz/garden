@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1_bpk01")
-id = "bottomless_pocket"
 rarity = 1
+id = "bottomless_pocket"
 data = {
 &"draw": "1"
 }

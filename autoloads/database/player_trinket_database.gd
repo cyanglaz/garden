@@ -24,14 +24,14 @@ func roll_shop_trinkets(excluded_ids: Array[String] = []) -> Array[TrinketData]:
 	)
 	return _select_shop_trinkets(available)
 
-func _select_shop_trinkets(available: Array) -> Array[TrinketData]:
+static func _select_shop_trinkets(available: Array) -> Array[TrinketData]:
 	var available_copy: Array = available.duplicate()
 	var common_pool: Array = available_copy.filter(func(t: TrinketData) -> bool: return t.rarity == 0)
 	var uncommon_pool: Array = available_copy.filter(func(t: TrinketData) -> bool: return t.rarity == 1)
 	var result: Array[TrinketData] = []
 
 	if common_pool.size() >= 2 and uncommon_pool.size() >= 1:
-		for _i in 2:
+		for _is in 2:
 			var chosen_common: TrinketData = common_pool.pick_random()
 			result.append(chosen_common.get_duplicate())
 			common_pool.erase(chosen_common)
