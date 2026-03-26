@@ -2,6 +2,7 @@ extends Node
 
 const MAX_SKILLS := 10
 const MAX_DEPTHS := 5
+const MAX_HAND_SIZE := 10
 const MAX_TURNS := 1
 const STARTING_GEM := 0
 const SHAPE_UNIT_SIZE := 16.0

@@ -10,6 +10,7 @@ enum WarningType {
 	DIALOGUE_CANNOT_USE_CARD,
 	CARD_USE_LIMIT_REACHED,
 	CARD_CUSTOM_ERROR,
+	MAX_HAND_SIZE_REACHED,
 }
 
 var _gui_energy_tracker:GUIEnergyTracker: get = _get_gui_energy_tracker
@@ -41,6 +42,8 @@ func show_warning(warning_type:WarningType) -> void:
 			_gui_dialogue_window.show_with_type(GUIDialogueItem.DialogueType.CANNOT_USE_CARD)
 		WarningType.CARD_USE_LIMIT_REACHED:
 			_gui_dialogue_window.show_with_type(GUIDialogueItem.DialogueType.CARD_USE_LIMIT_REACHED)
+		WarningType.MAX_HAND_SIZE_REACHED:
+			_gui_dialogue_window.show_with_type(GUIDialogueItem.DialogueType.MAX_HAND_SIZE_REACHED)
 
 func hide_warning(warning_type:WarningType) -> void:
 	match warning_type:
@@ -54,6 +57,8 @@ func hide_warning(warning_type:WarningType) -> void:
 			_gui_dialogue_window.hide_type(GUIDialogueItem.DialogueType.CANNOT_USE_CARD)
 		WarningType.CARD_USE_LIMIT_REACHED:
 			_gui_dialogue_window.hide_type(GUIDialogueItem.DialogueType.CARD_USE_LIMIT_REACHED)
+		WarningType.MAX_HAND_SIZE_REACHED:
+			_gui_dialogue_window.hide_type(GUIDialogueItem.DialogueType.MAX_HAND_SIZE_REACHED)
 
 func show_custom_error(message:String, id:String) -> void:
 	_gui_dialogue_window.show_custom_error(message, id)

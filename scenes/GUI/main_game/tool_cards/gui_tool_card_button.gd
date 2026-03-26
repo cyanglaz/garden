@@ -4,6 +4,8 @@ extends GUIBasicButton
 const SIZE := Vector2(40, 54)
 
 signal use_card_button_pressed()
+signal mouse_entered_card()
+signal mouse_exited_card()
 
 @onready var front_face: GUICardFace = %FrontFace
 @onready var back_face: GUICardFace = %BackFace
@@ -28,6 +30,7 @@ var is_front:bool = true: get = _get_is_front, set = _set_is_front
 var _card_tooltip_id:String = ""
 var _reference_card_tooltip_id:String = ""
 var _flipping := false
+var _mouse_in_special:bool = false
 
 var _special_tooltip_id:String = ""
 
@@ -174,6 +177,14 @@ func _play_click_sound(_volume_db:int = -5) -> void:
 		return
 	super._play_click_sound(-5)
 
+func _handle_mouse_entered_signal() -> void:
+	if !_mouse_in_special && mouse_in:
+		mouse_entered_card.emit()
+
+func _handle_mouse_exited_signal() -> void:
+	if _mouse_in_special:
+		return
+	mouse_exited_card.emit()
 #endregion
 
 #region events
@@ -183,6 +194,7 @@ func _on_mouse_entered() -> void:
 	Events.update_hovered_data.emit(tool_data)
 	if card_state == GUICardFace.CardState.NORMAL || card_state == GUICardFace.CardState.UNSELECTED:
 		card_state = GUICardFace.CardState.HIGHLIGHTED
+	_handle_mouse_entered_signal.call_deferred()
 	await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
 	if is_queued_for_deletion():
 		return
@@ -195,6 +207,7 @@ func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
 	Events.update_hovered_data.emit(null)
 	toggle_tooltip(false)
+	_handle_mouse_exited_signal.call_deferred()
 
 #endregion
 
@@ -274,9 +287,11 @@ func _on_special_hovered(special:ToolData.Special, on:bool, _face:GUICardFace) -
 	if on:
 		_special_tooltip_id = Util.get_uuid()
 		Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.SPECIALS, [special], _special_tooltip_id, self, GUITooltip.TooltipPosition.RIGHT))
+		_mouse_in_special = true
 	else:
 		Events.request_hide_tooltip.emit(_special_tooltip_id)
 		_special_tooltip_id = ""
+		_mouse_in_special = false
 
 #region events
 
