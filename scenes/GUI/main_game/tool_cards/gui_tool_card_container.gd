@@ -137,13 +137,13 @@ func _rebind_signals() -> void:
 		var gui_card:GUIToolCardButton = _container.get_child(i)
 		if gui_card.pressed.is_connected(_on_tool_card_pressed):
 			gui_card.pressed.disconnect(_on_tool_card_pressed)
-		if gui_card.mouse_entered.is_connected(_on_tool_card_mouse_entered):
-			gui_card.mouse_entered.disconnect(_on_tool_card_mouse_entered)
-		if gui_card.mouse_exited.is_connected(_on_tool_card_mouse_exited):
-			gui_card.mouse_exited.disconnect(_on_tool_card_mouse_exited)
+		if gui_card.mouse_entered_card.is_connected(_on_tool_card_mouse_entered):
+			gui_card.mouse_entered_card.disconnect(_on_tool_card_mouse_entered)
+		if gui_card.mouse_exited_card.is_connected(_on_tool_card_mouse_exited):
+			gui_card.mouse_exited_card.disconnect(_on_tool_card_mouse_exited)
 		gui_card.pressed.connect(_on_tool_card_pressed.bind(i))
-		gui_card.mouse_entered.connect(_on_tool_card_mouse_entered.bind(i))
-		gui_card.mouse_exited.connect(_on_tool_card_mouse_exited.bind(i))
+		gui_card.mouse_entered_card.connect(_on_tool_card_mouse_entered.bind(i))
+		gui_card.mouse_exited_card.connect(_on_tool_card_mouse_exited.bind(i))
 		gui_card.hand_index = i
 
 #region animation

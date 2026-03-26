@@ -60,15 +60,9 @@ func draw_cards(count:int, first_turn_draw:bool) -> Array:
 	if first_turn_draw:
 		draw_results.append_array(tool_deck.draw_specific(func(tool_data:ToolData): return tool_data.specials.has(ToolData.Special.HANDY)))
 		random_draw_count -= draw_results.size()
-	if random_draw_count <= 0:
-		return draw_results
 	var available_slots := Constants.MAX_HAND_SIZE - tool_deck.hand.size()
 	var hand_size_limited := random_draw_count > available_slots
 	random_draw_count = mini(random_draw_count, available_slots)
-	if random_draw_count <= 0:
-		if hand_size_limited:
-			max_hand_size_reached.emit()
-		return draw_results
 	draw_results.append_array(tool_deck.draw(random_draw_count))
 	await _gui_tool_card_container.animate_draw(draw_results)
 	if draw_results.size() < random_draw_count:
@@ -188,6 +182,10 @@ func get_tool(index:int) -> ToolData:
 
 func refresh_ui() -> void:
 	_gui_tool_card_container.refresh_tool_cards()
+
+func _handle_draw_results(draw_results:Array) -> void:
+	await _gui_tool_card_container.animate_draw(draw_results)
+
 
 func _run_card_lifecycle(tool_data:ToolData, combat_main:CombatMain) -> void:
 	_tool_lifecycle_queue.append(tool_data)
