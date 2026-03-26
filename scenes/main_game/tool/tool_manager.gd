@@ -183,10 +183,6 @@ func get_tool(index:int) -> ToolData:
 func refresh_ui() -> void:
 	_gui_tool_card_container.refresh_tool_cards()
 
-func _handle_draw_results(draw_results:Array) -> void:
-	await _gui_tool_card_container.animate_draw(draw_results)
-
-
 func _run_card_lifecycle(tool_data:ToolData, combat_main:CombatMain) -> void:
 	_tool_lifecycle_queue.append(tool_data)
 	await _finish_card(tool_data)

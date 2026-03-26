@@ -177,18 +177,24 @@ func _play_click_sound(_volume_db:int = -5) -> void:
 		return
 	super._play_click_sound(-5)
 
+func _handle_mouse_entered_signal() -> void:
+	if !_mouse_in_special && mouse_in:
+		mouse_entered_card.emit()
+
+func _handle_mouse_exited_signal() -> void:
+	if _mouse_in_special:
+		return
+	mouse_exited_card.emit()
 #endregion
 
 #region events
 
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
-	await get_tree().process_frame # Match mouse exited
 	Events.update_hovered_data.emit(tool_data)
 	if card_state == GUICardFace.CardState.NORMAL || card_state == GUICardFace.CardState.UNSELECTED:
 		card_state = GUICardFace.CardState.HIGHLIGHTED
-	if !_mouse_in_special && mouse_in:
-		mouse_entered_card.emit()
+	_handle_mouse_entered_signal.call_deferred()
 	await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
 	if is_queued_for_deletion():
 		return
@@ -201,10 +207,7 @@ func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
 	Events.update_hovered_data.emit(null)
 	toggle_tooltip(false)
-	await get_tree().process_frame # Wait to check if special icon is hovered.
-	if _mouse_in_special:
-		return
-	mouse_exited_card.emit()
+	_handle_mouse_exited_signal.call_deferred()
 
 #endregion
 
