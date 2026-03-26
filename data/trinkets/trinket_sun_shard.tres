@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_m082o")
 id = "sun_shard"
+rarity = 1
 data = {
 &"light": "2"
 }

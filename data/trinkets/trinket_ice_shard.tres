@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_gohme")
 id = "ice_shard"
+rarity = 1
 data = {
 &"water": "1"
 }

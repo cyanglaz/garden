@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_gohme")
 id = "drafting_petal"
+rarity = 1
 data = {
 &"momentum": "1"
 }
