@@ -62,6 +62,8 @@ func draw_cards(count:int, first_turn_draw:bool) -> Array:
 		random_draw_count -= draw_results.size()
 	var available_slots := Constants.MAX_HAND_SIZE - tool_deck.hand.size()
 	var hand_size_limited := random_draw_count > available_slots
+	if hand_size_limited:
+		max_hand_size_reached.emit()
 	random_draw_count = mini(random_draw_count, available_slots)
 	draw_results.append_array(tool_deck.draw(random_draw_count))
 	await _gui_tool_card_container.animate_draw(draw_results)
@@ -71,8 +73,6 @@ func draw_cards(count:int, first_turn_draw:bool) -> Array:
 		var second_draw_result:Array = tool_deck.draw(random_draw_count - draw_results.size())
 		await _gui_tool_card_container.animate_draw(second_draw_result)
 		draw_results.append_array(second_draw_result)
-	if hand_size_limited:
-		max_hand_size_reached.emit()
 	return draw_results
 
 func shuffle() -> void:
