@@ -221,6 +221,8 @@ func _discard_all_tools() -> void:
 	if tool_manager.tool_deck.hand.is_empty():
 		return
 	var cards_to_discard:Array = tool_manager.tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return !tool_data.specials.has(ToolData.Special.HANDY))
+	if cards_to_discard.size() == 0:
+		return
 	await tool_manager.discard_cards(cards_to_discard)
 
 func _clear_tool_selection() -> void:
