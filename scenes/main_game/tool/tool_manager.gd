@@ -10,7 +10,7 @@ enum ToolManagerState {
 
 signal tool_application_started(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
-signal tool_application_error(tool_data:ToolData, warning_type:WarningManager.WarningType)
+signal tool_application_error(tool_data:ToolData, error_message:String)
 signal hand_updated(hand:Array)
 signal cards_removed_from_hand(tool_data:ToolData, updated_hand:Array) # Triggers after the removal animation (discard or exhaust)
 signal max_hand_size_reached()
