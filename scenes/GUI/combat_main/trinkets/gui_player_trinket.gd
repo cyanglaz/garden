@@ -21,18 +21,44 @@ func _ready() -> void:
 	mouse_exited.connect(_on_mouse_exited)
 
 func update_with_trinket_data(trinket_data:TrinketData) -> void:
-	if _trinket_data != null and _trinket_data.stack_changed.is_connected(_refresh_stack):
-		_trinket_data.stack_changed.disconnect(_refresh_stack)
+	if _trinket_data != null:
+		if _trinket_data.stack_changed.is_connected(_refresh_stack):
+			_trinket_data.stack_changed.disconnect(_refresh_stack)
+		if _trinket_data.state_changed.is_connected(_on_state_changed):
+			_trinket_data.state_changed.disconnect(_on_state_changed)
 	_trinket_data = trinket_data
 	trinket_id = trinket_data.id
 	gui_icon.texture = load(ICON_PREFIX % trinket_data.id)
 	_refresh_stack(trinket_data.stack)
+	_on_state_changed(trinket_data.state)
 	if show_stack:
 		trinket_data.stack_changed.connect(_refresh_stack)
+	trinket_data.state_changed.connect(_on_state_changed)
 
 func _refresh_stack(new_value: int) -> void:
 	stack.text = str(new_value) if show_stack and new_value > 0 else ""
 
+func _on_state_changed(new_state: TrinketData.TrinketState) -> void:
+	match new_state:
+		TrinketData.TrinketState.ACTIVE:
+			gui_icon.set_outline_color(Constants.COLOR_YELLOW1)
+			gui_icon.has_outline = true
+			gui_icon.modulate = Color.WHITE
+		TrinketData.TrinketState.DISABLED:
+			gui_icon.set_outline_color(Color.WHITE)
+			gui_icon.has_outline = false
+			gui_icon.modulate = Constants.COLOR_GRAY2
+		TrinketData.TrinketState.NORMAL:
+			gui_icon.set_outline_color(Color.WHITE)
+			gui_icon.has_outline = false
+			gui_icon.modulate = Color.WHITE
+
+	# If the mouse is currently hovering this trinket and the new state is not ACTIVE,
+	# re-apply the hover outline. This handles state changes that occur while hovering,
+	# since _on_mouse_entered() will not be called again until the cursor leaves and re-enters.
+	if get_global_rect().has_point(get_global_mouse_position()) \
+			and new_state != TrinketData.TrinketState.ACTIVE:
+		gui_icon.has_outline = true
 func play_trigger_animation() -> void:
 	good_animation_audio.play()
 	var original_position:Vector2 = gui_icon.position
@@ -45,9 +71,13 @@ func play_collect_sound() -> void:
 	collect_sound.play()
 
 func _on_mouse_entered() -> void:
-	gui_icon.has_outline = true
+	if _trinket_data == null:
+		return
+	if _trinket_data.state != TrinketData.TrinketState.ACTIVE:
+		gui_icon.has_outline = true
 	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.THING_DATA, _trinket_data, _tooltip_id, self, tooltip_position))
 
 func _on_mouse_exited() -> void:
-	gui_icon.has_outline = false
+	if _trinket_data == null or _trinket_data.state != TrinketData.TrinketState.ACTIVE:
+		gui_icon.has_outline = false
 	Events.request_hide_tooltip.emit(_tooltip_id)
