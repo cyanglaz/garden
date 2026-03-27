@@ -165,8 +165,10 @@ func _animate_draw(animation_item:AnimationQueueItem) -> void:
 			animating_card.size = _draw_deck_size
 			animating_card.pivot_offset_ratio = Vector2(0.5, 0.5)
 			delay_index += 1
+			animating_card.card_state = GUICardFace.CardState.NORMAL
 		animating_card.mouse_disabled = true
 		animating_cards.append(animating_card)
+		animating_card.z_index = 0
 		if delay_index >= 0:
 			Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index).timeout.connect(func(): animating_card.play_draw_sound())
 		var card_local_position:Vector2 = card_positions[i]
@@ -375,6 +377,7 @@ func _animate_discard_a_card(card:GUIToolCardButton, tween:Tween, delay:float) -
 	animating_card.hide()
 	animating_card.animation_mode = true
 	animating_card.mouse_disabled = true
+	animating_card.card_state = GUICardFace.CardState.NORMAL
 	Util.create_scaled_timer(delay - 0.01).timeout.connect(func(): animating_card.play_discard_sound())
 	Util.create_scaled_timer(delay + 0.01).timeout.connect(func(): animating_card.show())
 	Util.create_scaled_timer(delay + 0.01).timeout.connect(func(): card.hide())

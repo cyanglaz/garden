@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dq8wmq23vtkaj"]
+[gd_scene format=3 uid="uid://dq8wmq23vtkaj"]
 
 [ext_resource type="PackedScene" uid="uid://i1255yg1aoyk" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_background.tscn" id="1_ah1nl"]
 [ext_resource type="Script" uid="uid://sc5do4le61oy" path="res://scenes/GUI/main_game/tool_cards/gui_card_face.gd" id="1_uaej8"]
@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://caehhf1p88h3q" path="res://scenes/GUI/controls/buttons/gui_use_card_button.tscn" id="4_ykqmu"]
 [ext_resource type="AudioStream" uid="uid://bgyg7vg7fsae6" path="res://resources/sounds/SFX/tool_cards/card_use.wav" id="5_y8r0o"]
 
-[sub_resource type="Shader" id="Shader_np7v7"]
+[sub_resource type="Shader" id="Shader_uaej8"]
 resource_local_to_scene = true
 code = "shader_type canvas_item;
 
@@ -54,14 +54,14 @@ void fragment() {
 	COLOR = vec4(base_color.r, base_color.g, base_color.b, min(visible, base_color.a)) * modulate;
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_euhxl"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ykqmu"]
 resource_local_to_scene = true
-shader = SubResource("Shader_np7v7")
+shader = SubResource("Shader_uaej8")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 shader_parameter/sensitivity = 0.0
 
-[sub_resource type="Shader" id="Shader_nheet"]
+[sub_resource type="Shader" id="Shader_170cx"]
 resource_local_to_scene = true
 code = "shader_type canvas_item;
 
@@ -108,9 +108,9 @@ void fragment() {
 	COLOR = vec4(base_color.r, base_color.g, base_color.b, min(visible, base_color.a)) * modulate;
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_np7v7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_alb7f"]
 resource_local_to_scene = true
-shader = SubResource("Shader_nheet")
+shader = SubResource("Shader_170cx")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 shader_parameter/sensitivity = 1.0
@@ -255,25 +255,25 @@ _data = {
 &"transform": SubResource("Animation_882ho")
 }
 
-[node name="GUICardFace" type="PanelContainer"]
+[node name="GUICardFace" type="PanelContainer" unique_id=466334207]
 offset_right = 40.0
 offset_bottom = 54.0
 size_flags_vertical = 3
 mouse_filter = 2
 script = ExtResource("1_uaej8")
 
-[node name="GUIToolCardBackground" parent="." instance=ExtResource("1_ah1nl")]
+[node name="GUIToolCardBackground" parent="." unique_id=594292002 instance=ExtResource("1_ah1nl")]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_euhxl")
+material = SubResource("ShaderMaterial_ykqmu")
 layout_mode = 2
 
-[node name="CardContent" type="Control" parent="."]
+[node name="CardContent" type="Control" parent="." unique_id=2008740132]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 mouse_filter = 2
 
-[node name="InteractiveSpecialContainer" type="VBoxContainer" parent="CardContent"]
+[node name="InteractiveSpecialContainer" type="VBoxContainer" parent="CardContent" unique_id=1381243577]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 2
@@ -289,7 +289,7 @@ size_flags_vertical = 8
 theme_override_constants/separation = 1
 alignment = 2
 
-[node name="SpecialsContainer" type="VBoxContainer" parent="CardContent"]
+[node name="SpecialsContainer" type="VBoxContainer" parent="CardContent" unique_id=337918547]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 3
@@ -308,14 +308,14 @@ size_flags_vertical = 8
 theme_override_constants/separation = 1
 alignment = 2
 
-[node name="TitleContainer" type="Control" parent="CardContent"]
+[node name="TitleContainer" type="Control" parent="CardContent" unique_id=985033739]
 custom_minimum_size = Vector2(0, 8)
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 8.0
 mouse_filter = 2
 
-[node name="Title" type="Label" parent="CardContent/TitleContainer"]
+[node name="Title" type="Label" parent="CardContent/TitleContainer" unique_id=1226199037]
 unique_name_in_owner = true
 layout_mode = 1
 offset_left = 3.0
@@ -325,7 +325,7 @@ offset_bottom = 9.0
 theme_type_variation = &"HUD_small"
 horizontal_alignment = 1
 
-[node name="CostAndDescription" type="VBoxContainer" parent="CardContent"]
+[node name="CostAndDescription" type="VBoxContainer" parent="CardContent" unique_id=1141359593]
 layout_mode = 1
 offset_left = 4.0
 offset_top = 11.0
@@ -334,13 +334,13 @@ offset_bottom = 51.0
 mouse_filter = 2
 theme_override_constants/separation = 2
 
-[node name="CostIcon" type="TextureRect" parent="CardContent/CostAndDescription"]
+[node name="CostIcon" type="TextureRect" parent="CardContent/CostAndDescription" unique_id=521711206]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CardContent/CostAndDescription"]
+[node name="RichTextLabel" type="RichTextLabel" parent="CardContent/CostAndDescription" unique_id=1060769365]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
@@ -353,7 +353,7 @@ fit_content = true
 meta_underlined = false
 hint_underlined = false
 
-[node name="GUIActionList" parent="CardContent" instance=ExtResource("2_y8r0o")]
+[node name="GUIActionList" parent="CardContent" unique_id=885072858 instance=ExtResource("2_y8r0o")]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 4.0
@@ -362,13 +362,13 @@ offset_right = 36.0
 offset_bottom = 51.0
 mouse_filter = 2
 
-[node name="AnimatingForeground" parent="." instance=ExtResource("1_ah1nl")]
+[node name="AnimatingForeground" parent="." unique_id=120660621 instance=ExtResource("1_ah1nl")]
 unique_name_in_owner = true
 visible = false
-material = SubResource("ShaderMaterial_np7v7")
+material = SubResource("ShaderMaterial_alb7f")
 layout_mode = 2
 
-[node name="Overlay" type="NinePatchRect" parent="."]
+[node name="Overlay" type="NinePatchRect" parent="." unique_id=1411455343]
 unique_name_in_owner = true
 visible = false
 self_modulate = Color(0.07450981, 0.07450981, 0.07450981, 0.6666667)
@@ -380,11 +380,11 @@ patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 3
 
-[node name="FreeContainer" type="Control" parent="."]
+[node name="FreeContainer" type="Control" parent="." unique_id=567775508]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="GUIUseCardButton" parent="FreeContainer" instance=ExtResource("4_ykqmu")]
+[node name="GUIUseCardButton" parent="FreeContainer" unique_id=642027701 instance=ExtResource("4_ykqmu")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -400,14 +400,12 @@ offset_bottom = -55.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="UseSound" type="AudioStreamPlayer2D" parent="."]
+[node name="UseSound" type="AudioStreamPlayer2D" parent="." unique_id=496989375]
 unique_name_in_owner = true
 stream = ExtResource("5_y8r0o")
 volume_db = 5.0
 bus = &"SFX"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1685436210]
 unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_dn2eb")
-}
+libraries/ = SubResource("AnimationLibrary_dn2eb")

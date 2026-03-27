@@ -95,11 +95,6 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	player.setup(player_data, _combat.plants.size() - 1, _owned_trinkets)
 	_start_new_level()
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("de-select"):
-		if tool_manager.selected_tool && !tool_manager.is_applying_tool:
-			_clear_tool_selection()
-
 #endregion
 
 #region player
@@ -152,7 +147,6 @@ func _start_turn() -> void:
 	gui.toggle_all_ui(false)
 	day_manager.next_day()
 	weather_main.generate_next_weather_abilities(self, day_manager.day)
-	gui.clear_tool_selection()
 	if day_manager.day == 0:
 		_fade_music(true)
 		#await gui.apply_boss_actions(GUIBoss.HookType.LEVEL_START)
@@ -170,7 +164,6 @@ func _start_turn() -> void:
 func _end_turn() -> void:
 	is_mid_turn = false
 	gui.toggle_all_ui(false)
-	_clear_tool_selection()
 	await player.handle_turn_end(self)
 	await _discard_all_tools()
 	energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
@@ -265,7 +258,6 @@ func _hide_custom_error(identifier:String) -> void:
 func _on_tool_selected(tool_data:ToolData) -> void:
 	tool_manager.select_tool(tool_data)
 	await _handle_card_use()
-	_clear_tool_selection()
 
 	#if tool_data.all_fields:
 	#	plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT)
@@ -320,16 +312,17 @@ func _on_tool_application_started(tool_data:ToolData) -> void:
 	gui.toggle_all_ui(false)
 	if tool_data.get_final_energy_cost() > 0:
 		energy_tracker.spend(tool_data.get_final_energy_cost())
-	_clear_tool_selection()
 
 func _on_tool_application_completed(tool_data:ToolData) -> void:
 	if tool_manager.number_of_card_used_this_turn >= combat_modifier_manager.card_use_limit():
 		tool_manager.card_use_limit_reached = true
 	await player.player_upgrades_manager.handle_tool_application_hook(self, tool_data)
 	gui.toggle_all_ui(true)
+	_clear_tool_selection()
 
 func _on_tool_application_error(tool_data:ToolData, error_message:String) -> void:
 	_clear_tool_selection()
+	gui.reset_tool_positions()
 	Events.request_show_custom_error.emit(error_message, tool_data.id)
 	if _tool_application_error_timers.has(tool_data.id):
 		var existing_timer:SceneTreeTimer = _tool_application_error_timers[tool_data.id]

@@ -14,8 +14,6 @@ signal tool_application_error(tool_data:ToolData, error_message:String)
 signal hand_updated(hand:Array)
 signal cards_removed_from_hand(tool_data:ToolData, updated_hand:Array) # Triggers after the removal animation (discard or exhaust)
 signal max_hand_size_reached()
-signal _tool_lifecycle_completed(tool_data:ToolData, combat_main:CombatMain)
-signal _tool_actions_completed(tool_data:ToolData, combat_main:CombatMain)
 signal _all_turn_end_cards_completed()
 
 var tool_deck:Deck
@@ -27,9 +25,6 @@ var card_use_limit_reached:bool = false: set = _set_card_use_limit_reached
 
 var _gui_tool_card_container:GUIToolCardContainer: get = _get_gui_tool_card_container
 var _tool_applier:ToolApplier = ToolApplier.new()
-var _tool_application_queue:Array[ToolData] = []
-var _tool_actions_queue:Array[ToolData] = []
-var _tool_lifecycle_queue:Array[ToolData] = []
 
 var _turn_end_cards_queue:Array = []
 
@@ -41,8 +36,6 @@ func _init(initial_tools:Array, gui_tool_card_container:GUIToolCardContainer) ->
 	tool_deck = Deck.new(initial_tools)
 	tool_deck.hand_updated.connect(func() -> void: hand_updated.emit(tool_deck.hand))
 	_weak_gui_tool_card_container = weakref(gui_tool_card_container)
-	_tool_lifecycle_completed.connect(_on_tool_lifecycle_completed)
-	_tool_actions_completed.connect(_on_tool_actions_completed)
 
 func refresh_deck() -> void:
 	tool_deck.refresh()
@@ -136,10 +129,10 @@ func apply_tool(combat_main:CombatMain) -> void:
 				# Some actions need to select cards, for example discard, compost
 				secondary_card_datas = await _gui_tool_card_container.select_secondary_cards(actual_number_of_cards_to_select, selecting_from_cards)
 	number_of_card_used_this_turn += 1
-	_tool_application_queue.append(applying_tool)
 	tool_application_started.emit(applying_tool)
-	_run_card_lifecycle(applying_tool, combat_main)
-	_run_card_actions(combat_main, applying_tool, secondary_card_datas)
+	await _run_card_actions(combat_main, applying_tool, secondary_card_datas)
+	await _run_card_lifecycle(applying_tool, combat_main)
+	_handle_tool_application_completed(applying_tool, combat_main)
 
 func discardable_cards() -> Array:
 	return tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return tool_data != selected_tool)
@@ -183,11 +176,8 @@ func get_tool(index:int) -> ToolData:
 func refresh_ui() -> void:
 	_gui_tool_card_container.refresh_tool_cards()
 
-func _run_card_lifecycle(tool_data:ToolData, combat_main:CombatMain) -> void:
-	_tool_lifecycle_queue.append(tool_data)
+func _run_card_lifecycle(tool_data:ToolData, _combat_main:CombatMain) -> void:
 	await _finish_card(tool_data)
-	_tool_lifecycle_queue.erase(tool_data)
-	_tool_lifecycle_completed.emit(tool_data, combat_main)
 
 func _finish_card(tool_data:ToolData) -> void:
 	if tool_data.specials.has(ToolData.Special.COMPOST):
@@ -196,11 +186,9 @@ func _finish_card(tool_data:ToolData) -> void:
 		await discard_cards([tool_data])
 
 func _run_card_actions(combat_main:CombatMain, tool_data:ToolData, secondary_card_datas:Array) -> void:
-	_tool_actions_queue.append(tool_data)
+	_gui_tool_card_container.set_card_state(tool_data, GUICardFace.CardState.USING)
 	await combat_main.plant_field_container.trigger_tool_application_hook()
 	await _tool_applier.apply_tool(combat_main, tool_data, secondary_card_datas, null)
-	_tool_actions_queue.erase(tool_data)
-	_tool_actions_completed.emit(tool_data, combat_main)
 
 func _get_secondary_cards_to_select_from(tool_data:ToolData) -> Array:
 	var selecting_from_cards:Array = []
@@ -214,7 +202,6 @@ func _get_secondary_cards_to_select_from(tool_data:ToolData) -> Array:
 	return selecting_from_cards
 
 func _handle_tool_application_completed(tool_data:ToolData, combat_main:CombatMain) -> void:
-	_tool_application_queue.erase(tool_data)
 	if tool_data.tool_script:
 		await tool_data.tool_script.handle_post_application_hook(tool_data, combat_main)
 	tool_application_completed.emit(tool_data)
@@ -229,20 +216,6 @@ func _trigger_next_turn_end_card(combat_main:CombatMain) -> void:
 	var next_tool_data:ToolData = _turn_end_cards_queue.pop_back()
 	select_tool(next_tool_data)
 	apply_tool(combat_main)
-
-#region events
-
-func _on_tool_lifecycle_completed(tool_data:ToolData, combat_main:CombatMain) -> void:
-	assert(!_tool_lifecycle_queue.has(tool_data))
-	if !_tool_actions_queue.has(tool_data) && _tool_application_queue.has(tool_data):
-		_handle_tool_application_completed(tool_data, combat_main)
-
-func _on_tool_actions_completed(tool_data:ToolData, combat_main:CombatMain) -> void:
-	assert(!_tool_actions_queue.has(tool_data))
-	if !_tool_lifecycle_queue.has(tool_data) && _tool_application_queue.has(tool_data):
-		_handle_tool_application_completed(tool_data, combat_main)
-
-#endregion
 
 #region setters/getters
 
