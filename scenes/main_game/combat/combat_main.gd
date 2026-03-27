@@ -318,9 +318,11 @@ func _on_tool_application_completed(tool_data:ToolData) -> void:
 		tool_manager.card_use_limit_reached = true
 	await player.player_upgrades_manager.handle_tool_application_hook(self, tool_data)
 	gui.toggle_all_ui(true)
+	_clear_tool_selection()
 
 func _on_tool_application_error(tool_data:ToolData, error_message:String) -> void:
 	_clear_tool_selection()
+	gui.reset_tool_positions()
 	Events.request_show_custom_error.emit(error_message, tool_data.id)
 	if _tool_application_error_timers.has(tool_data.id):
 		var existing_timer:SceneTreeTimer = _tool_application_error_timers[tool_data.id]

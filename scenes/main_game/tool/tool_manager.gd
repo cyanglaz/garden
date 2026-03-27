@@ -138,8 +138,8 @@ func apply_tool(combat_main:CombatMain) -> void:
 	number_of_card_used_this_turn += 1
 	_tool_application_queue.append(applying_tool)
 	tool_application_started.emit(applying_tool)
-	_run_card_lifecycle(applying_tool, combat_main)
 	_run_card_actions(combat_main, applying_tool, secondary_card_datas)
+	_run_card_lifecycle(applying_tool, combat_main)
 
 func discardable_cards() -> Array:
 	return tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return tool_data != selected_tool)

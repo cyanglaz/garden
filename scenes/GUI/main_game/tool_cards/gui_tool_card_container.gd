@@ -44,12 +44,16 @@ func update_mouse_plant(plant:Plant) -> void:
 	for i in get_card_count():
 		var card:GUIToolCardButton = _container.get_child(i)
 		card.update_mouse_plant(plant)
-
+	
 func clear_selection() -> void:
-	_toggle_card_selection(false, [])
 	selected_index = -1
-	_card_selection_container.end_selection()
-	_selected_secondary_cards.clear()
+	_toggle_card_selection(false, [])
+	_clear_secondary_card_selection()
+	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
+	Events.request_hide_warning.emit(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
+	Events.request_hide_warning.emit(WarningManager.WarningType.CARD_USE_LIMIT_REACHED)
+
+func reset_positions() -> void:
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	if positions.size() > 0:
 		var tween:Tween = Util.create_scaled_tween(self)
@@ -62,9 +66,6 @@ func clear_selection() -> void:
 		for i in _container.get_children().size():
 			var gui_card = _container.get_child(i)
 			gui_card.z_index = 0
-	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
-	Events.request_hide_warning.emit(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
-	Events.request_hide_warning.emit(WarningManager.WarningType.CARD_USE_LIMIT_REACHED)
 
 func add_card(tool_data:ToolData) -> GUIToolCardButton:
 	var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
@@ -102,8 +103,12 @@ func select_secondary_cards(number_of_cards:int, selecting_from_cards:Array) -> 
 func select_cards(number_of_cards: int, selecting_from_cards: Array) -> Array:
 	_toggle_card_selection(true, selecting_from_cards)
 	var result := await _card_selection_container.start_selection(number_of_cards, selecting_from_cards)
-	await clear_selection()
+	_clear_secondary_card_selection()
 	return result
+
+func _clear_secondary_card_selection() -> void:
+	_card_selection_container.end_selection()
+	_selected_secondary_cards.clear()
 
 func _toggle_card_selection(on:bool, selecting_from_cards:Array) -> void:
 	var selecting_from_card_index := []
@@ -121,7 +126,10 @@ func _toggle_card_selection(on:bool, selecting_from_cards:Array) -> void:
 			else:
 				gui_card.card_state = GUICardFace.CardState.SELECTED
 		else:
-			gui_card.card_state = GUICardFace.CardState.UNSELECTED
+			if card_selection_mode:
+				gui_card.card_state = GUICardFace.CardState.UNSELECTED
+			else:
+				gui_card.card_state = GUICardFace.CardState.NORMAL
 
 func _rebind_signals() -> void:
 	for i in _container.get_children().size():

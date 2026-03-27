@@ -168,6 +168,7 @@ func _animate_draw(animation_item:AnimationQueueItem) -> void:
 		animating_card.mouse_disabled = true
 		animating_cards.append(animating_card)
 		animating_card.card_state = GUICardFace.CardState.NORMAL
+		animating_card.z_index = 0
 		if delay_index >= 0:
 			Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index).timeout.connect(func(): animating_card.play_draw_sound())
 		var card_local_position:Vector2 = card_positions[i]

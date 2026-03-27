@@ -47,7 +47,6 @@ func remove_selected_secondary_card(card:GUIToolCardButton) -> void:
 	_redisplay_secondary_cards.call_deferred()
 
 func end_selection() -> void:
-	print("end selection")
 	Util.remove_all_children(_placement_container)
 	selected_secondary_cards.clear()
 	_gui_check_button.button_state = GUIBasicButton.ButtonState.DISABLED

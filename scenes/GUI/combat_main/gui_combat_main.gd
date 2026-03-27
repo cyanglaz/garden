@@ -86,6 +86,9 @@ func update_tools(tool_datas:Array[ToolData]) -> void:
 func clear_tool_selection() -> void:
 	gui_tool_card_container.clear_selection()
 
+func reset_tool_positions() -> void:
+	gui_tool_card_container.reset_positions()
+
 func bind_tool_deck(tool_deck:Deck) -> void:
 	gui_draw_deck_button.bind_deck(tool_deck)
 	gui_discard_deck_button.bind_deck(tool_deck)
