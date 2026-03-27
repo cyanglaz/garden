@@ -53,6 +53,12 @@ func _on_state_changed(new_state: TrinketData.TrinketState) -> void:
 			gui_icon.has_outline = false
 			gui_icon.modulate = Color.WHITE
 
+	# If the mouse is currently hovering this trinket and the new state is not ACTIVE,
+	# re-apply the hover outline. This handles state changes that occur while hovering,
+	# since _on_mouse_entered() will not be called again until the cursor leaves and re-enters.
+	if get_global_rect().has_point(get_global_mouse_position()) \
+			and new_state != TrinketData.TrinketState.ACTIVE:
+		gui_icon.has_outline = true
 func play_trigger_animation() -> void:
 	good_animation_audio.play()
 	var original_position:Vector2 = gui_icon.position
