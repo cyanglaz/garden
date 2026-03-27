@@ -65,7 +65,9 @@ func play_collect_sound() -> void:
 	collect_sound.play()
 
 func _on_mouse_entered() -> void:
-	if _trinket_data == null or _trinket_data.state != TrinketData.TrinketState.ACTIVE:
+	if _trinket_data == null:
+		return
+	if _trinket_data.state != TrinketData.TrinketState.ACTIVE:
 		gui_icon.has_outline = true
 	Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.THING_DATA, _trinket_data, _tooltip_id, self, tooltip_position))
 
