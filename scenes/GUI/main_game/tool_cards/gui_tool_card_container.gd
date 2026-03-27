@@ -106,45 +106,6 @@ func select_cards(number_of_cards: int, selecting_from_cards: Array) -> Array:
 	_clear_secondary_card_selection()
 	return result
 
-func _clear_secondary_card_selection() -> void:
-	_card_selection_container.end_selection()
-	_selected_secondary_cards.clear()
-
-func _toggle_card_selection(on:bool, selecting_from_cards:Array) -> void:
-	var selecting_from_card_index := []
-	for tool_data:ToolData in selecting_from_cards:
-		var gui_card:GUIToolCardButton = find_card(tool_data)
-		selecting_from_card_index.append(gui_card.hand_index)
-	card_selection_mode = on
-	for i in _container.get_children().size():
-		var gui_card:GUIToolCardButton = _container.get_child(i)
-		if selecting_from_card_index.has(i):
-			gui_card.card_state = GUICardFace.CardState.NORMAL
-		elif i == selected_index:
-			if card_selection_mode:
-				gui_card.card_state = GUICardFace.CardState.WAITING
-			else:
-				gui_card.card_state = GUICardFace.CardState.SELECTED
-		else:
-			if card_selection_mode:
-				gui_card.card_state = GUICardFace.CardState.UNSELECTED
-			else:
-				gui_card.card_state = GUICardFace.CardState.NORMAL
-
-func _rebind_signals() -> void:
-	for i in _container.get_children().size():
-		var gui_card:GUIToolCardButton = _container.get_child(i)
-		if gui_card.pressed.is_connected(_on_tool_card_pressed):
-			gui_card.pressed.disconnect(_on_tool_card_pressed)
-		if gui_card.mouse_entered_card.is_connected(_on_tool_card_mouse_entered):
-			gui_card.mouse_entered_card.disconnect(_on_tool_card_mouse_entered)
-		if gui_card.mouse_exited_card.is_connected(_on_tool_card_mouse_exited):
-			gui_card.mouse_exited_card.disconnect(_on_tool_card_mouse_exited)
-		gui_card.pressed.connect(_on_tool_card_pressed.bind(i))
-		gui_card.mouse_entered_card.connect(_on_tool_card_mouse_entered.bind(i))
-		gui_card.mouse_exited_card.connect(_on_tool_card_mouse_exited.bind(i))
-		gui_card.hand_index = i
-
 #region animation
 
 func animate_draw(draw_results:Array) -> void:
@@ -176,6 +137,10 @@ func animate_card_error_shake(tool_data:ToolData) -> void:
 	await card.play_error_shake_animation()
 
 #endregion
+
+func set_card_state(tool_data:ToolData, state:GUICardFace.CardState) -> void:
+	var card:GUIToolCardButton = find_card(tool_data)
+	card.card_state = state
 
 func get_card(index:int) -> GUIToolCardButton:
 	return _container.get_child(index)
@@ -222,6 +187,45 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 	return result
 
 #region private
+
+func _clear_secondary_card_selection() -> void:
+	_card_selection_container.end_selection()
+	_selected_secondary_cards.clear()
+
+func _toggle_card_selection(on:bool, selecting_from_cards:Array) -> void:
+	var selecting_from_card_index := []
+	for tool_data:ToolData in selecting_from_cards:
+		var gui_card:GUIToolCardButton = find_card(tool_data)
+		selecting_from_card_index.append(gui_card.hand_index)
+	card_selection_mode = on
+	for i in _container.get_children().size():
+		var gui_card:GUIToolCardButton = _container.get_child(i)
+		if selecting_from_card_index.has(i):
+			gui_card.card_state = GUICardFace.CardState.NORMAL
+		elif i == selected_index:
+			if card_selection_mode:
+				gui_card.card_state = GUICardFace.CardState.WAITING
+			else:
+				gui_card.card_state = GUICardFace.CardState.SELECTED
+		else:
+			if card_selection_mode:
+				gui_card.card_state = GUICardFace.CardState.UNSELECTED
+			else:
+				gui_card.card_state = GUICardFace.CardState.NORMAL
+
+func _rebind_signals() -> void:
+	for i in _container.get_children().size():
+		var gui_card:GUIToolCardButton = _container.get_child(i)
+		if gui_card.pressed.is_connected(_on_tool_card_pressed):
+			gui_card.pressed.disconnect(_on_tool_card_pressed)
+		if gui_card.mouse_entered_card.is_connected(_on_tool_card_mouse_entered):
+			gui_card.mouse_entered_card.disconnect(_on_tool_card_mouse_entered)
+		if gui_card.mouse_exited_card.is_connected(_on_tool_card_mouse_exited):
+			gui_card.mouse_exited_card.disconnect(_on_tool_card_mouse_exited)
+		gui_card.pressed.connect(_on_tool_card_pressed.bind(i))
+		gui_card.mouse_entered_card.connect(_on_tool_card_mouse_entered.bind(i))
+		gui_card.mouse_exited_card.connect(_on_tool_card_mouse_exited.bind(i))
+		gui_card.hand_index = i
 
 func _handle_selected_card(card:GUIToolCardButton) -> void:
 	if card.card_state == GUICardFace.CardState.SELECTED:
