@@ -26,4 +26,5 @@ func _set_default_blend_strength(val:float) -> void:
 		(material as ShaderMaterial).set_shader_parameter("blend_strength", default_blend_strength)
 
 func set_outline_color(color: Color) -> void:
-	(material as ShaderMaterial).set_shader_parameter("outline_color", color)
+	if material is ShaderMaterial:
+		(material as ShaderMaterial).set_shader_parameter("outline_color", color)
