@@ -11,10 +11,14 @@ const COSTS := {
 	2: 62,  # rare
 }
 
+enum TrinketState { NORMAL = 0, ACTIVE = 1, DISABLED = 2 }
+
 var cost: int: get = _get_cost
 var stack:int: set = _set_stack
+var state: TrinketState = TrinketState.NORMAL: set = _set_state
 
 signal stack_changed(new_value: int)
+signal state_changed(new_state: TrinketState)
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
@@ -47,3 +51,9 @@ func _set_stack(value:int) -> void:
 	stack = value
 	data["stack"] = str(value)
 	stack_changed.emit(value)
+
+func _set_state(value: TrinketState) -> void:
+	if state == value:
+		return
+	state = value
+	state_changed.emit(value)
