@@ -24,6 +24,8 @@ func _ready() -> void:
 	_set_action_alignment(action_alignment)
 
 func update_with_action(action_data:ActionData, target_plant:Plant) -> void:
+	if !is_inside_tree():
+		return
 	_field_application_icon.hide()
 	_gui_action_type_icon.update_with_action_type(action_data.type)
 	if action_data.type == ActionData.ActionType.NONE:
