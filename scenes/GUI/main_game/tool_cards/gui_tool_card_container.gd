@@ -104,6 +104,7 @@ func select_cards(number_of_cards: int, selecting_from_cards: Array) -> Array:
 	_toggle_card_selection(true, selecting_from_cards)
 	var result := await _card_selection_container.start_selection(number_of_cards, selecting_from_cards)
 	_clear_secondary_card_selection()
+	_toggle_card_selection(false, [])
 	return result
 
 #region animation
