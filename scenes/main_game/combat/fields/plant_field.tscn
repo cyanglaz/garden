@@ -47,25 +47,7 @@ max_value = 5
 icon_texture = ExtResource("7_suj65")
 icon_size = Vector2(6, 6)
 
-[node name="GUIFieldStatusContainer" parent="." index="8" unique_id=1556415031 instance=ExtResource("8_rburk")]
-unique_name_in_owner = true
-z_index = 1
-offset_left = 22.0
-offset_top = 11.0
-offset_right = 22.0
-offset_bottom = 11.0
-
-[node name="CompleteCheck" type="TextureRect" parent="." index="9" unique_id=1078740455]
-unique_name_in_owner = true
-z_index = 1
-offset_left = -4.0
-offset_top = 15.0
-offset_right = 4.0
-offset_bottom = 23.0
-texture = ExtResource("9_jdk52")
-stretch_mode = 5
-
-[node name="GUIPlantAbilityIconContainer" parent="." index="10" unique_id=1045629522 instance=ExtResource("10_prsfb")]
+[node name="GUIPlantAbilityIconContainer" parent="." index="8" unique_id=1045629522 instance=ExtResource("10_prsfb")]
 unique_name_in_owner = true
 z_index = 1
 anchors_preset = 2
@@ -76,3 +58,25 @@ offset_top = 11.0
 offset_right = -22.0
 offset_bottom = 11.0
 grow_horizontal = 1
+
+[node name="GUIFieldStatusContainer" parent="." index="9" unique_id=1556415031 instance=ExtResource("8_rburk")]
+unique_name_in_owner = true
+z_index = 1
+anchors_preset = 2
+anchor_left = 0.0
+anchor_right = 0.0
+offset_left = 15.0
+offset_top = 11.0
+offset_right = 15.0
+offset_bottom = 11.0
+grow_horizontal = 1
+
+[node name="CompleteCheck" type="TextureRect" parent="." index="10" unique_id=1078740455]
+unique_name_in_owner = true
+z_index = 1
+offset_left = -4.0
+offset_top = 15.0
+offset_right = 4.0
+offset_bottom = 23.0
+texture = ExtResource("9_jdk52")
+stretch_mode = 5
