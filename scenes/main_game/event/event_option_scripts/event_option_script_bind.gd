@@ -21,11 +21,19 @@ func _should_enable(option_data:EventOptionData, main_game:MainGame) -> bool:
 		return main_game.hp.value >= (option_data.data["hp"] as int)
 	return true
 
-func _on_bind_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData) -> void:
-	Events.bind_finished.emit(tool_data, front_card_data, back_card_data)
+func _on_bind_finished(_tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData) -> void:
+	var front_to_remove: ToolData = front_card_data
+	if front_card_data.front_card != null:
+		front_to_remove = front_card_data.front_card
 
+	var back_to_remove: ToolData = back_card_data
+	if back_card_data.front_card != null:
+		back_to_remove = back_card_data.front_card
+
+	Events.request_remove_card_from_deck.emit(front_to_remove)
+	Events.request_remove_card_from_deck.emit(back_to_remove)
 func _on_bind_card_pressed(tool_data:ToolData, bind_card_global_position:Vector2) -> void:
-	Events.bind_card_pressed.emit(tool_data, bind_card_global_position)
+	Events.request_add_card_to_deck.emit(tool_data, bind_card_global_position)
 	await Util.await_for_tiny_time()
 	_bind_finished.emit()
 	_bind_main.queue_free()

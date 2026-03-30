@@ -102,6 +102,9 @@ func animated_transform(old_rarity:int) -> void:
 		if current_face.tool_data.back_card:
 			back_face.update_with_tool_data(current_face.tool_data.back_card)
 
+func play_use_animation() -> void:
+	current_face.play_use_animation()
+
 func animate_flip() -> void:
 	if _flipping:
 		return
