@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bvhbc05xll14n"]
+[gd_scene format=3 uid="uid://bvhbc05xll14n"]
 
 [ext_resource type="Script" uid="uid://rvacd60ym0yk" path="res://scenes/main_game/town/tavern.gd" id="1_67yhe"]
 [ext_resource type="Shader" uid="uid://kbc8u6dx42q6" path="res://scenes/main_game/town/town_object.gdshader" id="2_67yhe"]
@@ -13,19 +13,27 @@ shader = ExtResource("2_67yhe")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_67yhe"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_61wby"]
+atlas = ExtResource("3_67yhe")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5cvta"]
 atlas = ExtResource("3_67yhe")
 region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fbemm"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_qssvb"]
+atlas = ExtResource("3_67yhe")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qprn0"]
 atlas = ExtResource("3_67yhe")
 region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_61wby"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_5vgug"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_67yhe")
+"texture": SubResource("AtlasTexture_61wby")
 }],
 "loop": true,
 "name": &"closed",
@@ -33,10 +41,26 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fbemm")
+"texture": SubResource("AtlasTexture_5cvta")
+}],
+"loop": true,
+"name": &"closed2",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qssvb")
 }],
 "loop": true,
 "name": &"open",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qprn0")
+}],
+"loop": true,
+"name": &"open2",
 "speed": 10.0
 }]
 
@@ -68,14 +92,14 @@ scale_min = 0.5
 scale_curve = SubResource("CurveTexture_fbemm")
 alpha_curve = SubResource("CurveTexture_61wby")
 
-[node name="Tavern" type="Node2D"]
+[node name="Tavern" type="Node2D" unique_id=1889286310]
 script = ExtResource("1_67yhe")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=17337169]
 unique_name_in_owner = true
 texture_filter = 1
 material = SubResource("ShaderMaterial_3nie3")
-sprite_frames = SubResource("SpriteFrames_61wby")
+sprite_frames = SubResource("SpriteFrames_5vgug")
 animation = &"closed"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
@@ -91,9 +115,9 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://resources/sprites/objects/town/tavern.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "f0bc62b712c0631166cd964db139f4cc"
+metadata/_aseprite_wizard_source_file_hash_ = "ad64dc89feca6ad7637033612081b97e"
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=732348974]
 unique_name_in_owner = true
 position = Vector2(-6.5, -13)
 amount = 32
@@ -101,7 +125,7 @@ texture = ExtResource("4_67yhe")
 lifetime = 2.0
 process_material = SubResource("ParticleProcessMaterial_j546p")
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=882356258]
 unique_name_in_owner = true
 position = Vector2(-2, 8)
 energy = 1.5
@@ -109,7 +133,7 @@ blend_mode = 2
 shadow_color = Color(0.07450981, 0.07450981, 0.07450981, 1)
 texture = ExtResource("5_fbemm")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=113722046]
 unique_name_in_owner = true
 stream = ExtResource("6_61wby")
 bus = &"SFX"
