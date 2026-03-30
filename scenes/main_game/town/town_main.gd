@@ -43,11 +43,12 @@ func _on_tavern_field_pressed(field:TavernField) -> void:
 func _on_forge_field_pressed(_field:ForgeField) -> void:
 	gui_town_main.show_bind_main()
 
-func _on_bind_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData) -> void:
-	Events.bind_finished.emit(tool_data, front_card_data, back_card_data)
+func _on_bind_finished(_tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData) -> void:
+	Events.request_remove_card_from_deck.emit(front_card_data)
+	Events.request_remove_card_from_deck.emit(back_card_data)
 
 func _on_bind_card_pressed(tool_data:ToolData, bind_card_global_position:Vector2) -> void:
-	Events.bind_card_pressed.emit(tool_data, bind_card_global_position)
+	Events.request_add_card_to_deck.emit(tool_data, bind_card_global_position)
 	await Util.await_for_tiny_time()
 	town_finished.emit()
 

@@ -67,7 +67,6 @@ func _register_global_events() -> void:
 	Events.request_hide_warning.connect(_on_request_hide_warning)
 	Events.request_show_custom_error.connect(_on_request_show_custom_error)
 	Events.request_hide_custom_error.connect(_on_request_hide_custom_error)
-	Events.bind_finished.connect(_on_bind_finished)
 	Events.request_add_card_to_deck.connect(_on_request_add_card_to_deck)
 	Events.request_remove_card_from_deck.connect(_on_request_remove_card_from_deck)
 	Events.request_add_trinket_to_collection.connect(_on_request_add_trinket_to_collection)
@@ -83,13 +82,13 @@ func _start_new_chapter() -> void:
 
 	#_start_map_main_scene()
 	## Always start with a common node
-	if test_data && test_data.test_combat:
-		_start_combat_main_scene.call_deferred(test_data.test_combat)
-	else:
-		_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
+	#if test_data && test_data.test_combat:
+	#	_start_combat_main_scene.call_deferred(test_data.test_combat)
+	#else:
+	#	_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
 	#_start_event()
 	#_start_chest()
-	#_start_town()
+	_start_town()
 	#_game_over()
 	#_game_win()
 	#_start_shop()
@@ -187,13 +186,6 @@ func _on_shop_finish_button_pressed() -> void:
 
 func _on_town_finished() -> void:
 	_complete_current_node()
-
-func _on_bind_finished(tool_data:ToolData, front_card_data_to_erase:ToolData, back_card_data_to_erase:ToolData) -> void:
-	assert(card_pool.has(front_card_data_to_erase), "Front card not in card pool")
-	assert(card_pool.has(back_card_data_to_erase), "Back card not in card pool")
-	card_pool.erase(front_card_data_to_erase)
-	card_pool.erase(back_card_data_to_erase)
-	card_pool.append(tool_data)
 
 func _on_request_add_card_to_deck(tool_data:ToolData, bind_card_global_position:Vector2) -> void:
 	card_pool.append(tool_data)
