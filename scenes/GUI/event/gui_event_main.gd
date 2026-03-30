@@ -65,6 +65,8 @@ func _on_meta_clicked(meta: String, event_data: EventData) -> void:
 		Events.request_show_info_view.emit(card_data)
 
 func _on_option_button_pressed(event: EventData, option_data: EventOptionData, main_game: MainGame) -> void:
+	Events.update_hovered_data.emit(null)
+	Events.request_hide_tooltip.emit("event_option_trinket_tooltip")
 	var script: EventOptionScript = _get_option_script(event.id, option_data)
 	script.request_add_sub_scene.connect(_on_request_add_sub_scene)
 	var meta:Variant = await script.run(option_data, main_game)
