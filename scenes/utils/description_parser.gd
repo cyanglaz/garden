@@ -63,6 +63,8 @@ static func _format_reference(reference_key:String, data_to_format:Dictionary, h
 			parsed_string = _format_value_reference(reference_id)
 		elif reference_category == "weather":
 			parsed_string = _format_weather_reference(reference_id)
+		elif reference_category == "trinket":
+			parsed_string = _format_trinket_reference(reference_id, highlight)
 	return parsed_string
 
 static func _get_level_suffix(reference_id:String) -> String:
@@ -117,3 +119,10 @@ static func _format_card_reference(reference_id:String, highlight:bool) -> Strin
 static func _format_weather_reference(reference_id:String) -> String:
 	var weather_name :String = MainDatabase.weather_database.get_data_by_id(reference_id).get_display_name()
 	return Util.convert_to_bbc_highlight_text(weather_name, Constants.COLOR_WHITE)
+
+static func _format_trinket_reference(reference_id: String, highlight: bool) -> String:
+	var trinket_data: TrinketData = MainDatabase.trinket_database.get_data_by_id(reference_id)
+	var highlight_color := Util.get_color_for_rarity(trinket_data.rarity)
+	if highlight:
+		highlight_color = Constants.COLOR_WHITE
+	return Util.convert_to_bbc_highlight_text(trinket_data.get_display_name(), highlight_color, 2)
