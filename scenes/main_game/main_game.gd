@@ -213,6 +213,9 @@ func _on_event_finished(meta:Variant) -> void:
 	if meta is ToolData:
 		card_pool.append(meta)
 		await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(gui_main_game.gui_top_animation_overlay.size/2, meta)
+	elif meta is TrinketData:
+		trinket_manager.add_trinket(meta)
+		await gui_main_game.gui_top_animation_overlay.animate_add_trinket_to_collection(gui_main_game.gui_top_animation_overlay.size/2, meta)
 	_complete_current_node()
 
 #endregion

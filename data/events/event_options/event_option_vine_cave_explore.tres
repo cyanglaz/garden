@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EventOptionData" format=3]
+
+[ext_resource type="Script" uid="uid://crrap2q1ee4im" path="res://data/models/event/event_option_data.gd" id="1_in5p0"]
+
+[resource]
+script = ExtResource("1_in5p0")
+positive_description = "Obtain Parasitic Vine."
+script_id = "obtain_trinket"
+id = "vine_cave_explore"
+metadata/_custom_type_script = "uid://crrap2q1ee4im"
