@@ -17,6 +17,7 @@ signal reward_finished()
 @onready var panel_container: PanelContainer = %PanelContainer
 @onready var main_margin_container: MarginContainer = %MainMarginContainer
 @onready var vbox_container: VBoxContainer = %VBoxContainer
+@onready var skip_reward_button: GUIRichTextButton = %SkipRewardButton
 
 var _booster_pack_type: CombatData.BoosterPackType
 var _gold: int = 0
@@ -29,6 +30,8 @@ var _trinket_collected: bool = true
 var _card_collected: bool = false
 
 var _original_panel_y: float
+var _original_title_y: float
+var _original_skip_button_y: float
 
 func _ready() -> void:
 	title_label.text = Util.get_localized_string("REWARD_MAIN_TITLE_TEXT")
@@ -36,7 +39,10 @@ func _ready() -> void:
 	gui_reward_cards_main.reward_finished.connect(_on_reward_finished)
 	gui_reward_gold.gold_collected.connect(_on_gold_collected)
 	gui_reward_hp.hp_collected.connect(_on_hp_collected)
+	skip_reward_button.pressed.connect(_on_skip_reward_pressed)
 	_original_panel_y = panel_container.position.y
+	_original_title_y = title_label.position.y
+	_original_skip_button_y = skip_reward_button.position.y
 
 	#var combat_data = CombatData.new()
 	#show_with_combat_data(combat_data)
@@ -65,9 +71,13 @@ func show_with_data(gold: int, hp: int, booster_pack_type: CombatData.BoosterPac
 	show()
 	PauseManager.try_pause()
 	panel_container.position.y = main_margin_container.size.y
+	title_label.position.y = main_margin_container.size.y
+	skip_reward_button.position.y = main_margin_container.size.y
 	reward_showing_audio.play()
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(panel_container, "position:y", _original_panel_y, SHOW_ANIMATION_TIME).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(title_label, "position:y", _original_title_y, SHOW_ANIMATION_TIME).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(skip_reward_button, "position:y", _original_skip_button_y, SHOW_ANIMATION_TIME).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	await tween.finished
 
 func show_with_combat_data(combat_data: CombatData, owned_trinkets:Array[String]) -> void:
@@ -123,6 +133,16 @@ func _on_trinket_pressed() -> void:
 	_gui_reward_trinket = null
 	Events.request_add_trinket_to_collection.emit(_trinket_data, from_position)
 	_trinket_collected = true
+	_try_finish_rewards()
+
+func _on_skip_reward_pressed() -> void:
+	if _gui_reward_trinket:
+		_gui_reward_trinket.queue_free()
+		_gui_reward_trinket = null
+	_gold_collected = true
+	_hp_collected = true
+	_trinket_collected = true
+	_card_collected = true
 	_try_finish_rewards()
 
 func _try_finish_rewards() -> void:
