@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://crp30cui4dabe"
+
+[deps]
+
+files=["res://csv/events.Narative.translation", "res://csv/events.Option 1.translation", "res://csv/events.Option 2.translation", "res://csv/events.Option 3 .translation"]
+
+source_file="res://csv/events.csv"
+dest_files=["res://csv/events.Narative.translation", "res://csv/events.Option 1.translation", "res://csv/events.Option 2.translation", "res://csv/events.Option 3 .translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true
