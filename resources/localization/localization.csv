@@ -436,5 +436,5 @@ EVENT_OPTION_WASP_MERCHANT_ROB_NEGATIVE_DESCRIPTION,"- {hp} {resource:vitality}.
 
 EVENT_VINE_CAVE_DESCRIPTION,"You spot a narrow cave. Vines spill out of the entrance like a tangled waterfall. They pulse with a faint, rhythmic violet light, almost like a heartbeat."
 EVENT_OPTION_VINE_CAVE_EXPLORE_NAME,"Explore"
-EVENT_OPTION_VINE_CAVE_EXPLORE_POSITIVE_DESCRIPTION,"Obtain Parasitic Vine."
+EVENT_OPTION_VINE_CAVE_EXPLORE_POSITIVE_DESCRIPTION,"Obtain {trinket:dt_trinket}."
 EVENT_OPTION_VINE_CAVE_LEAVE_NAME,"Leave"

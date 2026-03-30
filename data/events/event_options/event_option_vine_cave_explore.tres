@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_in5p0")
-positive_description = "Obtain Parasitic Vine."
+positive_description = "Obtain {trinket:dt_trinket}."
 script_id = "obtain_trinket"
 id = "vine_cave_explore"
 metadata/_custom_type_script = "uid://crrap2q1ee4im"
