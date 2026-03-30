@@ -5,7 +5,7 @@ const DIR = "res://data/trinkets"
 const RARITY_WEIGHTS := {0: 6, 1: 3, 2: 1}
 
 func roll_trinkets(count: int, excluded_ids: Array[String] = []) -> Array[TrinketData]:
-	var available: Array = get_all_datas().filter(
+	var available: Array = _get_all_resources(_datas, "default").values().filter(
 		func(t: TrinketData) -> bool: return !excluded_ids.has(t.id)
 	).duplicate()
 	var result: Array[TrinketData] = []
@@ -19,7 +19,7 @@ func roll_trinkets(count: int, excluded_ids: Array[String] = []) -> Array[Trinke
 	return result
 
 func roll_shop_trinkets(excluded_ids: Array[String] = []) -> Array[TrinketData]:
-	var available: Array = get_all_datas().filter(
+	var available: Array = _get_all_resources(_datas, "default").values().filter(
 		func(t: TrinketData) -> bool: return !excluded_ids.has(t.id) and t.rarity < 2
 	)
 	return _select_shop_trinkets(available)
