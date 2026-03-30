@@ -6,10 +6,10 @@ uid="uid://crp30cui4dabe"
 
 [deps]
 
-files=["res://csv/events.Narative.translation", "res://csv/events.Option 1.translation", "res://csv/events.Option 2.translation", "res://csv/events.Option 3 .translation"]
+files=["res://csv/events.Narrative.translation", "res://csv/events.Option 1.translation", "res://csv/events.Option 2.translation", "res://csv/events.Option 3 .translation"]
 
 source_file="res://csv/events.csv"
-dest_files=["res://csv/events.Narative.translation", "res://csv/events.Option 1.translation", "res://csv/events.Option 2.translation", "res://csv/events.Option 3 .translation"]
+dest_files=["res://csv/events.Narrative.translation", "res://csv/events.Option 1.translation", "res://csv/events.Option 2.translation", "res://csv/events.Option 3 .translation"]
 
 [params]
 

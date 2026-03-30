@@ -17,7 +17,5 @@ When implement a event, also include:
 	- I might ask you to create a generic option script for a given event option.
 	- If I didn't ask you to create a new generic option, search for existing generic event option script that matches the behavior of the event, if you can find a match, reuse that script.
 	- if no specific event option script found, create a new one with the name event_option_script_<option_id>.gd
-5. **Localization:** Make sure to add localization for event narrative and 
-6. **Draw hooks fire for all draws**, including the start-of-turn draw (which happens before `is_mid_turn` is set to `true`). All "after drawing a card" trinket effects must guard with `combat_main.is_mid_turn` in `_has_draw_hook`.
-7. **Clear the plan doc** after finishing implementation: overwrite `/root/.claude/plans/mighty-wobbling-crystal.md` with only the new trinket's plan content, removing all stale entries from previously implemented trinkets.
-8. Trinket's tres file should be under default unless I specify.
+5. **Localization:** Make sure to add localization for event narrative and and event option names. For trinket, cards or numbers, remember to use data to make them dynamic, not hard coding. For numbers, highlight them, for resources, use icon if possible.
+7. **Clear the plan doc** after finishing implementation: overwrite `/root/.claude/plans/mighty-wobbling-crystal.md` with only the new event's plan content, removing all stale entries from previously implemented trinkets.

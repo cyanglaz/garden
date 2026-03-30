@@ -85,3 +85,4 @@ Specialized databases exist for: plants, combat, bosses, events, event options, 
 - **Physics:** Gravity is effectively zero (this is not a physics-simulation game).
 - **New tests:** Copy `tests/template.gd` as a starting point; name files `test_*.gd`.
 - **Trinkets:** Use create-trinket skill to implement trinkets.
+- **Events:** Use create-event skill to implement events.
