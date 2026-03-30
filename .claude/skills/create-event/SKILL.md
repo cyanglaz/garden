@@ -18,4 +18,5 @@ When implement a event, also include:
 	- If I didn't ask you to create a new generic option, search for existing generic event option script that matches the behavior of the event, if you can find a match, reuse that script.
 	- if no specific event option script found, create a new one with the name event_option_script_<option_id>.gd
 5. **Localization:** Make sure to add localization for event narrative and and event option names. For trinket, cards or numbers, remember to use data to make them dynamic, not hard coding. For numbers, highlight them, for resources, use icon if possible.
-7. **Clear the plan doc** after finishing implementation: overwrite `/root/.claude/plans/mighty-wobbling-crystal.md` with only the new event's plan content, removing all stale entries from previously implemented trinkets.
+7. **Clear the plan doc:** after finishing implementation: overwrite `/root/.claude/plans/mighty-wobbling-crystal.md` with only the new event's plan content, removing all stale entries from previously implemented trinkets.
+8. **manual testing:** set up main_game to test the implemented event. If I ask you to clear testing data, clear the testing setup.
