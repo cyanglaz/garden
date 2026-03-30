@@ -1,7 +1,7 @@
 class_name GUIDemoEndContainer
 extends GUIPopupContainer
 
-const MENU_SCENE_PATH = "res://scenes/GUI/menu/gui_main_menu.tscn"
+const MENU_SCENE_PATH = "res://scenes/menu/main_menu.tscn"
 
 @onready var ok_button: GUIRichTextButton = %OKButton
 @onready var _title_label: Label = %Label

@@ -6,7 +6,7 @@ const SUMMARY_AUDIO_2 := preload("res://resources/sounds/SFX/summary/summary_2.w
 const SUMMARY_AUDIO_3 := preload("res://resources/sounds/SFX/summary/summary_3.wav")
 const FAILURE_MESSAGE_AUDIO = preload("res://resources/sounds/SFX/summary/failure_message.wav")
 
-const MENU_SCENE_PATH = "res://scenes/GUI/menu/gui_main_menu.tscn"
+const MENU_SCENE_PATH = "res://scenes/menu/main_menu.tscn"
 
 signal continue_button_pressed()
 signal gold_increased(gold:int)

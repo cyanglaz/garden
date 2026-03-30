@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://baexu10jax5e2" path="res://scenes/GUI/containers/gui_credits_panel.tscn" id="5_6thnj"]
 [ext_resource type="PackedScene" uid="uid://3068uq3kyx0r" path="res://scenes/GUI/settings/gui_settings_main.tscn" id="5_dbfmj"]
 
-[node name="MainMenu" type="CanvasLayer" unique_id=805526996]
+[node name="GUIMainMenu" type="CanvasLayer" unique_id=805526996]
 script = ExtResource("1_jl0j8")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=733779977]
@@ -32,10 +32,11 @@ theme_override_constants/margin_bottom = 18
 layout_mode = 2
 
 [node name="TitleLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1332478368]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"HeaderHuge"
-theme_override_colors/font_color = Color(0.976471, 0.901961, 0.811765, 1)
+theme_override_colors/font_color = Color(1, 0.63529414, 0.078431375, 1)
 text = "May there bee flowers"
 vertical_alignment = 1
 
@@ -103,4 +104,6 @@ offset_right = -4.0
 offset_bottom = -5.0
 grow_horizontal = 0
 grow_vertical = 0
+theme_type_variation = &"LabelSmall"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 horizontal_alignment = 2

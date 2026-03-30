@@ -1,7 +1,7 @@
 class_name GUISettingsMain
 extends Control
 
-const MENU_SCENE_PATH = "res://scenes/GUI/menu/gui_main_menu.tscn"
+const MENU_SCENE_PATH = "res://scenes/menu/main_menu.tscn"
 
 # GamePlay settings
 @onready var _gui_labeld_slider: GUILabeledSlider = %GUILabeldSlider
