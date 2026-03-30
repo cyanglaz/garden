@@ -2,6 +2,7 @@ class_name GUICardFace
 extends PanelContainer
 
 const FLIP_ANIMATION_DURATION := 0.1
+const IN_USE_ANIMATION_DURATION := 0.2
 
 signal use_card_button_pressed()
 signal special_interacted(special:ToolData.Special)
@@ -15,7 +16,6 @@ enum CardState {
 	SELECTED,
 	UNSELECTED,
 	WAITING,
-	USING,
 }
 
 const SPECIAL_ICON_SCENE := preload("res://scenes/GUI/controls/buttons/gui_tool_special_icon_button.tscn")
@@ -23,7 +23,7 @@ const VALUE_ICON_PREFIX := "res://resources/sprites/GUI/icons/cards/values/icon_
 const EXHAUST_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_exhaust.wav")
 
 const SELECTED_OFFSET := 10.0
-const IN_USE_OFFSET := 20.0
+const IN_USE_OFFSET := 30.0
 const HIGHLIGHTED_OFFSET := 1.0
 
 @onready var _gui_action_list: GUIActionList = %GUIActionList
@@ -115,6 +115,16 @@ func animated_transform(old_rarity:int) -> void:
 func play_error_shake_animation() -> void:
 	await Util.play_error_shake_animation(self, "position", Vector2.ZERO)
 
+func play_use_animation() -> void:
+	has_outline = true
+	_overlay.hide()
+	_gui_use_card_button.hide()
+	z_index = 1
+	var tween := Util.create_scaled_tween(self)
+	tween.tween_property(self, "position", Vector2.UP * IN_USE_OFFSET, IN_USE_ANIMATION_DURATION).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	await tween.finished
+	z_index = 0
+
 func animate_flip(on:bool) -> void:
 	if on :
 		visible = true
@@ -202,12 +212,6 @@ func _set_card_state(value:CardState) -> void:
 			position = Vector2.UP * SELECTED_OFFSET
 			has_outline = true
 			_overlay.show()
-			_gui_use_card_button.hide()
-			z_index = 1
-		CardState.USING:
-			position = Vector2.UP * IN_USE_OFFSET
-			has_outline = true
-			_overlay.hide()
 			_gui_use_card_button.hide()
 			z_index = 1
 

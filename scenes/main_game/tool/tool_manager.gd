@@ -186,7 +186,7 @@ func _finish_card(tool_data:ToolData) -> void:
 		await discard_cards([tool_data])
 
 func _run_card_actions(combat_main:CombatMain, tool_data:ToolData, secondary_card_datas:Array) -> void:
-	_gui_tool_card_container.set_card_state(tool_data, GUICardFace.CardState.USING)
+	_gui_tool_card_container.find_card(tool_data).play_use_animation()
 	await combat_main.plant_field_container.trigger_tool_application_hook()
 	await _tool_applier.apply_tool(combat_main, tool_data, secondary_card_datas, null)
 
