@@ -27,7 +27,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="May There Bee Flowers"
+config/name="May there bee flowers"
 config/version="0.0.1"
 run/main_scene="uid://dr6n15ja3p04f"
 config/features=PackedStringArray("4.6", "Mobile")
