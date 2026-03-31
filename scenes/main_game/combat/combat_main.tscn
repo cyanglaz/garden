@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://r5p41d4bnvav"]
+[gd_scene format=3 uid="uid://r5p41d4bnvav"]
 
 [ext_resource type="PackedScene" uid="uid://c7amcb4w04k0a" path="res://scenes/main_game/combat/fields/plant_field_container.tscn" id="1_nckrh"]
 [ext_resource type="Script" uid="uid://bw2cm26cqa66" path="res://scenes/main_game/combat/combat_main.gd" id="1_yx5ui"]
@@ -9,32 +9,32 @@
 [ext_resource type="AudioStream" uid="uid://2x0fcdcvwdmm" path="res://resources/sounds/musics/MUSC_Puzzle_Theme_Loop.wav" id="7_sy8gx"]
 [ext_resource type="PackedScene" uid="uid://jgby34y1664r" path="res://scenes/main_game/combat/player/player.tscn" id="8_stq43"]
 
-[node name="CombatMain" type="Node2D"]
+[node name="CombatMain" type="Node2D" unique_id=1752390891]
 script = ExtResource("1_yx5ui")
 
-[node name="WeatherMain" parent="." instance=ExtResource("2_lcb6h")]
+[node name="WeatherMain" parent="." unique_id=1744514551 instance=ExtResource("2_lcb6h")]
 unique_name_in_owner = true
 
-[node name="Background" parent="." instance=ExtResource("4_aij0c")]
+[node name="Background" parent="." unique_id=331128235 instance=ExtResource("4_aij0c")]
 
-[node name="PlantFieldContainer" parent="." instance=ExtResource("1_nckrh")]
+[node name="PlantFieldContainer" parent="." unique_id=836717319 instance=ExtResource("1_nckrh")]
 unique_name_in_owner = true
 z_index = 1
 position = Vector2(0, 4)
 
-[node name="DynamicWater" parent="." instance=ExtResource("5_y1agf")]
+[node name="DynamicWater" parent="." unique_id=2028044181 instance=ExtResource("5_y1agf")]
 z_index = 1
 position = Vector2(0, 13)
 
-[node name="Player" parent="." instance=ExtResource("8_stq43")]
+[node name="Player" parent="." unique_id=2002834196 instance=ExtResource("8_stq43")]
 unique_name_in_owner = true
 z_index = 1
 position = Vector2(0, -182)
 
-[node name="GUI" parent="." instance=ExtResource("2_yx5ui")]
+[node name="GUI" parent="." unique_id=461996881 instance=ExtResource("2_yx5ui")]
 unique_name_in_owner = true
 
-[node name="BackgroundMusicPlayer" type="AudioStreamPlayer2D" parent="."]
+[node name="BackgroundMusicPlayer" type="AudioStreamPlayer2D" parent="." unique_id=195719331]
 unique_name_in_owner = true
 stream = ExtResource("7_sy8gx")
 bus = &"Music"
