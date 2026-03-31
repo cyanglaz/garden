@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cpah64bt1dqyl"]
+[gd_scene format=3 uid="uid://cpah64bt1dqyl"]
 
 [ext_resource type="PackedScene" uid="uid://btg5np7yclg88" path="res://scenes/GUI/town/gui_town_main.tscn" id="1_3edfl"]
 [ext_resource type="Script" uid="uid://cub5nykjo6l4f" path="res://scenes/main_game/town/town_main.gd" id="1_yr5n1"]
@@ -9,25 +9,26 @@
 [ext_resource type="PackedScene" uid="uid://brn545uxitgnr" path="res://scenes/main_game/town/forge_field.tscn" id="6_rdtrg"]
 [ext_resource type="PackedScene" uid="uid://b5vvjdyudqxkf" path="res://scenes/main_game/combat/world/water/dynamic_water.tscn" id="6_ylli7"]
 
-[node name="TownMain" type="Node2D"]
+[node name="TownMain" type="Node2D" unique_id=100147078]
 script = ExtResource("1_yr5n1")
 
-[node name="WeatherMain" parent="." instance=ExtResource("3_yy3ws")]
+[node name="WeatherMain" parent="." unique_id=1990893129 instance=ExtResource("3_yy3ws")]
 unique_name_in_owner = true
 
-[node name="Background" parent="." instance=ExtResource("4_65nk7")]
+[node name="Background" parent="." unique_id=1551146146 instance=ExtResource("4_65nk7")]
 
-[node name="FieldContainer" parent="." instance=ExtResource("4_rdtrg")]
+[node name="FieldContainer" parent="." unique_id=1967708767 instance=ExtResource("4_rdtrg")]
 unique_name_in_owner = true
-position = Vector2(0, -9)
+position = Vector2(0, 4)
 
-[node name="TavernField" parent="FieldContainer" instance=ExtResource("4_yy3ws")]
+[node name="TavernField" parent="FieldContainer" unique_id=414916207 instance=ExtResource("4_yy3ws")]
 unique_name_in_owner = true
 position = Vector2(-53, -1)
 
-[node name="ForgeField" parent="FieldContainer" instance=ExtResource("6_rdtrg")]
+[node name="ForgeField" parent="FieldContainer" unique_id=1868749047 instance=ExtResource("6_rdtrg")]
 
-[node name="DynamicWater" parent="." instance=ExtResource("6_ylli7")]
+[node name="DynamicWater" parent="." unique_id=1496907659 instance=ExtResource("6_ylli7")]
+position = Vector2(0, 13)
 
-[node name="GUITownMain" parent="." instance=ExtResource("1_3edfl")]
+[node name="GUITownMain" parent="." unique_id=1674678838 instance=ExtResource("1_3edfl")]
 unique_name_in_owner = true

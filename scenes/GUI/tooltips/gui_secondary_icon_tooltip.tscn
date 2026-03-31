@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://bm5j9r3kz6t0q"]
+[gd_scene format=3 uid="uid://bm5kar3k06t0q"]
 
 [ext_resource type="PackedScene" uid="uid://73vkj3ho7ou5" path="res://scenes/GUI/tooltips/gui_tooltip.tscn" id="1_xyz01"]
-[ext_resource type="Script" uid="uid://cwfn2x7y4e0pb" path="res://scenes/GUI/tooltips/gui_secondary_icon_tooltip.gd" id="2_xyz02"]
+[ext_resource type="Script" path="res://scenes/GUI/tooltips/gui_secondary_icon_tooltip.gd" id="2_xyz02"]
 [ext_resource type="PackedScene" uid="uid://dv8p3q5whlcmj" path="res://scenes/GUI/shared/descriptions/shared_description/gui_status_icon_description.tscn" id="3_xyz03"]
 
-[node name="GUISecondaryIconTooltip" instance=ExtResource("1_xyz01")]
+[node name="GUISecondaryIconTooltip" unique_id=350418122 instance=ExtResource("1_xyz01")]
 script = ExtResource("2_xyz02")
 
 [node name="ContentContainer" parent="." index="2"]
@@ -13,6 +13,6 @@ theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="GUIStatusIconDescription" parent="ContentContainer" index="0" instance=ExtResource("3_xyz03")]
+[node name="GUIStatusIconDescription" parent="ContentContainer" index="0" unique_id=865011217 instance=ExtResource("3_xyz03")]
 unique_name_in_owner = true
 layout_mode = 2

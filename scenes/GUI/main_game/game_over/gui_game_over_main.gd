@@ -1,7 +1,7 @@
 class_name GUIGameOverMain
 extends Control
 
-const MENU_SCENE_PATH = "res://scenes/GUI/menu/gui_main_menu.tscn"
+const MENU_SCENE_PATH = "res://scenes/menu/main_menu.tscn"
 
 const DISPLAY_ITEMS_DELAY := 0.1
 

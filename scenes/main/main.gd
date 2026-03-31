@@ -1,7 +1,7 @@
 class_name Main
 extends Node2D
 
-const MENU_SCENE := preload("res://scenes/GUI/menu/gui_main_menu.tscn")
+const MENU_SCENE := preload("res://scenes/menu/main_menu.tscn")
 const LOADING_SCREEN_SCENE := preload("res://scenes/GUI/loading/loading_screen.tscn")
 const GAME_SESSION := preload("res://scenes/main_game/main_game.tscn")
 

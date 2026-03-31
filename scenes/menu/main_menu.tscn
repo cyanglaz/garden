@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://dr6n15ja3p04f"]
+
+[ext_resource type="PackedScene" uid="uid://4p4u6myuj4oc" path="res://scenes/main_game/combat/weather/weather_main.tscn" id="1_247la"]
+[ext_resource type="Script" uid="uid://df67xej35dli" path="res://scenes/menu/main_menu.gd" id="1_hj162"]
+[ext_resource type="PackedScene" uid="uid://dvx20utoq0vco" path="res://scenes/main_game/combat/world/background.tscn" id="2_kiqgm"]
+[ext_resource type="PackedScene" uid="uid://b5vvjdyudqxkf" path="res://scenes/main_game/combat/world/water/dynamic_water.tscn" id="3_hj162"]
+[ext_resource type="PackedScene" uid="uid://qy2x3blewn0" path="res://scenes/GUI/menu/gui_main_menu.tscn" id="4_kiqgm"]
+
+[node name="MainMenu" type="Node2D" unique_id=1735094811]
+script = ExtResource("1_hj162")
+
+[node name="WeatherMain" parent="." unique_id=394901580 instance=ExtResource("1_247la")]
+unique_name_in_owner = true
+
+[node name="Background" parent="." unique_id=750384486 instance=ExtResource("2_kiqgm")]
+
+[node name="DynamicWater" parent="." unique_id=1804788654 instance=ExtResource("3_hj162")]
+z_index = 1
+position = Vector2(0, 13)
+
+[node name="GUIMainMenu" parent="." unique_id=805526996 instance=ExtResource("4_kiqgm")]

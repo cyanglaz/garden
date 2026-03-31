@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://crd7i622oq4dq"]
+[gd_scene format=3 uid="uid://crd7i622oq4dq"]
 
 [ext_resource type="Script" uid="uid://c3ffy06c1n3um" path="res://scenes/main_game/chest/chest_main.gd" id="1_1igly"]
 [ext_resource type="PackedScene" uid="uid://bcabalm40spo5" path="res://scenes/GUI/chest/gui_chest_main.tscn" id="2_bxqva"]
@@ -8,21 +8,22 @@
 [ext_resource type="PackedScene" uid="uid://dvx20utoq0vco" path="res://scenes/main_game/combat/world/background.tscn" id="5_yhjel"]
 [ext_resource type="PackedScene" uid="uid://ianwld66dkf" path="res://scenes/main_game/chest/chest_field.tscn" id="6_jsprl"]
 
-[node name="ChestMain" type="Node2D"]
+[node name="ChestMain" type="Node2D" unique_id=2015693517]
 script = ExtResource("1_1igly")
 
-[node name="WeatherMain" parent="." instance=ExtResource("2_jsprl")]
+[node name="WeatherMain" parent="." unique_id=793097381 instance=ExtResource("2_jsprl")]
 unique_name_in_owner = true
 
-[node name="Background" parent="." instance=ExtResource("5_yhjel")]
+[node name="Background" parent="." unique_id=558714432 instance=ExtResource("5_yhjel")]
 
-[node name="FieldContainer" parent="." instance=ExtResource("4_ifyj7")]
-position = Vector2(0, -9)
+[node name="FieldContainer" parent="." unique_id=1674482330 instance=ExtResource("4_ifyj7")]
+position = Vector2(0, 4)
 
-[node name="ChestField" parent="FieldContainer" instance=ExtResource("6_jsprl")]
+[node name="ChestField" parent="FieldContainer" unique_id=834806613 instance=ExtResource("6_jsprl")]
 unique_name_in_owner = true
 
-[node name="DynamicWater" parent="." instance=ExtResource("4_hy7bp")]
+[node name="DynamicWater" parent="." unique_id=2029006544 instance=ExtResource("4_hy7bp")]
+position = Vector2(0, 13)
 
-[node name="GUIChestMain" parent="." instance=ExtResource("2_bxqva")]
+[node name="GUIChestMain" parent="." unique_id=1781980862 instance=ExtResource("2_bxqva")]
 unique_name_in_owner = true
