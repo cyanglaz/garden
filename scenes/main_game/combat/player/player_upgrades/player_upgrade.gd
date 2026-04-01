@@ -16,6 +16,12 @@ func has_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> bo
 func handle_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
 	await _handle_tool_application_hook(combat_main, tool_data)
 
+func has_pre_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> bool:
+	return _has_pre_tool_application_hook(combat_main, tool_data)
+
+func handle_pre_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
+	await _handle_pre_tool_application_hook(combat_main, tool_data)
+
 func has_activation_hook(combat_main:CombatMain) -> bool:
 	return _has_activation_hook(combat_main)
 
@@ -112,6 +118,12 @@ func _has_tool_application_hook(_combat_main:CombatMain, _tool_data:ToolData) ->
 	return false
 
 func _handle_tool_application_hook(_combat_main:CombatMain, _tool_data:ToolData) -> void:
+	await Util.await_for_tiny_time()
+
+func _has_pre_tool_application_hook(_combat_main:CombatMain, _tool_data:ToolData) -> bool:
+	return false
+
+func _handle_pre_tool_application_hook(_combat_main:CombatMain, _tool_data:ToolData) -> void:
 	await Util.await_for_tiny_time()
 
 func _has_activation_hook(_combat_main:CombatMain) -> bool:

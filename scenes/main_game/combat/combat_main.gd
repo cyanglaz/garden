@@ -229,6 +229,7 @@ func _bloom(plant_index:int) -> void:
 		field.bloom()
 	
 func _handle_card_use() -> void:
+	await player.player_upgrades_manager.handle_pre_tool_application_hook(self, tool_manager.selected_tool)
 	tool_manager.apply_tool(self)
 	await tool_manager.tool_application_completed
 
