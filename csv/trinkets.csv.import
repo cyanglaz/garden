@@ -6,10 +6,10 @@ uid="uid://brs421rqsphhr"
 
 [deps]
 
-files=["res://csv/trinkets.Name.translation", "res://csv/trinkets.effects.translation", "res://csv/trinkets.rarity.translation", "res://csv/trinkets.impelmented.translation"]
+files=["res://csv/trinkets.impelmented.translation", "res://csv/trinkets.effects.translation", "res://csv/trinkets.rarity.translation", "res://csv/trinkets.impelmented.translation"]
 
 source_file="res://csv/trinkets.csv"
-dest_files=["res://csv/trinkets.Name.translation", "res://csv/trinkets.effects.translation", "res://csv/trinkets.rarity.translation", "res://csv/trinkets.impelmented.translation"]
+dest_files=["res://csv/trinkets.impelmented.translation", "res://csv/trinkets.effects.translation", "res://csv/trinkets.rarity.translation", "res://csv/trinkets.impelmented.translation"]
 
 [params]
 
