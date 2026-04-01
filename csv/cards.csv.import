@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://du8f2jf85te1b"
+
+[deps]
+
+files=["res://csv/cards.Energy Cost (Default).translation", "res://csv/cards.Effects.translation", "res://csv/cards.Target (Default).translation", "res://csv/cards.Column 5.translation", "res://csv/cards.Rariy.translation", "res://csv/cards.Implemented.translation"]
+
+source_file="res://csv/cards.csv"
+dest_files=["res://csv/cards.Energy Cost (Default).translation", "res://csv/cards.Effects.translation", "res://csv/cards.Target (Default).translation", "res://csv/cards.Column 5.translation", "res://csv/cards.Rariy.translation", "res://csv/cards.Implemented.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true
