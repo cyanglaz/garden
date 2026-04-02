@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dmulchtscn001"]
+
+[ext_resource type="Script" uid="uid://dmulchgd0001x" path="res://scenes/main_game/combat/player/player_upgrades/player_status/player_status_flow.gd" id="1_flow"]
+
+[node name="PlayerStatusFlow" type="Node2D"]
+script = ExtResource("1_flow")

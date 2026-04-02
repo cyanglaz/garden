@@ -1,13 +1,13 @@
 [gd_resource type="Resource" script_class="StatusData" load_steps=2 format=3 uid="uid://dcmulch1bxar4"]
 
-[ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/status_data.gd" id="1_mulch"]
+[ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/status_data.gd" id="1_flow"]
 
 [resource]
-script = ExtResource("1_mulch")
+script = ExtResource("1_flow")
 type = 1
 stackable = true
 single_turn = true
-id = "mulch"
+id = "flow"
 
 data = {
 &"value": "1"

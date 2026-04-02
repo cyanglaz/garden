@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://coajbf4dvjl1g"
-path="res://.godot/imported/icon_mulch.png-accfdeb8b05ef38b270dc0f63976e56b.ctex"
+path="res://.godot/imported/icon_flow.png-accfdeb8b05ef38b270dc0f63976e56b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/GUI/icons/resources/icon_mulch.png"
-dest_files=["res://.godot/imported/icon_mulch.png-accfdeb8b05ef38b270dc0f63976e56b.ctex"]
+source_file="res://resources/sprites/GUI/icons/resources/icon_flow.png"
+dest_files=["res://.godot/imported/icon_flow.png-accfdeb8b05ef38b270dc0f63976e56b.ctex"]
 
 [params]
 

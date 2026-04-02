@@ -1,4 +1,4 @@
-class_name PlayerStatusMulch
+class_name PlayerStatusFlow
 extends PlayerStatus
 
 func _has_discard_hook(_combat_main:CombatMain, _tool_datas:Array) -> bool:

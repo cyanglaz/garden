@@ -7,7 +7,7 @@
 script = ExtResource("2_wogjl")
 rarity = 1
 type = 1
-id = "mulch"
+id = "flow"
 data = {
 "value": "1"
 }
