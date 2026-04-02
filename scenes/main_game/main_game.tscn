@@ -20,7 +20,6 @@ metadata/_custom_type_script = "uid://d4ngj3465rhxa"
 [node name="MainGame" type="Node2D" unique_id=729241411]
 script = ExtResource("1_yra6k")
 player_data = ExtResource("2_8ywsm")
-test_data = SubResource("Resource_b4n6q")
 
 [node name="MapMain" parent="." unique_id=1002418759 instance=ExtResource("14_s87mg")]
 unique_name_in_owner = true
