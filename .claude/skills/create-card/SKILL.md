@@ -20,6 +20,8 @@ When implement a card, also consider:
 1. If a card's effect can be implement with actions, use actions.
 2. If a card's effect cannot be implemented with actions, use script.
 3. If a card's effect is a power, follow other power cards implementations.
+	- create a power tres file
+	- create a power script
 4. Add the card's tres file to main_game scene so i can test directly
 5. **Localization:** Add `TOOL_<UPPERCASE_ID>_NAME` and 
 	- If the tool must be implemented with a script, add `TOOL_<UPPERCASE_ID>_DESCRIPTION` entries to `resources/localization/localization.csv`. Follow the key pattern and description token format (e.g. `{resource:light}`, `{resource:water}`) used by existing card entries.
