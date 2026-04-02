@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://7y3gfrjbyvjp"
+path="res://.godot/imported/icon_sun_catcher_pin.aseprite-97495c38ad7b508b4b0a2c18895cac68.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_sun_catcher_pin.aseprite"
+dest_files=["res://.godot/imported/icon_sun_catcher_pin.aseprite-97495c38ad7b508b4b0a2c18895cac68.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

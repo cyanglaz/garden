@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dlyk7jkivmaii"]
+
+[ext_resource type="Script" uid="uid://lcscript00001" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_leaky_canteen.gd" id="1_lc001"]
+
+[node name="PlayerTrinketLeakyCanteen" type="Node2D" unique_id=100000032]
+script = ExtResource("1_lc001")

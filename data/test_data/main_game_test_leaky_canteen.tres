@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="MainGameTest" format=3 uid="uid://ba7ivvn5b1nik"]
+
+[ext_resource type="Script" uid="uid://d4ngj3465rhxa" path="res://data/test_data/main_game_test.gd" id="1_test"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_4vit4"]
+[ext_resource type="Script" uid="uid://dr261i4fd8jf0" path="res://data/models/trinkets/trinket_data.gd" id="2_tdscript"]
+
+[resource]
+script = ExtResource("1_test")
