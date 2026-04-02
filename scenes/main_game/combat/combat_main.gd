@@ -217,7 +217,7 @@ func _discard_all_tools() -> void:
 	await tool_manager.discard_cards(cards_to_discard)
 
 func _clear_tool_selection() -> void:
-	tool_manager.clear_tool_selection(null)
+	tool_manager.clear_tool_selection()
 	gui.clear_tool_selection()
 	plant_field_container.clear_tool_indicators()
 

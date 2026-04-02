@@ -400,7 +400,7 @@ TRINKET_ESCAPE_WING_DESCRIPTION,"The first time you take damage each combat, +2 
 TRINKET_SPORE_GLASS_NAME,"Spore Glass"
 TRINKET_SPORE_GLASS_DESCRIPTION,"At the start of turn, if there is a {resource:fungus} on any field, draw {draw} additional card."
 TRINKET_BOUNTY_JAR_NAME,"Bounty Jar"
-TRINKET_BOUNTY_JAR_DESCRIPTION,"Whenever you remove a {resource:pest} with a card, gain {gold} Gold."
+TRINKET_BOUNTY_JAR_DESCRIPTION,"Whenever you remove a {resource:pest} with a card, gain {gold} {resource:gold}."
 
 PLAYER_POLLINATOR_NAME,"The Pollinator"
 PLAYER_POLLINATOR_DESCRIPTION,"On Bloom, shuffle a +3 {sunlight} card to hand."
