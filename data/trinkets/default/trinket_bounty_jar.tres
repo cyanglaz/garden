@@ -4,7 +4,6 @@
 
 [resource]
 script = ExtResource("1_gohme")
-rarity = 0
 id = "bounty_jar"
 data = {
 &"gold": "3"

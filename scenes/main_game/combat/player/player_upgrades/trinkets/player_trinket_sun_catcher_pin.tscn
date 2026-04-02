@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://scpscene00001"]
+[gd_scene format=3 uid="uid://cu3bx5yeq7iyy"]
 
 [ext_resource type="Script" uid="uid://scpscript0001" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_sun_catcher_pin.gd" id="1_scp01"]
 

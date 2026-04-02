@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://b6u1xquvpbrsg"
+path="res://.godot/imported/icon_leaky_canteen.aseprite-35839d6df5650f4659b78af3110766e2.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_leaky_canteen.aseprite"
+dest_files=["res://.godot/imported/icon_leaky_canteen.aseprite-35839d6df5650f4659b78af3110766e2.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
