@@ -18,6 +18,6 @@ func _will_decrease_pest_on_application(tool_data: ToolData, plant: Plant) -> bo
 		if action.type == ActionData.ActionType.PEST and action.operator_type == ActionData.OperatorType.DECREASE:
 			return true
 		if action.type == ActionData.ActionType.PEST and action.operator_type == ActionData.OperatorType.EQUAL_TO:
-			return action.value <= pest_count
+			return action.value < pest_count
 	return false
 
