@@ -22,6 +22,7 @@ When implement a card, also consider:
 3. If a card's effect is a power, follow other power cards implementations.
 	- create a power tres file
 	- create a power script
+	- create a player upgrade scene
 4. Add the card's tres file to main_game scene so i can test directly
 5. **Localization:** Add `TOOL_<UPPERCASE_ID>_NAME` and 
 	- If the tool must be implemented with a script, add `TOOL_<UPPERCASE_ID>_DESCRIPTION` entries to `resources/localization/localization.csv`. Follow the key pattern and description token format (e.g. `{resource:light}`, `{resource:water}`) used by existing card entries.
