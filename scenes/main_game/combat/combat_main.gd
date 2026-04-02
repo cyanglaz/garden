@@ -53,7 +53,6 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	session_summary = SessionSummary.new(combat)
 
 	plant_field_container.field_hovered.connect(_on_field_hovered)
-	plant_field_container.field_pressed.connect(_on_field_pressed)
 	plant_field_container.plant_bloom_started.connect(_on_plant_bloom_started)
 	plant_field_container.plant_bloom_completed.connect(_on_plant_bloom_completed)
 	plant_field_container.plant_action_application_completed.connect(_on_plant_action_application_completed)
@@ -74,7 +73,6 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	gui.bind_tool_deck(tool_manager.tool_deck)
 	gui.end_turn_button_pressed.connect(_on_end_turn_button_pressed)
 	gui.tool_selected.connect(_on_tool_selected)
-	gui.card_use_button_pressed.connect(_on_card_use_button_pressed)
 	gui.mouse_exited_card.connect(_on_mouse_exited_card)
 	gui.reward_finished.connect(_on_reward_finished)
 
@@ -268,10 +266,6 @@ func _on_tool_selected(tool_data:ToolData) -> void:
 func _on_mouse_exited_card(tool_data:ToolData) -> void:
 	_hide_custom_error(tool_data.id)
 
-func _on_card_use_button_pressed(tool_data:ToolData) -> void:
-	assert(!tool_data.need_select_field)
-	_handle_card_use()
-
 func _on_end_turn_button_pressed() -> void:
 	_end_turn()
 
@@ -283,12 +277,6 @@ func _on_field_hovered(hovered:bool, index:int) -> void:
 			plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.READY)
 	#else:
 	#	plant_field_container.toggle_tooltip_for_plant(index, hovered)
-
-func _on_field_pressed(_index:int) -> void:
-	pass
-	#if !tool_manager.selected_tool || !tool_manager.selected_tool.has_field_action:
-	#	return
-	#_handle_card_use()
 
 func _on_reward_finished() -> void:
 	if _combat.combat_type == CombatData.CombatType.BOSS:

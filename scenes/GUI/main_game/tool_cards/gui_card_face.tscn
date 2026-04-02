@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://sc5do4le61oy" path="res://scenes/GUI/main_game/tool_cards/gui_card_face.gd" id="1_uaej8"]
 [ext_resource type="PackedScene" uid="uid://cjwhkrmueycbi" path="res://scenes/GUI/shared/descriptions/shared_description/gui_action_list.tscn" id="2_y8r0o"]
 [ext_resource type="Texture2D" uid="uid://ugtybr3upkmn" path="res://resources/sprites/GUI/backgrounds/tool_card_background.png" id="3_uaej8"]
-[ext_resource type="PackedScene" uid="uid://caehhf1p88h3q" path="res://scenes/GUI/controls/buttons/gui_use_card_button.tscn" id="4_ykqmu"]
 [ext_resource type="AudioStream" uid="uid://bgyg7vg7fsae6" path="res://resources/sounds/SFX/tool_cards/card_use.wav" id="5_y8r0o"]
 
 [sub_resource type="Shader" id="Shader_uaej8"]
@@ -379,26 +378,6 @@ patch_margin_left = 3
 patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 3
-
-[node name="FreeContainer" type="Control" parent="." unique_id=567775508]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="GUIUseCardButton" parent="FreeContainer" unique_id=642027701 instance=ExtResource("4_ykqmu")]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -8.0
-offset_top = -67.0
-offset_right = 8.0
-offset_bottom = -55.0
-grow_horizontal = 2
-grow_vertical = 0
 
 [node name="UseSound" type="AudioStreamPlayer2D" parent="." unique_id=496989375]
 unique_name_in_owner = true

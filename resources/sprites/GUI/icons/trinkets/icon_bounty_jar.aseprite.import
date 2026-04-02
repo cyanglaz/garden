@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cxbno4elhggng"
+path="res://.godot/imported/icon_bounty_jar.aseprite-43d557f996ad11725b49d869c4705e4f.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_bounty_jar.aseprite"
+dest_files=["res://.godot/imported/icon_bounty_jar.aseprite-43d557f996ad11725b49d869c4705e4f.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

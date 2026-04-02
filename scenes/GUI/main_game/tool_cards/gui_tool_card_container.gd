@@ -2,7 +2,6 @@ class_name GUIToolCardContainer
 extends Control
 
 signal tool_selected(tool_data:ToolData)
-signal card_use_button_pressed(tool_data:ToolData)
 signal mouse_exited_card(tool_data:ToolData)
 
 var TOOL_CARD_SCENE := load("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
@@ -71,7 +70,6 @@ func add_card(tool_data:ToolData) -> GUIToolCardButton:
 	var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
 	_container.add_child(gui_card)
 	gui_card.update_with_tool_data(tool_data)
-	gui_card.use_card_button_pressed.connect(_on_tool_card_use_card_button_pressed.bind(tool_data))
 	if selected_index >= 0:
 		gui_card.card_state = GUICardFace.CardState.UNSELECTED
 	else:
@@ -351,9 +349,6 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 		animated = true
 	if !animated:
 		tween.kill()
-
-func _on_tool_card_use_card_button_pressed(tool_data:ToolData) -> void:
-	card_use_button_pressed.emit(tool_data)
 
 #endregion
 

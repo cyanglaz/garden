@@ -4,7 +4,6 @@ extends PanelContainer
 const FLIP_ANIMATION_DURATION := 0.1
 const IN_USE_ANIMATION_DURATION := 0.2
 
-signal use_card_button_pressed()
 signal special_interacted(special:ToolData.Special)
 signal special_hovered(special:ToolData.Special, on:bool)
 signal _dissolve_finished()
@@ -36,7 +35,6 @@ const HIGHLIGHTED_OFFSET := 1.0
 @onready var _use_sound: AudioStreamPlayer2D = %UseSound
 @onready var _animation_player: AnimationPlayer = %AnimationPlayer
 @onready var _overlay: NinePatchRect = %Overlay
-@onready var _gui_use_card_button: GUIUseCardButton = %GUIUseCardButton
 @onready var _gui_tool_card_background: GUIToolCardBackground = %GUIToolCardBackground
 @onready var _animating_foreground: GUIToolCardBackground = %AnimatingForeground
 
@@ -56,8 +54,6 @@ var _default_state:CardState = CardState.NORMAL
 
 func _ready() -> void:
 	_animation_player.animation_finished.connect(_on_animation_finished)
-	_gui_use_card_button.pressed.connect(_on_use_button_pressed)
-	_gui_use_card_button.hide()
 	_animating_foreground.hide()
 	animation_mode = false
 
@@ -118,21 +114,18 @@ func play_error_shake_animation() -> void:
 func play_use_animation() -> void:
 	has_outline = true
 	_overlay.hide()
-	_gui_use_card_button.hide()
 	z_index = 1
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(self, "position", Vector2.UP * IN_USE_OFFSET, IN_USE_ANIMATION_DURATION).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.finished.connect(func() -> void:
 		has_outline = false
 		_overlay.show()
-		_gui_use_card_button.show()
 		z_index = 0
 	)
 
 func animate_flip(on:bool) -> void:
 	if on :
 		visible = true
-	_gui_use_card_button.hide()
 	var original_pivot_offset_ratio := pivot_offset_ratio
 	pivot_offset_ratio = Vector2.ONE * 0.5
 	var target_x_scale := 1.0 if on else 0.0
@@ -140,10 +133,7 @@ func animate_flip(on:bool) -> void:
 	tween.tween_property(self, "scale:x", target_x_scale, FLIP_ANIMATION_DURATION)
 	await tween.finished
 	pivot_offset_ratio = original_pivot_offset_ratio
-	if on:
-		if card_state == CardState.SELECTED && !tool_data.need_select_field:
-			_gui_use_card_button.show()
-	else:
+	if !on:
 		visible = false
 
 func _find_card_references() -> Array[String]:
@@ -187,36 +177,28 @@ func _set_card_state(value:CardState) -> void:
 			position = Vector2.ZERO
 			has_outline = false
 			_overlay.hide()
-			_gui_use_card_button.hide()
 			z_index = 0
 			_default_state = CardState.NORMAL
 		CardState.SELECTED:
 			position = Vector2.UP * SELECTED_OFFSET
 			has_outline = true
 			_overlay.hide()
-			if tool_data.need_select_field:
-				_gui_use_card_button.hide()
-			else:
-				_gui_use_card_button.show()
 			z_index = 1
 		CardState.HIGHLIGHTED:
 			position = Vector2.UP * HIGHLIGHTED_OFFSET
 			has_outline = true
 			_overlay.hide()
-			_gui_use_card_button.hide()
 			z_index = 1
 		CardState.UNSELECTED:
 			position = Vector2.ZERO
 			has_outline = false
 			_overlay.show()
-			_gui_use_card_button.hide()
 			z_index = 0
 			_default_state = CardState.UNSELECTED
 		CardState.WAITING:
 			position = Vector2.UP * SELECTED_OFFSET
 			has_outline = true
 			_overlay.show()
-			_gui_use_card_button.hide()
 			z_index = 1
 
 func _set_resource_sufficient(value:bool) -> void:
@@ -255,10 +237,6 @@ func _on_animation_finished(anim_name:String) -> void:
 
 func _on_tool_data_refresh() -> void:
 	update_with_tool_data(tool_data)
-
-func _on_use_button_pressed() -> void:
-	_gui_use_card_button.hide()
-	use_card_button_pressed.emit()
 
 func _on_combat_main_set(combat_main:CombatMain) -> void:
 	_in_hand = true
