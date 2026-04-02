@@ -403,6 +403,8 @@ TRINKET_BOUNTY_JAR_NAME,"Bounty Jar"
 TRINKET_BOUNTY_JAR_DESCRIPTION,"Whenever you remove a {resource:pest} with a card, gain {gold} {resource:gold}."
 TRINKET_SUN_CATCHER_PIN_NAME,"Sun Catcher Pin"
 TRINKET_SUN_CATCHER_PIN_DESCRIPTION,"For every {cards_played} cards played, current plant +{light} {resource:light}."
+TRINKET_LEAKY_CANTEEN_NAME,"Leaky Canteen"
+TRINKET_LEAKY_CANTEEN_DESCRIPTION,"For every {cards_played} cards played, current plant +{water} {resource:water}."
 
 PLAYER_POLLINATOR_NAME,"The Pollinator"
 PLAYER_POLLINATOR_DESCRIPTION,"On Bloom, shuffle a +3 {sunlight} card to hand."
