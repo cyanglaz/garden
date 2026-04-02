@@ -20,7 +20,11 @@ func handle_prevent_movement_hook() -> bool:
 
 func handle_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
 	for container in player_upgrade_containers:
-		await container.handle_tool_application_hook(combat_main, tool_data)	
+		await container.handle_tool_application_hook(combat_main, tool_data)
+
+func handle_pre_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
+	for container in player_upgrade_containers:
+		await container.handle_pre_tool_application_hook(combat_main, tool_data)
 
 func handle_card_added_to_hand_hook(tool_datas:Array) -> void:
 	for container in player_upgrade_containers:

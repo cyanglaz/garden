@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bjscene00001"]
+
+[ext_resource type="Script" uid="uid://bjscript0001" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_bounty_jar.gd" id="1_bj001"]
+
+[node name="PlayerTrinketBountyJar" type="Node2D" unique_id=100000025]
+script = ExtResource("1_bj001")

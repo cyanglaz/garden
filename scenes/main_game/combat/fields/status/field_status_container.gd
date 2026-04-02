@@ -54,6 +54,12 @@ func update_status(status_id:String, stack:int, plant:Plant) -> void:
 		_remove_field_status(field_status)
 	status_updated.emit()
 
+func get_status_stack(status_id:String) -> int:
+	var field_status:FieldStatus = _get_field_status(status_id)
+	if field_status:
+		return field_status.stack
+	return 0
+
 func clear_status(status_id:String) -> void:
 	var field_status:FieldStatus = _get_field_status(status_id)
 	if field_status:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bacvied61ghpe"]
+[gd_scene format=3 uid="uid://bacvied61ghpe"]
 
 [ext_resource type="Script" uid="uid://t7x03xkbah7n" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.gd" id="1_a7c0j"]
 [ext_resource type="AudioStream" uid="uid://q4k3jnocowmn" path="res://resources/sounds/SFX/tool_cards/card_hover.wav" id="2_882ho"]
@@ -8,7 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://cbbnpiubqjoc" path="res://resources/sounds/SFX/tool_cards/card_discard_1.wav" id="6_ckxcp"]
 [ext_resource type="AudioStream" uid="uid://dfqe1nfyr6dse" path="res://resources/sounds/SFX/tool_cards/card_flip_1.wav" id="7_882ho"]
 
-[node name="GUIToolCardButton" type="PanelContainer"]
+[node name="GUIToolCardButton" type="PanelContainer" unique_id=1450208189]
 custom_minimum_size = Vector2(40, 54)
 offset_right = 38.0
 offset_bottom = 52.0
@@ -17,37 +17,37 @@ script = ExtResource("1_a7c0j")
 hover_sound = ExtResource("2_882ho")
 click_sound = ExtResource("3_dn2eb")
 
-[node name="Container" type="Control" parent="."]
+[node name="Container" type="Control" parent="." unique_id=1097997859]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="FrontFace" parent="Container" instance=ExtResource("4_a7c0j")]
+[node name="FrontFace" parent="Container" unique_id=162031833 instance=ExtResource("4_a7c0j")]
 unique_name_in_owner = true
 layout_mode = 0
 
-[node name="BackFace" parent="Container" instance=ExtResource("4_a7c0j")]
+[node name="BackFace" parent="Container" unique_id=886205326 instance=ExtResource("4_a7c0j")]
 unique_name_in_owner = true
 layout_mode = 0
 
-[node name="DrawSound" type="AudioStreamPlayer2D" parent="."]
+[node name="DrawSound" type="AudioStreamPlayer2D" parent="." unique_id=1478629982]
 unique_name_in_owner = true
 stream = ExtResource("5_a7c0j")
 volume_db = -5.0
 bus = &"SFX"
 
-[node name="DiscardSound" type="AudioStreamPlayer2D" parent="."]
+[node name="DiscardSound" type="AudioStreamPlayer2D" parent="." unique_id=830112639]
 unique_name_in_owner = true
 stream = ExtResource("5_a7c0j")
 volume_db = -5.0
 bus = &"SFX"
 
-[node name="ShuffleSound" type="AudioStreamPlayer2D" parent="."]
+[node name="ShuffleSound" type="AudioStreamPlayer2D" parent="." unique_id=225547261]
 unique_name_in_owner = true
 stream = ExtResource("6_ckxcp")
 volume_db = -5.0
 bus = &"SFX"
 
-[node name="FlipSound" type="AudioStreamPlayer2D" parent="."]
+[node name="FlipSound" type="AudioStreamPlayer2D" parent="." unique_id=1098321730]
 unique_name_in_owner = true
 stream = ExtResource("7_882ho")
 volume_db = -5.0

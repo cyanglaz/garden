@@ -3,7 +3,6 @@ extends GUIBasicButton
 
 const SIZE := Vector2(40, 54)
 
-signal use_card_button_pressed()
 signal mouse_entered_card()
 signal mouse_exited_card()
 
@@ -38,8 +37,6 @@ func _ready() -> void:
 	super._ready()
 	current_face = front_face
 	mouse_filter = MOUSE_FILTER_IGNORE
-	front_face.use_card_button_pressed.connect(func() -> void: use_card_button_pressed.emit())
-	back_face.use_card_button_pressed.connect(func() -> void: use_card_button_pressed.emit())
 	back_face.hide()
 	resized.connect(_on_resized)
 	front_face.special_interacted.connect(_on_special_interacted.bind(front_face))
