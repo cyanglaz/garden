@@ -1,7 +1,13 @@
 extends GutTest
 
+class FakePlant extends Plant:
+	func apply_actions(_actions: Array) -> void:
+		pass
+
 class FakeCombatMain extends CombatMain:
-	pass
+	var fake_plant: FakePlant = null
+	func get_current_player_plant() -> Plant:
+		return fake_plant
 
 func _make_trinket() -> PlayerTrinketSunCatcherPin:
 	var t := PlayerTrinketSunCatcherPin.new()
@@ -41,8 +47,11 @@ func test_stack_resets_at_threshold() -> void:
 	var t := _make_trinket()
 	var cm := FakeCombatMain.new()
 	autofree(cm)
+	var fake_plant := FakePlant.new()
+	autofree(fake_plant)
+	cm.fake_plant = fake_plant
 	(t.data as TrinketData).stack = 4
-	t._handle_tool_application_hook(cm, null)
+	await t._handle_tool_application_hook(cm, null)
 	assert_eq((t.data as TrinketData).stack, 0)
 
 # ----- other hooks absent -----
