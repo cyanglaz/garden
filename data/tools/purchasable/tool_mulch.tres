@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ToolData" format=3 uid="uid://bxk3m7p9qrne5"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_58foa"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_wogjl"]
+
+[resource]
+script = ExtResource("2_wogjl")
+rarity = 1
+type = 1
+id = "mulch"
+data = {
+"value": "1"
+}
+note = "This turn, when discard a card, draw a card."
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"
