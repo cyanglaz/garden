@@ -217,7 +217,7 @@ func _discard_all_tools() -> void:
 	await tool_manager.discard_cards(cards_to_discard)
 
 func _clear_tool_selection() -> void:
-	tool_manager.select_tool(null)
+	tool_manager.clear_tool_selection(null)
 	gui.clear_tool_selection()
 	plant_field_container.clear_tool_indicators()
 
@@ -225,11 +225,6 @@ func _bloom(plant_index:int) -> void:
 	var field:Field = plant_field_container.get_field(plant_index)
 	if field.can_bloom():
 		field.bloom()
-	
-func _handle_card_use() -> void:
-	await player.player_upgrades_manager.handle_pre_tool_application_hook(self, tool_manager.selected_tool)
-	tool_manager.apply_tool(self)
-	await tool_manager.tool_application_completed
 
 func _fade_music(fade_in:bool) -> void:
 	if fade_in:
@@ -255,13 +250,7 @@ func _hide_custom_error(identifier:String) -> void:
 
 #region UI EVENTS
 func _on_tool_selected(tool_data:ToolData) -> void:
-	tool_manager.select_tool(tool_data)
-	await _handle_card_use()
-
-	#if tool_data.all_fields:
-	#	plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT)
-	#elif tool_data.need_select_field:
-	#	plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.READY)
+	tool_manager.apply_tool(self, tool_data)
 
 func _on_mouse_exited_card(tool_data:ToolData) -> void:
 	_hide_custom_error(tool_data.id)

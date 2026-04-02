@@ -104,12 +104,12 @@ func use_card(tool_data:ToolData) -> void:
 	tool_deck.use(tool_data)
 	await _gui_tool_card_container.animate_use_card(tool_data)
 
-func select_tool(tool_data:ToolData) -> void:
-	selected_tool = tool_data
+func clear_tool_selection() -> void:
+	selected_tool = null
 
-func apply_tool(combat_main:CombatMain) -> void:
+func apply_tool(combat_main:CombatMain, applying_tool:ToolData) -> void:
 	is_applying_tool = true
-	var applying_tool = selected_tool
+	selected_tool = applying_tool
 	var number_of_cards_to_select := applying_tool.get_number_of_secondary_cards_to_select()
 	var random := applying_tool.get_is_random_secondary_card_selection()
 	var secondary_card_datas:Array = []
@@ -130,6 +130,7 @@ func apply_tool(combat_main:CombatMain) -> void:
 				secondary_card_datas = await _gui_tool_card_container.select_secondary_cards(actual_number_of_cards_to_select, selecting_from_cards)
 	number_of_card_used_this_turn += 1
 	tool_application_started.emit(applying_tool)
+	await combat_main.player.player_upgrades_manager.handle_pre_tool_application_hook(combat_main, applying_tool)
 	await _run_card_actions(combat_main, applying_tool, secondary_card_datas)
 	await _run_card_lifecycle(applying_tool, combat_main)
 	_handle_tool_application_completed(applying_tool, combat_main)
@@ -214,8 +215,7 @@ func _trigger_next_turn_end_card(combat_main:CombatMain) -> void:
 		_all_turn_end_cards_completed.emit()
 		return
 	var next_tool_data:ToolData = _turn_end_cards_queue.pop_back()
-	select_tool(next_tool_data)
-	apply_tool(combat_main)
+	apply_tool(combat_main, next_tool_data)
 
 #region setters/getters
 
