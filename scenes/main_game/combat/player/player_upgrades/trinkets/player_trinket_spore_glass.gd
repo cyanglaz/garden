@@ -9,4 +9,5 @@ func _has_hand_size_hook(combat_main: CombatMain) -> bool:
 	return false
 
 func _handle_hand_size_hook(_combat_main: CombatMain) -> int:
+	_send_hook_animation_signals()
 	return int(data.data[&"draw"])

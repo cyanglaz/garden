@@ -8,6 +8,7 @@ func _has_draw_hook(combat_main: CombatMain, _tool_datas: Array) -> bool:
 
 func _handle_draw_hook(combat_main: CombatMain, _tool_datas: Array) -> void:
 	_last_triggered_turn = combat_main.day_manager.day
+	_send_hook_animation_signals()
 	combat_main.player.player_status_container.update_player_upgrade(
 		"momentum",
 		int(data.data[&"momentum"]),

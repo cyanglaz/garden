@@ -11,4 +11,5 @@ func _handle_stack_update_hook(combat_main:CombatMain, status_id:String, _diff:i
 	action.operator_type = ActionData.OperatorType.INCREASE
 	action.value = stack * (data.data["value"] as int)
 	var player_plant:Plant = combat_main.get_current_player_plant()
+	_send_hook_animation_signals()
 	await player_plant.apply_actions([action])

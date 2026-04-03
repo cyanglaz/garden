@@ -10,4 +10,5 @@ func _handle_draw_hook(combat_main:CombatMain, tool_datas:Array) -> void:
 	action.type = ActionData.ActionType.MOMENTUM
 	action.operator_type = ActionData.OperatorType.INCREASE
 	action.value = stack * tool_datas.size()
+	_send_hook_animation_signals()
 	await player_action_applier.apply_action(action, combat_main, [])

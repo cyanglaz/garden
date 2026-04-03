@@ -191,6 +191,7 @@ func _win() -> void:
 	is_finished = true
 	gui.permanently_lock_all_ui()
 	_fade_music(false)
+	await player.player_upgrades_manager.handle_combat_end_hook(self)
 	await Util.create_scaled_timer(WIN_PAUSE_TIME).timeout
 	if _chapter == MainGame.NUMBER_OF_CHAPTERS - 1 && _combat.combat_type == CombatData.CombatType.BOSS:
 		beat_final_boss.emit()
