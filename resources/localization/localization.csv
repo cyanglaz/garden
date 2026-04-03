@@ -306,6 +306,7 @@ TOOL_COLLECT_DESCRIPTION,"{resource:water}{bordered_text:=0}. Shuffle {gain} {ca
 TOOL_COMBUSTION_NAME,"Combustion"
 TOOL_CONDENSATION_NAME,"Condensation"
 TOOL_CONDENSATION_DESCRIPTION,"This turn, when discard a card, target plant +{value} {resource:water}."
+TOOL_FIREFLY_NAME,"Firefly"
 TOOL_FLOW_NAME,"Flow"
 TOOL_FLOW_DESCRIPTION,"This turn, when discard a card, draw a card."
 TOOL_CONTRAIL_NAME,"Contrail"
