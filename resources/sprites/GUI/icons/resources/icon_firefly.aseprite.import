@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://c6j027ygfe12f"
+path="res://.godot/imported/icon_firefly.aseprite-ae162d0bc8890915addd5c498230d7ee.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_firefly.aseprite"
+dest_files=["res://.godot/imported/icon_firefly.aseprite-ae162d0bc8890915addd5c498230d7ee.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
