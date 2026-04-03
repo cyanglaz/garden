@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="ToolData" format=3 uid="uid://dmurkyspill01"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_murk"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_murk"]
+
+[sub_resource type="Resource" id="Resource_murk1"]
+script = ExtResource("1_murk")
+type = 8
+value = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_murk2"]
+script = ExtResource("1_murk")
+type = 3
+value = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_murk3"]
+script = ExtResource("1_murk")
+type = 2
+value = 3
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_murk")
+energy_cost = 0
+actions = Array[ExtResource("1_murk")]([SubResource("Resource_murk1"), SubResource("Resource_murk2"), SubResource("Resource_murk3")])
+rarity = 1
+id = "murky_spill"
+note = "discard a card
++1 pest
++3 water"
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

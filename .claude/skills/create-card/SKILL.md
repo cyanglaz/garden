@@ -20,9 +20,16 @@ When implement a card, also consider:
 1. If a card's effect can be implement with actions, use actions.
 2. If a card's effect cannot be implemented with actions, use script.
 3. If a card's effect is a power, follow other power cards implementations.
+	- create a power tres file
+	- create a power script
+	- create a player upgrade scene
 4. Add the card's tres file to main_game scene so i can test directly
 5. **Localization:** Add `TOOL_<UPPERCASE_ID>_NAME` and 
 	- If the tool must be implemented with a script, add `TOOL_<UPPERCASE_ID>_DESCRIPTION` entries to `resources/localization/localization.csv`. Follow the key pattern and description token format (e.g. `{resource:light}`, `{resource:water}`) used by existing card entries.
 6. Cards's tres file should be under purchasable unless I specify.
-7. **Card tests:** When implementing a new card, also create a matching test file at `tests/gut_tests/gameplay/cards/test_player_card_<id>.gd`. Test the `has_*_hook` conditionals; see existing card tests for the pattern.
-8. **Clear the plan doc** after finishing implementation: overwrite `/root/.claude/plans/<xxx>.md` with only the new card's plan content, removing all stale entries from previously implemented cards.
+7. **Card tests:**
+   - For cards that utilize a player status, add a player status test.
+   - For cards that utilize a tool_script, create a test file at `tests/gut_tests/gameplay/cards/test_player_card_<id>.gd`. 
+   - For action only cards, do not add tests.
+8. **An empty aseprite file** Under res://resources/sprites/GUI/icons/resources/, follow the naming convention of icon_<card_id>.aseprite
+9. **Clear the plan doc** after finishing implementation: overwrite `/root/.claude/plans/<xxx>.md` with only the new card's plan content, removing all stale entries from previously implemented cards.

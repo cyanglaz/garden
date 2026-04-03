@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="ToolData" format=3 uid="uid://dhivefren0y01"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_hive"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_hive"]
+
+[sub_resource type="Resource" id="Resource_hive1"]
+script = ExtResource("1_hive")
+type = 3
+value = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_hive2"]
+script = ExtResource("1_hive")
+type = 16
+value = 3
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_hive")
+actions = Array[ExtResource("1_hive")]([SubResource("Resource_hive1"), SubResource("Resource_hive2")])
+rarity = 1
+id = "hive_frenzy"
+note = "+1 pest
++3 momentum"
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

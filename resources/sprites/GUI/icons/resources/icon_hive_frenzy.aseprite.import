@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bowa4qi2w1sq"
+path="res://.godot/imported/icon_hive_frenzy.aseprite-35bb9ce1685d7a278b78dad183043049.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/resources/icon_hive_frenzy.aseprite"
+dest_files=["res://.godot/imported/icon_hive_frenzy.aseprite-35bb9ce1685d7a278b78dad183043049.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
