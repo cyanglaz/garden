@@ -230,7 +230,6 @@ func _handle_combat_end_hook(_combat_main:CombatMain) -> void:
 func _send_hook_animation_signals() -> void:
 	request_player_upgrade_hook_animation.emit(data.id)
 	request_hook_message_popup.emit(data)
-	await Util.create_scaled_timer(Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION).timeout
 
 func _set_stack(_value:int) -> void:
 	assert(false, "must be implemented")

@@ -21,5 +21,4 @@ actions = Array[ExtResource("1_fire")]([SubResource("Resource_fire1"), SubResour
 id = "firefly"
 note = "+1 pest
 +2 light"
-rarity = 0
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"
