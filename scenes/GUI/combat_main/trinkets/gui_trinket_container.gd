@@ -22,6 +22,7 @@ func _on_trinket_updated(trinket_container:PlayerTrinketsContainer) -> void:
 		var gui_trinket:GUIPlayerTrinket = PLAYER_TRINKET_SCENE.instantiate()
 		current_hbox.add_child(gui_trinket)
 		gui_trinket.show_stack = true
+		gui_trinket.show_state = true
 		gui_trinket.update_with_trinket_data(trinket.data)
 		if current_hbox.get_child_count() >= number_pre_row:
 			current_hbox = _add_row()

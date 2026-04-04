@@ -15,6 +15,7 @@ var _trinket_data:TrinketData = null
 var trinket_id:String = ""
 var tooltip_position: GUITooltip.TooltipPosition = GUITooltip.TooltipPosition.TOP_RIGHT
 var show_stack: bool = false
+var show_state: bool = false
 
 func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
@@ -39,6 +40,8 @@ func _refresh_stack(new_value: int) -> void:
 	stack.text = str(new_value) if show_stack and new_value > 0 else ""
 
 func _on_state_changed(new_state: TrinketData.TrinketState) -> void:
+	if !show_state:
+		return
 	match new_state:
 		TrinketData.TrinketState.ACTIVE:
 			gui_icon.set_outline_color(Constants.COLOR_YELLOW1)
