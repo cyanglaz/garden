@@ -180,8 +180,7 @@ func _end_turn() -> void:
 		return
 	await weather_main.new_day()
 	gui.toggle_all_ui(true)
-	_start_turn()
-	_win()
+	await _start_turn()
 
 func _met_win_condition() -> bool:
 	return plant_field_container.are_all_plants_bloom()
