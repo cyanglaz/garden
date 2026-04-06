@@ -5,6 +5,7 @@ signal button_pressed()
 signal button_hovered(hovered:bool)
 
 @onready var gui_basic_button: GUIBasicButton = %GUIBasicButton
+@onready var _background: GUIToolCardBackground = %GUIToolCardBackground
 
 var button_enabled:= false: set = _set_button_enabled
 
@@ -27,6 +28,9 @@ func _on_gui_basic_button_pressed() -> void:
 
 func _on_gui_basic_button_mouse_entered() -> void:
 	button_hovered.emit(true)
+	if button_enabled:
+		_background.toggle_outline(true, Constants.COLOR_YELLOW1)
 
 func _on_gui_basic_button_mouse_exited() -> void:
 	button_hovered.emit(false)
+	_background.toggle_outline(false, Constants.COLOR_YELLOW1)
