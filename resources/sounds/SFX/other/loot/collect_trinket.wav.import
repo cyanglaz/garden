@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://dltl3v7ibygxt"
-path="res://.godot/imported/collect_coin.wav-59b22c1abd13f8d27f67fc9e5cab41cf.sample"
+path="res://.godot/imported/collect_trinket.wav-67b6751cee79ac90d9a1829c95389282.sample"
 
 [deps]
 
-source_file="res://resources/sounds/SFX/field/collect_coin.wav"
-dest_files=["res://.godot/imported/collect_coin.wav-59b22c1abd13f8d27f67fc9e5cab41cf.sample"]
+source_file="res://resources/sounds/SFX/other/loot/collect_trinket.wav"
+dest_files=["res://.godot/imported/collect_trinket.wav-67b6751cee79ac90d9a1829c95389282.sample"]
 
 [params]
 

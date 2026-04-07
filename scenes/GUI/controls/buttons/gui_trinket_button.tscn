@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_g4dd5"]
 [ext_resource type="Script" uid="uid://cg8qkaxw31fuj" path="res://scenes/GUI/controls/buttons/gui_trinket_button.gd" id="2_oxr1v"]
 [ext_resource type="Texture2D" uid="uid://dd0kkpbj1kvq3" path="res://resources/sprites/GUI/icons/other_icons/trinket_button.png" id="3_gj21y"]
+[ext_resource type="AudioStream" uid="uid://dltl3v7ibygxt" path="res://resources/sounds/SFX/other/loot/collect_trinket.wav" id="4_oxr1v"]
 
 [node name="GUITrinketButton" unique_id=489413125 instance=ExtResource("1_g4dd5")]
 custom_minimum_size = Vector2(12, 12)
@@ -17,3 +18,8 @@ unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("3_gj21y")
 region_rect = Rect2(0, 0, 12, 12)
+
+[node name="CollectedSound" type="AudioStreamPlayer2D" parent="." index="1" unique_id=1167964602]
+unique_name_in_owner = true
+stream = ExtResource("4_oxr1v")
+bus = &"SFX"

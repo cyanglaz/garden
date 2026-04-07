@@ -67,6 +67,9 @@ func bind_with_hp(hp:ResourcePoint) -> void:
 func animate_hp_update(value:int) -> void:
 	await gui_top_bar.animate_hp_update(value)
 
+func animate_trinket_collected() -> void:
+	await gui_top_bar.animate_trinket_collected()
+
 #region characters
 
 func update_player(player_data:PlayerData) -> void:

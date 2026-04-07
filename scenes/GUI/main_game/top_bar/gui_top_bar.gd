@@ -34,6 +34,9 @@ func update_gold(gold_diff:int, animated:bool) -> void:
 func update_player(player_data:PlayerData) -> void:
 	_gui_player.update_with_player_data(player_data)
 
+func animate_trinket_collected() -> void:
+	await gui_trinket_button.play_collected_animation()
+
 func toggle_all_ui(_on:bool) -> void:
 	pass
 		
