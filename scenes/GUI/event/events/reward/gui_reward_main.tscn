@@ -3,10 +3,7 @@
 [ext_resource type="Script" uid="uid://ciockqmeym3li" path="res://scenes/GUI/event/events/reward/gui_reward_main.gd" id="1_axy1y"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="1_xloug"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="2_pi043"]
-[ext_resource type="PackedScene" uid="uid://dxtmp0p8vtdn6" path="res://scenes/GUI/event/events/reward/gui_reward_hp.tscn" id="2_qkwju"]
-[ext_resource type="PackedScene" uid="uid://c00mbn24rioim" path="res://scenes/GUI/event/events/reward/gui_reward_gold.tscn" id="3_axy1y"]
 [ext_resource type="Texture2D" uid="uid://pjdyj2bfffr6" path="res://resources/sprites/GUI/theme/contract_background.png" id="4_jo3ev"]
-[ext_resource type="PackedScene" uid="uid://ctjggegiourgw" path="res://scenes/GUI/controls/buttons/gui_booster_pack_button.tscn" id="5_rqta2"]
 [ext_resource type="AudioStream" uid="uid://dnjnf11sfdhai" path="res://resources/sounds/SFX/summary/reward_3.wav" id="8_jo3ev"]
 [ext_resource type="PackedScene" uid="uid://d07xoskgg1bxi" path="res://scenes/GUI/event/events/reward/gui_reward_cards_main.tscn" id="8_pi043"]
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="9_skip1"]
@@ -85,21 +82,6 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
-
-[node name="GUIRewardGold" parent="MainMarginContainer/MarginContainer/Control/PanelContainer/MarginContainer/VBoxContainer" unique_id=2123436381 instance=ExtResource("3_axy1y")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="GUIRewardHP" parent="MainMarginContainer/MarginContainer/Control/PanelContainer/MarginContainer/VBoxContainer" unique_id=1223449384 instance=ExtResource("2_qkwju")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="GUIBoosterPackButton" parent="MainMarginContainer/MarginContainer/Control/PanelContainer/MarginContainer/VBoxContainer" unique_id=1341225236 instance=ExtResource("5_rqta2")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
 
 [node name="SkipRewardButton" parent="MainMarginContainer/MarginContainer/Control" unique_id=2041837625 instance=ExtResource("9_skip1")]
 unique_name_in_owner = true
