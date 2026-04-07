@@ -32,6 +32,14 @@ func test_no_trigger_on_day_5() -> void:
 	var t := _make_trinket()
 	assert_false(t.has_start_turn_hook(_make_combat_main(5)))
 
+func test_handle_start_turn_hook_emits_hook_animation_signal() -> void:
+	var t := _make_trinket()
+	var saw_anim: Array = [false]
+	t.request_player_upgrade_hook_animation.connect(func(_id: String) -> void: saw_anim[0] = true)
+	var cm := _make_combat_main(0)
+	t._handle_start_turn_hook(cm)
+	assert_true(saw_anim[0])
+
 # ----- other hooks absent -----
 
 func test_has_no_draw_hook() -> void:

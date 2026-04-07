@@ -1,5 +1,15 @@
 extends GutTest
 
+class FakeFieldStatusContainerFungus extends FieldStatusContainer:
+	var fungus_stack: int = 0
+	func get_status_stack(status_id: String) -> int:
+		if status_id == "fungus":
+			return fungus_stack
+		return 0
+
+class FakePlantSpore extends Plant:
+	pass
+
 class FakeCombatMain extends CombatMain:
 	pass
 
@@ -21,6 +31,26 @@ func test_has_hand_size_hook_false_when_no_plants() -> void:
 	autofree(plant_field_container)
 	cm.plant_field_container = plant_field_container
 	assert_false(t.has_hand_size_hook(cm))
+
+func test_handle_hand_size_hook_emits_hook_animation_signal() -> void:
+	var t := _make_trinket()
+	var saw_anim: Array = [false]
+	t.request_player_upgrade_hook_animation.connect(func(_id: String) -> void: saw_anim[0] = true)
+	var cm := FakeCombatMain.new()
+	autofree(cm)
+	var pfc := PlantFieldContainer.new()
+	autofree(pfc)
+	var fp := FakePlantSpore.new()
+	autofree(fp)
+	var fsc := FakeFieldStatusContainerFungus.new()
+	autofree(fsc)
+	fsc.fungus_stack = 1
+	fp.field_status_container = fsc
+	pfc.plants.append(fp)
+	cm.plant_field_container = pfc
+	var bonus := t._handle_hand_size_hook(cm)
+	assert_true(saw_anim[0])
+	assert_eq(bonus, int(t.data.data[&"draw"]))
 
 # ----- other hooks absent -----
 

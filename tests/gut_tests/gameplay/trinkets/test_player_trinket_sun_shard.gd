@@ -2,6 +2,15 @@ extends GutTest
 
 # ----- Stubs -----
 
+class FakePlantForShard extends Plant:
+	func apply_actions(_actions: Array) -> void:
+		pass
+
+class FakePlantFieldForShard extends PlantFieldContainer:
+	var plant_at_field: Plant = null
+	func get_plant(_index: int) -> Plant:
+		return plant_at_field
+
 class FakeCombatMain extends CombatMain:
 	pass
 
@@ -48,3 +57,18 @@ func test_has_hook_false_at_middle_index() -> void:
 func test_has_no_start_turn_hook() -> void:
 	var t := _make_trinket()
 	assert_false(t.has_start_turn_hook(null))
+
+func test_handle_end_turn_hook_emits_hook_animation_signal() -> void:
+	var t := _make_trinket()
+	var saw_anim: Array = [false]
+	t.request_player_upgrade_hook_animation.connect(func(_id: String) -> void: saw_anim[0] = true)
+	var cm := _make_combat_main(0, 3)
+	var pfc := FakePlantFieldForShard.new()
+	autofree(pfc)
+	var fp := FakePlantForShard.new()
+	autofree(fp)
+	pfc.plant_at_field = fp
+	cm.plant_field_container = pfc
+	await t._handle_end_turn_hook(cm)
+	assert_true(saw_anim[0])
+

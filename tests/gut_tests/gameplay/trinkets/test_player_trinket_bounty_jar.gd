@@ -13,6 +13,11 @@ class FakeFieldStatusContainer extends FieldStatusContainer:
 class FakePlant extends Plant:
 	pass
 
+class FakePlantFieldContainerBounty extends PlantFieldContainer:
+	var plant_at_field: Plant = null
+	func get_plant(_index: int) -> Plant:
+		return plant_at_field
+
 func _make_trinket() -> PlayerTrinketBountyJar:
 	var t := PlayerTrinketBountyJar.new()
 	add_child_autofree(t)
@@ -82,6 +87,31 @@ func test_false_when_no_pest_and_equal_to_action() -> void:
 	var plant := _make_plant(0)
 	var tool_data := _make_tool_data(ActionData.ActionType.PEST, ActionData.OperatorType.EQUAL_TO, 0)
 	assert_false(t._will_decrease_pest_on_application(tool_data, plant))
+
+# ----- handle_pre_tool_application_hook (hook animation) -----
+
+func test_handle_pre_tool_application_hook_emits_hook_animation_signal() -> void:
+	var t := _make_trinket()
+	t.data.id = "bounty_jar"
+	var saw_anim: Array = [false]
+	t.request_player_upgrade_hook_animation.connect(func(_id: String) -> void: saw_anim[0] = true)
+	var cm := FakeCombatMain.new()
+	autofree(cm)
+	var pfc := FakePlantFieldContainerBounty.new()
+	autofree(pfc)
+	pfc.plant_at_field = _make_plant(2)
+	cm.plant_field_container = pfc
+	var p := Player.new()
+	autofree(p)
+	var psc := PlayerStatusContainer.new()
+	autofree(psc)
+	p.player_status_container = psc
+	p.max_plants_index = 3
+	p.current_field_index = 0
+	cm.player = p
+	var tool_data := _make_tool_data(ActionData.ActionType.PEST, ActionData.OperatorType.DECREASE, 1)
+	t._handle_pre_tool_application_hook(cm, tool_data)
+	assert_true(saw_anim[0])
 
 # ----- other hooks absent -----
 

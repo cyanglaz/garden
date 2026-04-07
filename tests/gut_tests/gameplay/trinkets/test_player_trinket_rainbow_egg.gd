@@ -2,6 +2,10 @@ extends GutTest
 
 # ----- Stubs -----
 
+class FakePlant extends Plant:
+	func apply_actions(_actions: Array) -> void:
+		pass
+
 class FakeCombatMain extends CombatMain:
 	pass
 
@@ -46,6 +50,25 @@ func test_hook_respects_different_configured_turn() -> void:
 	autofree(cm)
 	cm.day_manager.day = 2
 	assert_true(t.has_start_turn_hook(cm))
+
+# ----- handle_start_turn_hook (ACTIVE during hook, NORMAL after) -----
+
+func test_handle_start_turn_hook_ends_in_normal_state() -> void:
+	var t := _make_trinket(6)
+	var saw_anim: Array = [false]
+	t.request_player_upgrade_hook_animation.connect(func(_id: String) -> void: saw_anim[0] = true)
+	var cm := FakeCombatMain.new()
+	autofree(cm)
+	cm.day_manager.day = 5
+	var pfc := PlantFieldContainer.new()
+	autofree(pfc)
+	var fp := FakePlant.new()
+	autofree(fp)
+	pfc.plants.append(fp)
+	cm.plant_field_container = pfc
+	await t._handle_start_turn_hook(cm)
+	assert_eq(t.data.state, TrinketData.TrinketState.NORMAL)
+	assert_true(saw_anim[0])
 
 # ----- other hooks absent -----
 

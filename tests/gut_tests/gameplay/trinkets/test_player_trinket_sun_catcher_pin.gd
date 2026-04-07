@@ -43,6 +43,14 @@ func test_stack_does_not_reset_at_four() -> void:
 	t._handle_tool_application_hook(cm, null)
 	assert_eq((t.data as TrinketData).stack, 4)
 
+func test_state_active_when_stack_reaches_cards_played_minus_one() -> void:
+	var t := _make_trinket()
+	var cm := FakeCombatMain.new()
+	autofree(cm)
+	(t.data as TrinketData).stack = 3
+	t._handle_tool_application_hook(cm, null)
+	assert_eq(t.data.state, TrinketData.TrinketState.ACTIVE)
+
 func test_stack_resets_at_threshold() -> void:
 	var t := _make_trinket()
 	var cm := FakeCombatMain.new()
@@ -53,6 +61,7 @@ func test_stack_resets_at_threshold() -> void:
 	(t.data as TrinketData).stack = 4
 	await t._handle_tool_application_hook(cm, null)
 	assert_eq((t.data as TrinketData).stack, 0)
+	assert_eq(t.data.state, TrinketData.TrinketState.NORMAL)
 
 # ----- other hooks absent -----
 
