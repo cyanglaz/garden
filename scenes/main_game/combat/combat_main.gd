@@ -157,7 +157,7 @@ func _start_turn() -> void:
 	await plant_field_container.trigger_start_turn_hooks(self)
 	gui.toggle_all_ui(true)
 	turn_started.emit()
-	_win()
+	#_win()
 
 func _end_turn() -> void:
 	is_mid_turn = false

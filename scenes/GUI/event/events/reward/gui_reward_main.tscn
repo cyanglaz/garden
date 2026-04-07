@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://ciockqmeym3li" path="res://scenes/GUI/event/events/reward/gui_reward_main.gd" id="1_axy1y"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="1_xloug"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="2_pi043"]
-[ext_resource type="Resource" uid="uid://funguye1s2v0" path="res://data/combats/chapter1/combat_data_e11.tres" id="2_tl8kf"]
 [ext_resource type="Texture2D" uid="uid://d0l07mh1e34v6" path="res://resources/sprites/GUI/theme/reward_background.png" id="5_tl8kf"]
 [ext_resource type="AudioStream" uid="uid://dnjnf11sfdhai" path="res://resources/sounds/SFX/summary/reward_3.wav" id="8_jo3ev"]
 [ext_resource type="PackedScene" uid="uid://d07xoskgg1bxi" path="res://scenes/GUI/event/events/reward/gui_reward_cards_main.tscn" id="8_pi043"]
@@ -13,7 +12,6 @@
 process_mode = 2
 layer = 2
 script = ExtResource("1_axy1y")
-test_combat_data = ExtResource("2_tl8kf")
 
 [node name="MainMarginContainer" parent="." unique_id=1842515986 instance=ExtResource("2_pi043")]
 unique_name_in_owner = true
@@ -108,13 +106,5 @@ bus = &"SFX"
 
 [node name="GUIRewardCardsMain" parent="." unique_id=8623081 instance=ExtResource("8_pi043")]
 unique_name_in_owner = true
+layer = 3
 visible = false
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 4.0
-offset_top = 20.0
-offset_right = 316.0
-offset_bottom = 176.0
-grow_horizontal = 1
-grow_vertical = 1

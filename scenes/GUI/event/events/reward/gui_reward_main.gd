@@ -34,7 +34,7 @@ func _ready() -> void:
 	_original_panel_y = panel_container.position.y
 	_original_title_y = title_label.position.y
 
-	show_with_combat_data(test_combat_data, [])
+	#show_with_combat_data(test_combat_data, [])
 
 func show_with_data(gold: int, hp: int, booster_pack_type: CombatData.BoosterPackType, trinket_data: TrinketData) -> void:
 	Util.remove_all_children(vbox_container)
@@ -103,27 +103,30 @@ func show_with_combat_data(combat_data: CombatData, owned_trinkets:Array[String]
 	await show_with_data(combat_data.reward_gold, reward_hp, combat_data.reward_booster_pack_type, trinket_data)
 
 func _booster_pack_button_pressed(booster_pack_type: CombatData.BoosterPackType, button:GUIRewardButton) -> void:
-	margin_container.hide()
 	gui_reward_cards_main.spawn_cards_with_pack_type(booster_pack_type, button.global_position)
 	button.queue_free()
 
 func _on_gold_collected(gold:int, reward_button:GUIRewardButton) -> void:
+	_reward_total -= 1
 	reward_button.queue_free()
 	Events.request_update_gold.emit(gold, true)
 	_try_finish_rewards()
 
 func _on_hp_collected(hp:int, reward_button:GUIRewardButton) -> void:
+	_reward_total -= 1
 	reward_button.queue_free()
 	Events.request_hp_update.emit(hp, ActionData.OperatorType.INCREASE)
 	_try_finish_rewards()
 
 func _on_card_reward_finished() -> void:
+	_reward_total -= 1
 	_try_finish_rewards()
 
 func _on_trinket_pressed(trinket_data:TrinketData, reward_button:GUIRewardButton) -> void:
 	var from_position := reward_button.gui_icon.global_position
 	reward_button.queue_free()
 	Events.request_add_trinket_to_collection.emit(trinket_data, from_position)
+	_reward_total -= 1
 	_try_finish_rewards()
 
 func _on_skip_reward_pressed() -> void:

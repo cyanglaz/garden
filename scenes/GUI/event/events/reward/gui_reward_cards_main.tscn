@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://7jgkjfb71q24" path="res://scenes/GUI/event/events/reward/gui_reward_cards_main.gd" id="1_drca4"]
 [ext_resource type="PackedScene" uid="uid://cp4hifbli0slg" path="res://scenes/GUI/event/events/reward/gui_booster_pack_image.tscn" id="2_q8fh0"]
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="3_57bew"]
+[ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="4_dgwgu"]
+[ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="5_tkktn"]
 
 [sub_resource type="Shader" id="Shader_a08ry"]
 resource_local_to_scene = true
@@ -44,58 +46,67 @@ shader = SubResource("Shader_a08ry")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 
-[node name="GUIRewardCardsMain" type="Control" unique_id=1431143457]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="GUIRewardCardsMain" type="CanvasLayer" unique_id=455973081]
+layer = 2
 script = ExtResource("1_drca4")
 
-[node name="ChooseCardTitle" type="Label" parent="." unique_id=1234245919]
+[node name="MainMarginContainer" parent="." unique_id=1907591573 instance=ExtResource("5_tkktn")]
+unique_name_in_owner = true
+
+[node name="GUIOverlayBackground" parent="MainMarginContainer" unique_id=556103661 instance=ExtResource("4_dgwgu")]
+layout_mode = 2
+color = Color(0.52156866, 0.52156866, 0.52156866, 1)
+
+[node name="Control" type="Control" parent="MainMarginContainer" unique_id=1876629213]
+layout_mode = 2
+
+[node name="ChooseCardTitle" type="Label" parent="MainMarginContainer/Control" unique_id=1234245919]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -20.0
-offset_top = 8.0
+offset_top = 11.0
 offset_right = 20.0
-offset_bottom = 22.0
+offset_bottom = 25.0
 grow_horizontal = 2
 theme_type_variation = &"HeaderMedium"
 text = " "
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CardsContainer" type="Control" parent="." unique_id=321946405]
+[node name="CardsContainer" type="Control" parent="MainMarginContainer/Control" unique_id=321946405]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -16.0
+offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="GUIBoosterPackImage" parent="." unique_id=1829560562 instance=ExtResource("2_q8fh0")]
+[node name="GUIBoosterPackImage" parent="MainMarginContainer/Control" unique_id=1829560562 instance=ExtResource("2_q8fh0")]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_dgwgu")
 layout_mode = 0
+offset_top = -16.0
+offset_bottom = 20.0
 
-[node name="SkipCardButton" parent="." unique_id=1125168901 instance=ExtResource("3_57bew")]
+[node name="SkipCardButton" parent="MainMarginContainer/Control" unique_id=1125168901 instance=ExtResource("3_57bew")]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -15.0
-offset_top = -32.0
-offset_right = 15.0
-offset_bottom = -16.0
-grow_horizontal = 2
+offset_left = -37.0
+offset_top = -24.0
+offset_right = -7.0
+offset_bottom = -8.0
+grow_horizontal = 0
 grow_vertical = 0
 localization_text_key = "ACTION_SKIP"
