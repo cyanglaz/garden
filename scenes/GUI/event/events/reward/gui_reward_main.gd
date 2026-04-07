@@ -22,7 +22,6 @@ signal reward_finished()
 
 var _original_panel_y: float
 var _original_title_y: float
-var _original_skip_button_y: float
 var _reward_total: int = 0
 
 func _ready() -> void:
@@ -34,7 +33,6 @@ func _ready() -> void:
 	skip_reward_button.pressed.connect(_on_skip_reward_pressed)
 	_original_panel_y = panel_container.position.y
 	_original_title_y = title_label.position.y
-	_original_skip_button_y = skip_reward_button.position.y
 
 	show_with_combat_data(test_combat_data, [])
 
@@ -85,13 +83,13 @@ func show_with_data(gold: int, hp: int, booster_pack_type: CombatData.BoosterPac
 	PauseManager.try_pause()
 	panel_container.position.y = main_margin_container.size.y
 	title_label.position.y = main_margin_container.size.y
-	skip_reward_button.position.y = main_margin_container.size.y
+	skip_reward_button.hide()
 	reward_showing_audio.play()
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(panel_container, "position:y", _original_panel_y, SHOW_ANIMATION_TIME).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	tween.parallel().tween_property(title_label, "position:y", _original_title_y, SHOW_ANIMATION_TIME).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
-	tween.parallel().tween_property(skip_reward_button, "position:y", _original_skip_button_y, SHOW_ANIMATION_TIME).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	await tween.finished
+	skip_reward_button.show()
 
 func show_with_combat_data(combat_data: CombatData, owned_trinkets:Array[String]) -> void:
 	var trinket_datas: Array[TrinketData] = []

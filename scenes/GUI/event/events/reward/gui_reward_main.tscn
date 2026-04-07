@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="1_xloug"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="2_pi043"]
 [ext_resource type="Resource" uid="uid://funguye1s2v0" path="res://data/combats/chapter1/combat_data_e11.tres" id="2_tl8kf"]
-[ext_resource type="Texture2D" uid="uid://pjdyj2bfffr6" path="res://resources/sprites/GUI/theme/contract_background.png" id="4_jo3ev"]
+[ext_resource type="Texture2D" uid="uid://d0l07mh1e34v6" path="res://resources/sprites/GUI/theme/reward_background.png" id="5_tl8kf"]
 [ext_resource type="AudioStream" uid="uid://dnjnf11sfdhai" path="res://resources/sounds/SFX/summary/reward_3.wav" id="8_jo3ev"]
 [ext_resource type="PackedScene" uid="uid://d07xoskgg1bxi" path="res://scenes/GUI/event/events/reward/gui_reward_cards_main.tscn" id="8_pi043"]
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="9_skip1"]
@@ -66,11 +66,11 @@ mouse_filter = 2
 
 [node name="NinePatchRect" type="NinePatchRect" parent="MainMarginContainer/MarginContainer/Control/PanelContainer" unique_id=711171627]
 layout_mode = 2
-texture = ExtResource("4_jo3ev")
-patch_margin_left = 2
-patch_margin_top = 2
-patch_margin_right = 2
-patch_margin_bottom = 2
+texture = ExtResource("5_tl8kf")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
 
 [node name="MarginContainer" type="MarginContainer" parent="MainMarginContainer/MarginContainer/Control/PanelContainer" unique_id=470394524]
 layout_mode = 2
@@ -87,14 +87,17 @@ theme_override_constants/separation = 1
 [node name="SkipRewardButton" parent="MainMarginContainer/MarginContainer/Control" unique_id=2041837625 instance=ExtResource("9_skip1")]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -15.0
-offset_top = 133.0
-offset_right = 15.0
-offset_bottom = 145.0
-grow_horizontal = 2
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -30.0
+offset_top = -12.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0
 localization_text_key = "ACTION_SKIP"
 
 [node name="RewardShowingAudio" type="AudioStreamPlayer2D" parent="MainMarginContainer" unique_id=1762697843]
