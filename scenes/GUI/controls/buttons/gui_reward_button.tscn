@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://clc0rb4rvrvto"]
 
 [ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_tyqdp"]
-[ext_resource type="Script" path="res://scenes/GUI/controls/buttons/gui_reward_button.gd" id="2_tyqdp"]
+[ext_resource type="Script" uid="uid://c5r7ds5il28po" path="res://scenes/GUI/controls/buttons/gui_reward_button.gd" id="2_tyqdp"]
 [ext_resource type="Texture2D" uid="uid://hveul45ue4gw" path="res://resources/sprites/GUI/theme/reward_button_background.png" id="3_53r5d"]
 [ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="4_hohmw"]
 [ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="5_d4om6"]

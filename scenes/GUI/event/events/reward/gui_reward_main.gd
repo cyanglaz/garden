@@ -3,13 +3,12 @@ extends CanvasLayer
 
 const SHOW_ANIMATION_TIME := 0.5
 
-const TRINKET_REWARD_SCENE := preload("res://scenes/GUI/chest/gui_chest_reward_trinket.tscn")
 const GUI_REWARD_BUTTON_SCENE := preload("res://scenes/GUI/controls/buttons/gui_reward_button.tscn")
 const TRINKET_ICON_PREFIX := "res://resources/sprites/GUI/icons/trinkets/icon_%s.png"
 
 signal reward_finished()
 
-@export var test_combat_data:CombatData
+#@export var test_combat_data:CombatData
 
 @onready var title_label: Label = %TitleLabel
 @onready var reward_showing_audio: AudioStreamPlayer2D = %RewardShowingAudio
@@ -160,3 +159,4 @@ func _on_trinket_mouse_entered(trinket_data:TrinketData, reward_button:GUIReward
 
 func _on_trinket_mouse_exited() -> void:
 	Events.request_hide_tooltip.emit(_trinket_tooltip_id)
+	_trinket_tooltip_id = ""
