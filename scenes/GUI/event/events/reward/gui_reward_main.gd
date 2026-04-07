@@ -23,6 +23,7 @@ signal reward_finished()
 var _original_panel_y: float
 var _original_title_y: float
 var _reward_total: int = 0
+var _trinket_tooltip_id: String = ""
 
 func _ready() -> void:
 	title_label.text = Util.get_localized_string("REWARD_MAIN_TITLE_TEXT")
@@ -61,6 +62,8 @@ func show_with_data(gold: int, hp: int, booster_pack_type: CombatData.BoosterPac
 		gui_reward_trinket.update_with_texture_and_text(load(str(TRINKET_ICON_PREFIX % trinket_data.id)), Util.convert_to_bbc_highlight_text(trinket_data.get_display_name(), Constants.COLOR_WHITE))
 		gui_reward_trinket.pressed.connect(_on_trinket_pressed.bind(trinket_data, gui_reward_trinket))
 		_reward_total +=1
+		gui_reward_trinket.mouse_entered.connect(_on_trinket_mouse_entered.bind(trinket_data, gui_reward_trinket))
+		gui_reward_trinket.mouse_exited.connect(_on_trinket_mouse_exited)
 
 	var booster_icon_path := ""
 	match booster_pack_type:
@@ -94,13 +97,20 @@ func show_with_data(gold: int, hp: int, booster_pack_type: CombatData.BoosterPac
 func show_with_combat_data(combat_data: CombatData, owned_trinkets:Array[String]) -> void:
 	var trinket_datas: Array[TrinketData] = []
 	var reward_hp := combat_data.reward_hp
-	#if combat_data.reward_trinket:
-	trinket_datas = MainDatabase.trinket_database.roll_trinkets(1, owned_trinkets)
-	if trinket_datas.is_empty():
-		assert(reward_hp == 0, "Reward HP is not 0 when reward trinket is true")
-		reward_hp = 1
-	var trinket_data := trinket_datas[0] if !trinket_datas.is_empty() else null
+	var trinket_data: TrinketData = null
+	if combat_data.reward_trinket:
+		trinket_datas = MainDatabase.trinket_database.roll_trinkets(1, owned_trinkets)
+		if trinket_datas.is_empty():
+			assert(reward_hp == 0, "Reward HP is not 0 when reward trinket is true")
+			reward_hp = 1
+		trinket_data = trinket_datas[0] if !trinket_datas.is_empty() else null
 	await show_with_data(combat_data.reward_gold, reward_hp, combat_data.reward_booster_pack_type, trinket_data)
+
+func _try_finish_rewards() -> void:
+	if _reward_total == 0:
+		_on_trinket_mouse_exited()
+		PauseManager.try_unpause()
+		reward_finished.emit()
 
 func _booster_pack_button_pressed(booster_pack_type: CombatData.BoosterPackType, button:GUIRewardButton) -> void:
 	gui_reward_cards_main.spawn_cards_with_pack_type(booster_pack_type, button.global_position)
@@ -133,7 +143,15 @@ func _on_skip_reward_pressed() -> void:
 	_reward_total = 0
 	_try_finish_rewards()
 
-func _try_finish_rewards() -> void:
-	if _reward_total == 0:
-		PauseManager.try_unpause()
-		reward_finished.emit()
+func _on_trinket_mouse_entered(trinket_data:TrinketData, reward_button:GUIRewardButton) -> void:
+	_trinket_tooltip_id = Util.get_uuid()
+	Events.request_display_tooltip.emit(TooltipRequest.new(
+		TooltipRequest.TooltipType.THING_DATA,
+		trinket_data,
+		_trinket_tooltip_id,
+		reward_button,
+		GUITooltip.TooltipPosition.RIGHT
+	))
+
+func _on_trinket_mouse_exited() -> void:
+	Events.request_hide_tooltip.emit(_trinket_tooltip_id)
