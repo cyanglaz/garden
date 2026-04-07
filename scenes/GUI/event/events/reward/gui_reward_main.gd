@@ -9,6 +9,8 @@ const TRINKET_ICON_PREFIX := "res://resources/sprites/GUI/icons/trinkets/icon_%s
 
 signal reward_finished()
 
+@export var test_combat_data:CombatData
+
 @onready var title_label: Label = %TitleLabel
 @onready var reward_showing_audio: AudioStreamPlayer2D = %RewardShowingAudio
 @onready var margin_container: MarginContainer = %MarginContainer
@@ -34,8 +36,7 @@ func _ready() -> void:
 	_original_title_y = title_label.position.y
 	_original_skip_button_y = skip_reward_button.position.y
 
-	#var combat_data = CombatData.new()
-	#show_with_combat_data(combat_data)
+	show_with_combat_data(test_combat_data, [])
 
 func show_with_data(gold: int, hp: int, booster_pack_type: CombatData.BoosterPackType, trinket_data: TrinketData) -> void:
 	Util.remove_all_children(vbox_container)
@@ -43,21 +44,23 @@ func show_with_data(gold: int, hp: int, booster_pack_type: CombatData.BoosterPac
 	title_label.show()
 
 	var gui_reward_gold: GUIRewardButton = GUI_REWARD_BUTTON_SCENE.instantiate()
-	gui_reward_gold.update_with_texture_and_text(load("res://resources/sprites/GUI/icons/resources/icon_gold.png"), str(gold))
 	vbox_container.add_child(gui_reward_gold)
+	var reward_gold_text := DescriptionParser.format_references(Util.get_localized_string("REWARD_GOLD_TEXT") % gold, {}, {}, func(_reference_id:String) -> bool: return false, Constants.COLOR_YELLOW1)
+	gui_reward_gold.update_with_texture_and_text(load("res://resources/sprites/GUI/icons/resources/icon_gold.png"), reward_gold_text)
 	gui_reward_gold.pressed.connect(_on_gold_collected.bind(gold, gui_reward_gold))
 	_reward_total += 1
 	if hp > 0:
 		var gui_reward_hp: GUIRewardButton = GUI_REWARD_BUTTON_SCENE.instantiate()
-		gui_reward_hp.update_with_texture_and_text(load("res://resources/sprites/GUI/icons/resources/icon_hp.png"), str(hp))
 		vbox_container.add_child(gui_reward_hp)
+		var reward_hp_text := DescriptionParser.format_references(Util.get_localized_string("REWARD_HP_TEXT") % hp, {}, {}, func(_reference_id:String) -> bool: return false, Constants.COLOR_RED1)
+		gui_reward_hp.update_with_texture_and_text(load("res://resources/sprites/GUI/icons/resources/icon_vitality.png"), reward_hp_text)
 		gui_reward_hp.pressed.connect(_on_hp_collected.bind(hp, gui_reward_hp))
 		_reward_total +=1
 
 	if trinket_data:
 		var gui_reward_trinket: GUIRewardButton = GUI_REWARD_BUTTON_SCENE.instantiate()
-		gui_reward_trinket.update_with_texture_and_text(load(str(TRINKET_ICON_PREFIX % trinket_data.id)), str(trinket_data.get_display_name()))
 		vbox_container.add_child(gui_reward_trinket)
+		gui_reward_trinket.update_with_texture_and_text(load(str(TRINKET_ICON_PREFIX % trinket_data.id)), Util.convert_to_bbc_highlight_text(trinket_data.get_display_name(), Constants.COLOR_WHITE))
 		gui_reward_trinket.pressed.connect(_on_trinket_pressed.bind(trinket_data, gui_reward_trinket))
 		_reward_total +=1
 
@@ -71,8 +74,10 @@ func show_with_data(gold: int, hp: int, booster_pack_type: CombatData.BoosterPac
 			booster_icon_path = "res://resources/sprites/GUI/icons/booster_packs/icon_booster_pack_legendary.png"
 
 	var gui_booster_pack_button: GUIRewardButton = GUI_REWARD_BUTTON_SCENE.instantiate()
-	gui_booster_pack_button.update_with_texture_and_text(load(booster_icon_path), str(booster_pack_type))
 	vbox_container.add_child(gui_booster_pack_button)
+	var booster_pack_name_color := Util.get_booster_pack_name_color(booster_pack_type)
+	var reward_booster_pack_text := DescriptionParser.format_references(Util.get_localized_string("REWARD_BOOSTER_PACK_TEXT") % CombatData.get_booster_pack_name(booster_pack_type), {}, {}, func(_reference_id:String) -> bool: return false, booster_pack_name_color)
+	gui_booster_pack_button.update_with_texture_and_text(load(booster_icon_path), reward_booster_pack_text)
 	gui_booster_pack_button.pressed.connect(_booster_pack_button_pressed.bind(booster_pack_type, gui_booster_pack_button))
 	_reward_total +=1
 
@@ -91,11 +96,11 @@ func show_with_data(gold: int, hp: int, booster_pack_type: CombatData.BoosterPac
 func show_with_combat_data(combat_data: CombatData, owned_trinkets:Array[String]) -> void:
 	var trinket_datas: Array[TrinketData] = []
 	var reward_hp := combat_data.reward_hp
-	if combat_data.reward_trinket:
-		trinket_datas = MainDatabase.trinket_database.roll_trinkets(1, owned_trinkets)
-		if trinket_datas.is_empty():
-			assert(reward_hp == 0, "Reward HP is not 0 when reward trinket is true")
-			reward_hp = 1
+	#if combat_data.reward_trinket:
+	trinket_datas = MainDatabase.trinket_database.roll_trinkets(1, owned_trinkets)
+	if trinket_datas.is_empty():
+		assert(reward_hp == 0, "Reward HP is not 0 when reward trinket is true")
+		reward_hp = 1
 	var trinket_data := trinket_datas[0] if !trinket_datas.is_empty() else null
 	await show_with_data(combat_data.reward_gold, reward_hp, combat_data.reward_booster_pack_type, trinket_data)
 

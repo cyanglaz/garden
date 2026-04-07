@@ -3,11 +3,11 @@ extends GUIBasicButton
 
 @onready var background: NinePatchRect = %Background
 @onready var gui_icon: GUIIcon = %GUIIcon
-@onready var label: Label = %Label
+@onready var rich_text_label: RichTextLabel = %RichTextLabel
 
 func update_with_texture_and_text(texture: Texture2D, text: String) -> void:
 	gui_icon.texture = texture
-	label.text = text
+	rich_text_label.text = text
 
 func _set_button_state(val:ButtonState) -> void:
 	super._set_button_state(val)

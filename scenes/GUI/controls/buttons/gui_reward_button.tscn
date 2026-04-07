@@ -11,7 +11,7 @@
 atlas = ExtResource("3_53r5d")
 region = Rect2(0, 0, 16, 16)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2ccxi"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_53r5d"]
 resource_local_to_scene = true
 shader = ExtResource("5_d4om6")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
@@ -24,13 +24,13 @@ custom_minimum_size = Vector2(36, 18)
 offset_right = 11.0
 offset_bottom = 11.0
 script = ExtResource("2_tyqdp")
-tool_tip_localized_string = "BUTTON_TOOLTIP_LIBRARY"
 tooltip_position = 3
 
 [node name="Background" type="NinePatchRect" parent="." index="0" unique_id=844539187]
 unique_name_in_owner = true
 layout_mode = 2
 texture = SubResource("AtlasTexture_3k4ub")
+region_rect = Rect2(0, 0, 16, 16)
 patch_margin_left = 4
 patch_margin_top = 4
 patch_margin_right = 4
@@ -46,15 +46,25 @@ grow_vertical = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer" index="0" unique_id=1642879632]
 layout_mode = 2
+theme_override_constants/separation = 0
 
-[node name="GUIIcon" parent="Background/MarginContainer/HBoxContainer" index="0" unique_id=627056868 instance=ExtResource("4_hohmw")]
+[node name="MarginContainer" type="CenterContainer" parent="Background/MarginContainer/HBoxContainer" index="0" unique_id=2007217775]
+custom_minimum_size = Vector2(14, 0)
+layout_mode = 2
+
+[node name="GUIIcon" parent="Background/MarginContainer/HBoxContainer/MarginContainer" index="0" unique_id=627056868 instance=ExtResource("4_hohmw")]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_2ccxi")
+material = SubResource("ShaderMaterial_53r5d")
 layout_mode = 2
 texture = ExtResource("6_h8h1c")
 
-[node name="Label" type="Label" parent="Background/MarginContainer/HBoxContainer" index="1" unique_id=1284240993]
+[node name="RichTextLabel" type="RichTextLabel" parent="Background/MarginContainer/HBoxContainer" index="1" unique_id=446432145]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"HUD"
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_type_variation = &"RichTextRewardButton"
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
 vertical_alignment = 1

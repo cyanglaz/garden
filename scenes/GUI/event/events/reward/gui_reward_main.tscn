@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://ciockqmeym3li" path="res://scenes/GUI/event/events/reward/gui_reward_main.gd" id="1_axy1y"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="1_xloug"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="2_pi043"]
+[ext_resource type="Resource" uid="uid://funguye1s2v0" path="res://data/combats/chapter1/combat_data_e11.tres" id="2_tl8kf"]
 [ext_resource type="Texture2D" uid="uid://pjdyj2bfffr6" path="res://resources/sprites/GUI/theme/contract_background.png" id="4_jo3ev"]
 [ext_resource type="AudioStream" uid="uid://dnjnf11sfdhai" path="res://resources/sounds/SFX/summary/reward_3.wav" id="8_jo3ev"]
 [ext_resource type="PackedScene" uid="uid://d07xoskgg1bxi" path="res://scenes/GUI/event/events/reward/gui_reward_cards_main.tscn" id="8_pi043"]
@@ -12,6 +13,7 @@
 process_mode = 2
 layer = 2
 script = ExtResource("1_axy1y")
+test_combat_data = ExtResource("2_tl8kf")
 
 [node name="MainMarginContainer" parent="." unique_id=1842515986 instance=ExtResource("2_pi043")]
 unique_name_in_owner = true
@@ -50,7 +52,7 @@ vertical_alignment = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="MainMarginContainer/MarginContainer/Control" unique_id=740517993]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(86, 0)
+custom_minimum_size = Vector2(108, 0)
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -80,8 +82,7 @@ theme_override_constants/margin_bottom = 6
 [node name="VBoxContainer" type="VBoxContainer" parent="MainMarginContainer/MarginContainer/Control/PanelContainer/MarginContainer" unique_id=1515546723]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 8
-alignment = 1
+theme_override_constants/separation = 1
 
 [node name="SkipRewardButton" parent="MainMarginContainer/MarginContainer/Control" unique_id=2041837625 instance=ExtResource("9_skip1")]
 unique_name_in_owner = true
