@@ -76,6 +76,8 @@ func show_with_data(gold: int, hp: int, booster_pack_type: CombatData.BoosterPac
 			booster_icon_path = "res://resources/sprites/GUI/icons/booster_packs/icon_booster_pack_rare.png"
 		CombatData.BoosterPackType.LEGENDARY:
 			booster_icon_path = "res://resources/sprites/GUI/icons/booster_packs/icon_booster_pack_legendary.png"
+		_:
+			booster_icon_path = "res://resources/sprites/GUI/icons/booster_packs/icon_booster_pack_common.png"
 
 	var gui_booster_pack_button: GUIRewardButton = GUI_REWARD_BUTTON_SCENE.instantiate()
 	vbox_container.add_child(gui_booster_pack_button)
