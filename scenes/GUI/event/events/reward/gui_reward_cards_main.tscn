@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="4_dgwgu"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="5_tkktn"]
 
-[sub_resource type="Shader" id="Shader_a08ry"]
+[sub_resource type="Shader" id="Shader_tkktn"]
 resource_local_to_scene = true
 code = "shader_type canvas_item;
 
@@ -40,9 +40,9 @@ void fragment() {
 }
 "
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dgwgu"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_am2x4"]
 resource_local_to_scene = true
-shader = SubResource("Shader_a08ry")
+shader = SubResource("Shader_tkktn")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 
@@ -90,7 +90,7 @@ mouse_filter = 2
 
 [node name="GUIBoosterPackImage" parent="MainMarginContainer/Control" unique_id=1829560562 instance=ExtResource("2_q8fh0")]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_dgwgu")
+material = SubResource("ShaderMaterial_am2x4")
 layout_mode = 0
 offset_top = -16.0
 offset_bottom = 20.0
