@@ -137,7 +137,7 @@ func _start_new_level() -> void:
 	level_started.emit()
 	await weather_main.start(_chapter, _combat.combat_type)
 	player.current_field_index = 0
-	_start_turn()
+	await _start_turn()
 
 func _start_turn() -> void:
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.TURN)
