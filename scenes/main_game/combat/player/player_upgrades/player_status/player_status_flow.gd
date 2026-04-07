@@ -10,4 +10,5 @@ func _handle_discard_hook(combat_main:CombatMain, tool_datas:Array) -> void:
 	action.type = ActionData.ActionType.DRAW_CARD
 	action.operator_type = ActionData.OperatorType.INCREASE
 	action.value = (data.data["value"] as int) * stack * tool_datas.size()
+	_send_hook_animation_signals()
 	await player_action_applier.apply_action(action, combat_main, [])

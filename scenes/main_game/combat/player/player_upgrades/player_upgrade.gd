@@ -1,6 +1,9 @@
 class_name PlayerUpgrade
 extends Node2D
 
+signal request_player_upgrade_hook_animation(id:String)
+signal request_hook_message_popup(thing_data:ThingData)
+
 var stack:int:set = _set_stack, get = _get_stack
 var data:ThingData
 
@@ -106,6 +109,12 @@ func has_damage_taken_hook(combat_main:CombatMain, damage:int) -> bool:
 func handle_damage_taken_hook(combat_main:CombatMain, damage:int) -> void:
 	await _handle_damage_taken_hook(combat_main, damage)
 
+func has_combat_end_hook(combat_main:CombatMain) -> bool:
+	return _has_combat_end_hook(combat_main)
+
+func handle_combat_end_hook(combat_main:CombatMain) -> void:
+	await _handle_combat_end_hook(combat_main)
+
 #region for override
 
 func _has_prevent_movement_hook() -> bool:
@@ -210,7 +219,17 @@ func _has_damage_taken_hook(_combat_main:CombatMain, _damage:int) -> bool:
 func _handle_damage_taken_hook(_combat_main:CombatMain, _damage:int) -> void:
 	await Util.await_for_tiny_time()
 
+func _has_combat_end_hook(_combat_main:CombatMain) -> bool:
+	return false
+
+func _handle_combat_end_hook(_combat_main:CombatMain) -> void:
+	await Util.await_for_tiny_time()
+
 #endregion
+
+func _send_hook_animation_signals() -> void:
+	request_player_upgrade_hook_animation.emit(data.id)
+	request_hook_message_popup.emit(data)
 
 func _set_stack(_value:int) -> void:
 	assert(false, "must be implemented")

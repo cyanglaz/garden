@@ -10,4 +10,5 @@ func _handle_player_move_hook(main_game:CombatMain) -> void:
 	action.type = ActionData.ActionType.WATER
 	action.operator_type = ActionData.OperatorType.INCREASE
 	action.value = stack * (data.data["value"] as int)
+	_send_hook_animation_signals()
 	await plant.apply_actions([action])

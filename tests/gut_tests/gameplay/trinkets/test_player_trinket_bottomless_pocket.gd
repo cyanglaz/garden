@@ -9,6 +9,10 @@ class FakeToolManager extends ToolManager:
 class FakeCombatMain extends CombatMain:
 	pass
 
+class FakeCombatMainBottomless extends FakeCombatMain:
+	func draw_cards(_count: int) -> void:
+		await Util.await_for_tiny_time()
+
 # ----- Helpers -----
 
 func _make_trinket() -> PlayerTrinketBottomlessPocket:
@@ -38,6 +42,18 @@ func test_has_hand_updated_hook_false_when_hand_has_cards() -> void:
 	var t := _make_trinket()
 	var cm := _make_combat_main_with_hand([ToolData.new()])
 	assert_false(t.has_hand_updated_hook(cm))
+
+func test_handle_hand_updated_hook_emits_hook_animation_signal() -> void:
+	var t := _make_trinket()
+	var saw_anim: Array = [false]
+	t.request_player_upgrade_hook_animation.connect(func(_id: String) -> void: saw_anim[0] = true)
+	var cm := FakeCombatMainBottomless.new()
+	autofree(cm)
+	var tm := FakeToolManager.new()
+	tm.tool_deck.hand.assign([])
+	cm.tool_manager = tm
+	await t._handle_hand_updated_hook(cm)
+	assert_true(saw_anim[0])
 
 # ----- other hooks absent -----
 

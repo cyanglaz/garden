@@ -36,6 +36,7 @@ func test_stack_resets_at_threshold() -> void:
 	(t.data as TrinketData).stack = 9
 	t._handle_tool_application_hook(cm, null)
 	assert_eq((t.data as TrinketData).stack, 0)
+	assert_eq(t.data.state, TrinketData.TrinketState.NORMAL)
 
 func test_stack_does_not_reset_before_threshold() -> void:
 	var t := _make_trinket()
@@ -44,6 +45,14 @@ func test_stack_does_not_reset_before_threshold() -> void:
 	(t.data as TrinketData).stack = 8
 	t._handle_tool_application_hook(cm, null)
 	assert_eq((t.data as TrinketData).stack, 9)
+
+func test_state_active_when_stack_reaches_threshold_minus_one() -> void:
+	var t := _make_trinket()
+	var cm := FakeCombatMain.new()
+	autofree(cm)
+	(t.data as TrinketData).stack = 8
+	t._handle_tool_application_hook(cm, null)
+	assert_eq(t.data.state, TrinketData.TrinketState.ACTIVE)
 
 # ----- other hooks absent -----
 

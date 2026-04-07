@@ -20,6 +20,15 @@ func test_has_plant_bloom_hook_always_true() -> void:
 	autofree(cm)
 	assert_true(t.has_plant_bloom_hook(cm))
 
+func test_handle_plant_bloom_hook_emits_hook_animation_signal() -> void:
+	var t := _make_trinket()
+	var saw_anim: Array = [false]
+	t.request_player_upgrade_hook_animation.connect(func(_id: String) -> void: saw_anim[0] = true)
+	var cm := FakeCombatMain.new()
+	autofree(cm)
+	t._handle_plant_bloom_hook(cm)
+	assert_true(saw_anim[0])
+
 # ----- other hooks absent -----
 
 func test_has_no_draw_hook() -> void:

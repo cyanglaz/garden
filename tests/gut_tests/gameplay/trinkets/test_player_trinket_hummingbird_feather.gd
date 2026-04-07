@@ -42,6 +42,7 @@ func test_stack_resets_at_threshold() -> void:
 	(t.data as TrinketData).stack = 5
 	t._handle_tool_application_hook(cm, null)
 	assert_eq((t.data as TrinketData).stack, 0)
+	assert_eq(t.data.state, TrinketData.TrinketState.NORMAL)
 
 func test_stack_does_not_reset_before_threshold() -> void:
 	var t := _make_trinket()
@@ -56,6 +57,20 @@ func test_stack_does_not_reset_before_threshold() -> void:
 	cm.player.player_status_container = player_status_container
 	t._handle_tool_application_hook(cm, null)
 	assert_eq((t.data as TrinketData).stack, 5)
+
+func test_state_active_when_stack_reaches_threshold_minus_one() -> void:
+	var t := _make_trinket()
+	var cm := FakeCombatMain.new()
+	autofree(cm)
+	var player:Player = Player.new()
+	autofree(player)
+	cm.player = player
+	var player_status_container := PlayerStatusContainer.new()
+	autofree(player_status_container)
+	cm.player.player_status_container = player_status_container
+	(t.data as TrinketData).stack = 4
+	t._handle_tool_application_hook(cm, null)
+	assert_eq(t.data.state, TrinketData.TrinketState.ACTIVE)
 
 # ----- other hooks absent -----
 

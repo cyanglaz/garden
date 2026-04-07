@@ -1,7 +1,13 @@
 extends GutTest
 
+class FakePlant extends Plant:
+	func apply_actions(_actions: Array) -> void:
+		pass
+
 class FakeCombatMain extends CombatMain:
-	pass
+	var fake_plant: Plant = null
+	func get_current_player_plant() -> Plant:
+		return fake_plant
 
 func _make_trinket() -> PlayerTrinketFermentationFlask:
 	var t := PlayerTrinketFermentationFlask.new()
@@ -49,6 +55,19 @@ func test_stack_resets_on_start_turn() -> void:
 	(t.data as TrinketData).stack = 2
 	t._handle_start_turn_hook(null)
 	assert_eq((t.data as TrinketData).stack, 0)
+
+func test_handle_discard_hook_emits_hook_animation_when_reward_procs() -> void:
+	var t := _make_trinket()
+	var saw_anim: Array = [false]
+	t.request_player_upgrade_hook_animation.connect(func(_id: String) -> void: saw_anim[0] = true)
+	var cm := FakeCombatMain.new()
+	autofree(cm)
+	var fp := FakePlant.new()
+	autofree(fp)
+	cm.fake_plant = fp
+	(t.data as TrinketData).stack = 2
+	await t._handle_discard_hook(cm, [null, null, null])
+	assert_true(saw_anim[0])
 
 # ----- other hooks absent -----
 

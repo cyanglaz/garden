@@ -5,6 +5,7 @@ func _has_hand_size_hook(_combat_main: CombatMain) -> bool:
 	return true
 
 func _handle_hand_size_hook(_combat_main: CombatMain) -> int:
+	_send_hook_animation_signals()
 	return int(data.data[&"draw"])
 
 func _has_start_turn_hook(_combat_main: CombatMain) -> bool:

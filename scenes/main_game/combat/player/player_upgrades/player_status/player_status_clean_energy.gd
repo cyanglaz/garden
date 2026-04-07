@@ -16,6 +16,7 @@ func _handle_tool_application_hook(combat_main:CombatMain, _tool_data:ToolData) 
 	action_data.specials.append(ActionData.Special.ALL_FIELDS)
 	_action_count = combat_main.plant_field_container.plants.size()
 	assert(_action_count > 0)
+	_send_hook_animation_signals()
 	for plant:Plant in combat_main.plant_field_container.plants:
 		plant.action_application_completed.connect(_on_action_application_completed.bind(plant))
 		plant.apply_actions([action_data])

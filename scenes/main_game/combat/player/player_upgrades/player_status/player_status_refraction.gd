@@ -10,4 +10,5 @@ func _handle_target_plant_water_update_hook(_combat_main:CombatMain, plant:Plant
 	action.type = ActionData.ActionType.LIGHT
 	action.operator_type = ActionData.OperatorType.INCREASE
 	action.value = stack * (data.data["value"] as int)
+	_send_hook_animation_signals()
 	await plant.apply_actions([action])

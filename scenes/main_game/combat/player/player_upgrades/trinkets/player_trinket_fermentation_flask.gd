@@ -19,6 +19,7 @@ func _handle_discard_hook(combat_main: CombatMain, tool_datas: Array) -> void:
 		new_stack -= int(data.data[&"discard_count"])
 		loop_count += 1
 	if loop_count > 0:
+		_send_hook_animation_signals()
 		var plant := combat_main.get_current_player_plant()
 		var light_action := ActionData.new()
 		light_action.type = ActionData.ActionType.LIGHT

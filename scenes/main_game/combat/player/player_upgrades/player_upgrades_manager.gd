@@ -87,3 +87,7 @@ func handle_hand_size_hook(combat_main: CombatMain) -> int:
 	for container in player_upgrade_containers:
 		diff += await container.handle_hand_size_hook(combat_main)
 	return diff
+
+func handle_combat_end_hook(combat_main:CombatMain) -> void:
+	for container in player_upgrade_containers:
+		await container.handle_combat_end_hook(combat_main)

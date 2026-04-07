@@ -27,6 +27,14 @@ func test_has_exhaust_hook_false_when_hand_empty() -> void:
 	var t := _make_trinket()
 	assert_false(t.has_exhaust_hook(_make_combat_main([]), []))
 
+func test_handle_exhaust_hook_emits_hook_animation_signal() -> void:
+	var t := _make_trinket()
+	var saw_anim: Array = [false]
+	t.request_player_upgrade_hook_animation.connect(func(_id: String) -> void: saw_anim[0] = true)
+	var cm := _make_combat_main([ToolData.new()])
+	t._handle_exhaust_hook(cm, [])
+	assert_true(saw_anim[0])
+
 # ----- other hooks absent -----
 
 func test_has_no_start_turn_hook() -> void:

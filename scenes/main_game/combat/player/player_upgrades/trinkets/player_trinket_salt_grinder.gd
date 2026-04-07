@@ -14,4 +14,5 @@ func _handle_start_turn_hook(combat_main:CombatMain) -> void:
 	action_data_fungus.type = ActionData.ActionType.FUNGUS
 	action_data_fungus.operator_type = ActionData.OperatorType.DECREASE
 	action_data_fungus.value = data.data["fungus"] as int
+	_send_hook_animation_signals()
 	await current_plant.apply_actions([action_data_pest, action_data_fungus])

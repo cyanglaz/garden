@@ -137,7 +137,7 @@ func _start_new_level() -> void:
 	level_started.emit()
 	await weather_main.start(_chapter, _combat.combat_type)
 	player.current_field_index = 0
-	_start_turn()
+	await _start_turn()
 
 func _start_turn() -> void:
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.TURN)
@@ -180,7 +180,7 @@ func _end_turn() -> void:
 		return
 	await weather_main.new_day()
 	gui.toggle_all_ui(true)
-	_start_turn()
+	await _start_turn()
 
 func _met_win_condition() -> bool:
 	return plant_field_container.are_all_plants_bloom()
@@ -191,6 +191,7 @@ func _win() -> void:
 	is_finished = true
 	gui.permanently_lock_all_ui()
 	_fade_music(false)
+	await player.player_upgrades_manager.handle_combat_end_hook(self)
 	await Util.create_scaled_timer(WIN_PAUSE_TIME).timeout
 	if _chapter == MainGame.NUMBER_OF_CHAPTERS - 1 && _combat.combat_type == CombatData.CombatType.BOSS:
 		beat_final_boss.emit()
