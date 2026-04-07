@@ -41,6 +41,8 @@ func _ready() -> void:
 	bind_button.pressed.connect(_on_bind_button_pressed)
 	gui_bind_animation_container.hide()
 	gui_bind_animation_container.bind_card_pressed.connect(_on_bind_card_pressed)
+	front_card_placeholder.button_hovered.connect(_on_front_card_placeholder_hovered)
+	back_card_placeholder.button_hovered.connect(_on_back_card_placeholder_hovered)
 
 func setup_with_card_pool(card_pool:Array) -> void:
 	_card_pool = card_pool
@@ -158,5 +160,21 @@ func _on_bind_button_pressed() -> void:
 func _on_bind_card_pressed(card_global_position:Vector2) -> void:
 	bind_card_pressed.emit(_new_card_data, card_global_position)
 	_dismiss()
+
+func _on_front_card_placeholder_hovered(hovered:bool) -> void:
+	if hovered:
+		front_card_placeholder.set_line_color(Constants.COLOR_BLUE_1)
+		front_card_label.self_modulate = Constants.COLOR_BLUE_1
+	else:
+		front_card_placeholder.set_line_color(Constants.COLOR_WHITE)
+		front_card_label.self_modulate = Constants.COLOR_WHITE
+
+func _on_back_card_placeholder_hovered(hovered:bool) -> void:
+	if hovered:
+		back_card_placeholder.set_line_color(Constants.COLOR_BLUE_1)
+		back_card_label.self_modulate = Constants.COLOR_BLUE_1
+	else:
+		back_card_placeholder.set_line_color(Constants.COLOR_WHITE)
+		back_card_label.self_modulate = Constants.COLOR_WHITE
 
 #endregion

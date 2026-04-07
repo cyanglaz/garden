@@ -5,6 +5,7 @@ signal button_pressed()
 signal button_hovered(hovered:bool)
 
 @onready var gui_basic_button: GUIBasicButton = %GUIBasicButton
+@onready var gui_tool_card_background: GUIToolCardBackground = %GUIToolCardBackground
 
 var button_enabled:= false: set = _set_button_enabled
 
@@ -13,6 +14,9 @@ func _ready() -> void:
 	gui_basic_button.pressed.connect(_on_gui_basic_button_pressed)
 	gui_basic_button.mouse_entered.connect(_on_gui_basic_button_mouse_entered)
 	gui_basic_button.mouse_exited.connect(_on_gui_basic_button_mouse_exited)
+
+func set_line_color(color:Color) -> void:
+	gui_tool_card_background.self_modulate = color
 
 func _set_button_enabled(val:bool) -> void:
 	button_enabled = val
@@ -27,9 +31,6 @@ func _on_gui_basic_button_pressed() -> void:
 
 func _on_gui_basic_button_mouse_entered() -> void:
 	button_hovered.emit(true)
-	if button_enabled:
-		self_modulate = Constants.COLOR_YELLOW1
 
 func _on_gui_basic_button_mouse_exited() -> void:
 	button_hovered.emit(false)
-	self_modulate = Color.WHITE
