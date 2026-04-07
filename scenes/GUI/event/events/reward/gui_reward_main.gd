@@ -3,15 +3,15 @@ extends CanvasLayer
 
 const SHOW_ANIMATION_TIME := 0.5
 
-const TRINKET_REWARD_SCENE := preload("res://scenes/GUI/chest/gui_chest_reward_trinket.tscn")
+const GUI_REWARD_BUTTON_SCENE := preload("res://scenes/GUI/controls/buttons/gui_reward_button.tscn")
+const TRINKET_ICON_PREFIX := "res://resources/sprites/GUI/icons/trinkets/icon_%s.png"
 
 signal reward_finished()
 
+#@export var test_combat_data:CombatData
+
 @onready var title_label: Label = %TitleLabel
-@onready var gui_reward_gold: GUIRewardGold = %GUIRewardGold
-@onready var gui_reward_hp: GUIRewardHP = %GUIRewardHP
 @onready var reward_showing_audio: AudioStreamPlayer2D = %RewardShowingAudio
-@onready var gui_booster_pack_button: GUIBoosterPackButton = %GUIBoosterPackButton
 @onready var margin_container: MarginContainer = %MarginContainer
 @onready var gui_reward_cards_main: GUIRewardCardsMain = %GUIRewardCardsMain
 @onready var panel_container: PanelContainer = %PanelContainer
@@ -19,136 +19,144 @@ signal reward_finished()
 @onready var vbox_container: VBoxContainer = %VBoxContainer
 @onready var skip_reward_button: GUIRichTextButton = %SkipRewardButton
 
-var _booster_pack_type: CombatData.BoosterPackType
-var _gold: int = 0
-var _hp: int = 0
-var _trinket_data: TrinketData = null
-var _gui_reward_trinket: GUIChestRewardTrinket = null
-var _gold_collected: bool = true
-var _hp_collected: bool = true
-var _trinket_collected: bool = true
-var _card_collected: bool = false
-
 var _original_panel_y: float
 var _original_title_y: float
-var _original_skip_button_y: float
+var _reward_total: int = 0
+var _trinket_tooltip_id: String = ""
 
 func _ready() -> void:
 	title_label.text = Util.get_localized_string("REWARD_MAIN_TITLE_TEXT")
-	gui_booster_pack_button.pressed.connect(_booster_pack_button_pressed)
-	gui_reward_cards_main.reward_finished.connect(_on_reward_finished)
-	gui_reward_gold.gold_collected.connect(_on_gold_collected)
-	gui_reward_hp.hp_collected.connect(_on_hp_collected)
+	#gui_booster_pack_button.pressed.connect(_booster_pack_button_pressed)
+	gui_reward_cards_main.reward_finished.connect(_on_card_reward_finished)
+	#gui_reward_gold.gold_collected.connect(_on_gold_collected)
+	#gui_reward_hp.hp_collected.connect(_on_hp_collected)
 	skip_reward_button.pressed.connect(_on_skip_reward_pressed)
 	_original_panel_y = panel_container.position.y
 	_original_title_y = title_label.position.y
-	_original_skip_button_y = skip_reward_button.position.y
 
-	#var combat_data = CombatData.new()
-	#show_with_combat_data(combat_data)
+	#show_with_combat_data(test_combat_data, [])
 
 func show_with_data(gold: int, hp: int, booster_pack_type: CombatData.BoosterPackType, trinket_data: TrinketData) -> void:
-	if trinket_data:
-		_trinket_data = trinket_data
-		_trinket_collected = false
-	else:
-		_trinket_data = null
-		_trinket_collected = true
-	_gold = gold
-	_hp = hp
-	_gold_collected = gold == 0
-	_hp_collected = hp == 0
+	_reward_total = 0
+	Util.remove_all_children(vbox_container)
 	margin_container.show()
 	title_label.show()
-	gui_reward_gold.hide()
-	gui_reward_hp.hide()
-	gui_booster_pack_button.hide()
-	gui_reward_gold.update_with_value(gold)
+
+	if gold > 0:
+		var gui_reward_gold: GUIRewardButton = GUI_REWARD_BUTTON_SCENE.instantiate()
+		vbox_container.add_child(gui_reward_gold)
+		var reward_gold_text := DescriptionParser.format_references(Util.get_localized_string("REWARD_GOLD_TEXT") % gold, {}, {}, func(_reference_id:String) -> bool: return false, Constants.COLOR_YELLOW1)
+		gui_reward_gold.update_with_texture_and_text(load("res://resources/sprites/GUI/icons/resources/icon_gold.png"), reward_gold_text)
+		gui_reward_gold.pressed.connect(_on_gold_collected.bind(gold, gui_reward_gold))
+		_reward_total += 1
+
 	if hp > 0:
-		gui_reward_hp.update_with_value(hp)
-	gui_booster_pack_button.update_with_booster_pack_type(booster_pack_type)
-	_collect_rewards(gold, hp, booster_pack_type)
+		var gui_reward_hp: GUIRewardButton = GUI_REWARD_BUTTON_SCENE.instantiate()
+		vbox_container.add_child(gui_reward_hp)
+		var reward_hp_text := DescriptionParser.format_references(Util.get_localized_string("REWARD_HP_TEXT") % hp, {}, {}, func(_reference_id:String) -> bool: return false, Constants.COLOR_RED1)
+		gui_reward_hp.update_with_texture_and_text(load("res://resources/sprites/GUI/icons/resources/icon_vitality.png"), reward_hp_text)
+		gui_reward_hp.pressed.connect(_on_hp_collected.bind(hp, gui_reward_hp))
+		_reward_total +=1
+
+	if trinket_data:
+		var gui_reward_trinket: GUIRewardButton = GUI_REWARD_BUTTON_SCENE.instantiate()
+		vbox_container.add_child(gui_reward_trinket)
+		gui_reward_trinket.update_with_texture_and_text(load(str(TRINKET_ICON_PREFIX % trinket_data.id)), Util.convert_to_bbc_highlight_text(trinket_data.get_display_name(), Constants.COLOR_WHITE))
+		gui_reward_trinket.pressed.connect(_on_trinket_pressed.bind(trinket_data, gui_reward_trinket))
+		_reward_total +=1
+		gui_reward_trinket.mouse_entered.connect(_on_trinket_mouse_entered.bind(trinket_data, gui_reward_trinket))
+		gui_reward_trinket.mouse_exited.connect(_on_trinket_mouse_exited)
+
+	var booster_icon_path := ""
+	match booster_pack_type:
+		CombatData.BoosterPackType.COMMON:
+			booster_icon_path = "res://resources/sprites/GUI/icons/booster_packs/icon_booster_pack_common.png"
+		CombatData.BoosterPackType.RARE:
+			booster_icon_path = "res://resources/sprites/GUI/icons/booster_packs/icon_booster_pack_rare.png"
+		CombatData.BoosterPackType.LEGENDARY:
+			booster_icon_path = "res://resources/sprites/GUI/icons/booster_packs/icon_booster_pack_legendary.png"
+		_:
+			booster_icon_path = "res://resources/sprites/GUI/icons/booster_packs/icon_booster_pack_common.png"
+
+	var gui_booster_pack_button: GUIRewardButton = GUI_REWARD_BUTTON_SCENE.instantiate()
+	vbox_container.add_child(gui_booster_pack_button)
+	var booster_pack_name_color := Util.get_booster_pack_name_color(booster_pack_type)
+	var reward_booster_pack_text := DescriptionParser.format_references(Util.get_localized_string("REWARD_BOOSTER_PACK_TEXT") % CombatData.get_booster_pack_name(booster_pack_type), {}, {}, func(_reference_id:String) -> bool: return false, booster_pack_name_color)
+	gui_booster_pack_button.update_with_texture_and_text(load(booster_icon_path), reward_booster_pack_text)
+	gui_booster_pack_button.pressed.connect(_booster_pack_button_pressed.bind(booster_pack_type, gui_booster_pack_button))
+	_reward_total +=1
+
 	show()
 	PauseManager.try_pause()
 	panel_container.position.y = main_margin_container.size.y
 	title_label.position.y = main_margin_container.size.y
-	skip_reward_button.position.y = main_margin_container.size.y
+	skip_reward_button.hide()
 	reward_showing_audio.play()
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(panel_container, "position:y", _original_panel_y, SHOW_ANIMATION_TIME).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	tween.parallel().tween_property(title_label, "position:y", _original_title_y, SHOW_ANIMATION_TIME).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
-	tween.parallel().tween_property(skip_reward_button, "position:y", _original_skip_button_y, SHOW_ANIMATION_TIME).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	await tween.finished
+	skip_reward_button.show()
 
 func show_with_combat_data(combat_data: CombatData, owned_trinkets:Array[String]) -> void:
-	_card_collected = false
 	var trinket_datas: Array[TrinketData] = []
 	var reward_hp := combat_data.reward_hp
+	var trinket_data: TrinketData = null
 	if combat_data.reward_trinket:
 		trinket_datas = MainDatabase.trinket_database.roll_trinkets(1, owned_trinkets)
 		if trinket_datas.is_empty():
 			assert(reward_hp == 0, "Reward HP is not 0 when reward trinket is true")
 			reward_hp = 1
-	var trinket_data := trinket_datas[0] if !trinket_datas.is_empty() else null
+		trinket_data = trinket_datas[0] if !trinket_datas.is_empty() else null
 	await show_with_data(combat_data.reward_gold, reward_hp, combat_data.reward_booster_pack_type, trinket_data)
 
-func _collect_rewards(gold: int, hp: int, booster_pack_type: CombatData.BoosterPackType) -> void:
-	if gold > 0:
-		gui_reward_gold.show()
-	if hp > 0:
-		gui_reward_hp.show()
-	if _trinket_data != null:
-		_gui_reward_trinket = TRINKET_REWARD_SCENE.instantiate()
-		vbox_container.add_child(_gui_reward_trinket)
-		vbox_container.move_child(_gui_reward_trinket, gui_booster_pack_button.get_index())
-		_gui_reward_trinket.update_with_trinket_data(_trinket_data)
-		_gui_reward_trinket.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-		_gui_reward_trinket.trinket_selected.connect(_on_trinket_pressed)
-	_booster_pack_type = booster_pack_type
-	gui_booster_pack_button.show()
+func _try_finish_rewards() -> void:
+	if _reward_total == 0:
+		_on_trinket_mouse_exited()
+		PauseManager.try_unpause()
+		reward_finished.emit()
 
-func _booster_pack_button_pressed() -> void:
-	margin_container.hide()
-	gui_reward_cards_main.spawn_cards_with_pack_type(_booster_pack_type, gui_booster_pack_button.global_position)
+func _booster_pack_button_pressed(booster_pack_type: CombatData.BoosterPackType, button:GUIRewardButton) -> void:
+	gui_reward_cards_main.spawn_cards_with_pack_type(booster_pack_type, button.global_position)
+	button.queue_free()
 
-func _on_gold_collected() -> void:
-	gui_reward_gold.hide()
-	Events.request_update_gold.emit(_gold, true)
-	_gold_collected = true
+func _on_gold_collected(gold:int, reward_button:GUIRewardButton) -> void:
+	_reward_total -= 1
+	reward_button.queue_free()
+	Events.request_update_gold.emit(gold, true)
 	_try_finish_rewards()
 
-func _on_hp_collected() -> void:
-	gui_reward_hp.hide()
-	Events.request_hp_update.emit(_hp, ActionData.OperatorType.INCREASE)
-	_hp_collected = true
+func _on_hp_collected(hp:int, reward_button:GUIRewardButton) -> void:
+	_reward_total -= 1
+	reward_button.queue_free()
+	Events.request_hp_update.emit(hp, ActionData.OperatorType.INCREASE)
 	_try_finish_rewards()
 
-func _on_reward_finished() -> void:
-	_card_collected = true
+func _on_card_reward_finished() -> void:
+	_reward_total -= 1
 	_try_finish_rewards()
 
-func _on_trinket_pressed() -> void:
-	var from_position := _gui_reward_trinket.global_position
-	_gui_reward_trinket.queue_free()
-	_gui_reward_trinket = null
-	Events.request_add_trinket_to_collection.emit(_trinket_data, from_position)
-	_trinket_collected = true
+func _on_trinket_pressed(trinket_data:TrinketData, reward_button:GUIRewardButton) -> void:
+	var from_position := reward_button.gui_icon.global_position
+	reward_button.queue_free()
+	Events.request_add_trinket_to_collection.emit(trinket_data, from_position)
+	_reward_total -= 1
 	_try_finish_rewards()
 
 func _on_skip_reward_pressed() -> void:
-	if _gui_reward_trinket:
-		_gui_reward_trinket.queue_free()
-		_gui_reward_trinket = null
-	_gold_collected = true
-	_hp_collected = true
-	_trinket_collected = true
-	_card_collected = true
+	_reward_total = 0
 	_try_finish_rewards()
 
-func _try_finish_rewards() -> void:
-	if _gold_collected and _hp_collected and _trinket_collected and _card_collected:
-		PauseManager.try_unpause()
-		reward_finished.emit()
-	elif _card_collected:
-		gui_booster_pack_button.hide()
-		margin_container.show()
+func _on_trinket_mouse_entered(trinket_data:TrinketData, reward_button:GUIRewardButton) -> void:
+	_trinket_tooltip_id = Util.get_uuid()
+	Events.request_display_tooltip.emit(TooltipRequest.new(
+		TooltipRequest.TooltipType.THING_DATA,
+		trinket_data,
+		_trinket_tooltip_id,
+		reward_button,
+		GUITooltip.TooltipPosition.RIGHT
+	))
+
+func _on_trinket_mouse_exited() -> void:
+	Events.request_hide_tooltip.emit(_trinket_tooltip_id)
+	_trinket_tooltip_id = ""

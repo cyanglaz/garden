@@ -14,7 +14,7 @@ signal trinket_button_evoked()
 @onready var _gui_player: GUICharacter = %GUIPlayer
 @onready var _gui_library_button: GUILibraryButton = %GUILibraryButton
 @onready var _guihp: GUIHP = %GUIHP
-@onready var gui_trinket_button: GUIBasicButton = %GUITrinketButton
+@onready var gui_trinket_button: GUITrinketButton = %GUITrinketButton
 
 func _ready() -> void:
 	_gui_settings_button.pressed.connect(func() -> void: setting_button_evoked.emit())
@@ -33,6 +33,9 @@ func update_gold(gold_diff:int, animated:bool) -> void:
 	
 func update_player(player_data:PlayerData) -> void:
 	_gui_player.update_with_player_data(player_data)
+
+func animate_trinket_collected() -> void:
+	await gui_trinket_button.play_collected_animation()
 
 func toggle_all_ui(_on:bool) -> void:
 	pass

@@ -155,6 +155,9 @@ BOOSTER_PACK_LEGENDARY_CARD_CHANCE_TEXT, "Legendary Card Chance: %s"
 
 REWARD_MAIN_TITLE_TEXT, "Collect Rewards"
 REWARD_CARDS_MAIN_CHOOSE_CARD_TITLE_TEXT, "Choose a Card"
+REWARD_GOLD_TEXT, "{bordered_text:%s} gold"
+REWARD_HP_TEXT, "{bordered_text:%s} hp"
+REWARD_BOOSTER_PACK_TEXT, "{bordered_text:%s} Booster Pack"
 
 BOOST_TRACKER_TITLE, "Boost:"
 

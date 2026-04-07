@@ -1,5 +1,5 @@
 class_name GUIRewardCardsMain
-extends Control
+extends CanvasLayer
 
 const CARD_PADDING := 16
 const SCALE_FACTOR:float = 1.5
@@ -14,6 +14,7 @@ signal reward_finished()
 @onready var gui_booster_pack_image: GUIBoosterPackImage = %GUIBoosterPackImage
 @onready var choose_card_title: Label = %ChooseCardTitle
 @onready var skip_card_button: GUIRichTextButton = %SkipCardButton
+@onready var main_margin_container: MarginContainer = %MainMarginContainer
 
 var _picks:Array[ToolData] = []
 
@@ -35,7 +36,10 @@ func spawn_cards_with_pack_type(booster_pack_type:CombatData.BoosterPackType, pa
 		cards_container.add_child(gui_tool_card_button)
 		gui_tool_card_button.hide()
 		gui_tool_card_button.update_with_tool_data(pick)
-	await _animate_pack_open(booster_pack_type, pack_button_g_position)
+	var animate_pack_start_position:Vector2 = pack_button_g_position
+	if animate_pack_start_position == Vector2.ZERO:
+		animate_pack_start_position = main_margin_container.size/2 - gui_booster_pack_image.size/2
+	await _animate_pack_open(booster_pack_type, animate_pack_start_position)
 	await _animate_card_fly_out()
 
 func _pick_card_datas(booster_pack_type:CombatData.BoosterPackType) -> Array[ToolData]:
@@ -82,13 +86,13 @@ func _get_all_card_positions() -> Array[Vector2]:
 			total_width += CARD_PADDING
 
 	# Calculate starting x position to center the cards
-	var start_x: float = (size.x - total_width) / 2.0
+	var start_x: float = (main_margin_container.size.x - total_width) / 2.0
 	var current_x: float = start_x
 
 	# Calculate positions for each card
 	for i in range(child_count):
 		var child = cards_container.get_child(i)
-		var target_position: Vector2 = Vector2(current_x, (size.y - child.size.y) / 2.0)
+		var target_position: Vector2 = Vector2(current_x, (cards_container.size.y - child.size.y) / 2.0)
 		positions.append(target_position)
 		current_x += child.size.x + CARD_PADDING
 
@@ -101,8 +105,9 @@ func _animate_pack_open(booster_pack_type:CombatData.BoosterPackType, g_position
 	gui_booster_pack_image.pivot_offset_ratio = Vector2.ONE * 0.5
 	gui_booster_pack_image.has_outline = true
 	var tween:Tween = Util.create_scaled_tween(self)
-	var final_position_y:float = (size.y - gui_booster_pack_image.size.y)/2
-	tween.tween_property(gui_booster_pack_image, "position:y", final_position_y, CENTER_PACK_IMAGE_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	var final_position:Vector2 = main_margin_container.size/2 - gui_booster_pack_image.size/2
+	tween.tween_property(gui_booster_pack_image, "global_position", final_position, CENTER_PACK_IMAGE_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	await tween.finished
 	await gui_booster_pack_image.play_open_animation()
 	gui_booster_pack_image.hide()
 

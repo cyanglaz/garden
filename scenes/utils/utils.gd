@@ -488,6 +488,18 @@ static func get_plant_name_color(plant_data:PlantData) -> Color:
 			assert(false, "Invalid difficulty: " + str(plant_data.difficulty))
 	return Constants.COLOR_WHITE
 
+static func get_booster_pack_name_color(booster_pack_type:CombatData.BoosterPackType) -> Color:
+	match booster_pack_type:
+		CombatData.BoosterPackType.COMMON:
+			return Constants.COLOR_BEIGE_2
+		CombatData.BoosterPackType.RARE:
+			return Constants.COLOR_GREEN1
+		CombatData.BoosterPackType.LEGENDARY:
+			return Constants.COLOR_PURPLE1
+		_:
+			assert(false, "Invalid booster pack type: " + str(booster_pack_type))
+	return Constants.COLOR_WHITE
+
 static func create_scaled_tween(binding_node:Node) -> Tween:
 	var tween:Tween = binding_node.create_tween()
 	tween.set_speed_scale(_get_game_speed_scale())

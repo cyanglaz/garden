@@ -81,7 +81,7 @@ func _start_new_chapter() -> void:
 	_benched_events = MainDatabase.event_database.get_events_by_chapter(chapter_manager.current_chapter)
 
 	#_start_map_main_scene()
-	## Always start with a common node
+	# Always start with a common node
 	if test_data && test_data.test_combat:
 		_start_combat_main_scene.call_deferred(test_data.test_combat)
 	else:
@@ -197,6 +197,7 @@ func _on_request_remove_card_from_deck(tool_data:ToolData) -> void:
 func _on_request_add_trinket_to_collection(trinket_data: TrinketData, from_global_position: Vector2) -> void:
 	trinket_manager.add_trinket(trinket_data)
 	await gui_main_game.gui_top_animation_overlay.animate_add_trinket_to_collection(from_global_position, trinket_data)
+	await gui_main_game.animate_trinket_collected()
 
 func _on_chest_finished() -> void:
 	_complete_current_node()

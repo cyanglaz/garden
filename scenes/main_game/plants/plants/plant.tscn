@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://5hl240rod12d"]
+[gd_scene format=3 uid="uid://5hl240rod12d"]
 
 [ext_resource type="Script" uid="uid://c3p4a5hat4001" path="res://scenes/main_game/plants/plants/plant.gd" id="1_k38v5"]
 [ext_resource type="PackedScene" uid="uid://c4uyy86onbdnu" path="res://scenes/state_machine/plants/plant_state_machine.tscn" id="2_o3cyj"]
@@ -43,7 +43,7 @@ void fragment() {
 }
 "
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_txblc"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cbxjf"]
 resource_local_to_scene = true
 shader = SubResource("Shader_avrp0")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
@@ -85,14 +85,14 @@ scale_curve = SubResource("CurveTexture_cbxjf")
 color_initial_ramp = SubResource("GradientTexture1D_cbxjf")
 alpha_curve = SubResource("CurveTexture_wmubj")
 
-[node name="Plant" type="Node2D"]
+[node name="Plant" type="Node2D" unique_id=233445322]
 script = ExtResource("1_k38v5")
 
-[node name="PlantSprite" parent="." instance=ExtResource("2_rvdin")]
+[node name="PlantSprite" parent="." unique_id=1288022031 instance=ExtResource("2_rvdin")]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_txblc")
+material = SubResource("ShaderMaterial_cbxjf")
 
-[node name="BloomParticle" type="GPUParticles2D" parent="."]
+[node name="BloomParticle" type="GPUParticles2D" parent="." unique_id=704399167]
 unique_name_in_owner = true
 amount = 64
 texture = ExtResource("7_n2kci")
@@ -100,23 +100,23 @@ lifetime = 0.6
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_n2kci")
 
-[node name="PlantStateMachine" parent="." instance=ExtResource("2_o3cyj")]
+[node name="PlantStateMachine" parent="." unique_id=1237429658 instance=ExtResource("2_o3cyj")]
 unique_name_in_owner = true
 
-[node name="PlantAbilityContainer" parent="." instance=ExtResource("4_7q2y3")]
+[node name="PlantAbilityContainer" parent="." unique_id=706916281 instance=ExtResource("4_7q2y3")]
 unique_name_in_owner = true
 
-[node name="FieldStatusContainer" type="Node2D" parent="."]
+[node name="FieldStatusContainer" type="Node2D" parent="." unique_id=1941679681]
 unique_name_in_owner = true
 script = ExtResource("8_avrp0")
 metadata/_custom_type_script = "uid://1m3di3iqxhf2"
 
-[node name="BuffSound" type="AudioStreamPlayer2D" parent="."]
+[node name="BuffSound" type="AudioStreamPlayer2D" parent="." unique_id=554211831]
 unique_name_in_owner = true
 stream = ExtResource("14_gu4ic")
 bus = &"SFX"
 
-[node name="PointAudio" type="AudioStreamPlayer2D" parent="."]
+[node name="PointAudio" type="AudioStreamPlayer2D" parent="." unique_id=2039910123]
 unique_name_in_owner = true
 stream = ExtResource("16_txblc")
 bus = &"SFX"

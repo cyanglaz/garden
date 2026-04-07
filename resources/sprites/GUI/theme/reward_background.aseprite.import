@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://h6vl2wlmek61"
+path="res://.godot/imported/reward_background.aseprite-cb484116d9a007a542cf6297cef0a3a2.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/theme/reward_background.aseprite"
+dest_files=["res://.godot/imported/reward_background.aseprite-cb484116d9a007a542cf6297cef0a3a2.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
