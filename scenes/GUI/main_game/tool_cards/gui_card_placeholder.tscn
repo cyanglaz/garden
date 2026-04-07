@@ -1,11 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://bc1bdskri1rtq"]
+[gd_scene format=3 uid="uid://bc1bdskri1rtq"]
 
 [ext_resource type="PackedScene" uid="uid://i1255yg1aoyk" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_background.tscn" id="1_fkhmc"]
 [ext_resource type="Script" uid="uid://c82qkca41u5s6" path="res://scenes/GUI/main_game/tool_cards/gui_card_placeholder.gd" id="1_rxhhk"]
 [ext_resource type="Texture2D" uid="uid://c6o6l4e7qk6cc" path="res://resources/sprites/GUI/backgrounds/tool_card_placeholder_background.png" id="2_8oc64"]
 [ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="3_tubyu"]
 
-[sub_resource type="Shader" id="Shader_np7v7"]
+[sub_resource type="Shader" id="Shader_rxhhk"]
 resource_local_to_scene = true
 code = "shader_type canvas_item;
 
@@ -52,29 +52,29 @@ void fragment() {
 	COLOR = vec4(base_color.r, base_color.g, base_color.b, min(visible, base_color.a)) * modulate;
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8oc64"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kramw"]
 resource_local_to_scene = true
-shader = SubResource("Shader_np7v7")
+shader = SubResource("Shader_rxhhk")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 shader_parameter/sensitivity = 0.0
 
-[node name="GUICardPlaceholder" type="PanelContainer"]
+[node name="GUICardPlaceholder" type="PanelContainer" unique_id=1300810643]
 custom_minimum_size = Vector2(38, 52)
 offset_right = 6.0
 offset_bottom = 6.0
 script = ExtResource("1_rxhhk")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1429457476]
 layout_mode = 2
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 2
 
-[node name="GUIToolCardBackground" parent="MarginContainer" instance=ExtResource("1_fkhmc")]
+[node name="GUIToolCardBackground" parent="MarginContainer" unique_id=1086153490 instance=ExtResource("1_fkhmc")]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_8oc64")
+material = SubResource("ShaderMaterial_kramw")
 layout_mode = 2
 texture = ExtResource("2_8oc64")
 region_rect = Rect2(0, 0, 16, 16)
@@ -85,6 +85,6 @@ patch_margin_bottom = 2
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
-[node name="GUIBasicButton" parent="MarginContainer" instance=ExtResource("3_tubyu")]
+[node name="GUIBasicButton" parent="MarginContainer" unique_id=234333392 instance=ExtResource("3_tubyu")]
 unique_name_in_owner = true
 layout_mode = 2
