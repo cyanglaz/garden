@@ -496,6 +496,8 @@ static func get_booster_pack_name_color(booster_pack_type:CombatData.BoosterPack
 			return Constants.COLOR_GREEN1
 		CombatData.BoosterPackType.LEGENDARY:
 			return Constants.COLOR_PURPLE1
+		_:
+			assert(false, "Invalid booster pack type: " + str(booster_pack_type))
 	return Constants.COLOR_WHITE
 
 static func create_scaled_tween(binding_node:Node) -> Tween:

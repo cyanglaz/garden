@@ -36,7 +36,10 @@ func spawn_cards_with_pack_type(booster_pack_type:CombatData.BoosterPackType, pa
 		cards_container.add_child(gui_tool_card_button)
 		gui_tool_card_button.hide()
 		gui_tool_card_button.update_with_tool_data(pick)
-	await _animate_pack_open(booster_pack_type, pack_button_g_position)
+	var animate_pack_start_position:Vector2 = pack_button_g_position
+	if animate_pack_start_position == Vector2.ZERO:
+		animate_pack_start_position = main_margin_container.size/2 - gui_booster_pack_image.size/2
+	await _animate_pack_open(booster_pack_type, animate_pack_start_position)
 	await _animate_card_fly_out()
 
 func _pick_card_datas(booster_pack_type:CombatData.BoosterPackType) -> Array[ToolData]:
@@ -89,7 +92,7 @@ func _get_all_card_positions() -> Array[Vector2]:
 	# Calculate positions for each card
 	for i in range(child_count):
 		var child = cards_container.get_child(i)
-		var target_position: Vector2 = Vector2(current_x, (main_margin_container.size.y - child.size.y) / 2.0)
+		var target_position: Vector2 = Vector2(current_x, (cards_container.size.y - child.size.y) / 2.0)
 		positions.append(target_position)
 		current_x += child.size.x + CARD_PADDING
 

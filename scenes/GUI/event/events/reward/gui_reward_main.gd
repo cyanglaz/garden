@@ -38,16 +38,19 @@ func _ready() -> void:
 	#show_with_combat_data(test_combat_data, [])
 
 func show_with_data(gold: int, hp: int, booster_pack_type: CombatData.BoosterPackType, trinket_data: TrinketData) -> void:
+	_reward_total = 0
 	Util.remove_all_children(vbox_container)
 	margin_container.show()
 	title_label.show()
 
-	var gui_reward_gold: GUIRewardButton = GUI_REWARD_BUTTON_SCENE.instantiate()
-	vbox_container.add_child(gui_reward_gold)
-	var reward_gold_text := DescriptionParser.format_references(Util.get_localized_string("REWARD_GOLD_TEXT") % gold, {}, {}, func(_reference_id:String) -> bool: return false, Constants.COLOR_YELLOW1)
-	gui_reward_gold.update_with_texture_and_text(load("res://resources/sprites/GUI/icons/resources/icon_gold.png"), reward_gold_text)
-	gui_reward_gold.pressed.connect(_on_gold_collected.bind(gold, gui_reward_gold))
-	_reward_total += 1
+	if gold > 0:
+		var gui_reward_gold: GUIRewardButton = GUI_REWARD_BUTTON_SCENE.instantiate()
+		vbox_container.add_child(gui_reward_gold)
+		var reward_gold_text := DescriptionParser.format_references(Util.get_localized_string("REWARD_GOLD_TEXT") % gold, {}, {}, func(_reference_id:String) -> bool: return false, Constants.COLOR_YELLOW1)
+		gui_reward_gold.update_with_texture_and_text(load("res://resources/sprites/GUI/icons/resources/icon_gold.png"), reward_gold_text)
+		gui_reward_gold.pressed.connect(_on_gold_collected.bind(gold, gui_reward_gold))
+		_reward_total += 1
+
 	if hp > 0:
 		var gui_reward_hp: GUIRewardButton = GUI_REWARD_BUTTON_SCENE.instantiate()
 		vbox_container.add_child(gui_reward_hp)
