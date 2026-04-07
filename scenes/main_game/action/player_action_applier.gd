@@ -2,6 +2,9 @@ class_name PlayerActionApplier
 extends RefCounted
 
 signal action_application_completed()
+signal _all_tool_datas_added_to_discard_pile()
+
+var _tool_datas_added_to_discard_pile_count:int = 0
 
 func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_datas:Array) -> void:
 	assert(action.action_category == ActionData.ActionCategory.PLAYER)
@@ -40,7 +43,7 @@ func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_data
 			await Util.create_scaled_timer(Constants.GLOBAL_UPGRADE_PAUSE_TIME).timeout
 		ActionData.ActionType.ADD_CARD_DISCARD_PILE:
 			assert(calculated_value >= 0, "Add card discard pile action value must be greater than 0")
-			await _handle_add_card_discard_pile_action(action.data["card_id"], combat_main)
+			await _handle_add_card_discard_pile_action(action.data["card_id"], calculated_value, combat_main)
 		ActionData.ActionType.STUN, ActionData.ActionType.MOMENTUM:
 			combat_main.player.player_status_container.update_player_upgrade(Util.get_action_id_with_action_type(action.type), calculated_value, action.operator_type)
 			await Util.create_scaled_timer(Constants.GLOBAL_UPGRADE_PAUSE_TIME).timeout
@@ -63,8 +66,19 @@ func _handle_compost_action(_action:ActionData, combat_main:CombatMain, secondar
 		return
 	await combat_main.exhaust_cards(secondary_card_datas)
 
-func _handle_add_card_discard_pile_action(card_id:String, combat_main:CombatMain) -> void:
+func _handle_add_card_discard_pile_action(card_id:String, count:int, combat_main:CombatMain) -> void:
+	_tool_datas_added_to_discard_pile_count = count
 	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id(card_id).get_duplicate()
 	var from_position:Vector2 = Util.get_node_canvas_position(combat_main) - GUIToolCardButton.SIZE / 2
-	Events.request_add_tools_to_discard_pile.emit([tool_data], from_position, true)
-	await tool_data.adding_to_deck_finished
+	var tool_datas:Array = []
+	for i in count:
+		var tool_data_to_add:ToolData = tool_data.get_duplicate()
+		tool_data_to_add.adding_to_deck_finished.connect(_on_tool_data_adding_to_deck_finished)
+		tool_datas.append(tool_data_to_add)
+	Events.request_add_tools_to_discard_pile.emit(tool_datas, from_position, true)
+	await _all_tool_datas_added_to_discard_pile
+
+func _on_tool_data_adding_to_deck_finished() -> void:
+	_tool_datas_added_to_discard_pile_count -= 1
+	if _tool_datas_added_to_discard_pile_count <= 0:
+		_all_tool_datas_added_to_discard_pile.emit()
