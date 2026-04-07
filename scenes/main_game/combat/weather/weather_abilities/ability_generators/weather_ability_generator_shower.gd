@@ -6,7 +6,6 @@ const FLASH_FLOOD_ABILITY := preload("res://data/weather_abilities/weather_abili
 
 const TURNS_TO_INCREASE_RAIN := 3
 
-
 #region for override
 func _generate_abilities(combat_main:CombatMain, turn_index:int) -> Array[WeatherAbility]:
 	var abilities:Array[WeatherAbility] = []
