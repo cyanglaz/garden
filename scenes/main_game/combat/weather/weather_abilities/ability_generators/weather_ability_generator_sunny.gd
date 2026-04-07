@@ -17,13 +17,12 @@ func _generate_abilities(combat_main:CombatMain, turn_index:int) -> Array[Weathe
 	var fields_have_abilities:Array
 	var ability_datas:Array[WeatherAbilityData]
 
-	if turn_index % SPECIAL_TURN_THRESHOLD == SPECIAL_TURN_THRESHOLD - 1:
+	var is_special_turn:bool = turn_index % SPECIAL_TURN_THRESHOLD == SPECIAL_TURN_THRESHOLD - 1
+	if is_special_turn:
 		# For special turns, we always have all sun scorch abilities
 		for i in combat_main.plant_field_container.plants.size():
 			ability_datas.append(SUN_SCORCH_ABILITY.get_duplicate())
 		fields_have_abilities = field_indices
-		if _sun_scorch_ability_level < MAX_SUN_SCORCH_LEVEL:
-			_sun_scorch_ability_level += 1
 	else:
 		# For regular turns, we always have one solar beam and one sun scorch
 		ability_datas.append(SOLAR_BEAM_ABILITY.get_duplicate())
@@ -36,6 +35,8 @@ func _generate_abilities(combat_main:CombatMain, turn_index:int) -> Array[Weathe
 		if ability.weather_ability_data.id == SUN_SCORCH_ABILITY.id && combat_type == CombatData.CombatType.ELITE:
 			ability.level = _sun_scorch_ability_level
 		ability.field_index = fields_have_abilities.pop_back()
+	if is_special_turn && _sun_scorch_ability_level < MAX_SUN_SCORCH_LEVEL:
+		_sun_scorch_ability_level += 1
 	
 	return abilities
 
