@@ -8,8 +8,8 @@ func _has_pre_tool_application_hook(combat_main: CombatMain, tool_data: ToolData
 	return _will_decrease_pest_on_application(tool_data, plant)
 
 func _handle_pre_tool_application_hook(_combat_main: CombatMain, _tool_data: ToolData) -> void:
-	_send_hook_animation_signals()
 	Events.request_update_gold.emit(int(data.data[&"gold"]), true)
+	_send_hook_animation_signals()
 
 func _will_decrease_pest_on_application(tool_data: ToolData, plant: Plant) -> bool:
 	var pest_count := plant.field_status_container.get_status_stack("pest")

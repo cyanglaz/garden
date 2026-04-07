@@ -3,9 +3,9 @@ extends PlayerTrinket
 
 func _has_hand_size_hook(combat_main: CombatMain) -> bool:
 	for plant: Plant in combat_main.plant_field_container.plants:
-		for status in plant.field_status_container.get_all_statuses():
-			if status.status_data.id == "fungus":
-				return true
+		var fungus_count := plant.field_status_container.get_status_stack("fungus")
+		if fungus_count > 0:
+			return true
 	return false
 
 func _handle_hand_size_hook(_combat_main: CombatMain) -> int:
