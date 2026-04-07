@@ -5,8 +5,7 @@ const SOLAR_BEAM_ABILITY := preload("res://data/weather_abilities/weather_abilit
 const SUN_SCORCH_ABILITY := preload("res://data/weather_abilities/weather_ability_sun_scorch.tres")
 
 # Ability summon logic
-const SPECIAL_TURN_THRESHOLD := 3
-const SOLAR_FLARE_TURN_FOR_ELITE := 4
+const SPECIAL_TURN_THRESHOLD := 1
 const MAX_SUN_SCORCH_LEVEL := 4
 
 var _special_turn_counter:int = 0
@@ -37,7 +36,6 @@ func _generate_abilities(combat_main:CombatMain, _turn_index:int) -> Array[Weath
 	for ability:WeatherAbility in abilities:
 		if ability.weather_ability_data.id == SUN_SCORCH_ABILITY.id && combat_type == CombatData.CombatType.ELITE:
 			ability.level = _sun_scorch_ability_level
-			print("sun scorch ability level: ", ability.level)
 		ability.field_index = fields_have_abilities.pop_back()
 	
 	if _special_turn_counter >= SPECIAL_TURN_THRESHOLD:

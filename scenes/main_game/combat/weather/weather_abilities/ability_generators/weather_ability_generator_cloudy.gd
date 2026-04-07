@@ -4,8 +4,7 @@ extends WeatherAbilityGenerator
 const GLOOM_ABILITY := preload("res://data/weather_abilities/weather_ability_gloom.tres")
 const SPORE_DRIFT_ABILITY := preload("res://data/weather_abilities/weather_ability_spore_drift.tres")
 
-const GLOOM_TURN_THRESHOLD := 4
-var _spore_drift_counter := 1
+const GLOOM_TURN_THRESHOLD := 2
 
 #region for override
 func _generate_abilities(combat_main:CombatMain, turn_index:int) -> Array[WeatherAbility]:
@@ -15,22 +14,20 @@ func _generate_abilities(combat_main:CombatMain, turn_index:int) -> Array[Weathe
 	var ability_datas:Array[WeatherAbilityData]
 
 	@warning_ignore("integer_division")
-	var gloom_ability_level := mini(turn_index / GLOOM_TURN_THRESHOLD, 4)
+	var spore_drift_level:int = Util.unweighted_roll(range(1, combat_main.plant_field_container.plants.size()), 1).front()
 	if turn_index && turn_index%GLOOM_TURN_THRESHOLD == GLOOM_TURN_THRESHOLD - 1:
 		for i in combat_main.plant_field_container.plants.size():
 			ability_datas.append(GLOOM_ABILITY.get_duplicate())
-			_spore_drift_counter = 1
 	else:
-		for i in _spore_drift_counter:
+		var spore_drift_count:int = Util.unweighted_roll(range(1, combat_main.plant_field_container.plants.size()), 1).front()
+		for i in spore_drift_count:
 			ability_datas.append(SPORE_DRIFT_ABILITY.get_duplicate())
-		_spore_drift_counter += 1
 	fields_have_abilities = field_indices.slice(0, ability_datas.size()).duplicate()
 	var abilities:Array[WeatherAbility] = _instantiate_abilities(ability_datas)
 	for ability:WeatherAbility in abilities:
 		ability.field_index = fields_have_abilities.pop_back()
-		if ability.weather_ability_data.id == GLOOM_ABILITY.id && combat_type == CombatData.CombatType.ELITE:
-			ability.level = gloom_ability_level
-			print("gloom ability level: ", ability.level)
+		if ability.weather_ability_data.id == SPORE_DRIFT_ABILITY.id && combat_type == CombatData.CombatType.ELITE:
+			ability.level = spore_drift_level
 	return abilities
 
 #endregion

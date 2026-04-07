@@ -4,8 +4,7 @@ extends WeatherAbilityGenerator
 const HEAVY_DROPLET_ABILITY := preload("res://data/weather_abilities/weather_ability_heavy_droplet.tres")
 const FLASH_FLOOD_ABILITY := preload("res://data/weather_abilities/weather_ability_flash_flood.tres")
 
-const TURNS_TO_INCREASE_RAIN := 3
-
+const TURNS_TO_INCREASE_RAIN := 2
 
 #region for override
 func _generate_abilities(combat_main:CombatMain, turn_index:int) -> Array[WeatherAbility]:
