@@ -2,7 +2,7 @@
 "ice_shard","Ice Shard","At the end of turn, current plant +1 water","1","YES"
 "salt_grinder","Salt Grinder","at start of turn, current plant -1 pest, -1 fungus","1","YES"
 "spare_wing","Spare Wing","at start of turn, if no momentum, +1 momentum","1","YES"
-"sun_shard","Sun Shard","At start of a turn, if there are no pest or fungus on any plants, current plant + 1 light + 1 water","1","YES"
+"sun_shard","Sun Shard","at start of the turn, if at an edge plant, +2 light","1","YES"
 "tiny_pouch","Tiny Pouch","Draw 2 addtional cards on turn 1.","0","YES"
 "glass_marble","Glass Marble","at start of first turn, current plant +2 light","0","YES"
 "sea_shell","Sea Shell","at start of first turn, current plant +2 water","0","YES"
