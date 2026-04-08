@@ -11,9 +11,9 @@ class FakeCombatMain extends CombatMain:
 
 # ----- Helpers -----
 
-func _make_runoff_tool() -> ToolData:
+func _make_free_water_tool() -> ToolData:
 	var td := ToolData.new()
-	td.id = "runoff"
+	td.id = "free_water"
 	var water_action := ActionData.new()
 	water_action.type = ActionData.ActionType.WATER
 	water_action.operator_type = ActionData.OperatorType.INCREASE
@@ -36,12 +36,12 @@ func _make_status(stack_count: int) -> PlayerStatusSustainability:
 
 # ----- has_card_added_to_hand_hook -----
 
-func test_has_hand_hook_true_with_runoff() -> void:
+func test_has_hand_hook_true_with_free_water() -> void:
 	var s := PlayerStatusSustainability.new()
 	add_child_autofree(s)
-	assert_true(s.has_card_added_to_hand_hook([_make_runoff_tool()]))
+	assert_true(s.has_card_added_to_hand_hook([_make_free_water_tool()]))
 
-func test_has_hand_hook_false_without_runoff() -> void:
+func test_has_hand_hook_false_without_free_water() -> void:
 	var s := PlayerStatusSustainability.new()
 	add_child_autofree(s)
 	assert_false(s.has_card_added_to_hand_hook([_make_tool("watering_can")]))
@@ -53,7 +53,7 @@ func test_has_hand_hook_false_for_empty_array() -> void:
 
 # ----- has_activation_hook -----
 
-func test_has_activation_hook_true_with_runoff_in_hand() -> void:
+func test_has_activation_hook_true_with_free_water_in_hand() -> void:
 	var s := PlayerStatusSustainability.new()
 	add_child_autofree(s)
 	var cm := FakeCombatMain.new()
@@ -61,7 +61,7 @@ func test_has_activation_hook_true_with_runoff_in_hand() -> void:
 	var fake_tm := FakeToolManager.new()
 	autofree(fake_tm)
 	cm.tool_manager = fake_tm
-	fake_tm.tool_deck.hand = [_make_runoff_tool()]
+	fake_tm.tool_deck.hand = [_make_free_water_tool()]
 	assert_true(s.has_activation_hook(cm))
 
 func test_has_activation_hook_false_with_empty_hand() -> void:
@@ -77,31 +77,31 @@ func test_has_activation_hook_false_with_empty_hand() -> void:
 
 # ----- handle_card_added_to_hand_hook -----
 
-func test_handle_card_added_sets_sustainability_modifier_on_runoff() -> void:
+func test_handle_card_added_sets_sustainability_modifier_on_free_water() -> void:
 	var s := _make_status(3)
-	var runoff := _make_runoff_tool()
-	await s.handle_card_added_to_hand_hook([runoff])
-	assert_eq(runoff.data["sustainability"], 3)
+	var free_water := _make_free_water_tool()
+	await s.handle_card_added_to_hand_hook([free_water])
+	assert_eq(free_water.data["sustainability"], 3)
 
-func test_handle_card_added_updates_runoff_water_action_modified_value() -> void:
+func test_handle_card_added_updates_free_water_water_action_modified_value() -> void:
 	var s := _make_status(3)
-	var runoff := _make_runoff_tool()
-	await s.handle_card_added_to_hand_hook([runoff])
-	assert_eq(runoff.actions[0].modified_value, 3)
+	var free_water := _make_free_water_tool()
+	await s.handle_card_added_to_hand_hook([free_water])
+	assert_eq(free_water.actions[0].modified_value, 3)
 
-func test_handle_card_added_does_not_modify_non_runoff() -> void:
+func test_handle_card_added_does_not_modify_non_free_water() -> void:
 	var s := _make_status(3)
 	var other := _make_tool("watering_can")
-	var runoff := _make_runoff_tool()
-	await s.handle_card_added_to_hand_hook([other, runoff])
+	var free_water := _make_free_water_tool()
+	await s.handle_card_added_to_hand_hook([other, free_water])
 	assert_false(other.data.has("sustainability"))
 
 func test_handle_card_added_increments_on_second_call() -> void:
 	var s := _make_status(3)
-	var runoff := _make_runoff_tool()
-	await s.handle_card_added_to_hand_hook([runoff])
+	var free_water := _make_free_water_tool()
+	await s.handle_card_added_to_hand_hook([free_water])
 	# Update stack and apply again — modifier should reflect new stack, not accumulate blindly
 	s.stack = 5
-	await s.handle_card_added_to_hand_hook([runoff])
-	assert_eq(runoff.data["sustainability"], 5)
-	assert_eq(runoff.actions[0].modified_value, 5)
+	await s.handle_card_added_to_hand_hook([free_water])
+	assert_eq(free_water.data["sustainability"], 5)
+	assert_eq(free_water.actions[0].modified_value, 5)
