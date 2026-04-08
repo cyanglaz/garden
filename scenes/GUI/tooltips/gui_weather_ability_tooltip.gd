@@ -2,12 +2,8 @@ class_name GUIWeatherAbilityTooltip
 extends GUITooltip
 
 @onready var _title_label: Label = %TitleLabel
-@onready var to_plant_name_label: Label = %ToPlantNameLabel
-@onready var to_plant_gui_action_list: GUIActionList = %ToPlantGUIActionList
-@onready var to_plant_rich_text_label: RichTextLabel = %ToPlantRichTextLabel
-@onready var to_player_name_label: Label = %ToPlayerNameLabel
-@onready var to_player_gui_action_list: GUIActionList = %ToPlayerGUIActionList
-@onready var to_player_rich_text_label: RichTextLabel = %ToPlayerRichTextLabel
+@onready var _player_gui_action_list: GUIActionList = %PlayerGUIActionList
+@onready var _plant_gui_action_list: GUIActionList = %PlantGUIActionList
 
 func _update_with_tooltip_request() -> void:
 	var weather_ability_data: WeatherAbilityData = _tooltip_request.data as WeatherAbilityData
@@ -22,14 +18,7 @@ func _update_with_tooltip_request() -> void:
 		elif a.action_category == ActionData.ActionCategory.FIELD:
 			field_actions.append(a)
 
-	to_player_name_label.text = Util.get_localized_string("WEATHER_ABILITY_TO_PLAYER_NAME")
-	if player_actions.is_empty():
-		to_player_rich_text_label.text = weather_ability_data.get_display_description()
-	else:
-		to_player_gui_action_list.update(player_actions, null)
-
-	to_plant_name_label.text = Util.get_localized_string("WEATHER_ABILITY_TO_PLANT_NAME")
-	if field_actions.is_empty():
-		to_plant_rich_text_label.text = weather_ability_data.get_display_description()
-	else:
-		to_plant_gui_action_list.update(field_actions, null)
+	if not player_actions.is_empty():
+		_player_gui_action_list.update(player_actions, null)
+	if not field_actions.is_empty():
+		_plant_gui_action_list.update(field_actions, null)

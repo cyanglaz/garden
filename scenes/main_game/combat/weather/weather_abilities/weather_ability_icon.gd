@@ -83,8 +83,7 @@ func _on_left_entered() -> void:
 		_player_action_datas,
 		_left_tooltip_id,
 		left_action_container,
-		GUITooltip.TooltipPosition.LEFT,
-		{"title": Util.get_localized_string("WEATHER_ABILITY_TO_PLAYER_NAME")}
+		GUITooltip.TooltipPosition.LEFT
 	))
 
 func _on_left_exited() -> void:
@@ -102,8 +101,7 @@ func _on_right_entered() -> void:
 		_field_action_datas,
 		_right_tooltip_id,
 		right_action_container,
-		GUITooltip.TooltipPosition.RIGHT,
-		{"title": Util.get_localized_string("WEATHER_ABILITY_TO_PLANT_NAME")}
+		GUITooltip.TooltipPosition.RIGHT
 	))
 
 func _on_right_exited() -> void:
