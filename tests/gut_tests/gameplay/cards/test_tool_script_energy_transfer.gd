@@ -25,7 +25,9 @@ func _make_script() -> ToolScriptEnergyTransfer:
 func _make_plant(water: int, light: int) -> FakePlant:
 	var p := FakePlant.new()
 	autofree(p)
+	p.water.setup(0, 99)
 	p.water.value = water
+	p.light.setup(0, 99)
 	p.light.value = light
 	return p
 
