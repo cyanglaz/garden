@@ -69,7 +69,7 @@ signal request_add_card_to_deck(tool_data:ToolData, from_global_position:Vector2
 @warning_ignore("unused_signal")
 signal request_remove_card_from_deck(tool_data:ToolData)
 @warning_ignore("unused_signal")
-signal request_add_trinket_to_collection(trinket_data:TrinketData, from_global_position:Vector2)
+signal request_add_trinket_to_collection(trinket_data:TrinketData, from_global_position:Vector2, scale_factor:float)
 
 # Bind cards
 @warning_ignore("unused_signal")

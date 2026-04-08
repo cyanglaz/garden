@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://ceyqeudym6q7d"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_yc54k"]
+[ext_resource type="Script" uid="uid://dytsslosf5rt5" path="res://scenes/GUI/controls/buttons/gui_skip_button.gd" id="2_yc54k"]
+[ext_resource type="Texture2D" uid="uid://dx61n3552at7t" path="res://resources/sprites/GUI/theme/skip_button_border.png" id="3_cs88w"]
+[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="4_yc54k"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="5_cs88w"]
+[ext_resource type="Texture2D" uid="uid://eu477ntovxx1" path="res://resources/sprites/icons/other/icon_skip.png" id="6_cs88w"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cs88w"]
+resource_local_to_scene = true
+shader = ExtResource("5_cs88w")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
+
+[node name="GUISkipButton" unique_id=1163384925 instance=ExtResource("1_yc54k")]
+custom_minimum_size = Vector2(32, 18)
+offset_right = 31.0
+offset_bottom = 18.0
+script = ExtResource("2_yc54k")
+stay_at_default_location = true
+
+[node name="Border" type="NinePatchRect" parent="." index="0" unique_id=561014482]
+unique_name_in_owner = true
+use_parent_material = true
+layout_mode = 2
+mouse_filter = 1
+texture = ExtResource("3_cs88w")
+region_rect = Rect2(0, 0, 16, 16)
+patch_margin_left = 4
+patch_margin_top = 6
+patch_margin_right = 4
+patch_margin_bottom = 6
+
+[node name="MarginContainer" type="MarginContainer" parent="." index="1" unique_id=1731126556]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" index="0" unique_id=2099674765]
+layout_mode = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/HBoxContainer" index="0" unique_id=848482792]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"RichTextButton"
+bbcode_enabled = true
+text = "Skip"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GUIIcon" parent="MarginContainer/HBoxContainer" index="1" unique_id=1006381206 instance=ExtResource("4_yc54k")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_cs88w")
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("6_cs88w")

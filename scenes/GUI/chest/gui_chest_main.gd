@@ -9,14 +9,14 @@ const BACKGROUND_SHOW_DELAY_TIME := 0.3
 @onready var gui_chest_reward_container: GUIChestRewardContainer = %GUIChestRewardContainer
 @onready var gui_overlay_background: ColorRect = %GUIOverlayBackground
 @onready var title_label: Label = %TitleLabel
-@onready var skip_button: GUIRichTextButton = %SkipButton
+@onready var gui_skip_button: GUISkipButton = %GUISkipButton
 
 func _ready() -> void:
 	gui_overlay_background.hide()
 	title_label.text = Util.get_localized_string("CHEST_MAIN_TITLE_TEXT")
-	skip_button.hide()
+	gui_skip_button.hide()
 	title_label.hide()
-	skip_button.pressed.connect(_on_skip_button_pressed)
+	gui_skip_button.pressed.connect(_on_skip_button_pressed)
 	gui_chest_reward_container.trinket_reward_selected.connect(_on_trinket_reward_selected)
 
 func spawn_trinket(trinket_data: TrinketData, spawn_position: Vector2) -> void:
@@ -25,7 +25,7 @@ func spawn_trinket(trinket_data: TrinketData, spawn_position: Vector2) -> void:
 		gui_overlay_background.show()
 	)
 	await gui_chest_reward_container.spawn_trinket(trinket_data, spawn_position)
-	skip_button.show()
+	gui_skip_button.show()
 	title_label.show()
 
 func _on_skip_button_pressed() -> void:

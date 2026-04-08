@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://ciockqmeym3li" path="res://scenes/GUI/event/events/reward/gui_reward_main.gd" id="1_axy1y"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="1_xloug"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="2_pi043"]
+[ext_resource type="PackedScene" uid="uid://ceyqeudym6q7d" path="res://scenes/GUI/controls/buttons/gui_skip_button.tscn" id="5_em2ds"]
 [ext_resource type="Texture2D" uid="uid://d0l07mh1e34v6" path="res://resources/sprites/GUI/theme/reward_background.png" id="5_tl8kf"]
 [ext_resource type="AudioStream" uid="uid://dnjnf11sfdhai" path="res://resources/sounds/SFX/summary/reward_3.wav" id="8_jo3ev"]
 [ext_resource type="PackedScene" uid="uid://d07xoskgg1bxi" path="res://scenes/GUI/event/events/reward/gui_reward_cards_main.tscn" id="8_pi043"]
-[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="9_skip1"]
 
 [node name="GUIRewardMain" type="CanvasLayer" unique_id=936430536]
 process_mode = 2
@@ -82,7 +82,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 1
 
-[node name="SkipRewardButton" parent="MainMarginContainer/MarginContainer/Control" unique_id=2041837625 instance=ExtResource("9_skip1")]
+[node name="GUISkipButton" parent="MainMarginContainer/MarginContainer/Control" unique_id=1163384925 instance=ExtResource("5_em2ds")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 3
@@ -90,13 +90,12 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -30.0
-offset_top = -12.0
+offset_left = -25.0
+offset_top = -15.0
 offset_right = 0.0
 offset_bottom = 0.0
 grow_horizontal = 0
 grow_vertical = 0
-localization_text_key = "ACTION_SKIP"
 
 [node name="RewardShowingAudio" type="AudioStreamPlayer2D" parent="MainMarginContainer" unique_id=1762697843]
 unique_name_in_owner = true
@@ -106,5 +105,4 @@ bus = &"SFX"
 
 [node name="GUIRewardCardsMain" parent="." unique_id=8623081 instance=ExtResource("8_pi043")]
 unique_name_in_owner = true
-layer = 3
 visible = false

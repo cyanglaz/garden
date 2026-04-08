@@ -12,4 +12,5 @@ script = ExtResource("2_scr")
 
 [node name="GUIPlayerTrinket" parent="." index="0" unique_id=237832581 instance=ExtResource("3_ptrk")]
 layout_mode = 2
+size_flags_horizontal = 1
 mouse_filter = 1

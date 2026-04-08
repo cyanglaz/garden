@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" uid="uid://7jgkjfb71q24" path="res://scenes/GUI/event/events/reward/gui_reward_cards_main.gd" id="1_drca4"]
 [ext_resource type="PackedScene" uid="uid://cp4hifbli0slg" path="res://scenes/GUI/event/events/reward/gui_booster_pack_image.tscn" id="2_q8fh0"]
-[ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="3_57bew"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="4_dgwgu"]
+[ext_resource type="PackedScene" uid="uid://ceyqeudym6q7d" path="res://scenes/GUI/controls/buttons/gui_skip_button.tscn" id="5_am2x4"]
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="5_tkktn"]
 
-[sub_resource type="Shader" id="Shader_a08ry"]
+[sub_resource type="Shader" id="Shader_mfjjl"]
 resource_local_to_scene = true
 code = "shader_type canvas_item;
 
@@ -40,9 +40,9 @@ void fragment() {
 }
 "
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dgwgu"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mv3wi"]
 resource_local_to_scene = true
-shader = SubResource("Shader_a08ry")
+shader = SubResource("Shader_mfjjl")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 
@@ -90,12 +90,12 @@ mouse_filter = 2
 
 [node name="GUIBoosterPackImage" parent="MainMarginContainer/Control" unique_id=1829560562 instance=ExtResource("2_q8fh0")]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_dgwgu")
+material = SubResource("ShaderMaterial_mv3wi")
 layout_mode = 0
 offset_top = -16.0
 offset_bottom = 20.0
 
-[node name="SkipCardButton" parent="MainMarginContainer/Control" unique_id=1125168901 instance=ExtResource("3_57bew")]
+[node name="GUISkipButton" parent="MainMarginContainer/Control" unique_id=1163384925 instance=ExtResource("5_am2x4")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 3
@@ -103,10 +103,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -37.0
-offset_top = -24.0
-offset_right = -7.0
-offset_bottom = -8.0
+offset_left = -40.0
+offset_top = -25.0
+offset_right = -9.0
+offset_bottom = -7.0
 grow_horizontal = 0
 grow_vertical = 0
-localization_text_key = "ACTION_SKIP"
+stay_at_default_location = true

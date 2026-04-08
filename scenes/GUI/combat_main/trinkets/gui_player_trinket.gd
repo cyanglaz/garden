@@ -20,6 +20,7 @@ var show_state: bool = false
 func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
+	pivot_offset_ratio = Vector2.ONE * 0.5
 
 func update_with_trinket_data(trinket_data:TrinketData) -> void:
 	if _trinket_data != null:
