@@ -11,7 +11,7 @@ const ACTION_LIST_SCENE := preload("res://scenes/GUI/shared/descriptions/shared_
 @onready var right_action_container: PanelContainer = %RightActionContainer
 @onready var level_label: Label = $LevelLabel
 
-var tooltip_position:GUITooltip.TooltipPosition
+var position_index_offset:int = 0 # Distance from the center plant field index
 var _weather_ability_data:WeatherAbilityData
 var _action_datas:Array[ActionData]
 var _player_action_datas:Array[ActionData]
@@ -64,7 +64,7 @@ func _on_center_entered() -> void:
 		_weather_ability_data,
 		_center_tooltip_id,
 		gui_icon,
-		tooltip_position,
+		GUITooltip.TooltipPosition.RIGHT if position_index_offset < 0 else GUITooltip.TooltipPosition.LEFT,
 		{"action_datas": _action_datas}
 	))
 
@@ -83,7 +83,7 @@ func _on_left_entered() -> void:
 		_player_action_datas,
 		_left_tooltip_id,
 		left_action_container,
-		GUITooltip.TooltipPosition.LEFT
+		GUITooltip.TooltipPosition.LEFT if position_index_offset > 0 else GUITooltip.TooltipPosition.RIGHT
 	))
 
 func _on_left_exited() -> void:
@@ -101,7 +101,7 @@ func _on_right_entered() -> void:
 		_field_action_datas,
 		_right_tooltip_id,
 		right_action_container,
-		GUITooltip.TooltipPosition.RIGHT
+		GUITooltip.TooltipPosition.RIGHT if position_index_offset < 0 else GUITooltip.TooltipPosition.LEFT
 	))
 
 func _on_right_exited() -> void:
