@@ -29,5 +29,4 @@ func _find_free_waters(tool_datas:Array) -> Array:
 	var gray_waters:Array = tool_datas.filter(func(tool_data:ToolData) -> bool:
 		return tool_data.id == "free_water"
 	)
-	print(gray_waters)
 	return gray_waters

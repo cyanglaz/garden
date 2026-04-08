@@ -234,7 +234,7 @@ FIELD_STATUS_PEST_NAME,"Pest"
 FIELD_STATUS_PEST_DESCRIPTION,"The effected plant reduces {resource:light} by {value} at the end of turn."
 FIELD_STATUS_PEST_POPUP,"Light Reduced"
 FIELD_STATUS_RECYCLE_NAME,"Recycle"
-FIELD_STATUS_RECYCLE_DESCRIPTION,"When add {resource:water} to the affected field, shuffle a {card:free_water} to your hand for each stack."
+FIELD_STATUS_RECYCLE_DESCRIPTION,"When adding {resource:water} to the affected field, shuffle a {card:free_water} to your hand for each stack."
 FIELD_STATUS_RECYCLE_POPUP,"Water Recycled"
 
 PLAYER_STATUS_CLEAN_ENERGY_NAME,"Clean Energy"
