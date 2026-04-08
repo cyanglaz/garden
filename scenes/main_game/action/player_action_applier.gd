@@ -67,18 +67,21 @@ func _handle_compost_action(_action:ActionData, combat_main:CombatMain, secondar
 	await combat_main.exhaust_cards(secondary_card_datas)
 
 func _handle_add_card_discard_pile_action(card_id:String, count:int, combat_main:CombatMain) -> void:
+	if count <= 0:
+		return
 	_tool_datas_added_to_discard_pile_count = count
 	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id(card_id).get_duplicate()
 	var from_position:Vector2 = Util.get_node_canvas_position(combat_main) - GUIToolCardButton.SIZE / 2
 	var tool_datas:Array = []
 	for i in count:
 		var tool_data_to_add:ToolData = tool_data.get_duplicate()
-		tool_data_to_add.adding_to_deck_finished.connect(_on_tool_data_adding_to_deck_finished)
+		tool_data_to_add.adding_to_deck_finished.connect(_on_tool_data_adding_to_deck_finished.bind(tool_data_to_add))
 		tool_datas.append(tool_data_to_add)
 	Events.request_add_tools_to_discard_pile.emit(tool_datas, from_position, true)
 	await _all_tool_datas_added_to_discard_pile
 
-func _on_tool_data_adding_to_deck_finished() -> void:
+func _on_tool_data_adding_to_deck_finished(tool_data_to_add:ToolData) -> void:
+	tool_data_to_add.adding_to_deck_finished.disconnect(_on_tool_data_adding_to_deck_finished)
 	_tool_datas_added_to_discard_pile_count -= 1
 	if _tool_datas_added_to_discard_pile_count <= 0:
 		_all_tool_datas_added_to_discard_pile.emit()
