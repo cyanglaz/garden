@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="MainGameTest" format=3 uid="uid://dykpf4dg06gi6"]
+
+[ext_resource type="Script" uid="uid://d4ngj3465rhxa" path="res://data/test_data/main_game_test.gd" id="1_test"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_tdscript"]
+[ext_resource type="Resource" path="res://data/tools/purchasable/tool_energy_transfer.tres" id="3_et"]
+[ext_resource type="Script" uid="uid://dr261i4fd8jf0" path="res://data/models/trinkets/trinket_data.gd" id="4_ri2bi"]
+
+[resource]
+script = ExtResource("1_test")
+test_tools = Array[ExtResource("2_tdscript")]([ExtResource("3_et"), ExtResource("3_et")])

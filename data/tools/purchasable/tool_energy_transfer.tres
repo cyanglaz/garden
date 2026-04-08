@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="ToolData" format=3 uid="uid://djswau8xtsfpt"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_etact"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_etdata"]
+
+[sub_resource type="Resource" id="Resource_g1xl0"]
+script = ExtResource("1_etact")
+type = 2
+operator_type = 2
+value_type = 2
+x_value_type = 2
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_y26wa"]
+script = ExtResource("1_etact")
+type = 1
+operator_type = 2
+value_type = 2
+x_value_type = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_etdata")
+energy_cost = 0
+actions = Array[ExtResource("1_etact")]([SubResource("Resource_g1xl0"), SubResource("Resource_y26wa")])
+rarity = 1
+id = "energy_transfer"
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"
