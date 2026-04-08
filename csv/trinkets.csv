@@ -27,4 +27,4 @@
 "sun_catcher_pin","Sun Catcher Pin","For every 5 cards played, current plant +1 light.","0","YES"
 "leaky_canteen","Leaky Canteen","For every 5 cards played, current plant +1 water.","0","YES"
 "conservation_coil","Conservation Coil","If less than 3 cards are played during a turn, + 1 momentum at the start of next turn.","0",""
-"guardian's badge","Guardian's Badge","At end of a turn, if there are no pest or fungus on any plants, current plant + 1 light and +1 water","1",""
+"guardians_badge","Guardian's Badge","At end of a turn, if there are no pest or fungus on any plants, current plant + 1 light and +1 water","1",""
