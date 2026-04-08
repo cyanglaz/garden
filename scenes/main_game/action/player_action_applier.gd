@@ -81,7 +81,7 @@ func _handle_add_card_discard_pile_action(card_id:String, count:int, combat_main
 	await _all_tool_datas_added_to_discard_pile
 
 func _on_tool_data_adding_to_deck_finished(tool_data_to_add:ToolData) -> void:
-	tool_data_to_add.adding_to_deck_finished.disconnect(_on_tool_data_adding_to_deck_finished)
+	tool_data_to_add.adding_to_deck_finished.disconnect(_on_tool_data_adding_to_deck_finished.bind(tool_data_to_add))
 	_tool_datas_added_to_discard_pile_count -= 1
 	if _tool_datas_added_to_discard_pile_count <= 0:
 		_all_tool_datas_added_to_discard_pile.emit()
