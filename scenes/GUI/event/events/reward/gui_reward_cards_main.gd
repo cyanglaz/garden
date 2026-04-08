@@ -13,18 +13,18 @@ signal reward_finished()
 @onready var cards_container: Control = %CardsContainer
 @onready var gui_booster_pack_image: GUIBoosterPackImage = %GUIBoosterPackImage
 @onready var choose_card_title: Label = %ChooseCardTitle
-@onready var skip_card_button: GUIRichTextButton = %SkipCardButton
 @onready var main_margin_container: MarginContainer = %MainMarginContainer
+@onready var gui_skip_button: GUISkipButton = %GUISkipButton
 
 var _picks:Array[ToolData] = []
 
 func _ready() -> void:
 	choose_card_title.text = Util.get_localized_string("REWARD_CARDS_MAIN_CHOOSE_CARD_TITLE_TEXT")
-	skip_card_button.pressed.connect(_on_skip_card_button_pressed)
+	gui_skip_button.pressed.connect(_on_skip_card_button_pressed)
 
 func spawn_cards_with_pack_type(booster_pack_type:CombatData.BoosterPackType, pack_button_g_position:Vector2) -> void:
 	choose_card_title.hide()
-	skip_card_button.hide()
+	gui_skip_button.hide()
 	show()
 	_picks = _pick_card_datas(booster_pack_type)
 	Util.remove_all_children(cards_container)
@@ -131,11 +131,11 @@ func _animate_card_fly_out() -> void:
 		child.mouse_disabled = false
 		child.animation_mode = false
 	choose_card_title.show()
-	skip_card_button.show()
+	gui_skip_button.show()
 
 func _handle_card_selection_ended(tool_data:ToolData, from_global_position:Vector2) -> void:
 	choose_card_title.hide()
-	skip_card_button.hide()
+	gui_skip_button.hide()
 	Util.remove_all_children(cards_container)
 	hide()
 	if tool_data:

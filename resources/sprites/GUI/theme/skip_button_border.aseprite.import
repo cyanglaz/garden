@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bo750ylhctf73"
+path="res://.godot/imported/skip_button_border.aseprite-1080bf0528103bc804c74fad36665141.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/theme/skip_button_border.aseprite"
+dest_files=["res://.godot/imported/skip_button_border.aseprite-1080bf0528103bc804c74fad36665141.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

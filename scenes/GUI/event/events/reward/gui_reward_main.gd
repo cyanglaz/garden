@@ -17,7 +17,7 @@ signal reward_finished()
 @onready var panel_container: PanelContainer = %PanelContainer
 @onready var main_margin_container: MarginContainer = %MainMarginContainer
 @onready var vbox_container: VBoxContainer = %VBoxContainer
-@onready var skip_reward_button: GUIRichTextButton = %SkipRewardButton
+@onready var gui_skip_button: GUISkipButton = %GUISkipButton
 
 var _original_panel_y: float
 var _original_title_y: float
@@ -30,7 +30,7 @@ func _ready() -> void:
 	gui_reward_cards_main.reward_finished.connect(_on_card_reward_finished)
 	#gui_reward_gold.gold_collected.connect(_on_gold_collected)
 	#gui_reward_hp.hp_collected.connect(_on_hp_collected)
-	skip_reward_button.pressed.connect(_on_skip_reward_pressed)
+	gui_skip_button.pressed.connect(_on_skip_reward_pressed)
 	_original_panel_y = panel_container.position.y
 	_original_title_y = title_label.position.y
 
@@ -90,13 +90,13 @@ func show_with_data(gold: int, hp: int, booster_pack_type: CombatData.BoosterPac
 	PauseManager.try_pause()
 	panel_container.position.y = main_margin_container.size.y
 	title_label.position.y = main_margin_container.size.y
-	skip_reward_button.hide()
+	gui_skip_button.hide()
 	reward_showing_audio.play()
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(panel_container, "position:y", _original_panel_y, SHOW_ANIMATION_TIME).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	tween.parallel().tween_property(title_label, "position:y", _original_title_y, SHOW_ANIMATION_TIME).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	await tween.finished
-	skip_reward_button.show()
+	gui_skip_button.show()
 
 func show_with_combat_data(combat_data: CombatData, owned_trinkets:Array[String]) -> void:
 	var trinket_datas: Array[TrinketData] = []

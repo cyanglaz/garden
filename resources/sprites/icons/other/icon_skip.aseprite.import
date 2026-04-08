@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://k8mudffrq35i"
+path="res://.godot/imported/icon_skip.aseprite-1a266e5034b5233641fe84d163060190.res"
+
+[deps]
+
+source_file="res://resources/sprites/icons/other/icon_skip.aseprite"
+dest_files=["res://.godot/imported/icon_skip.aseprite-1a266e5034b5233641fe84d163060190.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
