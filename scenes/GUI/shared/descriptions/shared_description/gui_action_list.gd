@@ -20,3 +20,7 @@ func update(actions:Array[ActionData], target_plant:Plant) -> void:
 		action_scene.action_alignment = action_alignment
 		_action_container.add_child(action_scene)
 		action_scene.update_with_action(action_data, target_plant)
+
+func set_highlighted(val:bool) -> void:
+	for action:GUIGeneralAction in _action_container.get_children():
+		action.set_highlighted(val)

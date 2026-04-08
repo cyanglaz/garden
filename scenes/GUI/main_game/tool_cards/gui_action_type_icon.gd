@@ -1,5 +1,5 @@
 class_name GUIActionTypeIcon
-extends TextureRect
+extends GUIIcon
 
 func update_with_action_type(action_type:ActionData.ActionType) -> void:
 	if action_type == ActionData.ActionType.NONE:

@@ -1,10 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://37pgxcxnetyd"]
+[gd_scene load_steps=4 format=3 uid="uid://37pgxcxnetyd"]
 
-[ext_resource type="Script" uid="uid://bxgqqa2k2o46s" path="res://scenes/GUI/main_game/tool_cards/gui_action_type_icon.gd" id="1_e72bs"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="1_e72bs"]
+[ext_resource type="Script" uid="uid://bxgqqa2k2o46s" path="res://scenes/GUI/main_game/tool_cards/gui_action_type_icon.gd" id="2_e72bs"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_atcn1"]
+resource_local_to_scene = true
+shader = ExtResource("1_e72bs")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
 
 [node name="GUIActionTypeIcon" type="TextureRect"]
+material = SubResource("ShaderMaterial_atcn1")
 custom_minimum_size = Vector2(6, 6)
 offset_right = 6.0
 offset_bottom = 6.0
 stretch_mode = 5
-script = ExtResource("1_e72bs")
+script = ExtResource("2_e72bs")
