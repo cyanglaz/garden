@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="MainGameTest" format=3]
-
-[ext_resource type="Script" uid="uid://d4ngj3465rhxa" path="res://data/test_data/main_game_test.gd" id="1_test"]
-[ext_resource type="Resource" path="res://data/events/events/event_vine_cave.tres" id="2_event"]
-
-[resource]
-script = ExtResource("1_test")
-test_event_data = ExtResource("2_event")
