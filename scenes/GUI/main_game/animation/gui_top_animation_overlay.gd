@@ -33,15 +33,20 @@ func animate_add_card_to_deck(from_global_position:Vector2, tool_data:ToolData) 
 	await tween.finished
 	animating_card.queue_free()
 
-func animate_add_trinket_to_collection(from_global_position:Vector2, trinket_data:TrinketData) -> void:
+func animate_add_trinket_to_collection(from_global_position:Vector2, trinket_data:TrinketData, scale_factor:float) -> void:
 	var animating_trinket:GUIPlayerTrinket = ANIMATING_TRINKET_SCENE.instantiate()
 	add_child(animating_trinket)
 	animating_trinket.play_collect_sound()
 	animating_trinket.update_with_trinket_data(trinket_data)
 	animating_trinket.global_position = from_global_position
+	var initial_size := animating_trinket.size * scale_factor
+	var default_size := animating_trinket.size
 	var trinket_button_center := _trinket_button_global_position + _trinket_button_size / 2
-	var target_position := trinket_button_center - animating_trinket.size / 2
+	var target_position := trinket_button_center - default_size / 2
+	animating_trinket.size = initial_size
 	var tween := Util.create_scaled_tween(self)
+	tween.set_parallel(true)
 	tween.tween_property(animating_trinket, "global_position", target_position, ADD_TRINKET_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(animating_trinket, "size", default_size, ADD_TRINKET_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	await tween.finished
 	animating_trinket.queue_free()

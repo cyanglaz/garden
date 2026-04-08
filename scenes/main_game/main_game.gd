@@ -82,12 +82,12 @@ func _start_new_chapter() -> void:
 
 	#_start_map_main_scene()
 	# Always start with a common node
-	#if test_data && test_data.test_combat:
-		#_start_combat_main_scene.call_deferred(test_data.test_combat)
-	#else:
-		#_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
+	if test_data && test_data.test_combat:
+		_start_combat_main_scene.call_deferred(test_data.test_combat)
+	else:
+		_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
 	#_start_event()
-	_start_chest()
+	#_start_chest()
 	#_start_town()
 	#_game_over()
 	#_game_win()
@@ -194,9 +194,9 @@ func _on_request_add_card_to_deck(tool_data:ToolData, bind_card_global_position:
 func _on_request_remove_card_from_deck(tool_data:ToolData) -> void:
 	card_pool.erase(tool_data)
 
-func _on_request_add_trinket_to_collection(trinket_data: TrinketData, from_global_position: Vector2) -> void:
+func _on_request_add_trinket_to_collection(trinket_data: TrinketData, from_global_position: Vector2, scale_factor: float) -> void:
 	trinket_manager.add_trinket(trinket_data)
-	await gui_main_game.gui_top_animation_overlay.animate_add_trinket_to_collection(from_global_position, trinket_data)
+	await gui_main_game.gui_top_animation_overlay.animate_add_trinket_to_collection(from_global_position, trinket_data, scale_factor)
 	await gui_main_game.animate_trinket_collected()
 
 func _on_chest_finished() -> void:
@@ -208,7 +208,7 @@ func _on_event_finished(meta:Variant) -> void:
 		await gui_main_game.gui_top_animation_overlay.animate_add_card_to_deck(gui_main_game.gui_top_animation_overlay.size/2, meta)
 	elif meta is TrinketData:
 		trinket_manager.add_trinket(meta)
-		await gui_main_game.gui_top_animation_overlay.animate_add_trinket_to_collection(gui_main_game.gui_top_animation_overlay.size/2, meta)
+		await gui_main_game.gui_top_animation_overlay.animate_add_trinket_to_collection(gui_main_game.gui_top_animation_overlay.size/2, meta, 1.0)
 	_complete_current_node()
 
 #endregion

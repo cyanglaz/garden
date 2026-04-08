@@ -48,7 +48,6 @@ offset_right = 0.0
 offset_bottom = 0.0
 grow_horizontal = 0
 grow_vertical = 0
-stay_at_default_location = true
 
 [node name="GUIChestRewardContainer" parent="MainMarginContainer" unique_id=2056810897 instance=ExtResource("3_whn2w")]
 unique_name_in_owner = true

@@ -139,7 +139,7 @@ func _on_card_reward_finished() -> void:
 func _on_trinket_pressed(trinket_data:TrinketData, reward_button:GUIRewardButton) -> void:
 	var from_position := reward_button.gui_icon.global_position
 	reward_button.queue_free()
-	Events.request_add_trinket_to_collection.emit(trinket_data, from_position)
+	Events.request_add_trinket_to_collection.emit(trinket_data, from_position, 1.0)
 	_reward_total -= 1
 	_try_finish_rewards()
 

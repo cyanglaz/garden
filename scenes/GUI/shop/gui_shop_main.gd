@@ -88,7 +88,7 @@ func _on_tool_shop_button_pressed(gui_shop_button:GUIShopButton, tool_data:ToolD
 func _on_trinket_shop_button_pressed(gui_shop_button: GUIShopButton, trinket_data: TrinketData) -> void:
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
 	if gui_shop_button.sufficient_gold:
-		Events.request_add_trinket_to_collection.emit(trinket_data, gui_shop_button.global_position)
+		Events.request_add_trinket_to_collection.emit(trinket_data, gui_shop_button.global_position, 1.0)
 		shop_button_pressed.emit(trinket_data.cost)
 		gui_shop_button.queue_free()
 	else:
