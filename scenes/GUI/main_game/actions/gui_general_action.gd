@@ -48,10 +48,9 @@ func update_for_x(x_value:int, x_value_type:ActionData.XValueType) -> void:
 
 func set_highlighted(val:bool) -> void:
 	_gui_action_type_icon.is_highlighted = val
-	_gui_action_type_icon.has_outline = val
+	_gui_action_value_icon.highlighted = val
 	if _field_application_icon.visible:
 		_field_application_icon.is_highlighted = val
-		_field_application_icon.has_outline = val
 
 func _get_value_id(value:int) -> String:
 	var value_id := str(abs(value))

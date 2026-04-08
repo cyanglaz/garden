@@ -11,6 +11,7 @@ const ACTION_LIST_SCENE := preload("res://scenes/GUI/shared/descriptions/shared_
 @onready var right_action_container: PanelContainer = %RightActionContainer
 @onready var level_label: Label = $LevelLabel
 
+var tooltip_position:GUITooltip.TooltipPosition
 var _weather_ability_data:WeatherAbilityData
 var _action_datas:Array[ActionData]
 var _player_action_datas:Array[ActionData]
@@ -63,7 +64,7 @@ func _on_center_entered() -> void:
 		_weather_ability_data,
 		_center_tooltip_id,
 		gui_icon,
-		GUITooltip.TooltipPosition.RIGHT,
+		tooltip_position,
 		{"action_datas": _action_datas}
 	))
 
