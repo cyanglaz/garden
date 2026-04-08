@@ -13,6 +13,6 @@ theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="GUIActionsDescription" parent="ContentContainer" index="0" unique_id=1132038893 instance=ExtResource("3_80sye")]
+[node name="GUIActionsDescription" parent="ContentContainer" index="0" unique_id=1460290993 instance=ExtResource("3_80sye")]
 unique_name_in_owner = true
 layout_mode = 2

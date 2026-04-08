@@ -5,11 +5,13 @@ const VALUE_ICON_PATH := "res://resources/sprites/GUI/icons/cards/values/icon_"
 const RESOURCE_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_"
 const SIGN_ICON_PATH := "res://resources/sprites/GUI/icons/cards/signs/icon_"
 
-@onready var _sign_icon: TextureRect = %SignIcon
-@onready var _value_icon: TextureRect = %ValueIcon
-@onready var _random_icon: TextureRect = %RandomIcon
+@onready var _sign_icon: GUIIcon = %SignIcon
+@onready var _value_icon: GUIIcon = %ValueIcon
+@onready var _random_icon: GUIIcon = %RandomIcon
 @onready var _x_value_label: Label = %XValueLabel
-@onready var _number_sign_icon: TextureRect = %NumberSignIcon
+@onready var _number_sign_icon: GUIIcon = %NumberSignIcon
+
+var highlighted:bool = false: set = _set_highlighted
 
 func update_with_action(action_data:ActionData, target_plant:Plant) -> void:
 	_sign_icon.hide()
@@ -89,3 +91,10 @@ func _get_value_id(value:int) -> String:
 	if value > 10:
 		value_id = "max"
 	return value_id
+
+func _set_highlighted(val:bool) -> void:
+	highlighted = val
+	_sign_icon.is_highlighted = val
+	_value_icon.is_highlighted = val
+	_random_icon.is_highlighted = val
+	_number_sign_icon.is_highlighted = val

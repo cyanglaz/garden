@@ -16,7 +16,7 @@ enum ActionAlignment {
 @export var action_alignment:ActionAlignment = ActionAlignment.CENTER: set = _set_action_alignment
 
 @onready var _gui_action_type_icon: GUIActionTypeIcon = %GUIActionTypeIcon
-@onready var _field_application_icon: TextureRect = %FieldApplicationIcon
+@onready var _field_application_icon: GUIIcon = %FieldApplicationIcon
 @onready var _gui_action_value_icon: GUIActionValueIcon = %GUIActionValueIcon
 @onready var _symbol_container: HBoxContainer = %SymbolContainer
 
@@ -40,11 +40,17 @@ func update_with_action(action_data:ActionData, target_plant:Plant) -> void:
 				_field_application_icon.show()
 				var path := SPECIAL_ICON_PATH + "all_fields.png"
 				_field_application_icon.texture = load(path)
-				
+
 func update_for_x(x_value:int, x_value_type:ActionData.XValueType) -> void:
 	_field_application_icon.hide()
 	_gui_action_type_icon.update_with_action_type(ActionData.ActionType.UPDATE_X)
 	_gui_action_value_icon.update_for_x(x_value, x_value_type)
+
+func set_highlighted(val:bool) -> void:
+	_gui_action_type_icon.is_highlighted = val
+	_gui_action_value_icon.highlighted = val
+	if _field_application_icon.visible:
+		_field_application_icon.is_highlighted = val
 
 func _get_value_id(value:int) -> String:
 	var value_id := str(abs(value))

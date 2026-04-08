@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://bcu2jnr1rnaql"
+path="res://.godot/imported/vseparator_weather_ability.aseprite-b71cb25fd041f34452b24a2a75e9028f.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/theme/vseparator_weather_ability.aseprite"
+dest_files=["res://.godot/imported/vseparator_weather_ability.aseprite-b71cb25fd041f34452b24a2a75e9028f.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

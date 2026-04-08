@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://emo2uof1tygl" path="res://resources/sprites/GUI/menu/scroll_bar_grabber_highlight.png" id="9_0tb7k"]
 [ext_resource type="Texture2D" uid="uid://btnrmmrw80rr8" path="res://resources/sprites/GUI/menu/scroll_bar_grabber_pressed.png" id="10_q5al4"]
 [ext_resource type="Texture2D" uid="uid://iilllm6bti5b" path="res://resources/sprites/GUI/menu/scroll_bar_scroll.png" id="11_kavec"]
+[ext_resource type="Texture2D" uid="uid://cnjh2yma5crel" path="res://resources/sprites/GUI/theme/vseparator_weather_ability.png" id="12_8pu83"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_73q4h"]
 
@@ -102,6 +103,11 @@ texture_margin_left = 4.0
 texture_margin_top = 6.0
 texture_margin_right = 4.0
 texture_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8pu83"]
+texture = ExtResource("12_8pu83")
+expand_margin_left = 1.0
+expand_margin_right = 1.0
 
 [resource]
 default_font = SubResource("SystemFont_pj8lf")
@@ -287,3 +293,5 @@ VScrollBar/styles/grabber_highlight = SubResource("StyleBoxTexture_a8prg")
 VScrollBar/styles/grabber_pressed = SubResource("StyleBoxTexture_wj6pe")
 VScrollBar/styles/scroll = SubResource("StyleBoxTexture_qchjk")
 VScrollBar/styles/scroll_focus = null
+VSeparatorWeatherAbility/base_type = &"VSeparator"
+VSeparatorWeatherAbility/styles/separator = SubResource("StyleBoxTexture_8pu83")

@@ -88,8 +88,4 @@ func _set_field_index(value:int) -> void:
 	if !_weather_ability_icon:
 		return
 	@warning_ignore("integer_division")
-	if field_index > FieldContainer.MAX_FIELDS/2:
-		_weather_ability_icon.tooltip_position = GUITooltip.TooltipPosition.LEFT
-	else:
-		_weather_ability_icon.tooltip_position = GUITooltip.TooltipPosition.RIGHT
-		
+	_weather_ability_icon.position_index_offset = field_index - FieldContainer.MAX_FIELDS/2
