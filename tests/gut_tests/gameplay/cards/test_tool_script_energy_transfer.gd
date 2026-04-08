@@ -14,6 +14,14 @@ class FakePlant extends Plant:
 				ActionData.ActionType.LIGHT:
 					light_val = action.value
 
+class FakePlantWithBloom extends FakePlant:
+	var max_val: int = 99
+
+	func apply_actions(actions: Array) -> void:
+		if water_val >= max_val and light_val >= max_val:
+			return
+		super.apply_actions(actions)
+
 class FakeCombatMain extends CombatMain:
 	var fake_plant: FakePlant = null
 	func get_current_player_plant() -> Plant:
@@ -83,3 +91,22 @@ func test_actions_use_equal_to_operator() -> void:
 	assert_eq(plant.recorded_actions.size(), 2)
 	for action in plant.recorded_actions:
 		assert_eq(action.operator_type, ActionData.OperatorType.EQUAL_TO)
+
+func test_swap_is_atomic_when_water_action_causes_bloom() -> void:
+	# Regression: water=3, light=5, max=5.
+	# Setting water to 5 (= original_light) would cause bloom.
+	# Old two-call code would skip the LIGHT action, leaving light at 5.
+	# Single-call code applies both actions before any bloom check on the next call.
+	var p := FakePlantWithBloom.new()
+	autofree(p)
+	p.water.setup(0, 99)
+	p.water.value = 3
+	p.light.setup(0, 99)
+	p.light.value = 5
+	p.water_val = 3
+	p.light_val = 5
+	p.max_val = 5
+	var cm := _make_combat_main(p)
+	await _make_script().apply_tool(cm, null, [])
+	assert_eq(p.water_val, 5, "Water should be set to original light value")
+	assert_eq(p.light_val, 3, "Light should be set to original water value even when water action causes bloom")
