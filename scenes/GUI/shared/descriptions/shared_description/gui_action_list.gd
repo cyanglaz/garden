@@ -8,8 +8,10 @@ const GUI_GENERAL_ACTION_SCENE := preload("res://scenes/GUI/main_game/actions/gu
 
 func update(actions:Array[ActionData], target_plant:Plant) -> void:
 	Util.remove_all_children(_action_container)
+	var has_x_action := false
 	for action_data:ActionData in actions:
-		if action_data.value_type == ActionData.ValueType.X:
+		if !has_x_action && action_data.value_type == ActionData.ValueType.X:
+			has_x_action = true
 			var action_scene_x:GUIGeneralAction = GUI_GENERAL_ACTION_SCENE.instantiate()
 			_action_container.add_child(action_scene_x)
 			action_scene_x.update_for_x(action_data.get_calculated_x_value(target_plant), action_data.x_value_type)
