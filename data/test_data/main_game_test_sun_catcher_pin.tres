@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="MainGameTest" format=3]
-
-[ext_resource type="Script" uid="uid://d4ngj3465rhxa" path="res://data/test_data/main_game_test.gd" id="1_test"]
-[ext_resource type="Script" uid="uid://dr261i4fd8jf0" path="res://data/models/trinkets/trinket_data.gd" id="2_tdscript"]
-[ext_resource type="Resource" uid="uid://sun_catcher_pin_data" path="res://data/trinkets/default/trinket_sun_catcher_pin.tres" id="3_scp"]
-
-[resource]
-script = ExtResource("1_test")
-test_trinket_datas = Array[ExtResource("2_tdscript")]([ExtResource("3_scp")])
