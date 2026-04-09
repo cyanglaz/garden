@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dcc5n1g3m7p8d"
+path="res://.godot/imported/icon_conservation_coil.aseprite-42f036a446ce0c4d1cc93ce48640bc63.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_conservation_coil.aseprite"
+dest_files=["res://.godot/imported/icon_conservation_coil.aseprite-42f036a446ce0c4d1cc93ce48640bc63.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
