@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TrinketData" format=3 uid="uid://dcc5n1g3m7p8b"]
+
+[ext_resource type="Script" uid="uid://dr261i4fd8jf0" path="res://data/models/trinkets/trinket_data.gd" id="1_ccdata"]
+
+[resource]
+script = ExtResource("1_ccdata")
+rarity = 0
+id = "conservation_coil"
+data = {
+&"cards_played": "3",
+&"momentum": "1"
+}
+metadata/_custom_type_script = "uid://dr261i4fd8jf0"

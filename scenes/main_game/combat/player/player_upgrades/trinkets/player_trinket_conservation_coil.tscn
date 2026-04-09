@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dcc5n1g3m7p8a"]
+
+[ext_resource type="Script" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_conservation_coil.gd" id="1_ccscript"]
+
+[node name="PlayerTrinketConservationCoil" type="Node2D"]
+script = ExtResource("1_ccscript")
