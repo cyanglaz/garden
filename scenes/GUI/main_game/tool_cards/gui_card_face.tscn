@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://ugtybr3upkmn" path="res://resources/sprites/GUI/backgrounds/tool_card_background.png" id="3_uaej8"]
 [ext_resource type="AudioStream" uid="uid://bgyg7vg7fsae6" path="res://resources/sounds/SFX/tool_cards/card_use.wav" id="5_y8r0o"]
 
-[sub_resource type="Shader" id="Shader_uaej8"]
+[sub_resource type="Shader" id="Shader_y8r0o"]
 resource_local_to_scene = true
 code = "shader_type canvas_item;
 
@@ -53,14 +53,14 @@ void fragment() {
 	COLOR = vec4(base_color.r, base_color.g, base_color.b, min(visible, base_color.a)) * modulate;
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ykqmu"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uaej8"]
 resource_local_to_scene = true
-shader = SubResource("Shader_uaej8")
+shader = SubResource("Shader_y8r0o")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 shader_parameter/sensitivity = 0.0
 
-[sub_resource type="Shader" id="Shader_170cx"]
+[sub_resource type="Shader" id="Shader_ykqmu"]
 resource_local_to_scene = true
 code = "shader_type canvas_item;
 
@@ -107,9 +107,9 @@ void fragment() {
 	COLOR = vec4(base_color.r, base_color.g, base_color.b, min(visible, base_color.a)) * modulate;
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_alb7f"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_170cx"]
 resource_local_to_scene = true
-shader = SubResource("Shader_170cx")
+shader = SubResource("Shader_ykqmu")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 shader_parameter/sensitivity = 1.0
@@ -263,7 +263,7 @@ script = ExtResource("1_uaej8")
 
 [node name="GUIToolCardBackground" parent="." unique_id=594292002 instance=ExtResource("1_ah1nl")]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_ykqmu")
+material = SubResource("ShaderMaterial_uaej8")
 layout_mode = 2
 
 [node name="CardContent" type="Control" parent="." unique_id=2008740132]
@@ -364,7 +364,7 @@ mouse_filter = 2
 [node name="AnimatingForeground" parent="." unique_id=120660621 instance=ExtResource("1_ah1nl")]
 unique_name_in_owner = true
 visible = false
-material = SubResource("ShaderMaterial_alb7f")
+material = SubResource("ShaderMaterial_170cx")
 layout_mode = 2
 
 [node name="Overlay" type="NinePatchRect" parent="." unique_id=1411455343]

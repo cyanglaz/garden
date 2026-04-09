@@ -36,7 +36,6 @@ func _init(initial_tools:Array, gui_tool_card_container:GUIToolCardContainer) ->
 	tool_deck = Deck.new(initial_tools)
 	tool_deck.hand_updated.connect(func() -> void: hand_updated.emit(tool_deck.hand))
 	_weak_gui_tool_card_container = weakref(gui_tool_card_container)
-	_tool_applier.tool_application_error.connect(func(tool_data:ToolData, error_message:String) -> void: tool_application_error.emit(tool_data, error_message))
 
 func refresh_deck() -> void:
 	tool_deck.refresh()
@@ -114,7 +113,11 @@ func apply_tool(combat_main:CombatMain, applying_tool:ToolData) -> void:
 	number_of_card_used_this_turn += 1
 	tool_application_started.emit(applying_tool)
 	await combat_main.player.player_upgrades_manager.handle_pre_tool_application_hook(combat_main, applying_tool)
-	await _run_card_actions(combat_main, applying_tool)
+	var success := await _run_card_actions(combat_main, applying_tool)
+	if !success:
+		is_applying_tool = false
+		tool_application_error.emit(applying_tool, applying_tool.get_card_selection_custom_error_message())
+		return
 	await _run_card_lifecycle(applying_tool, combat_main)
 	_handle_tool_application_completed(applying_tool, combat_main)
 
@@ -169,10 +172,10 @@ func _finish_card(tool_data:ToolData) -> void:
 	else:
 		await discard_cards([tool_data])
 
-func _run_card_actions(combat_main:CombatMain, applying_tool:ToolData) -> void:
-	_gui_tool_card_container.find_card(applying_tool).play_use_animation()
+func _run_card_actions(combat_main:CombatMain, applying_tool:ToolData) -> bool:
 	await combat_main.plant_field_container.trigger_tool_application_hook()
-	await _tool_applier.apply_tool(combat_main, applying_tool, _gui_tool_card_container.find_card(applying_tool), _gui_tool_card_container)
+	var success := await _tool_applier.apply_tool(combat_main, applying_tool, _gui_tool_card_container.find_card(applying_tool), _gui_tool_card_container)
+	return success
 
 func _handle_tool_application_completed(tool_data:ToolData, combat_main:CombatMain) -> void:
 	if tool_data.tool_script:

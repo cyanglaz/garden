@@ -20,7 +20,9 @@ var _card_size:float
 var selected_index:int = -1
 var card_use_limit_reached:bool = false: set = _set_card_use_limit_reached
 var card_selection_mode := false
+var _card_selection_filter:Callable = func(_tool_data:ToolData) -> bool: return true
 var _selected_secondary_cards:Array[GUIToolCardButton] = []
+var _tool_card_interaction_enabled:bool = true
 
 func _ready() -> void:
 	_card_size = GUIToolCardButton.SIZE.x
@@ -30,6 +32,7 @@ func setup(draw_box_button:GUIDeckButton, discard_box_button:GUIDeckButton) -> v
 	_gui_tool_card_animation_container.setup(self, draw_box_button, discard_box_button)
 
 func toggle_all_tool_cards(on:bool) -> void:
+	_tool_card_interaction_enabled = on
 	for i in get_card_count():
 		var card:GUIToolCardButton = _container.get_child(i)
 		card.mouse_disabled = !on
@@ -46,7 +49,7 @@ func update_mouse_plant(plant:Plant) -> void:
 	
 func clear_selection() -> void:
 	selected_index = -1
-	_toggle_card_selection(false, [])
+	_toggle_card_selection_mode(false)
 	_clear_secondary_card_selection()
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 	Events.request_hide_warning.emit(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
@@ -76,6 +79,7 @@ func add_card(tool_data:ToolData) -> GUIToolCardButton:
 		gui_card.card_state = GUICardFace.CardState.NORMAL
 	_rebind_signals()
 	gui_card.disabled = card_use_limit_reached
+	gui_card.mouse_disabled = !_tool_card_interaction_enabled
 	return gui_card
 
 func remove_cards(gui_cards:Array[GUIToolCardButton]) -> void:
@@ -93,16 +97,24 @@ func find_card(tool_data:ToolData) -> GUIToolCardButton:
 			return card
 	return null
 
-func select_secondary_cards(number_of_cards:int, selecting_from_cards:Array) -> Array:
+func select_secondary_cards(number_of_cards:int, filter:Callable) -> Array:
 	assert(selected_index >= 0)
-	_toggle_card_selection(true, selecting_from_cards)
-	return await _card_selection_container.start_selection(number_of_cards, selecting_from_cards)
+	_card_selection_filter = filter
+	_toggle_card_selection_mode(true)
+	var selecting_from_cards:Array[ToolData] = _get_selecting_from_cards()
+	var cards_enabled:bool = _tool_card_interaction_enabled
+	_toggle_selected_cards(selecting_from_cards, true)
+	var result := await _card_selection_container.start_selection(number_of_cards, selecting_from_cards)
+	if !cards_enabled:
+		_toggle_selected_cards(selecting_from_cards, false)
+	_clear_secondary_card_selection()
+	return result
 
 func select_cards(number_of_cards: int, selecting_from_cards: Array) -> Array:
-	_toggle_card_selection(true, selecting_from_cards)
+	_toggle_card_selection_mode(true)
 	var result := await _card_selection_container.start_selection(number_of_cards, selecting_from_cards)
 	_clear_secondary_card_selection()
-	_toggle_card_selection(false, [])
+	_toggle_card_selection_mode(false)
 	return result
 
 #region animation
@@ -187,27 +199,45 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 
 #region private
 
+func _toggle_selected_cards(array:Array, on:bool) -> void:
+	for tool_data in array:
+		var gui_card:GUIToolCardButton = find_card(tool_data)
+		gui_card.mouse_disabled = !on
+
 func _clear_secondary_card_selection() -> void:
 	_card_selection_container.end_selection()
 	_selected_secondary_cards.clear()
 
-func _toggle_card_selection(on:bool, selecting_from_cards:Array) -> void:
-	var selecting_from_card_index := []
-	for tool_data:ToolData in selecting_from_cards:
-		var gui_card:GUIToolCardButton = find_card(tool_data)
-		selecting_from_card_index.append(gui_card.hand_index)
+func _toggle_card_selection_mode(on:bool) -> void:
 	card_selection_mode = on
-	for i in _container.get_children().size():
-		var gui_card:GUIToolCardButton = _container.get_child(i)
-		if selecting_from_card_index.has(i):
-			gui_card.card_state = GUICardFace.CardState.NORMAL
-		elif i == selected_index:
+	if !card_selection_mode:
+		_card_selection_filter = func(_tool_data:ToolData) -> bool: return true
+	var index := 0
+	for gui_card:GUIToolCardButton in get_all_cards():
+		if index == selected_index:
 			if card_selection_mode:
 				gui_card.card_state = GUICardFace.CardState.WAITING
 			else:
 				gui_card.card_state = GUICardFace.CardState.SELECTED
-		else:
+		elif _card_selection_filter.call(gui_card.tool_data):
 			gui_card.card_state = GUICardFace.CardState.NORMAL
+		else:
+			gui_card.card_state = GUICardFace.CardState.UNSELECTED
+		index += 1
+
+func _get_selecting_from_cards() -> Array[ToolData]:
+	if !card_selection_mode:
+		return []
+	var index := 0
+	var selecting_from_cards:Array[ToolData] = []
+	for gui_card:GUIToolCardButton in get_all_cards():
+		if index == selected_index:
+			index += 1
+			continue
+		if _card_selection_filter.call(gui_card.tool_data):
+			selecting_from_cards.append(gui_card.tool_data)
+		index += 1
+	return selecting_from_cards
 
 func _rebind_signals() -> void:
 	for i in _container.get_children().size():

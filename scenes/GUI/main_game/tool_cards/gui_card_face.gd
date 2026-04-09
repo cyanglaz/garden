@@ -22,7 +22,7 @@ const VALUE_ICON_PREFIX := "res://resources/sprites/GUI/icons/cards/values/icon_
 const EXHAUST_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_exhaust.wav")
 
 const SELECTED_OFFSET := 10.0
-const IN_USE_OFFSET := 30.0
+const IN_USE_OFFSET := 20.0
 const HIGHLIGHTED_OFFSET := 1.0
 
 @onready var _gui_action_list: GUIActionList = %GUIActionList
@@ -43,6 +43,7 @@ var resource_sufficient := false: set = _set_resource_sufficient
 var animation_mode := false : set = _set_animation_mode
 var disabled:bool = false: set = _set_disabled
 var has_outline:bool = false: set = _set_has_outline
+var mouse_disabled:bool = false: set = _set_mouse_disabled
 var tool_data:ToolData: get = _get_tool_data
 var hand_index:int = -1
 var is_front:bool = true
@@ -76,8 +77,8 @@ func update_with_tool_data(td:ToolData) -> void:
 			_interactive_special_container.add_child(special_icon)
 		else:
 			_specials_container.add_child(special_icon)
-		special_icon.special_interacted.connect(func(s:ToolData.Special) -> void: special_interacted.emit(s))
-		special_icon.special_hovered.connect(func(s:ToolData.Special, on:bool) -> void: special_hovered.emit(s, on))
+		special_icon.special_interacted.connect(_on_special_interacted)
+		special_icon.special_hovered.connect(_on_special_hovered)
 		special_icon.update_with_special(special)
 
 	if !td.request_refresh.is_connected(_on_tool_data_refresh):
@@ -163,6 +164,13 @@ func _on_energy_tracker_value_updated(energy_tracker:ResourcePoint) -> void:
 
 #region setters/getters
 
+func _set_mouse_disabled(value:bool) -> void:
+	mouse_disabled = value
+	for special_icon in _specials_container.get_children():
+		special_icon.mouse_disabled = value
+	for special_icon in _interactive_special_container.get_children():
+		special_icon.mouse_disabled = value
+
 func _get_tool_data() -> ToolData:
 	return _weak_tool_data.get_ref()
 
@@ -226,7 +234,7 @@ func _set_disabled(value:bool) -> void:
 		_cost_icon.self_modulate = Constants.CARD_DISABLED_COLOR
 	else:
 		_set_resource_sufficient(resource_sufficient)
-	
+
 #region events
 
 func _on_animation_finished(anim_name:String) -> void:
@@ -244,5 +252,11 @@ func _on_combat_main_set(combat_main:CombatMain) -> void:
 	_update_for_energy(energy_tracker.value)
 	if !energy_tracker.value_update.is_connected(_on_energy_tracker_value_updated):
 		energy_tracker.value_update.connect(_on_energy_tracker_value_updated.bind(energy_tracker))
+
+func _on_special_interacted(special:ToolData.Special) -> void:
+	special_interacted.emit(special)
+
+func _on_special_hovered(special:ToolData.Special, on:bool) -> void:
+	special_hovered.emit(special, on)
 
 #endregion

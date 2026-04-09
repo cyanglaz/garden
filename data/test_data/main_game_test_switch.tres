@@ -3,10 +3,11 @@
 [ext_resource type="Script" uid="uid://d4ngj3465rhxa" path="res://data/test_data/main_game_test.gd" id="1_test"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_tdat"]
 [ext_resource type="Resource" uid="uid://b68jy6gwkihkn" path="res://data/tools/purchasable/tool_switch.tres" id="3_sw"]
-[ext_resource type="Resource" uid="uid://dr13xwnk1wtam" path="res://data/tools/defaults/tool_sunlight.tres" id="4_vshqa"]
 [ext_resource type="Script" uid="uid://dr261i4fd8jf0" path="res://data/models/trinkets/trinket_data.gd" id="5_3msd1"]
+[ext_resource type="Resource" uid="uid://bpyngl57tlf5l" path="res://data/tools/purchasable/tool_solar_battery.tres" id="5_4bp2j"]
+[ext_resource type="Resource" uid="uid://bcr6do0c5xoad" path="res://data/tools/purchasable/tool_recharge.tres" id="5_6h5ax"]
 
 [resource]
 script = ExtResource("1_test")
-test_tools = Array[ExtResource("2_tdat")]([ExtResource("3_sw"), ExtResource("3_sw"), ExtResource("3_sw"), ExtResource("4_vshqa"), ExtResource("4_vshqa"), ExtResource("4_vshqa")])
+test_tools = Array[ExtResource("2_tdat")]([ExtResource("5_6h5ax"), ExtResource("5_4bp2j"), ExtResource("5_4bp2j"), ExtResource("3_sw"), ExtResource("3_sw"), ExtResource("3_sw")])
 metadata/_custom_type_script = "uid://d4ngj3465rhxa"

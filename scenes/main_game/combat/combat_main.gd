@@ -300,6 +300,7 @@ func _on_tool_application_completed(tool_data:ToolData) -> void:
 	_clear_tool_selection()
 
 func _on_tool_application_error(tool_data:ToolData, error_message:String) -> void:
+	gui.toggle_all_ui(true)
 	_clear_tool_selection()
 	gui.reset_tool_positions()
 	Events.request_show_custom_error.emit(error_message, tool_data.id)
