@@ -4,7 +4,6 @@
 
 [resource]
 script = ExtResource("1_ccdata")
-rarity = 0
 id = "conservation_coil"
 data = {
 &"cards_played": "3",

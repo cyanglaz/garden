@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dcc5n1g3m7p8c"
-path="res://.godot/imported/icon_conservation_coil.png-33b89904455988b23b642e86b16a35f4.ctex"
+path="res://.godot/imported/icon_conservation_coil.png-77130daac8080059db16a232b63306eb.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://resources/sprites/GUI/icons/trinkets/icon_conservation_coil.png"
-dest_files=["res://.godot/imported/icon_conservation_coil.png-33b89904455988b23b642e86b16a35f4.ctex"]
+dest_files=["res://.godot/imported/icon_conservation_coil.png-77130daac8080059db16a232b63306eb.ctex"]
 
 [params]
 
