@@ -54,7 +54,7 @@ func test_handle_start_turn_hook_resets_stack() -> void:
 	(t.data as TrinketData).stack = 2
 	var cm := _make_combat_main()
 	t._handle_start_turn_hook(cm)
-	assert_eq((t.data as TrinketData).stack, 0)
+	assert_eq((t.data as TrinketData).stack, 3)
 
 func test_handle_start_turn_hook_does_not_grant_momentum_on_first_turn() -> void:
 	var t := _make_trinket()
@@ -105,10 +105,11 @@ func test_has_tool_application_hook_always_true() -> void:
 
 # ----- _handle_tool_application_hook -----
 
-func test_handle_tool_application_hook_increments_stack() -> void:
+func test_handle_tool_application_hook_decrements_stack() -> void:
 	var t := _make_trinket()
+	(t.data as TrinketData).stack = 3
 	t._handle_tool_application_hook(null, null)
-	assert_eq((t.data as TrinketData).stack, 1)
+	assert_eq((t.data as TrinketData).stack, 2)
 
 func test_handle_tool_application_hook_does_not_deactivate_below_threshold() -> void:
 	var t := _make_trinket()
