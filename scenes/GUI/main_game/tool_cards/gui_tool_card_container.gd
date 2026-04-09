@@ -98,7 +98,6 @@ func find_card(tool_data:ToolData) -> GUIToolCardButton:
 	return null
 
 func select_secondary_cards(number_of_cards:int, filter:Callable) -> Array:
-	assert(selected_index >= 0)
 	_card_selection_filter = filter
 	_toggle_card_selection_mode(true)
 	var selecting_from_cards:Array[ToolData] = _get_selecting_from_cards()
@@ -108,13 +107,6 @@ func select_secondary_cards(number_of_cards:int, filter:Callable) -> Array:
 	if !cards_enabled:
 		_toggle_selected_cards(selecting_from_cards, false)
 	_clear_secondary_card_selection()
-	return result
-
-func select_cards(number_of_cards: int, selecting_from_cards: Array) -> Array:
-	_toggle_card_selection_mode(true)
-	var result := await _card_selection_container.start_selection(number_of_cards, selecting_from_cards)
-	_clear_secondary_card_selection()
-	_toggle_card_selection_mode(false)
 	return result
 
 #region animation

@@ -123,11 +123,8 @@ func apply_tool(combat_main:CombatMain, applying_tool:ToolData) -> void:
 	await _run_card_lifecycle(applying_tool, combat_main)
 	_handle_tool_application_completed(applying_tool, combat_main)
 
-func discardable_cards() -> Array:
-	return tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return tool_data != selected_tool)
-
-func select_cards(count: int, from_cards: Array) -> Array:
-	return await _gui_tool_card_container.select_cards(count, from_cards)
+func select_secondary_cards(number_of_cards:int, filter:Callable) -> Array:
+	return await _gui_tool_card_container.select_secondary_cards(number_of_cards, filter)
 
 func add_tool_to_deck(tool_data:ToolData) -> void:
 	tool_deck.add_item(tool_data)
