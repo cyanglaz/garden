@@ -214,6 +214,7 @@ func _toggle_card_selection_mode(on:bool) -> void:
 		_card_selection_filter = func(_tool_data:ToolData) -> bool: return true
 	var index := 0
 	for gui_card:GUIToolCardButton in get_all_cards():
+		print(index, " ", selected_index)
 		if index == selected_index:
 			if card_selection_mode:
 				gui_card.card_state = GUICardFace.CardState.WAITING
@@ -223,6 +224,7 @@ func _toggle_card_selection_mode(on:bool) -> void:
 			gui_card.card_state = GUICardFace.CardState.NORMAL
 		else:
 			gui_card.card_state = GUICardFace.CardState.UNSELECTED
+		print(gui_card.card_state)
 		index += 1
 
 func _get_selecting_from_cards() -> Array[ToolData]:

@@ -9,5 +9,5 @@
 
 [resource]
 script = ExtResource("1_test")
-test_tools = Array[ExtResource("2_tdat")]([ExtResource("5_6h5ax"), ExtResource("5_4bp2j"), ExtResource("5_4bp2j"), ExtResource("3_sw"), ExtResource("3_sw"), ExtResource("3_sw")])
+test_tools = Array[ExtResource("2_tdat")]([ExtResource("5_6h5ax"), ExtResource("5_4bp2j"), ExtResource("5_4bp2j"), ExtResource("3_sw"), ExtResource("3_sw")])
 metadata/_custom_type_script = "uid://d4ngj3465rhxa"

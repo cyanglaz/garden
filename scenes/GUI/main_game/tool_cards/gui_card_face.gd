@@ -113,13 +113,12 @@ func play_error_shake_animation() -> void:
 	await Util.play_error_shake_animation(self, "position", Vector2.ZERO)
 
 func play_use_animation() -> void:
-	has_outline = true
+	has_outline = true #has_outline is reset when card is discarded.
 	_overlay.hide()
 	z_index = 1
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(self, "position", Vector2.UP * IN_USE_OFFSET, IN_USE_ANIMATION_DURATION).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.finished.connect(func() -> void:
-		has_outline = false
 		_overlay.show()
 		z_index = 0
 	)
@@ -179,6 +178,7 @@ func _set_animation_mode(value:bool) -> void:
 	_card_content.visible = !value
 
 func _set_card_state(value:CardState) -> void:
+	print("set_card_state: ", value)
 	card_state = value
 	match value:
 		CardState.NORMAL:
