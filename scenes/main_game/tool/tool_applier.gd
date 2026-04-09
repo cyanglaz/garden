@@ -24,7 +24,7 @@ func _apply_tool_script(combat_main:CombatMain, tool_data:ToolData, gui_tool_car
 	assert(tool_data.tool_script, "Tool script is required to select secondary cards")
 	var number_of_cards_to_select := tool_data.get_number_of_secondary_cards_to_select_from_script()
 	if number_of_cards_to_select > 0:
-		var selecting_from_cards:Array = gui_tool_card_container.get_all_cards().filter(func(card:GUIToolCardButton): return card.tool_data != tool_data).map(func(card:GUIToolCardButton): return card.tool_data)
+		var selecting_from_cards:Array = gui_tool_card_container.get_all_cards().filter(func(card:GUIToolCardButton): return card.tool_data != tool_data).map(func(card:GUIToolCardButton): return card.tool_data).filter(tool_data.tool_script.secondary_card_selection_filter())
 		var actual_number_of_cards_to_select = mini(number_of_cards_to_select, selecting_from_cards.size())
 		if actual_number_of_cards_to_select < number_of_cards_to_select:
 			if tool_data.get_card_selection_type_from_script() == ActionData.CardSelectionType.RESTRICTED:
