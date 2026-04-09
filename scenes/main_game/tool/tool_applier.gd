@@ -31,12 +31,12 @@ func _apply_tool_script(combat_main:CombatMain, tool_data:ToolData, gui_tool_car
 				gui_tool_card_container.animate_card_error_shake(tool_data)
 				return false
 		else:
-			gui_tool_card_container.find_card(tool_data).play_use_animation()
 			if tool_data.get_is_random_secondary_card_selection_from_script():
 				secondary_card_datas = Util.unweighted_roll(selecting_from_cards, actual_number_of_cards_to_select)
 			else:
 				# Some actions need to select cards, for example discard, compost
 				secondary_card_datas = await gui_tool_card_container.select_secondary_cards(actual_number_of_cards_to_select, tool_data.tool_script.secondary_card_selection_filter())
+	gui_tool_card_container.find_card(tool_data).play_use_animation()
 	await tool_data.tool_script.apply_tool(combat_main, tool_data, secondary_card_datas)
 	return true
 

@@ -63,6 +63,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 
 	tool_manager = ToolManager.new(card_pool.duplicate(), gui.gui_tool_card_container)
 	tool_manager.tool_application_started.connect(_on_tool_application_started)
+	tool_manager.tool_application_success.connect(_on_tool_application_success)
 	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
 	tool_manager.tool_application_error.connect(_on_tool_application_error)
 	tool_manager.hand_updated.connect(_on_hand_updated)
@@ -287,8 +288,10 @@ func _on_player_field_index_updated(from:int, to:int) -> void:
 
 #region other events
 
-func _on_tool_application_started(tool_data:ToolData) -> void:
+func _on_tool_application_started(_tool_data:ToolData) -> void:
 	gui.toggle_all_ui(false)
+
+func _on_tool_application_success(tool_data:ToolData) -> void:
 	if tool_data.get_final_energy_cost() > 0:
 		energy_tracker.spend(tool_data.get_final_energy_cost())
 

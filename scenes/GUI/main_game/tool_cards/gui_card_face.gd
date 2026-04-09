@@ -178,7 +178,6 @@ func _set_animation_mode(value:bool) -> void:
 	_card_content.visible = !value
 
 func _set_card_state(value:CardState) -> void:
-	print("set_card_state: ", value)
 	card_state = value
 	match value:
 		CardState.NORMAL:

@@ -9,6 +9,7 @@ enum ToolManagerState {
 }
 
 signal tool_application_started(tool_data:ToolData)
+signal tool_application_success(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
 signal tool_application_error(tool_data:ToolData, error_message:String)
 signal hand_updated(hand:Array)
@@ -110,7 +111,6 @@ func clear_tool_selection() -> void:
 func apply_tool(combat_main:CombatMain, applying_tool:ToolData) -> void:
 	is_applying_tool = true
 	selected_tool = applying_tool
-	number_of_card_used_this_turn += 1
 	tool_application_started.emit(applying_tool)
 	await combat_main.player.player_upgrades_manager.handle_pre_tool_application_hook(combat_main, applying_tool)
 	var success := await _run_card_actions(combat_main, applying_tool)
@@ -118,6 +118,8 @@ func apply_tool(combat_main:CombatMain, applying_tool:ToolData) -> void:
 		is_applying_tool = false
 		tool_application_error.emit(applying_tool, applying_tool.get_card_selection_custom_error_message())
 		return
+	number_of_card_used_this_turn += 1
+	tool_application_success.emit(applying_tool)
 	await _run_card_lifecycle(applying_tool, combat_main)
 	_handle_tool_application_completed(applying_tool, combat_main)
 

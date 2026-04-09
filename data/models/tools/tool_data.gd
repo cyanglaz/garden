@@ -107,18 +107,11 @@ func get_number_of_secondary_cards_to_select_from_script() -> int:
 func get_is_random_secondary_card_selection_from_script() -> bool:
 	if tool_script:
 		return tool_script.get_is_random_secondary_card_selection()
-	#for action:ActionData in actions:
-	#	if action.type in ActionData.NEED_CARD_SELECTION:
-	#		if action.value_type == ActionData.ValueType.RANDOM:
-	#			return true
 	return false
 
 func get_card_selection_type_from_script() -> ActionData.CardSelectionType:
 	if tool_script:
 		return tool_script.get_card_selection_type()
-	#for action:ActionData in actions:
-	#	if action.need_card_selection:
-	#		return action.card_selection_type
 	return ActionData.CardSelectionType.NON_RESTRICTED
 
 func get_card_selection_custom_error_message() -> String:
