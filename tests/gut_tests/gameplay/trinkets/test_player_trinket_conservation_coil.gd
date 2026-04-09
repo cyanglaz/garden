@@ -113,6 +113,7 @@ func test_handle_tool_application_hook_decrements_stack() -> void:
 
 func test_handle_tool_application_hook_does_not_deactivate_below_threshold() -> void:
 	var t := _make_trinket()
+	(t.data as TrinketData).stack = 3
 	t.data.state = TrinketData.TrinketState.ACTIVE
 	t._handle_tool_application_hook(null, null)
 	t._handle_tool_application_hook(null, null)
