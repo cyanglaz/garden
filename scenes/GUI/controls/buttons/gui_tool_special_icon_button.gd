@@ -7,6 +7,7 @@ signal special_hovered(special:ToolData.Special, on:bool)
 @onready var gui_icon: GUIIcon = %GUIIcon
 
 var _special:ToolData.Special
+var mouse_disabled:bool = false: set = _set_mouse_disabled
 
 func _ready() -> void:
 	super._ready()
@@ -32,9 +33,17 @@ func _set_button_state(val:ButtonState) -> void:
 		gui_icon.scale = Vector2.ONE
 		gui_icon.z_index = 0
 
+func _set_mouse_disabled(value:bool) -> void:
+	mouse_disabled = value
+	if value:
+		mouse_filter = MOUSE_FILTER_IGNORE
+	else:
+		mouse_filter = MOUSE_FILTER_STOP
+
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	special_hovered.emit(_special, true)
+
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
 	special_hovered.emit(_special, false)

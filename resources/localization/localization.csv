@@ -357,6 +357,7 @@ TOOL_GREENHOUSE_NAME,"Greenhouse"
 TOOL_RECYCLE_NAME,"Recycle"
 TOOL_SOLAR_BATTERY_NAME,"Solar Battery"
 TOOL_SOLAR_PANEL_NAME,"Solar Panel"
+TOOL_SWITCH_NAME,"Switch"
 
 BOSS_THE_BINDER_NAME,"The Binder"
 BOSS_THE_BINDER_DESCRIPTION,"You can only play {count} cards each turn."

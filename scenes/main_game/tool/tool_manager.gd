@@ -9,6 +9,7 @@ enum ToolManagerState {
 }
 
 signal tool_application_started(tool_data:ToolData)
+signal tool_application_success(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
 signal tool_application_error(tool_data:ToolData, error_message:String)
 signal hand_updated(hand:Array)
@@ -110,36 +111,20 @@ func clear_tool_selection() -> void:
 func apply_tool(combat_main:CombatMain, applying_tool:ToolData) -> void:
 	is_applying_tool = true
 	selected_tool = applying_tool
-	var number_of_cards_to_select := applying_tool.get_number_of_secondary_cards_to_select()
-	var random := applying_tool.get_is_random_secondary_card_selection()
-	var secondary_card_datas:Array = []
-	if number_of_cards_to_select > 0:
-		var selecting_from_cards = _get_secondary_cards_to_select_from(applying_tool)
-		var actual_number_of_cards_to_select = mini(number_of_cards_to_select, selecting_from_cards.size())
-		if actual_number_of_cards_to_select < number_of_cards_to_select:
-			if applying_tool.get_card_selection_type() == ActionData.CardSelectionType.RESTRICTED:
-				_gui_tool_card_container.animate_card_error_shake(applying_tool)
-				tool_application_error.emit(applying_tool, applying_tool.get_card_selection_custom_error_message())
-				is_applying_tool = false
-				return
-		else:
-			if random:
-				secondary_card_datas = Util.unweighted_roll(selecting_from_cards, mini(actual_number_of_cards_to_select, selecting_from_cards.size()))
-			else:
-				# Some actions need to select cards, for example discard, compost
-				secondary_card_datas = await _gui_tool_card_container.select_secondary_cards(actual_number_of_cards_to_select, selecting_from_cards)
-	number_of_card_used_this_turn += 1
 	tool_application_started.emit(applying_tool)
 	await combat_main.player.player_upgrades_manager.handle_pre_tool_application_hook(combat_main, applying_tool)
-	await _run_card_actions(combat_main, applying_tool, secondary_card_datas)
+	var success := await _run_card_actions(combat_main, applying_tool)
+	if !success:
+		is_applying_tool = false
+		tool_application_error.emit(applying_tool, applying_tool.get_card_selection_custom_error_message())
+		return
+	number_of_card_used_this_turn += 1
+	tool_application_success.emit(applying_tool)
 	await _run_card_lifecycle(applying_tool, combat_main)
 	_handle_tool_application_completed(applying_tool, combat_main)
 
-func discardable_cards() -> Array:
-	return tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return tool_data != selected_tool)
-
-func select_cards(count: int, from_cards: Array) -> Array:
-	return await _gui_tool_card_container.select_cards(count, from_cards)
+func select_secondary_cards(number_of_cards:int, filter:Callable) -> Array:
+	return await _gui_tool_card_container.select_secondary_cards(number_of_cards, filter)
 
 func add_tool_to_deck(tool_data:ToolData) -> void:
 	tool_deck.add_item(tool_data)
@@ -186,21 +171,10 @@ func _finish_card(tool_data:ToolData) -> void:
 	else:
 		await discard_cards([tool_data])
 
-func _run_card_actions(combat_main:CombatMain, tool_data:ToolData, secondary_card_datas:Array) -> void:
-	_gui_tool_card_container.find_card(tool_data).play_use_animation()
+func _run_card_actions(combat_main:CombatMain, applying_tool:ToolData) -> bool:
 	await combat_main.plant_field_container.trigger_tool_application_hook()
-	await _tool_applier.apply_tool(combat_main, tool_data, secondary_card_datas, null)
-
-func _get_secondary_cards_to_select_from(tool_data:ToolData) -> Array:
-	var selecting_from_cards:Array = []
-	for card in _gui_tool_card_container.get_all_cards():
-		if card.tool_data != tool_data:
-			selecting_from_cards.append(card.tool_data)
-	selecting_from_cards.erase(tool_data)
-	if tool_data.tool_script && tool_data.tool_script.secondary_card_selection_filter():
-		var filter:Callable = tool_data.tool_script.secondary_card_selection_filter()
-		selecting_from_cards = selecting_from_cards.filter(filter)
-	return selecting_from_cards
+	var success := await _tool_applier.apply_tool(combat_main, applying_tool, _gui_tool_card_container.find_card(applying_tool), _gui_tool_card_container)
+	return success
 
 func _handle_tool_application_completed(tool_data:ToolData, combat_main:CombatMain) -> void:
 	if tool_data.tool_script:

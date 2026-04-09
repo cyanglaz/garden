@@ -192,7 +192,7 @@ func _handle_mouse_exited_signal() -> void:
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	Events.update_hovered_data.emit(tool_data)
-	if card_state == GUICardFace.CardState.NORMAL || card_state == GUICardFace.CardState.UNSELECTED:
+	if card_state == GUICardFace.CardState.NORMAL:
 		card_state = GUICardFace.CardState.HIGHLIGHTED
 	_handle_mouse_entered_signal.call_deferred()
 	await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
@@ -225,6 +225,7 @@ func _set_mouse_disabled(value:bool) -> void:
 		mouse_filter = MOUSE_FILTER_IGNORE
 	else:
 		mouse_filter = MOUSE_FILTER_STOP
+	current_face.mouse_disabled = value
 
 func _set_tool_data(_value:ToolData) -> void:
 	assert(false, "set_tool_data is not allowed, use update_with_tool_data instead")

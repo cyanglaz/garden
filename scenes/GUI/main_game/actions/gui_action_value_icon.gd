@@ -4,6 +4,7 @@ extends HBoxContainer
 const VALUE_ICON_PATH := "res://resources/sprites/GUI/icons/cards/values/icon_"
 const RESOURCE_ICON_PATH := "res://resources/sprites/GUI/icons/resources/icon_"
 const SIGN_ICON_PATH := "res://resources/sprites/GUI/icons/cards/signs/icon_"
+const RANDOM_ICON_TEXTURE := preload("res://resources/sprites/GUI/icons/cards/values/icon_random.png")
 
 @onready var _sign_icon: GUIIcon = %SignIcon
 @onready var _value_icon: GUIIcon = %ValueIcon
@@ -12,6 +13,9 @@ const SIGN_ICON_PATH := "res://resources/sprites/GUI/icons/cards/signs/icon_"
 @onready var _number_sign_icon: GUIIcon = %NumberSignIcon
 
 var highlighted:bool = false: set = _set_highlighted
+
+func _ready() -> void:
+	_random_icon.texture = RANDOM_ICON_TEXTURE
 
 func update_with_action(action_data:ActionData, target_plant:Plant) -> void:
 	_sign_icon.hide()
