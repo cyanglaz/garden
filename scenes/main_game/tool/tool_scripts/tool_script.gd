@@ -28,5 +28,8 @@ func get_card_selection_type() -> ActionData.CardSelectionType:
 		assert(false, "get_card_selection_type must be overridden if number_of_secondary_cards_to_select() > 0")
 	return ActionData.CardSelectionType.RESTRICTED
 
+func get_is_random_secondary_card_selection() -> bool:
+	return false
+
 func get_card_selection_custom_error_message() -> String:
 	return ""

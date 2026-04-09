@@ -207,10 +207,7 @@ func _toggle_card_selection(on:bool, selecting_from_cards:Array) -> void:
 			else:
 				gui_card.card_state = GUICardFace.CardState.SELECTED
 		else:
-			if card_selection_mode:
-				gui_card.card_state = GUICardFace.CardState.UNSELECTED
-			else:
-				gui_card.card_state = GUICardFace.CardState.NORMAL
+			gui_card.card_state = GUICardFace.CardState.NORMAL
 
 func _rebind_signals() -> void:
 	for i in _container.get_children().size():

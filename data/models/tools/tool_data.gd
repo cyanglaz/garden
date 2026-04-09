@@ -99,27 +99,26 @@ func get_final_energy_cost() -> int:
 func get_total_energy_modifier() -> int:
 	return turn_energy_modifier + level_energy_modifier
 
-func get_number_of_secondary_cards_to_select() -> int:
+func get_number_of_secondary_cards_to_select_from_script() -> int:
 	if tool_script && tool_script.number_of_secondary_cards_to_select() > 0:
 		return tool_script.number_of_secondary_cards_to_select()
-	for action:ActionData in actions:
-		if action.need_card_selection:
-			return action.get_calculated_value(null)
 	return 0
 
-func get_is_random_secondary_card_selection() -> bool:
-	for action:ActionData in actions:
-		if action.type in ActionData.NEED_CARD_SELECTION:
-			if action.value_type == ActionData.ValueType.RANDOM:
-				return true
+func get_is_random_secondary_card_selection_from_script() -> bool:
+	if tool_script:
+		return tool_script.get_is_random_secondary_card_selection()
+	#for action:ActionData in actions:
+	#	if action.type in ActionData.NEED_CARD_SELECTION:
+	#		if action.value_type == ActionData.ValueType.RANDOM:
+	#			return true
 	return false
 
-func get_card_selection_type() -> ActionData.CardSelectionType:
+func get_card_selection_type_from_script() -> ActionData.CardSelectionType:
 	if tool_script:
 		return tool_script.get_card_selection_type()
-	for action:ActionData in actions:
-		if action.need_card_selection:
-			return action.card_selection_type
+	#for action:ActionData in actions:
+	#	if action.need_card_selection:
+	#		return action.card_selection_type
 	return ActionData.CardSelectionType.NON_RESTRICTED
 
 func get_card_selection_custom_error_message() -> String:

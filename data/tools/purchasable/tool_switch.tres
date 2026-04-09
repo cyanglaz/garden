@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ToolData" load_steps=5 format=3 uid="uid://c5wh7t3rxdn8k"]
+[gd_resource type="Resource" script_class="ToolData" format=3 uid="uid://b68jy6gwkihkn"]
 
 [ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_act"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_td"]
@@ -17,8 +17,8 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
 script = ExtResource("2_td")
-actions = Array[ExtResource("1_act")]([SubResource("Resource_draw"), SubResource("Resource_discard")])
 energy_cost = 0
+actions = Array[ExtResource("1_act")]([SubResource("Resource_draw"), SubResource("Resource_discard")])
 id = "switch"
 note = "draw a card, discard a card"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

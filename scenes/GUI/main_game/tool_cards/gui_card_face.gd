@@ -196,7 +196,7 @@ func _set_card_state(value:CardState) -> void:
 			z_index = 0
 			_default_state = CardState.UNSELECTED
 		CardState.WAITING:
-			position = Vector2.UP * SELECTED_OFFSET
+			position = Vector2.UP * IN_USE_OFFSET
 			has_outline = true
 			_overlay.show()
 			z_index = 1
