@@ -144,6 +144,8 @@ func _play_next_animation() -> void:
 			_animate_exhaust(next_item)
 		AnimationQueueItem.AnimationType.ANIMATE_ADD_CARD_TO_DISCARD_PILE:
 			_animate_add_card_to_discard_pile(next_item)
+		AnimationQueueItem.AnimationType.ANIMATE_STASH_CARD_TO_DRAW_PILE:
+			_animate_stash_card_to_draw_pile(next_item)
 
 func _animate_draw(animation_item:AnimationQueueItem) -> void:
 	var draw_results:Array = animation_item.animation_args[0].duplicate()
@@ -390,6 +392,35 @@ func _animate_discard_a_card(card:GUIToolCardButton, tween:Tween, delay:float) -
 		animating_card.queue_free()
 	)
 
+func animate_stash_card_to_draw_pile(tool_data: ToolData, from_position: Vector2) -> void:
+	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_STASH_CARD_TO_DRAW_PILE, [tool_data, from_position])
+	await item.finished
+
+func _animate_stash_card_to_draw_pile(animation_item: AnimationQueueItem) -> void:
+	var tool_data: ToolData = animation_item.animation_args[0]
+	var from_position: Vector2 = animation_item.animation_args[1]
+	var gui_card := _tool_card_container.find_card(tool_data)
+	_tool_card_container.remove_cards([gui_card])
+	await _animate_reposition()
+	var animating_card: GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
+	add_child(animating_card)
+	animating_card.update_with_tool_data(tool_data)
+	animating_card.global_position = from_position
+	animating_card.mouse_disabled = true
+	animating_card.show()
+	animating_card.play_discard_sound()
+	var tween := Util.create_scaled_tween(self)
+	tween.set_parallel(true)
+	var scale_delay := ADD_CARD_TO_PILE_ANIMATION_TIME * 0.25
+	var scale_animation_time := ADD_CARD_TO_PILE_ANIMATION_TIME * 0.75
+	Util.create_scaled_timer(scale_delay).timeout.connect(func(): animating_card.animation_mode = true)
+	var move_tweener := tween.tween_property(animating_card, "global_position", _draw_deck_button_global_position, ADD_CARD_TO_PILE_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC)
+	move_tweener.finished.connect(func(): animating_card.hide())
+	tween.tween_property(animating_card, "size", _draw_deck_size, scale_animation_time).set_trans(Tween.TRANS_CUBIC).set_delay(scale_delay)
+	await tween.finished
+	animating_card.queue_free()
+	_animation_queue_item_finished.emit(animation_item)
+
 func _animate_reposition() -> void:
 	var card_count := _tool_card_container.get_card_count()
 	if card_count == 0:
@@ -424,6 +455,7 @@ class AnimationQueueItem:
 		ANIMATE_ADD_CARD_TO_HAND,
 		ANIMATE_USE_CARD,
 		ANIMATE_EXHAUST,
+		ANIMATE_STASH_CARD_TO_DRAW_PILE,
 	}
 
 	var animation_type:AnimationType

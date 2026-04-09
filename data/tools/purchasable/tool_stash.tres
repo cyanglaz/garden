@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ToolData" format=3 uid="uid://cstash1r4f8n2x"]
+
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="1_td"]
+
+[resource]
+script = ExtResource("1_td")
+energy_cost = 1
+rarity = 1
+id = "stash"
+note = "Move a card to top of the draw pile, it costs 0 until used."
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

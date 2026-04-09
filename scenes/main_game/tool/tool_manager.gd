@@ -129,6 +129,16 @@ func select_secondary_cards(number_of_cards:int, filter:Callable) -> Array:
 func add_tool_to_deck(tool_data:ToolData) -> void:
 	tool_deck.add_item(tool_data)
 
+func move_hand_card_to_top_of_draw_pile(tool_data: ToolData) -> void:
+	var from_pos := _gui_tool_card_container.find_card(tool_data).global_position
+	tool_deck.hand.erase(tool_data)
+	tool_deck.hand_updated.emit()
+	await _gui_tool_card_container.animate_stash_card_to_draw_pile(tool_data, from_pos)
+	tool_deck.draw_pool.insert(0, tool_data)
+	tool_deck.draw_pool_updated.emit(tool_deck.draw_pool)
+	cards_removed_from_hand.emit([tool_data], tool_deck.hand)
+	tool_data.adding_to_deck_finished.emit()
+
 func add_tools_to_draw_pile(tool_datas:Array, from_global_position:Vector2, random_place:bool, pause:bool) -> void:
 	await _gui_tool_card_container.animate_add_cards_to_draw_pile(tool_datas, from_global_position, pause)
 	tool_deck.add_items_to_draw_pile(tool_datas, random_place)
