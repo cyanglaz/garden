@@ -36,7 +36,7 @@ func _get_secondary_card_datas_from_action(action:ActionData, tool_card:GUIToolC
 	var number_of_cards_to_select := action.get_calculated_value(null)
 	var secondary_card_datas:Array = []
 	if action.value_type == ActionData.ValueType.RANDOM:
-		var selecting_from_cards:Array = gui_tool_card_container.get_all_cards().filter(func(card:GUIToolCardButton): return card.tool_data != tool_card.tool_data)
+		var selecting_from_cards:Array = gui_tool_card_container.get_all_cards().filter(func(card:GUIToolCardButton): return card.tool_data != tool_card.tool_data).map(func(card:GUIToolCardButton): return card.tool_data)
 		var actual_number_of_cards_to_select = mini(number_of_cards_to_select, selecting_from_cards.size())
 		secondary_card_datas = Util.unweighted_roll(selecting_from_cards, actual_number_of_cards_to_select)
 	else:
