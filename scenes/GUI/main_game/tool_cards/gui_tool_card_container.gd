@@ -49,7 +49,6 @@ func update_mouse_plant(plant:Plant) -> void:
 	
 func clear_selection() -> void:
 	selected_index = -1
-	_toggle_card_selection_mode(false)
 	_clear_secondary_card_selection()
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 	Events.request_hide_warning.emit(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
@@ -199,6 +198,7 @@ func _toggle_selected_cards(array:Array, on:bool) -> void:
 func _clear_secondary_card_selection() -> void:
 	_card_selection_container.end_selection()
 	_selected_secondary_cards.clear()
+	_toggle_card_selection_mode(false)
 
 func _toggle_card_selection_mode(on:bool) -> void:
 	card_selection_mode = on
