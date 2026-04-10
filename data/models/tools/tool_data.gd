@@ -49,6 +49,7 @@ var cost:int : get = _get_cost
 var tool_script:ToolScript : get = _get_tool_script
 var turn_energy_modifier:int
 var level_energy_modifier:int
+var stashed: bool = false
 var combat_main:CombatMain: get = _get_combat_main, set = _set_combat_main
 var has_tooltip:bool: get = _get_has_tooltip
 var _weak_combat_main:WeakRef = weakref(null)
@@ -69,6 +70,7 @@ func copy(other:ThingData) -> void:
 	turn_energy_modifier = other_tool.turn_energy_modifier
 	type = other_tool.type
 	level_energy_modifier = other_tool.level_energy_modifier
+	stashed = other_tool.stashed
 	name_postfix = other_tool.name_postfix
 	_tool_script = null # Refresh tool script on copy
 	if other_tool.back_card:
@@ -81,6 +83,7 @@ func refresh_for_turn() -> void:
 
 func refresh_for_level() -> void:
 	level_energy_modifier = 0
+	stashed = false
 	for action:ActionData in actions:
 		action.modified_x_value = 0
 		action.modified_value = 0
@@ -94,6 +97,8 @@ func _get_localization_prefix() -> String:
 	return "TOOL_"
 
 func get_final_energy_cost() -> int:
+	if stashed:
+		return 0
 	return energy_cost + get_total_energy_modifier()
 
 func get_total_energy_modifier() -> int:

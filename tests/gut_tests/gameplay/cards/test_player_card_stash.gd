@@ -45,18 +45,25 @@ func test_get_card_selection_type_is_restricted() -> void:
 	assert_eq(ToolScriptStash.new().get_card_selection_type(), ActionData.CardSelectionType.RESTRICTED)
 
 
-func test_apply_tool_sets_turn_energy_modifier_to_negate_cost() -> void:
+func test_apply_tool_sets_stashed_flag() -> void:
 	var selected := _make_tool_data(2)
 	var cm := _make_combat_main()
 	await ToolScriptStash.new().apply_tool(cm, null, [selected])
-	assert_eq(selected.turn_energy_modifier, -2)
+	assert_true(selected.stashed)
 
 
-func test_apply_tool_zero_cost_card_modifier_stays_zero() -> void:
+func test_apply_tool_stashes_zero_cost_card() -> void:
 	var selected := _make_tool_data(0)
 	var cm := _make_combat_main()
 	await ToolScriptStash.new().apply_tool(cm, null, [selected])
-	assert_eq(selected.turn_energy_modifier, 0)
+	assert_true(selected.stashed)
+
+
+func test_apply_tool_final_cost_is_zero_after_stash() -> void:
+	var selected := _make_tool_data(3)
+	var cm := _make_combat_main()
+	await ToolScriptStash.new().apply_tool(cm, null, [selected])
+	assert_eq(selected.get_final_energy_cost(), 0)
 
 
 func test_apply_tool_moves_card_to_draw_pile() -> void:
@@ -68,8 +75,15 @@ func test_apply_tool_moves_card_to_draw_pile() -> void:
 	assert_eq(fake_manager.moved_cards[0], selected)
 
 
-func test_apply_tool_final_cost_is_zero_after_stash() -> void:
-	var selected := _make_tool_data(3)
-	var cm := _make_combat_main()
-	await ToolScriptStash.new().apply_tool(cm, null, [selected])
-	assert_eq(selected.get_final_energy_cost(), 3 + (-3))
+func test_stashed_flag_survives_refresh_for_turn() -> void:
+	var selected := _make_tool_data(2)
+	selected.stashed = true
+	selected.refresh_for_turn()
+	assert_true(selected.stashed)
+
+
+func test_stashed_flag_cleared_by_refresh_for_level() -> void:
+	var selected := _make_tool_data(2)
+	selected.stashed = true
+	selected.refresh_for_level()
+	assert_false(selected.stashed)
