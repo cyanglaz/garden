@@ -419,7 +419,7 @@ TRINKET_SUN_CATCHER_PIN_DESCRIPTION,"For every {cards_played} cards played, curr
 TRINKET_LEAKY_CANTEEN_NAME,"Leaky Canteen"
 TRINKET_LEAKY_CANTEEN_DESCRIPTION,"For every {cards_played} cards played, current plant +{water} {resource:water}."
 TRINKET_CONSERVATION_COIL_NAME,"Conservation Coil"
-TRINKET_CONSERVATION_COIL_DESCRIPTION,"If less than {cards_played} cards are played during a turn, +{momentum} {resource:momentum} at the start of next turn."
+TRINKET_CONSERVATION_COIL_DESCRIPTION,"If fewer than {cards_played} cards are played during a turn, +{momentum} {resource:momentum} at the start of next turn."
 
 PLAYER_POLLINATOR_NAME,"The Pollinator"
 PLAYER_POLLINATOR_DESCRIPTION,"On Bloom, shuffle a +3 {sunlight} card to hand."
