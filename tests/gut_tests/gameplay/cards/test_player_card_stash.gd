@@ -45,18 +45,18 @@ func test_get_card_selection_type_is_restricted() -> void:
 	assert_eq(ToolScriptStash.new().get_card_selection_type(), ActionData.CardSelectionType.RESTRICTED)
 
 
-func test_apply_tool_sets_stashed_flag() -> void:
+func test_apply_tool_sets_special_effect() -> void:
 	var selected := _make_tool_data(2)
 	var cm := _make_combat_main()
 	await ToolScriptStash.new().apply_tool(cm, null, [selected])
-	assert_true(selected.stashed)
+	assert_true(selected.special_effects.has(ToolData.SpecialEffect.STASHED))
 
 
 func test_apply_tool_stashes_zero_cost_card() -> void:
 	var selected := _make_tool_data(0)
 	var cm := _make_combat_main()
 	await ToolScriptStash.new().apply_tool(cm, null, [selected])
-	assert_true(selected.stashed)
+	assert_true(selected.special_effects.has(ToolData.SpecialEffect.STASHED))
 
 
 func test_apply_tool_final_cost_is_zero_after_stash() -> void:
@@ -75,15 +75,15 @@ func test_apply_tool_moves_card_to_draw_pile() -> void:
 	assert_eq(fake_manager.moved_cards[0], selected)
 
 
-func test_stashed_flag_survives_refresh_for_turn() -> void:
+func test_special_effect_survives_refresh_for_turn() -> void:
 	var selected := _make_tool_data(2)
-	selected.stashed = true
+	selected.special_effects.append(ToolData.SpecialEffect.STASHED)
 	selected.refresh_for_turn()
-	assert_true(selected.stashed)
+	assert_true(selected.special_effects.has(ToolData.SpecialEffect.STASHED))
 
 
-func test_stashed_flag_cleared_by_refresh_for_level() -> void:
+func test_special_effect_cleared_by_refresh_for_level() -> void:
 	var selected := _make_tool_data(2)
-	selected.stashed = true
+	selected.special_effects.append(ToolData.SpecialEffect.STASHED)
 	selected.refresh_for_level()
-	assert_false(selected.stashed)
+	assert_false(selected.special_effects.has(ToolData.SpecialEffect.STASHED))

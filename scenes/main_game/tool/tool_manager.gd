@@ -176,9 +176,7 @@ func _run_card_lifecycle(tool_data:ToolData, _combat_main:CombatMain) -> void:
 	await _finish_card(tool_data)
 
 func _finish_card(tool_data:ToolData) -> void:
-	if tool_data.stashed:
-		tool_data.stashed = false
-		tool_data.request_refresh.emit()
+	tool_data.remove_single_use_special_effects()
 	if tool_data.specials.has(ToolData.Special.COMPOST):
 		await exhaust_cards([tool_data])
 	else:
