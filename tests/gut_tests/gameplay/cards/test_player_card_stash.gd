@@ -87,3 +87,22 @@ func test_special_effect_cleared_by_refresh_for_level() -> void:
 	selected.special_effects.append(ToolData.SpecialEffect.STASHED)
 	selected.refresh_for_level()
 	assert_false(selected.special_effects.has(ToolData.SpecialEffect.STASHED))
+
+
+func test_apply_tool_also_stashes_back_card() -> void:
+	var selected := _make_tool_data(2)
+	var back := _make_tool_data(1)
+	selected.back_card = back  # _set_back_card duplicates back; sets back_card.front_card = selected
+	var cm := _make_combat_main()
+	await ToolScriptStash.new().apply_tool(cm, null, [selected])
+	assert_true(selected.back_card.special_effects.has(ToolData.SpecialEffect.STASHED))
+
+
+func test_apply_tool_also_stashes_front_card() -> void:
+	var front := _make_tool_data(2)
+	var back_val := _make_tool_data(1)
+	front.back_card = back_val  # links front.back_card.front_card = front
+	var back_card := front.back_card  # the actual duplicated back card
+	var cm := _make_combat_main()
+	await ToolScriptStash.new().apply_tool(cm, null, [back_card])
+	assert_true(back_card.front_card.special_effects.has(ToolData.SpecialEffect.STASHED))
