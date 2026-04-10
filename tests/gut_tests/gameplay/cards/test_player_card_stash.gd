@@ -18,6 +18,8 @@ class FakeCombatMain extends CombatMain:
 
 func _make_tool_data(cost: int) -> ToolData:
 	var td := ToolData.new()
+	var action := ActionData.new()
+	td.actions.append(action)
 	autofree(td)
 	td.energy_cost = cost
 	return td

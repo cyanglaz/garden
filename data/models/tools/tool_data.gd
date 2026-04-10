@@ -85,22 +85,18 @@ func copy(other:ThingData) -> void:
 		back_card = null
 
 func refresh_for_turn() -> void:
-	turn_energy_modifier = 0
+	if front_card:
+		front_card.card_face_refresh_for_turn()
+	if back_card:
+		back_card.card_face_refresh_for_turn()
+	card_face_refresh_for_turn()
 
 func refresh_for_level() -> void:
-	if back_card:
-		back_card.refresh_for_level()
 	if front_card:
-		front_card.refresh_for_level()
-	level_energy_modifier = 0
-	special_effects = special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_COMBAT_SPECIAL_EFFECTS.has(special_effect))
-	if front_card:
-		front_card.special_effects = front_card.special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_COMBAT_SPECIAL_EFFECTS.has(special_effect))
+		front_card.card_face_refresh_for_level()
 	if back_card:
-		back_card.special_effects = back_card.special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_COMBAT_SPECIAL_EFFECTS.has(special_effect))
-	for action:ActionData in actions:
-		action.modified_x_value = 0
-		action.modified_value = 0
+		back_card.card_face_refresh_for_level()
+	card_face_refresh_for_level()
 
 func get_duplicate() -> ToolData:
 	var dup:ToolData = ToolData.new()
@@ -108,14 +104,11 @@ func get_duplicate() -> ToolData:
 	return dup
 
 func remove_single_use_special_effects() -> void:
-	special_effects = special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_USE_SPECIAL_EFFECTS.has(special_effect))
 	if front_card:
-		front_card.special_effects = front_card.special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_USE_SPECIAL_EFFECTS.has(special_effect))
-		front_card.request_refresh.emit()
+		front_card.card_face_remove_single_use_special_effects()
 	if back_card:
-		back_card.special_effects = back_card.special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_USE_SPECIAL_EFFECTS.has(special_effect))
-		back_card.request_refresh.emit()
-	request_refresh.emit()
+		back_card.card_face_remove_single_use_special_effects()
+	card_face_remove_single_use_special_effects()
 
 func add_specials(effects:Array[SpecialEffect]) -> void:
 	special_effects.append_array(effects)
@@ -125,6 +118,20 @@ func add_specials(effects:Array[SpecialEffect]) -> void:
 	if back_card:
 		back_card.special_effects.append_array(effects)
 		back_card.request_refresh.emit()
+	request_refresh.emit()
+
+func card_face_refresh_for_turn() -> void:
+	turn_energy_modifier = 0
+
+func card_face_refresh_for_level() -> void:
+	level_energy_modifier = 0
+	special_effects = special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_COMBAT_SPECIAL_EFFECTS.has(special_effect))
+	for action:ActionData in actions:
+		action.modified_x_value = 0
+		action.modified_value = 0
+	
+func card_face_remove_single_use_special_effects() -> void:
+	special_effects = special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_USE_SPECIAL_EFFECTS.has(special_effect))
 	request_refresh.emit()
 
 func _get_localization_prefix() -> String:
