@@ -400,6 +400,9 @@ func _animate_stash_card_to_draw_pile(animation_item: AnimationQueueItem) -> voi
 	var tool_data: ToolData = animation_item.animation_args[0]
 	var from_position: Vector2 = animation_item.animation_args[1]
 	var gui_card := _tool_card_container.find_card(tool_data)
+	assert(gui_card != null, "Stashed card not found in tool card container")
+	if !gui_card:
+		_animation_queue_item_finished.emit(animation_item)
 	_tool_card_container.remove_cards([gui_card])
 	await _animate_reposition()
 	var animating_card: GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()

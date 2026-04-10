@@ -42,7 +42,7 @@ const INTERACTIVE_SPECIALS := [Special.FLIP_FRONT, Special.FLIP_BACK, Special.RE
 @export var energy_cost:int = 1
 @export var actions:Array[ActionData]
 @export var rarity:int = 0 # -1: temp cards, 0: common, 1: uncommon, 2: rare
-@export var specials:Array[Special]
+@export var specials:Array[Special] = []
 @export var type:Type = Type.SKILL
 @export var back_card:ToolData: set = _set_back_card
 
@@ -88,6 +88,10 @@ func refresh_for_turn() -> void:
 	turn_energy_modifier = 0
 
 func refresh_for_level() -> void:
+	if back_card:
+		back_card.refresh_for_level()
+	if front_card:
+		front_card.refresh_for_level()
 	level_energy_modifier = 0
 	special_effects = special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_COMBAT_SPECIAL_EFFECTS.has(special_effect))
 	for action:ActionData in actions:

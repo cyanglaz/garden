@@ -2,6 +2,9 @@ class_name ToolScriptStash
 extends ToolScript
 
 func apply_tool(combat_main: CombatMain, _tool_data: ToolData, secondary_card_datas: Array) -> void:
+	assert(secondary_card_datas.size() == 1, "ToolScriptStash.apply_tool expected exactly 1 secondary card.")
+	if secondary_card_datas.is_empty():
+		return
 	var selected_card: ToolData = secondary_card_datas[0]
 	selected_card.special_effects.append(ToolData.SpecialEffect.STASHED)
 	selected_card.request_refresh.emit()
