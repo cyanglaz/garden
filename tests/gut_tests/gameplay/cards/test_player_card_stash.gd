@@ -42,7 +42,7 @@ func test_number_of_secondary_cards_to_select_is_one() -> void:
 
 
 func test_get_card_selection_type_is_restricted() -> void:
-	assert_eq(ToolScriptStash.new().get_card_selection_type(), ActionData.CardSelectionType.RESTRICTED)
+	assert_eq(ToolScriptStash.new().get_card_selection_type(), ActionData.CardSelectionType.NON_RESTRICTED)
 
 
 func test_apply_tool_sets_special_effect() -> void:

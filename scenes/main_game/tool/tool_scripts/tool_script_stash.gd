@@ -6,8 +6,7 @@ func apply_tool(combat_main: CombatMain, _tool_data: ToolData, secondary_card_da
 	if secondary_card_datas.is_empty():
 		return
 	var selected_card: ToolData = secondary_card_datas[0]
-	selected_card.special_effects.append(ToolData.SpecialEffect.STASHED)
-	selected_card.request_refresh.emit()
+	selected_card.add_specials([ToolData.SpecialEffect.STASHED])
 	await combat_main.tool_manager.move_hand_card_to_top_of_draw_pile(selected_card)
 
 func need_select_field() -> bool:
@@ -20,4 +19,4 @@ func number_of_secondary_cards_to_select() -> int:
 	return 1
 
 func get_card_selection_type() -> ActionData.CardSelectionType:
-	return ActionData.CardSelectionType.RESTRICTED
+	return ActionData.CardSelectionType.NON_RESTRICTED

@@ -94,6 +94,10 @@ func find_card(tool_data:ToolData) -> GUIToolCardButton:
 	for card:GUIToolCardButton in _container.get_children():
 		if card.tool_data == tool_data:
 			return card
+		if card.tool_data.back_card == tool_data:
+			return card
+		if card.tool_data.front_card == tool_data:
+			return card
 	return null
 
 func select_secondary_cards(number_of_cards:int, filter:Callable) -> Array:
