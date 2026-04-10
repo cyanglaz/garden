@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cyk4l3n8q5s2t"]
+
+[ext_resource type="Script" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_guardians_badge.gd" id="1_gbscript"]
+
+[node name="PlayerTrinketGuardiansBadge" type="Node2D"]
+script = ExtResource("1_gbscript")
