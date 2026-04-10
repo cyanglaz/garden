@@ -26,6 +26,6 @@
 "spore_glass","Spore Glass","At the start of turn, if there is a Fungus on any field, draw 1 additional card.","0","YES"
 "sun_catcher_pin","Sun Catcher Pin","For every 5 cards played, current plant +1 light.","0","YES"
 "leaky_canteen","Leaky Canteen","For every 5 cards played, current plant +1 water.","0","YES"
-"conservation_coil","Conservation Coil","If less than 3 cards are played during a turn, + 1 momentum at the start of next turn.","0","YES"
+"conservation_coil","Conservation Coil","If fewer than 3 cards are played during a turn, + 1 momentum at the start of next turn.","0","YES"
 "guardians_badge","Guardian's Badge","At end of a turn, if there are no pest or fungus on any plants, current plant + 1 light and +1 water","1",""
 "recycler_badge","Recycler Badge","Free Water Cards add 1 more water","0",""
