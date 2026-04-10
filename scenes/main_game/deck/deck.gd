@@ -84,6 +84,22 @@ func discard(items:Array) -> void:
 	hand_updated.emit()
 	discard_pool_updated.emit(discard_pool)
 
+func move_to_draw_pile(items:Array, indexes:Array) -> void:
+	for i in range(items.size()):
+		var item:Variant = items[i]
+		if item.front_card:
+			item = item.front_card
+		var index:int = indexes[i]
+		if item == in_use_item:
+			in_use_item = null
+		elif hand.has(item):
+			hand.erase(item)
+			hand_updated.emit()
+		else:
+			assert(false, "moving item not in hand" + str(item))
+		draw_pool.insert(index, item)
+		draw_pool_updated.emit(draw_pool)
+
 func use(item:Variant) -> void:
 	hand.erase(item)
 	hand_updated.emit()

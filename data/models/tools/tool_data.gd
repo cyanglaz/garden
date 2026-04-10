@@ -2,6 +2,8 @@ class_name ToolData
 extends ThingData
 
 const TOOL_SCRIPT_PATH := "res://scenes/main_game/tool/tool_scripts/tool_script_%s.gd"
+const SINGLE_COMBAT_SPECIAL_EFFECTS := [SpecialEffect.STASHED]
+const SINGLE_USE_SPECIAL_EFFECTS := [SpecialEffect.STASHED]
 
 @warning_ignore("unused_signal")
 signal request_refresh()
@@ -31,12 +33,16 @@ enum Type {
 	POWER,
 }
 
+enum SpecialEffect {
+	STASHED, # See Stash Tool Card for more details.
+}
+
 const INTERACTIVE_SPECIALS := [Special.FLIP_FRONT, Special.FLIP_BACK, Special.REVERSIBLE]
 
 @export var energy_cost:int = 1
 @export var actions:Array[ActionData]
 @export var rarity:int = 0 # -1: temp cards, 0: common, 1: uncommon, 2: rare
-@export var specials:Array[Special]
+@export var specials:Array[Special] = []
 @export var type:Type = Type.SKILL
 @export var back_card:ToolData: set = _set_back_card
 
@@ -51,6 +57,7 @@ var turn_energy_modifier:int
 var level_energy_modifier:int
 var combat_main:CombatMain: get = _get_combat_main, set = _set_combat_main
 var has_tooltip:bool: get = _get_has_tooltip
+var special_effects:Array[SpecialEffect]
 var _weak_combat_main:WeakRef = weakref(null)
 
 var _weak_front_card:WeakRef = weakref(null)
@@ -69,6 +76,7 @@ func copy(other:ThingData) -> void:
 	turn_energy_modifier = other_tool.turn_energy_modifier
 	type = other_tool.type
 	level_energy_modifier = other_tool.level_energy_modifier
+	special_effects = other_tool.special_effects.duplicate()
 	name_postfix = other_tool.name_postfix
 	_tool_script = null # Refresh tool script on copy
 	if other_tool.back_card:
@@ -77,18 +85,54 @@ func copy(other:ThingData) -> void:
 		back_card = null
 
 func refresh_for_turn() -> void:
-	turn_energy_modifier = 0
+	if front_card:
+		front_card.card_face_refresh_for_turn()
+	if back_card:
+		back_card.card_face_refresh_for_turn()
+	card_face_refresh_for_turn()
 
 func refresh_for_level() -> void:
-	level_energy_modifier = 0
-	for action:ActionData in actions:
-		action.modified_x_value = 0
-		action.modified_value = 0
+	if front_card:
+		front_card.card_face_refresh_for_level()
+	if back_card:
+		back_card.card_face_refresh_for_level()
+	card_face_refresh_for_level()
 
 func get_duplicate() -> ToolData:
 	var dup:ToolData = ToolData.new()
 	dup.copy(self)
 	return dup
+
+func remove_single_use_special_effects() -> void:
+	if front_card:
+		front_card.card_face_remove_single_use_special_effects()
+	if back_card:
+		back_card.card_face_remove_single_use_special_effects()
+	card_face_remove_single_use_special_effects()
+
+func add_specials(effects:Array[SpecialEffect]) -> void:
+	special_effects.append_array(effects)
+	if front_card:
+		front_card.special_effects.append_array(effects)
+		front_card.request_refresh.emit()
+	if back_card:
+		back_card.special_effects.append_array(effects)
+		back_card.request_refresh.emit()
+	request_refresh.emit()
+
+func card_face_refresh_for_turn() -> void:
+	turn_energy_modifier = 0
+
+func card_face_refresh_for_level() -> void:
+	level_energy_modifier = 0
+	special_effects = special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_COMBAT_SPECIAL_EFFECTS.has(special_effect))
+	for action:ActionData in actions:
+		action.modified_x_value = 0
+		action.modified_value = 0
+	
+func card_face_remove_single_use_special_effects() -> void:
+	special_effects = special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_USE_SPECIAL_EFFECTS.has(special_effect))
+	request_refresh.emit()
 
 func _get_localization_prefix() -> String:
 	return "TOOL_"
@@ -97,6 +141,8 @@ func get_final_energy_cost() -> int:
 	return energy_cost + get_total_energy_modifier()
 
 func get_total_energy_modifier() -> int:
+	if special_effects.has(SpecialEffect.STASHED):
+		return -energy_cost
 	return turn_energy_modifier + level_energy_modifier
 
 func get_number_of_secondary_cards_to_select_from_script() -> int:

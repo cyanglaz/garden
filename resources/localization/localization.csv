@@ -358,6 +358,8 @@ TOOL_RECYCLE_NAME,"Recycle"
 TOOL_SOLAR_BATTERY_NAME,"Solar Battery"
 TOOL_SOLAR_PANEL_NAME,"Solar Panel"
 TOOL_SWITCH_NAME,"Switch"
+TOOL_STASH_NAME,"Stash"
+TOOL_STASH_DESCRIPTION,"Move a card to top of the draw pile. It costs {bordered_text:0} until used."
 
 BOSS_THE_BINDER_NAME,"The Binder"
 BOSS_THE_BINDER_DESCRIPTION,"You can only play {count} cards each turn."
