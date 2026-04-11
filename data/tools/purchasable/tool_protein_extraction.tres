@@ -20,6 +20,6 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 script = ExtResource("2_nutri")
 actions = Array[ExtResource("1_nutri")]([SubResource("Resource_light"), SubResource("Resource_pest")])
 rarity = 1
-id = "nutrition_extraction"
+id = "protein_extraction"
 note = "Remove all {resource:pest}. Gain {bordered_text:1} {resource:light} per {resource:pest} removed."
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

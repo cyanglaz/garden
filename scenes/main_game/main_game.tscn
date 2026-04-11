@@ -4,7 +4,7 @@
 [ext_resource type="Resource" uid="uid://4dslofp7rfib" path="res://data/player/player_pollinator.tres" id="2_8ywsm"]
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
 [ext_resource type="PackedScene" uid="uid://bqo51luu7itcc" path="res://scenes/main_game/map/map_main.tscn" id="14_s87mg"]
-[ext_resource type="Resource" uid="uid://cnutritest7bc" path="res://data/test_data/main_game_test_nutrition_extraction.tres" id="15_nutri"]
+[ext_resource type="Resource" uid="uid://cnutritest7bc" path="res://data/test_data/main_game_test_protein_extraction.tres" id="15_nutri"]
 
 [node name="MainGame" type="Node2D" unique_id=729241411]
 script = ExtResource("1_yra6k")
