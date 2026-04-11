@@ -8,7 +8,7 @@ var _tool_datas_added_to_discard_pile_count:int = 0
 
 func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_datas:Array) -> void:
 	assert(action.action_category == ActionData.ActionCategory.PLAYER)
-	var calculated_value := action.get_calculated_value(null)
+	var calculated_value := action.get_calculated_value(combat_main)
 	match action.type:
 		ActionData.ActionType.DRAW_CARD:
 			assert(calculated_value >= 0, "Draw card action value must be greater than 0")

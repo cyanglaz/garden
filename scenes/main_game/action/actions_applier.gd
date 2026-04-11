@@ -20,20 +20,20 @@ func _apply_next_action(combat_main:CombatMain, tool_card:GUIToolCardButton, all
 		return
 	var action:ActionData = _pending_actions[_action_index]
 	_action_index += 1
-	var secondary_card_datas:Array = await _get_secondary_card_datas_from_action(action, tool_card, gui_tool_card_container)
+	var secondary_card_datas:Array = await _get_secondary_card_datas_from_action(action, tool_card, gui_tool_card_container, combat_main)
 	match action.action_category:
 		ActionData.ActionCategory.CARD:
-			card_action_applier.apply_action(action, all_actions)
+			card_action_applier.apply_action(action, all_actions, combat_main)
 		ActionData.ActionCategory.FIELD:
 			await plant_action_applier.apply_action(action, combat_main.get_current_player_plant(), combat_main)
 		ActionData.ActionCategory.PLAYER:
 			await player_action_applier.apply_action(action, combat_main, secondary_card_datas)
 	await _apply_next_action(combat_main, tool_card, all_actions, gui_tool_card_container)
 
-func _get_secondary_card_datas_from_action(action:ActionData, tool_card:GUIToolCardButton, gui_tool_card_container:GUIToolCardContainer) -> Array:
+func _get_secondary_card_datas_from_action(action:ActionData, tool_card:GUIToolCardButton, gui_tool_card_container:GUIToolCardContainer, combat_main:CombatMain) -> Array:
 	if !action.need_card_selection:
 		return []
-	var number_of_cards_to_select := action.get_calculated_value(null)
+	var number_of_cards_to_select := action.get_calculated_value(combat_main)
 	var secondary_card_datas:Array = []
 	if action.value_type == ActionData.ValueType.RANDOM:
 		var selecting_from_cards:Array = gui_tool_card_container.get_all_cards().filter(func(card:GUIToolCardButton): return card.tool_data != tool_card.tool_data).map(func(card:GUIToolCardButton): return card.tool_data)

@@ -44,6 +44,8 @@ func _ready() -> void:
 	bloom_particle.one_shot = true
 	bloom_particle.emitting = false
 	field_status_container.request_hook_message_popup.connect(_on_request_hook_message_popup)
+	_last_light_value = light.value
+	_last_water_value = water.value
 	light.value_update.connect(_on_light_value_update)
 	water.value_update.connect(_on_water_value_update)
 
