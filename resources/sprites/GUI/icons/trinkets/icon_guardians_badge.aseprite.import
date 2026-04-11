@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://sxil3tw780cl"
+path="res://.godot/imported/icon_guardians_badge.aseprite-afe20714f383a7cc23197136df6406ca.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_guardians_badge.aseprite"
+dest_files=["res://.godot/imported/icon_guardians_badge.aseprite-afe20714f383a7cc23197136df6406ca.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
