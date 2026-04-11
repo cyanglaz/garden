@@ -40,13 +40,6 @@ func _init(initial_tools:Array, gui_tool_card_container:GUIToolCardContainer) ->
 	tool_deck.pool_updated.connect(func(pool:Array) -> void: pool_updated.emit(pool))
 	_weak_gui_tool_card_container = weakref(gui_tool_card_container)
 
-func refresh_deck() -> void:
-	tool_deck.refresh()
-	for tool_data in tool_deck.pool:
-		tool_data.refresh_for_level()
-	for tool_data in tool_deck.hand:
-		tool_data.refresh_ui()
-	
 func refresh_cards_ui(combat_main:CombatMain) -> void:
 	for tool_data in tool_deck.pool:
 		tool_data.refresh_ui(combat_main)

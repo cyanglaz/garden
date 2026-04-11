@@ -1,14 +1,14 @@
 class_name ToolScriptRecharge
 extends ToolScript
 
-func apply_tool(_combat_main:CombatMain, _tool_data:ToolData, secondary_card_datas:Array) -> void:
+func apply_tool(combat_main:CombatMain, _tool_data:ToolData, secondary_card_datas:Array) -> void:
 	await Util.await_for_tiny_time()
 	for tool_data:ToolData in secondary_card_datas:
 		assert(tool_data.id == "solar_battery", "Recharge can only select solar battery")
 		var light_action_data:ActionData  = tool_data.actions[0]
 		assert(light_action_data.type == ActionData.ActionType.LIGHT, "Solar battery's first action is light action")
 		light_action_data.modified_x_value = 0
-		tool_data.refresh_ui()
+		tool_data.refresh_ui(combat_main)
 
 func need_select_field() -> bool:
 	return false

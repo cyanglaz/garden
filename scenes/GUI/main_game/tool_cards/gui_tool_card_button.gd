@@ -40,8 +40,6 @@ func _ready() -> void:
 	mouse_filter = MOUSE_FILTER_IGNORE
 	back_face.hide()
 	resized.connect(_on_resized)
-	front_face.special_interacted.connect(_on_special_interacted.bind(front_face))
-	back_face.special_interacted.connect(_on_special_interacted.bind(back_face))
 	front_face.special_hovered.connect(_on_special_hovered.bind(front_face))
 	back_face.special_hovered.connect(_on_special_hovered.bind(back_face))
 	size = SIZE
@@ -70,6 +68,8 @@ func update_with_tool_data(td:ToolData, combat_main:CombatMain) -> void:
 			assert(td.back_card.specials.has(ToolData.Special.FLIP_BACK), "Back card is not a flip back card")
 			back_face.update_with_tool_data(td.back_card, combat_main)
 		_show_as_front_face()
+	front_face.special_interacted.connect(_on_special_interacted.bind(front_face, combat_main))
+	back_face.special_interacted.connect(_on_special_interacted.bind(back_face, combat_main))
 
 func play_discard_sound() -> void:
 	discard_sound.play()
@@ -115,8 +115,8 @@ func animate_flip() -> void:
 	await current_face.animate_flip(true)
 	_flipping = false
 
-func animate_reverse() -> void:
-	tool_data.reverse()
+func animate_reverse(combat_main:CombatMain) -> void:
+	tool_data.reverse(combat_main)
 
 func play_error_shake_animation() -> void:
 	await current_face.play_error_shake_animation()
@@ -272,12 +272,12 @@ func _on_resized() -> void:
 	if back_face.tool_data:
 		back_face.size = size
 	
-func _on_special_interacted(special:ToolData.Special, _face:GUICardFace) -> void:
+func _on_special_interacted(special:ToolData.Special, _face:GUICardFace, combat_main:CombatMain) -> void:
 	match special:
 		ToolData.Special.FLIP_FRONT, ToolData.Special.FLIP_BACK:
 			animate_flip()
 		ToolData.Special.REVERSIBLE:
-			animate_reverse()
+			animate_reverse(combat_main)
 		_:
 			pass
 

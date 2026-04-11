@@ -114,7 +114,7 @@ func remove_single_use_special_effects(combat_main:CombatMain) -> void:
 	if back_card:
 		back_card.card_face_remove_single_use_special_effects()
 	card_face_remove_single_use_special_effects()
-	request_refresh.emit(combat_main)
+	refresh_ui(combat_main)
 
 func add_specials(effects:Array[SpecialEffect], combat_main:CombatMain) -> void:
 	special_effects.append_array(effects)
@@ -168,14 +168,14 @@ func get_card_selection_custom_error_message() -> String:
 		return tool_script.get_card_selection_custom_error_message()
 	return ""
 
-func reverse() -> void:
+func reverse(combat_main:CombatMain) -> void:
 	assert(specials.has(Special.REVERSIBLE), "Card is not reversible")
 	for action:ActionData in actions:
 		if action.type == ActionData.ActionType.PUSH_LEFT:
 			action.type = ActionData.ActionType.PUSH_RIGHT
 		elif action.type == ActionData.ActionType.PUSH_RIGHT:
 			action.type = ActionData.ActionType.PUSH_LEFT
-	request_refresh.emit()
+	refresh_ui(combat_main)
 
 func _get_cost() -> int:
 	return COSTS[rarity]
