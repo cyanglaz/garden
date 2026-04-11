@@ -1,5 +1,7 @@
 extends GutTest
 
+const PLAYER_SCENE := preload("res://scenes/main_game/combat/player/player.tscn")
+
 class FakeFieldStatusContainer extends FieldStatusContainer:
 	var pest_stack: int = 0
 	var fungus_stack: int = 0
@@ -40,8 +42,9 @@ func _make_combat_main_with_plants(plant_list: Array) -> FakeCombatMain:
 		pfc.plants.append(p)
 	if plant_list.size() > 0:
 		pfc.plant_at_field = plant_list[0]
-	var player := Player.new()
-	autofree(player)
+	var player: Player = PLAYER_SCENE.instantiate()
+	add_child_autofree(player)
+	player.max_plants_index = 3
 	player.current_field_index = 0
 	cm.player = player
 	cm.plant_field_container = pfc

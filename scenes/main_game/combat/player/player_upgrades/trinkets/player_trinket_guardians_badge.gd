@@ -2,6 +2,8 @@ class_name PlayerTrinketGuardiansBadge
 extends PlayerTrinket
 
 func _has_end_turn_hook(combat_main: CombatMain) -> bool:
+	if combat_main.plant_field_container.plants.size() == 0:
+		return false
 	for plant: Plant in combat_main.plant_field_container.plants:
 		if plant.field_status_container.get_status_stack("pest") > 0:
 			return false
@@ -11,6 +13,8 @@ func _has_end_turn_hook(combat_main: CombatMain) -> bool:
 
 func _handle_end_turn_hook(combat_main: CombatMain) -> void:
 	var plant: Plant = combat_main.get_current_player_plant()
+	if !plant:
+		return
 	var light_action := ActionData.new()
 	light_action.type = ActionData.ActionType.LIGHT
 	light_action.operator_type = ActionData.OperatorType.INCREASE
