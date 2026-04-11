@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="MainGameTest" format=3 uid="uid://b6t3std4t4rb4"]
+
+[ext_resource type="Script" uid="uid://d4ngj3465rhxa" path="res://data/test_data/main_game_test.gd" id="1_rbtest"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_hjt1i"]
+[ext_resource type="Resource" uid="uid://cbvfafiaquvbj" path="res://data/combats/chapter1/combat_data_c14.tres" id="2_m1m7l"]
+[ext_resource type="Resource" uid="uid://crb4dg3tr1nk3" path="res://data/trinkets/default/trinket_recycler_badge.tres" id="2_rbtest"]
+[ext_resource type="Script" uid="uid://dr261i4fd8jf0" path="res://data/models/trinkets/trinket_data.gd" id="4_k0ry1"]
+
+[resource]
+script = ExtResource("1_rbtest")
+test_combat = ExtResource("2_m1m7l")
+test_trinket_datas = Array[ExtResource("4_k0ry1")]([ExtResource("2_rbtest")])
+metadata/_custom_type_script = "uid://d4ngj3465rhxa"

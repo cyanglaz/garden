@@ -30,6 +30,10 @@ func handle_card_added_to_hand_hook(tool_datas:Array) -> void:
 	for container in player_upgrade_containers:
 		await container.handle_card_added_to_hand_hook(tool_datas)
 
+func handle_pool_updated_hook(combat_main:CombatMain, pool:Array) -> void:
+	for container in player_upgrade_containers:
+		await container.handle_pool_updated_hook(combat_main, pool)
+
 func handle_activation_hook(combat_main:CombatMain) -> void:
 	for container in player_upgrade_containers:
 		await container.handle_activation_hook(combat_main)

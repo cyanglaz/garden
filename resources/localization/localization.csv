@@ -424,6 +424,8 @@ TRINKET_CONSERVATION_COIL_NAME,"Conservation Coil"
 TRINKET_CONSERVATION_COIL_DESCRIPTION,"If fewer than {cards_played} cards are played during a turn, +{momentum} {resource:momentum} at the start of next turn."
 TRINKET_GUARDIANS_BADGE_NAME,"Guardian's Badge"
 TRINKET_GUARDIANS_BADGE_DESCRIPTION,"At end of a turn, if there are no {resource:pest} or {resource:fungus} on any plant, current plant +{light} {resource:light} and +{water} {resource:water}."
+TRINKET_RECYCLER_BADGE_NAME,"Recycler Badge"
+TRINKET_RECYCLER_BADGE_DESCRIPTION,"Free Water cards give +1 {resource:water}."
 
 PLAYER_POLLINATOR_NAME,"The Pollinator"
 PLAYER_POLLINATOR_DESCRIPTION,"On Bloom, shuffle a +3 {sunlight} card to hand."

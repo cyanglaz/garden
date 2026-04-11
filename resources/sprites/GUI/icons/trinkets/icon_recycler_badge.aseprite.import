@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://l8grwlafr4ib"
+path="res://.godot/imported/icon_recycler_badge.aseprite-29487d88ea4b0fbd98b10966799bd795.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/icons/trinkets/icon_recycler_badge.aseprite"
+dest_files=["res://.godot/imported/icon_recycler_badge.aseprite-29487d88ea4b0fbd98b10966799bd795.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
