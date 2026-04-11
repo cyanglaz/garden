@@ -13,8 +13,8 @@ const CARD_MOVE_TIME := 0.2
 func play_animation(left_tool_data:ToolData, right_tool_data:ToolData, left_position:Vector2, right_position:Vector2, bind_tool_data:ToolData) -> void:
 	gui_tool_card_button.hide()
 	show()
-	front_card.update_with_tool_data(left_tool_data)
-	back_card.update_with_tool_data(right_tool_data)
+	front_card.update_with_tool_data(left_tool_data, null)
+	back_card.update_with_tool_data(right_tool_data, null)
 	front_card.global_position = left_position
 	back_card.global_position = right_position
 	var center_position := (left_position + right_position) / 2
@@ -26,7 +26,7 @@ func play_animation(left_tool_data:ToolData, right_tool_data:ToolData, left_posi
 	back_card.hide()
 	await card_forging_effect.play_card_forging_effect(front_card, back_card, front_card.size)
 	gui_tool_card_button.show()
-	gui_tool_card_button.update_with_tool_data(bind_tool_data)
+	gui_tool_card_button.update_with_tool_data(bind_tool_data, null)
 	gui_tool_card_button.global_position = center_position
 	gui_tool_card_button.scale = Vector2.ZERO
 	gui_tool_card_button.pivot_offset_ratio = Vector2.ONE * 0.5

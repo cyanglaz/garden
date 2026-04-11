@@ -50,17 +50,21 @@ var is_front:bool = true
 var _weak_tool_data:WeakRef = weakref(null)
 
 var _in_hand := false
-var _weak_mouse_plant:WeakRef = weakref(null)
 var _default_state:CardState = CardState.NORMAL
+var _weak_combat_main:WeakRef = weakref(null)
 
 func _ready() -> void:
 	_animation_player.animation_finished.connect(_on_animation_finished)
 	_animating_foreground.hide()
 	animation_mode = false
 
-func update_with_tool_data(td:ToolData) -> void:
+func update_with_tool_data(td:ToolData, combat_main:CombatMain) -> void:
+	_weak_combat_main = weakref(combat_main)
 	_weak_tool_data = weakref(td)
-	_gui_action_list.update(tool_data.actions, null)
+	var target_plant:Plant = null
+	if combat_main:
+		target_plant = combat_main.get_current_player_plant()
+	_gui_action_list.update(tool_data.actions, combat_main)
 	if !tool_data.get_display_description().is_empty():
 		_rich_text_label.text = tool_data.get_display_description()
 	if tool_data.get_final_energy_cost() >= 0:
@@ -83,14 +87,8 @@ func update_with_tool_data(td:ToolData) -> void:
 
 	if !td.request_refresh.is_connected(_on_tool_data_refresh):
 		td.request_refresh.connect(_on_tool_data_refresh)
-	if tool_data.combat_main:
-		_on_combat_main_set(tool_data.combat_main)
-	else:
-		tool_data.combat_main_set.connect(_on_combat_main_set)
-
-func update_mouse_plant(plant:Plant) -> void:
-	_gui_action_list.update(tool_data.actions, plant)
-	_weak_mouse_plant = weakref(plant)
+	if _weak_combat_main.get_ref():
+		_on_combat_main_set(_weak_combat_main.get_ref())
 
 func play_use_sound() -> void:
 	_use_sound.play()
@@ -103,7 +101,7 @@ func play_exhaust_animation() -> void:
 func animated_transform(old_rarity:int) -> void:
 	has_outline = true
 	_animating_foreground.update_with_rarity(old_rarity)
-	update_with_tool_data(tool_data)
+	update_with_tool_data(tool_data, _weak_combat_main.get_ref())
 	_animation_player.play("transform")
 	GlobalSoundManager.play_sound(EXHAUST_SOUND)
 	await _transform_finished
@@ -242,8 +240,8 @@ func _on_animation_finished(anim_name:String) -> void:
 	if anim_name == "transform":
 		_transform_finished.emit()
 
-func _on_tool_data_refresh() -> void:
-	update_with_tool_data(tool_data)
+func _on_tool_data_refresh(combat_main:CombatMain) -> void:
+	update_with_tool_data(tool_data, combat_main)
 
 func _on_combat_main_set(combat_main:CombatMain) -> void:
 	_in_hand = true

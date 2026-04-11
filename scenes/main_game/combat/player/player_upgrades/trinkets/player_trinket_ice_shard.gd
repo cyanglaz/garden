@@ -11,4 +11,4 @@ func _handle_end_turn_hook(combat_main:CombatMain) -> void:
 	action_data.operator_type = ActionData.OperatorType.INCREASE
 	action_data.value = data.data["water"] as int
 	_send_hook_animation_signals()
-	await current_plant.apply_actions([action_data])
+	await current_plant.apply_actions([action_data], combat_main)

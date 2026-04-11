@@ -1,12 +1,11 @@
-[gd_resource type="Resource" script_class="ToolData" load_steps=5 format=3 uid="uid://dnutriextract1"]
+[gd_resource type="Resource" script_class="ToolData" format=3 uid="uid://dr0jerbjeexuu"]
 
 [ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_nutri"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_nutri"]
 
-[sub_resource type="Resource" id="Resource_updatex"]
+[sub_resource type="Resource" id="Resource_light"]
 script = ExtResource("1_nutri")
-type = 13
-operator_type = 2
+type = 1
 value_type = 2
 x_value_type = 3
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
@@ -17,17 +16,10 @@ type = 3
 operator_type = 2
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
-[sub_resource type="Resource" id="Resource_light"]
-script = ExtResource("1_nutri")
-type = 1
-value_type = 2
-metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
-
 [resource]
 script = ExtResource("2_nutri")
-energy_cost = 1
+actions = Array[ExtResource("1_nutri")]([SubResource("Resource_light"), SubResource("Resource_pest")])
 rarity = 1
 id = "nutrition_extraction"
-actions = Array[ExtResource("1_nutri")]([SubResource("Resource_updatex"), SubResource("Resource_pest"), SubResource("Resource_light")])
 note = "Remove all {resource:pest}. Gain {bordered_text:1} {resource:light} per {resource:pest} removed."
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

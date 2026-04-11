@@ -109,39 +109,39 @@ func _handle_next_bloom_hook(plant:Plant) -> void:
 	_current_bloom_hook_index += 1
 	await _handle_next_bloom_hook(plant)
 
-func handle_tool_application_hook(plant:Plant) -> void:
+func handle_tool_application_hook(plant:Plant, combat_main:CombatMain) -> void:
 	_tool_application_hook_queue = get_all_statuses().filter(func(field_status:FieldStatus) -> bool:
 		return field_status.has_tool_application_hook(plant)
 	)
 	_current_tool_application_hook_index = 0
-	await _handle_next_tool_application_hook(plant)
+	await _handle_next_tool_application_hook(plant, combat_main)
 
-func _handle_next_tool_application_hook(plant:Plant) -> void:
+func _handle_next_tool_application_hook(plant:Plant, combat_main:CombatMain) -> void:
 	if _current_tool_application_hook_index >= _tool_application_hook_queue.size():
 		return
 	var field_status:FieldStatus = _tool_application_hook_queue[_current_tool_application_hook_index]
 	await _send_hook_animation_signals(field_status.status_data)
-	await field_status.handle_tool_application_hook(plant)
+	await field_status.handle_tool_application_hook(plant, combat_main)
 	_handle_status_on_trigger(field_status)
 	_current_tool_application_hook_index += 1
-	await _handle_next_tool_application_hook(plant)
+	await _handle_next_tool_application_hook(plant, combat_main)
 
-func handle_tool_discard_hook(plant:Plant, count:int) -> void:
+func handle_tool_discard_hook(plant:Plant, count:int, combat_main:CombatMain) -> void:
 	_tool_discard_hook_queue = get_all_statuses().filter(func(field_status:FieldStatus) -> bool:
 		return field_status.has_tool_discard_hook(count, plant)
 	)
 	_current_tool_discard_hook_index = 0
-	await _handle_next_tool_discard_hook(plant, count)
+	await _handle_next_tool_discard_hook(plant, count, combat_main)
 
-func _handle_next_tool_discard_hook(plant:Plant, count:int) -> void:
+func _handle_next_tool_discard_hook(plant:Plant, count:int, combat_main:CombatMain) -> void:
 	if _current_tool_discard_hook_index >= _tool_discard_hook_queue.size():
 		return
 	var field_status:FieldStatus = _tool_discard_hook_queue[_current_tool_discard_hook_index]
 	await _send_hook_animation_signals(field_status.status_data)
-	await field_status.handle_tool_discard_hook(plant, count)
+	await field_status.handle_tool_discard_hook(plant, count, combat_main)
 	_handle_status_on_trigger(field_status)
 	_current_tool_discard_hook_index += 1
-	await _handle_next_tool_discard_hook(plant, count)
+	await _handle_next_tool_discard_hook(plant, count, combat_main)
 
 func handle_end_turn_hook(combat_main:CombatMain, plant:Plant) -> void:
 	_end_turn_hook_queue = get_all_statuses().filter(func(field_status:FieldStatus) -> bool:

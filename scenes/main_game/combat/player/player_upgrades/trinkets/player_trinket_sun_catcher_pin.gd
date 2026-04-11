@@ -17,5 +17,5 @@ func _handle_tool_application_hook(combat_main: CombatMain, _tool_data: ToolData
 		light_action.operator_type = ActionData.OperatorType.INCREASE
 		light_action.value = int(data.data[&"light"])
 		_send_hook_animation_signals()
-		await plant.apply_actions([light_action])
+		await plant.apply_actions([light_action], combat_main)
 		data.state = TrinketData.TrinketState.NORMAL

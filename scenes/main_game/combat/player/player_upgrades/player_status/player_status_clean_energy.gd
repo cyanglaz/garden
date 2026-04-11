@@ -19,7 +19,7 @@ func _handle_tool_application_hook(combat_main:CombatMain, _tool_data:ToolData) 
 	_send_hook_animation_signals()
 	for plant:Plant in combat_main.plant_field_container.plants:
 		plant.action_application_completed.connect(_on_action_application_completed.bind(plant))
-		plant.apply_actions([action_data])
+		plant.apply_actions([action_data], combat_main)
 	await _all_action_application_completed
 
 func _on_action_application_completed(plant:Plant) -> void:

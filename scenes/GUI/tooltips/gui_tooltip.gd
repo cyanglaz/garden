@@ -38,7 +38,7 @@ func _ready() -> void:
 	_set_tooltip_position(tooltip_position)
 
 func update_with_request(tooltip_request:TooltipRequest) -> void:
-	tooltip_position = tooltip_request.tooltip_position
+	tooltip_position = tooltip_request.tooltip_position as TooltipPosition
 	_tooltip_request = tooltip_request
 	if is_inside_tree():
 		_update_with_tooltip_request()

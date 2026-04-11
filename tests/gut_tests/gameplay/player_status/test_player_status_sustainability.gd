@@ -80,28 +80,28 @@ func test_has_activation_hook_false_with_empty_hand() -> void:
 func test_handle_card_added_sets_sustainability_modifier_on_free_water() -> void:
 	var s := _make_status(3)
 	var free_water := _make_free_water_tool()
-	await s.handle_card_added_to_hand_hook([free_water])
+	await s.handle_card_added_to_hand_hook([free_water], null)
 	assert_eq(free_water.data["sustainability"], 3)
 
 func test_handle_card_added_updates_free_water_water_action_modified_value() -> void:
 	var s := _make_status(3)
 	var free_water := _make_free_water_tool()
-	await s.handle_card_added_to_hand_hook([free_water])
+	await s.handle_card_added_to_hand_hook([free_water], null)
 	assert_eq(free_water.actions[0].modified_value, 3)
 
 func test_handle_card_added_does_not_modify_non_free_water() -> void:
 	var s := _make_status(3)
 	var other := _make_tool("watering_can")
 	var free_water := _make_free_water_tool()
-	await s.handle_card_added_to_hand_hook([other, free_water])
+	await s.handle_card_added_to_hand_hook([other, free_water], null)
 	assert_false(other.data.has("sustainability"))
 
 func test_handle_card_added_increments_on_second_call() -> void:
 	var s := _make_status(3)
 	var free_water := _make_free_water_tool()
-	await s.handle_card_added_to_hand_hook([free_water])
+	await s.handle_card_added_to_hand_hook([free_water], null)
 	# Update stack and apply again — modifier should reflect new stack, not accumulate blindly
 	s.stack = 5
-	await s.handle_card_added_to_hand_hook([free_water])
+	await s.handle_card_added_to_hand_hook([free_water], null)
 	assert_eq(free_water.data["sustainability"], 5)
 	assert_eq(free_water.actions[0].modified_value, 5)

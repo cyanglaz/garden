@@ -35,7 +35,7 @@ func spawn_cards_with_pack_type(booster_pack_type:CombatData.BoosterPackType, pa
 		gui_tool_card_button.pressed.connect(_on_card_selected.bind(pick, gui_tool_card_button))
 		cards_container.add_child(gui_tool_card_button)
 		gui_tool_card_button.hide()
-		gui_tool_card_button.update_with_tool_data(pick)
+		gui_tool_card_button.update_with_tool_data(pick, null)
 	var animate_pack_start_position:Vector2 = pack_button_g_position
 	if animate_pack_start_position == Vector2.ZERO:
 		animate_pack_start_position = main_margin_container.size/2 - gui_booster_pack_image.size/2

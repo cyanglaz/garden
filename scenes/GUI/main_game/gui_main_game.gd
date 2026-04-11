@@ -2,6 +2,7 @@ class_name GUIMainGame
 extends CanvasLayer
 
 const DETAIL_TOOLTIP_DELAY := 0.8
+signal request_view_cards(cards:Array, title:String)
 
 @onready var gui_top_bar: GUITopBar = %GUITopBar
 
@@ -54,6 +55,12 @@ func toggle_all_ui(on:bool) -> void:
 		toggle_on = true
 	gui_top_bar.toggle_all_ui(toggle_on)
 
+#region card viewer
+func show_card_viewer(cards:Array, title:String, combat_main:CombatMain) -> void:
+	_gui_tool_cards_viewer.animated_show_with_pool(cards, title, combat_main)
+
+#end region
+
 #region topbar
 func update_level(level:int) -> void:
 	gui_top_bar.update_level(level)
@@ -69,6 +76,14 @@ func animate_hp_update(value:int) -> void:
 
 func animate_trinket_collected() -> void:
 	await gui_top_bar.animate_trinket_collected()
+
+#region tooltip
+
+func show_tooltip(tooltip_request:TooltipRequest, combat_main:CombatMain) -> void:
+	gui_tooltips_container.show_tooltip(tooltip_request, combat_main)
+
+func hide_tooltip(id:String) -> void:
+	gui_tooltips_container.hide_tooltip(id)
 
 #region characters
 
@@ -139,7 +154,7 @@ func _on_trinket_button_evoked() -> void:
 
 func _on_request_view_cards(cards:Array, title:String) -> void:
 	_gui_tool_cards_viewer.hide()
-	_gui_tool_cards_viewer.animated_show_with_pool(cards, title)
+	request_view_cards.emit(cards, title)
 
 func _on_request_show_info_view(data:Resource) -> void:
 	_hovered_data = data

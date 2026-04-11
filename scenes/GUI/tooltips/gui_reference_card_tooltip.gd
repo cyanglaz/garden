@@ -11,4 +11,4 @@ func _ready() -> void:
 	gui_tool_card_button.card_state = GUICardFace.CardState.HIGHLIGHTED
 	
 func _update_with_tooltip_request() -> void:
-	gui_tool_card_button.update_with_tool_data(_tooltip_request.data)
+	gui_tool_card_button.update_with_tool_data(_tooltip_request.data, _tooltip_request.combat_main)

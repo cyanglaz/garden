@@ -34,8 +34,8 @@ func handle_activation_hook(combat_main:CombatMain) -> void:
 func has_card_added_to_hand_hook(tool_datas:Array) -> bool:
 	return _has_card_added_to_hand_hook(tool_datas)
 
-func handle_card_added_to_hand_hook(tool_datas:Array) -> void:
-	await _handle_card_added_to_hand_hook(tool_datas)
+func handle_card_added_to_hand_hook(tool_datas:Array, combat_main:CombatMain) -> void:
+	await _handle_card_added_to_hand_hook(tool_datas, combat_main)
 
 func has_pool_updated_hook(combat_main:CombatMain, pool:Array) -> bool:
 	return _has_pool_updated_hook(combat_main, pool)
@@ -150,7 +150,7 @@ func _handle_activation_hook(_combat_main:CombatMain) -> void:
 func _has_card_added_to_hand_hook(_tool_datas:Array) -> bool:
 	return false
 
-func _handle_card_added_to_hand_hook(_tool_datas:Array) -> void:
+func _handle_card_added_to_hand_hook(_tool_datas:Array, _combat_main:CombatMain) -> void:
 	await Util.await_for_tiny_time()
 
 func _has_pool_updated_hook(_combat_main:CombatMain, _pool:Array) -> bool:

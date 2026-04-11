@@ -5,7 +5,7 @@ class FakePlant extends Plant:
 	var water_val: int = 0
 	var light_val: int = 0
 
-	func apply_actions(actions: Array) -> void:
+	func apply_actions(actions: Array, _combat_main: CombatMain) -> void:
 		for action in actions:
 			recorded_actions.append(action)
 			match action.type:
@@ -17,10 +17,10 @@ class FakePlant extends Plant:
 class FakePlantWithBloom extends FakePlant:
 	var max_val: int = 99
 
-	func apply_actions(actions: Array) -> void:
+	func apply_actions(actions: Array, combat_main: CombatMain) -> void:
 		if water_val >= max_val and light_val >= max_val:
 			return
-		super.apply_actions(actions)
+		super.apply_actions(actions, combat_main)
 
 class FakeCombatMain extends CombatMain:
 	var fake_plant: FakePlant = null

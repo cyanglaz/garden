@@ -29,5 +29,5 @@ func _handle_discard_hook(combat_main: CombatMain, tool_datas: Array) -> void:
 		water_action.type = ActionData.ActionType.WATER
 		water_action.operator_type = ActionData.OperatorType.INCREASE
 		water_action.value = int(data.data[&"water"]) * loop_count
-		await plant.apply_actions([light_action, water_action])
+		await plant.apply_actions([light_action, water_action], combat_main)
 		trinket_data.stack = new_stack

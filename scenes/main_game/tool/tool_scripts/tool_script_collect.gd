@@ -8,7 +8,7 @@ func apply_tool(combat_main:CombatMain, _tool_data:ToolData, _secondary_card_dat
 	var water_to_reduce := plant.water.value
 	action_data.operator_type = ActionData.OperatorType.EQUAL_TO
 	action_data.value = 0
-	await plant.apply_actions([action_data])
+	await plant.apply_actions([action_data], combat_main)
 
 	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id("free_water").get_duplicate()
 	var from_position:Vector2 = Util.get_node_canvas_position(plant) - GUIToolCardButton.SIZE / 2

@@ -8,7 +8,7 @@ func apply_tool(_combat_main:CombatMain, _tool_data:ToolData, secondary_card_dat
 		var light_action_data:ActionData  = tool_data.actions[0]
 		assert(light_action_data.type == ActionData.ActionType.LIGHT, "Solar battery's first action is light action")
 		light_action_data.modified_x_value = 0
-		tool_data.request_refresh.emit()
+		tool_data.refresh_ui()
 
 func need_select_field() -> bool:
 	return false

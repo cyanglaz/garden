@@ -64,7 +64,7 @@ func generate(rand_seed:int = 0) -> Array:
 	var layers:Array = []
 	_generate_nodes(layers)
 	_fill_rooms(layers)
-	log_map(layers)
+	#log_map(layers)
 	return layers
 
 func _generate_nodes(layers:Array) -> void:

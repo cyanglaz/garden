@@ -41,13 +41,6 @@ func apply_boss_actions(hook_type:GUIBoss.HookType) -> void:
 
 #endregion
 
-#region plants
-
-func update_mouse_plant(plant:Plant) -> void:
-	gui_tool_card_container.update_mouse_plant(plant)
-
-#endregion
-
 #region all ui
 
 func permanently_lock_all_ui() -> void:

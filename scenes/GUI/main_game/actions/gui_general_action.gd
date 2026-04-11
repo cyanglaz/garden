@@ -23,7 +23,7 @@ enum ActionAlignment {
 func _ready() -> void:
 	_set_action_alignment(action_alignment)
 
-func update_with_action(action_data:ActionData, target_plant:Plant) -> void:
+func update_with_action(action_data:ActionData, combat_main:CombatMain) -> void:
 	if !is_inside_tree():
 		return
 	_field_application_icon.hide()
@@ -32,7 +32,7 @@ func update_with_action(action_data:ActionData, target_plant:Plant) -> void:
 		_gui_action_value_icon.hide()
 	else:
 		_gui_action_value_icon.show()
-		_gui_action_value_icon.update_with_action(action_data, target_plant)
+		_gui_action_value_icon.update_with_action(action_data, combat_main)
 
 	for special:ActionData.Special in action_data.specials:
 		match special:

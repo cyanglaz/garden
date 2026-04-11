@@ -44,12 +44,18 @@ func refresh_deck() -> void:
 	tool_deck.refresh()
 	for tool_data in tool_deck.pool:
 		tool_data.refresh_for_level()
+	for tool_data in tool_deck.hand:
+		tool_data.refresh_ui()
+	
+func refresh_cards_ui(combat_main:CombatMain) -> void:
+	for tool_data in tool_deck.pool:
+		tool_data.refresh_ui(combat_main)
 
 func cleanup_for_turn() -> void:
 	number_of_card_used_this_turn = 0
 	card_use_limit_reached = false
 
-func draw_cards(count:int, first_turn_draw:bool) -> Array:
+func draw_cards(count:int, first_turn_draw:bool, combat_main:CombatMain) -> Array:
 	var _display_index = tool_deck.hand.size() - 1
 	var draw_results:Array = []
 	var random_draw_count := count
@@ -62,18 +68,18 @@ func draw_cards(count:int, first_turn_draw:bool) -> Array:
 		max_hand_size_reached.emit()
 	random_draw_count = mini(random_draw_count, available_slots)
 	draw_results.append_array(tool_deck.draw(random_draw_count))
-	await _gui_tool_card_container.animate_draw(draw_results)
+	await _gui_tool_card_container.animate_draw(draw_results, combat_main)
 	if draw_results.size() < random_draw_count:
 		# If no sufficient cards in draw pool, shuffle discard pile and draw again.
-		await shuffle()
+		await shuffle(combat_main)
 		var second_draw_result:Array = tool_deck.draw(random_draw_count - draw_results.size())
-		await _gui_tool_card_container.animate_draw(second_draw_result)
+		await _gui_tool_card_container.animate_draw(second_draw_result, combat_main)
 		draw_results.append_array(second_draw_result)
 	return draw_results
 
-func shuffle() -> void:
+func shuffle(combat_main:CombatMain) -> void:
 	var discard_pile := tool_deck.discard_pool.duplicate()
-	await _gui_tool_card_container.animate_shuffle(discard_pile)
+	await _gui_tool_card_container.animate_shuffle(discard_pile, combat_main)
 	tool_deck.shuffle_draw_pool()
 
 func trigger_turn_end_cards(combat_main:CombatMain) -> void:
@@ -85,7 +91,7 @@ func trigger_turn_end_cards(combat_main:CombatMain) -> void:
 	await _all_turn_end_cards_completed
 	_state = ToolManagerState.IDLE
 			
-func discard_cards(tools:Array) -> void:
+func discard_cards(tools:Array, combat_main:CombatMain) -> void:
 	assert(tools.size() > 0)
 	# Order is important, discard first, then animate
 	for tool_data in tools:
@@ -93,19 +99,19 @@ func discard_cards(tools:Array) -> void:
 		if tool_data.back_card:
 			tool_data.back_card.refresh_for_turn()
 	tool_deck.discard(tools)
-	await _gui_tool_card_container.animate_discard(tools)
+	await _gui_tool_card_container.animate_discard(tools, combat_main)
 	cards_removed_from_hand.emit([tools], tool_deck.hand)
 
-func exhaust_cards(tools:Array) -> void:
+func exhaust_cards(tools:Array, combat_main:CombatMain) -> void:
 	assert(tools.size() > 0)
 	# Order is important, exhaust first, then animate
 	tool_deck.exhaust(tools)
-	await _gui_tool_card_container.animate_exhaust(tools)
+	await _gui_tool_card_container.animate_exhaust(tools, combat_main)
 	cards_removed_from_hand.emit([tools], tool_deck.hand)
 
-func use_card(tool_data:ToolData) -> void:
+func use_card(tool_data:ToolData, combat_main:CombatMain) -> void:
 	tool_deck.use(tool_data)
-	await _gui_tool_card_container.animate_use_card(tool_data)
+	await _gui_tool_card_container.animate_use_card(tool_data, combat_main)
 
 func clear_tool_selection() -> void:
 	selected_tool = null
@@ -131,27 +137,27 @@ func select_secondary_cards(number_of_cards:int, filter:Callable) -> Array:
 func add_tool_to_deck(tool_data:ToolData) -> void:
 	tool_deck.add_item(tool_data)
 
-func move_hand_card_to_top_of_draw_pile(tool_data: ToolData) -> void:
+func move_hand_card_to_top_of_draw_pile(tool_data: ToolData, combat_main:CombatMain) -> void:
 	var from_pos := _gui_tool_card_container.find_card(tool_data).global_position
 	tool_deck.move_to_draw_pile([tool_data], [0])
-	await _gui_tool_card_container.animate_stash_card_to_draw_pile(tool_data, from_pos)
+	await _gui_tool_card_container.animate_stash_card_to_draw_pile(tool_data, from_pos, combat_main)
 	tool_data.adding_to_deck_finished.emit()
 
-func add_tools_to_draw_pile(tool_datas:Array, from_global_position:Vector2, random_place:bool, pause:bool) -> void:
-	await _gui_tool_card_container.animate_add_cards_to_draw_pile(tool_datas, from_global_position, pause)
+func add_tools_to_draw_pile(tool_datas:Array, from_global_position:Vector2, random_place:bool, pause:bool, combat_main:CombatMain) -> void:
+	await _gui_tool_card_container.animate_add_cards_to_draw_pile(tool_datas, from_global_position, pause, combat_main)
 	tool_deck.add_items_to_draw_pile(tool_datas, random_place)
 	for tool_data in tool_datas:
 		tool_data.adding_to_deck_finished.emit()
 
-func add_tools_to_discard_pile(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
-	await _gui_tool_card_container.animate_add_cards_to_discard_pile(tool_datas, from_global_position, pause)
+func add_tools_to_discard_pile(tool_datas:Array, from_global_position:Vector2, pause:bool, combat_main:CombatMain) -> void:
+	await _gui_tool_card_container.animate_add_cards_to_discard_pile(tool_datas, from_global_position, pause, combat_main)
 	tool_deck.add_items_discard_pile(tool_datas)
 	for tool_data in tool_datas:
 		tool_data.adding_to_deck_finished.emit()
 
-func add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
+func add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:bool, combat_main:CombatMain) -> void:
 	tool_deck.add_items_to_hand(tool_datas)
-	await _gui_tool_card_container.animate_add_cards_to_hand(tool_deck.hand, tool_datas, from_global_position, pause)
+	await _gui_tool_card_container.animate_add_cards_to_hand(tool_deck.hand, tool_datas, from_global_position, pause, combat_main)
 	for tool_data in tool_datas:
 		tool_data.adding_to_deck_finished.emit()
 
@@ -167,21 +173,18 @@ func update_tool_card(tool_data:ToolData, new_tool_data:ToolData) -> void:
 func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)
 
-func refresh_ui() -> void:
-	_gui_tool_card_container.refresh_tool_cards()
+func _run_card_lifecycle(tool_data:ToolData, combat_main:CombatMain) -> void:
+	await _finish_card(tool_data, combat_main)
 
-func _run_card_lifecycle(tool_data:ToolData, _combat_main:CombatMain) -> void:
-	await _finish_card(tool_data)
-
-func _finish_card(tool_data:ToolData) -> void:
-	tool_data.remove_single_use_special_effects()
+func _finish_card(tool_data:ToolData, combat_main:CombatMain) -> void:
+	tool_data.remove_single_use_special_effects(combat_main)
 	if tool_data.specials.has(ToolData.Special.COMPOST):
-		await exhaust_cards([tool_data])
+		await exhaust_cards([tool_data], combat_main)
 	else:
-		await discard_cards([tool_data])
+		await discard_cards([tool_data], combat_main)
 
 func _run_card_actions(combat_main:CombatMain, applying_tool:ToolData) -> bool:
-	await combat_main.plant_field_container.trigger_tool_application_hook()
+	await combat_main.plant_field_container.trigger_tool_application_hook(combat_main)
 	var success := await _tool_applier.apply_tool(combat_main, applying_tool, _gui_tool_card_container.find_card(applying_tool), _gui_tool_card_container)
 	return success
 

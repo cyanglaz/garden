@@ -17,7 +17,7 @@ func apply_tool(combat_main: CombatMain, _tool_data: ToolData, _secondary_card_d
 	light_action.operator_type = ActionData.OperatorType.EQUAL_TO
 	light_action.value = original_water
 
-	await plant.apply_actions([water_action, light_action])
+	await plant.apply_actions([water_action, light_action], combat_main)
 func need_select_field() -> bool:
 	return true
 
