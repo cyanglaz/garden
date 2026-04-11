@@ -5,7 +5,7 @@ const FIELD_SCENE := preload("res://scenes/main_game/combat/fields/plant_field.t
 
 signal mouse_plant_updated(plant:Plant)
 signal plant_bloom_started()
-signal plant_bloom_completed()
+signal plant_bloom_completed(plant:Plant)
 signal plant_action_application_completed(index:int)
 signal plant_light_updated(plant:Plant, from_value:int, to_value:int)	
 signal plant_water_updated(plant:Plant, from_value:int, to_value:int)
@@ -21,8 +21,6 @@ func setup_with_plants(plant_datas:Array) -> void:
 	var current_field:Field = null
 	for i in plant_datas.size():
 		var field:Field = FIELD_SCENE.instantiate()
-		field.plant_bloom_started.connect(func(): plant_bloom_started.emit())
-		field.plant_bloom_completed.connect(func(): plant_bloom_completed.emit())
 		field.action_application_completed.connect(func(): plant_action_application_completed.emit(i))
 		field.index = i
 		add_child(field)
@@ -31,6 +29,8 @@ func setup_with_plants(plant_datas:Array) -> void:
 		plants.append(field.plant)
 		field.plant.light_updated.connect(_on_plant_light_updated.bind(field.plant))
 		field.plant.water_updated.connect(_on_plant_water_updated.bind(field.plant))
+		field.plant_bloom_started.connect(func(): plant_bloom_started.emit())
+		field.plant_bloom_completed.connect(func(): plant_bloom_completed.emit(field.plant))
 		if current_field:
 			field.left_field = current_field
 			current_field.right_field = field

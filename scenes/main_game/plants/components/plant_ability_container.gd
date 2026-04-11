@@ -21,11 +21,11 @@ func clear_all_abilities() -> void:
 		ability_node.queue_free()
 	ability_updated.emit()
 
-func trigger_ability(ability_type:Plant.AbilityType, plant:Plant) -> void:
+func trigger_ability(ability_type:Plant.AbilityType, plant:Plant, combat_main:CombatMain) -> void:
 	for ability_node:PlantAbility in get_children():
-		if ability_node.has_ability_hook(ability_type, plant):
+		if ability_node.has_ability_hook(ability_type, plant, combat_main):
 			request_ability_hook_animation.emit(ability_node.ability_data.id)
-			await ability_node.trigger_ability_hook(ability_type, plant)
+			await ability_node.trigger_ability_hook(ability_type, plant, combat_main)
 
 func signal_bloom() -> void:
 	for ability_node:PlantAbility in get_abilities():

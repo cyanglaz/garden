@@ -47,8 +47,8 @@ func _ready() -> void:
 	light.value_update.connect(_on_light_value_update)
 	water.value_update.connect(_on_water_value_update)
 
-func trigger_ability(ability_type:AbilityType) -> void:
-	await plant_ability_container.trigger_ability(ability_type, self)
+func trigger_ability(ability_type:AbilityType, combat_main:CombatMain) -> void:
+	await plant_ability_container.trigger_ability(ability_type, self, combat_main)
 
 func handle_turn_end() -> void:
 	field_status_container.clear_status_on_turn_end()
@@ -59,12 +59,12 @@ func handle_tool_application_hook(combat_main:CombatMain) -> void:
 func handle_tool_discard_hook(count:int, combat_main:CombatMain) -> void:
 	await field_status_container.handle_tool_discard_hook(self, count, combat_main)
 
-func handle_start_turn_hook(_combat_main:CombatMain) -> void:
-	await trigger_ability(Plant.AbilityType.START_TURN)
+func handle_start_turn_hook(combat_main:CombatMain) -> void:
+	await trigger_ability(Plant.AbilityType.START_TURN, combat_main)
 
 func handle_end_turn_hook(combat_main:CombatMain) -> void:
 	await field_status_container.handle_end_turn_hook(combat_main, self)
-	await trigger_ability(Plant.AbilityType.END_TURN)
+	await trigger_ability(Plant.AbilityType.END_TURN, combat_main)
 
 func apply_weather_actions(weather_data:WeatherData, combat_main:CombatMain) -> void:
 	await apply_actions(weather_data.actions, combat_main)
@@ -90,8 +90,8 @@ func apply_actions(actions:Array, combat_main:CombatMain) -> void:
 func is_bloom() -> bool:
 	return (light.max_value <=0 || light.is_full) && (water.max_value <=0 || water.is_full)
 
-func bloom() -> void:
-	fsm.push("PlantStateBloom")
+func bloom(combat_main:CombatMain) -> void:
+	fsm.push("PlantStateBloom", {"combat_main": combat_main})
 
 func show_bloom_popup() -> void:
 	_point_audio.play()

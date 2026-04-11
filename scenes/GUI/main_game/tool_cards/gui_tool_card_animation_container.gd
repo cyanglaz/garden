@@ -410,6 +410,7 @@ func _animate_stash_card_to_draw_pile(animation_item: AnimationQueueItem) -> voi
 	assert(gui_card != null, "Stashed card not found in tool card container")
 	if !gui_card:
 		_animation_queue_item_finished.emit(animation_item)
+		return
 	_tool_card_container.remove_cards([gui_card])
 	await _animate_reposition()
 	var animating_card: GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()

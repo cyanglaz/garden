@@ -229,7 +229,7 @@ func _clear_tool_selection() -> void:
 func _bloom(plant_index:int) -> void:
 	var field:Field = plant_field_container.get_field(plant_index)
 	if field.can_bloom():
-		field.bloom()
+		field.bloom(self)
 
 func _fade_music(fade_in:bool) -> void:
 	if fade_in:
@@ -347,7 +347,7 @@ func _on_plant_action_application_completed(index:int) -> void:
 func _on_plant_bloom_started() -> void:
 	gui.toggle_all_ui(false)
 
-func _on_plant_bloom_completed() -> void:
+func _on_plant_bloom_completed(plant:Plant) -> void:
 	if _met_win_condition():
 		await _win()
 	else:

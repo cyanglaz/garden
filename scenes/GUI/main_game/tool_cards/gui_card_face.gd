@@ -61,9 +61,6 @@ func _ready() -> void:
 func update_with_tool_data(td:ToolData, combat_main:CombatMain) -> void:
 	_weak_combat_main = weakref(combat_main)
 	_weak_tool_data = weakref(td)
-	var target_plant:Plant = null
-	if combat_main:
-		target_plant = combat_main.get_current_player_plant()
 	_gui_action_list.update(tool_data.actions, combat_main)
 	if !tool_data.get_display_description().is_empty():
 		_rich_text_label.text = tool_data.get_display_description()

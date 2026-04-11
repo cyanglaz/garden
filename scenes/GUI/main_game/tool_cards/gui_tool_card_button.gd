@@ -68,6 +68,10 @@ func update_with_tool_data(td:ToolData, combat_main:CombatMain) -> void:
 			assert(td.back_card.specials.has(ToolData.Special.FLIP_BACK), "Back card is not a flip back card")
 			back_face.update_with_tool_data(td.back_card, combat_main)
 		_show_as_front_face()
+	if front_face.special_interacted.is_connected(_on_special_interacted.bind(front_face, combat_main)):
+		front_face.special_interacted.disconnect(_on_special_interacted.bind(front_face, combat_main))
+	if back_face.special_interacted.is_connected(_on_special_interacted.bind(back_face, combat_main)):
+		back_face.special_interacted.disconnect(_on_special_interacted.bind(back_face, combat_main))
 	front_face.special_interacted.connect(_on_special_interacted.bind(front_face, combat_main))
 	back_face.special_interacted.connect(_on_special_interacted.bind(back_face, combat_main))
 

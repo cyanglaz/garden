@@ -1,10 +1,10 @@
 class_name PlantAbilityThorn
 extends PlantAbility
 
-func _has_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> bool:
+func _has_ability_hook(ability_type:Plant.AbilityType, plant:Plant, _combat_main:CombatMain) -> bool:
 	return ability_type == Plant.AbilityType.END_TURN && plant.has_player
 
-func _trigger_ability_hook(ability_type:Plant.AbilityType, _plant:Plant) -> void:
+func _trigger_ability_hook(ability_type:Plant.AbilityType, _plant:Plant, _combat_main:CombatMain) -> void:
 	assert(ability_type == Plant.AbilityType.END_TURN)
 	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id("thorn").get_duplicate()
 	var from_position:Vector2 = Util.get_node_canvas_position(self) - GUIToolCardButton.SIZE / 2

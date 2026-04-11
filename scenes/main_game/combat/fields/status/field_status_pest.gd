@@ -13,12 +13,12 @@ func _update_for_plant(plant:Plant) -> void:
 func _has_end_turn_hook(plant:Plant) -> bool:
 	return plant != null
 
-func _handle_end_turn_hook(_combat_main:CombatMain, plant:Plant) -> void:
+func _handle_end_turn_hook(combat_main:CombatMain, plant:Plant) -> void:
 	var reduce_light_action:ActionData = ActionData.new()
 	reduce_light_action.type = ActionData.ActionType.LIGHT
 	reduce_light_action.operator_type = ActionData.OperatorType.DECREASE
 	reduce_light_action.value = (status_data.data["value"] as int) * stack
-	await plant.apply_actions([reduce_light_action], _combat_main)
+	await plant.apply_actions([reduce_light_action], combat_main)
 
 func _respawn_pests(plant:Plant) -> void:
 	Util.remove_all_children(pests_container)

@@ -1,10 +1,10 @@
 class_name PlantAbilityJuicy
 extends PlantAbility
 
-func _has_ability_hook(ability_type:Plant.AbilityType, _plant:Plant) -> bool:
+func _has_ability_hook(ability_type:Plant.AbilityType, _plant:Plant, _combat_main:CombatMain) -> bool:
 	return ability_type == Plant.AbilityType.BLOOM
 
-func _trigger_ability_hook(ability_type:Plant.AbilityType, _plant:Plant) -> void:
+func _trigger_ability_hook(ability_type:Plant.AbilityType, _plant:Plant, _combat_main:CombatMain) -> void:
 	assert(ability_type == Plant.AbilityType.BLOOM)
 	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id("free_water").get_duplicate()
 	#var from_position:Vector2 = global_position - GUIToolCardButton.SIZE / 2
