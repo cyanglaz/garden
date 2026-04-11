@@ -219,6 +219,8 @@ static func _get_x_value_text(action_data:ActionData, target_plant:Plant) -> Str
 			x_value_text = Util.get_localized_string("ACTION_VALUE_HAND_CARDS")
 		ActionData.XValueType.TARGET_LIGHT:
 			x_value_text = Util.get_localized_string("ACTION_VALUE_TARGET_LIGHT")
+		ActionData.XValueType.TARGET_PEST:
+			x_value_text = Util.get_localized_string("ACTION_VALUE_TARGET_PEST")
 		_:
 			assert(false, "Invalid x value type: %s" % action_data.x_value_type)
 	main_description = main_description % [x_value_text]

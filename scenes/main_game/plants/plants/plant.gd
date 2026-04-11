@@ -174,7 +174,8 @@ func _apply_field_status_action(action:ActionData) -> void:
 		ActionData.OperatorType.DECREASE:
 			stack = -true_value
 		ActionData.OperatorType.EQUAL_TO:
-			stack = true_value
+			var current := field_status_container.get_status_stack(field_status_id)
+			stack = true_value - current
 	await _show_popup_action_indicator(action)
 	field_status_container.update_status(field_status_id, stack, self)
 

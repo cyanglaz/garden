@@ -50,6 +50,7 @@ enum XValueType {
 	NUMBER,
 	NUMBER_OF_TOOL_CARDS_IN_HAND,
 	TARGET_LIGHT,
+	TARGET_PEST,
 }
 
 enum Special {
@@ -129,6 +130,13 @@ func get_calculated_x_value(target_plant:Plant) -> int:
 		XValueType.TARGET_LIGHT:
 			if target_plant:
 				base_x_value = target_plant.light.value
+			else:
+				base_x_value = 0
+		XValueType.TARGET_PEST:
+			if combat_main:
+				var plant := combat_main.get_current_player_plant()
+				if plant:
+					base_x_value = plant.field_status_container.get_status_stack("pest")
 			else:
 				base_x_value = 0
 	return modified_x_value + base_x_value

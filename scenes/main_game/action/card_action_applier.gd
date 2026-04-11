@@ -10,6 +10,8 @@ func apply_action(action:ActionData, all_actions:Array) -> void:
 		ActionData.ActionType.UPDATE_X:
 			var x_action:ActionData
 			for action_data:ActionData in all_actions:
+				if action_data == action:
+					continue
 				if action_data.value_type == ActionData.ValueType.X:
 					x_action = action_data
 					break
