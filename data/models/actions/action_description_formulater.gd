@@ -14,13 +14,13 @@ static func get_action_description(action_data:ActionData, combat_main:CombatMai
 		var field_status_data:StatusData = MainDatabase.field_status_database.get_data_by_id(id)
 		thing_data = field_status_data
 		if action_data.operator_type == ActionData.OperatorType.INCREASE:
-			field_status_data.stack = action_data.get_calculated_value(null)
+			field_status_data.stack = action_data.get_calculated_value(combat_main)
 	elif action_data.type in PLAYER_STATUS_ACTION_TYPES:
 		var id := Util.get_action_id_with_action_type(action_data.type)
 		var player_status_data:StatusData = MainDatabase.player_status_database.get_data_by_id(id)
 		thing_data = player_status_data
 		if action_data.operator_type == ActionData.OperatorType.INCREASE:
-			player_status_data.stack = action_data.get_calculated_value(null)
+			player_status_data.stack = action_data.get_calculated_value(combat_main)
 	var action_description := get_raw_action_description(action_data, combat_main)
 	action_description = DescriptionParser.format_references(action_description, thing_data.data.duplicate(), thing_data.highlight_description_keys, func(_reference_id:String) -> bool: return false)
 	if action_description.contains("%s"):
