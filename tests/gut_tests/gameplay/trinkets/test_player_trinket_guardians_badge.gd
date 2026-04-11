@@ -52,10 +52,10 @@ func _make_combat_main_with_plants(plant_list: Array) -> FakeCombatMain:
 
 # ----- has_end_turn_hook -----
 
-func test_has_end_turn_hook_true_when_no_plants() -> void:
+func test_has_end_turn_hook_false_when_no_plants() -> void:
 	var t := _make_trinket()
 	var cm := _make_combat_main_with_plants([])
-	assert_true(t.has_end_turn_hook(cm))
+	assert_false(t.has_end_turn_hook(cm))
 
 func test_has_end_turn_hook_true_when_plants_clean() -> void:
 	var t := _make_trinket()
