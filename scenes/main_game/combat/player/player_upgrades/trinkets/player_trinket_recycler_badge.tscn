@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b8rcy1cl3rb4dg"]
+
+[ext_resource type="Script" uid="uid://c7r3cycl3r8dg" path="res://scenes/main_game/combat/player/player_upgrades/trinkets/player_trinket_recycler_badge.gd" id="1_rbscript"]
+
+[node name="PlayerTrinketRecyclerBadge" type="Node2D"]
+script = ExtResource("1_rbscript")

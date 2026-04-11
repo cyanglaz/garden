@@ -13,6 +13,8 @@ var _pre_tool_application_hook_queue:Array = []
 var _current_pre_tool_application_hook_index:int = 0
 var _card_added_to_hand_hook_queue:Array = []
 var _current_card_added_to_hand_hook_index:int = 0
+var _pool_updated_hook_queue:Array = []
+var _current_pool_updated_hook_index:int = 0
 var _activation_hook_queue:Array = []
 var _current_activation_hook_index:int = 0
 var _discard_hook_queue:Array = []
@@ -150,6 +152,22 @@ func _handle_next_card_added_to_hand_hook(tool_datas:Array) -> void:
 	await player_upgrade.handle_card_added_to_hand_hook(tool_datas)
 	_current_card_added_to_hand_hook_index += 1
 	await _handle_next_card_added_to_hand_hook(tool_datas)
+
+func handle_pool_updated_hook(combat_main:CombatMain, pool:Array) -> void:
+	var all_player_upgrades:Array = get_all_player_upgrades()
+	_pool_updated_hook_queue = all_player_upgrades.filter(func(pu:PlayerUpgrade) -> bool:
+		return pu.has_pool_updated_hook(combat_main, pool)
+	)
+	_current_pool_updated_hook_index = 0
+	await _handle_next_pool_updated_hook(combat_main, pool)
+
+func _handle_next_pool_updated_hook(combat_main:CombatMain, pool:Array) -> void:
+	if _current_pool_updated_hook_index >= _pool_updated_hook_queue.size():
+		return
+	var player_upgrade:PlayerUpgrade = _pool_updated_hook_queue[_current_pool_updated_hook_index]
+	await player_upgrade.handle_pool_updated_hook(combat_main, pool)
+	_current_pool_updated_hook_index += 1
+	await _handle_next_pool_updated_hook(combat_main, pool)
 
 func handle_activation_hook(combat_main:CombatMain) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()

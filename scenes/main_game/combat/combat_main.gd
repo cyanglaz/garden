@@ -69,6 +69,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	tool_manager.hand_updated.connect(_on_hand_updated)
 	tool_manager.cards_removed_from_hand.connect(_on_cards_removed_from_hand)
 	tool_manager.max_hand_size_reached.connect(_on_max_hand_size_reached)
+	tool_manager.pool_updated.connect(_on_pool_updated)
 
 	gui.bind_energy(energy_tracker)
 	gui.bind_tool_deck(tool_manager.tool_deck)
@@ -395,6 +396,9 @@ func _on_player_player_upgrade_activated(player_upgrade:PlayerUpgrade) -> void:
 
 func _on_player_player_upgrade_stack_updated(id:String, diff:int) -> void:
 	player.player_upgrades_manager.handle_stack_update_hook(self, id, diff)
+
+func _on_pool_updated(pool:Array) -> void:
+	await player.player_upgrades_manager.handle_pool_updated_hook(self, pool)
 
 #endregion
 

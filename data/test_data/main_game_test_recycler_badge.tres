@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="MainGameTest" format=3 uid="uid://b6t3std4t4rb4"]
+
+[ext_resource type="Script" uid="uid://d4ngj3465rhxa" path="res://data/test_data/main_game_test.gd" id="1_rbtest"]
+[ext_resource type="Resource" uid="uid://crb4dg3tr1nk3" path="res://data/trinkets/default/trinket_recycler_badge.tres" id="2_rbtest"]
+
+[resource]
+script = ExtResource("1_rbtest")
+test_trinket_datas = Array[TrinketData]([ExtResource("2_rbtest")])
+metadata/_custom_type_script = "uid://d4ngj3465rhxa"

@@ -16,6 +16,7 @@ signal hand_updated(hand:Array)
 signal cards_removed_from_hand(tool_data:ToolData, updated_hand:Array) # Triggers after the removal animation (discard or exhaust)
 signal max_hand_size_reached()
 signal _all_turn_end_cards_completed()
+signal pool_updated(pool:Array)
 
 var tool_deck:Deck
 var selected_tool_index:int: get = _get_selected_tool_index
@@ -36,6 +37,7 @@ var _weak_gui_tool_card_container:WeakRef = weakref(null)
 func _init(initial_tools:Array, gui_tool_card_container:GUIToolCardContainer) -> void:
 	tool_deck = Deck.new(initial_tools)
 	tool_deck.hand_updated.connect(func() -> void: hand_updated.emit(tool_deck.hand))
+	tool_deck.pool_updated.connect(func(pool:Array) -> void: pool_updated.emit(pool))
 	_weak_gui_tool_card_container = weakref(gui_tool_card_container)
 
 func refresh_deck() -> void:
