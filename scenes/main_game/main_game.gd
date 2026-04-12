@@ -263,11 +263,13 @@ func _on_request_view_cards(cards:Array, title:String) -> void:
 	gui_main_game.show_card_viewer(cards, title, combat_main)
 
 func _on_request_display_tooltip(tooltip_request:TooltipRequest) -> void:
-	var combat_main:CombatMain = _current_scene if _current_scene && _current_scene is CombatMain else null
-	gui_main_game.show_tooltip(tooltip_request, combat_main)
+	if gui_main_game:
+		var combat_main:CombatMain = _current_scene if _current_scene && _current_scene is CombatMain else null
+		gui_main_game.show_tooltip(tooltip_request, combat_main)
 
 func _on_request_hide_tooltip(id:String) -> void:
-	gui_main_game.hide_tooltip(id)
+	if gui_main_game:
+		gui_main_game.hide_tooltip(id)
 
 #endregion
 
