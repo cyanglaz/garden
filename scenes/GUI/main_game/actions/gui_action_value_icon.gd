@@ -83,7 +83,9 @@ func update_for_x(x_value:int, x_value_type:ActionData.XValueType) -> void:
 			_value_icon.texture = load(RESOURCE_ICON_PATH + "light.png")
 		ActionData.XValueType.TARGET_PEST:
 			_value_icon.texture = load(RESOURCE_ICON_PATH + "pest.png")
-	
+		ActionData.XValueType.PLAYER_ENERGY:
+			_value_icon.texture = load(RESOURCE_ICON_PATH + "energy.png")
+
 	if !_sign_icon.visible && !_value_icon.visible && !_random_icon.visible && !_x_value_label.visible && !_number_sign_icon.visible:
 		hide()
 	else:
