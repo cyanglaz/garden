@@ -16,8 +16,10 @@ func _update_for_plant(plant:Plant) -> void:
 			container.add_child(fungus)
 			fungus.position = _get_random_fungus_position(plant)
 	elif diff_number_of_fungi < 0:
-		for i in abs(diff_number_of_fungi):
-			var fungus:Fungus = container.get_children().back()
+		var fungi := container.get_children()
+		var fungi_to_remove := abs(diff_number_of_fungi)
+		for i in fungi_to_remove:
+			var fungus:Fungus = fungi[fungi.size() - 1 - i]
 			fungus.queue_free()
 	_number_of_fungi = stack
 
