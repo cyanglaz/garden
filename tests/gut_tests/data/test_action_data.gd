@@ -201,6 +201,48 @@ func test_calculated_x_value_target_pest_adds_modified_x_value():
 	ad.modified_x_value = 2
 	assert_eq(ad.get_calculated_x_value(cm), 5)
 
+# ----- get_calculated_x_value with PLAYER_ENERGY x_value_type -----
+
+func _make_combat_main_with_energy(energy: int) -> FakeCombatMain:
+	var cm := FakeCombatMain.new()
+	autofree(cm)
+	var rp := ResourcePoint.new()
+	autofree(rp)
+	rp.setup(energy, 10)
+	cm.energy_tracker = rp
+	return cm
+
+func test_calculated_x_value_player_energy_returns_zero_when_no_combat_main():
+	var ad := _make_action(ActionData.ActionType.ENERGY)
+	ad.x_value_type = ActionData.XValueType.PLAYER_ENERGY
+	assert_eq(ad.get_calculated_x_value(null), 0)
+
+func test_calculated_x_value_player_energy_reads_energy_tracker_value():
+	var cm := _make_combat_main_with_energy(5)
+	var ad := _make_action(ActionData.ActionType.ENERGY)
+	ad.x_value_type = ActionData.XValueType.PLAYER_ENERGY
+	assert_eq(ad.get_calculated_x_value(cm), 5)
+
+func test_calculated_x_value_player_energy_zero_when_energy_is_zero():
+	var cm := _make_combat_main_with_energy(0)
+	var ad := _make_action(ActionData.ActionType.ENERGY)
+	ad.x_value_type = ActionData.XValueType.PLAYER_ENERGY
+	assert_eq(ad.get_calculated_x_value(cm), 0)
+
+func test_calculated_x_value_player_energy_adds_modified_x_value():
+	var cm := _make_combat_main_with_energy(3)
+	var ad := _make_action(ActionData.ActionType.ENERGY)
+	ad.x_value_type = ActionData.XValueType.PLAYER_ENERGY
+	ad.modified_x_value = 2
+	assert_eq(ad.get_calculated_x_value(cm), 5)
+
+func test_calculated_value_x_type_with_player_energy_x_value_type():
+	var cm := _make_combat_main_with_energy(4)
+	var ad := _make_action(ActionData.ActionType.LIGHT)
+	ad.value_type = ActionData.ValueType.X
+	ad.x_value_type = ActionData.XValueType.PLAYER_ENERGY
+	assert_eq(ad.get_calculated_value(cm), 4)
+
 # ----- get_calculated_value with X value_type delegates to get_calculated_x_value -----
 
 func test_calculated_value_x_type_uses_x_value():
