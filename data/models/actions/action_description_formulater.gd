@@ -6,6 +6,7 @@ const PLAYER_STATUS_ACTION_TYPES := [ActionData.ActionType.STUN]
 
 const HIGHLIGHT_COLOR := Constants.COLOR_WHITE
 const X_DESCRIPTION_HIGHLIGHT_COLOR := Constants.COLOR_BLUE_3
+const X_POST_FIX_COLOR := Constants.COLOR_BLUE_GRAY_3
 
 static func get_action_description(action_data:ActionData, combat_main:CombatMain) -> String:
 	var thing_data:ThingData = action_data
@@ -114,7 +115,7 @@ static func _get_field_action_description(action_data:ActionData, combat_main:Co
 			field_string = Util.get_localized_string("ACTION_ADD_TO_ONE_FIELDS_TEXT")
 		else:
 			field_string = Util.get_localized_string("ACTION_REDUCE_FROM_ONE_FIELDS_TEXT")
-	main_description += Util.convert_to_bbc_highlight_text(field_string, HIGHLIGHT_COLOR)
+	main_description += field_string
 	return main_description
 
 static func _get_action_plant_value_update_description(action_data:ActionData, combat_main:CombatMain) -> String:
@@ -144,12 +145,11 @@ static func _get_action_resource_value_update_description(action_data:ActionData
 	match action_data.operator_type:
 		ActionData.OperatorType.INCREASE:
 			main_description = Util.get_localized_string("ACTION_RESOURCE_VALUE_DESCRIPTION_INCREASE")
-			main_description = main_description % [action_name, _get_value_text(action_data, combat_main)]
 		ActionData.OperatorType.DECREASE:
 			main_description = Util.get_localized_string("ACTION_RESOURCE_VALUE_DESCRIPTION_DECREASE")
-			main_description = main_description % [action_name, _get_value_text(action_data, combat_main)]
 		ActionData.OperatorType.EQUAL_TO:
 			main_description = Util.get_localized_string("ACTION_VALUE_DESCRIPTION_EQUAL")
+	main_description = main_description % [action_name, _get_value_text(action_data, combat_main)]
 	return main_description
 
 static func _get_draw_card_action_description(action_data:ActionData, combat_main:CombatMain) -> String:
@@ -226,7 +226,7 @@ static func _get_x_value_text(action_data:ActionData, combat_main:CombatMain) ->
 		_:
 			assert(false, "Invalid x value type: %s" % action_data.x_value_type)
 	main_description = main_description % [x_value_text]
-	main_description = Util.convert_to_bbc_highlight_text(main_description, X_DESCRIPTION_HIGHLIGHT_COLOR)
+	main_description = Util.convert_to_bbc_highlight_text(main_description, X_POST_FIX_COLOR, 0)
 	return main_description
 
 static func _get_field_status_description(action_data:ActionData) -> String:

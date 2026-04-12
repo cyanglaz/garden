@@ -347,7 +347,7 @@ func _on_plant_action_application_completed(index:int) -> void:
 func _on_plant_bloom_started() -> void:
 	gui.toggle_all_ui(false)
 
-func _on_plant_bloom_completed(plant:Plant) -> void:
+func _on_plant_bloom_completed(_plant:Plant) -> void:
 	if _met_win_condition():
 		await _win()
 	else:
