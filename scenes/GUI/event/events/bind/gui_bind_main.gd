@@ -80,14 +80,14 @@ func _on_front_card_placeholder_button_pressed() -> void:
 	if _front_card != null:
 		_front_card.queue_free()
 		_front_card = null
-	gui_tool_cards_viewer.animated_show_with_pool(_get_card_pool_for_bind(), Util.get_localized_string("BIND_FRONT_CARD_TITLE"))
+	gui_tool_cards_viewer.animated_show_with_pool(_get_card_pool_for_bind(), Util.get_localized_string("BIND_FRONT_CARD_TITLE"), null)
 
 func _on_back_card_placeholder_button_pressed() -> void:
 	_selecting_front_card = false
 	if _back_card != null:
 		_back_card.queue_free()
 		_back_card = null
-	gui_tool_cards_viewer.animated_show_with_pool(_get_card_pool_for_bind(), Util.get_localized_string("BIND_BACK_CARD_TITLE"))
+	gui_tool_cards_viewer.animated_show_with_pool(_get_card_pool_for_bind(), Util.get_localized_string("BIND_BACK_CARD_TITLE"), null)
 
 func _on_card_selected(gui_tool_card:GUIToolCardButton) -> void:
 	var new_card:GUIToolCardButton
@@ -98,7 +98,7 @@ func _on_card_selected(gui_tool_card:GUIToolCardButton) -> void:
 	else:
 		_back_card = new_card
 	cards_container.add_child(new_card)
-	new_card.update_with_tool_data(tool_data)
+	new_card.update_with_tool_data(tool_data, null)
 	new_card.global_position = gui_tool_card.global_position
 	new_card.z_index += 1
 	gui_tool_cards_viewer.animate_hide()

@@ -59,7 +59,7 @@ func generate_combats(chapter:int, number_of_common_combats:int, number_of_elite
 	common_combats = _generate_combats(chapter, CombatData.CombatType.COMMON, number_of_common_combats)
 	elite_combats = _generate_combats(chapter, CombatData.CombatType.ELITE, number_of_elite_combats)
 	boss_combats = _generate_combats(chapter, CombatData.CombatType.BOSS, number_of_boss_combats)
-	_log_combats(chapter)
+	#_log_combats(chapter)
 
 func _generate_combats(chapter:int, combat_type:CombatData.CombatType, count:int) -> Array[CombatData]:
 	var combats:Array[CombatData] = []

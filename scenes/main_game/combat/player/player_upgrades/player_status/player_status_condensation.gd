@@ -12,4 +12,4 @@ func _handle_discard_hook(combat_main:CombatMain, tool_datas:Array) -> void:
 	action.value = water_gain
 	var player_plant:Plant = combat_main.get_current_player_plant()
 	_send_hook_animation_signals()
-	await player_plant.apply_actions([action])
+	await player_plant.apply_actions([action], combat_main)

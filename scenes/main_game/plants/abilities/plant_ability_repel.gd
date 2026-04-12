@@ -1,10 +1,10 @@
 class_name PlantAbilityRepel
 extends PlantAbility
 
-func _has_ability_hook(ability_type:Plant.AbilityType, _plant:Plant) -> bool:
+func _has_ability_hook(ability_type:Plant.AbilityType, _plant:Plant, _combat_main:CombatMain) -> bool:
 	return ability_type == Plant.AbilityType.BLOOM
 
-func _trigger_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> void:
+func _trigger_ability_hook(ability_type:Plant.AbilityType, plant:Plant, combat_main:CombatMain) -> void:
 	assert(ability_type == Plant.AbilityType.BLOOM)
 	var left_field:Field = plant.field.left_field
 	var right_field:Field = plant.field.right_field
@@ -13,6 +13,6 @@ func _trigger_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> void:
 	action_data.operator_type = ActionData.OperatorType.DECREASE
 	action_data.value = stack
 	if left_field && left_field.plant:
-		await left_field.plant.apply_actions([action_data])
+		await left_field.plant.apply_actions([action_data], combat_main)
 	if right_field && right_field.plant:
-		await right_field.plant.apply_actions([action_data])
+		await right_field.plant.apply_actions([action_data], combat_main)

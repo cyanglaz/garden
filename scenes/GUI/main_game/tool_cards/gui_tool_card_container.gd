@@ -36,16 +36,6 @@ func toggle_all_tool_cards(on:bool) -> void:
 	for i in get_card_count():
 		var card:GUIToolCardButton = _container.get_child(i)
 		card.mouse_disabled = !on
-
-func refresh_tool_cards() -> void:
-	for i in get_card_count():
-		var card:GUIToolCardButton = _container.get_child(i)
-		card.update_with_tool_data(card.tool_data)
-
-func update_mouse_plant(plant:Plant) -> void:
-	for i in get_card_count():
-		var card:GUIToolCardButton = _container.get_child(i)
-		card.update_mouse_plant(plant)
 	
 func clear_selection() -> void:
 	selected_index = -1
@@ -68,10 +58,10 @@ func reset_positions() -> void:
 			var gui_card = _container.get_child(i)
 			gui_card.z_index = 0
 
-func add_card(tool_data:ToolData) -> GUIToolCardButton:
+func add_card(tool_data:ToolData, combat_main:CombatMain) -> GUIToolCardButton:
 	var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
 	_container.add_child(gui_card)
-	gui_card.update_with_tool_data(tool_data)
+	gui_card.update_with_tool_data(tool_data, combat_main)
 	if selected_index >= 0:
 		gui_card.card_state = GUICardFace.CardState.UNSELECTED
 	else:
@@ -114,32 +104,32 @@ func select_secondary_cards(number_of_cards:int, filter:Callable) -> Array:
 
 #region animation
 
-func animate_draw(draw_results:Array) -> void:
-	await _gui_tool_card_animation_container.animate_draw(draw_results)
+func animate_draw(draw_results:Array, combat_main:CombatMain) -> void:
+	await _gui_tool_card_animation_container.animate_draw(draw_results, combat_main)
 	
-func animate_discard(discarding_tool_datas:Array) -> void:
-	await _gui_tool_card_animation_container.animate_discard(discarding_tool_datas)
+func animate_discard(discarding_tool_datas:Array, combat_main:CombatMain) -> void:
+	await _gui_tool_card_animation_container.animate_discard(discarding_tool_datas, combat_main)
 
-func animate_use_card(tool_data:ToolData) -> void:
-	await _gui_tool_card_animation_container.animate_use_card(tool_data)
+func animate_use_card(tool_data:ToolData, combat_main:CombatMain) -> void:
+	await _gui_tool_card_animation_container.animate_use_card(tool_data, combat_main)
 
-func animate_shuffle(discard_pile:Array) -> void:
-	await _gui_tool_card_animation_container.animate_shuffle(discard_pile)
+func animate_shuffle(discard_pile:Array, combat_main:CombatMain) -> void:
+	await _gui_tool_card_animation_container.animate_shuffle(discard_pile, combat_main)
 
-func animate_add_cards_to_draw_pile(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
-	await _gui_tool_card_animation_container.animate_add_cards_to_draw_pile(tool_datas, from_global_position, pause)
+func animate_add_cards_to_draw_pile(tool_datas:Array, from_global_position:Vector2, pause:bool, combat_main:CombatMain) -> void:
+	await _gui_tool_card_animation_container.animate_add_cards_to_draw_pile(tool_datas, from_global_position, pause, combat_main)
 
-func animate_add_cards_to_discard_pile(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
-	await _gui_tool_card_animation_container.animate_add_cards_to_discard_pile(tool_datas, from_global_position, pause)
+func animate_add_cards_to_discard_pile(tool_datas:Array, from_global_position:Vector2, pause:bool, combat_main:CombatMain) -> void:
+	await _gui_tool_card_animation_container.animate_add_cards_to_discard_pile(tool_datas, from_global_position, pause, combat_main)
 
-func animate_stash_card_to_draw_pile(tool_data: ToolData, from_position: Vector2) -> void:
-	await _gui_tool_card_animation_container.animate_stash_card_to_draw_pile(tool_data, from_position)
+func animate_stash_card_to_draw_pile(tool_data: ToolData, from_position: Vector2, combat_main:CombatMain) -> void:
+	await _gui_tool_card_animation_container.animate_stash_card_to_draw_pile(tool_data, from_position, combat_main)
 
-func animate_add_cards_to_hand(hand:Array, tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
-	await _gui_tool_card_animation_container.animate_add_cards_to_hand(hand, tool_datas, from_global_position, pause)
+func animate_add_cards_to_hand(hand:Array, tool_datas:Array, from_global_position:Vector2, pause:bool, combat_main:CombatMain) -> void:
+	await _gui_tool_card_animation_container.animate_add_cards_to_hand(hand, tool_datas, from_global_position, pause, combat_main)
 
-func animate_exhaust(tool_datas:Array) -> void:
-	await _gui_tool_card_animation_container.animate_exhaust(tool_datas)
+func animate_exhaust(tool_datas:Array, combat_main:CombatMain) -> void:
+	await _gui_tool_card_animation_container.animate_exhaust(tool_datas, combat_main)
 
 func animate_card_error_shake(tool_data:ToolData) -> void:
 	var card:GUIToolCardButton = find_card(tool_data)

@@ -18,6 +18,8 @@ signal bloom_started()
 @warning_ignore("unused_signal")
 signal bloom_completed()
 signal action_application_completed()
+signal water_updated(from_value:int, to_value:int)
+signal light_updated(from_value:int, to_value:int)
 
 @onready var plant_sprite: AnimatedSprite2D = %PlantSprite
 @onready var fsm: PlantStateMachine = %PlantStateMachine
@@ -34,36 +36,42 @@ var has_player:bool = false
 var _weak_field:WeakRef = weakref(null)
 
 var data:PlantData:set = _set_data
+var _last_light_value:int = 0
+var _last_water_value:int = 0
 
 func _ready() -> void:
 	fsm.start()
 	bloom_particle.one_shot = true
 	bloom_particle.emitting = false
 	field_status_container.request_hook_message_popup.connect(_on_request_hook_message_popup)
+	_last_light_value = light.value
+	_last_water_value = water.value
+	light.value_update.connect(_on_light_value_update)
+	water.value_update.connect(_on_water_value_update)
 
-func trigger_ability(ability_type:AbilityType) -> void:
-	await plant_ability_container.trigger_ability(ability_type, self)
+func trigger_ability(ability_type:AbilityType, combat_main:CombatMain) -> void:
+	await plant_ability_container.trigger_ability(ability_type, self, combat_main)
 
 func handle_turn_end() -> void:
 	field_status_container.clear_status_on_turn_end()
 
-func handle_tool_application_hook() -> void:
-	await field_status_container.handle_tool_application_hook(self)
+func handle_tool_application_hook(combat_main:CombatMain) -> void:
+	await field_status_container.handle_tool_application_hook(self, combat_main)
 
-func handle_tool_discard_hook(count:int) -> void:
-	await field_status_container.handle_tool_discard_hook(self, count)
+func handle_tool_discard_hook(count:int, combat_main:CombatMain) -> void:
+	await field_status_container.handle_tool_discard_hook(self, count, combat_main)
 
-func handle_start_turn_hook(_combat_main:CombatMain) -> void:
-	await trigger_ability(Plant.AbilityType.START_TURN)
+func handle_start_turn_hook(combat_main:CombatMain) -> void:
+	await trigger_ability(Plant.AbilityType.START_TURN, combat_main)
 
 func handle_end_turn_hook(combat_main:CombatMain) -> void:
 	await field_status_container.handle_end_turn_hook(combat_main, self)
-	await trigger_ability(Plant.AbilityType.END_TURN)
+	await trigger_ability(Plant.AbilityType.END_TURN, combat_main)
 
-func apply_weather_actions(weather_data:WeatherData) -> void:
-	await apply_actions(weather_data.actions)
+func apply_weather_actions(weather_data:WeatherData, combat_main:CombatMain) -> void:
+	await apply_actions(weather_data.actions, combat_main)
 
-func apply_actions(actions:Array) -> void:
+func apply_actions(actions:Array, combat_main:CombatMain) -> void:
 	if is_bloom():
 		await Util.await_for_tiny_time()
 		action_application_completed.emit()
@@ -72,11 +80,11 @@ func apply_actions(actions:Array) -> void:
 	for action in actions:
 		match action.type:
 			ActionData.ActionType.LIGHT:
-				await _apply_light_action(action)
+				await _apply_light_action(action, combat_main)
 			ActionData.ActionType.WATER:
-				await _apply_water_action(action)
+				await _apply_water_action(action, combat_main)
 			ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW, ActionData.ActionType.DROWNED, ActionData.ActionType.BURIED:
-				await _apply_field_status_action(action)
+				await _apply_field_status_action(action, combat_main)
 			_:
 				pass
 	action_application_completed.emit()
@@ -84,8 +92,8 @@ func apply_actions(actions:Array) -> void:
 func is_bloom() -> bool:
 	return (light.max_value <=0 || light.is_full) && (water.max_value <=0 || water.is_full)
 
-func bloom() -> void:
-	fsm.push("PlantStateBloom")
+func bloom(combat_main:CombatMain) -> void:
+	fsm.push("PlantStateBloom", {"combat_main": combat_main})
 
 func show_bloom_popup() -> void:
 	_point_audio.play()
@@ -112,8 +120,8 @@ func _show_resource_icon_popup(icon_id:String, text:String, equal:bool) -> void:
 	Events.request_display_popup_things.emit(popup, 6, 3, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, popup_location)
 	await Util.create_scaled_timer(POPUP_SHOW_TIME).timeout
 
-func _show_popup_action_indicator(action_data:ActionData) -> void:
-	var true_value := _get_action_true_value(action_data)
+func _show_popup_action_indicator(action_data:ActionData, combat_main:CombatMain) -> void:
+	var true_value := _get_action_true_value(action_data, combat_main)
 	var text := str(true_value)
 	var equal := false
 	match action_data.operator_type:
@@ -127,8 +135,8 @@ func _show_popup_action_indicator(action_data:ActionData) -> void:
 	var resource_id := Util.get_action_id_with_action_type(action_data.type)
 	await _show_resource_icon_popup(resource_id, text, equal)
 
-func _apply_light_action(action:ActionData) -> void:
-	var true_value := _get_action_true_value(action)
+func _apply_light_action(action:ActionData, combat_main:CombatMain) -> void:
+	var true_value := _get_action_true_value(action, combat_main)
 	var old_light_value := light.value
 	var new_light_value := 0
 	match action.operator_type:
@@ -141,11 +149,11 @@ func _apply_light_action(action:ActionData) -> void:
 	var prevent_resource_update_value:bool = await field_status_container.handle_prevent_resource_update_value_hook("light", self, old_light_value, new_light_value)
 	if prevent_resource_update_value:
 		return
-	await _show_popup_action_indicator(action)
+	await _show_popup_action_indicator(action, combat_main)
 	light.value = new_light_value
 
-func _apply_water_action(action:ActionData) -> void:
-	var true_value := _get_action_true_value(action)
+func _apply_water_action(action:ActionData, combat_main:CombatMain) -> void:
+	var true_value := _get_action_true_value(action, combat_main)
 	var old_water_value := water.value
 	var new_water_value := 0
 	match action.operator_type:
@@ -159,14 +167,14 @@ func _apply_water_action(action:ActionData) -> void:
 	if prevent_resource_update_value:
 		return
 	var water_increasing := new_water_value - old_water_value > 0
-	await _show_popup_action_indicator(action)
+	await _show_popup_action_indicator(action, combat_main)
 	water.value = new_water_value
 	if water_increasing:
 		await field_status_container.handle_add_water_hook(self)
 
-func _apply_field_status_action(action:ActionData) -> void:
+func _apply_field_status_action(action:ActionData, combat_main:CombatMain) -> void:
 	var field_status_id := Util.get_action_id_with_action_type(action.type)
-	var true_value := _get_action_true_value(action)
+	var true_value := _get_action_true_value(action, combat_main)
 	var stack := 0
 	match action.operator_type:
 		ActionData.OperatorType.INCREASE:
@@ -174,12 +182,13 @@ func _apply_field_status_action(action:ActionData) -> void:
 		ActionData.OperatorType.DECREASE:
 			stack = -true_value
 		ActionData.OperatorType.EQUAL_TO:
-			stack = true_value
-	await _show_popup_action_indicator(action)
+			var current := field_status_container.get_status_stack(field_status_id)
+			stack = true_value - current
+	await _show_popup_action_indicator(action, combat_main)
 	field_status_container.update_status(field_status_id, stack, self)
 
-func _get_action_true_value(action_data:ActionData) -> int:
-	return action_data.get_calculated_value(self)
+func _get_action_true_value(action_data:ActionData, combat_main:CombatMain) -> int:
+	return action_data.get_calculated_value(combat_main)
 
 func _reposition_bloom_particle() -> void:
 	var sprite_frames:SpriteFrames = plant_sprite.sprite_frames
@@ -202,6 +211,18 @@ func _on_request_hook_message_popup(status_data:StatusData) -> void:
 	var popup_location:Vector2 = Util.get_node_canvas_position(self) + POPUP_OFFSET
 	Events.request_display_popup_things.emit(popup, 10, 1, POPUP_SHOW_TIME, POPUP_DESTROY_TIME, popup_location)
 	await Util.create_scaled_timer(POPUP_SHOW_TIME).timeout
+
+func _on_light_value_update() -> void:
+	var from_value := _last_light_value
+	var to_value := light.value
+	_last_light_value = to_value
+	light_updated.emit(from_value, to_value)
+
+func _on_water_value_update() -> void:
+	var from_value := _last_water_value
+	var to_value := water.value
+	_last_water_value = to_value
+	water_updated.emit(from_value, to_value)
 
 #endregion
 

@@ -3,13 +3,15 @@ extends RefCounted
 
 signal action_application_completed()
 
-func apply_action(action:ActionData, all_actions:Array) -> void:
+func apply_action(action:ActionData, all_actions:Array, combat_main:CombatMain) -> void:
 	assert(action.action_category == ActionData.ActionCategory.CARD)
-	var calculated_value := action.get_calculated_value(null)
+	var calculated_value := action.get_calculated_value(combat_main)
 	match action.type:
 		ActionData.ActionType.UPDATE_X:
 			var x_action:ActionData
 			for action_data:ActionData in all_actions:
+				if action_data == action:
+					continue
 				if action_data.value_type == ActionData.ValueType.X:
 					x_action = action_data
 					break

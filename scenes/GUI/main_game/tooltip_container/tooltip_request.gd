@@ -26,13 +26,15 @@ var tooltip_type:TooltipType
 var data:Variant
 var id:String
 var on_control_node:Control: set = _set_on_control_node, get = _get_on_control_node
-var tooltip_position: GUITooltip.TooltipPosition
+# Variant avoids parse-time dependency on GUITooltip / CombatMain (tooltip scene preloads).
+var tooltip_position: Variant
 var additional_data:Dictionary = {}
 var anchor_mouse:bool = false
+var combat_main: Variant
 
 var _weak_on_control_node:WeakRef = weakref(null)
 
-func _init(param_tooltip_type:TooltipType, param_data:Variant, param_id:String, param_on_control_node:Control, param_tooltip_position: GUITooltip.TooltipPosition, param_additional_data:Dictionary = {}, param_anchor_mouse:bool = false) -> void:
+func _init(param_tooltip_type:TooltipType, param_data:Variant, param_id:String, param_on_control_node:Control, param_tooltip_position: Variant, param_additional_data:Dictionary = {}, param_anchor_mouse:bool = false) -> void:
 	tooltip_type = param_tooltip_type
 	data = param_data
 	id = param_id

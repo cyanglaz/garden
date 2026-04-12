@@ -4,6 +4,36 @@ extends GutTest
 
 const FAKE_PATH := "res://fake/test_action.tres"
 
+class FakeCombatMain extends CombatMain:
+	var fake_plant: Plant = null
+	func get_current_player_plant() -> Plant:
+		return fake_plant
+
+class FakeFieldStatusContainer extends FieldStatusContainer:
+	var pest_stack_count: int = 0
+	func get_status_stack(status_id: String) -> int:
+		if status_id == "pest":
+			return pest_stack_count
+		return 0
+
+class FakePlant extends Plant:
+	pass
+
+func _make_combat_main_with_plant(plant: Plant) -> FakeCombatMain:
+	var cm := FakeCombatMain.new()
+	autofree(cm)
+	cm.fake_plant = plant
+	return cm
+
+func _make_plant_with_pest_stack(pest_stack: int) -> FakePlant:
+	var p := FakePlant.new()
+	autofree(p)
+	var fsc := FakeFieldStatusContainer.new()
+	autofree(fsc)
+	fsc.pest_stack_count = pest_stack
+	p.field_status_container = fsc
+	return p
+
 func _make_action(action_type: ActionData.ActionType = ActionData.ActionType.WATER) -> ActionData:
 	var ad := ActionData.new()
 	ad.set("_original_resource_path", FAKE_PATH)
@@ -144,6 +174,32 @@ func test_calculated_x_value_zero_when_no_target_plant_and_target_light_type():
 	ad.x_value_type = ActionData.XValueType.TARGET_LIGHT
 	# No target_plant, so base_x_value = 0
 	assert_eq(ad.get_calculated_x_value(null), 0)
+
+func test_calculated_x_value_zero_when_no_target_plant_and_target_pest_type():
+	var ad := _make_action(ActionData.ActionType.UPDATE_X)
+	ad.x_value_type = ActionData.XValueType.TARGET_PEST
+	assert_eq(ad.get_calculated_x_value(null), 0)
+
+func test_calculated_x_value_zero_when_combat_main_has_no_plant_and_target_pest_type():
+	var ad := _make_action(ActionData.ActionType.UPDATE_X)
+	ad.x_value_type = ActionData.XValueType.TARGET_PEST
+	var cm := _make_combat_main_with_plant(null)
+	assert_eq(ad.get_calculated_x_value(cm), 0)
+
+func test_calculated_x_value_target_pest_matches_plant_pest_stack():
+	var plant := _make_plant_with_pest_stack(4)
+	var cm := _make_combat_main_with_plant(plant)
+	var ad := _make_action(ActionData.ActionType.UPDATE_X)
+	ad.x_value_type = ActionData.XValueType.TARGET_PEST
+	assert_eq(ad.get_calculated_x_value(cm), 4)
+
+func test_calculated_x_value_target_pest_adds_modified_x_value():
+	var plant := _make_plant_with_pest_stack(3)
+	var cm := _make_combat_main_with_plant(plant)
+	var ad := _make_action(ActionData.ActionType.UPDATE_X)
+	ad.x_value_type = ActionData.XValueType.TARGET_PEST
+	ad.modified_x_value = 2
+	assert_eq(ad.get_calculated_x_value(cm), 5)
 
 # ----- get_calculated_value with X value_type delegates to get_calculated_x_value -----
 

@@ -7,7 +7,7 @@ var _weak_tool_data:WeakRef = weakref(null)
 
 func update_with_tool_data(tool_data:ToolData) -> void:
 	_weak_tool_data = weakref(tool_data)
-	gui_tool_card_button.update_with_tool_data(tool_data)
+	gui_tool_card_button.update_with_tool_data(tool_data, null)
 	gui_tool_card_button.mouse_disabled = true
 	cost = tool_data.cost
 

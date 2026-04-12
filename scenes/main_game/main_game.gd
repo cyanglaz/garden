@@ -52,6 +52,7 @@ func _ready() -> void:
 	gui_main_game.bind_with_hp(hp)
 	gui_main_game.bind_cards(card_pool)
 	gui_main_game.bind_trinkets(trinket_manager)
+	gui_main_game.request_view_cards.connect(_on_request_view_cards)
 
 	map_main.node_selected.connect(_on_map_node_selected)
 
@@ -70,6 +71,8 @@ func _register_global_events() -> void:
 	Events.request_add_card_to_deck.connect(_on_request_add_card_to_deck)
 	Events.request_remove_card_from_deck.connect(_on_request_remove_card_from_deck)
 	Events.request_add_trinket_to_collection.connect(_on_request_add_trinket_to_collection)
+	Events.request_display_tooltip.connect(_on_request_display_tooltip)
+	Events.request_hide_tooltip.connect(_on_request_hide_tooltip)
 
 #endregion
 
@@ -254,6 +257,17 @@ func _on_request_show_custom_error(message:String, id:String) -> void:
 
 func _on_request_hide_custom_error(id:String) -> void:
 	_warning_manager.hide_custom_error(id)
+
+func _on_request_view_cards(cards:Array, title:String) -> void:
+	var combat_main:CombatMain = _current_scene if _current_scene && _current_scene is CombatMain else null
+	gui_main_game.show_card_viewer(cards, title, combat_main)
+
+func _on_request_display_tooltip(tooltip_request:TooltipRequest) -> void:
+	var combat_main:CombatMain = _current_scene if _current_scene && _current_scene is CombatMain else null
+	gui_main_game.show_tooltip(tooltip_request, combat_main)
+
+func _on_request_hide_tooltip(id:String) -> void:
+	gui_main_game.hide_tooltip(id)
 
 #endregion
 

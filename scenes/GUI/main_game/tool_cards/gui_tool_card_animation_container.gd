@@ -38,13 +38,13 @@ func setup(tool_card_container:GUIToolCardContainer, draw_box_button:GUIDeckButt
 	_draw_deck_button_global_position = draw_box_button.global_position - Vector2.ONE
 	_discard_deck_button_global_position = discard_box_button.global_position - Vector2.ONE
 
-func animate_draw(draw_results:Array) -> void:
+func animate_draw(draw_results:Array, combat_main:CombatMain) -> void:
 	if draw_results.is_empty():
 		return
-	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_DRAW, [draw_results])
+	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_DRAW, [draw_results, combat_main])
 	await item.finished
 
-func animate_shuffle(discard_pile:Array) -> void:
+func animate_shuffle(discard_pile:Array, combat_main:CombatMain) -> void:
 	if discard_pile.size() == 0:
 		return
 	var index := 0
@@ -54,7 +54,7 @@ func animate_shuffle(discard_pile:Array) -> void:
 		var tool_data:ToolData = discard_pile[i]
 		var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
 		add_child(animating_card)
-		animating_card.update_with_tool_data(tool_data)
+		animating_card.update_with_tool_data(tool_data, combat_main)
 		animating_card.hide()
 		animating_card.mouse_disabled = true
 		animating_card.animation_mode = true
@@ -73,11 +73,11 @@ func animate_shuffle(discard_pile:Array) -> void:
 		index += 1
 	await tween.finished
 
-func animate_use_card(tool_data:ToolData) -> void:
-	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_USE_CARD, [tool_data])
+func animate_use_card(tool_data:ToolData, combat_main:CombatMain) -> void:
+	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_USE_CARD, [tool_data, combat_main])
 	await item.finished
 
-func animate_discard(tool_datas:Array) -> void:
+func animate_discard(tool_datas:Array, combat_main:CombatMain) -> void:
 	var in_use_card:ToolData
 	var in_hand_cards:Array = []
 	for tool_data in tool_datas:
@@ -86,24 +86,24 @@ func animate_discard(tool_datas:Array) -> void:
 		else:
 			in_hand_cards.append(tool_data)
 	if in_use_card:
-		await _animate_discard_in_use_card()
+		await _animate_discard_in_use_card(combat_main)
 	if in_hand_cards.size() > 0:
-		var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_DISCARD, [in_hand_cards])
+		var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_DISCARD, [in_hand_cards, combat_main])
 		await item.finished
 
-func animate_add_cards_to_draw_pile(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
-	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_ADD_CARD_TO_DRAW_PILE, [tool_datas, from_global_position, pause])
+func animate_add_cards_to_draw_pile(tool_datas:Array, from_global_position:Vector2, pause:bool, combat_main:CombatMain) -> void:
+	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_ADD_CARD_TO_DRAW_PILE, [tool_datas, from_global_position, pause, combat_main])
 	await item.finished
 
-func animate_add_cards_to_discard_pile(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
-	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_ADD_CARD_TO_DISCARD_PILE, [tool_datas, from_global_position, pause])
+func animate_add_cards_to_discard_pile(tool_datas:Array, from_global_position:Vector2, pause:bool, combat_main:CombatMain) -> void:
+	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_ADD_CARD_TO_DISCARD_PILE, [tool_datas, from_global_position, pause, combat_main])
 	await item.finished
 
-func animate_add_cards_to_hand(hand:Array, tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
-	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_ADD_CARD_TO_HAND, [hand, tool_datas, from_global_position, pause])
+func animate_add_cards_to_hand(hand:Array, tool_datas:Array, from_global_position:Vector2, pause:bool, combat_main:CombatMain) -> void:
+	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_ADD_CARD_TO_HAND, [hand, tool_datas, from_global_position, pause, combat_main])
 	await item.finished
 
-func animate_exhaust(tool_datas:Array) -> void:
+func animate_exhaust(tool_datas:Array, combat_main:CombatMain) -> void:
 	var in_use_card:ToolData
 	var in_hand_cards:Array = []
 	for tool_data in tool_datas:
@@ -114,7 +114,7 @@ func animate_exhaust(tool_datas:Array) -> void:
 	if in_use_card:
 		await _animate_exhaust_in_use_card()
 	if in_hand_cards.size() > 0:
-		var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_EXHAUST, [in_hand_cards])
+		var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_EXHAUST, [in_hand_cards, combat_main])
 		await item.finished
 
 func _enqueue_animation(type:AnimationQueueItem.AnimationType, args:Array) -> AnimationQueueItem:
@@ -152,6 +152,7 @@ func _animate_draw(animation_item:AnimationQueueItem) -> void:
 	var total_card_count:int = _tool_card_container.get_card_count() + draw_results.size()
 	var card_positions:Array[Vector2] = _tool_card_container.calculate_default_positions(total_card_count)
 	var starting_index:int = _tool_card_container.get_card_count()
+	var combat_main:CombatMain = animation_item.animation_args[1]
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
 	var animating_cards:Array[GUIToolCardButton] = []
@@ -161,7 +162,7 @@ func _animate_draw(animation_item:AnimationQueueItem) -> void:
 		if i < starting_index:
 			animating_card = _tool_card_container.get_card(i)
 		else:
-			animating_card = _tool_card_container.add_card(draw_results[i - starting_index])
+			animating_card = _tool_card_container.add_card(draw_results[i - starting_index], combat_main)
 			animating_card.hide()
 			animating_card.global_position = _draw_deck_button_global_position
 			animating_card.size = _draw_deck_size
@@ -187,6 +188,7 @@ func _animate_draw(animation_item:AnimationQueueItem) -> void:
 
 func _animate_discard(animation_item:AnimationQueueItem) -> void:
 	var tool_datas:Array = animation_item.animation_args[0].duplicate()
+	var combat_main:CombatMain = animation_item.animation_args[1]
 	var discarding_cards:Array[GUIToolCardButton] = []
 	var discard_tween:Tween = Util.create_scaled_tween(self)
 	discard_tween.set_parallel(true)
@@ -194,7 +196,7 @@ func _animate_discard(animation_item:AnimationQueueItem) -> void:
 	for card:GUIToolCardButton in _tool_card_container.get_all_cards():
 		if tool_datas.has(card.tool_data) || tool_datas.has(card.front_face.tool_data):
 			discarding_cards.append(card)
-			_animate_discard_a_card(card, discard_tween, Constants.CARD_ANIMATION_DELAY * index)
+			_animate_discard_a_card(card, discard_tween, Constants.CARD_ANIMATION_DELAY * index, combat_main)
 			index += 1
 	await discard_tween.finished
 	_tool_card_container.remove_cards(discarding_cards)
@@ -218,6 +220,7 @@ func _animate_add_card_to_draw_pile(animation_item:AnimationQueueItem) -> void:
 	var pause:bool = animation_item.animation_args[2]
 	var animating_cards:Array[GUIToolCardButton] = []
 	var index := 0
+	var combat_main:CombatMain = animation_item.animation_args[3]
 	var tween := Util.create_scaled_tween(self)
 	tween.set_parallel(true)
 	var display_pause_time := ADD_CARD_TO_PILE_PAUSE_TIME if pause else 0.0
@@ -225,7 +228,7 @@ func _animate_add_card_to_draw_pile(animation_item:AnimationQueueItem) -> void:
 		var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
 		animating_cards.append(animating_card)
 		add_child(animating_card)
-		animating_card.update_with_tool_data(tool_data)
+		animating_card.update_with_tool_data(tool_data, combat_main)
 		animating_card.global_position = from_global_position
 		animating_card.mouse_disabled = true
 		animating_card.hide()
@@ -254,6 +257,7 @@ func _animate_add_card_to_discard_pile(animation_item:AnimationQueueItem) -> voi
 	var tool_datas:Array = animation_item.animation_args[0]
 	var from_global_position:Vector2 = animation_item.animation_args[1]
 	var pause:bool = animation_item.animation_args[2]
+	var combat_main:CombatMain = animation_item.animation_args[3]
 	var animating_cards:Array[GUIToolCardButton] = []
 	var tween := Util.create_scaled_tween(self)
 	tween.set_parallel(true)
@@ -263,7 +267,7 @@ func _animate_add_card_to_discard_pile(animation_item:AnimationQueueItem) -> voi
 		var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
 		animating_cards.append(animating_card)
 		add_child(animating_card)
-		animating_card.update_with_tool_data(tool_data)
+		animating_card.update_with_tool_data(tool_data, combat_main)
 		animating_card.global_position = from_global_position
 		animating_card.mouse_disabled = true
 		animating_card.hide()
@@ -293,6 +297,7 @@ func _animate_add_card_to_hand(animation_item:AnimationQueueItem) -> void:
 	var new_tool_datas:Array = animation_item.animation_args[1].duplicate()
 	var from_global_position:Vector2 = animation_item.animation_args[2]
 	var pause:bool = animation_item.animation_args[3]
+	var combat_main:CombatMain = animation_item.animation_args[4]
 	var card_positions:Array[Vector2] = _tool_card_container.calculate_default_positions(hand.size())
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
@@ -307,7 +312,7 @@ func _animate_add_card_to_hand(animation_item:AnimationQueueItem) -> void:
 			animating_card = _tool_card_container.get_card(i)
 			assert(!new_tool_datas.has(animating_card.tool_data))
 		else:
-			animating_card = _tool_card_container.add_card(new_tool_datas[i - exiting_card_count])
+			animating_card = _tool_card_container.add_card(new_tool_datas[i - exiting_card_count], combat_main)
 			if from_global_position == Vector2.ZERO:
 				from_global_position = target_global_position
 			animating_card.hide()
@@ -334,12 +339,13 @@ func _animate_add_card_to_hand(animation_item:AnimationQueueItem) -> void:
 
 func _animate_use_card(animation_item:AnimationQueueItem) -> void:
 	var tool_data:ToolData = animation_item.animation_args[0]
+	var combat_main:CombatMain = animation_item.animation_args[1]
 	var card:GUIToolCardButton = _tool_card_container.find_card(tool_data)
 	assert(_in_use_card == null)
 	_in_use_card = ANIMATING_TOOL_CARD_SCENE.instantiate()
 	add_child(_in_use_card)
 	_in_use_card.card_state = GUICardFace.CardState.HIGHLIGHTED
-	_in_use_card.update_with_tool_data(card.tool_data)
+	_in_use_card.update_with_tool_data(card.tool_data, combat_main)
 	_in_use_card.global_position = card.global_position
 	_in_use_card.mouse_disabled = true
 	_in_use_card.play_use_sound()
@@ -352,13 +358,13 @@ func _animate_use_card(animation_item:AnimationQueueItem) -> void:
 	await Util.create_scaled_timer(USE_CARD_PAUSE_TIME).timeout
 	_animation_queue_item_finished.emit(animation_item)
 
-func _animate_discard_in_use_card() -> void:
+func _animate_discard_in_use_card(combat_main:CombatMain) -> void:
 	assert(_in_use_card != null)
 	var in_use_card := _in_use_card
 	_in_use_card = null
 	var discard_tween := Util.create_scaled_tween(self)
 	discard_tween.set_parallel(true)
-	_animate_discard_a_card(in_use_card, discard_tween, 0)
+	_animate_discard_a_card(in_use_card, discard_tween, 0, combat_main)
 	await discard_tween.finished
 	_animate_reposition()
 	in_use_card.queue_free()
@@ -371,10 +377,10 @@ func _animate_exhaust_in_use_card() -> void:
 	# exhaust the card
 	_animate_reposition()
 
-func _animate_discard_a_card(card:GUIToolCardButton, tween:Tween, delay:float) -> void:
+func _animate_discard_a_card(card:GUIToolCardButton, tween:Tween, delay:float, combat_main:CombatMain) -> void:
 	var animating_card:GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
 	add_child(animating_card)
-	animating_card.update_with_tool_data(card.tool_data)
+	animating_card.update_with_tool_data(card.tool_data, combat_main)
 	animating_card.global_position = card.global_position
 	animating_card.hide()
 	animating_card.animation_mode = true
@@ -392,13 +398,14 @@ func _animate_discard_a_card(card:GUIToolCardButton, tween:Tween, delay:float) -
 		animating_card.queue_free()
 	)
 
-func animate_stash_card_to_draw_pile(tool_data: ToolData, from_position: Vector2) -> void:
-	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_STASH_CARD_TO_DRAW_PILE, [tool_data, from_position])
+func animate_stash_card_to_draw_pile(tool_data: ToolData, from_position: Vector2, combat_main:CombatMain) -> void:
+	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_STASH_CARD_TO_DRAW_PILE, [tool_data, from_position, combat_main])
 	await item.finished
 
 func _animate_stash_card_to_draw_pile(animation_item: AnimationQueueItem) -> void:
 	var tool_data: ToolData = animation_item.animation_args[0]
 	var from_position: Vector2 = animation_item.animation_args[1]
+	var combat_main:CombatMain = animation_item.animation_args[2]
 	var gui_card := _tool_card_container.find_card(tool_data)
 	assert(gui_card != null, "Stashed card not found in tool card container")
 	if !gui_card:
@@ -408,7 +415,7 @@ func _animate_stash_card_to_draw_pile(animation_item: AnimationQueueItem) -> voi
 	await _animate_reposition()
 	var animating_card: GUIToolCardButton = ANIMATING_TOOL_CARD_SCENE.instantiate()
 	add_child(animating_card)
-	animating_card.update_with_tool_data(tool_data)
+	animating_card.update_with_tool_data(tool_data, combat_main)
 	animating_card.global_position = from_position
 	animating_card.mouse_disabled = true
 	animating_card.show()

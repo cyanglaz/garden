@@ -18,7 +18,7 @@ func _ready() -> void:
 	_display_y = _main_container.position.y
 	_back_button.hide()
 
-func animated_show_with_pool(pool:Array, title:String) -> void:
+func animated_show_with_pool(pool:Array, title:String, combat_main:CombatMain) -> void:
 	_title.text = title
 	show()
 	_scroll_container.get_v_scroll_bar().value = 0
@@ -28,7 +28,7 @@ func animated_show_with_pool(pool:Array, title:String) -> void:
 		var gui_tool_card: GUIToolCardButton = TOOL_CARD_BUTTON_SCENE.instantiate()
 		_grid_container.add_child(gui_tool_card)
 		gui_tool_card.mouse_disabled = false
-		gui_tool_card.update_with_tool_data(tool_data)
+		gui_tool_card.update_with_tool_data(tool_data, combat_main)
 		gui_tool_card.mouse_entered.connect(_on_mouse_entered.bind(gui_tool_card))
 		gui_tool_card.mouse_exited.connect(_on_mouse_exited)
 		gui_tool_card.pressed.connect(_on_tool_card_pressed.bind(gui_tool_card))

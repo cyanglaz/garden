@@ -17,5 +17,5 @@ func _handle_start_turn_hook(combat_main: CombatMain) -> void:
 		action_light.type = ActionData.ActionType.LIGHT
 		action_light.operator_type = ActionData.OperatorType.INCREASE
 		action_light.value = int(data.data[&"light"])
-		await plant.apply_actions([action_water, action_light])
+		await plant.apply_actions([action_water, action_light], combat_main)
 	data.state = TrinketData.TrinketState.NORMAL

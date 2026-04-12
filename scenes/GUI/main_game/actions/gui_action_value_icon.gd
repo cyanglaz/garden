@@ -17,7 +17,7 @@ var highlighted:bool = false: set = _set_highlighted
 func _ready() -> void:
 	_random_icon.texture = RANDOM_ICON_TEXTURE
 
-func update_with_action(action_data:ActionData, target_plant:Plant) -> void:
+func update_with_action(action_data:ActionData, combat_main:CombatMain) -> void:
 	_sign_icon.hide()
 	_value_icon.hide()
 	_random_icon.hide()
@@ -26,7 +26,7 @@ func update_with_action(action_data:ActionData, target_plant:Plant) -> void:
 	match action_data.value_type:
 		ActionData.ValueType.NUMBER:
 			_value_icon.show()
-			var value_id := _get_value_id(action_data.get_calculated_value(target_plant))
+			var value_id := _get_value_id(action_data.get_calculated_value(combat_main))
 			var icon_path := VALUE_ICON_PATH + value_id + ".png"
 			_value_icon.texture = load(icon_path)
 			if action_data.operator_type == ActionData.OperatorType.DECREASE:
@@ -37,7 +37,7 @@ func update_with_action(action_data:ActionData, target_plant:Plant) -> void:
 					#_sign_icon.texture = load(SIGN_ICON_PATH + "plus.png")
 		ActionData.ValueType.RANDOM:
 			_value_icon.show()
-			var value_id := _get_value_id(action_data.get_calculated_value(target_plant))
+			var value_id := _get_value_id(action_data.get_calculated_value(combat_main))
 			var icon_path := VALUE_ICON_PATH + value_id + ".png"
 			_value_icon.texture = load(icon_path)
 			_random_icon.show()
@@ -45,7 +45,7 @@ func update_with_action(action_data:ActionData, target_plant:Plant) -> void:
 			_value_icon.show()
 			_value_icon.texture = load(VALUE_ICON_PATH + "x.png")
 			_x_value_label.show()
-			_x_value_label.text = Util.get_localized_string("ACTION_X_VALUE_LABEL") % [_get_x_value(action_data, target_plant)]
+			_x_value_label.text = Util.get_localized_string("ACTION_X_VALUE_LABEL") % [_get_x_value(action_data, combat_main)]
 	if action_data.modified_value > 0:
 		_value_icon.modulate = Constants.TOOLTIP_HIGHLIGHT_COLOR_GREEN
 	elif action_data.modified_value < 0:
@@ -54,7 +54,7 @@ func update_with_action(action_data:ActionData, target_plant:Plant) -> void:
 		_value_icon.modulate = Color.WHITE
 	
 	if action_data.operator_type == ActionData.OperatorType.EQUAL_TO:
-		assert(action_data.get_calculated_value(target_plant) >= 0, "Value must be greater than 0 for equal to operator")
+		assert(action_data.get_calculated_value(combat_main) >= 0, "Value must be greater than 0 for equal to operator")
 		_sign_icon.show()
 		_sign_icon.texture = load(SIGN_ICON_PATH + "equals.png")
 
@@ -81,14 +81,16 @@ func update_for_x(x_value:int, x_value_type:ActionData.XValueType) -> void:
 			_value_icon.texture = load(VALUE_ICON_PATH + "cards_in_hand.png")
 		ActionData.XValueType.TARGET_LIGHT:
 			_value_icon.texture = load(RESOURCE_ICON_PATH + "light.png")
+		ActionData.XValueType.TARGET_PEST:
+			_value_icon.texture = load(RESOURCE_ICON_PATH + "pest.png")
 	
 	if !_sign_icon.visible && !_value_icon.visible && !_random_icon.visible && !_x_value_label.visible && !_number_sign_icon.visible:
 		hide()
 	else:
 		show()
 
-func _get_x_value(action_data:ActionData, target_plant:Plant) -> String:
-	return str(action_data.get_calculated_x_value(target_plant))	
+func _get_x_value(action_data:ActionData, combat_main:CombatMain) -> String:
+	return str(action_data.get_calculated_x_value(combat_main))	
 
 func _get_value_id(value:int) -> String:
 	var value_id := str(abs(value))

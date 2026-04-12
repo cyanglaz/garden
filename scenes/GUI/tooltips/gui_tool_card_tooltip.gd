@@ -10,7 +10,7 @@ func _update_with_tooltip_request() -> void:
 		gui_actions_description.hide()
 	else:
 		gui_actions_description.show()
-		gui_actions_description.update_with_actions(tool_data.actions, null)
+		gui_actions_description.update_with_actions(tool_data.actions, _tooltip_request.combat_main)
 	if tool_data.specials.is_empty():
 		gui_tool_special_description.hide()
 	else:

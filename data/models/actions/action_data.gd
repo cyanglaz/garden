@@ -50,6 +50,7 @@ enum XValueType {
 	NUMBER,
 	NUMBER_OF_TOOL_CARDS_IN_HAND,
 	TARGET_LIGHT,
+	TARGET_PEST,
 }
 
 enum Special {
@@ -83,10 +84,8 @@ var card_selection_type:CardSelectionType: get = _get_card_selection_type
 var need_card_selection:bool: get = _get_need_card_selection
 var modified_value:int
 var modified_x_value:int
-var combat_main:CombatMain: get = _get_combat_main, set = _set_combat_main
 var _original_value:int
 var _original_x_value:int
-var _weak_combat_main:WeakRef = weakref(null)
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
@@ -105,7 +104,7 @@ func get_duplicate() -> ThingData:
 	action_data.copy(self)
 	return action_data
 
-func get_calculated_value(target_plant:Plant) -> int:
+func get_calculated_value(combat_main:CombatMain) -> int:
 	var base_value := 0
 	match value_type:
 		ValueType.NUMBER:
@@ -113,11 +112,14 @@ func get_calculated_value(target_plant:Plant) -> int:
 		ValueType.RANDOM:
 			base_value = _original_value
 		ValueType.X:
-			base_value = get_calculated_x_value(target_plant)
+			base_value = get_calculated_x_value(combat_main)
 	return modified_value + base_value
 
-func get_calculated_x_value(target_plant:Plant) -> int:
+func get_calculated_x_value(combat_main:CombatMain) -> int:
 	var base_x_value := 0
+	var target_plant:Plant = null
+	if combat_main:
+		target_plant = combat_main.get_current_player_plant()
 	match x_value_type:
 		XValueType.NUMBER:
 			base_x_value = _original_x_value
@@ -129,6 +131,11 @@ func get_calculated_x_value(target_plant:Plant) -> int:
 		XValueType.TARGET_LIGHT:
 			if target_plant:
 				base_x_value = target_plant.light.value
+			else:
+				base_x_value = 0
+		XValueType.TARGET_PEST:
+			if target_plant:
+				base_x_value = target_plant.field_status_container.get_status_stack("pest")
 			else:
 				base_x_value = 0
 	return modified_x_value + base_x_value
@@ -164,9 +171,3 @@ func _get_card_selection_type() -> CardSelectionType:
 
 func _get_need_card_selection() -> bool:
 	return NEED_CARD_SELECTION.has(type)
-
-func _get_combat_main() -> CombatMain:
-	return _weak_combat_main.get_ref()
-
-func _set_combat_main(val:CombatMain) -> void:
-	_weak_combat_main = weakref(val)

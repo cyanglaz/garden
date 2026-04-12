@@ -57,6 +57,8 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	plant_field_container.plant_bloom_completed.connect(_on_plant_bloom_completed)
 	plant_field_container.plant_action_application_completed.connect(_on_plant_action_application_completed)
 	plant_field_container.mouse_plant_updated.connect(_on_mouse_plant_updated)
+	plant_field_container.plant_light_updated.connect(_on_plant_light_updated)
+	plant_field_container.plant_water_updated.connect(_on_plant_water_updated)
 
 	weather_main.weathers_updated.connect(_on_weathers_updated)
 	weather_main.test_weather = test_weather
@@ -107,21 +109,21 @@ func get_current_player_plant() -> Plant:
 #region cards
 func draw_cards(count:int) -> void:
 	var first_turn_draw := day_manager.day == 0 && !is_mid_turn
-	var draw_results:Array = await tool_manager.draw_cards(count, first_turn_draw)
-	await player.player_upgrades_manager.handle_card_added_to_hand_hook(draw_results)
+	var draw_results:Array = await tool_manager.draw_cards(count, first_turn_draw, self)
+	await player.player_upgrades_manager.handle_card_added_to_hand_hook(draw_results, self)
 	await player.player_upgrades_manager.handle_draw_hook(self, draw_results)
 
 func discard_cards(tools:Array) -> void:
-	await tool_manager.discard_cards(tools)
+	await tool_manager.discard_cards(tools, self)
 	await player.player_upgrades_manager.handle_discard_hook(self, tools)
 
 func exhaust_cards(tools:Array) -> void:
-	await tool_manager.exhaust_cards(tools)
+	await tool_manager.exhaust_cards(tools, self)
 	await player.player_upgrades_manager.handle_exhaust_hook(self, tools)
 
 func add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
-	await player.player_upgrades_manager.handle_card_added_to_hand_hook(tool_datas)
-	await tool_manager.add_tools_to_hand(tool_datas, from_global_position, pause)
+	await player.player_upgrades_manager.handle_card_added_to_hand_hook(tool_datas, self)
+	await tool_manager.add_tools_to_hand(tool_datas, from_global_position, pause, self)
 
 func add_card_to_deck(tool_data:ToolData) -> void:
 	tool_manager.add_tool_to_deck(tool_data)
@@ -217,7 +219,7 @@ func _discard_all_tools() -> void:
 	var cards_to_discard:Array = tool_manager.tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return !tool_data.specials.has(ToolData.Special.HANDY))
 	if cards_to_discard.size() == 0:
 		return
-	await tool_manager.discard_cards(cards_to_discard)
+	await tool_manager.discard_cards(cards_to_discard, self)
 
 func _clear_tool_selection() -> void:
 	tool_manager.clear_tool_selection()
@@ -227,7 +229,7 @@ func _clear_tool_selection() -> void:
 func _bloom(plant_index:int) -> void:
 	var field:Field = plant_field_container.get_field(plant_index)
 	if field.can_bloom():
-		field.bloom()
+		field.bloom(self)
 
 func _fade_music(fade_in:bool) -> void:
 	if fade_in:
@@ -284,6 +286,7 @@ func _on_player_field_index_updated(from:int, to:int) -> void:
 	plant_field_container.update_player_index(to)
 	var destination_x := plant_field_container.get_field(to).global_position.x
 	player.move_to_x(destination_x)
+	tool_manager.refresh_cards_ui(self)
 	if from != to:
 		await player.player_upgrades_manager.handle_player_move_hook(self)
 
@@ -329,10 +332,8 @@ func _on_max_hand_warning_timer_timeout() -> void:
 	_max_hand_warning_timer = null
 	Events.request_hide_warning.emit(WarningManager.WarningType.MAX_HAND_SIZE_REACHED)
 
-func _on_hand_updated(hand:Array) -> void:
-	for tool_data in hand:
-		tool_data.combat_main = self
-		tool_data.request_refresh.emit()
+func _on_hand_updated(_hand:Array) -> void:
+	tool_manager.refresh_cards_ui(self)
 
 func _on_cards_removed_from_hand(_tool_datas:Array, _updated_hand:Array) -> void:
 	if is_mid_turn:
@@ -346,7 +347,7 @@ func _on_plant_action_application_completed(index:int) -> void:
 func _on_plant_bloom_started() -> void:
 	gui.toggle_all_ui(false)
 
-func _on_plant_bloom_completed() -> void:
+func _on_plant_bloom_completed(plant:Plant) -> void:
 	if _met_win_condition():
 		await _win()
 	else:
@@ -356,8 +357,8 @@ func _on_plant_bloom_completed() -> void:
 func _on_weathers_updated() -> void:
 	gui.update_weathers(weather_main.weather_manager)
 
-func _on_mouse_plant_updated(plant:Plant) -> void:
-	gui.update_mouse_plant(plant)
+func _on_mouse_plant_updated(_plant:Plant) -> void:
+	pass
 
 func _on_request_add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
 	gui.toggle_all_ui(false)
@@ -366,13 +367,13 @@ func _on_request_add_tools_to_hand(tool_datas:Array, from_global_position:Vector
 
 func _on_request_add_tools_to_discard_pile(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
 	gui.toggle_all_ui(false)
-	await tool_manager.add_tools_to_discard_pile(tool_datas, from_global_position, pause)
+	await tool_manager.add_tools_to_discard_pile(tool_datas, from_global_position, pause, self)
 	gui.toggle_all_ui(true)
 
 func _on_request_modify_hand_cards(callable:Callable) -> void:
 	gui.toggle_all_ui(false)
 	await callable.call(tool_manager.tool_deck.hand)
-	tool_manager.refresh_ui()
+	tool_manager.refresh_cards_ui(self)
 	gui.toggle_all_ui(true)
 
 func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
@@ -399,6 +400,12 @@ func _on_player_player_upgrade_stack_updated(id:String, diff:int) -> void:
 
 func _on_pool_updated(pool:Array) -> void:
 	await player.player_upgrades_manager.handle_pool_updated_hook(self, pool)
+
+func _on_plant_light_updated(_plant:Plant, _from_value:int, _to_value:int) -> void:
+	tool_manager.refresh_cards_ui(self)
+
+func _on_plant_water_updated(_plant:Plant, _from_value:int, _to_value:int) -> void:
+	tool_manager.refresh_cards_ui(self)
 
 #endregion
 

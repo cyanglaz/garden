@@ -6,7 +6,7 @@ class FakeToolManager extends ToolManager:
 	func _init():
 		super([], null)
 
-	func move_hand_card_to_top_of_draw_pile(tool_data: ToolData) -> void:
+	func move_hand_card_to_top_of_draw_pile(tool_data: ToolData, _combat_main: CombatMain) -> void:
 		moved_cards.append(tool_data)
 		await Util.await_for_tiny_time()
 

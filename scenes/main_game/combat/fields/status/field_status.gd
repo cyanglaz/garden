@@ -32,14 +32,14 @@ func handle_add_water_hook(plant:Plant) -> void:
 func has_tool_application_hook(plant:Plant) -> bool:
 	return _has_tool_application_hook(plant)
 
-func handle_tool_application_hook(plant:Plant) -> void:
-	await _handle_tool_application_hook(plant)
+func handle_tool_application_hook(plant:Plant, combat_main:CombatMain) -> void:
+	await _handle_tool_application_hook(plant, combat_main)
 
 func has_tool_discard_hook(count:int, plant:Plant) -> bool:
 	return _has_tool_discard_hook(count, plant)
 
-func handle_tool_discard_hook(plant:Plant, count:int) -> void:
-	await _handle_tool_discard_hook(plant, count)
+func handle_tool_discard_hook(plant:Plant, count:int, combat_main:CombatMain) -> void:
+	await _handle_tool_discard_hook(plant, count, combat_main)
 
 func has_end_turn_hook(plant:Plant) -> bool:
 	return _has_end_turn_hook(plant)
@@ -73,7 +73,7 @@ func _handle_bloom_hook(_plant:Plant) -> void:
 func _has_tool_application_hook(_plant:Plant) -> bool:
 	return false
 
-func _handle_tool_application_hook(_plant:Plant) -> void:
+func _handle_tool_application_hook(_plant:Plant, _combat_main:CombatMain) -> void:
 	await Util.await_for_tiny_time()
 	
 func _has_tool_discard_hook(_count:int, _plant:Plant) -> bool:
@@ -91,7 +91,7 @@ func _has_end_turn_hook(_plant:Plant) -> bool:
 func _handle_end_turn_hook(_combat_main:CombatMain, _plant:Plant) -> void:
 	await Util.await_for_tiny_time()
 
-func _handle_tool_discard_hook(_plant:Plant, _count:int) -> void:
+func _handle_tool_discard_hook(_plant:Plant, _count:int, _combat_main:CombatMain) -> void:
 	await Util.await_for_tiny_time()
 
 func _has_prevent_resource_update_value_hook(_resource_id:String, _plant:Plant, _old_value:int, _new_value:int) -> bool:

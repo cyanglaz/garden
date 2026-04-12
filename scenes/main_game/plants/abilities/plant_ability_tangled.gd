@@ -1,10 +1,10 @@
 class_name PlantAbilityTangled
 extends PlantAbility
 
-func _has_ability_hook(ability_type:Plant.AbilityType,  plant:Plant) -> bool:
+func _has_ability_hook(ability_type:Plant.AbilityType,  plant:Plant, _combat_main:CombatMain) -> bool:
 	return ability_type == Plant.AbilityType.START_TURN && plant.has_player
 
-func _trigger_ability_hook(ability_type:Plant.AbilityType, _plant:Plant) -> void:
+func _trigger_ability_hook(ability_type:Plant.AbilityType, _plant:Plant, _combat_main:CombatMain) -> void:
 	assert(ability_type == Plant.AbilityType.START_TURN)
 	Events.request_modify_hand_cards.emit(_update_hand_cards)
 

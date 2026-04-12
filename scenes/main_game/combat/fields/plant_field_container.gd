@@ -5,8 +5,10 @@ const FIELD_SCENE := preload("res://scenes/main_game/combat/fields/plant_field.t
 
 signal mouse_plant_updated(plant:Plant)
 signal plant_bloom_started()
-signal plant_bloom_completed()
+signal plant_bloom_completed(plant:Plant)
 signal plant_action_application_completed(index:int)
+signal plant_light_updated(plant:Plant, from_value:int, to_value:int)	
+signal plant_water_updated(plant:Plant, from_value:int, to_value:int)
 
 const PLANT_ICON_OFFSET := Vector2.UP * 4
 
@@ -19,15 +21,16 @@ func setup_with_plants(plant_datas:Array) -> void:
 	var current_field:Field = null
 	for i in plant_datas.size():
 		var field:Field = FIELD_SCENE.instantiate()
-		field.plant_bloom_started.connect(func(): plant_bloom_started.emit())
-		field.plant_bloom_completed.connect(func(): plant_bloom_completed.emit())
 		field.action_application_completed.connect(func(): plant_action_application_completed.emit(i))
 		field.index = i
 		add_child(field)
 		var plant_data:PlantData = plant_datas[i]
 		field.plant_seed(plant_data)
 		plants.append(field.plant)
-
+		field.plant.light_updated.connect(_on_plant_light_updated.bind(field.plant))
+		field.plant.water_updated.connect(_on_plant_water_updated.bind(field.plant))
+		field.plant_bloom_started.connect(func(): plant_bloom_started.emit())
+		field.plant_bloom_completed.connect(func(): plant_bloom_completed.emit(field.plant))
 		if current_field:
 			field.left_field = current_field
 			current_field.right_field = field
@@ -42,13 +45,13 @@ func trigger_start_turn_hooks(combat_main:CombatMain) -> void:
 	for plant:Plant in plants:
 		await plant.handle_start_turn_hook(combat_main)
 
-func trigger_tool_application_hook() -> void:
+func trigger_tool_application_hook(combat_main:CombatMain) -> void:
 	for plant:Plant in plants:
-		await plant.handle_tool_application_hook()
-	
-func trigger_tool_discard_hook(count:int) -> void:
+		await plant.handle_tool_application_hook(combat_main)
+
+func trigger_tool_discard_hook(count:int, combat_main:CombatMain) -> void:
 	for plant:Plant in plants:
-		await plant.handle_tool_discard_hook(count)
+		await plant.handle_tool_discard_hook(count, combat_main)
 	
 func handle_turn_end() -> void:
 	for plant:Plant in plants:
@@ -107,3 +110,9 @@ func _on_field_hovered(hovered:bool, index:int) -> void:
 		_weak_mouse_plant = weakref(null)
 		mouse_plant_updated.emit(null)
 	super._on_field_hovered(hovered, index)
+
+func _on_plant_light_updated(from_value:int, to_value:int, plant:Plant) -> void:
+	plant_light_updated.emit(plant, from_value, to_value)
+
+func _on_plant_water_updated(from_value:int, to_value:int, plant:Plant) -> void:
+	plant_water_updated.emit(plant, from_value, to_value)

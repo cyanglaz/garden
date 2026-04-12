@@ -24,7 +24,7 @@ func _handle_discard_hook(combat_main: CombatMain, _tool_datas: Array) -> void:
 	water_action.operator_type = ActionData.OperatorType.INCREASE
 	water_action.value = int(data.data[&"water"])
 	_send_hook_animation_signals()
-	await plant.apply_actions([light_action, water_action])
+	await plant.apply_actions([light_action, water_action], combat_main)
 	data.state = TrinketData.TrinketState.NORMAL
 
 func _has_combat_end_hook(_combat_main: CombatMain) -> bool:

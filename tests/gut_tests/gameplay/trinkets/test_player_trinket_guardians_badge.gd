@@ -13,7 +13,7 @@ class FakeFieldStatusContainer extends FieldStatusContainer:
 		return 0
 
 class FakePlant extends Plant:
-	func apply_actions(_actions: Array) -> void:
+	func apply_actions(_actions: Array, _combat_main: CombatMain) -> void:
 		pass
 
 class FakePlantFieldContainer extends PlantFieldContainer:

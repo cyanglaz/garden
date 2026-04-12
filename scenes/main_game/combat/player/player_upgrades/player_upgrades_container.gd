@@ -137,21 +137,21 @@ func _handle_next_pre_tool_application_hook(combat_main:CombatMain, tool_data:To
 	_current_pre_tool_application_hook_index += 1
 	await _handle_next_pre_tool_application_hook(combat_main, tool_data)
 
-func handle_card_added_to_hand_hook(tool_datas:Array) -> void:
+func handle_card_added_to_hand_hook(tool_datas:Array, combat_main:CombatMain) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()
 	_card_added_to_hand_hook_queue = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
 		return player_upgrade.has_card_added_to_hand_hook(tool_datas)
 	)
 	_current_card_added_to_hand_hook_index = 0
-	await _handle_next_card_added_to_hand_hook(tool_datas)
+	await _handle_next_card_added_to_hand_hook(tool_datas, combat_main)
 
-func _handle_next_card_added_to_hand_hook(tool_datas:Array) -> void:
+func _handle_next_card_added_to_hand_hook(tool_datas:Array, combat_main:CombatMain) -> void:
 	if _current_card_added_to_hand_hook_index >= _card_added_to_hand_hook_queue.size():
 		return
 	var player_upgrade:PlayerUpgrade = _card_added_to_hand_hook_queue[_current_card_added_to_hand_hook_index]
-	await player_upgrade.handle_card_added_to_hand_hook(tool_datas)
+	await player_upgrade.handle_card_added_to_hand_hook(tool_datas, combat_main)
 	_current_card_added_to_hand_hook_index += 1
-	await _handle_next_card_added_to_hand_hook(tool_datas)
+	await _handle_next_card_added_to_hand_hook(tool_datas, combat_main)
 
 func handle_pool_updated_hook(combat_main:CombatMain, pool:Array) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()

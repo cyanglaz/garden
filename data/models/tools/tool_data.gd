@@ -6,7 +6,7 @@ const SINGLE_COMBAT_SPECIAL_EFFECTS := [SpecialEffect.STASHED]
 const SINGLE_USE_SPECIAL_EFFECTS := [SpecialEffect.STASHED]
 
 @warning_ignore("unused_signal")
-signal request_refresh()
+signal request_refresh(combat_main:CombatMain)
 @warning_ignore("unused_signal")
 signal combat_main_set(combat_main:CombatMain)
 @warning_ignore("unused_signal")
@@ -55,10 +55,8 @@ var cost:int : get = _get_cost
 var tool_script:ToolScript : get = _get_tool_script
 var turn_energy_modifier:int
 var level_energy_modifier:int
-var combat_main:CombatMain: get = _get_combat_main, set = _set_combat_main
 var has_tooltip:bool: get = _get_has_tooltip
 var special_effects:Array[SpecialEffect]
-var _weak_combat_main:WeakRef = weakref(null)
 
 var _weak_front_card:WeakRef = weakref(null)
 var _tool_script:ToolScript
@@ -84,6 +82,13 @@ func copy(other:ThingData) -> void:
 	else:
 		back_card = null
 
+func refresh_ui(combat_main:CombatMain) -> void:
+	if front_card:
+		front_card.request_refresh.emit(combat_main)
+	if back_card:
+		back_card.request_refresh.emit(combat_main)
+	request_refresh.emit(combat_main)
+
 func refresh_for_turn() -> void:
 	if front_card:
 		front_card.card_face_refresh_for_turn()
@@ -103,22 +108,21 @@ func get_duplicate() -> ToolData:
 	dup.copy(self)
 	return dup
 
-func remove_single_use_special_effects() -> void:
+func remove_single_use_special_effects(combat_main:CombatMain) -> void:
 	if front_card:
 		front_card.card_face_remove_single_use_special_effects()
 	if back_card:
 		back_card.card_face_remove_single_use_special_effects()
 	card_face_remove_single_use_special_effects()
+	refresh_ui(combat_main)
 
-func add_specials(effects:Array[SpecialEffect]) -> void:
+func add_specials(effects:Array[SpecialEffect], combat_main:CombatMain) -> void:
 	special_effects.append_array(effects)
 	if front_card:
 		front_card.special_effects.append_array(effects)
-		front_card.request_refresh.emit()
 	if back_card:
 		back_card.special_effects.append_array(effects)
-		back_card.request_refresh.emit()
-	request_refresh.emit()
+	refresh_ui(combat_main)
 
 func card_face_refresh_for_turn() -> void:
 	turn_energy_modifier = 0
@@ -132,7 +136,6 @@ func card_face_refresh_for_level() -> void:
 	
 func card_face_remove_single_use_special_effects() -> void:
 	special_effects = special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_USE_SPECIAL_EFFECTS.has(special_effect))
-	request_refresh.emit()
 
 func _get_localization_prefix() -> String:
 	return "TOOL_"
@@ -165,14 +168,14 @@ func get_card_selection_custom_error_message() -> String:
 		return tool_script.get_card_selection_custom_error_message()
 	return ""
 
-func reverse() -> void:
+func reverse(combat_main:CombatMain) -> void:
 	assert(specials.has(Special.REVERSIBLE), "Card is not reversible")
 	for action:ActionData in actions:
 		if action.type == ActionData.ActionType.PUSH_LEFT:
 			action.type = ActionData.ActionType.PUSH_RIGHT
 		elif action.type == ActionData.ActionType.PUSH_RIGHT:
 			action.type = ActionData.ActionType.PUSH_LEFT
-	request_refresh.emit()
+	refresh_ui(combat_main)
 
 func _get_cost() -> int:
 	return COSTS[rarity]
@@ -218,19 +221,6 @@ func get_raw_description() -> String:
 	if type == Type.POWER:
 		return MainDatabase.player_status_database.get_data_by_id(id).get_raw_description()
 	return super.get_raw_description()
-
-func _get_combat_main() -> CombatMain:
-	return _weak_combat_main.get_ref()
-
-func _set_combat_main(val:CombatMain) -> void:
-	if _weak_combat_main.get_ref() == val:
-		return
-	_weak_combat_main = weakref(val)
-	for action:ActionData in actions:
-		action.combat_main = val
-	combat_main_set.emit(val)
-	if back_card:
-		back_card.combat_main = val
 
 func _get_has_tooltip() -> bool:
 	return !actions.is_empty() || !specials.is_empty()

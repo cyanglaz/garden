@@ -61,7 +61,7 @@ func _apply_card_energy_cost_additive_modifier(modifier:CombatModifier) -> void:
 					tool_data.turn_energy_modifier += modifier.modifier_value
 				CombatModifier.ModifierTiming.LEVEL:
 					tool_data.level_energy_modifier += modifier.modifier_value
-	_combat_main.tool_manager.refresh_ui()
+	_combat_main.tool_manager.refresh_cards_ui(_combat_main)
 
 func _apply_card_energy_cost_multiplicative_modifier(modifier:CombatModifier) -> void:
 	for tool_data in _combat_main.tool_manager.tool_deck.hand:
@@ -71,7 +71,7 @@ func _apply_card_energy_cost_multiplicative_modifier(modifier:CombatModifier) ->
 					tool_data.turn_energy_modifier += tool_data.energy_cost * (modifier.modifier_value-1)
 				CombatModifier.ModifierTiming.LEVEL:
 					tool_data.level_energy_modifier += tool_data.energy_cost * (modifier.modifier_value-1)
-	_combat_main.tool_manager.refresh_ui()
+	_combat_main.tool_manager.refresh_cards_ui(_combat_main)
 
 func _set_combat_main(val:CombatMain) -> void:
 	_weak_combat_main = weakref(val)

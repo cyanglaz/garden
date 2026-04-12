@@ -32,6 +32,7 @@ var _flipping := false
 var _mouse_in_special:bool = false
 
 var _special_tooltip_id:String = ""
+var _weak_combat_main:WeakRef = weakref(null)
 
 func _ready() -> void:
 	super._ready()
@@ -39,8 +40,6 @@ func _ready() -> void:
 	mouse_filter = MOUSE_FILTER_IGNORE
 	back_face.hide()
 	resized.connect(_on_resized)
-	front_face.special_interacted.connect(_on_special_interacted.bind(front_face))
-	back_face.special_interacted.connect(_on_special_interacted.bind(back_face))
 	front_face.special_hovered.connect(_on_special_hovered.bind(front_face))
 	back_face.special_hovered.connect(_on_special_hovered.bind(back_face))
 	size = SIZE
@@ -54,25 +53,27 @@ func _on_gui_input(event: InputEvent) -> void:
 		if should_show_tooltip:
 			toggle_tooltip(true)
 
-func update_with_tool_data(td:ToolData) -> void:
+func update_with_tool_data(td:ToolData, combat_main:CombatMain) -> void:
+	_weak_combat_main = weakref(combat_main)
 	if td.front_card:
 		assert(td.specials.has(ToolData.Special.FLIP_BACK), "Card is not a flip front card")
 		assert(td.front_card.specials.has(ToolData.Special.FLIP_FRONT), "Front card is not a flip front card")
-		front_face.update_with_tool_data(td.front_card)
-		back_face.update_with_tool_data(td)
+		front_face.update_with_tool_data(td.front_card, combat_main)
+		back_face.update_with_tool_data(td, combat_main)
 		_show_as_back_face()
 	else:
-		front_face.update_with_tool_data(td)
+		front_face.update_with_tool_data(td, combat_main)
 		if td.back_card:
 			assert(td.specials.has(ToolData.Special.FLIP_FRONT), "Card is not a flip front card")
 			assert(td.back_card.specials.has(ToolData.Special.FLIP_BACK), "Back card is not a flip back card")
-			back_face.update_with_tool_data(td.back_card)
+			back_face.update_with_tool_data(td.back_card, combat_main)
 		_show_as_front_face()
-
-func update_mouse_plant(plant:Plant) -> void:
-	front_face.update_mouse_plant(plant)
-	if back_face.tool_data:
-		back_face.update_mouse_plant(plant)
+	if front_face.special_interacted.is_connected(_on_special_interacted.bind(front_face, combat_main)):
+		front_face.special_interacted.disconnect(_on_special_interacted.bind(front_face, combat_main))
+	if back_face.special_interacted.is_connected(_on_special_interacted.bind(back_face, combat_main)):
+		back_face.special_interacted.disconnect(_on_special_interacted.bind(back_face, combat_main))
+	front_face.special_interacted.connect(_on_special_interacted.bind(front_face, combat_main))
+	back_face.special_interacted.connect(_on_special_interacted.bind(back_face, combat_main))
 
 func play_discard_sound() -> void:
 	discard_sound.play()
@@ -94,10 +95,10 @@ func play_exhaust_animation() -> void:
 func animated_transform(old_rarity:int) -> void:
 	await current_face.animated_transform(old_rarity)
 	if current_face == back_face:
-		front_face.update_with_tool_data(current_face.tool_data.front_card)
+		front_face.update_with_tool_data(current_face.tool_data.front_card, _weak_combat_main.get_ref())
 	else:
 		if current_face.tool_data.back_card:
-			back_face.update_with_tool_data(current_face.tool_data.back_card)
+			back_face.update_with_tool_data(current_face.tool_data.back_card, _weak_combat_main.get_ref())
 
 func play_use_animation() -> void:
 	current_face.play_use_animation()
@@ -118,8 +119,8 @@ func animate_flip() -> void:
 	await current_face.animate_flip(true)
 	_flipping = false
 
-func animate_reverse() -> void:
-	tool_data.reverse()
+func animate_reverse(combat_main:CombatMain) -> void:
+	tool_data.reverse(combat_main)
 
 func play_error_shake_animation() -> void:
 	await current_face.play_error_shake_animation()
@@ -275,12 +276,12 @@ func _on_resized() -> void:
 	if back_face.tool_data:
 		back_face.size = size
 	
-func _on_special_interacted(special:ToolData.Special, _face:GUICardFace) -> void:
+func _on_special_interacted(special:ToolData.Special, _face:GUICardFace, combat_main:CombatMain) -> void:
 	match special:
 		ToolData.Special.FLIP_FRONT, ToolData.Special.FLIP_BACK:
 			animate_flip()
 		ToolData.Special.REVERSIBLE:
-			animate_reverse()
+			animate_reverse(combat_main)
 		_:
 			pass
 

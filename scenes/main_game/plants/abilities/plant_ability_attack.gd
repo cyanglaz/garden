@@ -1,10 +1,10 @@
 class_name PlantAbilityAttack
 extends PlantAbility
 
-func _has_ability_hook(ability_type:Plant.AbilityType, _plant:Plant) -> bool:
+func _has_ability_hook(ability_type:Plant.AbilityType, _plant:Plant, _combat_main:CombatMain) -> bool:
 	return ability_type == Plant.AbilityType.START_TURN
 
-func _trigger_ability_hook(_ability_type:Plant.AbilityType, plant:Plant) -> void:
+func _trigger_ability_hook(_ability_type:Plant.AbilityType, plant:Plant, _combat_main:CombatMain) -> void:
 	Util.remove_all_children(self)
 	var tool_data:ToolData = MainDatabase.tool_database.get_data_by_id("damage").get_duplicate()
 	var from_position:Vector2 = Util.get_node_canvas_position(plant) - GUIToolCardButton.SIZE / 2

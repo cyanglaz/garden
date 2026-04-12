@@ -8,7 +8,7 @@ var _tool_datas_added_to_discard_pile_count:int = 0
 
 func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_datas:Array) -> void:
 	assert(action.action_category == ActionData.ActionCategory.PLAYER)
-	var calculated_value := action.get_calculated_value(null)
+	var calculated_value := action.get_calculated_value(combat_main)
 	match action.type:
 		ActionData.ActionType.DRAW_CARD:
 			assert(calculated_value >= 0, "Draw card action value must be greater than 0")
@@ -57,7 +57,7 @@ func _handle_discard_card_action(_action:ActionData, combat_main:CombatMain, sec
 		await Util.await_for_tiny_time()
 		return
 	await combat_main.discard_cards(secondary_card_datas)
-	await combat_main.plant_field_container.trigger_tool_discard_hook(discard_size)
+	await combat_main.plant_field_container.trigger_tool_discard_hook(discard_size, combat_main)
 
 func _handle_compost_action(_action:ActionData, combat_main:CombatMain, secondary_card_datas:Array) -> void:
 	var discard_size := secondary_card_datas.size()

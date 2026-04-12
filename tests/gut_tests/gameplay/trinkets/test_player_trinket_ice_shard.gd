@@ -1,7 +1,7 @@
 extends GutTest
 
 class FakePlantForIce extends Plant:
-	func apply_actions(_actions: Array) -> void:
+	func apply_actions(_actions: Array, _combat_main: CombatMain) -> void:
 		pass
 
 class FakePlantFieldForIce extends PlantFieldContainer:

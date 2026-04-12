@@ -61,11 +61,11 @@ func get_preview_icon_global_position(preview_icon:Control) -> Vector2:
 func can_bloom() -> bool:
 	return plant.is_bloom()
 
-func bloom() -> void:
+func bloom(combat_main:CombatMain) -> void:
 	_progress_bars.hide()
 	_gui_field_button.hide()
 	_gui_field_selection_arrow.hide()
-	plant.bloom()
+	plant.bloom(combat_main)
 	await plant.bloom_completed
 	_gui_plant_ability_icon_container.hide()
 	_gui_field_status_container.hide()

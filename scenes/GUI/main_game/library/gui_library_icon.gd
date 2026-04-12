@@ -28,7 +28,7 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	wrapper_button.pressed.connect(func() -> void: button_evoked.emit(tool_data))
 	var tool_card_button:GUIToolCardButton = GUI_TOOL_CARD_BUTTON_SCENE.instantiate()
 	wrapper_button.add_child(tool_card_button)
-	tool_card_button.update_with_tool_data(tool_data)
+	tool_card_button.update_with_tool_data(tool_data, null)
 	tool_card_button.mouse_behavior_recursive = Control.MOUSE_BEHAVIOR_DISABLED
 	wrapper_button.hover_sound = tool_card_button.hover_sound
 	wrapper_button.click_sound = tool_card_button.click_sound

@@ -141,7 +141,7 @@ func test_reverse_swaps_push_left_to_push_right():
 	td.specials = [ToolData.Special.REVERSIBLE]
 	var action := _make_action(ActionData.ActionType.PUSH_LEFT)
 	td.actions = [action]
-	td.reverse()
+	td.reverse(null)
 	assert_eq(action.type, ActionData.ActionType.PUSH_RIGHT)
 
 func test_reverse_swaps_push_right_to_push_left():
@@ -149,7 +149,7 @@ func test_reverse_swaps_push_right_to_push_left():
 	td.specials = [ToolData.Special.REVERSIBLE]
 	var action := _make_action(ActionData.ActionType.PUSH_RIGHT)
 	td.actions = [action]
-	td.reverse()
+	td.reverse(null)
 	assert_eq(action.type, ActionData.ActionType.PUSH_LEFT)
 
 func test_reverse_double_reverse_restores_original():
@@ -157,8 +157,8 @@ func test_reverse_double_reverse_restores_original():
 	td.specials = [ToolData.Special.REVERSIBLE]
 	var action := _make_action(ActionData.ActionType.PUSH_LEFT)
 	td.actions = [action]
-	td.reverse()
-	td.reverse()
+	td.reverse(null)
+	td.reverse(null)
 	assert_eq(action.type, ActionData.ActionType.PUSH_LEFT)
 
 func test_reverse_does_not_affect_non_push_actions():
@@ -167,7 +167,7 @@ func test_reverse_does_not_affect_non_push_actions():
 	var push_action := _make_action(ActionData.ActionType.PUSH_LEFT)
 	var water_action := _make_action(ActionData.ActionType.WATER)
 	td.actions = [push_action, water_action]
-	td.reverse()
+	td.reverse(null)
 	assert_eq(water_action.type, ActionData.ActionType.WATER)
 
 # ----- _get_has_field_action -----

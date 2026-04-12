@@ -24,23 +24,14 @@ const GUI_SECONDARY_ICON_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui
 
 var _tooltips:Dictionary = {}
 
-func _ready() -> void:
-	Events.request_display_tooltip.connect(_on_request_display_tooltip)
-	Events.request_hide_tooltip.connect(_on_request_hide_tooltip)
-
 func clear_all_tooltips() -> void:
 	for tooltips in _tooltips.values():
 		for tooltip in tooltips:
 			tooltip.queue_free()
 	_tooltips.clear()
 
-func _on_request_hide_tooltip(id:String) -> void:
-	if _tooltips.has(id):
-		for tooltip in _tooltips[id]:
-			tooltip.queue_free()
-		_tooltips.erase(id)
-
-func _on_request_display_tooltip(tooltip_request:TooltipRequest) -> void:
+func show_tooltip(tooltip_request:TooltipRequest, combat_main:CombatMain) -> void:
+	tooltip_request.combat_main = combat_main
 	var gui_tooltip:GUITooltip = _create_tooltip(tooltip_request.tooltip_type)
 	gui_tooltip.update_with_request(tooltip_request)
 	add_child(gui_tooltip)
@@ -52,6 +43,12 @@ func _on_request_display_tooltip(tooltip_request:TooltipRequest) -> void:
 	if !_tooltips.has(tooltip_request.id):
 		_tooltips[tooltip_request.id] = []
 	_tooltips[tooltip_request.id].append(gui_tooltip)
+
+func hide_tooltip(id:String) -> void:
+	if _tooltips.has(id):
+		for tooltip in _tooltips[id]:
+			tooltip.queue_free()
+		_tooltips.erase(id)
 
 func _create_tooltip(tooltip_type:TooltipRequest.TooltipType) -> GUITooltip:
 	match tooltip_type:

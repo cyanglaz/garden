@@ -17,18 +17,18 @@ func apply_action(action:ActionData, target_plant:Plant, combat_main:CombatMain)
 				plants_to_apply = plants_to_apply.filter(func(plant:Plant): return !plant.is_bloom())
 			else:
 				plants_to_apply.append(target_plant)
-			await _apply_plant_tool_action(action, plants_to_apply)
+			await _apply_plant_tool_action(action, plants_to_apply, combat_main)
 		_:
 			assert(false, "Invalid plant action type: %s" % action.type)
 	action_application_completed.emit()
 
-func _apply_plant_tool_action(action:ActionData, plants:Array) -> void:
+func _apply_plant_tool_action(action:ActionData, plants:Array, combat_main:CombatMain) -> void:
 	if plants.is_empty():
 		return
 	_plant_application_index_counter = plants.size()
 	for plant:Plant in plants:
 		plant.action_application_completed.connect(_on_plant_action_application_completed.bind(plant))
-		plant.apply_actions([action])
+		plant.apply_actions([action], combat_main)
 	await _all_plant_action_application_completed
 
 func _on_plant_action_application_completed(plant:Plant) -> void:

@@ -14,13 +14,14 @@ func _update_for_plant(plant:Plant) -> void:
 func _has_tool_discard_hook(_count:int, plant:Plant) -> bool:
 	return plant != null
 
-func _handle_tool_discard_hook(plant:Plant, count:int) -> void:
+func _handle_tool_discard_hook(plant:Plant, count:int, combat_main:CombatMain) -> void:
 	var action:ActionData = ActionData.new()
 	var water_gain := (status_data.data["water"] as int) * stack * count
 	action.type = ActionData.ActionType.WATER
 	action.operator_type = ActionData.OperatorType.INCREASE
 	action.value = water_gain
-	await plant.apply_actions([action])
+	assert(false, "TODO: Implement field status dew tool discard hook with combat main")
+	await plant.apply_actions([action], combat_main)
 
 func _resize_gpu_particles_2d() -> void:
 	var plant:Plant = get_parent().get_parent()
