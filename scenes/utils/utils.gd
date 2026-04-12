@@ -462,7 +462,7 @@ static func get_plant_icon_background_region(plant_data:PlantData, highlighted:b
 	var y := 0
 	if highlighted:
 		y = 16
-	if plant_data: 
+	if plant_data:
 		match plant_data.difficulty:
 			0:
 				x = 0
