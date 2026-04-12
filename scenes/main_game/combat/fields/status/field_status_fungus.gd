@@ -9,7 +9,6 @@ var _number_of_fungi:int = 0
 
 func _update_for_plant(plant:Plant) -> void:
 	var diff_number_of_fungi := stack - _number_of_fungi
-	print(diff_number_of_fungi)
 	if diff_number_of_fungi > 0:
 		for i in diff_number_of_fungi:
 			var fungus:Fungus = FUNGUS_SCENE.instantiate()
