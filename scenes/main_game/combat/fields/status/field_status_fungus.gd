@@ -3,6 +3,8 @@ extends FieldStatus
 
 const FUNGUS_SCENE := preload("res://scenes/main_game/combat/fields/status/status_components/fungus.tscn")
 
+@onready var container: Node2D = %Container
+
 var _number_of_fungi:int = 0
 
 func _update_for_plant(plant:Plant) -> void:
@@ -10,11 +12,13 @@ func _update_for_plant(plant:Plant) -> void:
 	if diff_number_of_fungi > 0:
 		for i in diff_number_of_fungi:
 			var fungus:Fungus = FUNGUS_SCENE.instantiate()
-			add_child(fungus)
+			container.add_child(fungus)
 			fungus.position = _get_random_fungus_position(plant)
 	elif diff_number_of_fungi < 0:
-		for i in range(diff_number_of_fungi):
-			var fungus:Fungus = get_children().back()
+		var fungi := container.get_children()
+		var fungi_to_remove := abs(diff_number_of_fungi)
+		for i in fungi_to_remove:
+			var fungus:Fungus = fungi[fungi.size() - 1 - i]
 			fungus.queue_free()
 	_number_of_fungi = stack
 
