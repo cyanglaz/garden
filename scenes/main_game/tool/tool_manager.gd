@@ -1,8 +1,6 @@
 class_name ToolManager
 extends RefCounted
 
-const IN_USE_PAUSE := 0.2
-
 enum ToolManagerState {
 	IDLE,
 	APPLYING_TURN_END_TOOL,
