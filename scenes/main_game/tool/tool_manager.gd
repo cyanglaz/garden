@@ -1,8 +1,6 @@
 class_name ToolManager
 extends RefCounted
 
-const IN_USE_PAUSE := 0.2
-
 enum ToolManagerState {
 	IDLE,
 	APPLYING_TURN_END_TOOL,
@@ -101,10 +99,6 @@ func exhaust_cards(tools:Array, combat_main:CombatMain) -> void:
 	tool_deck.exhaust(tools)
 	await _gui_tool_card_container.animate_exhaust(tools, combat_main)
 	cards_removed_from_hand.emit([tools], tool_deck.hand)
-
-func use_card(tool_data:ToolData, combat_main:CombatMain) -> void:
-	tool_deck.use(tool_data)
-	await _gui_tool_card_container.animate_use_card(tool_data, combat_main)
 
 func clear_tool_selection() -> void:
 	selected_tool = null
