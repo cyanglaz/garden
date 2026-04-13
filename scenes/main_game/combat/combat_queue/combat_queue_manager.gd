@@ -1,9 +1,6 @@
 class_name CombatQueueManager
 extends RefCounted
 
-const _CombatQueueActionsItem := preload("res://scenes/main_game/combat/combat_queue/combat_queue_actions_item.gd")
-const _CombatQueueCallableItem := preload("res://scenes/main_game/combat/combat_queue/combat_queue_callable_item.gd")
-
 ## Serial async queue for combat steps. Add as a child of [CombatMain] and call [method setup]
 ## before [method push_items].
 
@@ -59,14 +56,14 @@ func _dispatch(item: Variant) -> void:
 	if !cm:
 		push_warning("Combat queue item skipped: CombatMain is no longer valid.")
 		return
-	if is_instance_of(item, _CombatQueueActionsItem):
+	if is_instance_of(item, CombatQueueActionsItem):
 		await _actions_applier.apply_actions(
 			item.actions,
 			cm,
 			item.tool_card,
 			cm.gui.gui_tool_card_container,
 		)
-	elif is_instance_of(item, _CombatQueueCallableItem):
+	elif is_instance_of(item, CombatQueueCallableItem):
 		await item.callback.call(cm)
 	else:
 		push_error("Unknown combat queue item type: %s" % item)
