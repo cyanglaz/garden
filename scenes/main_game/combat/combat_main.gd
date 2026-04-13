@@ -1,6 +1,7 @@
 class_name CombatMain
 extends Node2D
 
+
 signal reward_finished(tool_data:ToolData, from_global_position:Vector2)
 signal level_started()
 signal turn_started()
@@ -27,6 +28,7 @@ var tool_manager:ToolManager
 var day_manager:DayManager = DayManager.new()
 var session_summary:SessionSummary
 var combat_modifier_manager:CombatModifierManager = CombatModifierManager.new()
+var combat_queue_manager: CombatQueueManager = CombatQueueManager.new()
 var boost := 1: set = _set_boost
 var _combat:CombatData
 var _tool_application_error_timers:Dictionary = {}
@@ -51,6 +53,9 @@ func _ready() -> void:
 func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter:int, player_data:PlayerData, trinket_datas:Array) -> void:
 
 	session_summary = SessionSummary.new(combat)
+	combat_queue_manager.setup(self)
+	Events.request_combat_queue_push_actions.connect(_on_request_combat_queue_push_actions)
+	Events.request_combat_queue_push_callable.connect(_on_request_combat_queue_push_callable)
 
 	plant_field_container.field_hovered.connect(_on_field_hovered)
 	plant_field_container.plant_bloom_started.connect(_on_plant_bloom_started)
@@ -375,6 +380,18 @@ func _on_request_modify_hand_cards(callable:Callable) -> void:
 	await callable.call(tool_manager.tool_deck.hand)
 	tool_manager.refresh_cards_ui(self)
 	gui.toggle_all_ui(true)
+
+func _on_request_combat_queue_push_actions(front: bool, actions: Array, tool_card: GUIToolCardButton) -> void:
+	if is_finished:
+		return
+	var item = CombatQueueActionsItem.new(actions, tool_card)
+	combat_queue_manager.push_items(front, [item])
+
+func _on_request_combat_queue_push_callable(front: bool, callable: Callable) -> void:
+	if is_finished:
+		return
+	var item = CombatQueueCallableItem.new(callable)
+	combat_queue_manager.push_items(front, [item])
 
 func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
 	# The hp is handled by the main game
