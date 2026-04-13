@@ -114,10 +114,3 @@ func test_empty_push_items_does_not_mark_busy() -> void:
 	q.push_items(false, [])
 	assert_false(q.is_queue_busy())
 	assert_eq(q.get_queue_size(), 0)
-
-
-func test_push_without_setup_does_not_enqueue() -> void:
-	var q := CombatQueueManager.new()
-	q.push_items(false, [CombatQueueCallableItem.new(func(_c: CombatMain) -> void: pass)])
-	assert_push_error("setup")
-	assert_eq(q.get_queue_size(), 0)

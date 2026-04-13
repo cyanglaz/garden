@@ -27,9 +27,7 @@ func is_queue_busy() -> bool:
 ## (first in [param items] runs before second). If false, appends in order to the tail.
 ## Items must be [CombatQueueActionsItem] or [CombatQueueCallableItem] (or future subclasses of [CombatQueueItem]).
 func push_items(front: bool, items: Array) -> void:
-	if !_combat_main:
-		push_error("CombatQueueManager.setup(combat_main) must be called before push_items.")
-		return
+	assert(_combat_main, "CombatQueueManager.setup(combat_main) must be called before push_items.")
 	if items.is_empty():
 		return
 	if front:
@@ -53,9 +51,7 @@ func _drain_queue() -> void:
 
 func _dispatch(item: Variant) -> void:
 	var cm := _combat_main
-	if !cm:
-		push_warning("Combat queue item skipped: CombatMain is no longer valid.")
-		return
+	assert(cm, "CombatMain must remain valid while the combat queue drains.")
 	if is_instance_of(item, CombatQueueActionsItem):
 		await _actions_applier.apply_actions(
 			item.actions,
@@ -66,7 +62,7 @@ func _dispatch(item: Variant) -> void:
 	elif is_instance_of(item, CombatQueueCallableItem):
 		await item.callback.call(cm)
 	else:
-		push_error("Unknown combat queue item type: %s" % item)
+		assert(false, "Unknown combat queue item type: %s" % item)
 
 func _set_combat_main(val: CombatMain) -> void:
 	_weak_combat_main = weakref(val)
