@@ -37,6 +37,7 @@ var press_enabled := true
 var _holding_start := false
 var _hold_time_count := 0.0
 var _tooltip_id:String = ""
+var _start_short_cut_press:= false
 
 func _ready() -> void:
 	_set_short_cut(short_cut)
@@ -75,6 +76,7 @@ func _handle_short_cut(input_event:InputEvent) -> void:
 		return
 	if short_cut.is_empty():
 		return
+	_start_short_cut_press = true
 	match action_type:
 		ActionType.PRESSED:
 			if _is_short_cut_pressed(input_event):
@@ -122,8 +124,9 @@ func _press_down():
 
 func _press_up():
 	button_state = ButtonState.NORMAL
-	if mouse_in:
+	if mouse_in || _start_short_cut_press:
 		_handle_press_up()
+		_start_short_cut_press = false
 
 func _play_click_sound(vol:int = 0) -> void:
 	var stream := _get_click_sound()
