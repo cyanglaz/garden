@@ -73,10 +73,6 @@ func animate_shuffle(discard_pile:Array, combat_main:CombatMain) -> void:
 		index += 1
 	await tween.finished
 
-func animate_use_card(tool_data:ToolData, combat_main:CombatMain) -> void:
-	var item := _enqueue_animation(AnimationQueueItem.AnimationType.ANIMATE_USE_CARD, [tool_data, combat_main])
-	await item.finished
-
 func animate_discard(tool_datas:Array, combat_main:CombatMain) -> void:
 	var in_use_card:ToolData
 	var in_hand_cards:Array = []
@@ -136,8 +132,6 @@ func _play_next_animation() -> void:
 			_animate_discard(next_item)
 		AnimationQueueItem.AnimationType.ANIMATE_ADD_CARD_TO_DRAW_PILE:
 			_animate_add_card_to_draw_pile(next_item)
-		AnimationQueueItem.AnimationType.ANIMATE_USE_CARD:
-			_animate_use_card(next_item)
 		AnimationQueueItem.AnimationType.ANIMATE_ADD_CARD_TO_HAND:
 			_animate_add_card_to_hand(next_item)
 		AnimationQueueItem.AnimationType.ANIMATE_EXHAUST:
@@ -337,27 +331,6 @@ func _animate_add_card_to_hand(animation_item:AnimationQueueItem) -> void:
 	await tween.finished
 	_animation_queue_item_finished.emit(animation_item)
 
-func _animate_use_card(animation_item:AnimationQueueItem) -> void:
-	var tool_data:ToolData = animation_item.animation_args[0]
-	var combat_main:CombatMain = animation_item.animation_args[1]
-	var card:GUIToolCardButton = _tool_card_container.find_card(tool_data)
-	assert(_in_use_card == null)
-	_in_use_card = ANIMATING_TOOL_CARD_SCENE.instantiate()
-	add_child(_in_use_card)
-	_in_use_card.card_state = GUICardFace.CardState.HIGHLIGHTED
-	_in_use_card.update_with_tool_data(card.tool_data, combat_main)
-	_in_use_card.global_position = card.global_position
-	_in_use_card.mouse_disabled = true
-	_in_use_card.play_use_sound()
-	_tool_card_container.remove_cards([card])
-	#_animate_reposition()
-	var tween:Tween = Util.create_scaled_tween(self)
-	tween.set_parallel(true)
-	tween.tween_property(_in_use_card, "global_position", _in_use_card.global_position + Vector2.UP * USE_CARD_OFFSET, REPOSITION_ANIMATION_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	await tween.finished
-	await Util.create_scaled_timer(USE_CARD_PAUSE_TIME).timeout
-	_animation_queue_item_finished.emit(animation_item)
-
 func _animate_discard_in_use_card(combat_main:CombatMain) -> void:
 	assert(_in_use_card != null)
 	var in_use_card := _in_use_card
@@ -464,7 +437,6 @@ class AnimationQueueItem:
 		ANIMATE_ADD_CARD_TO_DRAW_PILE,
 		ANIMATE_ADD_CARD_TO_DISCARD_PILE,
 		ANIMATE_ADD_CARD_TO_HAND,
-		ANIMATE_USE_CARD,
 		ANIMATE_EXHAUST,
 		ANIMATE_STASH_CARD_TO_DRAW_PILE,
 	}

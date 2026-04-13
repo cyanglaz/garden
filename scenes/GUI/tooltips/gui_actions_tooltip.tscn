@@ -7,7 +7,7 @@
 [node name="GUIActionsTooltip" unique_id=1094394609 instance=ExtResource("1_kfgau")]
 script = ExtResource("2_8ulc7")
 
-[node name="ContentContainer" parent="." index="2"]
+[node name="ContentContainer" parent="." index="2" unique_id=1697917933]
 theme_override_constants/margin_left = 3
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3

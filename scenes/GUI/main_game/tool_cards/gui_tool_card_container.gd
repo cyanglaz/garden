@@ -110,9 +110,6 @@ func animate_draw(draw_results:Array, combat_main:CombatMain) -> void:
 func animate_discard(discarding_tool_datas:Array, combat_main:CombatMain) -> void:
 	await _gui_tool_card_animation_container.animate_discard(discarding_tool_datas, combat_main)
 
-func animate_use_card(tool_data:ToolData, combat_main:CombatMain) -> void:
-	await _gui_tool_card_animation_container.animate_use_card(tool_data, combat_main)
-
 func animate_shuffle(discard_pile:Array, combat_main:CombatMain) -> void:
 	await _gui_tool_card_animation_container.animate_shuffle(discard_pile, combat_main)
 
