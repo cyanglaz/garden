@@ -51,7 +51,8 @@ func reset_positions() -> void:
 		tween.set_parallel(true)
 		for i in _container.get_children().size():
 			var gui_card = _container.get_child(i)
-			gui_card.card_state = GUICardFace.CardState.NORMAL
+			if gui_card.card_state != GUICardFace.CardState.WAITING:
+				gui_card.card_state = GUICardFace.CardState.NORMAL
 			tween.tween_property(gui_card, "position", positions[i], REPOSITION_DURATION)
 		await tween.finished
 		for i in _container.get_children().size():
@@ -101,6 +102,11 @@ func select_secondary_cards(number_of_cards:int, filter:Callable) -> Array:
 		_toggle_selected_cards(selecting_from_cards, false)
 	_clear_secondary_card_selection()
 	return result
+
+func play_card_error_shake_animation(tool_data:ToolData) -> void:
+	var card:GUIToolCardButton = find_card(tool_data)
+	card.play_error_shake_animation()
+	Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 
 #region animation
 
@@ -202,11 +208,12 @@ func _toggle_card_selection_mode(on:bool) -> void:
 	for gui_card:GUIToolCardButton in get_all_cards():
 		if index == selected_index:
 			if card_selection_mode:
-				gui_card.card_state = GUICardFace.CardState.WAITING
-			else:
 				gui_card.card_state = GUICardFace.CardState.SELECTED
+			else:
+				gui_card.card_state = GUICardFace.CardState.WAITING
 		elif _card_selection_filter.call(gui_card.tool_data):
-			gui_card.card_state = GUICardFace.CardState.NORMAL
+			if gui_card.card_state != GUICardFace.CardState.WAITING:
+				gui_card.card_state = GUICardFace.CardState.NORMAL
 		else:
 			gui_card.card_state = GUICardFace.CardState.UNSELECTED
 		index += 1
@@ -240,9 +247,9 @@ func _rebind_signals() -> void:
 		gui_card.hand_index = i
 
 func _handle_selected_card(card:GUIToolCardButton) -> void:
-	if card.card_state == GUICardFace.CardState.SELECTED:
+	if card.card_state == GUICardFace.CardState.WAITING:
 		return
-	card.card_state = GUICardFace.CardState.SELECTED
+	card.card_state = GUICardFace.CardState.WAITING
 	tool_selected.emit(card.tool_data)
 
 func _hide_all_card_warnings() -> void:

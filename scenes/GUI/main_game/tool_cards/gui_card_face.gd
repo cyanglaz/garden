@@ -23,6 +23,7 @@ const EXHAUST_SOUND := preload("res://resources/sounds/SFX/tool_cards/card_exhau
 
 const SELECTED_OFFSET := 10.0
 const IN_USE_OFFSET := 20.0
+const WAITING_OFFSET := 3.0
 const HIGHLIGHTED_OFFSET := 1.0
 
 @onready var _gui_action_list: GUIActionList = %GUIActionList
@@ -198,9 +199,9 @@ func _set_card_state(value:CardState) -> void:
 			z_index = 0
 			_default_state = CardState.UNSELECTED
 		CardState.WAITING:
-			position = Vector2.UP * IN_USE_OFFSET
+			position = Vector2.UP * WAITING_OFFSET
 			has_outline = true
-			_overlay.show()
+			_overlay.hide()
 			z_index = 1
 
 func _set_resource_sufficient(value:bool) -> void:

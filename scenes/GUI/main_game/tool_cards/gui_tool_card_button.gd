@@ -169,7 +169,7 @@ func _find_card_references() -> Array[String]:
 func _play_hover_sound(_volume_db:int = -5) -> void:
 	if mute_interaction_sounds:
 		return
-	if current_face.card_state == GUICardFace.CardState.SELECTED:
+	if current_face.card_state == GUICardFace.CardState.SELECTED || current_face.card_state == GUICardFace.CardState.WAITING:
 		return
 	super._play_hover_sound(-5)
 
