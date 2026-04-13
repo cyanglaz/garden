@@ -122,7 +122,8 @@ func _press_down():
 
 func _press_up():
 	button_state = ButtonState.NORMAL
-	_handle_press_up()
+	if mouse_in:
+		_handle_press_up()
 
 func _play_click_sound(vol:int = 0) -> void:
 	var stream := _get_click_sound()
