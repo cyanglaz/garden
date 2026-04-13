@@ -76,13 +76,14 @@ func _handle_short_cut(input_event:InputEvent) -> void:
 		return
 	if short_cut.is_empty():
 		return
-	_start_short_cut_press = true
 	match action_type:
 		ActionType.PRESSED:
 			if _is_short_cut_pressed(input_event):
+				_start_short_cut_press = true
 				_press_down()
 		ActionType.HOLD:
 			if _is_short_cut_pressed(input_event):
+				_start_short_cut_press = true
 				_holding_start = true
 			elif _is_short_cut_released(input_event):
 				_holding_start = false
