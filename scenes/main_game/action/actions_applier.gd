@@ -36,12 +36,13 @@ func _get_secondary_card_datas_from_action(action:ActionData, tool_card:GUIToolC
 	var number_of_cards_to_select := action.get_calculated_value(combat_main)
 	var secondary_card_datas:Array = []
 	if action.value_type == ActionData.ValueType.RANDOM:
-		var selecting_from_cards:Array = gui_tool_card_container.get_all_cards().filter(func(card:GUIToolCardButton): return card.tool_data != tool_card.tool_data).map(func(card:GUIToolCardButton): return card.tool_data)
+		var selecting_from_cards:Array = combat_main.tool_manager.tool_deck.hand.filter(func(card:ToolData): return card != tool_card.tool_data)
 		var actual_number_of_cards_to_select = mini(number_of_cards_to_select, selecting_from_cards.size())
 		secondary_card_datas = Util.unweighted_roll(selecting_from_cards, actual_number_of_cards_to_select)
 	else:
 		# Some actions need to select cards, for example discard, compost
-		secondary_card_datas = await gui_tool_card_container.select_secondary_cards(number_of_cards_to_select, func(_tool_data:ToolData): return true)
+		var candidates:Array = combat_main.tool_manager.tool_deck.hand.duplicate().filter(func(card:ToolData): return card != tool_card.tool_data)
+		secondary_card_datas = await gui_tool_card_container.select_secondary_cards(number_of_cards_to_select, candidates)
 	return secondary_card_datas
 
 func _organize_actions_to_apply(actions:Array) -> Array:
@@ -54,7 +55,6 @@ func _organize_actions_to_apply(actions:Array) -> Array:
 	var actions_to_loop:Array = actions.slice(0, loop_action_index)
 	for i in loop_value:
 		actions_to_apply.append_array(actions_to_loop.duplicate())
-
 	var actions_after_loop:Array = actions.slice(loop_action_index + 1)
 	actions_to_apply.append_array(actions_after_loop)
 	return actions_to_apply

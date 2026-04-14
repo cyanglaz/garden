@@ -1,6 +1,7 @@
 class_name CombatMain
 extends Node2D
 
+
 signal reward_finished(tool_data:ToolData, from_global_position:Vector2)
 signal level_started()
 signal turn_started()
@@ -27,6 +28,7 @@ var tool_manager:ToolManager
 var day_manager:DayManager = DayManager.new()
 var session_summary:SessionSummary
 var combat_modifier_manager:CombatModifierManager = CombatModifierManager.new()
+var combat_queue_manager: CombatQueueManager = CombatQueueManager.new()
 var boost := 1: set = _set_boost
 var _combat:CombatData
 var _tool_application_error_timers:Dictionary = {}
@@ -51,6 +53,8 @@ func _ready() -> void:
 func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter:int, player_data:PlayerData, trinket_datas:Array) -> void:
 
 	session_summary = SessionSummary.new(combat)
+	combat_queue_manager.setup(self)
+	Events.request_combat_queue_push.connect(_on_request_combat_queue_push)
 
 	plant_field_container.field_hovered.connect(_on_field_hovered)
 	plant_field_container.plant_bloom_started.connect(_on_plant_bloom_started)
@@ -124,10 +128,6 @@ func exhaust_cards(tools:Array) -> void:
 func add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
 	await player.player_upgrades_manager.handle_card_added_to_hand_hook(tool_datas, self)
 	await tool_manager.add_tools_to_hand(tool_datas, from_global_position, pause, self)
-
-func add_card_to_deck(tool_data:ToolData) -> void:
-	tool_manager.add_tool_to_deck(tool_data)
-
 #endregion
 
 #region private
@@ -146,7 +146,6 @@ func _start_new_level() -> void:
 func _start_turn() -> void:
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.TURN)
 	boost = maxi(boost - 1, 1)
-	gui.toggle_all_ui(false)
 	day_manager.next_day()
 	weather_main.generate_next_weather_abilities(self, day_manager.day)
 	if day_manager.day == 0:
@@ -157,15 +156,13 @@ func _start_turn() -> void:
 	var draw_count := hand_size + await player.handle_hand_size(self)
 	await draw_cards(draw_count)
 	is_mid_turn = true
-	await player.handle_start_turn(self)
-	await plant_field_container.trigger_start_turn_hooks(self)
-	gui.toggle_all_ui(true)
+	player.handle_start_turn(self)
+	plant_field_container.trigger_start_turn_hooks(self)
 	turn_started.emit()
 	#_win()
 
 func _end_turn() -> void:
 	is_mid_turn = false
-	gui.toggle_all_ui(false)
 	await player.handle_turn_end(self)
 	await _discard_all_tools()
 	energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
@@ -183,8 +180,9 @@ func _end_turn() -> void:
 		# _win() is called by _bloom()
 		return
 	await weather_main.new_day()
-	gui.toggle_all_ui(true)
-	await _start_turn()
+	var request = CombatQueueRequest.new()
+	request.callback = func(_cm: CombatMain) -> void: await _start_turn()
+	Events.request_combat_queue_push.emit(request)
 
 func _met_win_condition() -> bool:
 	return plant_field_container.are_all_plants_bloom()
@@ -240,6 +238,16 @@ func _fade_music(fade_in:bool) -> void:
 	await tween.finished
 	if !fade_in:
 		background_music_player.stop()
+
+func _apply_tool(tool_data:ToolData) -> void:
+	var tool_card:GUIToolCardButton = gui.gui_tool_card_container.find_card(tool_data)
+	if !tool_card:
+		return
+	if !tool_card.resource_sufficient:
+		tool_card.play_error_shake_animation()
+		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
+		return
+	tool_manager.apply_tool(self, tool_data)
 #endregion
 
 #region gui
@@ -255,13 +263,19 @@ func _hide_custom_error(identifier:String) -> void:
 
 #region UI EVENTS
 func _on_tool_selected(tool_data:ToolData) -> void:
-	tool_manager.apply_tool(self, tool_data)
+	assert(is_mid_turn, "Tool selected outside of mid turn")
+	_apply_tool(tool_data)
 
 func _on_mouse_exited_card(tool_data:ToolData) -> void:
 	_hide_custom_error(tool_data.id)
 
 func _on_end_turn_button_pressed() -> void:
-	_end_turn()
+	if !is_mid_turn:
+		return
+	var request = CombatQueueRequest.new()
+	request.only_when_empty = true
+	request.callback = func(_cm: CombatMain) -> void: await _end_turn()
+	Events.request_combat_queue_push.emit(request)
 
 func _on_field_hovered(hovered:bool, index:int) -> void:
 	if tool_manager.selected_tool && tool_manager.selected_tool.need_select_field:
@@ -292,8 +306,8 @@ func _on_player_field_index_updated(from:int, to:int) -> void:
 
 #region other events
 
-func _on_tool_application_started(_tool_data:ToolData) -> void:
-	gui.toggle_all_ui(false)
+func _on_tool_application_started(tool_data:ToolData) -> void:
+	gui.gui_tool_card_container.set_card_state(tool_data, GUICardFace.CardState.SELECTED)
 
 func _on_tool_application_success(tool_data:ToolData) -> void:
 	if tool_data.get_final_energy_cost() > 0:
@@ -303,11 +317,9 @@ func _on_tool_application_completed(tool_data:ToolData) -> void:
 	if tool_manager.number_of_card_used_this_turn >= combat_modifier_manager.card_use_limit():
 		tool_manager.card_use_limit_reached = true
 	await player.player_upgrades_manager.handle_tool_application_hook(self, tool_data)
-	gui.toggle_all_ui(true)
 	_clear_tool_selection()
 
 func _on_tool_application_error(tool_data:ToolData, error_message:String) -> void:
-	gui.toggle_all_ui(true)
 	_clear_tool_selection()
 	gui.reset_tool_positions()
 	Events.request_show_custom_error.emit(error_message, tool_data.id)
@@ -376,11 +388,16 @@ func _on_request_modify_hand_cards(callable:Callable) -> void:
 	tool_manager.refresh_cards_ui(self)
 	gui.toggle_all_ui(true)
 
+func _on_request_combat_queue_push(request) -> void:
+	if is_finished:
+		return
+	combat_queue_manager.push_request(request)
+
 func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
 	# The hp is handled by the main game
 	player.update_hp(val, operation)
 	if operation == ActionData.OperatorType.DECREASE:
-		await player.player_upgrades_manager.handle_damage_taken_hook(self, abs(val))
+		player.player_upgrades_manager.handle_damage_taken_hook(self, abs(val))
 
 func _on_request_energy_update(val:int, operation:ActionData.OperatorType) -> void:
 	match operation:

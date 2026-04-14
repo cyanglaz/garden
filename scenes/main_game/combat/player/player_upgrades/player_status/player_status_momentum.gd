@@ -31,11 +31,5 @@ func _toggle_ui_buttons(on:bool) -> void:
 	left_button.button_state = GUIBasicButton.ButtonState.NORMAL if on else GUIBasicButton.ButtonState.DISABLED
 	right_button.button_state = GUIBasicButton.ButtonState.NORMAL if on else GUIBasicButton.ButtonState.DISABLED
 
-func _on_left_button_pressed() -> void:
-	Events.request_movement_update.emit(-1, ActionData.OperatorType.DECREASE)
-
-func _on_right_button_pressed() -> void:
-	Events.request_movement_update.emit(1, ActionData.OperatorType.INCREASE)
-
 func _on_button_pressed(move_direction:MoveDirection) -> void:
 	button_pressed.emit(move_direction)

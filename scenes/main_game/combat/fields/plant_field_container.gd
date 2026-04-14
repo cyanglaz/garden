@@ -42,8 +42,10 @@ func trigger_end_turn_hooks(combat_main:CombatMain) -> void:
 		await plant.handle_end_turn_hook(combat_main)
 
 func trigger_start_turn_hooks(combat_main:CombatMain) -> void:
-	for plant:Plant in plants:
-		await plant.handle_start_turn_hook(combat_main)
+	var plants_in_order:Array = plants.duplicate()
+	plants_in_order.reverse()
+	for plant:Plant in plants_in_order:
+		plant.handle_start_turn_hook(combat_main)
 
 func trigger_tool_application_hook(combat_main:CombatMain) -> void:
 	for plant:Plant in plants:

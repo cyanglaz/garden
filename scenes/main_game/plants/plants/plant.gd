@@ -50,7 +50,7 @@ func _ready() -> void:
 	water.value_update.connect(_on_water_value_update)
 
 func trigger_ability(ability_type:AbilityType, combat_main:CombatMain) -> void:
-	await plant_ability_container.trigger_ability(ability_type, self, combat_main)
+	plant_ability_container.trigger_ability(ability_type, self, combat_main)
 
 func handle_turn_end() -> void:
 	field_status_container.clear_status_on_turn_end()
@@ -62,11 +62,11 @@ func handle_tool_discard_hook(count:int, combat_main:CombatMain) -> void:
 	await field_status_container.handle_tool_discard_hook(self, count, combat_main)
 
 func handle_start_turn_hook(combat_main:CombatMain) -> void:
-	await trigger_ability(Plant.AbilityType.START_TURN, combat_main)
+	trigger_ability(Plant.AbilityType.START_TURN, combat_main)
 
 func handle_end_turn_hook(combat_main:CombatMain) -> void:
 	await field_status_container.handle_end_turn_hook(combat_main, self)
-	await trigger_ability(Plant.AbilityType.END_TURN, combat_main)
+	trigger_ability(Plant.AbilityType.END_TURN, combat_main)
 
 func apply_weather_actions(weather_data:WeatherData, combat_main:CombatMain) -> void:
 	await apply_actions(weather_data.actions, combat_main)

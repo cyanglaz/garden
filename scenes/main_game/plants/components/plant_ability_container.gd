@@ -12,6 +12,7 @@ func setup_with_plant_data(plant_data:PlantData) -> void:
 		ability_node.ability_data = plant_ability_data
 		ability_node.stack = plant_ability_stack
 		ability_node.current_cooldown = plant_ability_data.cooldown
+		ability_node.request_ability_hook_animation.connect(func(ability_id:String) -> void: request_ability_hook_animation.emit(ability_id))
 		assert(ability_node)
 		add_child(ability_node)
 
@@ -24,8 +25,7 @@ func clear_all_abilities() -> void:
 func trigger_ability(ability_type:Plant.AbilityType, plant:Plant, combat_main:CombatMain) -> void:
 	for ability_node:PlantAbility in get_children():
 		if ability_node.has_ability_hook(ability_type, plant, combat_main):
-			request_ability_hook_animation.emit(ability_node.ability_data.id)
-			await ability_node.trigger_ability_hook(ability_type, plant, combat_main)
+			ability_node.trigger_ability_hook(ability_type, plant)
 
 func signal_bloom() -> void:
 	for ability_node:PlantAbility in get_abilities():

@@ -40,7 +40,7 @@ func setup(pd:PlayerData, mpi:int, trinket_datas:Array) -> void:
 	player_upgrades_manager.setup([player_status_container, player_trinkets_container])
 
 func handle_start_turn(combat_main:CombatMain) -> void:
-	await player_upgrades_manager.handle_start_turn_hook(combat_main)
+	player_upgrades_manager.handle_start_turn_hook(combat_main)
 
 func handle_hand_size(combat_main: CombatMain) -> int:
 	return await player_upgrades_manager.handle_hand_size_hook(combat_main)
@@ -84,13 +84,20 @@ func update_energy(val:int, operation:ActionData.OperatorType) -> void:
 		ActionData.OperatorType.EQUAL_TO:
 			pass
 
-func _on_movement_button_pressed(move_direction:PlayerStatusMomentum.MoveDirection) -> void:
+func _update_movement(move_direction:PlayerStatusMomentum.MoveDirection) -> void:
 	match move_direction:
 		PlayerStatusMomentum.MoveDirection.LEFT:
 			current_field_index -= 1
 		PlayerStatusMomentum.MoveDirection.RIGHT:
 			current_field_index += 1
 	player_status_container.update_player_upgrade("momentum", 1, ActionData.OperatorType.DECREASE)
+
+func _on_movement_button_pressed(move_direction:PlayerStatusMomentum.MoveDirection) -> void:
+	var request = CombatQueueRequest.new()
+	request.callback = func(_combat_main:CombatMain) -> void: _update_movement(move_direction)
+	request.unique_id = "movement_button_pressed"
+	request.only_when_empty = true
+	Events.request_combat_queue_push.emit(request)
 
 func _set_current_field_index(value:int) -> void:
 	assert(max_plants_index > 0)

@@ -29,14 +29,10 @@ var _player_move_hook_queue:Array = []
 var _current_player_move_hook_index:int = 0
 var _end_turn_hook_queue:Array = []
 var _current_end_turn_hook_index:int = 0
-var _start_turn_hook_queue:Array = []
-var _current_start_turn_hook_index:int = 0
 var _hand_updated_hook_queue:Array = []
 var _current_hand_updated_hook_index:int = 0
 var _plant_bloom_hook_queue:Array = []
 var _current_plant_bloom_hook_index:int = 0
-var _damage_taken_hook_queue:Array = []
-var _current_damage_taken_hook_index:int = 0
 var _combat_end_hook_queue:Array = []
 var _current_combat_end_hook_index:int = 0
 
@@ -287,19 +283,12 @@ func _handle_next_end_turn_hook(combat_main:CombatMain) -> void:
 
 func handle_start_turn_hook(combat_main:CombatMain) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()
-	_start_turn_hook_queue = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
+	var player_upgrades:Array = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
 		return player_upgrade.has_start_turn_hook(combat_main)
 	)
-	_current_start_turn_hook_index = 0
-	await _handle_next_start_turn_hook(combat_main)
-
-func _handle_next_start_turn_hook(combat_main:CombatMain) -> void:
-	if _current_start_turn_hook_index >= _start_turn_hook_queue.size():
-		return
-	var player_upgrade:PlayerUpgrade = _start_turn_hook_queue[_current_start_turn_hook_index]
-	await player_upgrade.handle_start_turn_hook(combat_main)
-	_current_start_turn_hook_index += 1
-	await _handle_next_start_turn_hook(combat_main)
+	player_upgrades.reverse()
+	for player_upgrade in player_upgrades:
+		player_upgrade.handle_start_turn_hook()
 
 func handle_hand_updated_hook(combat_main:CombatMain) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()
@@ -335,19 +324,12 @@ func _handle_next_plant_bloom_hook(combat_main:CombatMain) -> void:
 
 func handle_damage_taken_hook(combat_main:CombatMain, damage:int) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()
-	_damage_taken_hook_queue = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
+	var player_upgrades:Array = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
 		return player_upgrade.has_damage_taken_hook(combat_main, damage)
 	)
-	_current_damage_taken_hook_index = 0
-	await _handle_next_damage_taken_hook(combat_main, damage)
-
-func _handle_next_damage_taken_hook(combat_main:CombatMain, damage:int) -> void:
-	if _current_damage_taken_hook_index >= _damage_taken_hook_queue.size():
-		return
-	var player_upgrade:PlayerUpgrade = _damage_taken_hook_queue[_current_damage_taken_hook_index]
-	await player_upgrade.handle_damage_taken_hook(combat_main, damage)
-	_current_damage_taken_hook_index += 1
-	await _handle_next_damage_taken_hook(combat_main, damage)
+	player_upgrades.reverse()
+	for player_upgrade in player_upgrades:
+		player_upgrade.handle_damage_taken_hook(damage)
 
 func handle_hand_size_hook(combat_main: CombatMain) -> int:
 	var diff := 0

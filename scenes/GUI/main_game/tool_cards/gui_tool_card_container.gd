@@ -4,6 +4,11 @@ extends Control
 signal tool_selected(tool_data:ToolData)
 signal mouse_exited_card(tool_data:ToolData)
 
+enum ContainerState {
+	IDLE,
+	DRAWING,
+
+}
 var TOOL_CARD_SCENE := load("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
 const DEFAULT_CARD_SPACE := 1.0
@@ -20,9 +25,10 @@ var _card_size:float
 var selected_index:int = -1
 var card_use_limit_reached:bool = false: set = _set_card_use_limit_reached
 var card_selection_mode := false
-var _card_selection_filter:Callable = func(_tool_data:ToolData) -> bool: return true
+var _secondary_card_selection_candidates:Array = []
 var _selected_secondary_cards:Array[GUIToolCardButton] = []
 var _tool_card_interaction_enabled:bool = true
+var _container_state:ContainerState = ContainerState.IDLE
 
 func _ready() -> void:
 	_card_size = GUIToolCardButton.SIZE.x
@@ -30,12 +36,6 @@ func _ready() -> void:
 
 func setup(draw_box_button:GUIDeckButton, discard_box_button:GUIDeckButton) -> void:
 	_gui_tool_card_animation_container.setup(self, draw_box_button, discard_box_button)
-
-func toggle_all_tool_cards(on:bool) -> void:
-	_tool_card_interaction_enabled = on
-	for i in get_card_count():
-		var card:GUIToolCardButton = _container.get_child(i)
-		card.mouse_disabled = !on
 	
 func clear_selection() -> void:
 	selected_index = -1
@@ -51,7 +51,8 @@ func reset_positions() -> void:
 		tween.set_parallel(true)
 		for i in _container.get_children().size():
 			var gui_card = _container.get_child(i)
-			gui_card.card_state = GUICardFace.CardState.NORMAL
+			if gui_card.card_state != GUICardFace.CardState.WAITING:
+				gui_card.card_state = GUICardFace.CardState.NORMAL
 			tween.tween_property(gui_card, "position", positions[i], REPOSITION_DURATION)
 		await tween.finished
 		for i in _container.get_children().size():
@@ -90,22 +91,28 @@ func find_card(tool_data:ToolData) -> GUIToolCardButton:
 			return card
 	return null
 
-func select_secondary_cards(number_of_cards:int, filter:Callable) -> Array:
-	_card_selection_filter = filter
+func select_secondary_cards(number_of_cards:int, candidates:Array) -> Array:
+	_secondary_card_selection_candidates = candidates
 	_toggle_card_selection_mode(true)
-	var selecting_from_cards:Array[ToolData] = _get_selecting_from_cards()
 	var cards_enabled:bool = _tool_card_interaction_enabled
-	_toggle_selected_cards(selecting_from_cards, true)
-	var result := await _card_selection_container.start_selection(number_of_cards, selecting_from_cards)
+	_toggle_selected_cards( true)
+	var result := await _card_selection_container.start_selection(number_of_cards, _secondary_card_selection_candidates)
 	if !cards_enabled:
-		_toggle_selected_cards(selecting_from_cards, false)
+		_toggle_selected_cards(false)
 	_clear_secondary_card_selection()
 	return result
+
+func play_card_error_shake_animation(tool_data:ToolData) -> void:
+	var card:GUIToolCardButton = find_card(tool_data)
+	card.play_error_shake_animation()
+	Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 
 #region animation
 
 func animate_draw(draw_results:Array, combat_main:CombatMain) -> void:
+	_container_state = ContainerState.DRAWING
 	await _gui_tool_card_animation_container.animate_draw(draw_results, combat_main)
+	_container_state = ContainerState.IDLE
 	
 func animate_discard(discarding_tool_datas:Array, combat_main:CombatMain) -> void:
 	await _gui_tool_card_animation_container.animate_discard(discarding_tool_datas, combat_main)
@@ -184,8 +191,8 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 
 #region private
 
-func _toggle_selected_cards(array:Array, on:bool) -> void:
-	for tool_data in array:
+func _toggle_selected_cards(on:bool) -> void:
+	for tool_data in _secondary_card_selection_candidates:
 		var gui_card:GUIToolCardButton = find_card(tool_data)
 		gui_card.mouse_disabled = !on
 
@@ -197,33 +204,21 @@ func _clear_secondary_card_selection() -> void:
 func _toggle_card_selection_mode(on:bool) -> void:
 	card_selection_mode = on
 	if !card_selection_mode:
-		_card_selection_filter = func(_tool_data:ToolData) -> bool: return true
+		_secondary_card_selection_candidates.clear()
 	var index := 0
 	for gui_card:GUIToolCardButton in get_all_cards():
-		if index == selected_index:
-			if card_selection_mode:
-				gui_card.card_state = GUICardFace.CardState.WAITING
-			else:
+		if card_selection_mode:
+			if index == selected_index:
 				gui_card.card_state = GUICardFace.CardState.SELECTED
-		elif _card_selection_filter.call(gui_card.tool_data):
-			gui_card.card_state = GUICardFace.CardState.NORMAL
+			elif _secondary_card_selection_candidates.has(gui_card.tool_data):
+				gui_card.card_state = GUICardFace.CardState.NORMAL
+			else:
+				gui_card.card_state = GUICardFace.CardState.UNSELECTED
 		else:
-			gui_card.card_state = GUICardFace.CardState.UNSELECTED
-		index += 1
+			if gui_card.card_state != GUICardFace.CardState.WAITING:
+				gui_card.card_state = GUICardFace.CardState.NORMAL
 
-func _get_selecting_from_cards() -> Array[ToolData]:
-	if !card_selection_mode:
-		return []
-	var index := 0
-	var selecting_from_cards:Array[ToolData] = []
-	for gui_card:GUIToolCardButton in get_all_cards():
-		if index == selected_index:
-			index += 1
-			continue
-		if _card_selection_filter.call(gui_card.tool_data):
-			selecting_from_cards.append(gui_card.tool_data)
 		index += 1
-	return selecting_from_cards
 
 func _rebind_signals() -> void:
 	for i in _container.get_children().size():
@@ -240,9 +235,10 @@ func _rebind_signals() -> void:
 		gui_card.hand_index = i
 
 func _handle_selected_card(card:GUIToolCardButton) -> void:
-	if card.card_state == GUICardFace.CardState.SELECTED:
+	if card.card_state == GUICardFace.CardState.WAITING \
+	or card.card_state == GUICardFace.CardState.SELECTED:
 		return
-	card.card_state = GUICardFace.CardState.SELECTED
+	card.card_state = GUICardFace.CardState.WAITING
 	tool_selected.emit(card.tool_data)
 
 func _hide_all_card_warnings() -> void:
@@ -263,6 +259,8 @@ func _return_secondary_card_to_hand(card:GUIToolCardButton) -> void:
 #region events
 
 func _on_tool_card_pressed(index:int) -> void:
+	if _container_state != ContainerState.IDLE:
+		return
 	_hide_all_card_warnings()
 	var selected_card:GUIToolCardButton = _container.get_child(index)
 	if card_selection_mode:

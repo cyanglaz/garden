@@ -63,7 +63,6 @@ func toggle_all_ui(on:bool) -> void:
 	_toggle_ui(toggle_on)
 
 func _toggle_ui(on:bool) -> void:
-	gui_tool_card_container.toggle_all_tool_cards(on)
 	if on:
 		end_turn_button.button_state = GUIBasicButton.ButtonState.NORMAL
 	else:
