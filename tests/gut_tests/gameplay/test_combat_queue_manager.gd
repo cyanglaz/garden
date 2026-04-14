@@ -22,13 +22,15 @@ func _make_request(
 	callback: Callable,
 	front: bool = false,
 	unique_id: String = "",
-	finish_callback: Callable = Callable()
+	finish_callback: Callable = Callable(),
+	only_when_empty: bool = false
 ):
 	var request = CombatQueueRequest.new()
 	request.callback = callback
 	request.front = front
 	request.unique_id = unique_id
 	request.finish_callback = finish_callback
+	request.only_when_empty = only_when_empty
 	return request
 
 
@@ -195,6 +197,53 @@ func test_push_request_calls_finish_callback_after_item_callback() -> void:
 	)
 	await _await_queue_idle(q)
 	assert_eq(order, ["main_start", "main_end", "finish"])
+
+
+func test_only_when_empty_item_is_discarded_when_queue_is_busy() -> void:
+	var cm := _make_combat_main()
+	var q := _make_queue(cm)
+	var order: Array = []
+	q.push_items(false, [_make_item(func(_c: CombatMain) -> void: await _blocking_slice(order))])
+	var gated_item := _make_item(func(_c: CombatMain) -> void: order.append("should_not_run"))
+	gated_item.only_when_empty = true
+	q.push_items(false, [gated_item])
+	await _await_queue_idle(q)
+	assert_eq(order, ["block_start", "block_end"])
+
+
+func test_only_when_empty_request_is_discarded_when_queue_is_busy() -> void:
+	var cm := _make_combat_main()
+	var q := _make_queue(cm)
+	var order: Array = []
+	q.push_items(false, [_make_item(func(_c: CombatMain) -> void: await _blocking_slice(order))])
+	q.push_request(
+		_make_request(
+			func(_c: CombatMain) -> void: order.append("should_not_run"),
+			false,
+			"",
+			Callable(),
+			true
+		)
+	)
+	await _await_queue_idle(q)
+	assert_eq(order, ["block_start", "block_end"])
+
+
+func test_only_when_empty_request_runs_when_queue_is_idle() -> void:
+	var cm := _make_combat_main()
+	var q := _make_queue(cm)
+	var order: Array = []
+	q.push_request(
+		_make_request(
+			func(_c: CombatMain) -> void: order.append("runs"),
+			false,
+			"",
+			Callable(),
+			true
+		)
+	)
+	await _await_queue_idle(q)
+	assert_eq(order, ["runs"])
 
 
 func test_empty_push_items_does_not_mark_busy() -> void:

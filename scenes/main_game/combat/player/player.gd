@@ -96,6 +96,7 @@ func _on_movement_button_pressed(move_direction:PlayerStatusMomentum.MoveDirecti
 	var request = CombatQueueRequest.new()
 	request.callback = func(_combat_main:CombatMain) -> void: _update_movement(move_direction)
 	request.unique_id = "movement_button_pressed"
+	request.only_when_empty = true
 	Events.request_combat_queue_push.emit(request)
 
 func _set_current_field_index(value:int) -> void:

@@ -27,17 +27,28 @@ func push_items(front: bool, items: Array) -> void:
 	assert(_combat_main, "CombatQueueManager.setup(combat_main) must be called before push_items.")
 	if items.is_empty():
 		return
+	var allow_only_when_empty := _is_idle_empty()
+	var filtered_items: Array = []
+	for item in items:
+		var queue_item := item as CombatQueueItem
+		if queue_item and queue_item.only_when_empty and !allow_only_when_empty:
+			continue
+		filtered_items.append(item)
+	if filtered_items.is_empty():
+		return
 	if front:
-		for i in range(items.size() - 1, -1, -1):
-			_queue.push_front(items[i])
+		for i in range(filtered_items.size() - 1, -1, -1):
+			_queue.push_front(filtered_items[i])
 	else:
-		_queue.append_array(items)
+		_queue.append_array(filtered_items)
 	_ensure_draining()
 
 func push_request(request) -> void:
 	if !request:
 		return
 	if !request.callback.is_valid():
+		return
+	if request.only_when_empty and !_is_idle_empty():
 		return
 	if !request.unique_id.is_empty():
 		if _queued_unique_ids.has(request.unique_id):
@@ -47,12 +58,16 @@ func push_request(request) -> void:
 	item.callback = request.callback
 	item.finish_callback = request.finish_callback
 	item.unique_id = request.unique_id
+	item.only_when_empty = request.only_when_empty
 	push_items(request.front, [item])
 
 func _ensure_draining() -> void:
 	if _processing:
 		return
 	_drain_queue()
+
+func _is_idle_empty() -> bool:
+	return !_processing and _queue.is_empty()
 
 func _drain_queue() -> void:
 	_processing = true
