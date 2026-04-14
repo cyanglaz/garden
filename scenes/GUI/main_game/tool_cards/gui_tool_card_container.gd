@@ -205,16 +205,17 @@ func _toggle_card_selection_mode(on:bool) -> void:
 		_secondary_card_selection_candidates.clear()
 	var index := 0
 	for gui_card:GUIToolCardButton in get_all_cards():
-		if index == selected_index:
-			if card_selection_mode:
+		if card_selection_mode:
+			if index == selected_index:
 				gui_card.card_state = GUICardFace.CardState.SELECTED
+			elif _secondary_card_selection_candidates.has(gui_card.tool_data):
+				gui_card.card_state = GUICardFace.CardState.NORMAL
 			else:
-				gui_card.card_state = GUICardFace.CardState.WAITING
-		elif _secondary_card_selection_candidates.has(gui_card.tool_data):
+				gui_card.card_state = GUICardFace.CardState.UNSELECTED
+		else:
 			if gui_card.card_state != GUICardFace.CardState.WAITING:
 				gui_card.card_state = GUICardFace.CardState.NORMAL
-		else:
-			gui_card.card_state = GUICardFace.CardState.UNSELECTED
+
 		index += 1
 
 func _rebind_signals() -> void:
