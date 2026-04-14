@@ -241,6 +241,8 @@ func _fade_music(fade_in:bool) -> void:
 
 func _apply_tool(tool_data:ToolData) -> void:
 	var tool_card:GUIToolCardButton = gui.gui_tool_card_container.find_card(tool_data)
+	if !tool_card:
+		return
 	if !tool_card.resource_sufficient:
 		tool_card.play_error_shake_animation()
 		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
