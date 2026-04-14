@@ -129,10 +129,6 @@ func exhaust_cards(tools:Array) -> void:
 func add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
 	await player.player_upgrades_manager.handle_card_added_to_hand_hook(tool_datas, self)
 	await tool_manager.add_tools_to_hand(tool_datas, from_global_position, pause, self)
-
-func add_card_to_deck(tool_data:ToolData) -> void:
-	tool_manager.add_tool_to_deck(tool_data)
-
 #endregion
 
 #region private
