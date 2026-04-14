@@ -108,6 +108,26 @@ func test_async_callable_completes_before_next_item() -> void:
 	assert_eq(order, ["a_start", "a_end", "b"])
 
 
+func test_staged_items_allow_front_insert_between_stages() -> void:
+	var cm := _make_combat_main()
+	var q := _make_queue(cm)
+	var order: Array = []
+	var pre_stage := func(_c: CombatMain) -> void:
+		order.append("pre_start")
+		q.push_items(true, [CombatQueueCallableItem.new(func(_c2: CombatMain) -> void: order.append("urgent"))])
+		order.append("pre_end")
+	q.push_items(
+		false,
+		[
+			CombatQueueCallableItem.new(pre_stage),
+			CombatQueueCallableItem.new(func(_c: CombatMain) -> void: order.append("apply")),
+			CombatQueueCallableItem.new(func(_c: CombatMain) -> void: order.append("finish")),
+		],
+	)
+	await _await_queue_idle(q)
+	assert_eq(order, ["pre_start", "pre_end", "urgent", "apply", "finish"])
+
+
 func test_empty_push_items_does_not_mark_busy() -> void:
 	var cm := _make_combat_main()
 	var q := _make_queue(cm)

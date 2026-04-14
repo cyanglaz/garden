@@ -248,7 +248,7 @@ func _apply_tool(tool_data:ToolData) -> void:
 		tool_card.play_error_shake_animation()
 		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 		return
-	await tool_manager.apply_tool(self, tool_data)
+	tool_manager.apply_tool(self, tool_data)
 #endregion
 
 #region gui
@@ -264,10 +264,7 @@ func _hide_custom_error(identifier:String) -> void:
 
 #region UI EVENTS
 func _on_tool_selected(tool_data:ToolData) -> void:
-	Events.request_combat_queue_push_callable.emit(
-		false,
-		func(_cm: CombatMain) -> void: await _apply_tool(tool_data),
-	)
+	_apply_tool(tool_data)
 
 func _on_mouse_exited_card(tool_data:ToolData) -> void:
 	_hide_custom_error(tool_data.id)
@@ -305,7 +302,7 @@ func _on_player_field_index_updated(from:int, to:int) -> void:
 #region other events
 
 func _on_tool_application_started(tool_data:ToolData) -> void:
-	gui.gui_tool_card_container.set_card_state(tool_data, GUICardFace.CardState.WAITING)
+	gui.gui_tool_card_container.set_card_state(tool_data, GUICardFace.CardState.SELECTED)
 
 func _on_tool_application_success(tool_data:ToolData) -> void:
 	if tool_data.get_final_energy_cost() > 0:
