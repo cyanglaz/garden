@@ -84,7 +84,7 @@ func handle_plant_bloom_hook(combat_main:CombatMain) -> void:
 
 func handle_damage_taken_hook(combat_main:CombatMain, damage:int) -> void:
 	for container in player_upgrade_containers:
-		await container.handle_damage_taken_hook(combat_main, damage)
+		container.handle_damage_taken_hook(combat_main, damage)
 
 func handle_hand_size_hook(combat_main: CombatMain) -> int:
 	var diff := 0

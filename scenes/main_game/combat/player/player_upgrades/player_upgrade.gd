@@ -115,8 +115,11 @@ func handle_plant_bloom_hook(combat_main:CombatMain) -> void:
 func has_damage_taken_hook(combat_main:CombatMain, damage:int) -> bool:
 	return _has_damage_taken_hook(combat_main, damage)
 
-func handle_damage_taken_hook(combat_main:CombatMain, damage:int) -> void:
-	await _handle_damage_taken_hook(combat_main, damage)
+func handle_damage_taken_hook(damage:int) -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: _handle_damage_taken_hook(combat_main, damage)
+	Events.request_combat_queue_push.emit(request)
 
 func has_combat_end_hook(combat_main:CombatMain) -> bool:
 	return _has_combat_end_hook(combat_main)
@@ -232,7 +235,7 @@ func _has_damage_taken_hook(_combat_main:CombatMain, _damage:int) -> bool:
 	return false
 
 func _handle_damage_taken_hook(_combat_main:CombatMain, _damage:int) -> void:
-	await Util.await_for_tiny_time()
+	pass
 
 func _has_combat_end_hook(_combat_main:CombatMain) -> bool:
 	return false
