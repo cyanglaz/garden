@@ -28,6 +28,5 @@ script = ExtResource("2_exhaust")
 energy_cost = 0
 actions = Array[ExtResource("1_exhaust")]([SubResource("Resource_exhaust_light"), SubResource("Resource_exhaust_water"), SubResource("Resource_exhaust_momentum")])
 rarity = 1
-specials = Array[int]([0])
 id = "exhaust"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"
