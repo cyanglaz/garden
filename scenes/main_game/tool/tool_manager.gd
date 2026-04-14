@@ -119,7 +119,8 @@ func apply_tool(combat_main:CombatMain, applying_tool:ToolData) -> void:
 	_handle_tool_application_completed(applying_tool, combat_main)
 
 func select_secondary_cards(number_of_cards:int, filter:Callable) -> Array:
-	return await _gui_tool_card_container.select_secondary_cards(number_of_cards, filter)
+	var candidates:Array = tool_deck.hand.filter(filter)
+	return await _gui_tool_card_container.select_secondary_cards(number_of_cards, candidates)
 
 func add_tool_to_deck(tool_data:ToolData) -> void:
 	tool_deck.add_item(tool_data)

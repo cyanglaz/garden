@@ -20,7 +20,7 @@ var _card_size:float
 var selected_index:int = -1
 var card_use_limit_reached:bool = false: set = _set_card_use_limit_reached
 var card_selection_mode := false
-var _card_selection_filter:Callable = func(_tool_data:ToolData) -> bool: return true
+var _secondary_card_selection_candidates:Array = []
 var _selected_secondary_cards:Array[GUIToolCardButton] = []
 var _tool_card_interaction_enabled:bool = true
 
@@ -91,15 +91,14 @@ func find_card(tool_data:ToolData) -> GUIToolCardButton:
 			return card
 	return null
 
-func select_secondary_cards(number_of_cards:int, filter:Callable) -> Array:
-	_card_selection_filter = filter
+func select_secondary_cards(number_of_cards:int, candidates:Array) -> Array:
+	_secondary_card_selection_candidates = candidates
 	_toggle_card_selection_mode(true)
-	var selecting_from_cards:Array[ToolData] = _get_selecting_from_cards()
 	var cards_enabled:bool = _tool_card_interaction_enabled
-	_toggle_selected_cards(selecting_from_cards, true)
-	var result := await _card_selection_container.start_selection(number_of_cards, selecting_from_cards)
+	_toggle_selected_cards( true)
+	var result := await _card_selection_container.start_selection(number_of_cards, _secondary_card_selection_candidates)
 	if !cards_enabled:
-		_toggle_selected_cards(selecting_from_cards, false)
+		_toggle_selected_cards(false)
 	_clear_secondary_card_selection()
 	return result
 
@@ -190,8 +189,8 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 
 #region private
 
-func _toggle_selected_cards(array:Array, on:bool) -> void:
-	for tool_data in array:
+func _toggle_selected_cards(on:bool) -> void:
+	for tool_data in _secondary_card_selection_candidates:
 		var gui_card:GUIToolCardButton = find_card(tool_data)
 		gui_card.mouse_disabled = !on
 
@@ -203,7 +202,7 @@ func _clear_secondary_card_selection() -> void:
 func _toggle_card_selection_mode(on:bool) -> void:
 	card_selection_mode = on
 	if !card_selection_mode:
-		_card_selection_filter = func(_tool_data:ToolData) -> bool: return true
+		_secondary_card_selection_candidates.clear()
 	var index := 0
 	for gui_card:GUIToolCardButton in get_all_cards():
 		if index == selected_index:
@@ -211,26 +210,12 @@ func _toggle_card_selection_mode(on:bool) -> void:
 				gui_card.card_state = GUICardFace.CardState.SELECTED
 			else:
 				gui_card.card_state = GUICardFace.CardState.WAITING
-		elif _card_selection_filter.call(gui_card.tool_data):
+		elif _secondary_card_selection_candidates.has(gui_card.tool_data):
 			if gui_card.card_state != GUICardFace.CardState.WAITING:
 				gui_card.card_state = GUICardFace.CardState.NORMAL
 		else:
 			gui_card.card_state = GUICardFace.CardState.UNSELECTED
 		index += 1
-
-func _get_selecting_from_cards() -> Array[ToolData]:
-	if !card_selection_mode:
-		return []
-	var index := 0
-	var selecting_from_cards:Array[ToolData] = []
-	for gui_card:GUIToolCardButton in get_all_cards():
-		if index == selected_index:
-			index += 1
-			continue
-		if _card_selection_filter.call(gui_card.tool_data):
-			selecting_from_cards.append(gui_card.tool_data)
-		index += 1
-	return selecting_from_cards
 
 func _rebind_signals() -> void:
 	for i in _container.get_children().size():
