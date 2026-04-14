@@ -13,6 +13,24 @@ func _make_queue(cm: CombatMain) -> CombatQueueManager:
 	q.setup(cm)
 	return q
 
+func _make_item(callback: Callable) -> CombatQueueItem:
+	var item := CombatQueueItem.new()
+	item.callback = callback
+	return item
+
+func _make_request(
+	callback: Callable,
+	front: bool = false,
+	unique_id: String = "",
+	finish_callback: Callable = Callable()
+):
+	var request = CombatQueueRequest.new()
+	request.callback = callback
+	request.front = front
+	request.unique_id = unique_id
+	request.finish_callback = finish_callback
+	return request
+
 
 func _await_queue_idle(q: CombatQueueManager) -> void:
 	var safety := 0
@@ -41,8 +59,8 @@ func test_push_back_runs_callables_fifo() -> void:
 	q.push_items(
 		false,
 		[
-			CombatQueueCallableItem.new(func(_c: CombatMain) -> void: order.append("a")),
-			CombatQueueCallableItem.new(func(_c: CombatMain) -> void: order.append("b")),
+			_make_item(func(_c: CombatMain) -> void: order.append("a")),
+			_make_item(func(_c: CombatMain) -> void: order.append("b")),
 		],
 	)
 	await _await_queue_idle(q)
@@ -56,9 +74,9 @@ func test_push_front_batch_preserves_order_on_empty_queue() -> void:
 	q.push_items(
 		true,
 		[
-			CombatQueueCallableItem.new(func(_c: CombatMain) -> void: order.append("h1")),
-			CombatQueueCallableItem.new(func(_c: CombatMain) -> void: order.append("h2")),
-			CombatQueueCallableItem.new(func(_c: CombatMain) -> void: order.append("h3")),
+			_make_item(func(_c: CombatMain) -> void: order.append("h1")),
+			_make_item(func(_c: CombatMain) -> void: order.append("h2")),
+			_make_item(func(_c: CombatMain) -> void: order.append("h3")),
 		],
 	)
 	await _await_queue_idle(q)
@@ -71,8 +89,8 @@ func test_push_front_while_busy_queues_before_remaining_backlog_not_mid_item() -
 	var cm := _make_combat_main()
 	var q := _make_queue(cm)
 	var order: Array = []
-	q.push_items(false, [CombatQueueCallableItem.new(func(_c: CombatMain) -> void: await _blocking_slice(order))])
-	q.push_items(true, [CombatQueueCallableItem.new(func(_c: CombatMain) -> void: order.append("urgent"))])
+	q.push_items(false, [_make_item(func(_c: CombatMain) -> void: await _blocking_slice(order))])
+	q.push_items(true, [_make_item(func(_c: CombatMain) -> void: order.append("urgent"))])
 	await _await_queue_idle(q)
 	assert_eq(order, ["block_start", "block_end", "urgent"])
 
@@ -84,11 +102,11 @@ func test_push_back_after_front_batch_appends_in_order() -> void:
 	q.push_items(
 		true,
 		[
-			CombatQueueCallableItem.new(func(_c: CombatMain) -> void: order.append("h1")),
-			CombatQueueCallableItem.new(func(_c: CombatMain) -> void: order.append("h2")),
+			_make_item(func(_c: CombatMain) -> void: order.append("h1")),
+			_make_item(func(_c: CombatMain) -> void: order.append("h2")),
 		],
 	)
-	q.push_items(false, [CombatQueueCallableItem.new(func(_c: CombatMain) -> void: order.append("tail"))])
+	q.push_items(false, [_make_item(func(_c: CombatMain) -> void: order.append("tail"))])
 	await _await_queue_idle(q)
 	assert_eq(order, ["h1", "h2", "tail"])
 
@@ -100,8 +118,8 @@ func test_async_callable_completes_before_next_item() -> void:
 	q.push_items(
 		false,
 		[
-			CombatQueueCallableItem.new(func(_c: CombatMain) -> void: await _append_async_slice(order)),
-			CombatQueueCallableItem.new(func(_c: CombatMain) -> void: order.append("b")),
+			_make_item(func(_c: CombatMain) -> void: await _append_async_slice(order)),
+			_make_item(func(_c: CombatMain) -> void: order.append("b")),
 		],
 	)
 	await _await_queue_idle(q)
@@ -114,18 +132,69 @@ func test_staged_items_allow_front_insert_between_stages() -> void:
 	var order: Array = []
 	var pre_stage := func(_c: CombatMain) -> void:
 		order.append("pre_start")
-		q.push_items(true, [CombatQueueCallableItem.new(func(_c2: CombatMain) -> void: order.append("urgent"))])
+		q.push_items(true, [_make_item(func(_c2: CombatMain) -> void: order.append("urgent"))])
 		order.append("pre_end")
 	q.push_items(
 		false,
 		[
-			CombatQueueCallableItem.new(pre_stage),
-			CombatQueueCallableItem.new(func(_c: CombatMain) -> void: order.append("apply")),
-			CombatQueueCallableItem.new(func(_c: CombatMain) -> void: order.append("finish")),
+			_make_item(pre_stage),
+			_make_item(func(_c: CombatMain) -> void: order.append("apply")),
+			_make_item(func(_c: CombatMain) -> void: order.append("finish")),
 		],
 	)
 	await _await_queue_idle(q)
 	assert_eq(order, ["pre_start", "pre_end", "urgent", "apply", "finish"])
+
+
+func test_push_request_uses_front_and_callback() -> void:
+	var cm := _make_combat_main()
+	var q := _make_queue(cm)
+	var order: Array = []
+	q.push_items(false, [_make_item(func(_c: CombatMain) -> void: await _blocking_slice(order))])
+	q.push_request(_make_request(func(_c: CombatMain) -> void: order.append("tail")))
+	q.push_request(_make_request(func(_c: CombatMain) -> void: order.append("front"), true))
+	await _await_queue_idle(q)
+	assert_eq(order, ["block_start", "block_end", "front", "tail"])
+
+
+func test_push_request_with_unique_id_dedupes_until_processed() -> void:
+	var cm := _make_combat_main()
+	var q := _make_queue(cm)
+	var order: Array = []
+	q.push_request(
+		_make_request(
+			func(_c: CombatMain) -> void:
+				order.append("once")
+				await (Engine.get_main_loop() as SceneTree).create_timer(0.02).timeout,
+			false,
+			"same_id"
+		)
+	)
+	q.push_request(_make_request(func(_c: CombatMain) -> void: order.append("ignored"), false, "same_id"))
+	await _await_queue_idle(q)
+	assert_eq(order, ["once"])
+	q.push_request(_make_request(func(_c: CombatMain) -> void: order.append("again"), false, "same_id"))
+	await _await_queue_idle(q)
+	assert_eq(order, ["once", "again"])
+
+
+func test_push_request_calls_finish_callback_after_item_callback() -> void:
+	var cm := _make_combat_main()
+	var q := _make_queue(cm)
+	var order: Array = []
+	q.push_request(
+		_make_request(
+			func(_c: CombatMain) -> void:
+				order.append("main_start")
+				await (Engine.get_main_loop() as SceneTree).create_timer(0.01).timeout
+				order.append("main_end"),
+			false,
+			"",
+			func(_c: CombatMain) -> void: order.append("finish")
+		)
+	)
+	await _await_queue_idle(q)
+	assert_eq(order, ["main_start", "main_end", "finish"])
 
 
 func test_empty_push_items_does_not_mark_busy() -> void:

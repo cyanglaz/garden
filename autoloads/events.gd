@@ -71,9 +71,7 @@ signal request_remove_card_from_deck(tool_data:ToolData)
 @warning_ignore("unused_signal")
 signal request_add_trinket_to_collection(trinket_data:TrinketData, from_global_position:Vector2, scale_factor:float)
 @warning_ignore("unused_signal")
-signal request_combat_queue_push_actions(front: bool, actions: Array, tool_card: GUIToolCardButton)
-@warning_ignore("unused_signal")
-signal request_combat_queue_push_callable(front: bool, callable: Callable)
+signal request_combat_queue_push(request:CombatQueueRequest)
 
 # Bind cards
 @warning_ignore("unused_signal")

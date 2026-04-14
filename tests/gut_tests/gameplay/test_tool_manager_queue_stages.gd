@@ -51,8 +51,11 @@ class FakeCombatMain extends CombatMain:
 		add_child(plant_field_container)
 		combat_queue_manager = CombatQueueManager.new()
 		combat_queue_manager.setup(self)
-		if !Events.request_combat_queue_push_callable.is_connected(_on_request_combat_queue_push_callable):
-			Events.request_combat_queue_push_callable.connect(_on_request_combat_queue_push_callable)
+		if !Events.request_combat_queue_push.is_connected(_on_request_combat_queue_push):
+			Events.request_combat_queue_push.connect(_on_request_combat_queue_push)
+
+	func _on_request_combat_queue_push(request) -> void:
+		combat_queue_manager.push_request(request)
 
 
 func _await_queue_idle(q: CombatQueueManager) -> void:

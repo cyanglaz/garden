@@ -189,18 +189,15 @@ func _queue_tool_application_stages(combat_main:CombatMain, applying_tool:ToolDa
 		"skip": false,
 		"success": false,
 	}
-	Events.request_combat_queue_push_callable.emit(
-		false,
-		func(_cm: CombatMain) -> void: await _run_tool_stage_start_and_pre_hook(combat_main, applying_tool, stage_context),
-	)
-	Events.request_combat_queue_push_callable.emit(
-		false,
-		func(_cm: CombatMain) -> void: await _run_tool_stage_apply_actions(combat_main, applying_tool, stage_context),
-	)
-	Events.request_combat_queue_push_callable.emit(
-		false,
-		func(_cm: CombatMain) -> void: await _run_tool_stage_finish(combat_main, applying_tool, stage_context),
-	)
+	var pre_hook_request = CombatQueueRequest.new()
+	pre_hook_request.callback = func(_cm: CombatMain) -> void: await _run_tool_stage_start_and_pre_hook(combat_main, applying_tool, stage_context)
+	Events.request_combat_queue_push.emit(pre_hook_request)
+	var apply_request = CombatQueueRequest.new()
+	apply_request.callback = func(_cm: CombatMain) -> void: await _run_tool_stage_apply_actions(combat_main, applying_tool, stage_context)
+	Events.request_combat_queue_push.emit(apply_request)
+	var finish_request = CombatQueueRequest.new()
+	finish_request.callback = func(_cm: CombatMain) -> void: await _run_tool_stage_finish(combat_main, applying_tool, stage_context)
+	Events.request_combat_queue_push.emit(finish_request)
 
 func _run_tool_stage_start_and_pre_hook(combat_main:CombatMain, tool_data:ToolData, stage_context:Dictionary) -> void:
 	if !_can_execute_queued_tool(tool_data):

@@ -89,10 +89,10 @@ func has_start_turn_hook(combat_main:CombatMain) -> bool:
 	return _has_start_turn_hook(combat_main)
 
 func handle_start_turn_hook() -> void:
-	Events.request_combat_queue_push_callable.emit(
-		true,
-		func(combat_main:CombatMain) -> void: _handle_start_turn_hook(combat_main),
-	)
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: _handle_start_turn_hook(combat_main)
+	Events.request_combat_queue_push.emit(request)
 
 func has_hand_size_hook(combat_main: CombatMain) -> bool:
 	return _has_hand_size_hook(combat_main)

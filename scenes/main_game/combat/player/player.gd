@@ -84,13 +84,19 @@ func update_energy(val:int, operation:ActionData.OperatorType) -> void:
 		ActionData.OperatorType.EQUAL_TO:
 			pass
 
-func _on_movement_button_pressed(move_direction:PlayerStatusMomentum.MoveDirection) -> void:
+func _update_movement(move_direction:PlayerStatusMomentum.MoveDirection) -> void:
 	match move_direction:
 		PlayerStatusMomentum.MoveDirection.LEFT:
 			current_field_index -= 1
 		PlayerStatusMomentum.MoveDirection.RIGHT:
 			current_field_index += 1
 	player_status_container.update_player_upgrade("momentum", 1, ActionData.OperatorType.DECREASE)
+
+func _on_movement_button_pressed(move_direction:PlayerStatusMomentum.MoveDirection) -> void:
+	var request = CombatQueueRequest.new()
+	request.callback = func(_combat_main:CombatMain) -> void: _update_movement(move_direction)
+	request.unique_id = "movement_button_pressed"
+	Events.request_combat_queue_push.emit(request)
 
 func _set_current_field_index(value:int) -> void:
 	assert(max_plants_index > 0)

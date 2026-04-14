@@ -54,8 +54,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 
 	session_summary = SessionSummary.new(combat)
 	combat_queue_manager.setup(self)
-	Events.request_combat_queue_push_actions.connect(_on_request_combat_queue_push_actions)
-	Events.request_combat_queue_push_callable.connect(_on_request_combat_queue_push_callable)
+	Events.request_combat_queue_push.connect(_on_request_combat_queue_push)
 
 	plant_field_container.field_hovered.connect(_on_field_hovered)
 	plant_field_container.plant_bloom_started.connect(_on_plant_bloom_started)
@@ -147,7 +146,6 @@ func _start_new_level() -> void:
 func _start_turn() -> void:
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.TURN)
 	boost = maxi(boost - 1, 1)
-	gui.toggle_all_ui(false)
 	day_manager.next_day()
 	weather_main.generate_next_weather_abilities(self, day_manager.day)
 	if day_manager.day == 0:
@@ -160,7 +158,6 @@ func _start_turn() -> void:
 	is_mid_turn = true
 	player.handle_start_turn(self)
 	plant_field_container.trigger_start_turn_hooks(self)
-	gui.toggle_all_ui(true)
 	turn_started.emit()
 	#_win()
 
@@ -183,10 +180,9 @@ func _end_turn() -> void:
 		# _win() is called by _bloom()
 		return
 	await weather_main.new_day()
-	Events.request_combat_queue_push_callable.emit(
-		false,
-		func(_cm: CombatMain) -> void: await _start_turn(),
-	)
+	var request = CombatQueueRequest.new()
+	request.callback = func(_cm: CombatMain) -> void: await _start_turn()
+	Events.request_combat_queue_push.emit(request)
 
 func _met_win_condition() -> bool:
 	return plant_field_container.are_all_plants_bloom()
@@ -274,10 +270,9 @@ func _on_mouse_exited_card(tool_data:ToolData) -> void:
 func _on_end_turn_button_pressed() -> void:
 	if !is_mid_turn:
 		return
-	Events.request_combat_queue_push_callable.emit(
-		false,
-		func(_cm: CombatMain) -> void: await _end_turn(),
-	)
+	var request = CombatQueueRequest.new()
+	request.callback = func(_cm: CombatMain) -> void: await _end_turn()
+	Events.request_combat_queue_push.emit(request)
 
 func _on_field_hovered(hovered:bool, index:int) -> void:
 	if tool_manager.selected_tool && tool_manager.selected_tool.need_select_field:
@@ -390,17 +385,10 @@ func _on_request_modify_hand_cards(callable:Callable) -> void:
 	tool_manager.refresh_cards_ui(self)
 	gui.toggle_all_ui(true)
 
-func _on_request_combat_queue_push_actions(front: bool, actions: Array, tool_card: GUIToolCardButton) -> void:
+func _on_request_combat_queue_push(request) -> void:
 	if is_finished:
 		return
-	var item = CombatQueueActionsItem.new(actions, tool_card)
-	combat_queue_manager.push_items(front, [item])
-
-func _on_request_combat_queue_push_callable(front: bool, callable: Callable) -> void:
-	if is_finished:
-		return
-	var item = CombatQueueCallableItem.new(callable)
-	combat_queue_manager.push_items(front, [item])
+	combat_queue_manager.push_request(request)
 
 func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
 	# The hp is handled by the main game

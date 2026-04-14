@@ -11,7 +11,7 @@ var _combat_main: CombatMain:
 var _weak_combat_main: WeakRef = weakref(null)
 var _queue: Array = []
 var _processing: bool = false
-var _actions_applier: ActionsApplier = ActionsApplier.new()
+var _queued_unique_ids: Dictionary = {}
 
 func setup(combat_main: CombatMain) -> void:
 	_combat_main = combat_main
@@ -23,9 +23,6 @@ func get_queue_size() -> int:
 func is_queue_busy() -> bool:
 	return _processing
 
-## If [param front] is true, the batch is inserted at the head preserving internal order
-## (first in [param items] runs before second). If false, appends in order to the tail.
-## Items must be [CombatQueueActionsItem] or [CombatQueueCallableItem] (or future subclasses of [CombatQueueItem]).
 func push_items(front: bool, items: Array) -> void:
 	assert(_combat_main, "CombatQueueManager.setup(combat_main) must be called before push_items.")
 	if items.is_empty():
@@ -37,6 +34,21 @@ func push_items(front: bool, items: Array) -> void:
 		_queue.append_array(items)
 	_ensure_draining()
 
+func push_request(request) -> void:
+	if !request:
+		return
+	if !request.callback.is_valid():
+		return
+	if !request.unique_id.is_empty():
+		if _queued_unique_ids.has(request.unique_id):
+			return
+		_queued_unique_ids[request.unique_id] = true
+	var item := CombatQueueItem.new()
+	item.callback = request.callback
+	item.finish_callback = request.finish_callback
+	item.unique_id = request.unique_id
+	push_items(request.front, [item])
+
 func _ensure_draining() -> void:
 	if _processing:
 		return
@@ -45,24 +57,20 @@ func _ensure_draining() -> void:
 func _drain_queue() -> void:
 	_processing = true
 	while not _queue.is_empty():
-		var item: Variant = _queue.pop_front()
+		var item := _queue.pop_front() as CombatQueueItem
 		await _dispatch(item)
+		if !item.unique_id.is_empty():
+			_queued_unique_ids.erase(item.unique_id)
 	_processing = false
 
-func _dispatch(item: Variant) -> void:
+func _dispatch(item: CombatQueueItem) -> void:
 	var cm := _combat_main
 	assert(cm, "CombatMain must remain valid while the combat queue drains.")
-	if is_instance_of(item, CombatQueueActionsItem):
-		await _actions_applier.apply_actions(
-			item.actions,
-			cm,
-			item.tool_card,
-			cm.gui.gui_tool_card_container,
-		)
-	elif is_instance_of(item, CombatQueueCallableItem):
-		await item.callback.call(cm)
-	else:
-		assert(false, "Unknown combat queue item type: %s" % item)
+	assert(item, "Combat queue item should not be null.")
+	assert(item.callback.is_valid(), "Combat queue callback should be valid.")
+	await item.callback.call(cm)
+	if item.finish_callback.is_valid():
+		await item.finish_callback.call(cm)
 
 func _set_combat_main(val: CombatMain) -> void:
 	_weak_combat_main = weakref(val)
