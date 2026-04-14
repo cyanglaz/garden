@@ -158,15 +158,14 @@ func _start_turn() -> void:
 	var draw_count := hand_size + await player.handle_hand_size(self)
 	await draw_cards(draw_count)
 	is_mid_turn = true
-	await player.handle_start_turn(self)
-	await plant_field_container.trigger_start_turn_hooks(self)
+	player.handle_start_turn(self)
+	plant_field_container.trigger_start_turn_hooks(self)
 	gui.toggle_all_ui(true)
 	turn_started.emit()
 	#_win()
 
 func _end_turn() -> void:
 	is_mid_turn = false
-	gui.toggle_all_ui(false)
 	await player.handle_turn_end(self)
 	await _discard_all_tools()
 	energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
@@ -184,8 +183,10 @@ func _end_turn() -> void:
 		# _win() is called by _bloom()
 		return
 	await weather_main.new_day()
-	gui.toggle_all_ui(true)
-	await _start_turn()
+	Events.request_combat_queue_push_callable.emit(
+		false,
+		func(_cm: CombatMain) -> void: await _start_turn(),
+	)
 
 func _met_win_condition() -> bool:
 	return plant_field_container.are_all_plants_bloom()
@@ -264,13 +265,19 @@ func _hide_custom_error(identifier:String) -> void:
 
 #region UI EVENTS
 func _on_tool_selected(tool_data:ToolData) -> void:
+	assert(is_mid_turn, "Tool selected outside of mid turn")
 	_apply_tool(tool_data)
 
 func _on_mouse_exited_card(tool_data:ToolData) -> void:
 	_hide_custom_error(tool_data.id)
 
 func _on_end_turn_button_pressed() -> void:
-	_end_turn()
+	if !is_mid_turn:
+		return
+	Events.request_combat_queue_push_callable.emit(
+		false,
+		func(_cm: CombatMain) -> void: await _end_turn(),
+	)
 
 func _on_field_hovered(hovered:bool, index:int) -> void:
 	if tool_manager.selected_tool && tool_manager.selected_tool.need_select_field:

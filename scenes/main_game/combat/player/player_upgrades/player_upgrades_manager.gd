@@ -72,7 +72,7 @@ func handle_end_turn_hook(combat_main:CombatMain) -> void:
 
 func handle_start_turn_hook(combat_main:CombatMain) -> void:
 	for container in player_upgrade_containers:
-		await container.handle_start_turn_hook(combat_main)
+		container.handle_start_turn_hook(combat_main)
 
 func handle_hand_updated_hook(combat_main:CombatMain) -> void:
 	for container in player_upgrade_containers:

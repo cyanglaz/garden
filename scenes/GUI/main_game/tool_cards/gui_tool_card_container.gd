@@ -4,6 +4,11 @@ extends Control
 signal tool_selected(tool_data:ToolData)
 signal mouse_exited_card(tool_data:ToolData)
 
+enum ContainerState {
+	IDLE,
+	DRAWING,
+
+}
 var TOOL_CARD_SCENE := load("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
 const DEFAULT_CARD_SPACE := 1.0
@@ -23,6 +28,7 @@ var card_selection_mode := false
 var _secondary_card_selection_candidates:Array = []
 var _selected_secondary_cards:Array[GUIToolCardButton] = []
 var _tool_card_interaction_enabled:bool = true
+var _container_state:ContainerState = ContainerState.IDLE
 
 func _ready() -> void:
 	_card_size = GUIToolCardButton.SIZE.x
@@ -30,12 +36,6 @@ func _ready() -> void:
 
 func setup(draw_box_button:GUIDeckButton, discard_box_button:GUIDeckButton) -> void:
 	_gui_tool_card_animation_container.setup(self, draw_box_button, discard_box_button)
-
-func toggle_all_tool_cards(on:bool) -> void:
-	_tool_card_interaction_enabled = on
-	for i in get_card_count():
-		var card:GUIToolCardButton = _container.get_child(i)
-		card.mouse_disabled = !on
 	
 func clear_selection() -> void:
 	selected_index = -1
@@ -110,7 +110,9 @@ func play_card_error_shake_animation(tool_data:ToolData) -> void:
 #region animation
 
 func animate_draw(draw_results:Array, combat_main:CombatMain) -> void:
+	_container_state = ContainerState.DRAWING
 	await _gui_tool_card_animation_container.animate_draw(draw_results, combat_main)
+	_container_state = ContainerState.IDLE
 	
 func animate_discard(discarding_tool_datas:Array, combat_main:CombatMain) -> void:
 	await _gui_tool_card_animation_container.animate_discard(discarding_tool_datas, combat_main)
@@ -256,6 +258,8 @@ func _return_secondary_card_to_hand(card:GUIToolCardButton) -> void:
 #region events
 
 func _on_tool_card_pressed(index:int) -> void:
+	if _container_state != ContainerState.IDLE:
+		return
 	_hide_all_card_warnings()
 	var selected_card:GUIToolCardButton = _container.get_child(index)
 	if card_selection_mode:

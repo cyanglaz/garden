@@ -88,8 +88,11 @@ func handle_end_turn_hook(combat_main:CombatMain) -> void:
 func has_start_turn_hook(combat_main:CombatMain) -> bool:
 	return _has_start_turn_hook(combat_main)
 
-func handle_start_turn_hook(combat_main:CombatMain) -> void:
-	await _handle_start_turn_hook(combat_main)
+func handle_start_turn_hook() -> void:
+	Events.request_combat_queue_push_callable.emit(
+		true,
+		func(combat_main:CombatMain) -> void: _handle_start_turn_hook(combat_main),
+	)
 
 func has_hand_size_hook(combat_main: CombatMain) -> bool:
 	return _has_hand_size_hook(combat_main)
@@ -205,7 +208,7 @@ func _has_start_turn_hook(_combat_main:CombatMain) -> bool:
 	return false
 
 func _handle_start_turn_hook(_combat_main:CombatMain) -> void:
-	await Util.await_for_tiny_time()
+	pass
 
 func _has_hand_size_hook(_combat_main: CombatMain) -> bool:
 	return false
