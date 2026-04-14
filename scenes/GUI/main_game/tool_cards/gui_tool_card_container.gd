@@ -235,7 +235,8 @@ func _rebind_signals() -> void:
 		gui_card.hand_index = i
 
 func _handle_selected_card(card:GUIToolCardButton) -> void:
-	if card.card_state == GUICardFace.CardState.WAITING:
+	if card.card_state == GUICardFace.CardState.WAITING \
+	or card.card_state == GUICardFace.CardState.SELECTED:
 		return
 	card.card_state = GUICardFace.CardState.WAITING
 	tool_selected.emit(card.tool_data)
