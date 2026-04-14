@@ -271,6 +271,7 @@ func _on_end_turn_button_pressed() -> void:
 	if !is_mid_turn:
 		return
 	var request = CombatQueueRequest.new()
+	request.only_when_empty = true
 	request.callback = func(_cm: CombatMain) -> void: await _end_turn()
 	Events.request_combat_queue_push.emit(request)
 
