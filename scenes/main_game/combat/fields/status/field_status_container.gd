@@ -43,6 +43,8 @@ func update_status(status_id:String, stack:int, plant:Plant) -> void:
 	if field_status:
 		field_status.stack += stack
 	else:
+		if stack <= 0:
+			return
 		var field_status_scene:PackedScene = load(FIELD_STATUS_SCENE_PREFIX % status_id)
 		field_status = field_status_scene.instantiate()
 		add_child(field_status)
