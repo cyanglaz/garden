@@ -16,19 +16,17 @@ func setup_with_plant_data(plant_data:PlantData) -> void:
 		assert(ability_node)
 		add_child(ability_node)
 
-func end_all_abilities() -> void:
-	for ability_node:PlantAbility in get_abilities():
-		ability_node.ended = true
-	ability_updated.emit()
-
 func trigger_ability(ability_type:Plant.AbilityType, plant:Plant, combat_main:CombatMain) -> void:
 	for ability_node:PlantAbility in get_children():
+		if !ability_node.active:
+			continue
 		if ability_node.has_ability_hook(ability_type, plant, combat_main):
 			ability_node.trigger_ability_hook(ability_type, plant)
 
 func signal_bloom() -> void:
 	for ability_node:PlantAbility in get_abilities():
 		ability_node.active = false
+	ability_updated.emit()
 	
 func get_abilities() -> Array:
 	var abilities:Array = get_children().duplicate()

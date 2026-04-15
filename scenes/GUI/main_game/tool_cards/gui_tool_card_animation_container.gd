@@ -315,10 +315,10 @@ func _animate_add_card_to_hand(animation_item:AnimationQueueItem) -> void:
 			animating_card.animation_mode = true
 			animating_card.global_position = from_global_position
 			animating_card.scale = Vector2.ONE * CARD_MIN_SCALE
-			animating_card.z_index +=1
 			delay_index = i - exiting_card_count + 1
 			if pause:
 				display_pause_time = ADD_CARD_TO_PILE_PAUSE_TIME
+		animating_card.z_index +=1
 		animating_card.mouse_disabled = true
 		if delay_index >= 0:
 			Util.create_scaled_timer(Constants.CARD_ANIMATION_DELAY * delay_index + display_pause_time).timeout.connect(func(): 

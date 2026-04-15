@@ -7,7 +7,7 @@ signal request_ability_hook_animation(ability_id:String)
 var ability_data:PlantAbilityData
 var stack:int = 0
 var current_cooldown:int = 0: set = _set_current_cooldown
-var ended:bool = false
+var active:bool = true
 
 func has_ability_hook(ability_type:Plant.AbilityType, plant:Plant, combat_main:CombatMain) -> bool:
 	if current_cooldown > 0:

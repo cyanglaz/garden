@@ -4,6 +4,7 @@ extends Node2D
 @warning_ignore("unused_private_class_variable")
 var status_data:StatusData
 var stack:int:set = _set_stack, get = _get_stack
+var active:bool = true
 
 @warning_ignore("unused_signal")
 signal hook_complicated()
@@ -12,45 +13,73 @@ func update_for_plant(plant:Plant) -> void:
 	_update_for_plant(plant)
 
 func has_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> bool:
+	if not active:
+		return false
 	return _has_ability_hook(ability_type, plant)
 
 func handle_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> void:
+	if not active:
+		return
 	await _handle_ability_hook(ability_type, plant)
 
 func has_bloom_hook(plant:Plant) -> bool:
+	if not active:
+		return false
 	return _has_bloom_hook(plant)
 
 func handle_bloom_hook(plant:Plant) -> void:
+	if not active:
+		return
 	await _handle_bloom_hook(plant)
 
 func has_add_water_hook(plant:Plant) -> bool:
+	if not active:
+		return false
 	return _has_add_water_hook(plant)
 
 func handle_add_water_hook(plant:Plant) -> void:
+	if not active:
+		return
 	await _handle_add_water_hook(plant)
 
 func has_tool_application_hook(plant:Plant) -> bool:
+	if not active:
+		return false
 	return _has_tool_application_hook(plant)
 
 func handle_tool_application_hook(plant:Plant, combat_main:CombatMain) -> void:
+	if not active:
+		return
 	await _handle_tool_application_hook(plant, combat_main)
 
 func has_tool_discard_hook(count:int, plant:Plant) -> bool:
+	if not active:
+		return false
 	return _has_tool_discard_hook(count, plant)
 
 func handle_tool_discard_hook(plant:Plant, count:int, combat_main:CombatMain) -> void:
+	if not active:
+		return
 	await _handle_tool_discard_hook(plant, count, combat_main)
 
 func has_end_turn_hook(plant:Plant) -> bool:
+	if not active:
+		return false
 	return _has_end_turn_hook(plant)
 
 func handle_end_turn_hook(combat_main:CombatMain, plant:Plant) -> void:
+	if not active:
+		return
 	await _handle_end_turn_hook(combat_main, plant)
 
 func has_prevent_resource_update_value_hook(resource_id:String, plant:Plant, old_value:int, new_value:int) -> bool:
+	if not active:
+		return false
 	return _has_prevent_resource_update_value_hook(resource_id, plant, old_value, new_value)
 
 func handle_prevent_resource_update_value_hook(resource_id:String, plant:Plant, old_value:int, new_value:int) -> bool:
+	if not active:
+		return false
 	return _handle_prevent_resource_update_value_hook(resource_id, plant, old_value, new_value)
 
 #region for override

@@ -68,9 +68,9 @@ func clear_status(status_id:String) -> void:
 		_remove_field_status(field_status)
 	status_updated.emit()
 
-func clear_all_statuses() -> void:
+func signal_bloom() -> void:
 	for field_status:FieldStatus in get_all_statuses():
-		_remove_field_status(field_status)
+		field_status.active = false
 	status_updated.emit()
 
 func get_all_statuses() -> Array:

@@ -12,7 +12,7 @@ func setup_with_plant(plant:Plant) -> void:
 func _update_with_plant(plant:Plant) -> void:
 	Util.remove_all_children(self)
 	for plant_ability:PlantAbility in plant.plant_ability_container.get_abilities():
-		if plant_ability.ended:
+		if !plant_ability.active:
 			continue
 		var ability_icon:GUIPlantAbilityIcon = PLANT_ABILITY_ICON_SCENE.instantiate()
 		add_child(ability_icon)
