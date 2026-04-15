@@ -60,10 +60,8 @@ func push_request(request) -> void:
 	item.only_when_empty = request.only_when_empty
 	push_items(request.front, [item])
 
-func clear_queue() -> void:
-	_queue.clear()
-	_queued_unique_ids.clear()
-	_processing = false
+func has_request_by_unique_id(unique_id: String) -> bool:
+	return _queued_unique_ids.has(unique_id)
 
 func _ensure_draining() -> void:
 	if _processing:

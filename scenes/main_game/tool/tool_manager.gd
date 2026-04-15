@@ -9,12 +9,14 @@ signal hand_updated(hand:Array)
 signal cards_removed_from_hand(tool_data:ToolData, updated_hand:Array) # Triggers after the removal animation (discard or exhaust)
 signal max_hand_size_reached()
 signal pool_updated(pool:Array)
+signal tool_application_bailed(tool_data:ToolData)
 
 var tool_deck:Deck
 var selected_tool_index:int: get = _get_selected_tool_index
 var selected_tool:ToolData
 var number_of_card_used_this_turn:int = 0
 var card_use_limit_reached:bool = false: set = _set_card_use_limit_reached
+var is_mid_turn:bool = false
 
 var _gui_tool_card_container:GUIToolCardContainer: get = _get_gui_tool_card_container
 var _tool_applier:ToolApplier = ToolApplier.new()
@@ -211,8 +213,13 @@ func _run_tool_stage_finish(combat_main:CombatMain, tool_data:ToolData, stage_co
 
 func _can_execute_queued_tool(tool_data:ToolData) -> bool:
 	if !tool_deck.hand.has(tool_data):
+		tool_application_bailed.emit(tool_data)
 		return false
 	if !_gui_tool_card_container:
+		tool_application_bailed.emit(tool_data)
+		return false
+	if !is_mid_turn:
+		tool_application_bailed.emit(tool_data)
 		return false
 	return _gui_tool_card_container.find_card(tool_data) != null
 

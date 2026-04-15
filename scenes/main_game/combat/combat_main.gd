@@ -13,6 +13,7 @@ const INSTANT_CARD_USE_DELAY := 0.3
 const TOOL_APPLICATION_ERROR_HIDE_DELAY := 3.0
 const MAX_HAND_WARNING_HIDE_DELAY := 2.0
 const BACKGROUND_MUSIC_FADE_IN_TIME := 1.0
+const END_TURN_UNIQUE_ID := "end_turn"
 
 @export var test_weather:WeatherData
 
@@ -76,11 +77,12 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	tool_manager.cards_removed_from_hand.connect(_on_cards_removed_from_hand)
 	tool_manager.max_hand_size_reached.connect(_on_max_hand_size_reached)
 	tool_manager.pool_updated.connect(_on_pool_updated)
+	tool_manager.tool_application_bailed.connect(_on_tool_application_bailed)
 
 	gui.bind_energy(energy_tracker)
 	gui.bind_tool_deck(tool_manager.tool_deck)
 	gui.end_turn_button_pressed.connect(_on_end_turn_button_pressed)
-	gui.tool_selected.connect(_on_tool_selected)
+	gui.main_card_selected.connect(_on_main_card_selected)
 	gui.mouse_exited_card.connect(_on_mouse_exited_card)
 	gui.reward_finished.connect(_on_reward_finished)
 
@@ -162,8 +164,6 @@ func _start_turn() -> void:
 	#_win()
 
 func _end_turn() -> void:
-	combat_queue_manager.clear_queue()
-	gui.gui_tool_card_container.end_turn_reset_all()
 	is_mid_turn = false
 	tool_manager.card_use_limit_reached = false
 	energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
@@ -276,6 +276,9 @@ func _queue_apply_tool(tool_data:ToolData) -> void:
 		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 		return
 	tool_manager.queue_apply_tool(self, tool_data)
+
+func _is_end_turn_queued() -> bool:
+	return combat_queue_manager.has_request_by_unique_id(END_TURN_UNIQUE_ID)
 #endregion
 
 #region gui
@@ -290,8 +293,10 @@ func _hide_custom_error(identifier:String) -> void:
 #endregion
 
 #region UI EVENTS
-func _on_tool_selected(tool_data:ToolData) -> void:
-	assert(is_mid_turn, "Tool selected outside of mid turn")
+func _on_main_card_selected(tool_data:ToolData) -> void:
+	if !is_mid_turn:
+		return
+	gui.gui_tool_card_container.select_main_card(tool_data)
 	_queue_apply_tool(tool_data)
 
 func _on_mouse_exited_card(tool_data:ToolData) -> void:
@@ -360,6 +365,9 @@ func _on_tool_application_error(tool_data:ToolData, error_message:String) -> voi
 
 func _on_tool_application_error_timer_timeout(id:String) -> void:
 	_hide_custom_error(id)
+
+func _on_tool_application_bailed(tool_data:ToolData) -> void:
+	gui.gui_tool_card_container.set_card_state(tool_data, GUICardFace.CardState.NORMAL)
 
 func _on_max_hand_size_reached() -> void:
 	Events.request_show_warning.emit(WarningManager.WarningType.MAX_HAND_SIZE_REACHED)
@@ -463,5 +471,6 @@ func _set_boost(val:int) -> void:
 func _set_is_mid_turn(value:bool) -> void:
 	is_mid_turn = value
 	gui.gui_tool_card_container.is_mid_turn = value
+	tool_manager.is_mid_turn = value
 
 #endregion
