@@ -15,8 +15,6 @@ var _tool_application_hook_queue:Array = []
 var _current_tool_application_hook_index:int = 0
 var _tool_discard_hook_queue:Array = []
 var _current_tool_discard_hook_index:int = 0
-var _end_turn_hook_queue:Array = []
-var _current_end_turn_hook_index:int = 0
 var _add_water_hook_queue:Array = []
 var _current_add_water_hook_index:int = 0
 var _prevent_resource_update_value_hook_queue:Array = []
@@ -50,6 +48,8 @@ func update_status(status_id:String, stack:int, plant:Plant) -> void:
 		add_child(field_status)
 		field_status.status_data = status_data
 		field_status.stack = stack
+		field_status.request_icon_animation.connect(_on_request_icon_animation)
+		field_status.triggered.connect(_on_field_status_triggered.bind(field_status))
 	if field_status.stack > 0:
 		field_status.update_for_plant(plant)
 	else:
@@ -147,22 +147,13 @@ func _handle_next_tool_discard_hook(plant:Plant, count:int, combat_main:CombatMa
 	_current_tool_discard_hook_index += 1
 	await _handle_next_tool_discard_hook(plant, count, combat_main)
 
-func handle_end_turn_hook(combat_main:CombatMain, plant:Plant) -> void:
-	_end_turn_hook_queue = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:
+func handle_end_turn_hook( plant:Plant) -> void:
+	var end_turn_statuses:Array = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:
 		return field_status.has_end_turn_hook(plant)
 	)
-	_current_end_turn_hook_index = 0
-	await _handle_next_end_turn_hook(combat_main, plant)
-
-func _handle_next_end_turn_hook(combat_main:CombatMain, plant:Plant) -> void:
-	if _current_end_turn_hook_index >= _end_turn_hook_queue.size():
-		return
-	var field_status:FieldStatus = _end_turn_hook_queue[_current_end_turn_hook_index]
-	await _send_hook_animation_signals(field_status.status_data)
-	await field_status.handle_end_turn_hook(combat_main, plant)
-	_handle_status_on_trigger(field_status)
-	_current_end_turn_hook_index += 1
-	await _handle_next_end_turn_hook(combat_main, plant)
+	end_turn_statuses.reverse()
+	for field_status:FieldStatus in end_turn_statuses:
+		field_status.handle_end_turn_hook(plant)
 
 func handle_add_water_hook(plant:Plant) -> void:
 	var all_statuses:Array = get_active_statuses()
@@ -225,3 +216,9 @@ func _get_field_status(status_id:String) -> FieldStatus:
 		if field_status.status_data.id == status_id:
 			return field_status
 	return null
+
+func _on_request_icon_animation(field_status_data:StatusData) -> void:
+	_send_hook_animation_signals(field_status_data)
+
+func _on_field_status_triggered(field_status:FieldStatus) -> void:
+	_handle_status_on_trigger(field_status)

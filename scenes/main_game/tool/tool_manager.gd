@@ -1,11 +1,6 @@
 class_name ToolManager
 extends RefCounted
 
-enum ToolManagerState {
-	IDLE,
-	APPLYING_TURN_END_TOOL,
-}
-
 signal tool_application_started(tool_data:ToolData)
 signal tool_application_success(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
@@ -13,7 +8,6 @@ signal tool_application_error(tool_data:ToolData, error_message:String)
 signal hand_updated(hand:Array)
 signal cards_removed_from_hand(tool_data:ToolData, updated_hand:Array) # Triggers after the removal animation (discard or exhaust)
 signal max_hand_size_reached()
-signal _all_turn_end_cards_completed()
 signal pool_updated(pool:Array)
 
 var tool_deck:Deck
@@ -25,10 +19,7 @@ var card_use_limit_reached:bool = false: set = _set_card_use_limit_reached
 var _gui_tool_card_container:GUIToolCardContainer: get = _get_gui_tool_card_container
 var _tool_applier:ToolApplier = ToolApplier.new()
 
-var _turn_end_cards_queue:Array = []
 var _queued_tool_applications:Array[ToolData] = []
-
-var _state:ToolManagerState = ToolManagerState.IDLE
 
 var _weak_gui_tool_card_container:WeakRef = weakref(null)
 
@@ -74,13 +65,11 @@ func shuffle(combat_main:CombatMain) -> void:
 	tool_deck.shuffle_draw_pool()
 
 func trigger_turn_end_cards(combat_main:CombatMain) -> void:
-	_state = ToolManagerState.APPLYING_TURN_END_TOOL
-	_turn_end_cards_queue = tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return tool_data.specials.has(ToolData.Special.NIGHTFALL))
-	if _turn_end_cards_queue.is_empty():
+	var end_turn_cards:Array = tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return tool_data.specials.has(ToolData.Special.NIGHTFALL))
+	if end_turn_cards.is_empty():
 		return
-	_trigger_next_turn_end_card(combat_main)
-	await _all_turn_end_cards_completed
-	_state = ToolManagerState.IDLE
+	for tool_data in end_turn_cards:
+		apply_tool(combat_main, tool_data)
 			
 func discard_cards(tools:Array, combat_main:CombatMain) -> void:
 	assert(tools.size() > 0)
@@ -174,15 +163,6 @@ func _handle_tool_application_completed(tool_data:ToolData, combat_main:CombatMa
 	if tool_data.tool_script:
 		await tool_data.tool_script.handle_post_application_hook(tool_data, combat_main)
 	tool_application_completed.emit(tool_data)
-	if _state == ToolManagerState.APPLYING_TURN_END_TOOL:
-		_trigger_next_turn_end_card(combat_main)
-
-func _trigger_next_turn_end_card(combat_main:CombatMain) -> void:
-	if _turn_end_cards_queue.is_empty():
-		_all_turn_end_cards_completed.emit()
-		return
-	var next_tool_data:ToolData = _turn_end_cards_queue.pop_back()
-	apply_tool(combat_main, next_tool_data)
 
 func _queue_tool_application_stages(combat_main:CombatMain, applying_tool:ToolData) -> void:
 	var stage_context := {
@@ -220,8 +200,6 @@ func _run_tool_stage_finish(combat_main:CombatMain, tool_data:ToolData, stage_co
 	var success:bool = stage_context["success"]
 	_queued_tool_applications.erase(tool_data)
 	if should_skip:
-		if _state == ToolManagerState.APPLYING_TURN_END_TOOL:
-			_trigger_next_turn_end_card(combat_main)
 		return
 	if !success:
 		tool_application_error.emit(tool_data, tool_data.get_card_selection_custom_error_message())

@@ -23,12 +23,12 @@ func trigger_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> void:
 		return
 	var request = CombatQueueRequest.new()
 	request.front = true
-	request.callback = func(cm:CombatMain) -> void: _handle_trigger_ability_hook(ability_type, plant, cm)
+	request.callback = func(cm:CombatMain) -> void: await _handle_trigger_ability_hook(ability_type, plant, cm)
 	Events.request_combat_queue_push.emit(request)
 
 func _handle_trigger_ability_hook(ability_type:Plant.AbilityType, plant:Plant, combat_main:CombatMain) -> void:
 	request_ability_hook_animation.emit(ability_data.id)
-	_trigger_ability_hook(ability_type, plant, combat_main)
+	await _trigger_ability_hook(ability_type, plant, combat_main)
 	current_cooldown = ability_data.cooldown
 
 #region for override
@@ -37,7 +37,7 @@ func _has_ability_hook(_ability_type:Plant.AbilityType, _plant:Plant, _combat_ma
 	return false
 
 func _trigger_ability_hook(_ability_type:Plant.AbilityType, _plant:Plant, _combat_main:CombatMain) -> void:
-	pass
+	await Util.await_for_tiny_time()
 
 #endregion
 

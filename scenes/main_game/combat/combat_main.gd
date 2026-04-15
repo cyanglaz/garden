@@ -163,29 +163,57 @@ func _start_turn() -> void:
 
 func _end_turn() -> void:
 	is_mid_turn = false
-	await player.handle_turn_end(self)
-	await _discard_all_tools()
+	player.handle_turn_end(self)
+	_discard_all_tools()
 	energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
-	await plant_field_container.trigger_end_turn_hooks(self)
-	plant_field_container.handle_turn_end()
-	await weather_main.apply_weather_abilities()
+	plant_field_container.trigger_end_turn_hooks(self)
+	weather_main.apply_weather_abilities()
 	tool_manager.card_use_limit_reached = false
-	await weather_main.night_fall()
-	await _trigger_turn_end_cards()
-	if _met_win_condition():
-		return
-	tool_manager.cleanup_for_turn()
-	combat_modifier_manager.clear_for_turn()
-	if _met_win_condition():
-		# _win() is called by _bloom()
-		return
-	await weather_main.new_day()
+
+	# Night fall
+	_queue_night_fall()
+
+	# Turn End Cards
+	_queue_turn_end_cards()
+
+	# Clean up and start new turn if not win
+	_queue_end_turn_cleanup()
+
+func _queue_night_fall() -> void:
+	var night_fall_request = CombatQueueRequest.new()
+	night_fall_request.callback = func(_cm: CombatMain) -> void: await weather_main.night_fall()
+	Events.request_combat_queue_push.emit(night_fall_request)
+
+func _queue_weather_start_new_day() -> void:
 	var request = CombatQueueRequest.new()
-	request.callback = func(_cm: CombatMain) -> void: _start_turn()
+	request.callback = func(_cm: CombatMain) -> void: await weather_main.new_day()
 	Events.request_combat_queue_push.emit(request)
+
+func _queue_start_turn() -> void:
+	var request = CombatQueueRequest.new()
+	request.callback = func(_cm: CombatMain) -> void: await _start_turn()
+	Events.request_combat_queue_push.emit(request)
+
+func _queue_turn_end_cards() -> void:
+	if tool_manager.tool_deck.hand.is_empty():
+		return
+	tool_manager.trigger_turn_end_cards(self)
 
 func _met_win_condition() -> bool:
 	return plant_field_container.are_all_plants_bloom()
+
+func _queue_end_turn_cleanup() -> void:
+	var request = CombatQueueRequest.new()
+	request.callback = func(_cm: CombatMain) -> void: 
+		tool_manager.cleanup_for_turn()
+		combat_modifier_manager.clear_for_turn()
+	request.finish_callback = func(_cm:CombatMain) -> void: 
+		if _met_win_condition():
+			# _win() is called by _bloom()
+			return
+		_queue_weather_start_new_day()
+		_queue_start_turn()
+	Events.request_combat_queue_push.emit(request)
 	
 func _win() -> void:
 	if is_finished:
@@ -198,7 +226,7 @@ func _win() -> void:
 	if _chapter == MainGame.NUMBER_OF_CHAPTERS - 1 && _combat.combat_type == CombatData.CombatType.BOSS:
 		beat_final_boss.emit()
 		return
-	await _discard_all_tools()
+	_discard_all_tools()
 	weather_main.level_end_stop()
 	session_summary.total_days += day_manager.day
 	var owned_trinket_ids: Array[String] = []
@@ -206,18 +234,16 @@ func _win() -> void:
 		owned_trinket_ids.append(trinket.id)
 	gui.animate_show_reward_main(_combat, owned_trinket_ids) 
 
-func _trigger_turn_end_cards() -> void:
-	if tool_manager.tool_deck.hand.is_empty():
-		return
-	await tool_manager.trigger_turn_end_cards(self)
-
 func _discard_all_tools() -> void:
-	if tool_manager.tool_deck.hand.is_empty():
-		return
-	var cards_to_discard:Array = tool_manager.tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return !tool_data.specials.has(ToolData.Special.HANDY))
-	if cards_to_discard.size() == 0:
-		return
-	await tool_manager.discard_cards(cards_to_discard, self)
+	var request = CombatQueueRequest.new()
+	request.callback = func(_cm: CombatMain) -> void:
+		if tool_manager.tool_deck.hand.is_empty():
+			return
+		var cards_to_discard:Array = tool_manager.tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return !tool_data.specials.has(ToolData.Special.HANDY))
+		if cards_to_discard.size() == 0:
+			return
+		await tool_manager.discard_cards(cards_to_discard, self)
+	Events.request_combat_queue_push.emit(request)
 
 func _clear_tool_selection() -> void:
 	tool_manager.clear_tool_selection()
@@ -272,10 +298,7 @@ func _on_mouse_exited_card(tool_data:ToolData) -> void:
 func _on_end_turn_button_pressed() -> void:
 	if !is_mid_turn:
 		return
-	var request = CombatQueueRequest.new()
-	request.only_when_empty = true
-	request.callback = func(_cm: CombatMain) -> void: _end_turn()
-	Events.request_combat_queue_push.emit(request)
+	_end_turn()
 
 func _on_field_hovered(hovered:bool, index:int) -> void:
 	if tool_manager.selected_tool && tool_manager.selected_tool.need_select_field:

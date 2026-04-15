@@ -82,8 +82,11 @@ func handle_player_move_hook(main_game:CombatMain) -> void:
 func has_end_turn_hook(combat_main:CombatMain) -> bool:
 	return _has_end_turn_hook(combat_main)
 
-func handle_end_turn_hook(combat_main:CombatMain) -> void:
-	await _handle_end_turn_hook(combat_main)
+func handle_end_turn_hook() -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_end_turn_hook(combat_main)
+	Events.request_combat_queue_push.emit(request)
 
 func has_start_turn_hook(combat_main:CombatMain) -> bool:
 	return _has_start_turn_hook(combat_main)
@@ -91,7 +94,7 @@ func has_start_turn_hook(combat_main:CombatMain) -> bool:
 func handle_start_turn_hook() -> void:
 	var request = CombatQueueRequest.new()
 	request.front = true
-	request.callback = func(combat_main:CombatMain) -> void: _handle_start_turn_hook(combat_main)
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_start_turn_hook(combat_main)
 	Events.request_combat_queue_push.emit(request)
 
 func has_hand_size_hook(combat_main: CombatMain) -> bool:
@@ -118,7 +121,7 @@ func has_damage_taken_hook(combat_main:CombatMain, damage:int) -> bool:
 func handle_damage_taken_hook(damage:int) -> void:
 	var request = CombatQueueRequest.new()
 	request.front = true
-	request.callback = func(combat_main:CombatMain) -> void: _handle_damage_taken_hook(combat_main, damage)
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_damage_taken_hook(combat_main, damage)
 	Events.request_combat_queue_push.emit(request)
 
 func has_combat_end_hook(combat_main:CombatMain) -> bool:
@@ -211,7 +214,7 @@ func _has_start_turn_hook(_combat_main:CombatMain) -> bool:
 	return false
 
 func _handle_start_turn_hook(_combat_main:CombatMain) -> void:
-	pass
+	await Util.await_for_tiny_time()
 
 func _has_hand_size_hook(_combat_main: CombatMain) -> bool:
 	return false
@@ -235,7 +238,7 @@ func _has_damage_taken_hook(_combat_main:CombatMain, _damage:int) -> bool:
 	return false
 
 func _handle_damage_taken_hook(_combat_main:CombatMain, _damage:int) -> void:
-	pass
+	await Util.await_for_tiny_time()
 
 func _has_combat_end_hook(_combat_main:CombatMain) -> bool:
 	return false

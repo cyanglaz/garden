@@ -4,7 +4,6 @@ extends Node2D
 const ABILITY_Y_OFFSET := 70
 
 signal weathers_abilities_updated()
-signal _all_weather_abilities_applied()
 
 const WEATHER_ABILITIES_SCENE_PREFIX := "res://scenes/main_game/combat/weather/weather_abilities/abilities/weather_ability_%s.tscn"
 const ABILITY_GENERATOR_SCENE_PREFIX := "res://scenes/main_game/combat/weather/weather_abilities/ability_generators/weather_ability_generator_%s.gd"
@@ -36,10 +35,10 @@ func apply_weather_actions() -> void:
 	if weather_abilities.is_empty():
 		return
 	var reversed_weather_abilities:Array = weather_abilities.duplicate()
-	reversed_weather_abilities.sort_custom(func(a:WeatherAbility, b:WeatherAbility): return a.field_index > b.field_index)
-	for weather_ability:WeatherAbility in reversed_weather_abilities:
+	reversed_weather_abilities.sort_custom(func(a:WeatherAbility, b:WeatherAbility): return a.field_index < b.field_index)
+	while not reversed_weather_abilities.is_empty():
+		var weather_ability:WeatherAbility = reversed_weather_abilities.pop_back()
 		_add_weather_ability_to_queue(weather_ability)
-	await _all_weather_abilities_applied
 
 func clear_all_weather_abilities() -> void:
 	Util.remove_all_children(ability_container)
@@ -49,7 +48,6 @@ func clear_all_weather_abilities() -> void:
 func _add_weather_ability_to_queue(weather_ability:WeatherAbility) -> void:
 	var combat_queue_request = CombatQueueRequest.new()
 	combat_queue_request.callback = func(combat_main:CombatMain) -> void: await _apply_weather_ability(weather_ability, combat_main)
-	combat_queue_request.finish_callback = func(combat_main:CombatMain) -> void: _handle_weather_ability_applied(weather_ability, combat_main)
 	Events.request_combat_queue_push.emit(combat_queue_request)
 
 func _apply_weather_ability(weather_ability:WeatherAbility, combat_main:CombatMain) -> void:
@@ -64,8 +62,3 @@ func _apply_weather_ability(weather_ability:WeatherAbility, combat_main:CombatMa
 	else:
 		await weather_ability_animation_container.run_animation(weather_ability, plant.global_position, false)
 		await weather_ability.apply_to_plant(plant, combat_main)
-
-func _handle_weather_ability_applied(weather_ability:WeatherAbility, _combat_main:CombatMain) -> void:
-	weather_abilities.erase(weather_ability)
-	if weather_abilities.is_empty():
-		_all_weather_abilities_applied.emit()

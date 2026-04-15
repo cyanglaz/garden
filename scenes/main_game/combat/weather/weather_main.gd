@@ -33,7 +33,7 @@ func generate_next_weather_abilities(combat_main:CombatMain, turn_index:int) -> 
 	_weather_ability_container.generate_next_weather_abilities(combat_main, turn_index)
 
 func apply_weather_abilities() -> void:
-	await _weather_ability_container.apply_weather_actions()
+	_weather_ability_container.apply_weather_actions()
 
 func level_end_stop() -> void:
 	if _current_weather:

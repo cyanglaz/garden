@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FieldStatusData" load_steps=2 format=3 uid="uid://d0mobswrpmjs7"]
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://d0mobswrpmjs7"]
 
 [ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/status_data.gd" id="1_hiam4"]
 
@@ -6,9 +6,8 @@
 script = ExtResource("1_hiam4")
 popup_message = "Light Reduced"
 stackable = true
-reduce_stack_on_turn_end = true
+reduce_stack_on_trigger = true
 id = "pest"
-
 data = {
 "value": "1"
 }

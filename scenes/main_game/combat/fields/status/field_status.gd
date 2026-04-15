@@ -8,6 +8,9 @@ var active:bool = true
 
 @warning_ignore("unused_signal")
 signal hook_complicated()
+signal triggered()
+signal started()
+signal request_icon_animation(status_data:StatusData)
 
 func update_for_plant(plant:Plant) -> void:
 	_update_for_plant(plant)
@@ -67,10 +70,16 @@ func has_end_turn_hook(plant:Plant) -> bool:
 		return false
 	return _has_end_turn_hook(plant)
 
-func handle_end_turn_hook(combat_main:CombatMain, plant:Plant) -> void:
-	if not active:
-		return
-	await _handle_end_turn_hook(combat_main, plant)
+func handle_end_turn_hook(plant:Plant) -> void:
+	var request = CombatQueueRequest.new()
+	request.callback = func(cm:CombatMain) -> void: 
+		if not active:
+			return
+		request_icon_animation.emit(status_data)
+		await Util.create_scaled_timer(Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION).timeout
+		await _handle_end_turn_hook(cm, plant)
+		triggered.emit()
+	Events.request_combat_queue_push.emit(request)
 
 func has_prevent_resource_update_value_hook(resource_id:String, plant:Plant, old_value:int, new_value:int) -> bool:
 	if not active:

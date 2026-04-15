@@ -48,7 +48,7 @@ func handle_hand_size(combat_main: CombatMain) -> int:
 func handle_turn_end(combat_main:CombatMain) -> void:
 	player_status_container.clear_status_on_turn_end()
 	player_status_container.clear_single_turn_player_upgrades()
-	await player_upgrades_manager.handle_end_turn_hook(combat_main)
+	player_upgrades_manager.handle_end_turn_hook(combat_main)
 
 func toggle_ui_buttons(on:bool) -> void:
 	if player_upgrades_manager.handle_prevent_movement_hook():
