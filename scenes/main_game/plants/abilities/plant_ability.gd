@@ -7,8 +7,11 @@ signal request_ability_hook_animation(ability_id:String)
 var ability_data:PlantAbilityData
 var stack:int = 0
 var current_cooldown:int = 0: set = _set_current_cooldown
+var active:bool = true
 
 func has_ability_hook(ability_type:Plant.AbilityType, plant:Plant, combat_main:CombatMain) -> bool:
+	if not active:
+		return false
 	if current_cooldown > 0:
 		if ability_type == Plant.AbilityType.START_TURN:
 			current_cooldown -= 1
@@ -16,6 +19,8 @@ func has_ability_hook(ability_type:Plant.AbilityType, plant:Plant, combat_main:C
 	return _has_ability_hook(ability_type, plant, combat_main)
 
 func trigger_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> void:
+	if not active:
+		return
 	var request = CombatQueueRequest.new()
 	request.front = true
 	request.callback = func(cm:CombatMain) -> void: _handle_trigger_ability_hook(ability_type, plant, cm)

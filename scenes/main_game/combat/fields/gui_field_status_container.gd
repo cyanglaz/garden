@@ -10,15 +10,16 @@ func bind_with_field_status_container(field_status_container:FieldStatusContaine
 
 func _on_status_updated(field_status_container:FieldStatusContainer) -> void:
 	Util.remove_all_children(self)
-	for field_status:FieldStatus in field_status_container.get_all_statuses():
+	for field_status:FieldStatus in field_status_container.get_active_statuses():
 		var status_icon:GUIFieldStatusIcon = STATUS_ICON_SCENE.instantiate()
 		add_child(status_icon)
 		status_icon.setup_with_field_status_data(field_status.status_data, field_status.stack)
 	
 func _on_status_hook_animation_requested(status_id:String) -> void:
-	var animating_icon:GUIFieldStatusIcon
+	var animating_icon:GUIFieldStatusIcon = null
 	for status_icon:GUIFieldStatusIcon in get_children():
 		if status_icon.status_id == status_id:
 			animating_icon = status_icon
-	assert(animating_icon !=null, "Animating icon not found")
+	if animating_icon == null:
+		return
 	animating_icon.play_trigger_animation()
