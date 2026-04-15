@@ -52,6 +52,7 @@ enum XValueType {
 	TARGET_LIGHT,
 	TARGET_PEST,
 	PLAYER_ENERGY,
+	PLAYER_MOMENTUM,
 }
 
 enum Special {
@@ -142,6 +143,11 @@ func get_calculated_x_value(combat_main:CombatMain) -> int:
 		XValueType.PLAYER_ENERGY:
 			if combat_main:
 				base_x_value = combat_main.energy_tracker.value
+			else:
+				base_x_value = 0
+		XValueType.PLAYER_MOMENTUM:
+			if combat_main:
+				base_x_value = combat_main.player.player_status_container.get_player_upgrade_stack("momentum")
 			else:
 				base_x_value = 0
 	return modified_x_value + base_x_value

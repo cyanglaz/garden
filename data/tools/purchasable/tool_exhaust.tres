@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="ToolData" format=3 uid="uid://bwxhqon5lgpge"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_exhaust"]
+[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_exhaust"]
+
+[sub_resource type="Resource" id="Resource_exhaust_light"]
+script = ExtResource("1_exhaust")
+type = 1
+value_type = 2
+x_value_type = 5
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_exhaust_water"]
+script = ExtResource("1_exhaust")
+type = 2
+value_type = 2
+x_value_type = 5
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[sub_resource type="Resource" id="Resource_exhaust_momentum"]
+script = ExtResource("1_exhaust")
+type = 16
+operator_type = 2
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("2_exhaust")
+energy_cost = 0
+actions = Array[ExtResource("1_exhaust")]([SubResource("Resource_exhaust_light"), SubResource("Resource_exhaust_water"), SubResource("Resource_exhaust_momentum")])
+rarity = 1
+id = "exhaust"
+metadata/_custom_type_script = "uid://vq7dpxeq7spe"

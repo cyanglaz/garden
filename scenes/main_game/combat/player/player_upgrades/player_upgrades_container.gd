@@ -39,6 +39,8 @@ var _current_combat_end_hook_index:int = 0
 func set_player_upgrade(id:String, stack:int) -> void:
 	var player_upgrade:PlayerUpgrade = _get_player_upgrade(id)
 	if !player_upgrade:
+		if stack <= 0:
+			return
 		var player_upgrade_scene:PackedScene = _get_player_upgrade_scene(id)
 		player_upgrade = player_upgrade_scene.instantiate()
 		add_child(player_upgrade)

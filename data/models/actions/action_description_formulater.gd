@@ -223,6 +223,8 @@ static func _get_x_value_text(action_data:ActionData, combat_main:CombatMain) ->
 			x_value_text = Util.get_localized_string("ACTION_VALUE_TARGET_PEST")
 		ActionData.XValueType.PLAYER_ENERGY:
 			x_value_text = Util.get_localized_string("ACTION_VALUE_PLAYER_ENERGY")
+		ActionData.XValueType.PLAYER_MOMENTUM:
+			x_value_text = Util.get_localized_string("ACTION_VALUE_PLAYER_MOMENTUM")
 		_:
 			assert(false, "Invalid x value type: %s" % action_data.x_value_type)
 	main_description = main_description % [x_value_text]
