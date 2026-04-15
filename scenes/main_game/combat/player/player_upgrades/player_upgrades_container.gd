@@ -265,13 +265,13 @@ func toggle_ui_buttons(on:bool) -> void:
 	for player_upgrade:PlayerUpgrade in get_all_player_upgrades():
 		player_upgrade.toggle_ui_buttons(on)
 
-func handle_end_turn_hook(combat_main:CombatMain) -> void:
+func queue_handle_end_turn_hooks(combat_main:CombatMain) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()
 	var player_upgrades:Array = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
 		return player_upgrade.has_end_turn_hook(combat_main)
 	)
 	for player_upgrade in player_upgrades:
-		player_upgrade.handle_end_turn_hook()
+		player_upgrade.queue_end_turn_hook()
 
 func handle_start_turn_hook(combat_main:CombatMain) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()

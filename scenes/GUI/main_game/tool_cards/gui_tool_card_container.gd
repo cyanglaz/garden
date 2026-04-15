@@ -54,6 +54,15 @@ func reset_positions() -> void:
 			var gui_card = _container.get_child(i)
 			gui_card.z_index = 0
 
+func end_turn_reset_all() -> void:
+	clear_selection()
+	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
+	for i in _container.get_children().size():
+		var gui_card = _container.get_child(i)
+		gui_card.card_state = GUICardFace.CardState.NORMAL
+		gui_card.position = positions[i]
+		gui_card.z_index = 0
+
 func add_card(tool_data:ToolData, combat_main:CombatMain) -> GUIToolCardButton:
 	var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
 	_container.add_child(gui_card)

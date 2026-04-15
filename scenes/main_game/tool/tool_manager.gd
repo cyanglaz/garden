@@ -69,7 +69,7 @@ func trigger_turn_end_cards(combat_main:CombatMain) -> void:
 	if end_turn_cards.is_empty():
 		return
 	for tool_data in end_turn_cards:
-		apply_tool(combat_main, tool_data)
+		queue_apply_tool(combat_main, tool_data)
 			
 func discard_cards(tools:Array, combat_main:CombatMain) -> void:
 	assert(tools.size() > 0)
@@ -92,7 +92,7 @@ func exhaust_cards(tools:Array, combat_main:CombatMain) -> void:
 func clear_tool_selection() -> void:
 	selected_tool = null
 
-func apply_tool(combat_main:CombatMain, applying_tool:ToolData) -> void:
+func queue_apply_tool(combat_main:CombatMain, applying_tool:ToolData) -> void:
 	if _queued_tool_applications.has(applying_tool):
 		return
 	_queued_tool_applications.append(applying_tool)

@@ -107,8 +107,8 @@ func test_first_tool_can_discard_second_queued_tool_without_crash() -> void:
 	manager.tool_application_completed.connect(func(tool_data: ToolData) -> void: completed_ids.append(tool_data.id))
 	manager.tool_application_error.connect(func(_tool_data: ToolData, _error_message: String) -> void: error_counter["value"] += 1)
 
-	manager.apply_tool(combat_main, first_tool)
-	manager.apply_tool(combat_main, second_tool)
+	manager.queue_apply_tool(combat_main, first_tool)
+	manager.queue_apply_tool(combat_main, second_tool)
 	await _await_queue_idle(combat_main.combat_queue_manager)
 
 	assert_eq(started_ids, ["first"])

@@ -82,7 +82,7 @@ func handle_player_move_hook(main_game:CombatMain) -> void:
 func has_end_turn_hook(combat_main:CombatMain) -> bool:
 	return _has_end_turn_hook(combat_main)
 
-func handle_end_turn_hook() -> void:
+func queue_end_turn_hook() -> void:
 	var request = CombatQueueRequest.new()
 	request.front = true
 	request.callback = func(combat_main:CombatMain) -> void: await _handle_end_turn_hook(combat_main)

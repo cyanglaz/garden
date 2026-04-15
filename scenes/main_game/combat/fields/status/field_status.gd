@@ -9,7 +9,6 @@ var active:bool = true
 @warning_ignore("unused_signal")
 signal hook_complicated()
 signal triggered()
-signal started()
 signal request_icon_animation(status_data:StatusData)
 
 func update_for_plant(plant:Plant) -> void:

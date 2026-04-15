@@ -162,13 +162,15 @@ func _start_turn() -> void:
 	#_win()
 
 func _end_turn() -> void:
+	combat_queue_manager.clear_queue()
+	gui.gui_tool_card_container.end_turn_reset_all()
 	is_mid_turn = false
-	player.handle_turn_end(self)
-	_discard_all_tools()
+	tool_manager.card_use_limit_reached = false
 	energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
+	_queue_discard_all_cards()
+	player.queue_handle_turn_end(self)
 	plant_field_container.trigger_end_turn_hooks(self)
 	weather_main.apply_weather_abilities()
-	tool_manager.card_use_limit_reached = false
 
 	# Night fall
 	_queue_night_fall()
@@ -215,6 +217,17 @@ func _queue_end_turn_cleanup() -> void:
 		_queue_start_turn()
 	Events.request_combat_queue_push.emit(request)
 	
+func _queue_discard_all_cards() -> void:
+	var request = CombatQueueRequest.new()
+	request.callback = func(_cm: CombatMain) -> void:
+		if tool_manager.tool_deck.hand.is_empty():
+			return
+		var cards_to_discard:Array = tool_manager.tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return !tool_data.specials.has(ToolData.Special.HANDY))
+		if cards_to_discard.size() == 0:
+			return
+		await tool_manager.discard_cards(cards_to_discard, self)
+	Events.request_combat_queue_push.emit(request)
+
 func _win() -> void:
 	if is_finished:
 		return
@@ -226,24 +239,13 @@ func _win() -> void:
 	if _chapter == MainGame.NUMBER_OF_CHAPTERS - 1 && _combat.combat_type == CombatData.CombatType.BOSS:
 		beat_final_boss.emit()
 		return
-	_discard_all_tools()
+	await tool_manager.discard_cards(tool_manager.tool_deck.hand, self)
 	weather_main.level_end_stop()
 	session_summary.total_days += day_manager.day
 	var owned_trinket_ids: Array[String] = []
 	for trinket: TrinketData in _owned_trinkets:
 		owned_trinket_ids.append(trinket.id)
 	gui.animate_show_reward_main(_combat, owned_trinket_ids) 
-
-func _discard_all_tools() -> void:
-	var request = CombatQueueRequest.new()
-	request.callback = func(_cm: CombatMain) -> void:
-		if tool_manager.tool_deck.hand.is_empty():
-			return
-		var cards_to_discard:Array = tool_manager.tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return !tool_data.specials.has(ToolData.Special.HANDY))
-		if cards_to_discard.size() == 0:
-			return
-		await tool_manager.discard_cards(cards_to_discard, self)
-	Events.request_combat_queue_push.emit(request)
 
 func _clear_tool_selection() -> void:
 	tool_manager.clear_tool_selection()
@@ -265,7 +267,7 @@ func _fade_music(fade_in:bool) -> void:
 	if !fade_in:
 		background_music_player.stop()
 
-func _apply_tool(tool_data:ToolData) -> void:
+func _queue_apply_tool(tool_data:ToolData) -> void:
 	var tool_card:GUIToolCardButton = gui.gui_tool_card_container.find_card(tool_data)
 	if !tool_card:
 		return
@@ -273,7 +275,7 @@ func _apply_tool(tool_data:ToolData) -> void:
 		tool_card.play_error_shake_animation()
 		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 		return
-	tool_manager.apply_tool(self, tool_data)
+	tool_manager.queue_apply_tool(self, tool_data)
 #endregion
 
 #region gui
@@ -290,7 +292,7 @@ func _hide_custom_error(identifier:String) -> void:
 #region UI EVENTS
 func _on_tool_selected(tool_data:ToolData) -> void:
 	assert(is_mid_turn, "Tool selected outside of mid turn")
-	_apply_tool(tool_data)
+	_queue_apply_tool(tool_data)
 
 func _on_mouse_exited_card(tool_data:ToolData) -> void:
 	_hide_custom_error(tool_data.id)
@@ -298,7 +300,10 @@ func _on_mouse_exited_card(tool_data:ToolData) -> void:
 func _on_end_turn_button_pressed() -> void:
 	if !is_mid_turn:
 		return
-	_end_turn()
+	var request = CombatQueueRequest.new()
+	request.callback = func(_cm: CombatMain) -> void: _end_turn()
+	request.unique_id = "end_turn"
+	Events.request_combat_queue_push.emit(request)
 
 func _on_field_hovered(hovered:bool, index:int) -> void:
 	if tool_manager.selected_tool && tool_manager.selected_tool.need_select_field:
