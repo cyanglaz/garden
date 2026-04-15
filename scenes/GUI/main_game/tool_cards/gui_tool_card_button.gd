@@ -199,7 +199,7 @@ func _on_mouse_entered() -> void:
 	await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
 	if is_queued_for_deletion():
 		return
-	if mouse_in:
+	if mouse_in && PlayerSettings.setting_data.show_card_tooltip:
 		toggle_tooltip(true)
 
 func _on_mouse_exited() -> void:

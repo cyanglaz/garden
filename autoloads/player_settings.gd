@@ -31,6 +31,10 @@ func update_game_speed(game_speed:int) -> void:
 	print_debug("update_game_speed: ", game_speed)
 	setting_data.game_speed = game_speed
 	Save.save_settings(setting_data)
+
+func update_show_card_tooltip(value:bool) -> void:
+	setting_data.show_card_tooltip = value
+	Save.save_settings(setting_data)
 	
 func load_setings_from_save() -> void:
 	setting_data = Save.load_settings()
@@ -48,6 +52,7 @@ func _load_settings():
 	update_volume(AudioBus.MUSIC, setting_data.music_volume)
 	update_volume(AudioBus.SFX, setting_data.sfx_volume)
 	update_game_speed(setting_data.game_speed)
+	update_show_card_tooltip(setting_data.show_card_tooltip)
 	setting_loaded.emit()
 	# TODO: signal settings need to be initialized inside the receiving nodes.
 	# 

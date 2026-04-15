@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://3068uq3kyx0r"]
+[gd_scene load_steps=10 format=3 uid="uid://3068uq3kyx0r"]
 
 [ext_resource type="Script" uid="uid://cnecpkxucfaim" path="res://scenes/GUI/settings/gui_settings_main.gd" id="1_kcyne"]
 [ext_resource type="Texture2D" uid="uid://b4wijuwglcpg0" path="res://resources/sprites/GUI/shared/border3.png" id="1_v8pcb"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="5_prspt"]
 [ext_resource type="PackedScene" uid="uid://dfp8e20o8iuxm" path="res://scenes/GUI/controls/sliders/gui_labeled_slider.tscn" id="6_prspt"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="8_sp2ju"]
+[ext_resource type="PackedScene" uid="uid://jonriuwwtur5" path="res://scenes/GUI/controls/buttons/gui_basic_toggle_button.tscn" id="9_toggle"]
 
 [node name="GUISettingsMain" type="Control"]
 process_mode = 3
@@ -136,6 +137,11 @@ unique_name_in_owner = true
 layout_mode = 2
 localized_title = "GAME_SPEED"
 value_range = Vector2i(0, 2)
+
+[node name="ShowCardTooltipToggle" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/GamePlay" instance=ExtResource("9_toggle")]
+unique_name_in_owner = true
+layout_mode = 2
+localization_text_key = "SHOW_CARD_TOOLTIP"
 
 [node name="Buttons" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(240, 0)
