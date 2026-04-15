@@ -19,6 +19,16 @@ class FakeFieldStatusContainer extends FieldStatusContainer:
 class FakePlant extends Plant:
 	pass
 
+class FakePlayerStatusContainer extends PlayerStatusContainer:
+	var fake_momentum_stack: int = 0
+	func get_player_upgrade_stack(id: String) -> int:
+		if id == "momentum":
+			return fake_momentum_stack
+		return 0
+
+class FakePlayer extends Player:
+	pass
+
 func _make_combat_main_with_plant(plant: Plant) -> FakeCombatMain:
 	var cm := FakeCombatMain.new()
 	autofree(cm)
@@ -242,6 +252,51 @@ func test_calculated_value_x_type_with_player_energy_x_value_type():
 	ad.value_type = ActionData.ValueType.X
 	ad.x_value_type = ActionData.XValueType.PLAYER_ENERGY
 	assert_eq(ad.get_calculated_value(cm), 4)
+
+# ----- get_calculated_x_value with PLAYER_MOMENTUM x_value_type -----
+
+func _make_combat_main_with_momentum(momentum: int) -> FakeCombatMain:
+	var container := FakePlayerStatusContainer.new()
+	autofree(container)
+	container.fake_momentum_stack = momentum
+	var fake_player := FakePlayer.new()
+	autofree(fake_player)
+	fake_player.player_status_container = container
+	var cm := FakeCombatMain.new()
+	autofree(cm)
+	cm.player = fake_player
+	return cm
+
+func test_calculated_x_value_player_momentum_returns_zero_when_no_combat_main():
+	var ad := _make_action(ActionData.ActionType.MOMENTUM)
+	ad.x_value_type = ActionData.XValueType.PLAYER_MOMENTUM
+	assert_eq(ad.get_calculated_x_value(null), 0)
+
+func test_calculated_x_value_player_momentum_reads_momentum_stack():
+	var cm := _make_combat_main_with_momentum(4)
+	var ad := _make_action(ActionData.ActionType.MOMENTUM)
+	ad.x_value_type = ActionData.XValueType.PLAYER_MOMENTUM
+	assert_eq(ad.get_calculated_x_value(cm), 4)
+
+func test_calculated_x_value_player_momentum_zero_when_momentum_is_zero():
+	var cm := _make_combat_main_with_momentum(0)
+	var ad := _make_action(ActionData.ActionType.MOMENTUM)
+	ad.x_value_type = ActionData.XValueType.PLAYER_MOMENTUM
+	assert_eq(ad.get_calculated_x_value(cm), 0)
+
+func test_calculated_x_value_player_momentum_adds_modified_x_value():
+	var cm := _make_combat_main_with_momentum(3)
+	var ad := _make_action(ActionData.ActionType.MOMENTUM)
+	ad.x_value_type = ActionData.XValueType.PLAYER_MOMENTUM
+	ad.modified_x_value = 2
+	assert_eq(ad.get_calculated_x_value(cm), 5)
+
+func test_calculated_value_x_type_with_player_momentum_x_value_type():
+	var cm := _make_combat_main_with_momentum(6)
+	var ad := _make_action(ActionData.ActionType.LIGHT)
+	ad.value_type = ActionData.ValueType.X
+	ad.x_value_type = ActionData.XValueType.PLAYER_MOMENTUM
+	assert_eq(ad.get_calculated_value(cm), 6)
 
 # ----- get_calculated_value with X value_type delegates to get_calculated_x_value -----
 
