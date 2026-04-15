@@ -17,18 +17,24 @@ func setup_with_plant_data(plant_data:PlantData) -> void:
 		add_child(ability_node)
 
 func trigger_ability(ability_type:Plant.AbilityType, plant:Plant, combat_main:CombatMain) -> void:
-	for ability_node:PlantAbility in get_children():
-		if !ability_node.active:
-			continue
+	for ability_node:PlantAbility in get_active_abilities():
 		if ability_node.has_ability_hook(ability_type, plant, combat_main):
 			ability_node.trigger_ability_hook(ability_type, plant)
 
 func signal_bloom() -> void:
-	for ability_node:PlantAbility in get_abilities():
+	for ability_node:PlantAbility in get_all_abilities():
 		ability_node.active = false
 	ability_updated.emit()
-	
-func get_abilities() -> Array:
+
+func get_all_abilities() -> Array:
 	var abilities:Array = get_children().duplicate()
 	abilities.reverse()
+	return abilities
+	
+func get_active_abilities() -> Array:
+	var abilities:Array = get_children().duplicate()
+	abilities.reverse()
+	abilities = abilities.filter(func(ability_node:PlantAbility) -> bool:
+		return ability_node.active
+	)
 	return abilities
