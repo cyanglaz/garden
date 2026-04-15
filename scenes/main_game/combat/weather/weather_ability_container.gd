@@ -4,7 +4,7 @@ extends Node2D
 const ABILITY_Y_OFFSET := 70
 
 signal weathers_abilities_updated()
-signal all_weather_actions_applied()
+signal _all_weather_abilities_applied()
 
 const WEATHER_ABILITIES_SCENE_PREFIX := "res://scenes/main_game/combat/weather/weather_abilities/abilities/weather_ability_%s.tscn"
 const ABILITY_GENERATOR_SCENE_PREFIX := "res://scenes/main_game/combat/weather/weather_abilities/ability_generators/weather_ability_generator_%s.gd"
@@ -32,20 +32,27 @@ func generate_next_weather_abilities(combat_main:CombatMain, turn_index:int) -> 
 		weather_ability.global_position = field_position + Vector2.UP * ABILITY_Y_OFFSET
 	weathers_abilities_updated.emit()
 
-func apply_weather_actions(combat_main:CombatMain) -> void:
-	await _apply_weather_action_to_next_plant(combat_main)
+func apply_weather_actions() -> void:
+	if weather_abilities.is_empty():
+		return
+	var reversed_weather_abilities:Array = weather_abilities.duplicate()
+	reversed_weather_abilities.sort_custom(func(a:WeatherAbility, b:WeatherAbility): return a.field_index > b.field_index)
+	for weather_ability:WeatherAbility in reversed_weather_abilities:
+		_add_weather_ability_to_queue(weather_ability)
+	await _all_weather_abilities_applied
 
 func clear_all_weather_abilities() -> void:
 	Util.remove_all_children(ability_container)
 	weather_abilities.clear()
 	Util.remove_all_children(weather_ability_animation_container)
 
-func _apply_weather_action_to_next_plant(combat_main:CombatMain) -> void:
-	weather_abilities.sort_custom(func(a:WeatherAbility, b:WeatherAbility): return a.field_index < b.field_index)
-	if weather_abilities.is_empty():
-		all_weather_actions_applied.emit()
-		return
-	var weather_ability:WeatherAbility = weather_abilities.pop_back()
+func _add_weather_ability_to_queue(weather_ability:WeatherAbility) -> void:
+	var combat_queue_request = CombatQueueRequest.new()
+	combat_queue_request.callback = func(combat_main:CombatMain) -> void: await _apply_weather_ability(weather_ability, combat_main)
+	combat_queue_request.finish_callback = func(combat_main:CombatMain) -> void: _handle_weather_ability_applied(weather_ability, combat_main)
+	Events.request_combat_queue_push.emit(combat_queue_request)
+
+func _apply_weather_ability(weather_ability:WeatherAbility, combat_main:CombatMain) -> void:
 	var plant_index := weather_ability.field_index
 	var plant:Plant = combat_main.plant_field_container.plants[plant_index]
 	var player = combat_main.player
@@ -57,4 +64,8 @@ func _apply_weather_action_to_next_plant(combat_main:CombatMain) -> void:
 	else:
 		await weather_ability_animation_container.run_animation(weather_ability, plant.global_position, false)
 		await weather_ability.apply_to_plant(plant, combat_main)
-	await _apply_weather_action_to_next_plant(combat_main)
+
+func _handle_weather_ability_applied(weather_ability:WeatherAbility, _combat_main:CombatMain) -> void:
+	weather_abilities.erase(weather_ability)
+	if weather_abilities.is_empty():
+		_all_weather_abilities_applied.emit()

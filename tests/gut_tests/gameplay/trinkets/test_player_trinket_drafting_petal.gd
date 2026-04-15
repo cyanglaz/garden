@@ -18,6 +18,17 @@ func _make_trinket() -> PlayerTrinketDraftingPetal:
 func _make_combat_main(day: int, mid_turn: bool) -> FakeCombatMain:
 	var cm := FakeCombatMain.new()
 	autofree(cm)
+	var gui := GUICombatMain.new()
+	autofree(gui)
+	var gui_tool_card_container := GUIToolCardContainer.new()
+	autofree(gui_tool_card_container)
+	var card_holder := Control.new()
+	autofree(card_holder)
+	card_holder.size = Vector2(220, 70)
+	gui_tool_card_container._container = card_holder
+	gui_tool_card_container._card_size = GUIToolCardButton.SIZE.x
+	gui.gui_tool_card_container = gui_tool_card_container
+	cm.gui = gui
 	cm.day_manager.day = day
 	cm.is_mid_turn = mid_turn
 	return cm

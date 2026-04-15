@@ -36,7 +36,7 @@ var _max_hand_warning_timer:SceneTreeTimer = null
 var _owned_trinkets:Array
 
 var is_finished:bool = false
-var is_mid_turn:bool = false
+var is_mid_turn:bool = false: set = _set_is_mid_turn
 
 # From main_game:
 var max_energy := 3
@@ -168,7 +168,7 @@ func _end_turn() -> void:
 	energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
 	await plant_field_container.trigger_end_turn_hooks(self)
 	plant_field_container.handle_turn_end()
-	await weather_main.apply_weather_abilities(self)
+	await weather_main.apply_weather_abilities()
 	tool_manager.card_use_limit_reached = false
 	await weather_main.night_fall()
 	await _trigger_turn_end_cards()
@@ -181,7 +181,7 @@ func _end_turn() -> void:
 		return
 	await weather_main.new_day()
 	var request = CombatQueueRequest.new()
-	request.callback = func(_cm: CombatMain) -> void: await _start_turn()
+	request.callback = func(_cm: CombatMain) -> void: _start_turn()
 	Events.request_combat_queue_push.emit(request)
 
 func _met_win_condition() -> bool:
@@ -274,7 +274,7 @@ func _on_end_turn_button_pressed() -> void:
 		return
 	var request = CombatQueueRequest.new()
 	request.only_when_empty = true
-	request.callback = func(_cm: CombatMain) -> void: await _end_turn()
+	request.callback = func(_cm: CombatMain) -> void: _end_turn()
 	Events.request_combat_queue_push.emit(request)
 
 func _on_field_hovered(hovered:bool, index:int) -> void:
@@ -431,5 +431,9 @@ func _on_plant_water_updated(_plant:Plant, _from_value:int, _to_value:int) -> vo
 func _set_boost(val:int) -> void:
 	boost = val
 	gui.update_boost(boost)
+
+func _set_is_mid_turn(value:bool) -> void:
+	is_mid_turn = value
+	gui.gui_tool_card_container.is_mid_turn = value
 
 #endregion

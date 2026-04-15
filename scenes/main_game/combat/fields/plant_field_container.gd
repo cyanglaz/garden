@@ -38,7 +38,9 @@ func setup_with_plants(plant_datas:Array) -> void:
 	setup_fields()
 
 func trigger_end_turn_hooks(combat_main:CombatMain) -> void:
-	for plant:Plant in plants:
+	var plants_trigger_order:Array = plants.duplicate()
+	plants_trigger_order.reverse()
+	for plant:Plant in plants_trigger_order:
 		await plant.handle_end_turn_hook(combat_main)
 
 func trigger_start_turn_hooks(combat_main:CombatMain) -> void:
