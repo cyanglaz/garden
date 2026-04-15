@@ -23,6 +23,8 @@ func trigger_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> void:
 	Events.request_combat_queue_push.emit(request)
 
 func _handle_trigger_ability_hook(ability_type:Plant.AbilityType, plant:Plant, combat_main:CombatMain) -> void:
+	if not active:
+		return
 	request_ability_hook_animation.emit(ability_data.id)
 	_trigger_ability_hook(ability_type, plant, combat_main)
 	current_cooldown = ability_data.cooldown

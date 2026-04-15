@@ -28,7 +28,7 @@ func setup_with_plant(plant:Plant) -> void:
 		update_status(field_status_id, stack, plant)
 
 func clear_status_on_turn_end() -> void:
-	for field_status:FieldStatus in get_all_statuses():
+	for field_status:FieldStatus in get_active_statuses():
 		if field_status.status_data.reduce_stack_on_turn_end:
 			field_status.stack -= 1
 			if field_status.stack <= 0:
@@ -69,17 +69,19 @@ func clear_status(status_id:String) -> void:
 	status_updated.emit()
 
 func signal_bloom() -> void:
-	for field_status:FieldStatus in get_all_statuses():
+	for field_status:FieldStatus in get_children():
 		field_status.active = false
 	status_updated.emit()
 
-func get_all_statuses() -> Array:
-	var statuses:Array = get_children().duplicate()
+func get_active_statuses() -> Array:
+	var statuses:Array = get_children().filter(func(field_status:FieldStatus) -> bool:
+		return field_status.active
+	)
 	statuses.reverse()
 	return statuses
 
 func handle_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> void:
-	_ability_hook_queue = get_all_statuses().filter(func(field_status:FieldStatus) -> bool:
+	_ability_hook_queue = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:
 		return field_status.has_ability_hook(ability_type, plant)
 	)
 	_current_ability_hook_index = 0
@@ -95,7 +97,7 @@ func _handle_next_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> v
 	await _handle_next_ability_hook(ability_type, plant)
 
 func handle_bloom_hook(plant:Plant) -> void:
-	_bloom_hook_queue = get_all_statuses().filter(func(field_status:FieldStatus) -> bool:
+	_bloom_hook_queue = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:
 		return field_status.has_bloom_hook(plant)
 	)
 	_current_bloom_hook_index = 0
@@ -112,7 +114,7 @@ func _handle_next_bloom_hook(plant:Plant) -> void:
 	await _handle_next_bloom_hook(plant)
 
 func handle_tool_application_hook(plant:Plant, combat_main:CombatMain) -> void:
-	_tool_application_hook_queue = get_all_statuses().filter(func(field_status:FieldStatus) -> bool:
+	_tool_application_hook_queue = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:
 		return field_status.has_tool_application_hook(plant)
 	)
 	_current_tool_application_hook_index = 0
@@ -129,7 +131,7 @@ func _handle_next_tool_application_hook(plant:Plant, combat_main:CombatMain) -> 
 	await _handle_next_tool_application_hook(plant, combat_main)
 
 func handle_tool_discard_hook(plant:Plant, count:int, combat_main:CombatMain) -> void:
-	_tool_discard_hook_queue = get_all_statuses().filter(func(field_status:FieldStatus) -> bool:
+	_tool_discard_hook_queue = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:
 		return field_status.has_tool_discard_hook(count, plant)
 	)
 	_current_tool_discard_hook_index = 0
@@ -146,7 +148,7 @@ func _handle_next_tool_discard_hook(plant:Plant, count:int, combat_main:CombatMa
 	await _handle_next_tool_discard_hook(plant, count, combat_main)
 
 func handle_end_turn_hook(combat_main:CombatMain, plant:Plant) -> void:
-	_end_turn_hook_queue = get_all_statuses().filter(func(field_status:FieldStatus) -> bool:
+	_end_turn_hook_queue = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:
 		return field_status.has_end_turn_hook(plant)
 	)
 	_current_end_turn_hook_index = 0
@@ -163,7 +165,7 @@ func _handle_next_end_turn_hook(combat_main:CombatMain, plant:Plant) -> void:
 	await _handle_next_end_turn_hook(combat_main, plant)
 
 func handle_add_water_hook(plant:Plant) -> void:
-	var all_statuses:Array = get_all_statuses()
+	var all_statuses:Array = get_active_statuses()
 	all_statuses.reverse()
 	_add_water_hook_queue = all_statuses.filter(func(field_status:FieldStatus) -> bool:
 		return field_status.has_add_water_hook(plant)
@@ -182,7 +184,7 @@ func _handle_next_add_water_hook(plant:Plant) -> void:
 	await _handle_next_add_water_hook(plant)
 
 func handle_prevent_resource_update_value_hook(resource_id:String, plant:Plant, old_value:int, new_value:int) -> bool:
-	_prevent_resource_update_value_hook_queue = get_all_statuses().filter(func(field_status:FieldStatus) -> bool:
+	_prevent_resource_update_value_hook_queue = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:
 		return field_status.has_prevent_resource_update_value_hook(resource_id, plant, old_value, new_value)
 	)
 	_current_prevent_resource_update_value_hook_index = 0
