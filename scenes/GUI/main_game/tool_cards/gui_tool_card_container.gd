@@ -63,10 +63,7 @@ func add_card(tool_data:ToolData, combat_main:CombatMain) -> GUIToolCardButton:
 	var gui_card:GUIToolCardButton = TOOL_CARD_SCENE.instantiate()
 	_container.add_child(gui_card)
 	gui_card.update_with_tool_data(tool_data, combat_main)
-	if selected_index >= 0:
-		gui_card.card_state = GUICardFace.CardState.UNSELECTED
-	else:
-		gui_card.card_state = GUICardFace.CardState.NORMAL
+	gui_card.card_state = GUICardFace.CardState.NORMAL
 	_rebind_signals()
 	gui_card.disabled = card_use_limit_reached
 	gui_card.mouse_disabled = !_tool_card_interaction_enabled

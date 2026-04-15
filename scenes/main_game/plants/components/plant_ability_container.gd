@@ -16,10 +16,9 @@ func setup_with_plant_data(plant_data:PlantData) -> void:
 		assert(ability_node)
 		add_child(ability_node)
 
-func clear_all_abilities() -> void:
+func end_all_abilities() -> void:
 	for ability_node:PlantAbility in get_abilities():
-		remove_child(ability_node)
-		ability_node.queue_free()
+		ability_node.ended = true
 	ability_updated.emit()
 
 func trigger_ability(ability_type:Plant.AbilityType, plant:Plant, combat_main:CombatMain) -> void:

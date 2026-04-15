@@ -9,7 +9,7 @@ func enter() -> void:
 	var combat_main:CombatMain = params["combat_main"]
 	plant.trigger_ability(Plant.AbilityType.BLOOM, combat_main)
 	plant.field_status_container.clear_all_statuses()
-	plant.plant_ability_container.clear_all_abilities()
+	plant.plant_ability_container.end_all_abilities()
 	plant.bloom_completed.emit()
 
 func _play_bloom_animation() -> void:
