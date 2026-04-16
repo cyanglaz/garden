@@ -147,7 +147,7 @@ func _handle_next_tool_discard_hook(plant:Plant, count:int, combat_main:CombatMa
 	_current_tool_discard_hook_index += 1
 	await _handle_next_tool_discard_hook(plant, count, combat_main)
 
-func handle_end_turn_hook( plant:Plant) -> void:
+func handle_end_turn_hook(plant:Plant) -> void:
 	var end_turn_statuses:Array = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:
 		return field_status.has_end_turn_hook(plant)
 	)

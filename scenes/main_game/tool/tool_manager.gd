@@ -184,6 +184,7 @@ func _queue_tool_application_stages(combat_main:CombatMain, applying_tool:ToolDa
 func _run_tool_stage_start_and_pre_hook(combat_main:CombatMain, tool_data:ToolData, stage_context:Dictionary) -> void:
 	if !_can_execute_queued_tool(tool_data):
 		stage_context["skip"] = true
+		tool_application_bailed.emit(tool_data)
 		return
 	selected_tool = tool_data
 	tool_application_started.emit(tool_data)
@@ -194,6 +195,7 @@ func _run_tool_stage_apply_actions(combat_main:CombatMain, tool_data:ToolData, s
 		return
 	if !_can_execute_queued_tool(tool_data):
 		stage_context["skip"] = true
+		tool_application_bailed.emit(tool_data)
 		return
 	stage_context["success"] = await _run_card_actions(combat_main, tool_data)
 
@@ -217,10 +219,8 @@ func _can_execute_queued_tool(tool_data:ToolData) -> bool:
 	if !_gui_tool_card_container:
 		return false
 	if !is_mid_turn && !tool_data.specials.has(ToolData.Special.NIGHTFALL):
-		tool_application_bailed.emit(tool_data)
 		return false
 	if tool_data.specials.has(ToolData.Special.NIGHTFALL) && is_mid_turn:
-		tool_application_bailed.emit(tool_data)
 		return false
 	return true
 

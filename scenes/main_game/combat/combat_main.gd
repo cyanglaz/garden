@@ -231,7 +231,6 @@ func _queue_discard_all_cards(exclude_handy:bool) -> void:
 func _win() -> void:
 	if is_finished:
 		return
-	is_finished = true
 	gui.permanently_lock_all_ui()
 	_fade_music(false)
 	await player.player_upgrades_manager.handle_combat_end_hook(self)
@@ -241,6 +240,7 @@ func _win() -> void:
 		return
 	_queue_discard_all_cards(false)
 	weather_main.level_end_stop()
+	is_finished = true
 	session_summary.total_days += day_manager.day
 	var owned_trinket_ids: Array[String] = []
 	for trinket: TrinketData in _owned_trinkets:
@@ -270,10 +270,6 @@ func _fade_music(fade_in:bool) -> void:
 func _queue_apply_tool(tool_data:ToolData) -> void:
 	var tool_card:GUIToolCardButton = gui.gui_tool_card_container.find_card(tool_data)
 	if !tool_card:
-		return
-	if !tool_card.resource_sufficient:
-		tool_card.play_error_shake_animation()
-		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 		return
 	tool_manager.queue_apply_tool(self, tool_data)
 

@@ -115,7 +115,6 @@ func play_use_animation() -> void:
 	tween.tween_property(self, "position", Vector2.UP * IN_USE_OFFSET, IN_USE_ANIMATION_DURATION).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.finished.connect(func() -> void:
 		z_index = 0
-		has_outline = false
 	)
 
 func animate_flip(on:bool) -> void:

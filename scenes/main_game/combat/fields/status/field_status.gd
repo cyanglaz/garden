@@ -6,8 +6,6 @@ var status_data:StatusData
 var stack:int:set = _set_stack, get = _get_stack
 var active:bool = true
 
-@warning_ignore("unused_signal")
-signal hook_complicated()
 signal triggered()
 signal request_icon_animation(status_data:StatusData)
 
