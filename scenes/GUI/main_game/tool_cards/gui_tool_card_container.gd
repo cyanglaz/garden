@@ -35,6 +35,7 @@ func setup(draw_box_button:GUIDeckButton, discard_box_button:GUIDeckButton) -> v
 	
 func clear_selection() -> void:
 	_last_selected_main_card_index = -1
+	_secondary_card_selection_main_card = null
 	_clear_secondary_card_selection()
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 	Events.request_hide_warning.emit(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
@@ -248,9 +249,9 @@ func _toggle_card_selection_mode(on:bool) -> void:
 			elif _secondary_card_selection_candidates.has(gui_card.tool_data):
 				gui_card.card_state = GUICardFace.CardState.NORMAL
 			else:
-				gui_card.card_state = GUICardFace.CardState.UNSELECTED
+				gui_card.card_state = GUICardFace.CardState.INELIGIBLE
 		else:
-			if gui_card.card_state != GUICardFace.CardState.WAITING:
+			if gui_card.card_state != GUICardFace.CardState.WAITING && gui_card.card_state != GUICardFace.CardState.SELECTED:
 				gui_card.card_state = GUICardFace.CardState.NORMAL
 
 func _rebind_signals() -> void:
@@ -298,7 +299,6 @@ func _on_tool_card_pressed(index:int) -> void:
 	if card_selection_mode:
 		if selected_card == _secondary_card_selection_main_card:
 			return
-		_secondary_card_selection_main_card = selected_card
 		if _card_selection_container.is_selected_secondary_card(selected_card):
 			_return_secondary_card_to_hand(selected_card)
 		elif _card_selection_container.is_card_selection_full():
@@ -310,7 +310,7 @@ func _on_tool_card_pressed(index:int) -> void:
 			_card_selection_container.select_secondary_card(selected_card)
 		return
 	else:
-		_secondary_card_selection_main_card = null
+		_secondary_card_selection_main_card = selected_card
 	main_card_selected.emit(selected_card.tool_data)
 
 func _on_tool_card_mouse_entered(index:int) -> void:

@@ -13,7 +13,7 @@ enum CardState {
 	NORMAL,
 	HIGHLIGHTED,
 	SELECTED,
-	UNSELECTED,
+	INELIGIBLE,
 	WAITING,
 }
 
@@ -191,12 +191,12 @@ func _set_card_state(value:CardState) -> void:
 			has_outline = true
 			_overlay.hide()
 			z_index = 1
-		CardState.UNSELECTED:
+		CardState.INELIGIBLE:
 			position = Vector2.ZERO
 			has_outline = false
 			_overlay.show()
 			z_index = 0
-			_default_state = CardState.UNSELECTED
+			_default_state = CardState.INELIGIBLE
 		CardState.WAITING:
 			position = Vector2.UP * WAITING_OFFSET
 			has_outline = true
