@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://brtknpuafi4mp"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_rb0bj"]
+[ext_resource type="Script" uid="uid://1n1erxs6up4d" path="res://scenes/GUI/controls/buttons/gui_checkbox_button.gd" id="2_rb0bj"]
+[ext_resource type="Texture2D" uid="uid://d1d8pmj4j4lqp" path="res://resources/sprites/GUI/theme/checkbox_button.png" id="3_rb0bj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rb0bj"]
+atlas = ExtResource("3_rb0bj")
+region = Rect2(0, 0, 12, 12)
+
+[node name="GUICheckBoxButton" unique_id=1039039341 instance=ExtResource("1_rb0bj")]
+custom_minimum_size = Vector2(0, 0)
+offset_right = 19.0
+offset_bottom = 9.0
+script = ExtResource("2_rb0bj")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." index="0" unique_id=1461907165]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer" index="0" unique_id=501597785]
+unique_name_in_owner = true
+layout_mode = 2
+texture = SubResource("AtlasTexture_rb0bj")
+stretch_mode = 5
