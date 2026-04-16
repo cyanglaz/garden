@@ -18,7 +18,7 @@ func has_ability_hook(ability_type:Plant.AbilityType, plant:Plant, combat_main:C
 		return false
 	return _has_ability_hook(ability_type, plant, combat_main)
 
-func trigger_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> void:
+func queue_trigger_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> void:
 	if not active:
 		return
 	var request = CombatQueueRequest.new()

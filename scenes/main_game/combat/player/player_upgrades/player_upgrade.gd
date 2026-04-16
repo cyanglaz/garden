@@ -90,7 +90,7 @@ func queue_end_turn_hook() -> void:
 func has_start_turn_hook(combat_main:CombatMain) -> bool:
 	return _has_start_turn_hook(combat_main)
 
-func handle_start_turn_hook() -> void:
+func queue_start_turn_hook() -> void:
 	var request = CombatQueueRequest.new()
 	request.callback = func(combat_main:CombatMain) -> void: await _handle_start_turn_hook(combat_main)
 	Events.request_combat_queue_push.emit(request)

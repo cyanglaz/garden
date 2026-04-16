@@ -37,21 +37,21 @@ func setup_with_plants(plant_datas:Array) -> void:
 		current_field = field
 	setup_fields()
 
-func trigger_end_turn_hooks(combat_main:CombatMain) -> void:
+func queue_end_turn_abilities(combat_main:CombatMain) -> void:
 	var plants_trigger_order:Array = plants.duplicate()
 	plants_trigger_order.reverse()
 	for plant:Plant in plants_trigger_order:
-		plant.handle_end_turn_hook(combat_main)
+		plant.queue_end_turn_abilities(combat_main)
 	for plant:Plant in plants_trigger_order:
 		var request = CombatQueueRequest.new()
 		request.callback = func(_cm:CombatMain) -> void: plant.handle_turn_end()
 		Events.request_combat_queue_push.emit(request)
 
-func trigger_start_turn_hooks(combat_main:CombatMain) -> void:
+func queue_start_turn_abilities(combat_main:CombatMain) -> void:
 	var plants_in_order:Array = plants.duplicate()
 	plants_in_order.reverse()
 	for plant:Plant in plants_in_order:
-		plant.handle_start_turn_hook(combat_main)
+		plant.queue_start_turn_abilities(combat_main)
 
 func trigger_tool_application_hook(combat_main:CombatMain) -> void:
 	for plant:Plant in plants:

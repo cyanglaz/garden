@@ -16,10 +16,10 @@ func setup_with_plant_data(plant_data:PlantData) -> void:
 		assert(ability_node)
 		add_child(ability_node)
 
-func trigger_ability(ability_type:Plant.AbilityType, plant:Plant, combat_main:CombatMain) -> void:
+func queue_abilities(ability_type:Plant.AbilityType, plant:Plant, combat_main:CombatMain) -> void:
 	for ability_node:PlantAbility in get_active_abilities():
 		if ability_node.has_ability_hook(ability_type, plant, combat_main):
-			ability_node.trigger_ability_hook(ability_type, plant)
+			ability_node.queue_trigger_ability_hook(ability_type, plant)
 
 func signal_bloom() -> void:
 	for ability_node:PlantAbility in get_all_abilities():

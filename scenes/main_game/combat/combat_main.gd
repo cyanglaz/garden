@@ -144,7 +144,7 @@ func _start_new_level() -> void:
 	level_started.emit()
 	await weather_main.start(_chapter, _combat.combat_type)
 	player.current_field_index = 0
-	await _start_turn()
+	_start_turn()
 
 func _start_turn() -> void:
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.TURN)
@@ -156,20 +156,32 @@ func _start_turn() -> void:
 		#await gui.apply_boss_actions(GUIBoss.HookType.LEVEL_START)
 		energy_tracker.setup(max_energy, max_energy)
 	#await gui.apply_boss_actions(GUIBoss.HookType.TURN_START)
-	var draw_count := hand_size + await player.handle_hand_size(self)
-	await draw_cards(draw_count)
+	_queue_draw_cards()
 	is_mid_turn = true
-	player.handle_start_turn(self)
-	plant_field_container.trigger_start_turn_hooks(self)
-	turn_started.emit()
+	player.queue_start_turn_hooks(self)
+	plant_field_container.queue_start_turn_abilities(self)
+	_queue_turn_start_signals()
 	#_win()
+
+func _queue_draw_cards() -> void:
+	var request = CombatQueueRequest.new()
+	request.callback = func(_cm: CombatMain) -> void: 
+		var draw_count := hand_size + player.handle_hand_size(self)
+		await draw_cards(draw_count)
+	Events.request_combat_queue_push.emit(request)
+
+func _queue_turn_start_signals() -> void:
+	var request = CombatQueueRequest.new()
+	request.callback = func(_cm: CombatMain) -> void: 
+		turn_started.emit()
+	Events.request_combat_queue_push.emit(request)
 
 func _end_turn() -> void:
 	is_mid_turn = false
 	tool_manager.card_use_limit_reached = false
 	energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
 	player.queue_handle_turn_end(self)
-	plant_field_container.trigger_end_turn_hooks(self)
+	plant_field_container.queue_end_turn_abilities(self)
 	weather_main.apply_weather_abilities()
 
 	# Night fall
@@ -194,7 +206,7 @@ func _queue_weather_start_new_day() -> void:
 
 func _queue_start_turn() -> void:
 	var request = CombatQueueRequest.new()
-	request.callback = func(_cm: CombatMain) -> void: await _start_turn()
+	request.callback = func(_cm: CombatMain) -> void: _start_turn()
 	Events.request_combat_queue_push.emit(request)
 
 func _queue_turn_end_cards() -> void:
