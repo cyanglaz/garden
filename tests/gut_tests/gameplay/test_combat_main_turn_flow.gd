@@ -4,22 +4,16 @@ extends GutTest
 class FakePlayer extends Player:
 	var end_turn_calls := 0
 
-	func handle_turn_end(_combat_main: CombatMain) -> void:
+	func queue_handle_turn_end(_combat_main: CombatMain) -> void:
 		end_turn_calls += 1
-		await Util.await_for_tiny_time()
 
 
 class FakePlantFieldContainer extends PlantFieldContainer:
 	var end_turn_hook_calls := 0
-	var handle_turn_end_calls := 0
 	var force_bloom := false
 
 	func trigger_end_turn_hooks(_combat_main: CombatMain) -> void:
 		end_turn_hook_calls += 1
-		await Util.await_for_tiny_time()
-
-	func handle_turn_end() -> void:
-		handle_turn_end_calls += 1
 
 	func are_all_plants_bloom() -> bool:
 		return force_bloom
@@ -32,7 +26,6 @@ class FakeWeatherMain extends WeatherMain:
 
 	func apply_weather_abilities() -> void:
 		apply_calls += 1
-		await Util.await_for_tiny_time()
 
 	func night_fall() -> void:
 		night_fall_calls += 1
@@ -45,19 +38,9 @@ class FakeWeatherMain extends WeatherMain:
 
 class TestCombatMain extends CombatMain:
 	var start_turn_calls := 0
-	var discard_all_tools_calls := 0
-	var trigger_turn_end_cards_calls := 0
 
 	func _start_turn() -> void:
 		start_turn_calls += 1
-
-	func _discard_all_tools() -> void:
-		discard_all_tools_calls += 1
-		await Util.await_for_tiny_time()
-
-	func _trigger_turn_end_cards() -> void:
-		trigger_turn_end_cards_calls += 1
-		await Util.await_for_tiny_time()
 
 
 class EndTurnButtonSpyCombatMain extends CombatMain:
@@ -79,6 +62,7 @@ func _attach_minimal_gui(cm: CombatMain) -> GUIToolCardContainer:
 	card_container._card_size = GUIToolCardButton.SIZE.x
 	gui.gui_tool_card_container = card_container
 	cm.gui = gui
+	cm.tool_manager = ToolManager.new([], card_container)
 	return card_container
 
 
@@ -107,10 +91,12 @@ func test_set_is_mid_turn_propagates_to_gui_tool_card_container() -> void:
 	cm.is_mid_turn = true
 	assert_true(cm.is_mid_turn)
 	assert_true(card_container.is_mid_turn)
+	assert_true(cm.tool_manager.is_mid_turn)
 
 	cm.is_mid_turn = false
 	assert_false(cm.is_mid_turn)
 	assert_false(card_container.is_mid_turn)
+	assert_false(cm.tool_manager.is_mid_turn)
 
 
 func test_end_turn_button_ignored_when_not_mid_turn() -> void:
@@ -126,7 +112,7 @@ func test_end_turn_button_ignored_when_not_mid_turn() -> void:
 	assert_eq(capture.requests.size(), 0)
 
 
-func test_end_turn_button_pushes_only_when_empty_request_and_invokes_end_turn() -> void:
+func test_end_turn_button_pushes_unique_request_and_invokes_end_turn() -> void:
 	var cm := EndTurnButtonSpyCombatMain.new()
 	autofree(cm)
 	_attach_minimal_gui(cm)
@@ -139,15 +125,15 @@ func test_end_turn_button_pushes_only_when_empty_request_and_invokes_end_turn() 
 	assert_eq(capture.requests.size(), 1)
 	var request: CombatQueueRequest = capture.requests[0]
 	assert_true(request.callback.is_valid())
-	assert_true(request.only_when_empty)
+	assert_eq(request.unique_id, "end_turn")
 	request.callback.call(cm)
 	assert_eq(cm.end_turn_calls, 1)
 
 
-func test_end_turn_sequence_calls_weather_apply_without_combat_arg_and_schedules_start_turn() -> void:
+func test_end_turn_sequence_enqueues_pipeline_and_cleanup_schedules_start_turn() -> void:
 	var cm := TestCombatMain.new()
 	autofree(cm)
-	var card_container := _attach_minimal_gui(cm)
+	_attach_minimal_gui(cm)
 
 	var fake_player := FakePlayer.new()
 	autofree(fake_player)
@@ -161,24 +147,40 @@ func test_end_turn_sequence_calls_weather_apply_without_combat_arg_and_schedules
 	autofree(fake_weather)
 	cm.weather_main = fake_weather
 
-	cm.tool_manager = ToolManager.new([], card_container)
 	cm.tool_manager.card_use_limit_reached = true
+	cm.energy_tracker.setup(1, 3)
+	cm.is_mid_turn = true
 
 	var capture := _capture_queue_requests()
-	await cm._end_turn()
+	cm._end_turn()
+	assert_eq(capture.requests.size(), 3)
+
+	var discard_request: CombatQueueRequest = capture.requests[0]
+	var night_fall_request: CombatQueueRequest = capture.requests[1]
+	var cleanup_request: CombatQueueRequest = capture.requests[2]
+	assert_true(discard_request.callback.is_valid())
+	assert_true(night_fall_request.callback.is_valid())
+	assert_true(cleanup_request.callback.is_valid())
+	assert_true(cleanup_request.finish_callback.is_valid())
+
+	await discard_request.callback.call(cm)
+	await night_fall_request.callback.call(cm)
+	await cleanup_request.callback.call(cm)
+	await cleanup_request.finish_callback.call(cm)
 	_disconnect_capture(capture)
 
 	assert_false(cm.is_mid_turn)
+	assert_eq(cm.energy_tracker.value, 3)
 	assert_eq(fake_player.end_turn_calls, 1)
 	assert_eq(fake_field.end_turn_hook_calls, 1)
-	assert_eq(fake_field.handle_turn_end_calls, 1)
 	assert_eq(fake_weather.apply_calls, 1)
 	assert_eq(fake_weather.night_fall_calls, 1)
-	assert_eq(fake_weather.new_day_calls, 1)
 	assert_false(cm.tool_manager.card_use_limit_reached)
-	assert_eq(capture.requests.size(), 1)
+	assert_eq(capture.requests.size(), 5)
 
-	var request: CombatQueueRequest = capture.requests[0]
-	assert_true(request.callback.is_valid())
-	request.callback.call(cm)
+	var new_day_request: CombatQueueRequest = capture.requests[3]
+	var start_turn_request: CombatQueueRequest = capture.requests[4]
+	await new_day_request.callback.call(cm)
+	await start_turn_request.callback.call(cm)
+	assert_eq(fake_weather.new_day_calls, 1)
 	assert_eq(cm.start_turn_calls, 1)

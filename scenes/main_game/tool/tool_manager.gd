@@ -212,16 +212,19 @@ func _run_tool_stage_finish(combat_main:CombatMain, tool_data:ToolData, stage_co
 	_handle_tool_application_completed(tool_data, combat_main)
 
 func _can_execute_queued_tool(tool_data:ToolData) -> bool:
+	var can_execute:bool = true
 	if !tool_deck.hand.has(tool_data):
-		tool_application_bailed.emit(tool_data)
-		return false
+		can_execute = false
 	if !_gui_tool_card_container:
+		can_execute = false
+	if !is_mid_turn && !tool_data.specials.has(ToolData.Special.NIGHTFALL):
+		can_execute = false
+	if tool_data.specials.has(ToolData.Special.NIGHTFALL) && is_mid_turn:
+		can_execute = false
+	if !can_execute:
 		tool_application_bailed.emit(tool_data)
 		return false
-	if !is_mid_turn:
-		tool_application_bailed.emit(tool_data)
-		return false
-	return _gui_tool_card_container.find_card(tool_data) != null
+	return true
 
 #region setters/getters
 

@@ -66,7 +66,7 @@ func test_handle_damage_taken_hook_sets_normal_and_emits_animation_signals() -> 
 	autofree(p)
 	p.player_status_container = psc
 	cm.player = p
-	await t._handle_damage_taken_hook(cm, 1)
+	t._handle_damage_taken_hook(cm, 1)
 	assert_eq(t.data.state, TrinketData.TrinketState.NORMAL)
 	assert_eq(anim_ids.size(), 1)
 	assert_eq(anim_ids[0], t.data.id)

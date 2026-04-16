@@ -167,7 +167,6 @@ func _end_turn() -> void:
 	is_mid_turn = false
 	tool_manager.card_use_limit_reached = false
 	energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
-	_queue_discard_all_cards()
 	player.queue_handle_turn_end(self)
 	plant_field_container.trigger_end_turn_hooks(self)
 	weather_main.apply_weather_abilities()
@@ -177,6 +176,7 @@ func _end_turn() -> void:
 
 	# Turn End Cards
 	_queue_turn_end_cards()
+	_queue_discard_all_cards(true)
 
 	# Clean up and start new turn if not win
 	_queue_end_turn_cleanup()
@@ -217,12 +217,12 @@ func _queue_end_turn_cleanup() -> void:
 		_queue_start_turn()
 	Events.request_combat_queue_push.emit(request)
 	
-func _queue_discard_all_cards() -> void:
+func _queue_discard_all_cards(exclude_handy:bool) -> void:
 	var request = CombatQueueRequest.new()
 	request.callback = func(_cm: CombatMain) -> void:
 		if tool_manager.tool_deck.hand.is_empty():
 			return
-		var cards_to_discard:Array = tool_manager.tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return !tool_data.specials.has(ToolData.Special.HANDY))
+		var cards_to_discard:Array = tool_manager.tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return  !tool_data.specials.has(ToolData.Special.HANDY) if exclude_handy else true)
 		if cards_to_discard.size() == 0:
 			return
 		await tool_manager.discard_cards(cards_to_discard, self)
@@ -239,7 +239,7 @@ func _win() -> void:
 	if _chapter == MainGame.NUMBER_OF_CHAPTERS - 1 && _combat.combat_type == CombatData.CombatType.BOSS:
 		beat_final_boss.emit()
 		return
-	await tool_manager.discard_cards(tool_manager.tool_deck.hand, self)
+	_queue_discard_all_cards(false)
 	weather_main.level_end_stop()
 	session_summary.total_days += day_manager.day
 	var owned_trinket_ids: Array[String] = []
@@ -277,8 +277,6 @@ func _queue_apply_tool(tool_data:ToolData) -> void:
 		return
 	tool_manager.queue_apply_tool(self, tool_data)
 
-func _is_end_turn_queued() -> bool:
-	return combat_queue_manager.has_request_by_unique_id(END_TURN_UNIQUE_ID)
 #endregion
 
 #region gui
@@ -296,7 +294,9 @@ func _hide_custom_error(identifier:String) -> void:
 func _on_main_card_selected(tool_data:ToolData) -> void:
 	if !is_mid_turn:
 		return
-	gui.gui_tool_card_container.select_main_card(tool_data)
+	var success:bool = gui.gui_tool_card_container.select_main_card(tool_data)
+	if !success:
+		return
 	_queue_apply_tool(tool_data)
 
 func _on_mouse_exited_card(tool_data:ToolData) -> void:
@@ -307,7 +307,7 @@ func _on_end_turn_button_pressed() -> void:
 		return
 	var request = CombatQueueRequest.new()
 	request.callback = func(_cm: CombatMain) -> void: _end_turn()
-	request.unique_id = "end_turn"
+	request.unique_id = END_TURN_UNIQUE_ID
 	Events.request_combat_queue_push.emit(request)
 
 func _on_field_hovered(hovered:bool, index:int) -> void:

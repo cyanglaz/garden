@@ -17,6 +17,26 @@ class FakePlant extends Plant:
 			await (Engine.get_main_loop() as SceneTree).create_timer(delay_seconds).timeout
 		events.append("end_%s" % marker)
 
+	func handle_turn_end() -> void:
+		events.append("turn_end_%s" % marker)
+
+
+func _capture_queue_requests() -> Dictionary:
+	var capture := {"requests": []}
+	var callable := func(request: CombatQueueRequest) -> void:
+		capture.requests.append(request)
+	if Events.request_combat_queue_push.is_connected(callable):
+		Events.request_combat_queue_push.disconnect(callable)
+	Events.request_combat_queue_push.connect(callable)
+	capture["callable"] = callable
+	return capture
+
+
+func _disconnect_capture(capture: Dictionary) -> void:
+	var callable: Callable = capture["callable"]
+	if Events.request_combat_queue_push.is_connected(callable):
+		Events.request_combat_queue_push.disconnect(callable)
+
 
 func test_trigger_end_turn_hooks_runs_reverse_order() -> void:
 	var field_container := PlantFieldContainer.new()
@@ -30,15 +50,29 @@ func test_trigger_end_turn_hooks_runs_reverse_order() -> void:
 	for plant in field_container.plants:
 		autofree(plant)
 
-	await field_container.trigger_end_turn_hooks(null)
+	var capture := _capture_queue_requests()
+	field_container.trigger_end_turn_hooks(null)
+	_disconnect_capture(capture)
 
 	assert_eq(
 		hook_log,
 		["start_p3", "end_p3", "start_p2", "end_p2", "start_p1", "end_p1"]
 	)
+	assert_eq(capture.requests.size(), 3)
+
+	for request: CombatQueueRequest in capture.requests:
+		request.callback.call(null)
+
+	assert_eq(
+		hook_log,
+		[
+			"start_p3", "end_p3", "start_p2", "end_p2", "start_p1", "end_p1",
+			"turn_end_p3", "turn_end_p2", "turn_end_p1"
+		]
+	)
 
 
-func test_trigger_end_turn_hooks_awaits_each_plant_serially() -> void:
+func test_trigger_end_turn_hooks_allows_async_overlap_for_hook_execution() -> void:
 	var field_container := PlantFieldContainer.new()
 	autofree(field_container)
 	var hook_log: Array = []
@@ -48,6 +82,7 @@ func test_trigger_end_turn_hooks_awaits_each_plant_serially() -> void:
 	autofree(p2)
 	field_container.plants = [p1, p2]
 
-	await field_container.trigger_end_turn_hooks(null)
+	field_container.trigger_end_turn_hooks(null)
+	await (Engine.get_main_loop() as SceneTree).create_timer(0.05).timeout
 
-	assert_eq(hook_log, ["start_p2", "end_p2", "start_p1", "end_p1"])
+	assert_eq(hook_log, ["start_p2", "start_p1", "end_p1", "end_p2"])

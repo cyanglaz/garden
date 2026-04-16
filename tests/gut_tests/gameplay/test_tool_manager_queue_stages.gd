@@ -98,6 +98,7 @@ func test_first_tool_can_discard_second_queued_tool_without_crash() -> void:
 
 	var combat_main := FakeCombatMain.new()
 	combat_main.tool_manager = manager
+	manager.is_mid_turn = true
 	manager._tool_applier = FakeToolApplier.new(second_tool)
 
 	var started_ids: Array[String] = []

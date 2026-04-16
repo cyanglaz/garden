@@ -7,7 +7,6 @@ class FakeWeatherAbilityContainer extends WeatherAbilityContainer:
 
 	func apply_weather_actions() -> void:
 		apply_calls += 1
-		await Util.await_for_tiny_time()
 
 	func clear_all_weather_abilities() -> void:
 		clear_calls += 1
@@ -27,7 +26,7 @@ func test_apply_weather_abilities_delegates_to_ability_container() -> void:
 	autofree(ability_container)
 	weather_main._weather_ability_container = ability_container
 
-	await weather_main.apply_weather_abilities()
+	weather_main.apply_weather_abilities()
 
 	assert_eq(ability_container.apply_calls, 1)
 

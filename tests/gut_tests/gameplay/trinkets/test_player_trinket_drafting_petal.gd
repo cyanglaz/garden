@@ -29,6 +29,7 @@ func _make_combat_main(day: int, mid_turn: bool) -> FakeCombatMain:
 	gui_tool_card_container._card_size = GUIToolCardButton.SIZE.x
 	gui.gui_tool_card_container = gui_tool_card_container
 	cm.gui = gui
+	cm.tool_manager = ToolManager.new([], gui_tool_card_container)
 	cm.day_manager.day = day
 	cm.is_mid_turn = mid_turn
 	return cm

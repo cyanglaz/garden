@@ -60,24 +60,22 @@ func test_on_tool_card_pressed_ignored_when_not_mid_turn() -> void:
 	var container: GUIToolCardContainer = setup["container"]
 
 	var selected_tools: Array[ToolData] = []
-	container.tool_selected.connect(func(tool_data: ToolData) -> void: selected_tools.append(tool_data))
+	container.main_card_selected.connect(func(tool_data: ToolData) -> void: selected_tools.append(tool_data))
 	container._on_tool_card_pressed(0)
 
 	assert_eq(selected_tools.size(), 0)
-	assert_eq(container.selected_index, -1)
 
 
-func test_on_tool_card_pressed_emits_tool_selected_when_mid_turn() -> void:
+func test_on_tool_card_pressed_emits_main_card_selected_when_mid_turn() -> void:
 	var tool_data := _make_tool_data("tool_mid_turn")
 	var setup := _make_container_with_card(tool_data, true)
 	var container: GUIToolCardContainer = setup["container"]
 	var card: FakeToolCardButton = setup["card"]
 
 	var selected_tools: Array[ToolData] = []
-	container.tool_selected.connect(func(selected: ToolData) -> void: selected_tools.append(selected))
+	container.main_card_selected.connect(func(selected: ToolData) -> void: selected_tools.append(selected))
 	container._on_tool_card_pressed(0)
 
-	assert_eq(container.selected_index, 0)
 	assert_eq(selected_tools.size(), 1)
 	assert_true(selected_tools[0] == tool_data)
-	assert_eq(card.card_state, GUICardFace.CardState.WAITING)
+	assert_eq(card.card_state, GUICardFace.CardState.NORMAL)

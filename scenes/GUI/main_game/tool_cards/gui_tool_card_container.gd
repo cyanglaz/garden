@@ -107,17 +107,17 @@ func play_card_error_shake_animation(tool_data:ToolData) -> void:
 	card.play_error_shake_animation()
 	Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 
-func select_main_card(tool_data:ToolData) -> void:
+func select_main_card(tool_data:ToolData) -> bool:
 	# Select a main card from hand.
 	var selected_card:GUIToolCardButton = find_card(tool_data)
 	if tool_data.get_final_energy_cost() < 0:
 		selected_card.play_error_shake_animation()
 		Events.request_show_warning.emit(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
-		return
+		return false
 	if card_use_limit_reached:
 		selected_card.play_error_shake_animation()
 		Events.request_show_warning.emit(WarningManager.WarningType.CARD_USE_LIMIT_REACHED)
-		return
+		return false
 	
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	for i in _container.get_children().size():
@@ -125,9 +125,11 @@ func select_main_card(tool_data:ToolData) -> void:
 		gui_card.position = positions[i]
 	if selected_card.resource_sufficient:
 		_handle_selected_card(selected_card)
+		return true
 	else:
 		selected_card.play_error_shake_animation()
 		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
+		return false
 
 #region animation
 
@@ -199,16 +201,14 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 		result.append(target_position)
 	#result.reverse() # First card is at the end of the array.
 	for i in result.size():
-		if _container.get_child_count() < i + 1:
-			continue
-		var gui_card:GUIToolCardButton = _container.get_child(i)
-		if !gui_card:
-			continue
-		if gui_card.card_state == GUICardFace.CardState.SELECTED || gui_card.card_state == GUICardFace.CardState.WAITING:
-			if result.size() > i:
-				result[i+1].x += 1 - card_space # Push RIGHT cards 4 pixels right
-			if i > 0:
-				result[i-1].x -= 1 - card_space # Push LEFT cards 4 pixels left
+		if _container.get_child_count() > i + 1 && i < result.size():
+			var right_card:GUIToolCardButton = _container.get_child(i + 1)
+			if right_card.card_state == GUICardFace.CardState.SELECTED || right_card.card_state == GUICardFace.CardState.WAITING:
+				result[i + 1].x += (1 - card_space) # Push left cards 4 pixels left
+		if i > 0 && _container.get_child_count() > i - 1:
+			var left_card:GUIToolCardButton = _container.get_child(i - 1)
+			if left_card.card_state == GUICardFace.CardState.SELECTED || left_card.card_state == GUICardFace.CardState.WAITING:
+				result[i - 1].x -= (1 - card_space) # Push right cards 4 pixels right
 	return result
 
 #region private

@@ -94,7 +94,7 @@ func test_apply_weather_actions_noop_when_empty() -> void:
 	container.weather_abilities = []
 
 	var capture := _capture_queue_requests()
-	await container.apply_weather_actions()
+	container.apply_weather_actions()
 	_disconnect_capture(capture)
 
 	assert_eq(capture.requests.size(), 0)
@@ -125,13 +125,13 @@ func test_apply_weather_actions_emits_queue_requests_in_desc_field_order() -> vo
 
 	for request: CombatQueueRequest in capture.requests:
 		await request.callback.call(cm)
-		await request.finish_callback.call(cm)
+		assert_false(request.finish_callback.is_valid())
 	_disconnect_capture(capture)
 
 	assert_eq(apply_log, ["plant_f2", "plant_f1", "plant_f0"])
 
 
-func test_apply_weather_actions_waits_until_last_finish_callback() -> void:
+func test_apply_weather_actions_keeps_weather_abilities_after_callbacks() -> void:
 	var container := WeatherAbilityContainer.new()
 	autofree(container)
 	var apply_log: Array = []
@@ -152,14 +152,14 @@ func test_apply_weather_actions_waits_until_last_finish_callback() -> void:
 	assert_eq(capture.requests.size(), 2)
 
 	await capture.requests[0].callback.call(cm)
-	await capture.requests[0].finish_callback.call(cm)
-	assert_eq(container.weather_abilities.size(), 1)
+	assert_false(capture.requests[0].finish_callback.is_valid())
+	assert_eq(container.weather_abilities.size(), 2)
 
 	await capture.requests[1].callback.call(cm)
-	await capture.requests[1].finish_callback.call(cm)
+	assert_false(capture.requests[1].finish_callback.is_valid())
 	_disconnect_capture(capture)
 
-	assert_eq(container.weather_abilities.size(), 0)
+	assert_eq(container.weather_abilities.size(), 2)
 
 
 func test_apply_weather_ability_targets_player_when_field_matches_player_index() -> void:
@@ -210,7 +210,7 @@ func test_apply_weather_ability_targets_plant_when_field_differs() -> void:
 	assert_eq(animation_container.run_calls[0]["target"], expected_target)
 
 
-func test_handle_weather_ability_applied_emits_done_when_last_removed() -> void:
+func test_apply_weather_actions_requests_have_no_finish_callback() -> void:
 	var container := WeatherAbilityContainer.new()
 	autofree(container)
 	var apply_log: Array = []
@@ -219,9 +219,10 @@ func test_handle_weather_ability_applied_emits_done_when_last_removed() -> void:
 	autofree(a0)
 	autofree(a1)
 	container.weather_abilities = [a0, a1]
+	var capture := _capture_queue_requests()
+	container.apply_weather_actions()
+	_disconnect_capture(capture)
 
-	container._handle_weather_ability_applied(a0, null)
-	assert_eq(container.weather_abilities.size(), 1)
-
-	container._handle_weather_ability_applied(a1, null)
-	assert_eq(container.weather_abilities.size(), 0)
+	assert_eq(capture.requests.size(), 2)
+	for request: CombatQueueRequest in capture.requests:
+		assert_false(request.finish_callback.is_valid())
