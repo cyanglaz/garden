@@ -5,6 +5,7 @@ const MENU_SCENE_PATH = "res://scenes/menu/main_menu.tscn"
 
 # GamePlay settings
 @onready var _gui_labeld_slider: GUILabeledSlider = %GUILabeldSlider
+@onready var _show_card_tooltip_label: Label = %ShowCardTooltipLabel
 @onready var _show_card_tooltip_checkbox: GUICheckBoxButton = %ShowCardTooltipCheckbox
 
 # Audio Settings
@@ -24,6 +25,7 @@ const MENU_SCENE_PATH = "res://scenes/menu/main_menu.tscn"
 
 func _ready() -> void:
 	_options_label.text = Util.get_localized_string("OPTIONS")
+	_show_card_tooltip_label.text = Util.get_localized_string("SHOW_CARD_TOOLTIP")
 	_master_audio.value_changed.connect(_on_audio_value_changed.bind(PlayerSettings.AudioBus.MASTER))
 	_music_audio.value_changed.connect(_on_audio_value_changed.bind(PlayerSettings.AudioBus.MUSIC))
 	_sfx_audio.value_changed.connect(_on_audio_value_changed.bind(PlayerSettings.AudioBus.SFX))

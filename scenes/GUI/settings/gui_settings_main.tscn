@@ -141,6 +141,11 @@ value_range = Vector2i(0, 2)
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/GamePlay" unique_id=1849087443]
 layout_mode = 2
 
+[node name="ShowCardTooltipLabel" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/GamePlay/HBoxContainer" unique_id=683809720]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD"
+
 [node name="ShowCardTooltipCheckbox" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/GamePlay/HBoxContainer" unique_id=1039039341 instance=ExtResource("8_2vaev")]
 unique_name_in_owner = true
 layout_mode = 2
