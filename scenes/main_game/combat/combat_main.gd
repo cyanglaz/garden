@@ -38,7 +38,7 @@ var _owned_trinkets:Array
 
 var win_flow_started:bool = false
 var is_mid_turn:bool = false: set = _set_is_mid_turn
-var win:bool = false
+var level_completed:bool = false
 
 # From main_game:
 var max_energy := 3
@@ -239,6 +239,7 @@ func _win() -> void:
 	await Util.create_scaled_timer(WIN_PAUSE_TIME).timeout
 	if _chapter == MainGame.NUMBER_OF_CHAPTERS - 1 && _combat.combat_type == CombatData.CombatType.BOSS:
 		beat_final_boss.emit()
+		level_completed = true
 		return
 	weather_main.level_end_stop()
 	session_summary.total_days += day_manager.day
@@ -251,7 +252,7 @@ func _queue_show_reward() -> void:
 		owned_trinket_ids.append(trinket.id)
 	var request = CombatQueueRequest.new()
 	request.callback = func(_cm: CombatMain) -> void:
-		win = true
+		level_completed = true
 		gui.animate_show_reward_main(_combat, owned_trinket_ids)
 	Events.request_combat_queue_push.emit(request)
 
@@ -431,7 +432,7 @@ func _on_request_modify_hand_cards(callable:Callable) -> void:
 	gui.toggle_all_ui(true)
 
 func _on_request_combat_queue_push(request) -> void:
-	if win:
+	if level_completed:
 		return
 	combat_queue_manager.push_request(request)
 
