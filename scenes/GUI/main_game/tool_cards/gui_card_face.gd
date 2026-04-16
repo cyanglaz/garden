@@ -110,12 +110,12 @@ func play_error_shake_animation() -> void:
 
 func play_use_animation() -> void:
 	has_outline = true #has_outline is reset when card is discarded.
-	_overlay.hide()
 	z_index = 1
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(self, "position", Vector2.UP * IN_USE_OFFSET, IN_USE_ANIMATION_DURATION).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.finished.connect(func() -> void:
 		z_index = 0
+		has_outline = false
 	)
 
 func animate_flip(on:bool) -> void:
