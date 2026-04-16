@@ -155,18 +155,18 @@ func test_end_turn_sequence_enqueues_pipeline_and_cleanup_schedules_start_turn()
 	cm._end_turn()
 	assert_eq(capture.requests.size(), 3)
 
-	var discard_request: CombatQueueRequest = capture.requests[0]
-	var night_fall_request: CombatQueueRequest = capture.requests[1]
-	var cleanup_request: CombatQueueRequest = capture.requests[2]
-	assert_true(discard_request.callback.is_valid())
+	var night_fall_request: CombatQueueRequest = capture.requests[0]
+	var discard_all_cards_request: CombatQueueRequest = capture.requests[1]
+	var end_turn_cleanup_request: CombatQueueRequest = capture.requests[2]
 	assert_true(night_fall_request.callback.is_valid())
-	assert_true(cleanup_request.callback.is_valid())
-	assert_true(cleanup_request.finish_callback.is_valid())
+	assert_true(discard_all_cards_request.callback.is_valid())
+	assert_true(end_turn_cleanup_request.callback.is_valid())
+	assert_true(end_turn_cleanup_request.finish_callback.is_valid())
 
-	await discard_request.callback.call(cm)
 	await night_fall_request.callback.call(cm)
-	await cleanup_request.callback.call(cm)
-	await cleanup_request.finish_callback.call(cm)
+	await discard_all_cards_request.callback.call(cm)
+	await end_turn_cleanup_request.callback.call(cm)
+	await end_turn_cleanup_request.finish_callback.call(cm)
 	_disconnect_capture(capture)
 
 	assert_false(cm.is_mid_turn)
