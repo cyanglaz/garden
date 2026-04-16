@@ -115,7 +115,6 @@ func play_use_animation() -> void:
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(self, "position", Vector2.UP * IN_USE_OFFSET, IN_USE_ANIMATION_DURATION).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.finished.connect(func() -> void:
-		_overlay.show()
 		z_index = 0
 	)
 

@@ -24,6 +24,7 @@ var _secondary_card_selection_main_card:GUIToolCardButton = null
 var _secondary_card_selection_candidates:Array = []
 var _selected_secondary_cards:Array[GUIToolCardButton] = []
 var _tool_card_interaction_enabled:bool = true
+var _last_selected_main_card_index:int = -1
 
 func _ready() -> void:
 	_card_size = GUIToolCardButton.SIZE.x
@@ -33,6 +34,7 @@ func setup(draw_box_button:GUIDeckButton, discard_box_button:GUIDeckButton) -> v
 	_gui_tool_card_animation_container.setup(self, draw_box_button, discard_box_button)
 	
 func clear_selection() -> void:
+	_last_selected_main_card_index = -1
 	_clear_secondary_card_selection()
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 	Events.request_hide_warning.emit(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
@@ -119,6 +121,7 @@ func select_main_card(tool_data:ToolData) -> bool:
 		Events.request_show_warning.emit(WarningManager.WarningType.CARD_USE_LIMIT_REACHED)
 		return false
 	
+	_last_selected_main_card_index = selected_card.hand_index
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	for i in _container.get_children().size():
 		var gui_card = _container.get_child(i)
@@ -127,6 +130,7 @@ func select_main_card(tool_data:ToolData) -> bool:
 		_handle_selected_card(selected_card)
 		return true
 	else:
+		_last_selected_main_card_index = -1
 		selected_card.play_error_shake_animation()
 		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 		return false
@@ -201,14 +205,14 @@ func calculate_default_positions(number_of_cards:int) -> Array[Vector2]:
 		result.append(target_position)
 	#result.reverse() # First card is at the end of the array.
 	for i in result.size():
-		if _container.get_child_count() > i + 1 && i < result.size():
-			var right_card:GUIToolCardButton = _container.get_child(i + 1)
-			if right_card.card_state == GUICardFace.CardState.SELECTED || right_card.card_state == GUICardFace.CardState.WAITING:
-				result[i + 1].x += (1 - card_space) # Push left cards 4 pixels left
-		if i > 0 && _container.get_child_count() > i - 1:
-			var left_card:GUIToolCardButton = _container.get_child(i - 1)
-			if left_card.card_state == GUICardFace.CardState.SELECTED || left_card.card_state == GUICardFace.CardState.WAITING:
-				result[i - 1].x -= (1 - card_space) # Push right cards 4 pixels right
+		if _last_selected_main_card_index >= 0:
+			if card_space < 0.0:
+				var pos = result[i]
+				if i < _last_selected_main_card_index:
+					pos.x -= 1 - card_space # Push left cards 4 pixels left
+				elif i > _last_selected_main_card_index:
+					pos.x += 1 - card_space # Push right cards 4 pixels right
+				result[i] = pos
 	return result
 
 #region private
@@ -313,6 +317,8 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 	_hide_all_card_warnings()
 	var mouse_over_card = _container.get_child(index)
 	if !is_instance_valid(mouse_over_card):
+		return
+	if _last_selected_main_card_index >= 0:
 		return
 	if card_selection_mode:
 		return
