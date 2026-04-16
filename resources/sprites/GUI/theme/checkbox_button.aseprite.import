@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://noteouxh2dta"
+path="res://.godot/imported/checkbox_button.aseprite-7d30835813ee2640e69dbb50bb1db06d.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/theme/checkbox_button.aseprite"
+dest_files=["res://.godot/imported/checkbox_button.aseprite-7d30835813ee2640e69dbb50bb1db06d.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

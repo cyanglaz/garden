@@ -5,7 +5,7 @@ const MENU_SCENE_PATH = "res://scenes/menu/main_menu.tscn"
 
 # GamePlay settings
 @onready var _gui_labeld_slider: GUILabeledSlider = %GUILabeldSlider
-@onready var _show_card_tooltip_toggle: GUIBasicToggleButton = %ShowCardTooltipToggle
+@onready var _show_card_tooltip_checkbox: GUICheckBoxButton = %ShowCardTooltipCheckbox
 
 # Audio Settings
 @onready var _master_audio: GUIAudioSettingSlider = %MasterAudio
@@ -32,7 +32,7 @@ func _ready() -> void:
 	_back_button.pressed.connect(_on_back_button_up)
 	_gui_tabbar.tab_selected.connect(_on_gui_tabbar_tab_selected)
 	_gui_labeld_slider.value_changed.connect(_on_game_speed_value_changed)
-	_show_card_tooltip_toggle.toggled.connect(_on_show_card_tooltip_toggled)
+	_show_card_tooltip_checkbox.checked.connect(_on_show_card_tooltip_checkbox_checked)
 	PlayerSettings.setting_loaded.connect(_reset_ui)
 	_reset_ui()
 
@@ -53,13 +53,13 @@ func _reset_ui() -> void:
 	_music_audio.reset_slider_value()
 	_sfx_audio.reset_slider_value()
 	_gui_labeld_slider.set_slider_value_no_signal(PlayerSettings.setting_data.game_speed)
-	_show_card_tooltip_toggle.on = PlayerSettings.setting_data.show_card_tooltip
-	_show_card_tooltip_toggle._set_button_state(_show_card_tooltip_toggle.button_state)
+	_show_card_tooltip_checkbox.on = PlayerSettings.setting_data.show_card_tooltip
+	_show_card_tooltip_checkbox._set_button_state(_show_card_tooltip_checkbox.button_state)
 
 func _on_game_speed_value_changed(value: int) -> void:
 	PlayerSettings.update_game_speed(value)
 
-func _on_show_card_tooltip_toggled(on: bool) -> void:
+func _on_show_card_tooltip_checkbox_checked(on: bool) -> void:
 	PlayerSettings.update_show_card_tooltip(on)
 
 func _on_audio_value_changed(value: float, bus: PlayerSettings.AudioBus) -> void:
