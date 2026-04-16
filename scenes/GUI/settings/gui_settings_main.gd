@@ -56,7 +56,7 @@ func _reset_ui() -> void:
 	_sfx_audio.reset_slider_value()
 	_gui_labeld_slider.set_slider_value_no_signal(PlayerSettings.setting_data.game_speed)
 	_show_card_tooltip_checkbox.on = PlayerSettings.setting_data.show_card_tooltip
-	_show_card_tooltip_checkbox._set_button_state(_show_card_tooltip_checkbox.button_state)
+	_show_card_tooltip_checkbox.button_state = _show_card_tooltip_checkbox.button_state
 
 func _on_game_speed_value_changed(value: int) -> void:
 	PlayerSettings.update_game_speed(value)

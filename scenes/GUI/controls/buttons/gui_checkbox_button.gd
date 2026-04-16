@@ -30,7 +30,7 @@ func _set_button_state(val:ButtonState) -> void:
 		ButtonState.DISABLED:
 			(texture_rect.texture as AtlasTexture).region.position = Vector2(0, SIZE.y*2)
 		ButtonState.SELECTED:
-			assert(false, "SELECTED state not supported for check button")
+			(texture_rect.texture as AtlasTexture).region.position = Vector2(0, position_y)
 
 func _on_checked() -> void:
 	on = !on

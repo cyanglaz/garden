@@ -199,8 +199,12 @@ func _on_mouse_entered() -> void:
 	await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
 	if is_queued_for_deletion():
 		return
-	if mouse_in && PlayerSettings.setting_data.show_card_tooltip:
+	if is_mouse_hover_secondary_tooltip_enabled():
 		toggle_tooltip(true)
+
+
+func is_mouse_hover_secondary_tooltip_enabled() -> bool:
+	return mouse_in && PlayerSettings.setting_data.show_card_tooltip
 
 func _on_mouse_exited() -> void:
 	if card_state == GUICardFace.CardState.HIGHLIGHTED:
