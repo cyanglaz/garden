@@ -36,7 +36,7 @@ var _tool_application_error_timers:Dictionary = {}
 var _max_hand_warning_timer:SceneTreeTimer = null
 var _owned_trinkets:Array
 
-var is_finished:bool = false
+var win_flow_started:bool = false
 var is_mid_turn:bool = false: set = _set_is_mid_turn
 
 # From main_game:
@@ -229,8 +229,9 @@ func _queue_discard_all_cards(exclude_handy:bool) -> void:
 	Events.request_combat_queue_push.emit(request)
 
 func _win() -> void:
-	if is_finished:
+	if win_flow_started:
 		return
+	win_flow_started = true
 	gui.permanently_lock_all_ui()
 	_fade_music(false)
 	await player.player_upgrades_manager.handle_combat_end_hook(self)
@@ -238,14 +239,19 @@ func _win() -> void:
 	if _chapter == MainGame.NUMBER_OF_CHAPTERS - 1 && _combat.combat_type == CombatData.CombatType.BOSS:
 		beat_final_boss.emit()
 		return
-	_queue_discard_all_cards(false)
 	weather_main.level_end_stop()
-	is_finished = true
 	session_summary.total_days += day_manager.day
+	_queue_discard_all_cards(false)
+	_queue_show_reward()
+
+func _queue_show_reward() -> void:
 	var owned_trinket_ids: Array[String] = []
 	for trinket: TrinketData in _owned_trinkets:
 		owned_trinket_ids.append(trinket.id)
-	gui.animate_show_reward_main(_combat, owned_trinket_ids) 
+	var request = CombatQueueRequest.new()
+	request.callback = func(_cm: CombatMain) -> void:
+		gui.animate_show_reward_main(_combat, owned_trinket_ids)
+	Events.request_combat_queue_push.emit(request)
 
 func _clear_tool_selection() -> void:
 	tool_manager.clear_tool_selection()
@@ -363,6 +369,8 @@ func _on_tool_application_error_timer_timeout(id:String) -> void:
 	_hide_custom_error(id)
 
 func _on_tool_application_bailed(tool_data:ToolData) -> void:
+	if !tool_data:
+		return
 	gui.gui_tool_card_container.set_card_state(tool_data, GUICardFace.CardState.NORMAL)
 
 func _on_max_hand_size_reached() -> void:
@@ -421,8 +429,6 @@ func _on_request_modify_hand_cards(callable:Callable) -> void:
 	gui.toggle_all_ui(true)
 
 func _on_request_combat_queue_push(request) -> void:
-	if is_finished:
-		return
 	combat_queue_manager.push_request(request)
 
 func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
