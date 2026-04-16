@@ -38,6 +38,7 @@ var _owned_trinkets:Array
 
 var win_flow_started:bool = false
 var is_mid_turn:bool = false: set = _set_is_mid_turn
+var win:bool = false
 
 # From main_game:
 var max_energy := 3
@@ -250,6 +251,7 @@ func _queue_show_reward() -> void:
 		owned_trinket_ids.append(trinket.id)
 	var request = CombatQueueRequest.new()
 	request.callback = func(_cm: CombatMain) -> void:
+		win = true
 		gui.animate_show_reward_main(_combat, owned_trinket_ids)
 	Events.request_combat_queue_push.emit(request)
 
@@ -429,6 +431,8 @@ func _on_request_modify_hand_cards(callable:Callable) -> void:
 	gui.toggle_all_ui(true)
 
 func _on_request_combat_queue_push(request) -> void:
+	if win:
+		return
 	combat_queue_manager.push_request(request)
 
 func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
