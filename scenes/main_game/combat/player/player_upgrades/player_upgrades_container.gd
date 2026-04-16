@@ -27,8 +27,6 @@ var _stack_update_hook_queue:Array = []
 var _current_stack_update_hook_index:int = 0
 var _player_move_hook_queue:Array = []
 var _current_player_move_hook_index:int = 0
-var _end_turn_hook_queue:Array = []
-var _current_end_turn_hook_index:int = 0
 var _hand_updated_hook_queue:Array = []
 var _current_hand_updated_hook_index:int = 0
 var _plant_bloom_hook_queue:Array = []
@@ -267,21 +265,13 @@ func toggle_ui_buttons(on:bool) -> void:
 	for player_upgrade:PlayerUpgrade in get_all_player_upgrades():
 		player_upgrade.toggle_ui_buttons(on)
 
-func handle_end_turn_hook(combat_main:CombatMain) -> void:
+func queue_handle_end_turn_hooks(combat_main:CombatMain) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()
-	_end_turn_hook_queue = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
+	var player_upgrades:Array = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
 		return player_upgrade.has_end_turn_hook(combat_main)
 	)
-	_current_end_turn_hook_index = 0
-	await _handle_next_end_turn_hook(combat_main)
-
-func _handle_next_end_turn_hook(combat_main:CombatMain) -> void:
-	if _current_end_turn_hook_index >= _end_turn_hook_queue.size():
-		return
-	var player_upgrade:PlayerUpgrade = _end_turn_hook_queue[_current_end_turn_hook_index]
-	await player_upgrade.handle_end_turn_hook(combat_main)
-	_current_end_turn_hook_index += 1
-	await _handle_next_end_turn_hook(combat_main)
+	for player_upgrade in player_upgrades:
+		player_upgrade.queue_end_turn_hook()
 
 func handle_start_turn_hook(combat_main:CombatMain) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()

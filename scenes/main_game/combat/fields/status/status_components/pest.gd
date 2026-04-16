@@ -37,7 +37,6 @@ func _physics_process(delta: float) -> void:
 	
 	# Update position
 	position = _curve.sample_baked(_path_progress)
-	#print(position)
 	
 	# Update rotation (look ahead)
 	var look_ahead_dist = 5.0 
@@ -79,7 +78,6 @@ func _generate_path() -> void:
 			attempts += 1
 			
 		points.append(p)
-		#print(p)
 	
 	# Calculate controls and add points (Catmull-Rom splines)
 	for i in range(num_points):

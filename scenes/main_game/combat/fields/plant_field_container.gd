@@ -38,8 +38,14 @@ func setup_with_plants(plant_datas:Array) -> void:
 	setup_fields()
 
 func trigger_end_turn_hooks(combat_main:CombatMain) -> void:
-	for plant:Plant in plants:
-		await plant.handle_end_turn_hook(combat_main)
+	var plants_trigger_order:Array = plants.duplicate()
+	plants_trigger_order.reverse()
+	for plant:Plant in plants_trigger_order:
+		plant.handle_end_turn_hook(combat_main)
+	for plant:Plant in plants_trigger_order:
+		var request = CombatQueueRequest.new()
+		request.callback = func(_cm:CombatMain) -> void: plant.handle_turn_end()
+		Events.request_combat_queue_push.emit(request)
 
 func trigger_start_turn_hooks(combat_main:CombatMain) -> void:
 	var plants_in_order:Array = plants.duplicate()
@@ -54,10 +60,6 @@ func trigger_tool_application_hook(combat_main:CombatMain) -> void:
 func trigger_tool_discard_hook(count:int, combat_main:CombatMain) -> void:
 	for plant:Plant in plants:
 		await plant.handle_tool_discard_hook(count, combat_main)
-	
-func handle_turn_end() -> void:
-	for plant:Plant in plants:
-		plant.handle_turn_end()
 	
 func get_plant(index:int) -> Plant:
 	if plants.size() <= index:

@@ -19,7 +19,6 @@ func setup(combat_main: CombatMain) -> void:
 func get_queue_size() -> int:
 	return _queue.size()
 
-
 func is_queue_busy() -> bool:
 	return _processing
 
@@ -60,6 +59,9 @@ func push_request(request) -> void:
 	item.unique_id = request.unique_id
 	item.only_when_empty = request.only_when_empty
 	push_items(request.front, [item])
+
+func has_request_by_unique_id(unique_id: String) -> bool:
+	return _queued_unique_ids.has(unique_id)
 
 func _ensure_draining() -> void:
 	if _processing:

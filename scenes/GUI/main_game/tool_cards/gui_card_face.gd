@@ -13,7 +13,7 @@ enum CardState {
 	NORMAL,
 	HIGHLIGHTED,
 	SELECTED,
-	UNSELECTED,
+	INELIGIBLE,
 	WAITING,
 }
 
@@ -110,12 +110,10 @@ func play_error_shake_animation() -> void:
 
 func play_use_animation() -> void:
 	has_outline = true #has_outline is reset when card is discarded.
-	_overlay.hide()
 	z_index = 1
 	var tween := Util.create_scaled_tween(self)
 	tween.tween_property(self, "position", Vector2.UP * IN_USE_OFFSET, IN_USE_ANIMATION_DURATION).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.finished.connect(func() -> void:
-		_overlay.show()
 		z_index = 0
 	)
 
@@ -192,12 +190,12 @@ func _set_card_state(value:CardState) -> void:
 			has_outline = true
 			_overlay.hide()
 			z_index = 1
-		CardState.UNSELECTED:
+		CardState.INELIGIBLE:
 			position = Vector2.ZERO
 			has_outline = false
 			_overlay.show()
 			z_index = 0
-			_default_state = CardState.UNSELECTED
+			_default_state = CardState.INELIGIBLE
 		CardState.WAITING:
 			position = Vector2.UP * WAITING_OFFSET
 			has_outline = true

@@ -65,7 +65,7 @@ func handle_start_turn_hook(combat_main:CombatMain) -> void:
 	trigger_ability(Plant.AbilityType.START_TURN, combat_main)
 
 func handle_end_turn_hook(combat_main:CombatMain) -> void:
-	await field_status_container.handle_end_turn_hook(combat_main, self)
+	field_status_container.handle_end_turn_hook(self)
 	trigger_ability(Plant.AbilityType.END_TURN, combat_main)
 
 func apply_weather_actions(weather_data:WeatherData, combat_main:CombatMain) -> void:

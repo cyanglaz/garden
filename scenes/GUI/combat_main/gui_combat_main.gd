@@ -2,7 +2,7 @@ class_name GUICombatMain
 extends CanvasLayer
 
 signal end_turn_button_pressed()
-signal tool_selected(tool_data:ToolData)
+signal main_card_selected(tool_data:ToolData)
 signal mouse_exited_card(tool_data:ToolData)
 signal reward_finished()
 signal ui_lock_toggled(on:bool)
@@ -25,7 +25,7 @@ var _ui_perm_lock := false
 
 func _ready() -> void:
 	end_turn_button.pressed.connect(func() -> void: end_turn_button_pressed.emit())
-	gui_tool_card_container.tool_selected.connect(func(tool_data:ToolData) -> void: tool_selected.emit(tool_data))
+	gui_tool_card_container.main_card_selected.connect(func(tool_data:ToolData) -> void: main_card_selected.emit(tool_data))
 	gui_tool_card_container.mouse_exited_card.connect(func(tool_data:ToolData) -> void: mouse_exited_card.emit(tool_data))
 	gui_reward_main.reward_finished.connect(func() -> void: reward_finished.emit())
 	gui_tool_card_container.setup.call_deferred(gui_draw_deck_button, gui_discard_deck_button)
