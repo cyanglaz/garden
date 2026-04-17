@@ -93,17 +93,12 @@ func _resolve_front_group(items: Array) -> String:
 	return front_group
 
 func _front_group_insert_index(front_group: String) -> int:
-	var index := _queue.size() - 1
-	while index >= 0:
-		var queue_item := _queue[index] as CombatQueueItem
+	for i in range(_queue.size() - 1, -1, -1):
+		var queue_item := _queue[i] as CombatQueueItem
 		assert(queue_item, "All items in the queue must be CombatQueueItem.")
 		if queue_item.front_group == front_group:
-			index += 1
-			break
-		if index == 0:
-			break
-		index -= 1
-	return index
+			return i + 1
+	return 0
 
 func _drain_queue() -> void:
 	_processing = true
