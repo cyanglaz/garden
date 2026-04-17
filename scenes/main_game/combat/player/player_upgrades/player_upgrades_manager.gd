@@ -66,13 +66,13 @@ func toggle_ui_buttons(on:bool) -> void:
 	for container in player_upgrade_containers:
 		container.toggle_ui_buttons(on)
 
-func queue_handle_end_turn_hooks(combat_main:CombatMain) -> void:
+func queue_end_turn_hooks(combat_main:CombatMain) -> void:
 	for container in player_upgrade_containers:
-		container.queue_handle_end_turn_hooks(combat_main)
+		container.queue_end_turn_hooks(combat_main)
 
-func handle_start_turn_hook(combat_main:CombatMain) -> void:
+func queue_start_turn_hooks(combat_main:CombatMain) -> void:
 	for container in player_upgrade_containers:
-		container.handle_start_turn_hook(combat_main)
+		container.queue_start_turn_hooks(combat_main)
 
 func handle_hand_updated_hook(combat_main:CombatMain) -> void:
 	for container in player_upgrade_containers:
@@ -89,7 +89,7 @@ func handle_damage_taken_hook(combat_main:CombatMain, damage:int) -> void:
 func handle_hand_size_hook(combat_main: CombatMain) -> int:
 	var diff := 0
 	for container in player_upgrade_containers:
-		diff += await container.handle_hand_size_hook(combat_main)
+		diff += container.handle_hand_size_hook(combat_main)
 	return diff
 
 func handle_combat_end_hook(combat_main:CombatMain) -> void:

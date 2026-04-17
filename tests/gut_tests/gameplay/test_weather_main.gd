@@ -5,7 +5,7 @@ class FakeWeatherAbilityContainer extends WeatherAbilityContainer:
 	var apply_calls := 0
 	var clear_calls := 0
 
-	func apply_weather_actions() -> void:
+	func queue_weather_abilities() -> void:
 		apply_calls += 1
 
 	func clear_all_weather_abilities() -> void:
@@ -19,14 +19,14 @@ class FakeWeather extends Weather:
 		stop_calls += 1
 
 
-func test_apply_weather_abilities_delegates_to_ability_container() -> void:
+func test_queue_weather_abilities_delegates_to_ability_container() -> void:
 	var weather_main := WeatherMain.new()
 	autofree(weather_main)
 	var ability_container := FakeWeatherAbilityContainer.new()
 	autofree(ability_container)
 	weather_main._weather_ability_container = ability_container
 
-	weather_main.apply_weather_abilities()
+	weather_main.queue_weather_abilities()
 
 	assert_eq(ability_container.apply_calls, 1)
 

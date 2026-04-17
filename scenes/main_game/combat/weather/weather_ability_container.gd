@@ -31,7 +31,7 @@ func generate_next_weather_abilities(combat_main:CombatMain, turn_index:int) -> 
 		weather_ability.global_position = field_position + Vector2.UP * ABILITY_Y_OFFSET
 	weathers_abilities_updated.emit()
 
-func apply_weather_actions() -> void:
+func queue_weather_abilities() -> void:
 	if weather_abilities.is_empty():
 		return
 	var reversed_weather_abilities:Array = weather_abilities.duplicate()

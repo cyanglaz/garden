@@ -11,11 +11,16 @@ class FakePlant extends Plant:
 		events = p_events
 		delay_seconds = p_delay_seconds
 
-	func handle_end_turn_hook(_combat_main: CombatMain) -> void:
+	func queue_end_turn_abilities(_combat_main: CombatMain) -> void:
 		events.append("start_%s" % marker)
 		if delay_seconds > 0.0:
-			await (Engine.get_main_loop() as SceneTree).create_timer(delay_seconds).timeout
-		events.append("end_%s" % marker)
+			var request := CombatQueueRequest.new()
+			request.callback = func(_cm: CombatMain) -> void:
+				await (Engine.get_main_loop() as SceneTree).create_timer(delay_seconds).timeout
+				events.append("end_%s" % marker)
+			Events.request_combat_queue_push.emit(request)
+		else:
+			events.append("end_%s" % marker)
 
 	func handle_turn_end() -> void:
 		events.append("turn_end_%s" % marker)
@@ -38,7 +43,7 @@ func _disconnect_capture(capture: Dictionary) -> void:
 		Events.request_combat_queue_push.disconnect(callable)
 
 
-func test_trigger_end_turn_hooks_runs_reverse_order() -> void:
+func test_queue_end_turn_abilities_runs_reverse_order() -> void:
 	var field_container := PlantFieldContainer.new()
 	autofree(field_container)
 	var hook_log: Array = []
@@ -51,7 +56,7 @@ func test_trigger_end_turn_hooks_runs_reverse_order() -> void:
 		autofree(plant)
 
 	var capture := _capture_queue_requests()
-	field_container.trigger_end_turn_hooks(null)
+	field_container.queue_end_turn_abilities(null)
 	_disconnect_capture(capture)
 
 	assert_eq(
@@ -72,7 +77,7 @@ func test_trigger_end_turn_hooks_runs_reverse_order() -> void:
 	)
 
 
-func test_trigger_end_turn_hooks_allows_async_overlap_for_hook_execution() -> void:
+func test_queue_end_turn_abilities_defers_delayed_end_through_combat_queue() -> void:
 	var field_container := PlantFieldContainer.new()
 	autofree(field_container)
 	var hook_log: Array = []
@@ -82,7 +87,19 @@ func test_trigger_end_turn_hooks_allows_async_overlap_for_hook_execution() -> vo
 	autofree(p2)
 	field_container.plants = [p1, p2]
 
-	field_container.trigger_end_turn_hooks(null)
-	await (Engine.get_main_loop() as SceneTree).create_timer(0.05).timeout
+	var capture := _capture_queue_requests()
+	field_container.queue_end_turn_abilities(null)
+	_disconnect_capture(capture)
 
+	assert_eq(hook_log, ["start_p2", "start_p1", "end_p1"])
+	assert_eq(capture.requests.size(), 3)
+
+	await capture.requests[0].callback.call(null)
 	assert_eq(hook_log, ["start_p2", "start_p1", "end_p1", "end_p2"])
+
+	capture.requests[1].callback.call(null)
+	capture.requests[2].callback.call(null)
+	assert_eq(
+		hook_log,
+		["start_p2", "start_p1", "end_p1", "end_p2", "turn_end_p2", "turn_end_p1"]
+	)

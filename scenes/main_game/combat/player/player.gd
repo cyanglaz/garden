@@ -39,16 +39,16 @@ func setup(pd:PlayerData, mpi:int, trinket_datas:Array) -> void:
 	player_trinkets_container.setup_with_trinket_datas(trinket_datas)
 	player_upgrades_manager.setup([player_status_container, player_trinkets_container])
 
-func handle_start_turn(combat_main:CombatMain) -> void:
-	player_upgrades_manager.handle_start_turn_hook(combat_main)
+func queue_start_turn_hooks(combat_main:CombatMain) -> void:
+	player_upgrades_manager.queue_start_turn_hooks(combat_main)
 
 func handle_hand_size(combat_main: CombatMain) -> int:
-	return await player_upgrades_manager.handle_hand_size_hook(combat_main)
+	return player_upgrades_manager.handle_hand_size_hook(combat_main)
 
 func queue_handle_turn_end(combat_main:CombatMain) -> void:
 	player_status_container.clear_status_on_turn_end()
 	player_status_container.clear_single_turn_player_upgrades()
-	player_upgrades_manager.queue_handle_end_turn_hooks(combat_main)
+	player_upgrades_manager.queue_end_turn_hooks(combat_main)
 
 func toggle_ui_buttons(on:bool) -> void:
 	if player_upgrades_manager.handle_prevent_movement_hook():
