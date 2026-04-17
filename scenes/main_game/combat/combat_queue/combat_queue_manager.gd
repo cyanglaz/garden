@@ -79,18 +79,13 @@ func _is_idle_empty() -> bool:
 	return !_processing and _queue.is_empty()
 
 func _resolve_front_group(items: Array) -> String:
-	var front_group := ""
-	for item in items:
-		var queue_item := item as CombatQueueItem
-		assert(queue_item, "All items in one push must be CombatQueueItem.")
-		if front_group.is_empty():
-			front_group = queue_item.front_group
-			continue
-		assert(
-			front_group == queue_item.front_group,
-			"All front-grouped items in one push must share the same front_group."
-		)
-	return front_group
+	if items.is_empty():
+		return ""
+	var first_group := (items[0] as CombatQueueItem).front_group
+	for i in range(1, items.size()):
+		var queue_item := items[i] as CombatQueueItem
+		assert(queue_item.front_group == first_group, "All items in one push must share the same front_group.")
+	return first_group
 
 func _front_group_insert_index(front_group: String) -> int:
 	for i in range(_queue.size() - 1, -1, -1):
