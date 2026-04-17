@@ -236,13 +236,24 @@ func _toggle_card_selection_mode(on:bool) -> void:
 	if !card_selection_mode:
 		_secondary_card_selection_candidates.clear()
 	for gui_card:GUIToolCardButton in get_all_cards():
+		var tool_datas_in_card := [gui_card.tool_data]
+		if gui_card.tool_data.back_card:
+			tool_datas_in_card.append(gui_card.tool_data.back_card)
+		if gui_card.tool_data.front_card:
+			tool_datas_in_card.append(gui_card.tool_data.front_card)
 		if card_selection_mode:
 			if gui_card == _secondary_card_selection_main_card:
 				gui_card.card_state = GUICardFace.CardState.SELECTED
-			elif _secondary_card_selection_candidates.has(gui_card.tool_data):
-				gui_card.card_state = GUICardFace.CardState.NORMAL
 			else:
-				gui_card.card_state = GUICardFace.CardState.INELIGIBLE
+				var eligible := false
+				for tool_data in tool_datas_in_card:
+					if _secondary_card_selection_candidates.has(tool_data):
+						eligible = true
+						break
+				if eligible:
+					gui_card.card_state = GUICardFace.CardState.NORMAL
+				else:
+					gui_card.card_state = GUICardFace.CardState.INELIGIBLE
 		else:
 			if gui_card.card_state != GUICardFace.CardState.WAITING && gui_card.card_state != GUICardFace.CardState.SELECTED:
 				gui_card.card_state = GUICardFace.CardState.NORMAL
