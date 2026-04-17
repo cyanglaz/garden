@@ -82,8 +82,7 @@ func _resolve_front_group(items: Array) -> String:
 	var front_group := ""
 	for item in items:
 		var queue_item := item as CombatQueueItem
-		if !queue_item or queue_item.front_group.is_empty():
-			continue
+		assert(queue_item, "All items in one push must be CombatQueueItem.")
 		if front_group.is_empty():
 			front_group = queue_item.front_group
 			continue
@@ -94,12 +93,13 @@ func _resolve_front_group(items: Array) -> String:
 	return front_group
 
 func _front_group_insert_index(front_group: String) -> int:
-	var index := 0
-	while index < _queue.size():
+	var index := _queue.size() - 1
+	while index >= 0:
 		var queue_item := _queue[index] as CombatQueueItem
-		if !queue_item or queue_item.front_group != front_group:
+		assert(queue_item, "All items in the queue must be CombatQueueItem.")
+		if queue_item.front_group == front_group:
 			break
-		index += 1
+		index -= 1
 	return index
 
 func _drain_queue() -> void:
