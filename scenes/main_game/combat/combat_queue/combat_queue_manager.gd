@@ -100,6 +100,8 @@ func _front_group_insert_index(front_group: String) -> int:
 		if queue_item.front_group == front_group:
 			index += 1
 			break
+		if index == 0:
+			break
 		index -= 1
 	return index
 
