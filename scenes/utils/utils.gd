@@ -353,10 +353,6 @@ static func get_id_for_tool_speical(special:ToolData.Special) -> String:
 			id = "handy"
 		ToolData.Special.NIGHTFALL:
 			id = "nightfall"
-		ToolData.Special.FLIP_FRONT:
-			id = "flip_front"
-		ToolData.Special.FLIP_BACK:
-			id = "flip_back"
 		ToolData.Special.REVERSIBLE:
 			id = "reversible"
 		_:
@@ -371,10 +367,6 @@ static func get_special_from_id(id:String) -> ToolData.Special:
 			return ToolData.Special.HANDY
 		"nightfall":
 			return ToolData.Special.NIGHTFALL
-		"flip_front":
-			return ToolData.Special.FLIP_FRONT
-		"flip_back":
-			return ToolData.Special.FLIP_BACK
 		"reversible":
 			return ToolData.Special.REVERSIBLE
 		_:

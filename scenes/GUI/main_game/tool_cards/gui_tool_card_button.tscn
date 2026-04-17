@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://dq8wmq23vtkaj" path="res://scenes/GUI/main_game/tool_cards/gui_card_face.tscn" id="4_a7c0j"]
 [ext_resource type="AudioStream" uid="uid://cg45kycgvgw8u" path="res://resources/sounds/SFX/tool_cards/card_draw_1.wav" id="5_a7c0j"]
 [ext_resource type="AudioStream" uid="uid://cbbnpiubqjoc" path="res://resources/sounds/SFX/tool_cards/card_discard_1.wav" id="6_ckxcp"]
-[ext_resource type="AudioStream" uid="uid://dfqe1nfyr6dse" path="res://resources/sounds/SFX/tool_cards/card_flip_1.wav" id="7_882ho"]
 
 [node name="GUIToolCardButton" type="PanelContainer" unique_id=1450208189]
 custom_minimum_size = Vector2(40, 54)
@@ -25,10 +24,6 @@ mouse_filter = 2
 unique_name_in_owner = true
 layout_mode = 0
 
-[node name="BackFace" parent="Container" unique_id=886205326 instance=ExtResource("4_a7c0j")]
-unique_name_in_owner = true
-layout_mode = 0
-
 [node name="DrawSound" type="AudioStreamPlayer2D" parent="." unique_id=1478629982]
 unique_name_in_owner = true
 stream = ExtResource("5_a7c0j")
@@ -44,11 +39,5 @@ bus = &"SFX"
 [node name="ShuffleSound" type="AudioStreamPlayer2D" parent="." unique_id=225547261]
 unique_name_in_owner = true
 stream = ExtResource("6_ckxcp")
-volume_db = -5.0
-bus = &"SFX"
-
-[node name="FlipSound" type="AudioStreamPlayer2D" parent="." unique_id=1098321730]
-unique_name_in_owner = true
-stream = ExtResource("7_882ho")
 volume_db = -5.0
 bus = &"SFX"

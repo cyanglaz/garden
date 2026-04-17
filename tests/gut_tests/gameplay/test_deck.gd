@@ -2,7 +2,7 @@ extends GutTest
 
 # Tests for Deck – the card pool manager used in combat.
 # Deck is a pure RefCounted with no scene-tree dependencies.
-# Items require get_duplicate() and front_card (ToolData satisfies both).
+# Items require get_duplicate() (ToolData satisfies this).
 
 const FAKE_PATH := "res://fake/test_deck.tres"
 
@@ -75,7 +75,7 @@ func test_draw_more_than_pool_draws_all_available():
 
 func test_shuffle_draw_pool_moves_discard_to_draw():
 	var deck := _make_deck(3)
-	# Manually populate discard_pool (bypass discard() to avoid front_card logic)
+	# Manually populate discard_pool (bypass discard())
 	var item := _make_tool("extra")
 	deck.discard_pool.append(item)
 	var draw_count_before := deck.draw_pool.size()

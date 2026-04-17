@@ -4,7 +4,7 @@
 [ext_resource type="Resource" uid="uid://4dslofp7rfib" path="res://data/player/player_pollinator.tres" id="2_8ywsm"]
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
 [ext_resource type="Script" uid="uid://d4ngj3465rhxa" path="res://data/test_data/main_game_test.gd" id="3_mijjq"]
-[ext_resource type="Resource" uid="uid://jx45l8aypl0j" path="res://data/tools/test_tool/test_tool_empty_bottle_flip.tres" id="5_ldk84"]
+[ext_resource type="Resource" uid="uid://bo08i1pg8s3yg" path="res://data/tools/other/tool_empty_bottle.tres" id="5_ldk84"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="5_r81kp"]
 [ext_resource type="Script" uid="uid://dr261i4fd8jf0" path="res://data/models/trinkets/trinket_data.gd" id="6_fetp2"]
 [ext_resource type="Resource" uid="uid://cle5bi6japsh5" path="res://data/tools/purchasable/tool_refill.tres" id="6_ldk84"]

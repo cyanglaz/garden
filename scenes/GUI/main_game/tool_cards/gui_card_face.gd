@@ -1,7 +1,6 @@
 class_name GUICardFace
 extends PanelContainer
 
-const FLIP_ANIMATION_DURATION := 0.1
 const IN_USE_ANIMATION_DURATION := 0.2
 
 signal special_interacted(special:ToolData.Special)
@@ -47,7 +46,6 @@ var has_outline:bool = false: set = _set_has_outline
 var mouse_disabled:bool = false: set = _set_mouse_disabled
 var tool_data:ToolData: get = _get_tool_data
 var hand_index:int = -1
-var is_front:bool = true
 var _weak_tool_data:WeakRef = weakref(null)
 
 var _in_hand := false
@@ -116,19 +114,6 @@ func play_use_animation() -> void:
 	tween.finished.connect(func() -> void:
 		z_index = 0
 	)
-
-func animate_flip(on:bool) -> void:
-	if on :
-		visible = true
-	var original_pivot_offset_ratio := pivot_offset_ratio
-	pivot_offset_ratio = Vector2.ONE * 0.5
-	var target_x_scale := 1.0 if on else 0.0
-	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(self, "scale:x", target_x_scale, FLIP_ANIMATION_DURATION)
-	await tween.finished
-	pivot_offset_ratio = original_pivot_offset_ratio
-	if !on:
-		visible = false
 
 func _find_card_references() -> Array[String]:
 	var card_references:Array[String] = []

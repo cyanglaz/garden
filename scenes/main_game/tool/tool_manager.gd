@@ -78,9 +78,7 @@ func discard_cards(tools:Array, combat_main:CombatMain) -> void:
 	# Order is important, discard first, then animate
 	for tool_data in tools:
 		tool_data.refresh_for_turn()
-		if tool_data.back_card:
-			tool_data.back_card.refresh_for_turn()
-	tool_deck.discard(tools)
+		tool_deck.discard(tools)
 	await _gui_tool_card_container.animate_discard(tools, combat_main)
 	cards_removed_from_hand.emit([tools], tool_deck.hand)
 
@@ -211,10 +209,7 @@ func _run_tool_stage_finish(combat_main:CombatMain, tool_data:ToolData, stage_co
 	_handle_tool_application_completed(tool_data, combat_main)
 
 func _can_execute_queued_tool(tool_data:ToolData) -> bool:
-	var card_in_hand := [tool_data, tool_data.back_card, tool_data.front_card].any(
-		func(f): return f != null && tool_deck.hand.has(f)
-	)
-	if !card_in_hand:
+	if !tool_deck.hand.has(tool_data):
 		return false
 	if !_gui_tool_card_container:
 		return false

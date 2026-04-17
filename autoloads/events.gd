@@ -73,6 +73,6 @@ signal request_add_trinket_to_collection(trinket_data:TrinketData, from_global_p
 @warning_ignore("unused_signal")
 signal request_combat_queue_push(request:CombatQueueRequest)
 
-# Bind cards
+# Card binding UI (forge / events); result ToolData no longer uses flip pairs.
 @warning_ignore("unused_signal")
 signal bind_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData)

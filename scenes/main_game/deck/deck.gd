@@ -72,8 +72,6 @@ func draw(count:int) -> Array:
 func discard(items:Array) -> void:
 	# Removing from largest index to smallest index to avoid index change during removal.
 	for item:Variant in items:
-		if item.front_card:
-			item = item.front_card
 		discard_pool.append(item)
 		if item == in_use_item:
 			in_use_item = null
@@ -87,8 +85,6 @@ func discard(items:Array) -> void:
 func move_to_draw_pile(items:Array, indexes:Array) -> void:
 	for i in range(items.size()):
 		var item:Variant = items[i]
-		if item.front_card:
-			item = item.front_card
 		var index:int = indexes[i]
 		if item == in_use_item:
 			in_use_item = null
@@ -107,8 +103,6 @@ func use(item:Variant) -> void:
 
 func exhaust(items:Array) -> void:
 	for item:Variant in items:
-		if item.front_card:
-			item = item.front_card
 		if item == in_use_item:
 			in_use_item = null
 		elif hand.has(item):

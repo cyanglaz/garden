@@ -7,10 +7,6 @@ func apply_tool(combat_main:CombatMain, _tool_data:ToolData, secondary_card_data
 		var battery_tool_datas := []
 		if tool_data.id == "solar_battery":
 			battery_tool_datas.append(tool_data)
-		if tool_data.back_card && tool_data.back_card.id == "solar_battery":
-			battery_tool_datas.append(tool_data.back_card)
-		if tool_data.front_card && tool_data.front_card.id == "solar_battery":
-			battery_tool_datas.append(tool_data.front_card)
 		assert(battery_tool_datas.size() > 0, "Recharge can only select solar battery")
 		for battery_tool_data in battery_tool_datas:
 			var light_action_data:ActionData  = battery_tool_data.actions[0]
@@ -23,9 +19,7 @@ func number_of_secondary_cards_to_select() -> int:
 
 func secondary_card_selection_filter() -> Callable:
 	return func(tool_data:ToolData) -> bool:
-		return [tool_data, tool_data.back_card, tool_data.front_card].any(
-			func(f): return f != null && f.id == "solar_battery"
-		)
+		return tool_data.id == "solar_battery"
 
 func get_card_selection_type() -> ActionData.CardSelectionType:
 	return ActionData.CardSelectionType.RESTRICTED

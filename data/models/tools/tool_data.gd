@@ -20,12 +20,10 @@ const COSTS := {
 }
 
 enum Special {
-	COMPOST,
-	HANDY,
-	NIGHTFALL,
-	FLIP_FRONT,
-	FLIP_BACK,
-	REVERSIBLE,
+	COMPOST = 0,
+	HANDY = 1,
+	NIGHTFALL = 2,
+	REVERSIBLE = 5,
 }
 
 enum Type {
@@ -37,16 +35,13 @@ enum SpecialEffect {
 	STASHED, # See Stash Tool Card for more details.
 }
 
-const INTERACTIVE_SPECIALS := [Special.FLIP_FRONT, Special.FLIP_BACK, Special.REVERSIBLE]
+const INTERACTIVE_SPECIALS := [Special.REVERSIBLE]
 
 @export var energy_cost:int = 1
 @export var actions:Array[ActionData]
 @export var rarity:int = 0 # -1: temp cards, 0: common, 1: uncommon, 2: rare
 @export var specials:Array[Special] = []
 @export var type:Type = Type.SKILL
-@export var back_card:ToolData: set = _set_back_card
-
-var front_card:ToolData: get = _get_front_card, set = _set_front_card
 var level_data:Dictionary # Data consists wihtin a level
 var cost:int : get = _get_cost
 var tool_script:ToolScript : get = _get_tool_script
@@ -55,9 +50,7 @@ var level_energy_modifier:int
 var has_tooltip:bool: get = _get_has_tooltip
 var special_effects:Array[SpecialEffect]
 
-var _weak_front_card:WeakRef = weakref(null)
 var _tool_script:ToolScript
-var _bind_existing_back_card:bool = false
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
@@ -74,30 +67,14 @@ func copy(other:ThingData) -> void:
 	special_effects = other_tool.special_effects.duplicate()
 	name_postfix = other_tool.name_postfix
 	_tool_script = null # Refresh tool script on copy
-	if other_tool.back_card:
-		back_card = other_tool.back_card.get_duplicate()
-	else:
-		back_card = null
 
 func refresh_ui(combat_main:CombatMain) -> void:
-	if front_card:
-		front_card.request_refresh.emit(combat_main)
-	if back_card:
-		back_card.request_refresh.emit(combat_main)
 	request_refresh.emit(combat_main)
 
 func refresh_for_turn() -> void:
-	if front_card:
-		front_card.card_face_refresh_for_turn()
-	if back_card:
-		back_card.card_face_refresh_for_turn()
 	card_face_refresh_for_turn()
 
 func refresh_for_level() -> void:
-	if front_card:
-		front_card.card_face_refresh_for_level()
-	if back_card:
-		back_card.card_face_refresh_for_level()
 	card_face_refresh_for_level()
 
 func get_duplicate() -> ToolData:
@@ -105,25 +82,12 @@ func get_duplicate() -> ToolData:
 	dup.copy(self)
 	return dup
 
-## Binds [param face] as this card's back without duplicating. Use when reconnecting in-hand flip pairs (e.g. refill).
-func bind_existing_back_card(face:ToolData) -> void:
-	_bind_existing_back_card = true
-	back_card = face
-
 func remove_single_use_special_effects(combat_main:CombatMain) -> void:
-	if front_card:
-		front_card.card_face_remove_single_use_special_effects()
-	if back_card:
-		back_card.card_face_remove_single_use_special_effects()
 	card_face_remove_single_use_special_effects()
 	refresh_ui(combat_main)
 
 func add_specials(effects:Array[SpecialEffect], combat_main:CombatMain) -> void:
 	special_effects.append_array(effects)
-	if front_card:
-		front_card.special_effects.append_array(effects)
-	if back_card:
-		back_card.special_effects.append_array(effects)
 	refresh_ui(combat_main)
 
 func card_face_refresh_for_turn() -> void:
@@ -199,36 +163,3 @@ func get_raw_description() -> String:
 
 func _get_has_tooltip() -> bool:
 	return !actions.is_empty() || !specials.is_empty()
-
-func _apply_flip_specials_after_back_assigned() -> void:
-	if back_card && !specials.has(Special.FLIP_FRONT):
-		specials.erase(Special.FLIP_BACK)
-		specials.erase(Special.FLIP_FRONT)
-		specials.append(Special.FLIP_FRONT)
-	if back_card:
-		back_card.front_card = self
-
-func _set_back_card(val:ToolData) -> void:
-	if _bind_existing_back_card:
-		_bind_existing_back_card = false
-		if !val:
-			back_card = null
-			return
-		back_card = val
-		_apply_flip_specials_after_back_assigned()
-		return
-	if !val:
-		back_card = null
-		return
-	back_card = val.get_duplicate()
-	_apply_flip_specials_after_back_assigned()
-
-func _set_front_card(val:ToolData) -> void:
-	_weak_front_card = weakref(val)
-	if val && !specials.has(Special.FLIP_BACK):
-		specials.erase(Special.FLIP_FRONT)
-		specials.erase(Special.FLIP_BACK)
-		specials.append(Special.FLIP_BACK)
-
-func _get_front_card() -> ToolData:
-	return _weak_front_card.get_ref()
