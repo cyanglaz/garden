@@ -164,8 +164,8 @@ func _start_turn() -> void:
 
 func _queue_draw_cards() -> void:
 	var request = CombatQueueRequest.new()
-	request.callback = func(_cm: CombatMain) -> void: 
-		var draw_count := hand_size + player.handle_hand_size(self)
+	request.callback = func(cm: CombatMain) -> void: 
+		var draw_count := hand_size + player.handle_hand_size(cm)
 		await draw_cards(draw_count)
 		is_mid_turn = true
 	Events.request_combat_queue_push.emit(request)
