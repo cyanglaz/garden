@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ToolData" load_steps=6 format=3 uid="uid://bykfky0v5btpx"]
+[gd_resource type="Resource" script_class="ToolData" format=3 uid="uid://bykfky0v5btpx"]
 
 [ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_yo32t"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_3er5i"]
@@ -15,9 +15,15 @@ type = 2
 value = 1
 metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
+[sub_resource type="Resource" id="Resource_3er5i"]
+script = ExtResource("1_yo32t")
+type = 20
+value = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
 [sub_resource type="Resource" id="Resource_623pj"]
 script = ExtResource("2_3er5i")
-actions = Array[ExtResource("1_yo32t")]([SubResource("Resource_yo32t")])
+actions = Array[ExtResource("1_yo32t")]([SubResource("Resource_yo32t"), SubResource("Resource_3er5i")])
 specials = Array[int]([0])
 id = "compost_flip_b"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

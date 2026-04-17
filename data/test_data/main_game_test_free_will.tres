@@ -1,13 +1,14 @@
-[gd_resource type="Resource" script_class="MainGameTest" format=3 uid="uid://cfreewilltest1"]
+[gd_resource type="Resource" script_class="MainGameTest" format=3 uid="uid://mwbnajxuurje"]
 
 [ext_resource type="Script" uid="uid://d4ngj3465rhxa" path="res://data/test_data/main_game_test.gd" id="1_test"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_tdat"]
 [ext_resource type="Script" uid="uid://dr261i4fd8jf0" path="res://data/models/trinkets/trinket_data.gd" id="3_trin"]
-[ext_resource type="Resource" uid="uid://cfreewilltool1" path="res://data/tools/purchasable/tool_free_will.tres" id="4_fw"]
-[ext_resource type="Resource" uid="uid://bilphs4weu3lo" path="res://data/tools/defaults/tool_maneuver.tres" id="5_man"]
+[ext_resource type="Resource" uid="uid://bakfbgim6h2ac" path="res://data/tools/purchasable/tool_ftl.tres" id="3_vqc8j"]
+[ext_resource type="Resource" uid="uid://cmupf4s3t17i" path="res://data/tools/purchasable/tool_free_will.tres" id="4_fw"]
+[ext_resource type="Resource" uid="uid://bykfky0v5btpx" path="res://data/tools/test_tool/test_tool_compost_flip.tres" id="5_sthw0"]
 [ext_resource type="Resource" uid="uid://dr13xwnk1wtam" path="res://data/tools/defaults/tool_sunlight.tres" id="6_sun"]
 
 [resource]
 script = ExtResource("1_test")
-test_tools = Array[ExtResource("2_tdat")]([ExtResource("4_fw"), ExtResource("4_fw"), ExtResource("4_fw"), ExtResource("5_man"), ExtResource("5_man"), ExtResource("5_man"), ExtResource("6_sun"), ExtResource("6_sun"), ExtResource("6_sun")])
+test_tools = Array[ExtResource("2_tdat")]([ExtResource("3_vqc8j"), ExtResource("4_fw"), ExtResource("4_fw"), ExtResource("5_sthw0"), ExtResource("5_sthw0"), ExtResource("5_sthw0"), ExtResource("6_sun"), ExtResource("6_sun"), ExtResource("6_sun")])
 metadata/_custom_type_script = "uid://d4ngj3465rhxa"
