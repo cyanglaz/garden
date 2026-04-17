@@ -42,6 +42,8 @@ const INTERACTIVE_SPECIALS := [Special.REVERSIBLE]
 @export var rarity:int = 0 # -1: temp cards, 0: common, 1: uncommon, 2: rare
 @export var specials:Array[Special] = []
 @export var type:Type = Type.SKILL
+@export var enchant_data:EnchantData = null
+
 var level_data:Dictionary # Data consists wihtin a level
 var cost:int : get = _get_cost
 var tool_script:ToolScript : get = _get_tool_script
@@ -66,6 +68,7 @@ func copy(other:ThingData) -> void:
 	level_energy_modifier = other_tool.level_energy_modifier
 	special_effects = other_tool.special_effects.duplicate()
 	name_postfix = other_tool.name_postfix
+	enchant_data = other_tool.enchant_data.get_duplicate()
 	_tool_script = null # Refresh tool script on copy
 
 func refresh_ui(combat_main:CombatMain) -> void:

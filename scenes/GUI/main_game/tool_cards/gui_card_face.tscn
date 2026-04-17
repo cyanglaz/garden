@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://sc5do4le61oy" path="res://scenes/GUI/main_game/tool_cards/gui_card_face.gd" id="1_uaej8"]
 [ext_resource type="PackedScene" uid="uid://cjwhkrmueycbi" path="res://scenes/GUI/shared/descriptions/shared_description/gui_action_list.tscn" id="2_y8r0o"]
 [ext_resource type="Texture2D" uid="uid://ugtybr3upkmn" path="res://resources/sprites/GUI/backgrounds/tool_card_background.png" id="3_uaej8"]
+[ext_resource type="PackedScene" uid="uid://b8tlya2sut3dl" path="res://scenes/GUI/main_game/actions/gui_general_action.tscn" id="4_uaej8"]
 [ext_resource type="AudioStream" uid="uid://bgyg7vg7fsae6" path="res://resources/sounds/SFX/tool_cards/card_use.wav" id="5_y8r0o"]
 
 [sub_resource type="Shader" id="Shader_y8r0o"]
@@ -271,6 +272,19 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 mouse_filter = 2
+
+[node name="GUIEnchantAction" parent="CardContent" unique_id=42670289 instance=ExtResource("4_uaej8")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -58.0
+offset_top = 11.0
+offset_right = -1.0
+offset_bottom = 22.0
+grow_horizontal = 0
+action_alignment = 2
 
 [node name="InteractiveSpecialContainer" type="VBoxContainer" parent="CardContent" unique_id=1381243577]
 unique_name_in_owner = true

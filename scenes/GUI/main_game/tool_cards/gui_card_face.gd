@@ -37,6 +37,7 @@ const HIGHLIGHTED_OFFSET := 1.0
 @onready var _overlay: NinePatchRect = %Overlay
 @onready var _gui_tool_card_background: GUIToolCardBackground = %GUIToolCardBackground
 @onready var _animating_foreground: GUIToolCardBackground = %AnimatingForeground
+@onready var _gui_enchant_action: GUIGeneralAction = %GUIEnchantAction
 
 var card_state:CardState = CardState.NORMAL: set = _set_card_state
 var resource_sufficient := false: set = _set_resource_sufficient
@@ -80,6 +81,7 @@ func update_with_tool_data(td:ToolData, combat_main:CombatMain) -> void:
 		special_icon.special_interacted.connect(_on_special_interacted)
 		special_icon.special_hovered.connect(_on_special_hovered)
 		special_icon.update_with_special(special)
+	_gui_enchant_action.update_with_action_data(td.enchant_data.action_data)
 
 	if !td.request_refresh.is_connected(_on_tool_data_refresh):
 		td.request_refresh.connect(_on_tool_data_refresh)
