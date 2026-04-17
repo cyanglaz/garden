@@ -48,9 +48,6 @@ const INTERACTIVE_SPECIALS := [Special.FLIP_FRONT, Special.FLIP_BACK, Special.RE
 
 var front_card:ToolData: get = _get_front_card, set = _set_front_card
 var level_data:Dictionary # Data consists wihtin a level
-var has_field_action:bool : get = _get_has_field_action
-var need_select_field:bool : get = _get_need_select_field
-var all_fields:bool : get = _get_all_fields
 var cost:int : get = _get_cost
 var tool_script:ToolScript : get = _get_tool_script
 var turn_energy_modifier:int
@@ -70,7 +67,6 @@ func copy(other:ThingData) -> void:
 		actions.append(action.get_duplicate())
 	rarity = other_tool.rarity
 	specials = other_tool.specials.duplicate()
-	need_select_field = other_tool.need_select_field
 	turn_energy_modifier = other_tool.turn_energy_modifier
 	type = other_tool.type
 	level_energy_modifier = other_tool.level_energy_modifier
@@ -190,33 +186,6 @@ func _get_tool_script() -> ToolScript:
 	else:
 		return null
 	
-func _get_has_field_action() -> bool:
-	if type == Type.POWER:
-		return false
-	if actions.is_empty():
-		return tool_script.has_field_action()
-	for action:ActionData in actions:
-		if action.action_category == ActionData.ActionCategory.FIELD:
-			return true
-	return false
-
-func _get_need_select_field() -> bool:
-	if !_get_has_field_action():
-		return false
-	if actions.is_empty():
-		return tool_script.need_select_field()
-	for action:ActionData in actions:
-		if action.action_category == ActionData.ActionCategory.FIELD && !action.specials.has(ActionData.Special.ALL_FIELDS):
-			return true
-	return false
-
-func _get_all_fields() -> bool:
-	if !_get_has_field_action():
-		return false
-	if _get_need_select_field():
-		return false
-	return true
-
 func get_raw_description() -> String:
 	if type == Type.POWER:
 		return MainDatabase.player_status_database.get_data_by_id(id).get_raw_description()

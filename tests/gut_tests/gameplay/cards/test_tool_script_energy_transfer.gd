@@ -45,12 +45,6 @@ func _make_combat_main(plant: FakePlant) -> FakeCombatMain:
 	cm.fake_plant = plant
 	return cm
 
-func test_need_select_field_is_true() -> void:
-	assert_true(_make_script().need_select_field())
-
-func test_has_field_action_is_true() -> void:
-	assert_true(_make_script().has_field_action())
-
 func test_water_becomes_original_light() -> void:
 	var plant := _make_plant(3, 5)
 	var cm := _make_combat_main(plant)

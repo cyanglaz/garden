@@ -18,8 +18,3 @@ func apply_tool(combat_main: CombatMain, _tool_data: ToolData, _secondary_card_d
 	light_action.value = original_water
 
 	await plant.apply_actions([water_action, light_action], combat_main)
-func need_select_field() -> bool:
-	return true
-
-func has_field_action() -> bool:
-	return true

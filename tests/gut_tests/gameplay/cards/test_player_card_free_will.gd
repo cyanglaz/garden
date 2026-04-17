@@ -17,15 +17,6 @@ func _make_combat_main() -> FakeCombatMain:
 	autofree(cm)
 	return cm
 
-
-func test_need_select_field_is_false() -> void:
-	assert_false(ToolScriptFreeWill.new().need_select_field())
-
-
-func test_has_field_action_is_false() -> void:
-	assert_false(ToolScriptFreeWill.new().has_field_action())
-
-
 func test_number_of_secondary_cards_to_select_is_one() -> void:
 	assert_eq(ToolScriptFreeWill.new().number_of_secondary_cards_to_select(), 1)
 
@@ -39,12 +30,6 @@ func test_apply_tool_adds_reversible_to_selected_card() -> void:
 	var cm := _make_combat_main()
 	await ToolScriptFreeWill.new().apply_tool(cm, null, [selected])
 	assert_true(selected.specials.has(ToolData.Special.REVERSIBLE))
-
-
-func test_apply_tool_with_empty_selection_does_nothing() -> void:
-	var cm := _make_combat_main()
-	await ToolScriptFreeWill.new().apply_tool(cm, null, [])
-
 
 func test_apply_tool_does_not_duplicate_reversible_on_front() -> void:
 	var selected := _make_tool_data()

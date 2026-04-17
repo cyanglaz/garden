@@ -19,12 +19,6 @@ func apply_tool(combat_main: CombatMain, _tool_data: ToolData, secondary_card_da
 		selected_card.refresh_ui(combat_main)
 	await Util.await_for_tiny_time()
 
-func need_select_field() -> bool:
-	return false
-
-func has_field_action() -> bool:
-	return false
-
 func number_of_secondary_cards_to_select() -> int:
 	return 1
 

@@ -7,12 +7,6 @@ func apply_tool(combat_main:CombatMain, _tool_data:ToolData, secondary_card_data
 	combat_main.tool_manager.update_tool_card(empty_bottle_tool_data, bottled_water_tool_data)
 	await Util.await_for_tiny_time()
 
-func has_field_action() -> bool:
-	return false
-
-func need_select_field() -> bool:
-	return false
-
 func number_of_secondary_cards_to_select() -> int:
 	return 1
 
