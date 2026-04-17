@@ -22,7 +22,13 @@ func queue_trigger_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> 
 	if not active:
 		return
 	var request = CombatQueueRequest.new()
-	request.front = true
+	match ability_type:
+		Plant.AbilityType.START_TURN:
+			request.front = false
+		Plant.AbilityType.END_TURN:
+			request.front = false
+		Plant.AbilityType.BLOOM:
+			request.front = true
 	request.callback = func(cm:CombatMain) -> void: await _handle_trigger_ability_hook(ability_type, plant, cm)
 	Events.request_combat_queue_push.emit(request)
 

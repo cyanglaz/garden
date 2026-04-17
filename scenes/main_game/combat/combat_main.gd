@@ -157,7 +157,6 @@ func _start_turn() -> void:
 		energy_tracker.setup(max_energy, max_energy)
 	#await gui.apply_boss_actions(GUIBoss.HookType.TURN_START)
 	_queue_draw_cards()
-	is_mid_turn = true
 	player.queue_start_turn_hooks(self)
 	plant_field_container.queue_start_turn_abilities(self)
 	_queue_turn_start_signals()
@@ -168,6 +167,7 @@ func _queue_draw_cards() -> void:
 	request.callback = func(_cm: CombatMain) -> void: 
 		var draw_count := hand_size + player.handle_hand_size(self)
 		await draw_cards(draw_count)
+		is_mid_turn = true
 	Events.request_combat_queue_push.emit(request)
 
 func _queue_turn_start_signals() -> void:
