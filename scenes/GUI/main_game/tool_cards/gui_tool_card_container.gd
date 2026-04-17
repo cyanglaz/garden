@@ -151,12 +151,12 @@ func animate_add_cards_to_hand(hand:Array, tool_datas:Array, from_global_positio
 	await _gui_tool_card_animation_container.animate_add_cards_to_hand(hand, tool_datas, from_global_position, pause, combat_main)
 
 func animate_exhaust(tool_datas:Array, combat_main:CombatMain) -> void:
-	await _gui_tool_card_animation_container.animate_exhaust(tool_datas, combat_main)
 	for tool_data in tool_datas:
 		if tool_data.back_card:
 			mouse_exited_card.emit(tool_data.back_card)
 		if tool_data.front_card:
 			mouse_exited_card.emit(tool_data.front_card)
+	await _gui_tool_card_animation_container.animate_exhaust(tool_datas, combat_main)
 
 func animate_card_error_shake(tool_data:ToolData) -> void:
 	var card:GUIToolCardButton = find_card(tool_data)
@@ -229,7 +229,8 @@ func _get_card_index(tool_data:ToolData) -> int:
 func _toggle_selected_cards(on:bool) -> void:
 	for tool_data in _secondary_card_selection_candidates:
 		var gui_card:GUIToolCardButton = find_card(tool_data)
-		gui_card.mouse_disabled = !on
+		if !gui_card:
+			gui_card.mouse_disabled = !on
 
 func _clear_secondary_card_selection() -> void:
 	_card_selection_container.end_selection()
