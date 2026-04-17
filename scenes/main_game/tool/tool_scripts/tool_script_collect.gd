@@ -17,9 +17,3 @@ func apply_tool(combat_main:CombatMain, _tool_data:ToolData, _secondary_card_dat
 	for i in number_of_cards:
 		cards.append(tool_data.get_duplicate())
 	await combat_main.add_tools_to_hand(cards, from_position, true)
-
-func need_select_field() -> bool:
-	return true
-
-func has_field_action() -> bool:
-	return true

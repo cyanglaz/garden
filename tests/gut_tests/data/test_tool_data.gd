@@ -170,32 +170,6 @@ func test_reverse_does_not_affect_non_push_actions():
 	td.reverse(null)
 	assert_eq(water_action.type, ActionData.ActionType.WATER)
 
-# ----- _get_has_field_action -----
-
-func test_has_field_action_true_when_water_action_present():
-	var td := _make_tool()
-	td.type = ToolData.Type.SKILL
-	td.actions = [_make_action(ActionData.ActionType.WATER)]
-	assert_true(td.has_field_action)
-
-func test_has_field_action_true_when_light_action_present():
-	var td := _make_tool()
-	td.type = ToolData.Type.SKILL
-	td.actions = [_make_action(ActionData.ActionType.LIGHT)]
-	assert_true(td.has_field_action)
-
-func test_has_field_action_false_when_only_player_actions():
-	var td := _make_tool()
-	td.type = ToolData.Type.SKILL
-	td.actions = [_make_action(ActionData.ActionType.ENERGY)]
-	assert_false(td.has_field_action)
-
-func test_has_field_action_false_for_power_type():
-	var td := _make_tool()
-	td.type = ToolData.Type.POWER
-	td.actions = [_make_action(ActionData.ActionType.WATER)]
-	assert_false(td.has_field_action)
-
 # ----- _get_has_tooltip -----
 
 func test_has_tooltip_true_when_actions_exist():

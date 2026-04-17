@@ -58,7 +58,6 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	combat_queue_manager.setup(self)
 	Events.request_combat_queue_push.connect(_on_request_combat_queue_push)
 
-	plant_field_container.field_hovered.connect(_on_field_hovered)
 	plant_field_container.plant_bloom_started.connect(_on_plant_bloom_started)
 	plant_field_container.plant_bloom_completed.connect(_on_plant_bloom_completed)
 	plant_field_container.plant_action_application_completed.connect(_on_plant_action_application_completed)
@@ -326,15 +325,6 @@ func _on_end_turn_button_pressed() -> void:
 	request.callback = func(_cm: CombatMain) -> void: _end_turn()
 	request.unique_id = END_TURN_UNIQUE_ID
 	Events.request_combat_queue_push.emit(request)
-
-func _on_field_hovered(hovered:bool, index:int) -> void:
-	if tool_manager.selected_tool && tool_manager.selected_tool.need_select_field:
-		if hovered:
-			plant_field_container.toggle_plant_selection_indicator(GUIFieldSelectionArrow.IndicatorState.CURRENT, index)
-		else:
-			plant_field_container.toggle_all_plants_selection_indicator(GUIFieldSelectionArrow.IndicatorState.READY)
-	#else:
-	#	plant_field_container.toggle_tooltip_for_plant(index, hovered)
 
 func _on_reward_finished() -> void:
 	if _combat.combat_type == CombatData.CombatType.BOSS:

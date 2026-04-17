@@ -31,5 +31,4 @@ When implement a card, also consider:
    - For cards that utilize a player status, add a player status test.
    - For cards that utilize a tool_script, create a test file at `tests/gut_tests/gameplay/cards/test_player_card_<id>.gd`. 
    - For action only cards, do not add tests.
-8. **An empty aseprite file** Under res://resources/sprites/GUI/icons/resources/, follow the naming convention of icon_<card_id>.aseprite
-9. **Clear the plan doc** after finishing implementation: overwrite `/root/.claude/plans/<xxx>.md` with only the new card's plan content, removing all stale entries from previously implemented cards.
+8. **Clear the plan doc** after finishing implementation: overwrite `/root/.claude/plans/<xxx>.md` with only the new card's plan content, removing all stale entries from previously implemented cards.

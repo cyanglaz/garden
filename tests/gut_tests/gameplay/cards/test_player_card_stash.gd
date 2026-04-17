@@ -30,15 +30,6 @@ func _make_combat_main() -> FakeCombatMain:
 	autofree(cm)
 	return cm
 
-
-func test_need_select_field_is_false() -> void:
-	assert_false(ToolScriptStash.new().need_select_field())
-
-
-func test_has_field_action_is_false() -> void:
-	assert_false(ToolScriptStash.new().has_field_action())
-
-
 func test_number_of_secondary_cards_to_select_is_one() -> void:
 	assert_eq(ToolScriptStash.new().number_of_secondary_cards_to_select(), 1)
 

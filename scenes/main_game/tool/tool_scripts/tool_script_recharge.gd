@@ -10,11 +10,6 @@ func apply_tool(combat_main:CombatMain, _tool_data:ToolData, secondary_card_data
 		light_action_data.modified_x_value = 0
 		tool_data.refresh_ui(combat_main)
 
-func need_select_field() -> bool:
-	return false
-
-func has_field_action() -> bool:
-	return false
 
 func number_of_secondary_cards_to_select() -> int:
 	return 1
