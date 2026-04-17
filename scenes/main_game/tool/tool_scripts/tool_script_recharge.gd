@@ -23,15 +23,9 @@ func number_of_secondary_cards_to_select() -> int:
 
 func secondary_card_selection_filter() -> Callable:
 	return func(tool_data:ToolData) -> bool:
-		var card_faces := [tool_data]
-		if tool_data.back_card:
-			card_faces.append(tool_data.back_card)
-		if tool_data.front_card:
-			card_faces.append(tool_data.front_card)
-		for card_face in card_faces:
-			if card_face.id == "solar_battery":
-				return true
-		return false
+		return [tool_data, tool_data.back_card, tool_data.front_card].any(
+			func(f): return f != null && f.id == "solar_battery"
+		)
 
 func get_card_selection_type() -> ActionData.CardSelectionType:
 	return ActionData.CardSelectionType.RESTRICTED

@@ -245,11 +245,7 @@ func _toggle_card_selection_mode(on:bool) -> void:
 			if gui_card == _secondary_card_selection_main_card:
 				gui_card.card_state = GUICardFace.CardState.SELECTED
 			else:
-				var eligible := false
-				for tool_data in tool_datas_in_card:
-					if _secondary_card_selection_candidates.has(tool_data):
-						eligible = true
-						break
+				var eligible := tool_datas_in_card.any(func(td): return _secondary_card_selection_candidates.has(td))
 				if eligible:
 					gui_card.card_state = GUICardFace.CardState.NORMAL
 				else:

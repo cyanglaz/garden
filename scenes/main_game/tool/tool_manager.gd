@@ -210,13 +210,9 @@ func _run_tool_stage_finish(combat_main:CombatMain, tool_data:ToolData, stage_co
 	_handle_tool_application_completed(tool_data, combat_main)
 
 func _can_execute_queued_tool(tool_data:ToolData) -> bool:
-	var card_in_hand := false
-	if tool_deck.hand.has(tool_data):
-		card_in_hand = true
-	if tool_data.back_card && tool_deck.hand.has(tool_data.back_card):
-		card_in_hand = true
-	if tool_data.front_card && tool_deck.hand.has(tool_data.front_card):
-		card_in_hand = true
+	var card_in_hand := [tool_data, tool_data.back_card, tool_data.front_card].any(
+		func(f): return f != null && tool_deck.hand.has(f)
+	)
 	if !card_in_hand:
 		return false
 	if !_gui_tool_card_container:
