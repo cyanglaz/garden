@@ -24,7 +24,7 @@ func _make_request(
 	unique_id: String = "",
 	finish_callback: Callable = Callable(),
 	only_when_empty: bool = false,
-	front_group: String = ""
+	group: String = ""
 ):
 	var request = CombatQueueRequest.new()
 	request.callback = callback
@@ -32,12 +32,12 @@ func _make_request(
 	request.unique_id = unique_id
 	request.finish_callback = finish_callback
 	request.only_when_empty = only_when_empty
-	request.front_group = front_group
+	request.group = group
 	return request
 
-func _make_front_group_item(callback: Callable, front_group: String) -> CombatQueueItem:
+func _make_group_item(callback: Callable, group: String) -> CombatQueueItem:
 	var item := _make_item(callback)
-	item.front_group = front_group
+	item.group = group
 	return item
 
 
@@ -119,7 +119,7 @@ func test_push_back_after_front_batch_appends_in_order() -> void:
 	await _await_queue_idle(q)
 	assert_eq(order, ["h1", "h2", "tail"])
 
-func test_front_group_requests_run_fifo_before_backlog() -> void:
+func test_grouped_requests_run_fifo_before_backlog() -> void:
 	var cm := _make_combat_main()
 	var q := _make_queue(cm)
 	var order: Array = []
@@ -148,7 +148,7 @@ func test_front_group_requests_run_fifo_before_backlog() -> void:
 	await _await_queue_idle(q)
 	assert_eq(order, ["block_start", "block_end", "bloom_a", "bloom_b", "tail"])
 
-func test_front_group_batch_inserts_before_backlog_preserving_batch_order() -> void:
+func test_grouped_batch_inserts_before_backlog_preserving_batch_order() -> void:
 	var cm := _make_combat_main()
 	var q := _make_queue(cm)
 	var order: Array = []
@@ -157,11 +157,11 @@ func test_front_group_batch_inserts_before_backlog_preserving_batch_order() -> v
 	q.push_items(
 		true,
 		[
-			_make_front_group_item(
+			_make_group_item(
 				func(_c: CombatMain) -> void: order.append("h1"),
 				"bloom"
 			),
-			_make_front_group_item(
+			_make_group_item(
 				func(_c: CombatMain) -> void: order.append("h2"),
 				"bloom"
 			),
@@ -169,6 +169,25 @@ func test_front_group_batch_inserts_before_backlog_preserving_batch_order() -> v
 	)
 	await _await_queue_idle(q)
 	assert_eq(order, ["block_start", "block_end", "h1", "h2", "tail"])
+
+func test_grouped_request_falls_back_to_back_when_group_missing_and_front_false() -> void:
+	var cm := _make_combat_main()
+	var q := _make_queue(cm)
+	var order: Array = []
+	q.push_items(false, [_make_item(func(_c: CombatMain) -> void: await _blocking_slice(order))])
+	q.push_request(_make_request(func(_c: CombatMain) -> void: order.append("tail")))
+	q.push_request(
+		_make_request(
+			func(_c: CombatMain) -> void: order.append("grouped"),
+			false,
+			"",
+			Callable(),
+			false,
+			"bloom"
+		)
+	)
+	await _await_queue_idle(q)
+	assert_eq(order, ["block_start", "block_end", "tail", "grouped"])
 
 
 func test_async_callable_completes_before_next_item() -> void:

@@ -35,18 +35,28 @@ func push_items(front: bool, items: Array) -> void:
 		filtered_items.append(item)
 	if filtered_items.is_empty():
 		return
-	var front_group := _resolve_front_group(filtered_items)
-	if !front_group.is_empty():
-		var insert_index := _front_group_insert_index(front_group)
-		for item in filtered_items:
-			_queue.insert(insert_index, item)
-			insert_index += 1
+	var group := _resolve_group(filtered_items)
+	if !group.is_empty():
+		var insert_index := _group_insert_index(group)
+		if insert_index == -1:
+			_insert_items_with_front_fallback(front, filtered_items)
+		else:
+			for item in filtered_items:
+				_queue.insert(insert_index, item)
+				insert_index += 1
 	elif front:
 		for i in range(filtered_items.size() - 1, -1, -1):
 			_queue.push_front(filtered_items[i])
 	else:
 		_queue.append_array(filtered_items)
 	_ensure_draining()
+
+func _insert_items_with_front_fallback(front: bool, items: Array) -> void:
+	if front:
+		for i in range(items.size() - 1, -1, -1):
+			_queue.push_front(items[i])
+	else:
+		_queue.append_array(items)
 
 func push_request(request) -> void:
 	if !request:
@@ -64,7 +74,7 @@ func push_request(request) -> void:
 	item.finish_callback = request.finish_callback
 	item.unique_id = request.unique_id
 	item.only_when_empty = request.only_when_empty
-	item.front_group = request.front_group
+	item.group = request.group
 	push_items(request.front, [item])
 
 func has_request_by_unique_id(unique_id: String) -> bool:
@@ -78,22 +88,22 @@ func _ensure_draining() -> void:
 func _is_idle_empty() -> bool:
 	return !_processing and _queue.is_empty()
 
-func _resolve_front_group(items: Array) -> String:
+func _resolve_group(items: Array) -> String:
 	if items.is_empty():
 		return ""
-	var first_group := (items[0] as CombatQueueItem).front_group
+	var group_name:String = (items[0] as CombatQueueItem).group
 	for i in range(1, items.size()):
 		var queue_item := items[i] as CombatQueueItem
-		assert(queue_item.front_group == first_group, "All items in one push must share the same front_group.")
-	return first_group
+		assert(queue_item.group == group_name, "All items in one push must share the same front_group.")
+	return group_name
 
-func _front_group_insert_index(front_group: String) -> int:
+func _group_insert_index(group: String) -> int:
 	for i in range(_queue.size() - 1, -1, -1):
 		var queue_item := _queue[i] as CombatQueueItem
 		assert(queue_item, "All items in the queue must be CombatQueueItem.")
-		if queue_item.front_group == front_group:
+		if queue_item.group == group:
 			return i + 1
-	return 0
+	return -1
 
 func _drain_queue() -> void:
 	_processing = true
