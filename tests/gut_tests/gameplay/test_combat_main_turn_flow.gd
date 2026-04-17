@@ -24,7 +24,7 @@ class FakeWeatherMain extends WeatherMain:
 	var night_fall_calls := 0
 	var new_day_calls := 0
 
-	func apply_weather_abilities() -> void:
+	func queue_weather_abilities() -> void:
 		apply_calls += 1
 
 	func night_fall() -> void:

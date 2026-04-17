@@ -94,7 +94,7 @@ func test_apply_weather_actions_noop_when_empty() -> void:
 	container.weather_abilities = []
 
 	var capture := _capture_queue_requests()
-	container.apply_weather_actions()
+	container.queue_weather_abilities()
 	_disconnect_capture(capture)
 
 	assert_eq(capture.requests.size(), 0)
@@ -120,7 +120,7 @@ func test_apply_weather_actions_emits_queue_requests_in_desc_field_order() -> vo
 
 	var cm := _make_combat_main_with_plants(4)
 	var capture := _capture_queue_requests()
-	container.call("apply_weather_actions")
+	container.queue_weather_abilities()
 	assert_eq(capture.requests.size(), 3)
 
 	for request: CombatQueueRequest in capture.requests:
@@ -148,7 +148,7 @@ func test_apply_weather_actions_keeps_weather_abilities_after_callbacks() -> voi
 
 	var cm := _make_combat_main_with_plants(3)
 	var capture := _capture_queue_requests()
-	container.call("apply_weather_actions")
+	container.queue_weather_abilities()
 	assert_eq(capture.requests.size(), 2)
 
 	await capture.requests[0].callback.call(cm)
@@ -220,7 +220,7 @@ func test_apply_weather_actions_requests_have_no_finish_callback() -> void:
 	autofree(a1)
 	container.weather_abilities = [a0, a1]
 	var capture := _capture_queue_requests()
-	container.apply_weather_actions()
+	container.queue_weather_abilities()
 	_disconnect_capture(capture)
 
 	assert_eq(capture.requests.size(), 2)
