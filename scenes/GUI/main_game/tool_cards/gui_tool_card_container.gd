@@ -152,6 +152,11 @@ func animate_add_cards_to_hand(hand:Array, tool_datas:Array, from_global_positio
 
 func animate_exhaust(tool_datas:Array, combat_main:CombatMain) -> void:
 	await _gui_tool_card_animation_container.animate_exhaust(tool_datas, combat_main)
+	for tool_data in tool_datas:
+		if tool_data.back_card:
+			mouse_exited_card.emit(tool_data.back_card)
+		if tool_data.front_card:
+			mouse_exited_card.emit(tool_data.front_card)
 
 func animate_card_error_shake(tool_data:ToolData) -> void:
 	var card:GUIToolCardButton = find_card(tool_data)
@@ -352,13 +357,12 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 	if _container.get_child_count() <= index:
 		return
 	var mouse_exit_card = _container.get_child(index)
-	if !is_instance_valid(mouse_exit_card):
-		return
+	if mouse_exit_card.tool_data:
+		mouse_exited_card.emit(mouse_exit_card.tool_data)
 	if card_selection_mode:
 		return
 	if _last_selected_main_card_index >= 0:
 		return
-	mouse_exited_card.emit(mouse_exit_card.tool_data)
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
