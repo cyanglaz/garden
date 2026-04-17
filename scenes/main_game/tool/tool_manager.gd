@@ -133,11 +133,7 @@ func add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:boo
 
 func update_tool_card(tool_data:ToolData, new_tool_data:ToolData) -> void:
 	var old_rarity = tool_data.rarity
-	var front_card := tool_data.front_card
-	var back_card := tool_data.back_card
 	tool_data.copy(new_tool_data)
-	tool_data.front_card = front_card
-	tool_data.back_card = back_card
 	_gui_tool_card_container.find_card(tool_data).animated_transform(old_rarity)
 
 func get_tool(index:int) -> ToolData:
@@ -214,8 +210,6 @@ func _run_tool_stage_finish(combat_main:CombatMain, tool_data:ToolData, stage_co
 	_handle_tool_application_completed(tool_data, combat_main)
 
 func _can_execute_queued_tool(tool_data:ToolData) -> bool:
-	if !tool_deck.hand.has(tool_data):
-		return false
 	if !_gui_tool_card_container:
 		return false
 	if !is_mid_turn && !tool_data.specials.has(ToolData.Special.NIGHTFALL):
