@@ -1,8 +1,6 @@
 class_name CombatQueueRequest
 extends RefCounted
 
-const FRONT_GROUP_BLOOM := "bloom"
-
 var front: bool = false
 var unique_id: String = ""
 var callback: Callable
