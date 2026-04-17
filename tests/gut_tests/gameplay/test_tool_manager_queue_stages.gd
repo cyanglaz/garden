@@ -106,7 +106,9 @@ func test_first_tool_can_discard_second_queued_tool_without_crash() -> void:
 	var error_counter := {"value": 0}
 	manager.tool_application_started.connect(func(tool_data: ToolData) -> void: started_ids.append(tool_data.id))
 	manager.tool_application_completed.connect(func(tool_data: ToolData) -> void: completed_ids.append(tool_data.id))
-	manager.tool_application_error.connect(func(_tool_data: ToolData, _error_message: String) -> void: error_counter["value"] += 1)
+	manager.tool_application_error.connect(func(_tool_data: ToolData, _error_message: String) -> void: 
+		print("error ", _error_message) 
+		error_counter["value"] += 1)
 
 	manager.queue_apply_tool(combat_main, first_tool)
 	manager.queue_apply_tool(combat_main, second_tool)
