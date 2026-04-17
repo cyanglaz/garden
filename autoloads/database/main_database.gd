@@ -11,6 +11,7 @@ var player_status_database:PlayerStatusDatabase = PlayerStatusDatabase.new()
 var event_database:EventDatabase = EventDatabase.new()
 var event_option_database:EventOptionDatabase = EventOptionDatabase.new()
 var trinket_database:TrinketDatabase = TrinketDatabase.new()
+var enchant_database:EnchantDatabase = EnchantDatabase.new()
 
 func _ready() -> void:
 	#add_child(item_database)
@@ -24,3 +25,4 @@ func _ready() -> void:
 	add_child(event_database)
 	add_child(event_option_database)
 	add_child(trinket_database)
+	add_child(enchant_database)
