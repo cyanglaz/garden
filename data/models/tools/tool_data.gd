@@ -68,7 +68,8 @@ func copy(other:ThingData) -> void:
 	level_energy_modifier = other_tool.level_energy_modifier
 	special_effects = other_tool.special_effects.duplicate()
 	name_postfix = other_tool.name_postfix
-	enchant_data = other_tool.enchant_data.get_duplicate()
+	if other_tool.enchant_data:
+		enchant_data = other_tool.enchant_data.get_duplicate()
 	_tool_script = null # Refresh tool script on copy
 
 func refresh_ui(combat_main:CombatMain) -> void:

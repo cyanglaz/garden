@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_6pbky"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_1qw2k"]
+[ext_resource type="Resource" uid="uid://bu88rx8fvc8tq" path="res://data/enchants/enchant_light.tres" id="2_age44"]
 
 [sub_resource type="Resource" id="Resource_oexgw"]
 script = ExtResource("1_6pbky")
@@ -12,6 +13,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 [resource]
 script = ExtResource("2_1qw2k")
 actions = Array[ExtResource("1_6pbky")]([SubResource("Resource_oexgw")])
+enchant_data = ExtResource("2_age44")
 id = "sunlight"
 note = "+1 light"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"
