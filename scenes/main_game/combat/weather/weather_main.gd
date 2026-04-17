@@ -32,8 +32,8 @@ func start(chapter:int, combat_type:CombatData.CombatType) -> void:
 func generate_next_weather_abilities(combat_main:CombatMain, turn_index:int) -> void:
 	_weather_ability_container.generate_next_weather_abilities(combat_main, turn_index)
 
-func apply_weather_abilities() -> void:
-	_weather_ability_container.apply_weather_actions()
+func queue_weather_abilities() -> void:
+	_weather_ability_container.queue_weather_abilities()
 
 func level_end_stop() -> void:
 	if _current_weather:

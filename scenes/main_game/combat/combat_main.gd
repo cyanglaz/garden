@@ -182,7 +182,7 @@ func _end_turn() -> void:
 	energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
 	player.queue_handle_turn_end(self)
 	plant_field_container.queue_end_turn_abilities(self)
-	weather_main.apply_weather_abilities()
+	weather_main.queue_weather_abilities()
 
 	# Night fall
 	_queue_night_fall()
