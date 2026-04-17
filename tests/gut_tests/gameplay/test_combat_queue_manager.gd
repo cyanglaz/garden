@@ -23,7 +23,8 @@ func _make_request(
 	front: bool = false,
 	unique_id: String = "",
 	finish_callback: Callable = Callable(),
-	only_when_empty: bool = false
+	only_when_empty: bool = false,
+	front_group: String = ""
 ):
 	var request = CombatQueueRequest.new()
 	request.callback = callback
@@ -31,7 +32,13 @@ func _make_request(
 	request.unique_id = unique_id
 	request.finish_callback = finish_callback
 	request.only_when_empty = only_when_empty
+	request.front_group = front_group
 	return request
+
+func _make_front_group_item(callback: Callable, front_group: String) -> CombatQueueItem:
+	var item := _make_item(callback)
+	item.front_group = front_group
+	return item
 
 
 func _await_queue_idle(q: CombatQueueManager) -> void:
@@ -111,6 +118,57 @@ func test_push_back_after_front_batch_appends_in_order() -> void:
 	q.push_items(false, [_make_item(func(_c: CombatMain) -> void: order.append("tail"))])
 	await _await_queue_idle(q)
 	assert_eq(order, ["h1", "h2", "tail"])
+
+func test_front_group_requests_run_fifo_before_backlog() -> void:
+	var cm := _make_combat_main()
+	var q := _make_queue(cm)
+	var order: Array = []
+	q.push_items(false, [_make_item(func(_c: CombatMain) -> void: await _blocking_slice(order))])
+	q.push_request(_make_request(func(_c: CombatMain) -> void: order.append("tail")))
+	q.push_request(
+		_make_request(
+			func(_c: CombatMain) -> void: order.append("bloom_a"),
+			true,
+			"",
+			Callable(),
+			false,
+			"bloom"
+		)
+	)
+	q.push_request(
+		_make_request(
+			func(_c: CombatMain) -> void: order.append("bloom_b"),
+			true,
+			"",
+			Callable(),
+			false,
+			"bloom"
+		)
+	)
+	await _await_queue_idle(q)
+	assert_eq(order, ["block_start", "block_end", "bloom_a", "bloom_b", "tail"])
+
+func test_front_group_batch_inserts_before_backlog_preserving_batch_order() -> void:
+	var cm := _make_combat_main()
+	var q := _make_queue(cm)
+	var order: Array = []
+	q.push_items(false, [_make_item(func(_c: CombatMain) -> void: await _blocking_slice(order))])
+	q.push_items(false, [_make_item(func(_c: CombatMain) -> void: order.append("tail"))])
+	q.push_items(
+		true,
+		[
+			_make_front_group_item(
+				func(_c: CombatMain) -> void: order.append("h1"),
+				"bloom"
+			),
+			_make_front_group_item(
+				func(_c: CombatMain) -> void: order.append("h2"),
+				"bloom"
+			),
+		],
+	)
+	await _await_queue_idle(q)
+	assert_eq(order, ["block_start", "block_end", "h1", "h2", "tail"])
 
 
 func test_async_callable_completes_before_next_item() -> void:
