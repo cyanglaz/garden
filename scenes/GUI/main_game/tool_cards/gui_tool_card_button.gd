@@ -7,12 +7,10 @@ signal mouse_entered_card()
 signal mouse_exited_card()
 
 @onready var front_face: GUICardFace = %FrontFace
-@onready var back_face: GUICardFace = %BackFace
 
 @onready var draw_sound: AudioStreamPlayer2D = %DrawSound
 @onready var discard_sound: AudioStreamPlayer2D = %DiscardSound
 @onready var shuffle_sound: AudioStreamPlayer2D = %ShuffleSound
-@onready var flip_sound: AudioStreamPlayer2D = %FlipSound
 
 var current_face:GUICardFace
 
@@ -25,10 +23,8 @@ var disabled:bool = false: set = _set_disabled, get = _get_disabled
 var has_outline:bool = false: set = _set_has_outline, get = _get_has_outline
 var tool_data:ToolData: get = _get_tool_data, set = _set_tool_data
 var hand_index:int = -1
-var is_front:bool = true: get = _get_is_front, set = _set_is_front
 var _card_tooltip_id:String = ""
 var _reference_card_tooltip_id:String = ""
-var _flipping := false
 var _mouse_in_special:bool = false
 
 var _special_tooltip_id:String = ""
@@ -38,42 +34,16 @@ func _ready() -> void:
 	super._ready()
 	current_face = front_face
 	mouse_filter = MOUSE_FILTER_IGNORE
-	back_face.hide()
 	resized.connect(_on_resized)
 	front_face.special_hovered.connect(_on_special_hovered.bind(front_face))
-	back_face.special_hovered.connect(_on_special_hovered.bind(back_face))
 	size = SIZE
-
-func _on_gui_input(event: InputEvent) -> void:
-	super._on_gui_input(event)
-	if event.is_action_pressed("flip"):
-		var should_show_tooltip := !_card_tooltip_id.is_empty()
-		toggle_tooltip(false)
-		await animate_flip()
-		if should_show_tooltip:
-			toggle_tooltip(true)
 
 func update_with_tool_data(td:ToolData, combat_main:CombatMain) -> void:
 	_weak_combat_main = weakref(combat_main)
-	if td.front_card:
-		assert(td.specials.has(ToolData.Special.FLIP_BACK), "Card is not a flip front card")
-		assert(td.front_card.specials.has(ToolData.Special.FLIP_FRONT), "Front card is not a flip front card")
-		front_face.update_with_tool_data(td.front_card, combat_main)
-		back_face.update_with_tool_data(td, combat_main)
-		_show_as_back_face()
-	else:
-		front_face.update_with_tool_data(td, combat_main)
-		if td.back_card:
-			assert(td.specials.has(ToolData.Special.FLIP_FRONT), "Card is not a flip front card")
-			assert(td.back_card.specials.has(ToolData.Special.FLIP_BACK), "Back card is not a flip back card")
-			back_face.update_with_tool_data(td.back_card, combat_main)
-		_show_as_front_face()
+	front_face.update_with_tool_data(td, combat_main)
 	if front_face.special_interacted.is_connected(_on_special_interacted.bind(front_face, combat_main)):
 		front_face.special_interacted.disconnect(_on_special_interacted.bind(front_face, combat_main))
-	if back_face.special_interacted.is_connected(_on_special_interacted.bind(back_face, combat_main)):
-		back_face.special_interacted.disconnect(_on_special_interacted.bind(back_face, combat_main))
 	front_face.special_interacted.connect(_on_special_interacted.bind(front_face, combat_main))
-	back_face.special_interacted.connect(_on_special_interacted.bind(back_face, combat_main))
 
 func play_discard_sound() -> void:
 	discard_sound.play()
@@ -94,30 +64,9 @@ func play_exhaust_animation() -> void:
 
 func animated_transform(old_rarity:int) -> void:
 	await current_face.animated_transform(old_rarity)
-	if current_face == back_face:
-		front_face.update_with_tool_data(current_face.tool_data.front_card, _weak_combat_main.get_ref())
-	else:
-		if current_face.tool_data.back_card:
-			back_face.update_with_tool_data(current_face.tool_data.back_card, _weak_combat_main.get_ref())
 
 func play_use_animation() -> void:
 	current_face.play_use_animation()
-
-func animate_flip() -> void:
-	if _flipping:
-		return
-	if !back_face.tool_data:
-		return
-	flip_sound.play()
-	_flipping = true
-	await current_face.animate_flip(false)
-	var old_face := current_face
-	if old_face == front_face:
-		current_face = back_face
-	else:
-		current_face = front_face
-	await current_face.animate_flip(true)
-	_flipping = false
 
 func animate_reverse(combat_main:CombatMain) -> void:
 	tool_data.reverse(combat_main)
@@ -136,16 +85,6 @@ func toggle_tooltip(on:bool) -> void:
 		_card_tooltip_id = ""
 
 #region private
-
-func _show_as_back_face() -> void:
-	front_face.hide()
-	back_face.show()
-	current_face = back_face
-
-func _show_as_front_face() -> void:
-	front_face.show()
-	back_face.hide()
-	current_face = front_face
 
 func _toggle_reference_card_tooltip(on:bool) -> void:
 	if on:
@@ -218,12 +157,6 @@ func _on_mouse_exited() -> void:
 
 #region setters/getters
 
-func _set_is_front(_value:bool) -> void:
-	assert(false, "set_is_front is not allowed, use flip instead")
-
-func _get_is_front() -> bool:
-	return current_face == front_face
-
 func _set_mouse_disabled(value:bool) -> void:
 	mouse_disabled = value
 	if value:
@@ -242,17 +175,12 @@ func _set_animation_mode(value:bool) -> void:
 	animation_mode = value
 	if value:
 		custom_minimum_size = Vector2.ZERO
-		#_card_margin_container.custom_minimum_size = Vector2.ZERO
 	else:
 		custom_minimum_size = SIZE
 	front_face.animation_mode = value
-	if back_face.tool_data:
-		back_face.animation_mode = value
 
 func _set_card_state(value:GUICardFace.CardState) -> void:
 	front_face.card_state = value
-	if back_face.tool_data:
-		back_face.card_state = value
 
 func _get_card_state() -> GUICardFace.CardState:
 	return current_face.card_state
@@ -277,13 +205,9 @@ func _get_disabled() -> bool:
 
 func _on_resized() -> void:
 	front_face.size = size
-	if back_face.tool_data:
-		back_face.size = size
 	
 func _on_special_interacted(special:ToolData.Special, _face:GUICardFace, combat_main:CombatMain) -> void:
 	match special:
-		ToolData.Special.FLIP_FRONT, ToolData.Special.FLIP_BACK:
-			animate_flip()
 		ToolData.Special.REVERSIBLE:
 			animate_reverse(combat_main)
 		_:

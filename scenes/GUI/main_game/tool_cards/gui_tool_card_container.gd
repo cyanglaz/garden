@@ -79,10 +79,6 @@ func find_card(tool_data:ToolData) -> GUIToolCardButton:
 	for card:GUIToolCardButton in _container.get_children():
 		if card.tool_data == tool_data:
 			return card
-		if card.tool_data.back_card == tool_data:
-			return card
-		if card.tool_data.front_card == tool_data:
-			return card
 	return null
 
 func select_secondary_cards(number_of_cards:int, candidates:Array) -> Array:
@@ -151,11 +147,6 @@ func animate_add_cards_to_hand(hand:Array, tool_datas:Array, from_global_positio
 	await _gui_tool_card_animation_container.animate_add_cards_to_hand(hand, tool_datas, from_global_position, pause, combat_main)
 
 func animate_exhaust(tool_datas:Array, combat_main:CombatMain) -> void:
-	for tool_data in tool_datas:
-		if tool_data.back_card:
-			mouse_exited_card.emit(tool_data.back_card)
-		if tool_data.front_card:
-			mouse_exited_card.emit(tool_data.front_card)
 	await _gui_tool_card_animation_container.animate_exhaust(tool_datas, combat_main)
 
 func animate_card_error_shake(tool_data:ToolData) -> void:
@@ -220,10 +211,6 @@ func _get_card_index(tool_data:ToolData) -> int:
 		var card:GUIToolCardButton = _container.get_child(i)
 		if card.tool_data == tool_data:
 			return i
-		if card.tool_data.back_card == tool_data:
-			return i
-		if card.tool_data.front_card == tool_data:
-			return i
 	return -1
 
 func _toggle_selected_cards(on:bool) -> void:
@@ -243,10 +230,6 @@ func _toggle_card_selection_mode(on:bool) -> void:
 		_secondary_card_selection_candidates.clear()
 	for gui_card:GUIToolCardButton in get_all_cards():
 		var tool_datas_in_card := [gui_card.tool_data]
-		if gui_card.tool_data.back_card:
-			tool_datas_in_card.append(gui_card.tool_data.back_card)
-		if gui_card.tool_data.front_card:
-			tool_datas_in_card.append(gui_card.tool_data.front_card)
 		if card_selection_mode:
 			if gui_card == _secondary_card_selection_main_card:
 				gui_card.card_state = GUICardFace.CardState.SELECTED
@@ -366,10 +349,6 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 		return
 	if mouse_exit_card.tool_data:
 		mouse_exited_card.emit(mouse_exit_card.tool_data)
-		if mouse_exit_card.tool_data.back_card:
-			mouse_exited_card.emit(mouse_exit_card.tool_data.back_card)
-		if mouse_exit_card.tool_data.front_card:
-			mouse_exited_card.emit(mouse_exit_card.tool_data.front_card)
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)

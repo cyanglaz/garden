@@ -27,12 +27,6 @@ func test_get_special_name_handy_returns_string():
 func test_get_special_name_nightfall_returns_string():
 	assert_true(ActionDescriptionFormulator.get_special_name(ToolData.Special.NIGHTFALL) is String)
 
-func test_get_special_name_flip_front_returns_string():
-	assert_true(ActionDescriptionFormulator.get_special_name(ToolData.Special.FLIP_FRONT) is String)
-
-func test_get_special_name_flip_back_returns_string():
-	assert_true(ActionDescriptionFormulator.get_special_name(ToolData.Special.FLIP_BACK) is String)
-
 func test_get_special_name_reversible_returns_string():
 	assert_true(ActionDescriptionFormulator.get_special_name(ToolData.Special.REVERSIBLE) is String)
 
@@ -53,12 +47,6 @@ func test_get_special_description_handy_returns_string():
 
 func test_get_special_description_nightfall_returns_string():
 	assert_true(ActionDescriptionFormulator.get_special_description(ToolData.Special.NIGHTFALL) is String)
-
-func test_get_special_description_flip_front_returns_string():
-	assert_true(ActionDescriptionFormulator.get_special_description(ToolData.Special.FLIP_FRONT) is String)
-
-func test_get_special_description_flip_back_returns_string():
-	assert_true(ActionDescriptionFormulator.get_special_description(ToolData.Special.FLIP_BACK) is String)
 
 func test_get_special_description_reversible_returns_string():
 	assert_true(ActionDescriptionFormulator.get_special_description(ToolData.Special.REVERSIBLE) is String)

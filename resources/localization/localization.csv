@@ -118,12 +118,7 @@ CARD_SPECIAL_NAME_HANDY, "Handy"
 CARD_SPECIAL_DESCRIPTION_HANDY, "Drawn at the 1st turn. Retain at the end of the turn."
 CARD_SPECIAL_NAME_TURN_END, "Nightfall"
 CARD_SPECIAL_DESCRIPTION_NIGHTFALL, "This card is triggered at the end of the turn."
-CARD_SPECIAL_NAME_FLIP_FRONT, "Flip(Front)"
-CARD_SPECIAL_NAME_FLIP_BACK, "Flip(Back)"
 CARD_SPECIAL_NAME_REVERSIBLE, "Reversible"
-
-CARD_SPECIAL_DESCRIPTION_FLIP_FRONT, "This card can be flipped to reveal its back card. (Click icon or the mouse's middle button to flip)"
-CARD_SPECIAL_DESCRIPTION_FLIP_BACK, "This card can be flipped to reveal its front card. (Click icon or the mouse's middle button to flip)"
 CARD_SPECIAL_DESCRIPTION_REVERSIBLE, "Click icon to change all directions of the card."
 
 INFO_TITLE, "Library" 
@@ -439,9 +434,12 @@ TRINKET_RECYCLER_BADGE_DESCRIPTION,"{card:free_water} cards give +1 {resource:wa
 PLAYER_POLLINATOR_NAME,"The Pollinator"
 PLAYER_POLLINATOR_DESCRIPTION,"On Bloom, shuffle a +3 {sunlight} card to hand."
 
-EVENT_SILK_BINDER_DESCRIPTION,"A huge spider with legs like silver needles sits amidst a web of shimmering scrolls. She is busy binding cards with glowing silk.
+EVENT_SILK_BINDER_DESCRIPTION,"A huge spider with legs like silver needles sits amidst a web of shimmering scrolls.
 
 She stops. Her eyes fix on you, cold and empty. ""Threads,"" she vibrates. ""Cards... packs..."""
+EVENT_OPTION_SILK_BINDER_BIND_NAME,"Bind"
+EVENT_OPTION_SILK_BINDER_BIND_POSITIVE_DESCRIPTION,"Bind 2 cards."
+EVENT_OPTION_SILK_BINDER_BIND_NEGATIVE_DESCRIPTION,"- {gold} {resource:gold}."
 EVENT_SNACK_KEEPER_DESCRIPTION,"A stout bee in a stained leaf-satchel hovers over a bark table. She's surrounded by pollen puffs and crystallized nectar, currently mid-chew on a piece of sticky honeycomb.
 
 She eyes you with deep suspicion, hugging a jar of jelly to her chest. ""Want a bite? Fine,"" she hums with a lazy, raspy tune. ""But I'm only parting with one—my stomach can't handle any more heartbreak. Leave your coin and be gone. """
@@ -449,9 +447,6 @@ EVENT_WASP_MERCHANT_DESCRIPTION,"A tall merchant wasp flies low, hovering just i
 
 The drone of his wings is jagged and metallic as he struggles with the weight, his back turned to you. He hasn't noticed your presence yet, preoccupied with dragging his haul toward the darker edge of the garden."
 
-EVENT_OPTION_SILK_BINDER_BIND_NAME,"Bind"
-EVENT_OPTION_SILK_BINDER_BIND_POSITIVE_DESCRIPTION,"Bind 2 cards."
-EVENT_OPTION_SILK_BINDER_BIND_NEGATIVE_DESCRIPTION,"- {gold} {resource:gold}."
 EVENT_OPTION_SILK_BINDER_OFFER_NAME,"Offer"
 EVENT_OPTION_SILK_BINDER_OFFER_POSITIVE_DESCRIPTION,"Remove a card."
 EVENT_OPTION_SILK_BINDER_PACK_NAME,"Ask for a gift"

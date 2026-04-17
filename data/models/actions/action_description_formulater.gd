@@ -73,10 +73,6 @@ static func get_special_name(special:ToolData.Special) -> String:
 			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_HANDY")
 		ToolData.Special.NIGHTFALL:
 			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_TURN_END")
-		ToolData.Special.FLIP_FRONT:
-			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_FLIP_FRONT")
-		ToolData.Special.FLIP_BACK:
-			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_FLIP_BACK")
 		ToolData.Special.REVERSIBLE:
 			special_name = Util.get_localized_string("CARD_SPECIAL_NAME_REVERSIBLE")
 		_:
@@ -92,10 +88,6 @@ static func get_special_description(special:ToolData.Special) -> String:
 			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_HANDY")
 		ToolData.Special.NIGHTFALL:
 			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_NIGHTFALL")
-		ToolData.Special.FLIP_FRONT:
-			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_FLIP_FRONT")
-		ToolData.Special.FLIP_BACK:
-			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_FLIP_BACK")
 		ToolData.Special.REVERSIBLE:
 			special_description = Util.get_localized_string("CARD_SPECIAL_DESCRIPTION_REVERSIBLE")
 		_:

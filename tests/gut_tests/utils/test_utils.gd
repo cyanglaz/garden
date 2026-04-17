@@ -349,12 +349,6 @@ func test_get_id_for_tool_special_handy():
 func test_get_id_for_tool_special_nightfall():
 	assert_eq(Util.get_id_for_tool_speical(ToolData.Special.NIGHTFALL), "nightfall")
 
-func test_get_id_for_tool_special_flip_front():
-	assert_eq(Util.get_id_for_tool_speical(ToolData.Special.FLIP_FRONT), "flip_front")
-
-func test_get_id_for_tool_special_flip_back():
-	assert_eq(Util.get_id_for_tool_speical(ToolData.Special.FLIP_BACK), "flip_back")
-
 func test_get_id_for_tool_special_reversible():
 	assert_eq(Util.get_id_for_tool_speical(ToolData.Special.REVERSIBLE), "reversible")
 

@@ -36,32 +36,3 @@ func test_apply_tool_does_not_duplicate_reversible_on_front() -> void:
 	await ToolScriptFreeWill.new().apply_tool(cm, null, [selected])
 	var count := selected.specials.filter(func(s): return s == ToolData.Special.REVERSIBLE).size()
 	assert_eq(count, 1)
-
-
-func test_apply_tool_adds_reversible_to_back_card() -> void:
-	var selected := _make_tool_data()
-	selected.back_card = _make_tool_data()
-	var cm := _make_combat_main()
-	await ToolScriptFreeWill.new().apply_tool(cm, null, [selected])
-	assert_true(selected.back_card.specials.has(ToolData.Special.REVERSIBLE))
-
-
-func test_apply_tool_does_not_duplicate_reversible_on_back_card() -> void:
-	var selected := _make_tool_data()
-	selected.back_card = _make_tool_data()
-	selected.back_card.specials.append(ToolData.Special.REVERSIBLE)
-	var cm := _make_combat_main()
-	await ToolScriptFreeWill.new().apply_tool(cm, null, [selected])
-	var count := selected.back_card.specials.filter(func(s): return s == ToolData.Special.REVERSIBLE).size()
-	assert_eq(count, 1)
-
-
-func test_apply_tool_adds_reversible_when_back_already_reversible_but_front_is_not() -> void:
-	var front := _make_tool_data()
-	front.back_card = _make_tool_data()
-	front.back_card.specials.append(ToolData.Special.REVERSIBLE)
-	var cm := _make_combat_main()
-	await ToolScriptFreeWill.new().apply_tool(cm, null, [front])
-	assert_true(front.specials.has(ToolData.Special.REVERSIBLE))
-	var back_count := front.back_card.specials.filter(func(s): return s == ToolData.Special.REVERSIBLE).size()
-	assert_eq(back_count, 1)

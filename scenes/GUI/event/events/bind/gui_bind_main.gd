@@ -139,20 +139,23 @@ func _on_bind_button_pressed() -> void:
 	assert(_back_card != null, "Back card is null")
 	var front_card_data:ToolData = _front_card.tool_data
 	var back_card_data:ToolData = _back_card.tool_data
-	if front_card_data.front_card:
-		_front_card_data_to_erase = front_card_data.front_card
-	else:
-		_front_card_data_to_erase = front_card_data
-	if back_card_data.front_card:
-		_back_card_data_to_erase = back_card_data.front_card
-	else:
-		_back_card_data_to_erase = back_card_data
+	# Paired flip cards removed from ToolData; pool entries are the selected faces only.
+	# if front_card_data.front_card:
+	# 	_front_card_data_to_erase = front_card_data.front_card
+	# else:
+	# 	_front_card_data_to_erase = front_card_data
+	# if back_card_data.front_card:
+	# 	_back_card_data_to_erase = back_card_data.front_card
+	# else:
+	# 	_back_card_data_to_erase = back_card_data
+	_front_card_data_to_erase = front_card_data
+	_back_card_data_to_erase = back_card_data
 	assert(_card_pool.has(_front_card_data_to_erase), "Front card is not in pool")
 	assert(_card_pool.has(_back_card_data_to_erase), "Back card is not in pool")
 	var new_card_front_data:ToolData = front_card_data.get_duplicate()
 	var new_card_back_data:ToolData = back_card_data.get_duplicate()
 	_new_card_data = new_card_front_data.get_duplicate()
-	_new_card_data.back_card = new_card_back_data
+	# _new_card_data.back_card = new_card_back_data
 	bind_finished.emit(_new_card_data, front_card_data, back_card_data)
 	gui_bind_animation_container.play_animation(new_card_front_data, new_card_back_data, _front_card.global_position, _back_card.global_position, _new_card_data)	#bind_finished.emit(new_card_front_data, front_card_data, back_card_data)
 	#_dismiss()
