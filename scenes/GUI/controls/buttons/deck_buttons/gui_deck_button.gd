@@ -18,6 +18,7 @@ var _label_update_tween:Tween
 
 func _ready() -> void:
 	super._ready()
+	_label.pivot_offset_ratio = Vector2.ONE * 0.5
 
 func bind_deck(deck:Deck) -> void:
 	var pool := []
@@ -54,9 +55,11 @@ func _set_button_state(val:ButtonState) -> void:
 
 
 func _on_pool_updated(pool:Array) -> void:
+	var new_size = pool.size()
+	if new_size == _size:
+		return
 	_size = pool.size()
 	_label.text = str(_size)
-	_label.pivot_offset = _label.size * 0.5
 	if _label_update_tween && _label_update_tween.is_running():
 		_label_update_tween.kill()
 		_label.scale = Vector2.ONE
