@@ -57,6 +57,7 @@ var special_effects:Array[SpecialEffect]
 
 var _weak_front_card:WeakRef = weakref(null)
 var _tool_script:ToolScript
+var _bind_existing_back_card:bool = false
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
@@ -103,6 +104,11 @@ func get_duplicate() -> ToolData:
 	var dup:ToolData = ToolData.new()
 	dup.copy(self)
 	return dup
+
+## Binds [param face] as this card's back without duplicating. Use when reconnecting in-hand flip pairs (e.g. refill).
+func bind_existing_back_card(face:ToolData) -> void:
+	_bind_existing_back_card = true
+	back_card = face
 
 func remove_single_use_special_effects(combat_main:CombatMain) -> void:
 	if front_card:
@@ -194,17 +200,28 @@ func get_raw_description() -> String:
 func _get_has_tooltip() -> bool:
 	return !actions.is_empty() || !specials.is_empty()
 
-func _set_back_card(val:ToolData) -> void:
-	if !val:
-		back_card = null
-		return
-	back_card = val.get_duplicate()
+func _apply_flip_specials_after_back_assigned() -> void:
 	if back_card && !specials.has(Special.FLIP_FRONT):
 		specials.erase(Special.FLIP_BACK)
 		specials.erase(Special.FLIP_FRONT)
 		specials.append(Special.FLIP_FRONT)
 	if back_card:
 		back_card.front_card = self
+
+func _set_back_card(val:ToolData) -> void:
+	if _bind_existing_back_card:
+		_bind_existing_back_card = false
+		if !val:
+			back_card = null
+			return
+		back_card = val
+		_apply_flip_specials_after_back_assigned()
+		return
+	if !val:
+		back_card = null
+		return
+	back_card = val.get_duplicate()
+	_apply_flip_specials_after_back_assigned()
 
 func _set_front_card(val:ToolData) -> void:
 	_weak_front_card = weakref(val)

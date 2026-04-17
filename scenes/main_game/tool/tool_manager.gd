@@ -133,9 +133,8 @@ func add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:boo
 
 func update_tool_card(tool_data:ToolData, new_tool_data:ToolData) -> void:
 	var old_rarity = tool_data.rarity
-	tool_data.copy(new_tool_data)
-	print(tool_data.back_card)
-	print(new_tool_data.back_card.front_card)
+	if tool_data != new_tool_data:
+		tool_data.copy(new_tool_data)
 	_gui_tool_card_container.find_card(tool_data).animated_transform(old_rarity)
 
 func get_tool(index:int) -> ToolData:
