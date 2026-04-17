@@ -98,6 +98,7 @@ func _front_group_insert_index(front_group: String) -> int:
 		var queue_item := _queue[index] as CombatQueueItem
 		assert(queue_item, "All items in the queue must be CombatQueueItem.")
 		if queue_item.front_group == front_group:
+			index += 1
 			break
 		index -= 1
 	return index
