@@ -357,12 +357,18 @@ func _on_tool_card_mouse_exited(index:int) -> void:
 	if _container.get_child_count() <= index:
 		return
 	var mouse_exit_card = _container.get_child(index)
-	if mouse_exit_card.tool_data:
-		mouse_exited_card.emit(mouse_exit_card.tool_data)
+	if !is_instance_valid(mouse_exit_card):
+		return
 	if card_selection_mode:
 		return
 	if _last_selected_main_card_index >= 0:
 		return
+	if mouse_exit_card.tool_data:
+		mouse_exited_card.emit(mouse_exit_card.tool_data)
+		if mouse_exit_card.tool_data.back_card:
+			mouse_exited_card.emit(mouse_exit_card.tool_data.back_card)
+		if mouse_exit_card.tool_data.front_card:
+			mouse_exited_card.emit(mouse_exit_card.tool_data.front_card)
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)

@@ -13,6 +13,7 @@ func apply_tool(combat_main:CombatMain, _tool_data:ToolData, secondary_card_data
 		new_tool_data.front_card = front
 	if new_tool_data.back_card && new_tool_data.back_card.id == "empty_bottle":
 		new_tool_data.back_card.copy(bottled_water_tool_data)
+		new_tool_data.back_card.front_card = new_tool_data
 	if new_tool_data.front_card && new_tool_data.front_card.id == "empty_bottle":
 		new_tool_data.front_card.copy(bottled_water_tool_data)
 		new_tool_data.front_card.back_card = new_tool_data

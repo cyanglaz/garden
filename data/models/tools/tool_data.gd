@@ -77,10 +77,6 @@ func copy(other:ThingData) -> void:
 		back_card = other_tool.back_card.get_duplicate()
 	else:
 		back_card = null
-	if other_tool.front_card:
-		front_card = other_tool.front_card.get_duplicate()
-	else:
-		front_card = null
 
 func refresh_ui(combat_main:CombatMain) -> void:
 	if front_card:
