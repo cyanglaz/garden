@@ -304,7 +304,7 @@ TOOL_ENERGY_TRANSFER_DESCRIPTION,"     {resource:water} {bordered_text:=} {resou
 TOOL_PARASITE_NAME,"Parasite"
 TOOL_FREE_WATER_NAME,"Free Water"
 TOOL_FREE_WILL_NAME,"Free Will"
-TOOL_FREE_WILL_DESCRIPTION,"Add Reversible to a card in hand."
+TOOL_FREE_WILL_DESCRIPTION,"Add {resource:reversible} to one card in hand."
 TOOL_SPORE_NAME,"Spore"
 TOOL_APHID_ALERT_NAME,"Aphid Alert"
 TOOL_BOTTLED_WATER_NAME,"Bottled Water"
