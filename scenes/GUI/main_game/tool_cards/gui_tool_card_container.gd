@@ -151,6 +151,11 @@ func animate_add_cards_to_hand(hand:Array, tool_datas:Array, from_global_positio
 	await _gui_tool_card_animation_container.animate_add_cards_to_hand(hand, tool_datas, from_global_position, pause, combat_main)
 
 func animate_exhaust(tool_datas:Array, combat_main:CombatMain) -> void:
+	for tool_data in tool_datas:
+		if tool_data.back_card:
+			mouse_exited_card.emit(tool_data.back_card)
+		if tool_data.front_card:
+			mouse_exited_card.emit(tool_data.front_card)
 	await _gui_tool_card_animation_container.animate_exhaust(tool_datas, combat_main)
 
 func animate_card_error_shake(tool_data:ToolData) -> void:
@@ -224,7 +229,8 @@ func _get_card_index(tool_data:ToolData) -> int:
 func _toggle_selected_cards(on:bool) -> void:
 	for tool_data in _secondary_card_selection_candidates:
 		var gui_card:GUIToolCardButton = find_card(tool_data)
-		gui_card.mouse_disabled = !on
+		if !gui_card:
+			gui_card.mouse_disabled = !on
 
 func _clear_secondary_card_selection() -> void:
 	_card_selection_container.end_selection()
@@ -236,13 +242,20 @@ func _toggle_card_selection_mode(on:bool) -> void:
 	if !card_selection_mode:
 		_secondary_card_selection_candidates.clear()
 	for gui_card:GUIToolCardButton in get_all_cards():
+		var tool_datas_in_card := [gui_card.tool_data]
+		if gui_card.tool_data.back_card:
+			tool_datas_in_card.append(gui_card.tool_data.back_card)
+		if gui_card.tool_data.front_card:
+			tool_datas_in_card.append(gui_card.tool_data.front_card)
 		if card_selection_mode:
 			if gui_card == _secondary_card_selection_main_card:
 				gui_card.card_state = GUICardFace.CardState.SELECTED
-			elif _secondary_card_selection_candidates.has(gui_card.tool_data):
-				gui_card.card_state = GUICardFace.CardState.NORMAL
 			else:
-				gui_card.card_state = GUICardFace.CardState.INELIGIBLE
+				var eligible := tool_datas_in_card.any(func(td): return _secondary_card_selection_candidates.has(td))
+				if eligible:
+					gui_card.card_state = GUICardFace.CardState.NORMAL
+				else:
+					gui_card.card_state = GUICardFace.CardState.INELIGIBLE
 		else:
 			if gui_card.card_state != GUICardFace.CardState.WAITING && gui_card.card_state != GUICardFace.CardState.SELECTED:
 				gui_card.card_state = GUICardFace.CardState.NORMAL
@@ -342,14 +355,21 @@ func _on_tool_card_mouse_entered(index:int) -> void:
 
 func _on_tool_card_mouse_exited(index:int) -> void:
 	_hide_all_card_warnings()
+	if _container.get_child_count() <= index:
+		return
 	var mouse_exit_card = _container.get_child(index)
-	mouse_exited_card.emit(mouse_exit_card.tool_data)
 	if !is_instance_valid(mouse_exit_card):
 		return
 	if card_selection_mode:
 		return
 	if _last_selected_main_card_index >= 0:
 		return
+	if mouse_exit_card.tool_data:
+		mouse_exited_card.emit(mouse_exit_card.tool_data)
+		if mouse_exit_card.tool_data.back_card:
+			mouse_exited_card.emit(mouse_exit_card.tool_data.back_card)
+		if mouse_exit_card.tool_data.front_card:
+			mouse_exited_card.emit(mouse_exit_card.tool_data.front_card)
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
