@@ -12,7 +12,7 @@ class FakePlantFieldContainer extends PlantFieldContainer:
 	var end_turn_hook_calls := 0
 	var force_bloom := false
 
-	func trigger_end_turn_hooks(_combat_main: CombatMain) -> void:
+	func queue_end_turn_abilities(_combat_main: CombatMain) -> void:
 		end_turn_hook_calls += 1
 
 	func are_all_plants_bloom() -> bool:
