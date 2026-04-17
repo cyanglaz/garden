@@ -18,6 +18,7 @@ var _label_update_tween:Tween
 
 func _ready() -> void:
 	super._ready()
+	_label.pivot_offset_ratio = Vector2.ONE * 0.5
 
 func bind_deck(deck:Deck) -> void:
 	var pool := []
@@ -54,17 +55,14 @@ func _set_button_state(val:ButtonState) -> void:
 
 
 func _on_pool_updated(pool:Array) -> void:
-	var old_size := _size
+	var new_size = pool.size()
+	if new_size == _size:
+		return
 	_size = pool.size()
+	_label.text = str(_size)
 	if _label_update_tween && _label_update_tween.is_running():
 		_label_update_tween.kill()
+		_label.scale = Vector2.ONE
 	_label_update_tween = Util.create_scaled_tween(self)
-	_label_update_tween.set_parallel(true)
-	var increment := 1 if _size > old_size else -1
-	var number_of_increament = abs(old_size - _size)
-	if number_of_increament == 0:
-		_label_update_tween.kill()
-	for i in number_of_increament:
-		_label_update_tween.tween_property(_label, "text", str(old_size + increment * (i + 1)), Constants.CARD_ANIMATION_DELAY).set_delay(Constants.CARD_ANIMATION_DELAY * i)
-
-	_label.text = str(_size)
+	_label_update_tween.tween_property(_label, "scale", Vector2(1.3, 1.3), Constants.CARD_ANIMATION_DELAY)
+	_label_update_tween.tween_property(_label, "scale", Vector2.ONE, Constants.CARD_ANIMATION_DELAY)
