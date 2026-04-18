@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_71l14")
 chapters = Array[int]([0])
-option_ids = Array[String](["offer", "bind", "pack"])
+option_ids = Array[String](["offer", "enchant", "pack"])
 id = "silk_binder"
 
 metadata/_custom_type_script = "uid://erp5k732oer4"

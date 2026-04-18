@@ -89,9 +89,9 @@ func _start_new_chapter() -> void:
 		#_start_combat_main_scene.call_deferred(test_data.test_combat)
 	#else:
 		#_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
-	#_start_event()
+	_start_event()
 	#_start_chest()
-	_start_town()
+	#_start_town()
 	#_game_over()
 	#_game_win()
 	#_start_shop()

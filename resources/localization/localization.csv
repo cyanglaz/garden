@@ -437,9 +437,8 @@ PLAYER_POLLINATOR_DESCRIPTION,"On Bloom, shuffle a +3 {sunlight} card to hand."
 EVENT_SILK_BINDER_DESCRIPTION,"A huge spider with legs like silver needles sits amidst a web of shimmering scrolls.
 
 She stops. Her eyes fix on you, cold and empty. ""Threads,"" she vibrates. ""Cards... packs..."""
-EVENT_OPTION_SILK_BINDER_BIND_NAME,"Bind"
-EVENT_OPTION_SILK_BINDER_BIND_POSITIVE_DESCRIPTION,"Bind 2 cards."
-EVENT_OPTION_SILK_BINDER_BIND_NEGATIVE_DESCRIPTION,"- {gold} {resource:gold}."
+EVENT_OPTION_SILK_BINDER_ENCHANT_NAME,"Enchant"
+EVENT_OPTION_SILK_BINDER_ENCHANT_POSITIVE_DESCRIPTION,"Enchant a {enchant:dt_enchant} to a card."
 EVENT_SNACK_KEEPER_DESCRIPTION,"A stout bee in a stained leaf-satchel hovers over a bark table. She's surrounded by pollen puffs and crystallized nectar, currently mid-chew on a piece of sticky honeycomb.
 
 She eyes you with deep suspicion, hugging a jar of jelly to her chest. ""Want a bite? Fine,"" she hums with a lazy, raspy tune. ""But I'm only parting with one—my stomach can't handle any more heartbreak. Leave your coin and be gone. """

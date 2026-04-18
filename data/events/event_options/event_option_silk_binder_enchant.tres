@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EventOptionData" format=3]
+
+[ext_resource type="Script" uid="uid://crrap2q1ee4im" path="res://data/models/event/event_option_data.gd" id="1_enchant"]
+
+[resource]
+script = ExtResource("1_enchant")
+positive_description = "Enchant a {enchant:dt_enchant} to a card."
+script_id = "enchant"
+id = "silk_binder_enchant"
+data = {
+&"enchant": "free_move"
+}
+metadata/_custom_type_script = "uid://crrap2q1ee4im"

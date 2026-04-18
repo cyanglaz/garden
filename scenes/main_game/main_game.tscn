@@ -4,6 +4,7 @@
 [ext_resource type="Resource" uid="uid://4dslofp7rfib" path="res://data/player/player_pollinator.tres" id="2_8ywsm"]
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
 [ext_resource type="Script" uid="uid://d4ngj3465rhxa" path="res://data/test_data/main_game_test.gd" id="3_mijjq"]
+[ext_resource type="Resource" uid="uid://58f7vvqx7473" path="res://data/events/events/event_silk_binder.tres" id="4_r81kp"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="5_r81kp"]
 [ext_resource type="Script" uid="uid://dr261i4fd8jf0" path="res://data/models/trinkets/trinket_data.gd" id="6_fetp2"]
 [ext_resource type="Resource" uid="uid://c3mns7h5t7dh" path="res://data/weathers/all_chapters/weather_shower.tres" id="7_ldk84"]
@@ -13,6 +14,7 @@
 [sub_resource type="Resource" id="Resource_ldk84"]
 script = ExtResource("3_mijjq")
 test_weather = ExtResource("7_ldk84")
+test_event_data = ExtResource("4_r81kp")
 test_trinket_datas = Array[ExtResource("6_fetp2")]([ExtResource("7_r81kp")])
 metadata/_custom_type_script = "uid://d4ngj3465rhxa"
 
