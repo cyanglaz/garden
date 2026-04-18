@@ -5,6 +5,10 @@ extends VBoxContainer
 @onready var title_label: Label = %TitleLabel
 @onready var rich_text_label: RichTextLabel = %RichTextLabel
 
+func _ready() -> void:
+	title_label.add_theme_color_override("font_color", Constants.ENCHANT_TEXT_COLOR)
+	title_label.add_theme_color_override("font_outline_color", Constants.ENCHANT_TEXT_OUTLINE_COLOR)
+
 func update_with_enchant_data(enchant_data: EnchantData, combat_main: CombatMain) -> void:
 	gui_enchant_icon.update_with_enchant_data(enchant_data, combat_main)
 	title_label.text = enchant_data.get_display_name()

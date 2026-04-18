@@ -1,54 +1,46 @@
 class_name GUIEnchantMain
 extends CanvasLayer
 
-signal enchant_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData)
+signal enchant_finished(old_tool_data:ToolData)
 signal enchant_card_pressed(tool_data:ToolData, enchant_card_global_position:Vector2)
 
 const TOOL_CARD_BUTTON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
 @onready var title_label: Label = %TitleLabel
-@onready var front_card_placeholder: GUICardPlaceHolder = %FrontCardPlaceholder
-@onready var back_card_placeholder: GUICardPlaceHolder = %BackCardPlaceholder
-@onready var front_card_label: Label = %FrontCardLabel
-@onready var back_card_label: Label = %BackCardLabel
+@onready var card_place_holder: GUICardPlaceHolder = %CardPlaceHolder
+@onready var gui_enchant_icon: GUIEnchantIcon = %GUIEnchantIcon
 @onready var cancel_button: GUIRichTextButton = %CancelButton
 @onready var enchant_button: GUIRichTextButton = %EnchantButton
 @onready var gui_tool_cards_viewer: GUIToolCardsViewer = %GUIToolCardsViewer
-@onready var cards_container: Control = %CardsContainer
 @onready var gui_enchant_animation_container: GUIEnchantAnimationContainer = %GUIEnchantAnimationContainer
 
 var _card_pool:Array = []
-var _selecting_front_card:bool = false
-var _front_card:GUIToolCardButton = null
-var _back_card:GUIToolCardButton = null
+var _card:GUIToolCardButton = null
 
 var _new_card_data:ToolData = null
 var _front_card_data_to_erase:ToolData = null
 var _back_card_data_to_erase:ToolData = null
+var _enchant_data:EnchantData = null
 
 func _ready() -> void:
 	enchant_button.button_state = GUIBasicButton.ButtonState.DISABLED
 	title_label.text = Util.get_localized_string("ENCHANT_TITLE")
-	front_card_label.text = Util.get_localized_string("ENCHANT_FRONT_CARD_LABEL")
-	back_card_label.text = Util.get_localized_string("ENCHANT_BACK_CARD_LABEL")
-	front_card_placeholder.button_enabled = true
-	back_card_placeholder.button_enabled = true
-	front_card_placeholder.button_pressed.connect(_on_front_card_placeholder_button_pressed)
-	back_card_placeholder.button_pressed.connect(_on_back_card_placeholder_button_pressed)
 	gui_tool_cards_viewer.hide()
 	gui_tool_cards_viewer.card_selected.connect(_on_card_selected)
 	cancel_button.pressed.connect(_on_cancel_button_pressed)
 	enchant_button.pressed.connect(_on_enchant_button_pressed)
 	gui_enchant_animation_container.hide()
 	gui_enchant_animation_container.enchant_card_pressed.connect(_on_enchant_card_pressed)
-	front_card_placeholder.button_hovered.connect(_on_front_card_placeholder_hovered)
-	back_card_placeholder.button_hovered.connect(_on_back_card_placeholder_hovered)
+	card_place_holder.button_pressed.connect(_on_card_placeholder_button_pressed)
+	card_place_holder.button_hovered.connect(_on_card_placeholder_hovered)
 
-func setup_with_card_pool(card_pool:Array) -> void:
+func setup_with_card_pool(card_pool:Array, enchant_data:EnchantData) -> void:
 	_card_pool = card_pool
 	_new_card_data = null
 	_front_card_data_to_erase = null
 	_back_card_data_to_erase = null
+	_enchant_data = enchant_data
+	gui_enchant_icon.update_with_enchant_data(enchant_data, null)
 
 func _animate_move_card_to_placeholder(selected_card:GUIToolCardButton, placeholder:GUICardPlaceHolder) -> void:
 	selected_card.play_discard_sound()
@@ -58,69 +50,45 @@ func _animate_move_card_to_placeholder(selected_card:GUIToolCardButton, placehol
 
 func _dismiss() -> void:
 	hide()
-	if _front_card:
-		_front_card.queue_free()
-		_front_card = null
-	if _back_card:
-		_back_card.queue_free()
-		_back_card = null
+	if _card:
+		_card.queue_free()
+		_card = null
 
 func _get_card_pool_for_enchant() -> Array:
 	var card_pool:Array = _card_pool.duplicate()
-	if _front_card != null:
-		card_pool.erase(_front_card.tool_data)
-	if _back_card != null:
-		card_pool.erase(_back_card.tool_data)
+	if _card != null:
+		card_pool.erase(_card.tool_data)
 	return card_pool
 
 #region events
 
-func _on_front_card_placeholder_button_pressed() -> void:
-	_selecting_front_card = true
-	if _front_card != null:
-		_front_card.queue_free()
-		_front_card = null
-	gui_tool_cards_viewer.animated_show_with_pool(_get_card_pool_for_enchant(), Util.get_localized_string("ENCHANT_FRONT_CARD_TITLE"), null)
-
-func _on_back_card_placeholder_button_pressed() -> void:
-	_selecting_front_card = false
-	if _back_card != null:
-		_back_card.queue_free()
-		_back_card = null
-	gui_tool_cards_viewer.animated_show_with_pool(_get_card_pool_for_enchant(), Util.get_localized_string("ENCHANT_BACK_CARD_TITLE"), null)
+func _on_card_placeholder_button_pressed() -> void:
+	if _card != null:
+		_card.queue_free()
+		_card = null
+	gui_tool_cards_viewer.animated_show_with_pool(_get_card_pool_for_enchant(), Util.get_localized_string("ENCHANT_CARD_TITLE"), null)
 
 func _on_card_selected(gui_tool_card:GUIToolCardButton) -> void:
 	var new_card:GUIToolCardButton
 	var tool_data:ToolData = gui_tool_card.tool_data
 	new_card = TOOL_CARD_BUTTON_SCENE.instantiate()
-	if _selecting_front_card:
-		_front_card = new_card
-	else:
-		_back_card = new_card
-	cards_container.add_child(new_card)
+	card_place_holder.add_child(new_card)
 	new_card.update_with_tool_data(tool_data, null)
 	new_card.global_position = gui_tool_card.global_position
 	new_card.z_index += 1
 	gui_tool_cards_viewer.animate_hide()
-	if _selecting_front_card:
-		_front_card = new_card
-		await _animate_move_card_to_placeholder(new_card, front_card_placeholder)
-	else:
-		_back_card = new_card
-		await _animate_move_card_to_placeholder(new_card, back_card_placeholder)
+	_card = new_card
+	await _animate_move_card_to_placeholder(new_card, card_place_holder)
 	new_card.z_index -= 1
 	new_card.mouse_disabled = false
-	new_card.pressed.connect(_on_new_card_pressed.bind(new_card))
-	if _front_card && _back_card:
+	new_card.pressed.connect(_on_new_card_pressed)
+	if _card:
 		enchant_button.button_state = GUIBasicButton.ButtonState.NORMAL
 	else:
 		enchant_button.button_state = GUIBasicButton.ButtonState.DISABLED
 
-func _on_new_card_pressed(new_card:GUIToolCardButton) -> void:
-	if new_card == _front_card:
-		_on_front_card_placeholder_button_pressed()
-	else:
-		_on_back_card_placeholder_button_pressed()
+func _on_new_card_pressed() -> void:
+	_on_card_placeholder_button_pressed()
 
 func _on_cancel_button_pressed() -> void:
 	_dismiss()
@@ -128,45 +96,27 @@ func _on_cancel_button_pressed() -> void:
 func _on_enchant_button_pressed() -> void:
 	cancel_button.hide()
 	enchant_button.hide()
-	front_card_placeholder.hide()
-	back_card_placeholder.hide()
-	front_card_label.hide()
-	back_card_label.hide()
-	_front_card.hide()
-	_back_card.hide()
+	card_place_holder.hide()
+	gui_enchant_icon.hide()
+	_card.hide()
 	title_label.hide()
-	assert(_front_card != null, "Front card is null")
-	assert(_back_card != null, "Back card is null")
-	var front_card_data:ToolData = _front_card.tool_data
-	var back_card_data:ToolData = _back_card.tool_data
-	_front_card_data_to_erase = front_card_data
-	_back_card_data_to_erase = back_card_data
-	assert(_card_pool.has(_front_card_data_to_erase), "Front card is not in pool")
-	assert(_card_pool.has(_back_card_data_to_erase), "Back card is not in pool")
-	var new_card_front_data:ToolData = front_card_data.get_duplicate()
-	var new_card_back_data:ToolData = back_card_data.get_duplicate()
-	_new_card_data = new_card_front_data.get_duplicate()
-	enchant_finished.emit(_new_card_data, front_card_data, back_card_data)
-	gui_enchant_animation_container.play_animation(new_card_front_data, new_card_back_data, _front_card.global_position, _back_card.global_position, _new_card_data)
+	assert(_card != null, "Card is null")
+	var card_data:ToolData = _card.tool_data
+	assert(_card_pool.has(card_data), "Card is not in pool")
+	var new_card_data:ToolData = card_data.get_duplicate()
+	_new_card_data = new_card_data.get_duplicate()
+	_new_card_data.enchant_data = _enchant_data.get_duplicate()
+	enchant_finished.emit(card_data)
+	gui_enchant_animation_container.play_animation(card_data, _enchant_data, _card.global_position, gui_enchant_icon.global_position, _new_card_data)
 
 func _on_enchant_card_pressed(card_global_position:Vector2) -> void:
 	enchant_card_pressed.emit(_new_card_data, card_global_position)
 	_dismiss()
 
-func _on_front_card_placeholder_hovered(hovered:bool) -> void:
+func _on_card_placeholder_hovered(hovered:bool) -> void:
 	if hovered:
-		front_card_placeholder.set_line_color(Constants.COLOR_BLUE_1)
-		front_card_label.self_modulate = Constants.COLOR_BLUE_1
+		card_place_holder.set_line_color(Constants.COLOR_BLUE_1)
 	else:
-		front_card_placeholder.set_line_color(Constants.COLOR_WHITE)
-		front_card_label.self_modulate = Constants.COLOR_WHITE
-
-func _on_back_card_placeholder_hovered(hovered:bool) -> void:
-	if hovered:
-		back_card_placeholder.set_line_color(Constants.COLOR_BLUE_1)
-		back_card_label.self_modulate = Constants.COLOR_BLUE_1
-	else:
-		back_card_placeholder.set_line_color(Constants.COLOR_WHITE)
-		back_card_label.self_modulate = Constants.COLOR_WHITE
+		card_place_holder.set_line_color(Constants.COLOR_WHITE)
 
 #endregion

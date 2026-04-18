@@ -7,10 +7,11 @@ signal button_hovered(hovered:bool)
 @onready var gui_basic_button: GUIBasicButton = %GUIBasicButton
 @onready var gui_tool_card_background: GUIToolCardBackground = %GUIToolCardBackground
 
-var button_enabled:= false: set = _set_button_enabled
+var button_enabled:= true: set = _set_button_enabled
 
 func _ready() -> void:
 	_set_button_enabled(button_enabled)
+	print(button_enabled)
 	gui_basic_button.pressed.connect(_on_gui_basic_button_pressed)
 	gui_basic_button.mouse_entered.connect(_on_gui_basic_button_mouse_entered)
 	gui_basic_button.mouse_exited.connect(_on_gui_basic_button_mouse_exited)

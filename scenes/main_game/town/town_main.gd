@@ -21,7 +21,8 @@ func _ready() -> void:
 	gui_town_main.enchant_card_pressed.connect(_on_enchant_card_pressed)
 	
 func setup_with_card_pool(card_pool:Array[ToolData]) -> void:
-	gui_town_main.setup_with_card_pool(card_pool)
+	var enchant_data:EnchantData = MainDatabase.enchant_database.roll_enchants(1)[0]
+	gui_town_main.setup_with_card_pool(card_pool, enchant_data)
 
 func _on_field_pressed(field:Field) -> void:
 	if _interacted || !_started:
@@ -43,10 +44,9 @@ func _on_tavern_field_pressed(field:TavernField) -> void:
 func _on_forge_field_pressed(_field:ForgeField) -> void:
 	gui_town_main.show_enchant_main()
 
-func _on_enchant_finished(_tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData) -> void:
+func _on_enchant_finished(old_tool_data:ToolData) -> void:
 	# Flip pairs (front_card / back_card on ToolData) removed; remove the two cards that were chosen in the enchant UI.
-	Events.request_remove_card_from_deck.emit(front_card_data)
-	Events.request_remove_card_from_deck.emit(back_card_data)
+	Events.request_remove_card_from_deck.emit(old_tool_data)
 
 func _on_enchant_card_pressed(tool_data:ToolData, enchant_card_global_position:Vector2) -> void:
 	Events.request_add_card_to_deck.emit(tool_data, enchant_card_global_position)
