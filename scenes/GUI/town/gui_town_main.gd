@@ -16,8 +16,8 @@ func setup_with_card_pool(card_pool:Array[ToolData], enchant_data:EnchantData) -
 func show_enchant_main() -> void:
 	gui_enchant_main.show()
 
-func _on_enchant_finished(tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData) -> void:
-	enchant_finished.emit(tool_data, front_card_data, back_card_data)
+func _on_enchant_finished(tool_data:ToolData) -> void:
+	enchant_finished.emit(tool_data)
 
 func _on_enchant_card_pressed(tool_data:ToolData, enchant_card_global_position:Vector2) -> void:
 	enchant_card_pressed.emit(tool_data, enchant_card_global_position)

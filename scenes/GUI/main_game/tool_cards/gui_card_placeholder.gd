@@ -11,7 +11,6 @@ var button_enabled:= true: set = _set_button_enabled
 
 func _ready() -> void:
 	_set_button_enabled(button_enabled)
-	print(button_enabled)
 	gui_basic_button.pressed.connect(_on_gui_basic_button_pressed)
 	gui_basic_button.mouse_entered.connect(_on_gui_basic_button_mouse_entered)
 	gui_basic_button.mouse_exited.connect(_on_gui_basic_button_mouse_exited)
