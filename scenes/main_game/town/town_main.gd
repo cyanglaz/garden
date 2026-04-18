@@ -21,7 +21,7 @@ func _ready() -> void:
 	gui_town_main.enchant_card_pressed.connect(_on_enchant_card_pressed)
 	
 func setup_with_card_pool(card_pool:Array[ToolData]) -> void:
-	var enchant_data:EnchantData = MainDatabase.enchant_database.roll_enchants(1)[0]
+	var enchant_data:EnchantData = MainDatabase.enchant_database.roll_purchasable_enchants(1)[0]
 	gui_town_main.setup_with_card_pool(card_pool, enchant_data)
 
 func _on_field_pressed(field:Field) -> void:

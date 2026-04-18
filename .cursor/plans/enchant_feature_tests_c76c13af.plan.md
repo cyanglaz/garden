@@ -25,7 +25,7 @@ isProject: false
 Branch `enchant` introduces:
 
 - New model: [data/models/tools/enchant_data.gd](data/models/tools/enchant_data.gd) (`EnchantData`)
-- New database: [autoloads/database/enchant_database.gd](autoloads/database/enchant_database.gd) (`EnchantDatabase.roll_enchants`)
+- New database: [autoloads/database/enchant_database.gd](autoloads/database/enchant_database.gd) (`EnchantDatabase.roll_purchasable_enchants`)
 - New `enchant_data` field on [data/models/tools/tool_data.gd](data/models/tools/tool_data.gd) (handled in `copy()` / `get_duplicate()`)
 - New event option script: [scenes/main_game/event/event_option_scripts/event_option_script_enchant.gd](scenes/main_game/event/event_option_scripts/event_option_script_enchant.gd)
 - Lots of GUI pieces (`gui_enchant_main`, `gui_enchant_icon`, `gui_enchant_animation_container`, `gui_enchant_description`, `gui_enchant_tooltip`, etc.)
@@ -97,7 +97,7 @@ Tests:
 - `test_roll_with_unknown_rarity_does_not_crash` - rarity outside `RARITY_WEIGHTS` (e.g. 5) still gets weight 1 via the `.get(e.rarity, 1)` fallback
 - `test_roll_only_returns_enchants_from_pool` - every returned id is in the seeded pool
 
-If the user prefers, an alternative is to refactor `roll_enchants(count)` to delegate to a static `_select_enchants(pool, count)` (mirroring `TrinketDatabase._select_shop_trinkets`) and test that static helper. Cleaner long-term, but a small production change. Will ask if uncertain.
+If the user prefers, an alternative is to refactor `roll_purchasable_enchants(count)` to delegate to a static `_select_enchants(pool, count)` (mirroring `TrinketDatabase._select_shop_trinkets`) and test that static helper. Cleaner long-term, but a small production change. Will ask if uncertain.
 
 ### 4. (Optional) Smoke check that all 8 `data/enchants/*.tres` resources load
 

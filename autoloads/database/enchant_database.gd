@@ -4,8 +4,8 @@ extends Database
 const DIR = "res://data/enchants"
 const RARITY_WEIGHTS := {0: 6, 1: 3, 2: 1}
 
-func roll_enchants(count: int) -> Array[EnchantData]:
-	var available: Array = get_all_datas()
+func roll_purchasable_enchants(count: int) -> Array[EnchantData]:
+	var available: Array = _get_all_resources(_datas, "purchasable").values().duplicate()
 	var result: Array[EnchantData] = []
 	for i in min(count, available.size()):
 		var weights: Array[int] = []

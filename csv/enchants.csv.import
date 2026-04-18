@@ -6,10 +6,10 @@ uid="uid://dcja6od8g7pvl"
 
 [deps]
 
-files=["res://csv/enchants.action.translation"]
+files=["res://csv/enchants.Action.translation", "res://csv/enchants.Rarity.translation"]
 
 source_file="res://csv/enchants.csv"
-dest_files=["res://csv/enchants.action.translation"]
+dest_files=["res://csv/enchants.Action.translation", "res://csv/enchants.Rarity.translation"]
 
 [params]
 

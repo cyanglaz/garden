@@ -1,7 +1,7 @@
 extends GutTest
 
-# Tests for EnchantDatabase.roll_enchants() and the resource files on disk.
-# roll_enchants(count) is exercised by seeding _datas directly to avoid disk IO
+# Tests for EnchantDatabase.roll_purchasable_enchants() and the resource files on disk.
+# roll_purchasable_enchants(count) is exercised by seeding _datas directly to avoid disk IO
 # coupling, mirroring the approach in test_trinket_database_shop_roll.gd.
 
 const FAKE_PATH := "res://fake/test_enchant.tres"
@@ -28,16 +28,16 @@ func _make_db(enchants: Array) -> EnchantDatabase:
 		db._datas[e.id] = e
 	return db
 
-# ----- roll_enchants count bounds -----
+# ----- roll_purchasable_enchants count bounds -----
 
 func test_roll_zero_returns_empty():
 	var db := _make_db([_make_enchant("a"), _make_enchant("b")])
-	var result := db.roll_enchants(0)
+	var result := db.roll_purchasable_enchants(0)
 	assert_eq(result.size(), 0)
 
 func test_roll_one_returns_one():
 	var db := _make_db([_make_enchant("a"), _make_enchant("b")])
-	var result := db.roll_enchants(1)
+	var result := db.roll_purchasable_enchants(1)
 	assert_eq(result.size(), 1)
 
 func test_roll_n_returns_n_when_pool_large_enough():
@@ -47,12 +47,12 @@ func test_roll_n_returns_n_when_pool_large_enough():
 		_make_enchant("c"),
 		_make_enchant("d"),
 	])
-	var result := db.roll_enchants(3)
+	var result := db.roll_purchasable_enchants(3)
 	assert_eq(result.size(), 3)
 
 func test_roll_caps_at_pool_size_when_count_exceeds_available():
 	var db := _make_db([_make_enchant("a"), _make_enchant("b")])
-	var result := db.roll_enchants(5)
+	var result := db.roll_purchasable_enchants(5)
 	assert_eq(result.size(), 2)
 
 # ----- uniqueness + pool membership -----
@@ -63,7 +63,7 @@ func test_roll_returns_unique_ids():
 		_make_enchant("b"),
 		_make_enchant("c"),
 	])
-	var result := db.roll_enchants(3)
+	var result := db.roll_purchasable_enchants(3)
 	var unique_ids := {}
 	for e: EnchantData in result:
 		unique_ids[e.id] = true
@@ -75,7 +75,7 @@ func test_roll_only_returns_enchants_from_pool():
 	for id in ids:
 		pool.append(_make_enchant(id))
 	var db := _make_db(pool)
-	var result := db.roll_enchants(3)
+	var result := db.roll_purchasable_enchants(3)
 	for e: EnchantData in result:
 		assert_true(e.id in ids)
 
@@ -84,7 +84,7 @@ func test_roll_only_returns_enchants_from_pool():
 func test_roll_returns_duplicates_not_originals():
 	var originals: Array = [_make_enchant("a"), _make_enchant("b")]
 	var db := _make_db(originals)
-	var result := db.roll_enchants(2)
+	var result := db.roll_purchasable_enchants(2)
 	for res_enchant: EnchantData in result:
 		for original: EnchantData in originals:
 			assert_ne(res_enchant, original)
@@ -97,7 +97,7 @@ func test_roll_with_unknown_rarity_does_not_crash():
 		_make_enchant("a", 5),
 		_make_enchant("b", 99),
 	])
-	var result := db.roll_enchants(2)
+	var result := db.roll_purchasable_enchants(2)
 	assert_eq(result.size(), 2)
 
 # ----- smoke: validate all 8 .tres resources load via the autoload -----
