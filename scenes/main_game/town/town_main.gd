@@ -17,8 +17,8 @@ func _ready() -> void:
 	_started = true
 	for field:Field in field_container.fields:
 		field.field_pressed.connect(_on_field_pressed.bind(field))
-	gui_town_main.bind_finished.connect(_on_bind_finished)
-	gui_town_main.bind_card_pressed.connect(_on_bind_card_pressed)
+	gui_town_main.enchant_finished.connect(_on_enchant_finished)
+	gui_town_main.enchant_card_pressed.connect(_on_enchant_card_pressed)
 	
 func setup_with_card_pool(card_pool:Array[ToolData]) -> void:
 	gui_town_main.setup_with_card_pool(card_pool)
@@ -41,17 +41,15 @@ func _on_tavern_field_pressed(field:TavernField) -> void:
 	town_finished.emit()
 
 func _on_forge_field_pressed(_field:ForgeField) -> void:
-	gui_town_main.show_bind_main()
+	gui_town_main.show_enchant_main()
 
-func _on_bind_finished(_tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData) -> void:
-	# Flip pairs (front_card / back_card on ToolData) removed; remove the two cards that were chosen in the bind UI.
-	# var front_to_remove: ToolData = front_card_data.front_card if front_card_data.front_card != null else front_card_data
-	# var back_to_remove: ToolData = back_card_data.back_card if back_card_data.back_card != null else back_card_data
+func _on_enchant_finished(_tool_data:ToolData, front_card_data:ToolData, back_card_data:ToolData) -> void:
+	# Flip pairs (front_card / back_card on ToolData) removed; remove the two cards that were chosen in the enchant UI.
 	Events.request_remove_card_from_deck.emit(front_card_data)
 	Events.request_remove_card_from_deck.emit(back_card_data)
 
-func _on_bind_card_pressed(tool_data:ToolData, bind_card_global_position:Vector2) -> void:
-	Events.request_add_card_to_deck.emit(tool_data, bind_card_global_position)
+func _on_enchant_card_pressed(tool_data:ToolData, enchant_card_global_position:Vector2) -> void:
+	Events.request_add_card_to_deck.emit(tool_data, enchant_card_global_position)
 	await Util.await_for_tiny_time()
 	town_finished.emit()
 

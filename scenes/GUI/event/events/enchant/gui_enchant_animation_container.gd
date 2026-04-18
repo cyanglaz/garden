@@ -1,7 +1,7 @@
-class_name GUIBindAnimationContainer
+class_name GUIEnchantAnimationContainer
 extends Control
 
-signal bind_card_pressed(card_global_position:Vector2)
+signal enchant_card_pressed(card_global_position:Vector2)
 
 const CARD_MOVE_TIME := 0.2
 
@@ -10,7 +10,7 @@ const CARD_MOVE_TIME := 0.2
 @onready var gui_tool_card_button: GUIToolCardButton = %GUIToolCardButton
 @onready var card_forging_effect: Node2D = %CardForgingEffect
 
-func play_animation(left_tool_data:ToolData, right_tool_data:ToolData, left_position:Vector2, right_position:Vector2, bind_tool_data:ToolData) -> void:
+func play_animation(left_tool_data:ToolData, right_tool_data:ToolData, left_position:Vector2, right_position:Vector2, enchant_tool_data:ToolData) -> void:
 	gui_tool_card_button.hide()
 	show()
 	front_card.update_with_tool_data(left_tool_data, null)
@@ -26,7 +26,7 @@ func play_animation(left_tool_data:ToolData, right_tool_data:ToolData, left_posi
 	back_card.hide()
 	await card_forging_effect.play_card_forging_effect(front_card, back_card, front_card.size)
 	gui_tool_card_button.show()
-	gui_tool_card_button.update_with_tool_data(bind_tool_data, null)
+	gui_tool_card_button.update_with_tool_data(enchant_tool_data, null)
 	gui_tool_card_button.global_position = center_position
 	gui_tool_card_button.scale = Vector2.ZERO
 	gui_tool_card_button.pivot_offset_ratio = Vector2.ONE * 0.5
@@ -37,4 +37,4 @@ func play_animation(left_tool_data:ToolData, right_tool_data:ToolData, left_posi
 	gui_tool_card_button.pressed.connect(_on_gui_tool_card_button_pressed)
 
 func _on_gui_tool_card_button_pressed() -> void:
-	bind_card_pressed.emit(gui_tool_card_button.global_position)
+	enchant_card_pressed.emit(gui_tool_card_button.global_position)

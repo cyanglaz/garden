@@ -1,4 +1,4 @@
-class_name BindCoreBurst
+class_name EnchantCoreBurst
 extends Node2D
 
 const WAIT_TIME := 0.1
