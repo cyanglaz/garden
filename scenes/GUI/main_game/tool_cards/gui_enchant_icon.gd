@@ -14,6 +14,7 @@ func _ready() -> void:
 	mouse_exited.connect(_on_mouse_exited)
 	label.add_theme_color_override("font_color", Constants.ENCHANT_TEXT_COLOR)
 	label.add_theme_color_override("font_outline_color", Constants.ENCHANT_TEXT_OUTLINE_COLOR)
+	gui_action_type_icon.material.set_shader_parameter("inner_outline_color", Constants.COLOR_WHITE)
 
 func update_with_enchant_data(enchant_data: EnchantData, combat_main: CombatMain) -> void:
 	_enchant_data = enchant_data
@@ -23,7 +24,8 @@ func update_with_enchant_data(enchant_data: EnchantData, combat_main: CombatMain
 func _on_mouse_entered() -> void:
 	if !mouse_interaction_enabled:
 		return
-	gui_action_type_icon.is_highlighted = true
+	gui_action_type_icon.material.set_shader_parameter("inner_outline", true)
+
 	label.add_theme_color_override("font_outline_color", Constants.COLOR_WHITE)
 	_tooltip_id = Util.get_uuid()
 	Events.request_display_tooltip.emit(TooltipRequest.new(
@@ -37,6 +39,6 @@ func _on_mouse_entered() -> void:
 func _on_mouse_exited() -> void:
 	if !mouse_interaction_enabled:
 		return
-	gui_action_type_icon.is_highlighted = false
+	gui_action_type_icon.material.set_shader_parameter("inner_outline", false)
 	label.add_theme_color_override("font_outline_color", Constants.ENCHANT_TEXT_OUTLINE_COLOR)
 	Events.request_hide_tooltip.emit(_tooltip_id)

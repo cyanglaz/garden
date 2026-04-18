@@ -12,6 +12,8 @@ shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 shader_parameter/blend_color = Color(1, 1, 1, 1)
 shader_parameter/blend_strength = 0.0
+shader_parameter/inner_outline = false
+shader_parameter/inner_outline_color = Color(1, 1, 1, 1)
 
 [node name="GUIEnchantIcon" type="PanelContainer" unique_id=162066442]
 offset_right = 6.0
