@@ -1,11 +1,20 @@
 class_name GUIToolCardTooltip
 extends GUITooltip
 
+@onready var gui_enchant_description: GUIEnchantDescription = %GUIEnchantDescription
+@onready var h_separator: HSeparator = %HSeparator
 @onready var gui_actions_description: GUIActionsDescription = %GUIActionsDescription
 @onready var gui_tool_special_description: GUIToolSpecialDescription = %GUIToolSpecialDescription
 
 func _update_with_tooltip_request() -> void:
 	var tool_data:ToolData = _tooltip_request.data as ToolData
+	if tool_data.enchant_data:
+		gui_enchant_description.show()
+		gui_enchant_description.update_with_enchant_data(tool_data.enchant_data, _tooltip_request.combat_main)
+		h_separator.show()
+	else:
+		gui_enchant_description.hide()
+		h_separator.hide()
 	if tool_data.actions.is_empty() || tool_data.actions[0].type == ActionData.ActionType.NONE:
 		gui_actions_description.hide()
 	else:
