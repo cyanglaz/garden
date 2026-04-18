@@ -20,14 +20,7 @@ offset_right = 6.0
 offset_bottom = 8.0
 script = ExtResource("1_u6gro")
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1952961212]
-layout_mode = 2
-theme_override_constants/margin_left = 1
-theme_override_constants/margin_top = 1
-theme_override_constants/margin_right = 1
-theme_override_constants/margin_bottom = 1
-
-[node name="GUIActionTypeIcon" parent="MarginContainer" unique_id=196388819 instance=ExtResource("1_nmkt2")]
+[node name="GUIActionTypeIcon" parent="." unique_id=196388819 instance=ExtResource("1_nmkt2")]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_bhnuk")
 layout_mode = 2
