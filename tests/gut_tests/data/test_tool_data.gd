@@ -238,3 +238,43 @@ func test_duplicate_type_is_copied():
 	td.type = ToolData.Type.POWER
 	var dup := td.get_duplicate()
 	assert_eq(dup.type, ToolData.Type.POWER)
+
+# ----- enchant_data -----
+
+func _make_enchant(rarity_val: int = 0, action_type: ActionData.ActionType = ActionData.ActionType.WATER, action_value: int = 2) -> EnchantData:
+	var ed := EnchantData.new()
+	ed.set("_original_resource_path", FAKE_PATH)
+	ed.id = "test_enchant"
+	ed.rarity = rarity_val
+	var ad := _make_action(action_type, action_value)
+	ed.action_data = ad
+	return ed
+
+func test_duplicate_with_null_enchant_data_stays_null():
+	var td := _make_tool()
+	td.enchant_data = null
+	var dup := td.get_duplicate()
+	assert_null(dup.enchant_data)
+
+func test_duplicate_copies_enchant_data():
+	var td := _make_tool()
+	td.enchant_data = _make_enchant(1, ActionData.ActionType.LIGHT, 3)
+	var dup := td.get_duplicate()
+	assert_not_null(dup.enchant_data)
+	assert_eq(dup.enchant_data.rarity, 1)
+	assert_eq(dup.enchant_data.action_data.type, ActionData.ActionType.LIGHT)
+
+func test_duplicate_enchant_data_is_separate_instance():
+	var td := _make_tool()
+	td.enchant_data = _make_enchant()
+	var dup := td.get_duplicate()
+	assert_ne(dup.enchant_data, td.enchant_data)
+
+func test_duplicate_enchant_data_is_independent():
+	var td := _make_tool()
+	td.enchant_data = _make_enchant(1, ActionData.ActionType.WATER, 2)
+	var dup := td.get_duplicate()
+	dup.enchant_data.rarity = 2
+	dup.enchant_data.action_data.modified_value = 42
+	assert_eq(td.enchant_data.rarity, 1)
+	assert_eq(td.enchant_data.action_data.modified_value, 0)

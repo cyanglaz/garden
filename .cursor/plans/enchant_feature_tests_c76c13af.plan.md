@@ -4,19 +4,19 @@ overview: Add focused unit tests in tests/gut_tests/data/ for the new enchant da
 todos:
   - id: test-enchant-data
     content: Add tests/gut_tests/data/test_enchant_data.gd covering copy/get_duplicate/localization prefix
-    status: pending
+    status: completed
   - id: extend-tool-data
     content: Extend tests/gut_tests/data/test_tool_data.gd with enchant_data duplicate/independence cases
-    status: pending
+    status: completed
   - id: test-enchant-database
     content: Add tests/gut_tests/data/test_enchant_database.gd modeled on test_trinket_database_shop_roll.gd, seeding _datas directly
-    status: pending
+    status: completed
   - id: smoke-load-enchants
     content: Add a smoke test that iterates MainDatabase.enchant_database.get_all_datas() to validate all 8 .tres files
-    status: pending
+    status: completed
   - id: run-gut
     content: Run godot --headless -s addons/gut/gut_cmdln.gd and confirm all green
-    status: pending
+    status: cancelled
 isProject: false
 ---
 
