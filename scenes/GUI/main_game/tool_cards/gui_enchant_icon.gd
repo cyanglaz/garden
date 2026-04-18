@@ -23,7 +23,8 @@ func update_with_enchant_data(enchant_data: EnchantData, combat_main: CombatMain
 func _on_mouse_entered() -> void:
 	if !mouse_interaction_enabled:
 		return
-	gui_action_type_icon.has_outline = true
+	gui_action_type_icon.is_highlighted = true
+	label.add_theme_color_override("font_outline_color", Constants.COLOR_WHITE)
 	_tooltip_id = Util.get_uuid()
 	Events.request_display_tooltip.emit(TooltipRequest.new(
 		TooltipRequest.TooltipType.ENCHANT,
@@ -36,5 +37,6 @@ func _on_mouse_entered() -> void:
 func _on_mouse_exited() -> void:
 	if !mouse_interaction_enabled:
 		return
-	gui_action_type_icon.has_outline = false
+	gui_action_type_icon.is_highlighted = false
+	label.add_theme_color_override("font_outline_color", Constants.ENCHANT_TEXT_OUTLINE_COLOR)
 	Events.request_hide_tooltip.emit(_tooltip_id)

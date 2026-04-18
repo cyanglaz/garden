@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cs2bkkqdbo27n"
+path="res://.godot/imported/transparent_pixel.aseprite-a2de946833ec55dcda3b92ca5769d40a.res"
+
+[deps]
+
+source_file="res://resources/sprites/utils/transparent_pixel.aseprite"
+dest_files=["res://.godot/imported/transparent_pixel.aseprite-a2de946833ec55dcda3b92ca5769d40a.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false
