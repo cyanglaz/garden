@@ -30,7 +30,7 @@ var chapter_manager:ChapterManager = ChapterManager.new()
 var card_pool:Array[ToolData]
 var trinket_manager:TrinketManager = TrinketManager.new()
 var hp:ResourcePoint = ResourcePoint.new()
-var gold:int = STARTING_GOLD
+var gold:int = 0
 var _warning_manager:WarningManager = WarningManager.new(self)
 var _benched_events:Array = []
 
@@ -57,8 +57,7 @@ func _ready() -> void:
 
 	map_main.node_selected.connect(_on_map_node_selected)
 
-	Events.request_update_gold.emit(0, false)
-	_on_request_update_gold(10, false)
+	Events.request_update_gold.emit(STARTING_GOLD, false)
 	_start_new_chapter()
 
 func _register_global_events() -> void:
@@ -183,6 +182,7 @@ func _on_beat_final_boss() -> void:
 func _on_shop_button_pressed(cost: int) -> void:
 	if cost > 0:
 		Events.request_update_gold.emit(-cost, true)
+		print("gold: %s" % gold)
 		(_current_scene as ShopMain).update_for_gold(gold)
 
 func _on_shop_finish_button_pressed() -> void:
