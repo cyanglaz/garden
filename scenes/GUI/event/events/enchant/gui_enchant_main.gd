@@ -3,6 +3,7 @@ extends CanvasLayer
 
 signal enchant_finished(old_tool_data:ToolData)
 signal enchant_card_pressed(tool_data:ToolData, enchant_card_global_position:Vector2)
+signal enchant_cancelled()
 
 const TOOL_CARD_BUTTON_SCENE := preload("res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn")
 
@@ -77,7 +78,7 @@ func _on_card_placeholder_button_pressed() -> void:
 	if _card != null:
 		_card.queue_free()
 		_card = null
-	gui_tool_cards_viewer.animated_show_with_pool(_get_card_pool_for_enchant(), Util.get_localized_string("ENCHANT_CARD_TITLE"), null)
+	gui_tool_cards_viewer.animated_show_with_pool(_get_card_pool_for_enchant(), Util.get_localized_string("FULL_DECK_TITLE"), null)
 
 func _on_card_selected(gui_tool_card:GUIToolCardButton) -> void:
 	var new_card:GUIToolCardButton
@@ -103,6 +104,7 @@ func _on_new_card_pressed() -> void:
 
 func _on_cancel_button_pressed() -> void:
 	_dismiss()
+	enchant_cancelled.emit()
 
 func _on_enchant_button_pressed() -> void:
 	cancel_button.hide()
@@ -114,8 +116,7 @@ func _on_enchant_button_pressed() -> void:
 	assert(_card != null, "Card is null")
 	var card_data:ToolData = _card.tool_data
 	assert(_card_pool.has(card_data), "Card is not in pool")
-	var new_card_data:ToolData = card_data.get_duplicate()
-	_new_card_data = new_card_data.get_duplicate()
+	_new_card_data = card_data.get_duplicate()
 	_new_card_data.enchant_data = _enchant_data.get_duplicate()
 	enchant_finished.emit(card_data)
 	gui_enchant_animation_container.play_animation(card_data, _enchant_data, _card.global_position, gui_enchant_icon.global_position, _new_card_data)

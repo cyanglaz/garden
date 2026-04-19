@@ -32,5 +32,5 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 54.0
 
-[node name="CardForgingEffect" parent="." unique_id=1361764135 instance=ExtResource("4_0mtb0")]
+[node name="CardEnchantEffect" parent="." unique_id=1361764135 instance=ExtResource("4_0mtb0")]
 unique_name_in_owner = true

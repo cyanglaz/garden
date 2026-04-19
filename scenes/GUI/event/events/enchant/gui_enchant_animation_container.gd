@@ -9,7 +9,7 @@ const FINAL_CARD_SCALE_TIME := 0.2
 @onready var gui_card_face: GUICardFace = %GUICardFace
 @onready var gui_enchant_icon: GUIEnchantIcon = %GUIEnchantIcon
 @onready var gui_tool_card_button: GUIToolCardButton = %GUIToolCardButton
-@onready var card_forging_effect: CardEnchantingEffect = %CardForgingEffect
+@onready var card_enchant_effect: CardEnchantingEffect = %CardEnchantEffect
 
 func play_animation(tool_data:ToolData, enchant_data:EnchantData, tool_global_position:Vector2, enchant_global_position:Vector2, new_tool_data:ToolData) -> void:
 	gui_tool_card_button.hide()
@@ -23,7 +23,7 @@ func play_animation(tool_data:ToolData, enchant_data:EnchantData, tool_global_po
 	await tween.finished
 	gui_card_face.hide()
 	gui_enchant_icon.hide()
-	await card_forging_effect.play_card_forging_effect(tool_global_position + gui_card_face.size / 2)
+	await card_enchant_effect.play_card_enchant_effect(tool_global_position + gui_card_face.size / 2)
 	gui_tool_card_button.show()
 	gui_tool_card_button.update_with_tool_data(new_tool_data, null)
 	gui_tool_card_button.global_position = tool_global_position

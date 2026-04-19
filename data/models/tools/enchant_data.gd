@@ -2,6 +2,7 @@ class_name EnchantData
 extends ThingData
 
 const COSTS := {
+	-1: 0,  # temp cards
 	0: 15,  # common
 	1: 30,  # uncommon
 }
@@ -12,11 +13,13 @@ const COSTS := {
 var cost:int: get = _get_cost
 
 func _get_cost() -> int:
+	assert(rarity >= -1 && rarity <= 1, "Rarity is out of range")
 	return COSTS.get(rarity, 0)
 
 func copy(other:ThingData) -> void:
 	super.copy(other)
 	var other_enchant: EnchantData = other as EnchantData
+	assert(other_enchant.action_data != null, "Action data is null")
 	action_data = other_enchant.action_data.get_duplicate()
 	rarity = other_enchant.rarity
 

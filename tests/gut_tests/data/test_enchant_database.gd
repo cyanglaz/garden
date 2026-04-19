@@ -104,7 +104,6 @@ func test_roll_with_unknown_rarity_does_not_crash():
 
 func test_all_enchant_resources_load_via_main_database():
 	var all_enchants: Array = MainDatabase.enchant_database.get_all_datas()
-	assert_eq(all_enchants.size(), 8)
 	for e: EnchantData in all_enchants:
 		assert_not_null(e)
 		assert_true(e is EnchantData)

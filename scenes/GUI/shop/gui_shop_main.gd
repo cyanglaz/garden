@@ -34,6 +34,7 @@ func _ready() -> void:
 	gui_enchant_main.hide()
 	gui_enchant_main.enchant_finished.connect(_on_enchant_finished)
 	gui_enchant_main.enchant_card_pressed.connect(_on_enchant_card_pressed)
+	gui_enchant_main.enchant_cancelled.connect(_on_enchant_cancelled)
 
 func bind_card_pool(card_pool: Array[ToolData]) -> void:
 	_card_pool_ref = card_pool
@@ -144,6 +145,10 @@ func _on_enchant_card_pressed(tool_data: ToolData, enchant_card_global_position:
 	shop_button_pressed.emit(_pending_enchant_cost)
 	if _pending_enchant_button:
 		_pending_enchant_button.queue_free()
+	_pending_enchant_button = null
+	_pending_enchant_cost = 0
+
+func _on_enchant_cancelled() -> void:
 	_pending_enchant_button = null
 	_pending_enchant_cost = 0
 
