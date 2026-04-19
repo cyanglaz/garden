@@ -110,3 +110,111 @@ func test_all_enchant_resources_load_via_main_database():
 		assert_true(e is EnchantData)
 		assert_false(e.id.is_empty())
 		assert_not_null(e.action_data)
+
+# ----- EnchantData.cost by rarity -----
+
+func test_enchant_cost_rarity_0_is_15():
+	var e := _make_enchant("a", 0)
+	assert_eq(e.cost, 15)
+
+func test_enchant_cost_rarity_1_is_30():
+	var e := _make_enchant("a", 1)
+	assert_eq(e.cost, 30)
+
+# ----- roll_shop_enchants: 2 common + 1 uncommon -----
+
+func test_roll_shop_returns_three_when_pools_sufficient():
+	var db := _make_db([
+		_make_enchant("c1", 0),
+		_make_enchant("c2", 0),
+		_make_enchant("c3", 0),
+		_make_enchant("u1", 1),
+		_make_enchant("u2", 1),
+	])
+	var result: Array[EnchantData] = db.roll_shop_enchants()
+	assert_eq(result.size(), 3)
+
+func test_roll_shop_returns_two_commons_and_one_uncommon():
+	var db := _make_db([
+		_make_enchant("c1", 0),
+		_make_enchant("c2", 0),
+		_make_enchant("c3", 0),
+		_make_enchant("u1", 1),
+		_make_enchant("u2", 1),
+	])
+	var result: Array[EnchantData] = db.roll_shop_enchants()
+	var common_count := 0
+	var uncommon_count := 0
+	for e: EnchantData in result:
+		if e.rarity == 0:
+			common_count += 1
+		elif e.rarity == 1:
+			uncommon_count += 1
+	assert_eq(common_count, 2)
+	assert_eq(uncommon_count, 1)
+
+func test_roll_shop_returns_unique_ids():
+	var db := _make_db([
+		_make_enchant("c1", 0),
+		_make_enchant("c2", 0),
+		_make_enchant("c3", 0),
+		_make_enchant("u1", 1),
+		_make_enchant("u2", 1),
+	])
+	var result: Array[EnchantData] = db.roll_shop_enchants()
+	var unique_ids := {}
+	for e: EnchantData in result:
+		unique_ids[e.id] = true
+	assert_eq(unique_ids.size(), result.size())
+
+func test_roll_shop_returns_duplicates_not_originals():
+	var originals: Array = [
+		_make_enchant("c1", 0),
+		_make_enchant("c2", 0),
+		_make_enchant("u1", 1),
+	]
+	var db := _make_db(originals)
+	var result: Array[EnchantData] = db.roll_shop_enchants()
+	for res_enchant: EnchantData in result:
+		for original: EnchantData in originals:
+			assert_ne(res_enchant, original)
+
+func test_roll_shop_filters_out_rarity_two_or_higher():
+	var db := _make_db([
+		_make_enchant("c1", 0),
+		_make_enchant("c2", 0),
+		_make_enchant("u1", 1),
+		_make_enchant("r1", 2),
+		_make_enchant("r2", 3),
+	])
+	var result: Array[EnchantData] = db.roll_shop_enchants()
+	for e: EnchantData in result:
+		assert_true(e.rarity < 2, "rarity %d should have been filtered out" % e.rarity)
+
+func test_roll_shop_fallback_when_no_uncommon():
+	# If there is no uncommon pool member, fall back to picking up to 3 unique
+	# enchants from the combined rarity<2 pool.
+	var db := _make_db([
+		_make_enchant("c1", 0),
+		_make_enchant("c2", 0),
+		_make_enchant("c3", 0),
+	])
+	var result: Array[EnchantData] = db.roll_shop_enchants()
+	assert_eq(result.size(), 3)
+	var unique_ids := {}
+	for e: EnchantData in result:
+		unique_ids[e.id] = true
+	assert_eq(unique_ids.size(), 3)
+
+func test_roll_shop_fallback_when_fewer_than_two_commons():
+	var db := _make_db([
+		_make_enchant("c1", 0),
+		_make_enchant("u1", 1),
+		_make_enchant("u2", 1),
+	])
+	var result: Array[EnchantData] = db.roll_shop_enchants()
+	assert_eq(result.size(), 3)
+	var unique_ids := {}
+	for e: EnchantData in result:
+		unique_ids[e.id] = true
+	assert_eq(unique_ids.size(), 3)

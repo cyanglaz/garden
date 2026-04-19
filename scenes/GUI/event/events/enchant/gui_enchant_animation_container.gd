@@ -37,3 +37,11 @@ func play_animation(tool_data:ToolData, enchant_data:EnchantData, tool_global_po
 
 func _on_gui_tool_card_button_pressed() -> void:
 	enchant_card_pressed.emit(gui_tool_card_button.global_position)
+
+func reset() -> void:
+	hide()
+	gui_tool_card_button.hide()
+	gui_card_face.hide()
+	gui_enchant_icon.hide()
+	if gui_tool_card_button.pressed.is_connected(_on_gui_tool_card_button_pressed):
+		gui_tool_card_button.pressed.disconnect(_on_gui_tool_card_button_pressed)

@@ -12,6 +12,7 @@ const INITIAL_HP_VALUE := "res://data/player/player_pollinator.tres"
 const SCENE_TRANSITION_TIME := 0.2
 const NUMBER_OF_CHAPTERS := 1
 const EVENT_CHANCE := 0.5
+const STARTING_GOLD := 30
 
 @export var player_data:PlayerData
 @export var test_data:MainGameTest
@@ -29,7 +30,7 @@ var chapter_manager:ChapterManager = ChapterManager.new()
 var card_pool:Array[ToolData]
 var trinket_manager:TrinketManager = TrinketManager.new()
 var hp:ResourcePoint = ResourcePoint.new()
-var gold:int = 0
+var gold:int = STARTING_GOLD
 var _warning_manager:WarningManager = WarningManager.new(self)
 var _benched_events:Array = []
 
@@ -89,12 +90,12 @@ func _start_new_chapter() -> void:
 		#_start_combat_main_scene.call_deferred(test_data.test_combat)
 	#else:
 		#_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
-	_start_event()
+	#_start_event()
 	#_start_chest()
 	#_start_town()
 	#_game_over()
 	#_game_win()
-	#_start_shop()
+	_start_shop()
 
 func _generate_chapter_data() -> void:
 	map_main.generate_map(session_seed)
@@ -129,7 +130,7 @@ func _start_shop() -> void:
 	shop_main.finish_button_pressed.connect(_on_shop_finish_button_pressed)
 	node_container.add_child(shop_main)
 	start_scene_transition()
-	shop_main.start(gold, trinket_manager.trinket_pool)
+	shop_main.start(gold, card_pool, trinket_manager.trinket_pool)
 
 func _start_town() -> void:
 	var town_main = TOWN_MAIN_SCENE.instantiate()

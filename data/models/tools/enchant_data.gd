@@ -1,8 +1,18 @@
 class_name EnchantData
 extends ThingData
 
+const COSTS := {
+	0: 15,  # common
+	1: 30,  # uncommon
+}
+
 @export var action_data:ActionData
 @export var rarity:int = 0
+
+var cost:int: get = _get_cost
+
+func _get_cost() -> int:
+	return COSTS.get(rarity, 0)
 
 func copy(other:ThingData) -> void:
 	super.copy(other)

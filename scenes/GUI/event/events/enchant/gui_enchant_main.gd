@@ -40,6 +40,17 @@ func setup_with_card_pool(card_pool:Array, enchant_data:EnchantData) -> void:
 	_front_card_data_to_erase = null
 	_back_card_data_to_erase = null
 	_enchant_data = enchant_data
+	if _card:
+		_card.queue_free()
+		_card = null
+	title_label.show()
+	card_place_holder.show()
+	gui_enchant_icon.show()
+	cancel_button.show()
+	enchant_button.show()
+	enchant_button.button_state = GUIBasicButton.ButtonState.DISABLED
+	gui_tool_cards_viewer.hide()
+	gui_enchant_animation_container.reset()
 	gui_enchant_icon.update_with_enchant_data(enchant_data, null)
 
 func _animate_move_card_to_placeholder(selected_card:GUIToolCardButton, placeholder:GUICardPlaceHolder) -> void:
