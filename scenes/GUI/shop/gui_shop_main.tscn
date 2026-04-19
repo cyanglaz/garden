@@ -22,7 +22,7 @@ layout_mode = 2
 
 [node name="MainPanel" type="PanelContainer" parent="MainMarginContainer/Control" unique_id=535263696]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(220, 120)
+custom_minimum_size = Vector2(220, 154)
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -82,8 +82,13 @@ alignment = 1
 
 [node name="BottomRow" type="HBoxContainer" parent="MainMarginContainer/Control/MainPanel/MarginContainer/VBoxContainer" unique_id=148392841]
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 6
 theme_override_constants/separation = 4
+
+[node name="Spacer2" type="Control" parent="MainMarginContainer/Control/MainPanel/MarginContainer/VBoxContainer/BottomRow" unique_id=1456547584]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+mouse_filter = 2
 
 [node name="TrinketContainer" type="HBoxContainer" parent="MainMarginContainer/Control/MainPanel/MarginContainer/VBoxContainer/BottomRow" unique_id=892341057]
 unique_name_in_owner = true
@@ -99,19 +104,24 @@ size_flags_horizontal = 8
 size_flags_vertical = 3
 theme_override_constants/separation = 2
 
+[node name="Spacer" type="Control" parent="MainMarginContainer/Control/MainPanel/MarginContainer/VBoxContainer/BottomRow" unique_id=1423629353]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+mouse_filter = 2
+
 [node name="FinishButton" parent="MainMarginContainer/Control" unique_id=498094661 instance=ExtResource("3_4afxj")]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -15.0
+offset_left = -36.0
 offset_top = -22.0
-offset_right = 15.0
+offset_right = -6.0
 offset_bottom = -6.0
-grow_horizontal = 2
+grow_horizontal = 0
 grow_vertical = 0
 localization_text_key = "BUTTON_FINISH"
 
