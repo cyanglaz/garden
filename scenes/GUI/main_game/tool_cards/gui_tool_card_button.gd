@@ -29,7 +29,6 @@ var _weak_combat_main:WeakRef = weakref(null)
 
 func _ready() -> void:
 	super._ready()
-	card_face = card_face
 	mouse_filter = MOUSE_FILTER_IGNORE
 	resized.connect(_on_resized)
 	card_face.special_hovered.connect(_on_special_hovered.bind(card_face))

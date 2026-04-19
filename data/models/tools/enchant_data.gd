@@ -5,6 +5,7 @@ const COSTS := {
 	-1: 0,  # temp cards
 	0: 15,  # common
 	1: 30,  # uncommon
+	2: 62,
 }
 
 @export var action_data:ActionData
@@ -13,7 +14,7 @@ const COSTS := {
 var cost:int: get = _get_cost
 
 func _get_cost() -> int:
-	assert(rarity >= -1 && rarity <= 1, "Rarity is out of range")
+	assert(rarity >= -1 && rarity <= 2, "Rarity is out of range")
 	return COSTS.get(rarity, 0)
 
 func copy(other:ThingData) -> void:
