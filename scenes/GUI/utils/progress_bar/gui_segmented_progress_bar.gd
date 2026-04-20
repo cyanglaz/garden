@@ -11,7 +11,9 @@ extends HBoxContainer
 @export var icon_texture:Texture2D: set = _set_icon_texture
 @export var icon_size:Vector2: set = _set_icon_size
 @export var segment_separation:float = 1.0
+@export var icon_container_size:Vector2: set = _set_icon_container_size
 
+@onready var _icon_container: Control = %IconContainer
 @onready var _background: ColorRect = %Background
 @onready var _border: NinePatchRect = %Border
 @onready var _segment_container: Control = %SegmentContainer
@@ -28,7 +30,7 @@ func _ready() -> void:
 	_set_icon_texture(icon_texture)
 	_set_max_value(max_value)
 	_set_current_value(current_value)
-	_adjust_segment_size.call_deferred()
+	_set_icon_container_size(icon_container_size)
 
 func bind_with_resource_point(resource_point:ResourcePoint) -> void:
 	max_value = resource_point.max_value
@@ -42,7 +44,7 @@ func _adjust_segment_size() -> void:
 		return
 	# var segment_width: float = _h_box_container.get_child(0).size.x
 	# var total_width:float = _icon.size.x + get_theme_constant("separation") + _margin_container.get_theme_constant("margin_left") + _margin_container.get_theme_constant("margin_right") + max_value * segment_width + _h_box_container.get_theme_constant("separation") * (max_value - 1)
-	var icon_width:float = _icon.size.x if _icon else 0.0
+	var icon_width:float = _icon_container.size.x if _icon_container else 0.0
 	var icon_separation := 0.0
 	if icon_texture:
 		icon_separation = get_theme_constant("separation")
@@ -104,11 +106,17 @@ func _set_icon_texture(val: Texture2D) -> void:
 		_icon.texture = icon_texture
 		if icon_texture:
 			_icon.visible = true
+			_icon_container.visible = true
 		else:
 			_icon.visible = false
+			_icon_container.visible = false
 		
-
 func _set_icon_size(val: Vector2) -> void:
 	icon_size = val
 	if _icon:
 		_icon.custom_minimum_size = icon_size
+
+func _set_icon_container_size(val: Vector2) -> void:
+	icon_container_size = val
+	if _icon_container:
+		_icon_container.custom_minimum_size = icon_container_size

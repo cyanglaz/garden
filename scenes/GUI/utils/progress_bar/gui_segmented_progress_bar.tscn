@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://673wlt1ldg8q"]
+[gd_scene format=3 uid="uid://673wlt1ldg8q"]
 
 [ext_resource type="Script" uid="uid://b4d54jsv5yv75" path="res://scenes/GUI/utils/progress_bar/gui_segmented_progress_bar.gd" id="1_gi8eq"]
 [ext_resource type="Texture2D" uid="uid://dgbr5rmxdmpib" path="res://resources/sprites/GUI/icons/resources/heart.png" id="2_ol5lb"]
 [ext_resource type="Texture2D" uid="uid://cot566voterom" path="res://resources/sprites/GUI/shared/border2.png" id="3_ol5lb"]
 
-[node name="GUISegmentedProgressBar" type="HBoxContainer"]
+[node name="GUISegmentedProgressBar" type="HBoxContainer" unique_id=1720331978]
 offset_right = 53.0
 offset_bottom = 10.0
 theme_override_constants/separation = 1
@@ -14,7 +14,20 @@ current_value = 2
 segment_color = Color(1, 0.78431374, 0.14509805, 1)
 icon_texture = ExtResource("2_ol5lb")
 
-[node name="Icon" type="TextureRect" parent="."]
+[node name="IconContainer" type="Control" parent="." unique_id=1378718752]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="IconContainer" unique_id=527285883]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Icon" type="TextureRect" parent="IconContainer/CenterContainer" unique_id=1583633387]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
@@ -22,26 +35,26 @@ texture = ExtResource("2_ol5lb")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1450132526]
 position = Vector2(1, 0)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=144540427]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="GUISegmentedProgressBar" type="PanelContainer" parent="HBoxContainer"]
+[node name="GUISegmentedProgressBar" type="PanelContainer" parent="HBoxContainer" unique_id=819152637]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/GUISegmentedProgressBar"]
+[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/GUISegmentedProgressBar" unique_id=1334547460]
 layout_mode = 2
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 1
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/GUISegmentedProgressBar/MarginContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/GUISegmentedProgressBar/MarginContainer2" unique_id=2047834049]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/margin_left = 1
@@ -49,16 +62,16 @@ theme_override_constants/margin_top = 1
 theme_override_constants/margin_right = 1
 theme_override_constants/margin_bottom = 1
 
-[node name="Background" type="ColorRect" parent="HBoxContainer/GUISegmentedProgressBar/MarginContainer2/MarginContainer"]
+[node name="Background" type="ColorRect" parent="HBoxContainer/GUISegmentedProgressBar/MarginContainer2/MarginContainer" unique_id=1341150469]
 unique_name_in_owner = true
 self_modulate = Color(0.105882354, 0.105882354, 0.105882354, 1)
 layout_mode = 2
 
-[node name="SegmentContainer" type="Control" parent="HBoxContainer/GUISegmentedProgressBar/MarginContainer2/MarginContainer"]
+[node name="SegmentContainer" type="Control" parent="HBoxContainer/GUISegmentedProgressBar/MarginContainer2/MarginContainer" unique_id=1805836585]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Border" type="NinePatchRect" parent="HBoxContainer/GUISegmentedProgressBar/MarginContainer2"]
+[node name="Border" type="NinePatchRect" parent="HBoxContainer/GUISegmentedProgressBar/MarginContainer2" unique_id=488356640]
 unique_name_in_owner = true
 self_modulate = Color(0.105882354, 0.105882354, 0.105882354, 1)
 layout_mode = 2

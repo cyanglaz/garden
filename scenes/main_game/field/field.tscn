@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://ln50r4xpe1ai"]
+[gd_scene format=3 uid="uid://ln50r4xpe1ai"]
 
 [ext_resource type="Script" uid="uid://bwg4lndgnlnd" path="res://scenes/main_game/field/field.gd" id="1_vyjhb"]
 [ext_resource type="Script" uid="uid://c42mdjgajw0gi" path="res://scenes/GUI/controls/buttons/gui_basic_button.gd" id="4_hk5wf"]
@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://b0mxsb1ypllyg" path="res://scenes/main_game/field/gui_field_selection_arrow.tscn" id="7_x5mrl"]
 [ext_resource type="PackedScene" uid="uid://c3fvf4i8jk53q" path="res://scenes/main_game/field/field_land.tscn" id="8_50o30"]
 [ext_resource type="PackedScene" uid="uid://ddb85df6v6lo4" path="res://scenes/main_game/combat/world/water/water_droplet_emitter.tscn" id="9_xmjsh"]
-[ext_resource type="Texture2D" uid="uid://bimh485w1wjhp" path="res://resources/sprites/effects/particles/water_droplet.png" id="10_hr6p8"]
 
 [sub_resource type="Animation" id="Animation_rw11e"]
 length = 0.001
@@ -89,16 +88,16 @@ _data = {
 resource_local_to_scene = true
 polygon = PackedVector2Array(-16, 1, 16, 1, 16, 18, -16, 18)
 
-[node name="Field" type="Node2D"]
+[node name="Field" type="Node2D" unique_id=1071594149]
 script = ExtResource("1_vyjhb")
 
-[node name="FieldLand" parent="." instance=ExtResource("8_50o30")]
+[node name="FieldLand" parent="." unique_id=1501819313 instance=ExtResource("8_50o30")]
 unique_name_in_owner = true
 
-[node name="Container" type="Node2D" parent="."]
+[node name="Container" type="Node2D" parent="." unique_id=1870822678]
 unique_name_in_owner = true
 
-[node name="GUIFieldButton" type="PanelContainer" parent="."]
+[node name="GUIFieldButton" type="PanelContainer" parent="." unique_id=1244994436]
 unique_name_in_owner = true
 offset_left = -17.0
 offset_top = -26.0
@@ -109,24 +108,21 @@ hover_sound = ExtResource("5_skov6")
 click_sound = ExtResource("6_1knfj")
 metadata/_custom_type_script = "uid://c42mdjgajw0gi"
 
-[node name="GUIFieldSelectionArrow" parent="." instance=ExtResource("7_x5mrl")]
+[node name="GUIFieldSelectionArrow" parent="." unique_id=2070606195 instance=ExtResource("7_x5mrl")]
 unique_name_in_owner = true
 z_index = 1
 offset_top = -35.0
 offset_bottom = -35.0
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1214568304]
 unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_rw11e")
-}
+libraries/ = SubResource("AnimationLibrary_rw11e")
 
-[node name="WaterDropletEmitter" parent="." instance=ExtResource("9_xmjsh")]
+[node name="WaterDropletEmitter" parent="." unique_id=7372038 instance=ExtResource("9_xmjsh")]
 unique_name_in_owner = true
 z_index = 1
 position = Vector2(0, 16)
-droplet_texture = ExtResource("10_hr6p8")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=355924185]
 unique_name_in_owner = true
 occluder = SubResource("OccluderPolygon2D_rw11e")
