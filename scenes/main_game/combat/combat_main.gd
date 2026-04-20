@@ -147,6 +147,7 @@ func _start_new_level() -> void:
 	_start_turn()
 
 func _start_turn() -> void:
+	assert(gui.is_ui_locked(), "UI is not locked before start turn, this should not happen as it will cause a deadlock")
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.TURN)
 	boost = maxi(boost - 1, 1)
 	day_manager.next_day()
@@ -323,6 +324,7 @@ func _on_mouse_exited_card(tool_data:ToolData) -> void:
 func _on_end_turn_button_pressed() -> void:
 	if !is_mid_turn:
 		return
+	assert(!gui.is_ui_locked(), "UI is already locked before end turn, this should not happen as it will cause a deadlock")
 	gui.toggle_all_ui(false)
 	var request = CombatQueueRequest.new()
 	request.callback = func(_cm: CombatMain) -> void: _end_turn()

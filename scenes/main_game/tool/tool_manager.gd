@@ -78,6 +78,7 @@ func discard_cards(tools:Array, combat_main:CombatMain) -> void:
 	# Order is important, discard first, then animate
 	for tool_data in tools:
 		tool_data.refresh_for_turn()
+
 	tool_deck.discard(tools)
 	await _gui_tool_card_container.animate_discard(tools, combat_main)
 	cards_removed_from_hand.emit([tools], tool_deck.hand)

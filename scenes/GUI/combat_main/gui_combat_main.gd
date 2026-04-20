@@ -56,11 +56,14 @@ func toggle_all_ui(on:bool) -> void:
 		_toggle_ui_semaphore += 1
 	assert(_toggle_ui_semaphore >= 0)
 	var toggle_on := false
-	if _toggle_ui_semaphore > 0:
+	if is_ui_locked():
 		toggle_on = false
 	else:
 		toggle_on = true
 	_toggle_ui(toggle_on)
+
+func is_ui_locked() -> bool:
+	return _toggle_ui_semaphore > 0
 
 func _toggle_ui(on:bool) -> void:
 	if on:
