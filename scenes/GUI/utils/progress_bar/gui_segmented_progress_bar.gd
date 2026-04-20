@@ -120,3 +120,4 @@ func _set_icon_container_size(val: Vector2) -> void:
 	icon_container_size = val
 	if _icon_container:
 		_icon_container.custom_minimum_size = icon_container_size
+		_adjust_segment_size.call_deferred()
