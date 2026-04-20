@@ -19,8 +19,6 @@ var _card_pool:Array = []
 var _card:GUIToolCardButton = null
 
 var _new_card_data:ToolData = null
-var _front_card_data_to_erase:ToolData = null
-var _back_card_data_to_erase:ToolData = null
 var _enchant_data:EnchantData = null
 
 func _ready() -> void:
@@ -38,8 +36,6 @@ func _ready() -> void:
 func setup_with_card_pool(card_pool:Array, enchant_data:EnchantData) -> void:
 	_card_pool = card_pool
 	_new_card_data = null
-	_front_card_data_to_erase = null
-	_back_card_data_to_erase = null
 	_enchant_data = enchant_data
 	if _card:
 		_card.queue_free()

@@ -20,6 +20,8 @@ func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	gui_enchant_icon.gui_action_type_icon.has_outline = true
 	gui_enchant_icon.label.add_theme_color_override("font_outline_color", Constants.COLOR_WHITE)
+	if _enchant_tooltip_id.is_empty():
+		return
 	_enchant_tooltip_id = Util.get_uuid()
 	Events.request_display_tooltip.emit(
 		TooltipRequest.new(TooltipRequest.TooltipType.ENCHANT, _weak_enchant_data.get_ref(), _enchant_tooltip_id, self, GUITooltip.TooltipPosition.RIGHT)
@@ -30,3 +32,4 @@ func _on_mouse_exited() -> void:
 	gui_enchant_icon.gui_action_type_icon.has_outline = false
 	gui_enchant_icon.label.add_theme_color_override("font_outline_color", Constants.ENCHANT_TEXT_OUTLINE_COLOR)
 	Events.request_hide_tooltip.emit(_enchant_tooltip_id)
+	_enchant_tooltip_id = ""

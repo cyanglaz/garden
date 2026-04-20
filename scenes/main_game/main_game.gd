@@ -182,7 +182,6 @@ func _on_beat_final_boss() -> void:
 func _on_shop_button_pressed(cost: int) -> void:
 	if cost > 0:
 		Events.request_update_gold.emit(-cost, true)
-		print("gold: %s" % gold)
 		(_current_scene as ShopMain).update_for_gold(gold)
 
 func _on_shop_finish_button_pressed() -> void:

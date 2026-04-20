@@ -1,7 +1,7 @@
 class_name GUIEnchantIcon
 extends PanelContainer
 
-@export var mouse_interaction_enabled: bool = true
+@export var mouse_interaction_enabled: bool = true: set = _set_mouse_interaction_enabled
 
 @onready var gui_action_type_icon: GUIActionTypeIcon = %GUIActionTypeIcon
 @onready var label: Label = %Label
@@ -15,6 +15,7 @@ func _ready() -> void:
 	label.add_theme_color_override("font_color", Constants.ENCHANT_TEXT_COLOR)
 	label.add_theme_color_override("font_outline_color", Constants.ENCHANT_TEXT_OUTLINE_COLOR)
 	gui_action_type_icon.set_outline_color(Constants.ENCHANT_TEXT_COLOR)
+	_set_mouse_interaction_enabled(mouse_interaction_enabled)
 
 func update_with_enchant_data(enchant_data: EnchantData, combat_main: CombatMain) -> void:
 	_enchant_data = enchant_data
@@ -27,6 +28,8 @@ func _on_mouse_entered() -> void:
 	gui_action_type_icon.has_outline = true
 
 	label.add_theme_color_override("font_outline_color", Constants.COLOR_WHITE)
+	if _tooltip_id.is_empty():
+		return
 	_tooltip_id = Util.get_uuid()
 	Events.request_display_tooltip.emit(TooltipRequest.new(
 		TooltipRequest.TooltipType.ENCHANT,
@@ -42,3 +45,8 @@ func _on_mouse_exited() -> void:
 	gui_action_type_icon.has_outline = false
 	label.add_theme_color_override("font_outline_color", Constants.ENCHANT_TEXT_OUTLINE_COLOR)
 	Events.request_hide_tooltip.emit(_tooltip_id)
+	_tooltip_id = ""
+
+func _set_mouse_interaction_enabled(value: bool) -> void:
+	mouse_interaction_enabled = value
+	mouse_filter = MOUSE_FILTER_STOP if value else MOUSE_FILTER_IGNORE
