@@ -1,4 +1,4 @@
-class_name BindGatheringStream
+class_name EnchantGatheringStream
 extends Node2D
 
 @onready var left_stream: GPUParticles2D = %LeftStream
@@ -6,7 +6,7 @@ extends Node2D
 @onready var left_card: GPUParticles2D = %LeftCard
 @onready var right_card: GPUParticles2D = %RightCard
 
-func play_bind_gathering_stream(left_card_position:Vector2, right_card_position:Vector2, card_size:Vector2, center_world_position:Vector2) -> void:
+func play_enchant_gathering_stream(left_card_position:Vector2, right_card_position:Vector2, card_size:Vector2, center_world_position:Vector2) -> void:
 	show()
 
 	left_stream.emitting = false
@@ -23,7 +23,7 @@ func play_bind_gathering_stream(left_card_position:Vector2, right_card_position:
 	right_stream.look_at(center_world_position)
 	left_card.position = left_stream.global_position
 	right_card.position = right_stream.global_position
-	
+
 
 	var distance = left_card_position.distance_to(center_world_position)
 	var speed = left_stream.process_material.initial_velocity_max
@@ -45,9 +45,8 @@ func play_bind_gathering_stream(left_card_position:Vector2, right_card_position:
 	tween.tween_property(left_card, "amount", 0.0, required_lifetime).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(right_card, "amount", 0.0, required_lifetime).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
 	tween.play()
-	
+
 	left_stream.emitting = true
 	right_stream.emitting = true
 
 	await Util.create_scaled_timer(required_lifetime).timeout
-	

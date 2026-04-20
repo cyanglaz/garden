@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EnchantData" format=3 uid="uid://bu88rx8fvc8tq"]
+
+[ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_31aas"]
+[ext_resource type="Script" uid="uid://d3vqso5jlukbo" path="res://data/models/tools/enchant_data.gd" id="1_wgsc0"]
+
+[sub_resource type="Resource" id="Resource_i6br7"]
+script = ExtResource("1_31aas")
+type = 1
+value = 1
+metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
+
+[resource]
+script = ExtResource("1_wgsc0")
+action_data = SubResource("Resource_i6br7")
+id = "light"
+metadata/_custom_type_script = "uid://d3vqso5jlukbo"

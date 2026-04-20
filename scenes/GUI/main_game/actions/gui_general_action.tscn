@@ -14,6 +14,8 @@ shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 shader_parameter/blend_color = Color(1, 1, 1, 1)
 shader_parameter/blend_strength = 0.0
+shader_parameter/inner_outline = false
+shader_parameter/inner_outline_color = Color(1, 1, 1, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_field"]
 resource_local_to_scene = true
@@ -22,6 +24,8 @@ shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 shader_parameter/blend_color = Color(1, 1, 1, 1)
 shader_parameter/blend_strength = 0.0
+shader_parameter/inner_outline = false
+shader_parameter/inner_outline_color = Color(1, 1, 1, 1)
 
 [node name="GUIGeneralAction" type="PanelContainer" unique_id=42670289]
 offset_right = 9.0
@@ -38,7 +42,19 @@ mouse_filter = 2
 theme_override_constants/separation = 1
 alignment = 1
 
-[node name="GUIActionTypeIcon" parent="SymbolContainer" unique_id=72862602 instance=ExtResource("1_xs6gn")]
+[node name="Control" type="Control" parent="SymbolContainer" unique_id=122338626]
+custom_minimum_size = Vector2(7, 7)
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="SymbolContainer/Control" unique_id=615002650]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GUIActionTypeIcon" parent="SymbolContainer/Control/CenterContainer" unique_id=72862602 instance=ExtResource("1_xs6gn")]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_lhbet")
 custom_minimum_size = Vector2(0, 0)

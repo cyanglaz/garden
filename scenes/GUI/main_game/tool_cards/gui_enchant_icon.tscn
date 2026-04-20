@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://bdhff1msch6fm"]
+
+[ext_resource type="PackedScene" uid="uid://37pgxcxnetyd" path="res://scenes/GUI/main_game/tool_cards/gui_action_type_icon.tscn" id="1_nmkt2"]
+[ext_resource type="Script" uid="uid://dgx8msdx3weoa" path="res://scenes/GUI/main_game/tool_cards/gui_enchant_icon.gd" id="1_u6gro"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="2_u6gro"]
+[ext_resource type="Texture2D" uid="uid://dxyqfprxbenb6" path="res://resources/sprites/GUI/icons/resources/icon_light.png" id="4_bhnuk"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bhnuk"]
+resource_local_to_scene = true
+shader = ExtResource("2_u6gro")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
+
+[node name="GUIEnchantIcon" type="PanelContainer" unique_id=162066442]
+offset_right = 6.0
+offset_bottom = 8.0
+script = ExtResource("1_u6gro")
+
+[node name="GUIActionTypeIcon" parent="." unique_id=196388819 instance=ExtResource("1_nmkt2")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_bhnuk")
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_bhnuk")
+
+[node name="Label" type="Label" parent="." unique_id=1586457648]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_type_variation = &"HUD_mid"
+theme_override_colors/font_color = Color(0.99215686, 0.8235294, 0.92941177, 1)
+theme_override_colors/font_outline_color = Color(0.23137255, 0.078431375, 0.2627451, 1)
+theme_override_constants/outline_size = 4
+text = "100"
+horizontal_alignment = 2
+vertical_alignment = 2

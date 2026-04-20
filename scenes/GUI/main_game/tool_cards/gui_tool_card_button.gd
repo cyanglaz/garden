@@ -6,13 +6,10 @@ const SIZE := Vector2(40, 54)
 signal mouse_entered_card()
 signal mouse_exited_card()
 
-@onready var front_face: GUICardFace = %FrontFace
-
+@onready var card_face: GUICardFace = %CardFace
 @onready var draw_sound: AudioStreamPlayer2D = %DrawSound
 @onready var discard_sound: AudioStreamPlayer2D = %DiscardSound
 @onready var shuffle_sound: AudioStreamPlayer2D = %ShuffleSound
-
-var current_face:GUICardFace
 
 var mute_interaction_sounds:bool = false
 var mouse_disabled:bool = true: set = _set_mouse_disabled
@@ -32,18 +29,17 @@ var _weak_combat_main:WeakRef = weakref(null)
 
 func _ready() -> void:
 	super._ready()
-	current_face = front_face
 	mouse_filter = MOUSE_FILTER_IGNORE
 	resized.connect(_on_resized)
-	front_face.special_hovered.connect(_on_special_hovered.bind(front_face))
+	card_face.special_hovered.connect(_on_special_hovered.bind(card_face))
 	size = SIZE
 
 func update_with_tool_data(td:ToolData, combat_main:CombatMain) -> void:
 	_weak_combat_main = weakref(combat_main)
-	front_face.update_with_tool_data(td, combat_main)
-	if front_face.special_interacted.is_connected(_on_special_interacted.bind(front_face, combat_main)):
-		front_face.special_interacted.disconnect(_on_special_interacted.bind(front_face, combat_main))
-	front_face.special_interacted.connect(_on_special_interacted.bind(front_face, combat_main))
+	card_face.update_with_tool_data(td, combat_main)
+	if card_face.special_interacted.is_connected(_on_special_interacted.bind(card_face, combat_main)):
+		card_face.special_interacted.disconnect(_on_special_interacted.bind(card_face, combat_main))
+	card_face.special_interacted.connect(_on_special_interacted.bind(card_face, combat_main))
 
 func play_discard_sound() -> void:
 	discard_sound.play()
@@ -57,22 +53,22 @@ func play_shuffle_sound() -> void:
 func play_use_sound() -> void:
 	if mute_interaction_sounds:
 		return
-	current_face.play_use_sound()
+	card_face.play_use_sound()
 
 func play_exhaust_animation() -> void:
-	await current_face.play_exhaust_animation()
+	await card_face.play_exhaust_animation()
 
 func animated_transform(old_rarity:int) -> void:
-	await current_face.animated_transform(old_rarity)
+	await card_face.animated_transform(old_rarity)
 
 func play_use_animation() -> void:
-	current_face.play_use_animation()
+	card_face.play_use_animation()
 
 func animate_reverse(combat_main:CombatMain) -> void:
 	tool_data.reverse(combat_main)
 
 func play_error_shake_animation() -> void:
-	await current_face.play_error_shake_animation()
+	await card_face.play_error_shake_animation()
 
 func toggle_tooltip(on:bool) -> void:
 	if on && tool_data.has_tooltip && _card_tooltip_id.is_empty():
@@ -108,7 +104,7 @@ func _find_card_references() -> Array[String]:
 func _play_hover_sound(_volume_db:int = -5) -> void:
 	if mute_interaction_sounds:
 		return
-	if current_face.card_state == GUICardFace.CardState.SELECTED || current_face.card_state == GUICardFace.CardState.WAITING:
+	if card_face.card_state == GUICardFace.CardState.SELECTED || card_face.card_state == GUICardFace.CardState.WAITING:
 		return
 	super._play_hover_sound(-5)
 
@@ -163,13 +159,13 @@ func _set_mouse_disabled(value:bool) -> void:
 		mouse_filter = MOUSE_FILTER_IGNORE
 	else:
 		mouse_filter = MOUSE_FILTER_STOP
-	current_face.mouse_disabled = value
+	card_face.mouse_disabled = value
 
 func _set_tool_data(_value:ToolData) -> void:
 	assert(false, "set_tool_data is not allowed, use update_with_tool_data instead")
 
 func _get_tool_data() -> ToolData:
-	return current_face.tool_data
+	return card_face.tool_data
 
 func _set_animation_mode(value:bool) -> void:
 	animation_mode = value
@@ -177,34 +173,34 @@ func _set_animation_mode(value:bool) -> void:
 		custom_minimum_size = Vector2.ZERO
 	else:
 		custom_minimum_size = SIZE
-	front_face.animation_mode = value
+	card_face.animation_mode = value
 
 func _set_card_state(value:GUICardFace.CardState) -> void:
-	front_face.card_state = value
+	card_face.card_state = value
 
 func _get_card_state() -> GUICardFace.CardState:
-	return current_face.card_state
+	return card_face.card_state
 
 func _set_resource_sufficient(value:bool) -> void:
-	current_face.resource_sufficient = value
+	card_face.resource_sufficient = value
 
 func _get_resource_sufficient() -> bool:
-	return current_face.resource_sufficient
+	return card_face.resource_sufficient
 
 func _set_has_outline(val:bool) -> void:
-	current_face.has_outline = val	
+	card_face.has_outline = val	
 
 func _get_has_outline() -> bool:
-	return current_face.has_outline
+	return card_face.has_outline
 
 func _set_disabled(value:bool) -> void:
-	current_face.disabled = value
+	card_face.disabled = value
 
 func _get_disabled() -> bool:
-	return current_face.disabled
+	return card_face.disabled
 
 func _on_resized() -> void:
-	front_face.size = size
+	card_face.size = size
 	
 func _on_special_interacted(special:ToolData.Special, _face:GUICardFace, combat_main:CombatMain) -> void:
 	match special:

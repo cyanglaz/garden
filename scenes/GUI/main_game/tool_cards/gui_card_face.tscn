@@ -4,9 +4,10 @@
 [ext_resource type="Script" uid="uid://sc5do4le61oy" path="res://scenes/GUI/main_game/tool_cards/gui_card_face.gd" id="1_uaej8"]
 [ext_resource type="PackedScene" uid="uid://cjwhkrmueycbi" path="res://scenes/GUI/shared/descriptions/shared_description/gui_action_list.tscn" id="2_y8r0o"]
 [ext_resource type="Texture2D" uid="uid://ugtybr3upkmn" path="res://resources/sprites/GUI/backgrounds/tool_card_background.png" id="3_uaej8"]
+[ext_resource type="PackedScene" uid="uid://bdhff1msch6fm" path="res://scenes/GUI/main_game/tool_cards/gui_enchant_icon.tscn" id="3_ykqmu"]
 [ext_resource type="AudioStream" uid="uid://bgyg7vg7fsae6" path="res://resources/sounds/SFX/tool_cards/card_use.wav" id="5_y8r0o"]
 
-[sub_resource type="Shader" id="Shader_y8r0o"]
+[sub_resource type="Shader" id="Shader_uaej8"]
 resource_local_to_scene = true
 code = "shader_type canvas_item;
 
@@ -53,14 +54,14 @@ void fragment() {
 	COLOR = vec4(base_color.r, base_color.g, base_color.b, min(visible, base_color.a)) * modulate;
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_uaej8"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ykqmu"]
 resource_local_to_scene = true
-shader = SubResource("Shader_y8r0o")
+shader = SubResource("Shader_uaej8")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 shader_parameter/sensitivity = 0.0
 
-[sub_resource type="Shader" id="Shader_ykqmu"]
+[sub_resource type="Shader" id="Shader_170cx"]
 resource_local_to_scene = true
 code = "shader_type canvas_item;
 
@@ -107,9 +108,9 @@ void fragment() {
 	COLOR = vec4(base_color.r, base_color.g, base_color.b, min(visible, base_color.a)) * modulate;
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_170cx"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_alb7f"]
 resource_local_to_scene = true
-shader = SubResource("Shader_ykqmu")
+shader = SubResource("Shader_170cx")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 shader_parameter/sensitivity = 1.0
@@ -263,7 +264,7 @@ script = ExtResource("1_uaej8")
 
 [node name="GUIToolCardBackground" parent="." unique_id=594292002 instance=ExtResource("1_ah1nl")]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_uaej8")
+material = SubResource("ShaderMaterial_ykqmu")
 layout_mode = 2
 
 [node name="CardContent" type="Control" parent="." unique_id=2008740132]
@@ -271,6 +272,19 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 mouse_filter = 2
+
+[node name="GUIEnchantIcon" parent="CardContent" unique_id=162066442 instance=ExtResource("3_ykqmu")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -10.0
+offset_top = 10.0
+offset_right = -4.0
+offset_bottom = 18.0
+grow_horizontal = 0
+mouse_interaction_enabled = false
 
 [node name="InteractiveSpecialContainer" type="VBoxContainer" parent="CardContent" unique_id=1381243577]
 unique_name_in_owner = true
@@ -364,7 +378,7 @@ mouse_filter = 2
 [node name="AnimatingForeground" parent="." unique_id=120660621 instance=ExtResource("1_ah1nl")]
 unique_name_in_owner = true
 visible = false
-material = SubResource("ShaderMaterial_170cx")
+material = SubResource("ShaderMaterial_alb7f")
 layout_mode = 2
 
 [node name="Overlay" type="NinePatchRect" parent="." unique_id=1411455343]

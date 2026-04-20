@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b87sa86i8nwn5"]
 
-[ext_resource type="Script" uid="uid://c1npuqucikm1n" path="res://scenes/GUI/event/events/bind/bind_effects/bind_gathering_stream.gd" id="1_6f253"]
+[ext_resource type="Script" uid="uid://c1npuqucikm1n" path="res://scenes/GUI/event/events/enchant/enchant_effects/enchant_gathering_stream.gd" id="1_6f253"]
 [ext_resource type="Texture2D" uid="uid://dskfkxxnq6t1c" path="res://resources/sprites/effects/particles/particle_forge_burst.png" id="2_vk15o"]
 [ext_resource type="Texture2D" uid="uid://0fgf3t3c1paq" path="res://resources/sprites/effects/particles/particle_smoke.png" id="3_nev3d"]
 

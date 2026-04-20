@@ -12,6 +12,7 @@ const INITIAL_HP_VALUE := "res://data/player/player_pollinator.tres"
 const SCENE_TRANSITION_TIME := 0.2
 const NUMBER_OF_CHAPTERS := 1
 const EVENT_CHANCE := 0.5
+const STARTING_GOLD := 30
 
 @export var player_data:PlayerData
 @export var test_data:MainGameTest
@@ -56,8 +57,7 @@ func _ready() -> void:
 
 	map_main.node_selected.connect(_on_map_node_selected)
 
-	Events.request_update_gold.emit(0, false)
-	_on_request_update_gold(10, false)
+	Events.request_update_gold.emit(STARTING_GOLD, false)
 	_start_new_chapter()
 
 func _register_global_events() -> void:
@@ -85,13 +85,13 @@ func _start_new_chapter() -> void:
 
 	#_start_map_main_scene()
 	# Always start with a common node
-	#if test_data && test_data.test_combat:
-		#_start_combat_main_scene.call_deferred(test_data.test_combat)
-	#else:
-		#_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
+	if test_data && test_data.test_combat:
+		_start_combat_main_scene.call_deferred(test_data.test_combat)
+	else:
+		_start_combat_main_scene.call_deferred(chapter_manager.fetch_common_combat_data())
 	#_start_event()
 	#_start_chest()
-	_start_town()
+	#_start_town()
 	#_game_over()
 	#_game_win()
 	#_start_shop()
@@ -129,7 +129,7 @@ func _start_shop() -> void:
 	shop_main.finish_button_pressed.connect(_on_shop_finish_button_pressed)
 	node_container.add_child(shop_main)
 	start_scene_transition()
-	shop_main.start(gold, trinket_manager.trinket_pool)
+	shop_main.start(gold, card_pool, trinket_manager.trinket_pool)
 
 func _start_town() -> void:
 	var town_main = TOWN_MAIN_SCENE.instantiate()

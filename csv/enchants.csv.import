@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dcja6od8g7pvl"
+
+[deps]
+
+files=["res://csv/enchants.Action.translation", "res://csv/enchants.Rarity.translation"]
+
+source_file="res://csv/enchants.csv"
+dest_files=["res://csv/enchants.Action.translation", "res://csv/enchants.Rarity.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

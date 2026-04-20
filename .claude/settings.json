@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -l \"ENERGY\\\\|MOMENTUM\\\\|PUSH_LEFT\\\\|DRAW_CARD\\\\|DISCARD_CARD\" /Users/cyang/works/current/garden/garden/data/tools/purchasable/*.tres)"
+    ]
+  }
+}

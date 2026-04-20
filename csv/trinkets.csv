@@ -30,4 +30,4 @@
 "guardians_badge","Guardian's Badge","At end of a turn, if there are no pest or fungus on any plants, current plant + 1 light and +1 water","0","YES"
 "recycler_badge","Recycler Badge","Free Water Cards add 1 more water","0","YES"
 "the_priming_injector","The Priming Injector","When a plant has no water and it is about to gain water, it gains 1 more","0","NO"
-"void_battery","Void Battery","At end of a turn, if there is no weather ability at player's position, player gain 1 energy next turn.","1",""
+"void_battery","Void Battery","At end of a turn, if there is no weather effect at player's position, player gain 1 energy next turn.","1",""

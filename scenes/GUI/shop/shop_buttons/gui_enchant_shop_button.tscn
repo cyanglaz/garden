@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://d1b81n3n0r5uq"]
+
+[ext_resource type="PackedScene" uid="uid://b1s3tro034n0x" path="res://scenes/GUI/utils/gui_shop_button.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://dyk4wmhybatnp" path="res://scenes/GUI/shop/shop_buttons/gui_enchant_shop_button.gd" id="2_script"]
+[ext_resource type="AudioStream" uid="uid://573dtym8ldy3" path="res://resources/sounds/GUI/button_hover.wav" id="3_hover"]
+[ext_resource type="PackedScene" uid="uid://bdhff1msch6fm" path="res://scenes/GUI/main_game/tool_cards/gui_enchant_icon.tscn" id="3_icon"]
+[ext_resource type="AudioStream" uid="uid://oxhbysv1esve" path="res://resources/sounds/GUI/button_click.wav" id="4_click"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="4_shader"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_puhwa"]
+resource_local_to_scene = true
+shader = ExtResource("4_shader")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
+
+[node name="GUIEnchantShopButton" unique_id=1054917088 instance=ExtResource("1_base")]
+script = ExtResource("2_script")
+short_cut = ""
+action_type = 0
+hold_time = 0.0
+button_state = 0
+tooltip_position = 2
+hover_sound = ExtResource("3_hover")
+click_sound = ExtResource("4_click")
+
+[node name="GUIEnchantIcon" parent="VBoxContainer/MarginContainer" index="0" unique_id=1876989869 instance=ExtResource("3_icon")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 1
+
+[node name="HBoxContainer" parent="VBoxContainer" index="1"]
+theme_override_constants/separation = 1
+
+[node name="GoldIcon" parent="VBoxContainer/HBoxContainer" index="0"]
+material = SubResource("ShaderMaterial_puhwa")

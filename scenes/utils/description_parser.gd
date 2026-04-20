@@ -65,6 +65,8 @@ static func _format_reference(reference_key:String, data_to_format:Dictionary, h
 			parsed_string = _format_weather_reference(reference_id)
 		elif reference_category == "trinket":
 			parsed_string = _format_trinket_reference(reference_id, highlight)
+		elif reference_category == "enchant":
+			parsed_string = _format_enchant_reference(reference_id, highlight)
 	return parsed_string
 
 static func _get_level_suffix(reference_id:String) -> String:
@@ -126,3 +128,10 @@ static func _format_trinket_reference(reference_id: String, highlight: bool) -> 
 	if highlight:
 		highlight_color = Constants.COLOR_WHITE
 	return Util.convert_to_bbc_highlight_text(trinket_data.get_display_name(), highlight_color, 2)
+
+static func _format_enchant_reference(reference_id: String, highlight: bool) -> String:
+	var enchant_data: EnchantData = MainDatabase.enchant_database.get_data_by_id(reference_id)
+	var highlight_color := Constants.ENCHANT_TEXT_COLOR
+	if highlight:
+		highlight_color = Constants.COLOR_WHITE
+	return Util.convert_to_bbc_highlight_text(enchant_data.get_display_name(), highlight_color, 2)

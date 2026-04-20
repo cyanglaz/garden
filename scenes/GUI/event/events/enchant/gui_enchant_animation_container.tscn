@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://ymknautcwhvf"]
+
+[ext_resource type="PackedScene" uid="uid://dq8wmq23vtkaj" path="res://scenes/GUI/main_game/tool_cards/gui_card_face.tscn" id="1_4im70"]
+[ext_resource type="Script" uid="uid://dsbr2mrwv21wq" path="res://scenes/GUI/event/events/enchant/gui_enchant_animation_container.gd" id="1_8dfc0"]
+[ext_resource type="PackedScene" uid="uid://bdhff1msch6fm" path="res://scenes/GUI/main_game/tool_cards/gui_enchant_icon.tscn" id="3_db5qg"]
+[ext_resource type="PackedScene" uid="uid://bacvied61ghpe" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn" id="3_h7th1"]
+[ext_resource type="PackedScene" uid="uid://qkulvveb5fr7" path="res://scenes/GUI/event/events/enchant/enchant_effects/card_enchanting_effect.tscn" id="4_0mtb0"]
+
+[node name="GUIEnchantAnimationContainer" type="Control" unique_id=1090385883]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8dfc0")
+
+[node name="GUICardFace" parent="." unique_id=227966604 instance=ExtResource("1_4im70")]
+unique_name_in_owner = true
+layout_mode = 0
+
+[node name="GUIEnchantIcon" parent="." unique_id=162066442 instance=ExtResource("3_db5qg")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 9.0
+offset_bottom = 9.0
+mouse_interaction_enabled = false
+
+[node name="GUIToolCardButton" parent="." unique_id=1080374298 instance=ExtResource("3_h7th1")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 54.0
+
+[node name="CardEnchantEffect" parent="." unique_id=1361764135 instance=ExtResource("4_0mtb0")]
+unique_name_in_owner = true

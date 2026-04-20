@@ -42,6 +42,8 @@ const INTERACTIVE_SPECIALS := [Special.REVERSIBLE]
 @export var rarity:int = 0 # -1: temp cards, 0: common, 1: uncommon, 2: rare
 @export var specials:Array[Special] = []
 @export var type:Type = Type.SKILL
+@export var enchant_data:EnchantData = null
+
 var level_data:Dictionary # Data consists wihtin a level
 var cost:int : get = _get_cost
 var tool_script:ToolScript : get = _get_tool_script
@@ -66,6 +68,10 @@ func copy(other:ThingData) -> void:
 	level_energy_modifier = other_tool.level_energy_modifier
 	special_effects = other_tool.special_effects.duplicate()
 	name_postfix = other_tool.name_postfix
+	if other_tool.enchant_data:
+		enchant_data = other_tool.enchant_data.get_duplicate()
+	else:
+		enchant_data = null
 	_tool_script = null # Refresh tool script on copy
 
 func refresh_ui(combat_main:CombatMain) -> void:
@@ -99,6 +105,9 @@ func card_face_refresh_for_level() -> void:
 	for action:ActionData in actions:
 		action.modified_x_value = 0
 		action.modified_value = 0
+	if enchant_data:
+		enchant_data.action_data.modified_value = 0
+		enchant_data.action_data.modified_x_value = 0
 	
 func card_face_remove_single_use_special_effects() -> void:
 	special_effects = special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_USE_SPECIAL_EFFECTS.has(special_effect))

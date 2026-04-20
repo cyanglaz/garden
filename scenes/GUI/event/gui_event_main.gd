@@ -67,6 +67,7 @@ func _on_meta_clicked(meta: String, event_data: EventData) -> void:
 func _on_option_button_pressed(event: EventData, option_data: EventOptionData, main_game: MainGame) -> void:
 	Events.update_hovered_data.emit(null)
 	Events.request_hide_tooltip.emit("event_option_trinket_tooltip")
+	Events.request_hide_tooltip.emit("event_option_enchant_tooltip")
 	var script: EventOptionScript = _get_option_script(event.id, option_data)
 	script.request_add_sub_scene.connect(_on_request_add_sub_scene)
 	var meta:Variant = await script.run(option_data, main_game)
@@ -87,10 +88,21 @@ func _on_option_button_mouse_entered(option_data: EventOptionData, option_button
 			option_button,
 			GUITooltip.TooltipPosition.TOP_RIGHT
 		))
+	if option_data.data.has("enchant"):
+		var enchant_id: String = option_data.data["enchant"]
+		var enchant_data: EnchantData = MainDatabase.enchant_database.get_data_by_id(enchant_id)
+		Events.request_display_tooltip.emit(TooltipRequest.new(
+			TooltipRequest.TooltipType.ENCHANT,
+			enchant_data,
+			"event_option_enchant_tooltip",
+			option_button,
+			GUITooltip.TooltipPosition.TOP_RIGHT
+		))
 
 func _on_option_button_mouse_exited(_option_data: EventOptionData) -> void:
 	Events.update_hovered_data.emit(null)
 	Events.request_hide_tooltip.emit("event_option_trinket_tooltip")
+	Events.request_hide_tooltip.emit("event_option_enchant_tooltip")
 
 func _on_request_add_sub_scene(sub_scene: Node) -> void:
 	sub_scene_container.add_child(sub_scene)
