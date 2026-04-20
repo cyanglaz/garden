@@ -24,6 +24,9 @@ func _make_enchant(id_val: String, rarity_val: int = 0) -> EnchantData:
 
 func _make_db(enchants: Array) -> EnchantDatabase:
 	var db := EnchantDatabase.new()
+	add_child(db)
+	autofree(db)
+	db._datas.clear()
 	for e: EnchantData in enchants:
 		db._datas[e.id] = e
 	return db

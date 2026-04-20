@@ -16,7 +16,7 @@ polygon = PackedVector2Array(-16, 1, 16, 1, 16, 18, -16, 18)
 [node name="PlantField" unique_id=311703448 instance=ExtResource("1_gmygf")]
 script = ExtResource("2_cw3i7")
 
-[node name="LightOccluder2D" parent="." index="6"]
+[node name="LightOccluder2D" parent="." index="6" unique_id=355924185]
 occluder = SubResource("OccluderPolygon2D_nnp5r")
 
 [node name="ProgressBars" type="VBoxContainer" parent="." index="7" unique_id=643873659]
@@ -36,7 +36,8 @@ layout_mode = 2
 max_value = 2
 segment_color = Color(1, 0.784314, 0.145098, 1)
 icon_texture = ExtResource("6_qfgpi")
-icon_size = Vector2(6, 6)
+icon_size = Vector2(7, 7)
+icon_container_size = Vector2(6, 6)
 
 [node name="WaterBar" parent="ProgressBars" index="1" unique_id=453391410 instance=ExtResource("5_rdxdm")]
 unique_name_in_owner = true
@@ -45,7 +46,8 @@ custom_minimum_size = Vector2(0, 7)
 layout_mode = 2
 max_value = 5
 icon_texture = ExtResource("7_suj65")
-icon_size = Vector2(6, 6)
+icon_size = Vector2(7, 7)
+icon_container_size = Vector2(6, 6)
 
 [node name="GUIPlantAbilityIconContainer" parent="." index="8" unique_id=1045629522 instance=ExtResource("10_prsfb")]
 unique_name_in_owner = true
