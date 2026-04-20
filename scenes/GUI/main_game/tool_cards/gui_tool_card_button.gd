@@ -22,7 +22,7 @@ var tool_data:ToolData: get = _get_tool_data, set = _set_tool_data
 var hand_index:int = -1
 var _card_tooltip_id:String = ""
 var _reference_card_tooltip_id:String = ""
-var _mouse_in_special:bool = false
+var _card_hovered:bool = false
 
 var _special_tooltip_id:String = ""
 var _weak_combat_main:WeakRef = weakref(null)
@@ -113,14 +113,27 @@ func _play_click_sound(_volume_db:int = -5) -> void:
 		return
 	super._play_click_sound(-5)
 
-func _handle_mouse_entered_signal() -> void:
-	if !_mouse_in_special && mouse_in:
-		mouse_entered_card.emit()
+func _is_mouse_over_card() -> bool:
+	if !is_visible_in_tree():
+		return false
+	var hovered := get_viewport().gui_get_hovered_control()
+	if hovered == null:
+		return false
+	return hovered == self or is_ancestor_of(hovered)
 
-func _handle_mouse_exited_signal() -> void:
-	if _mouse_in_special:
+func _refresh_card_hover_state() -> void:
+	var over := _is_mouse_over_card()
+	if over == _card_hovered:
 		return
-	mouse_exited_card.emit()
+	_card_hovered = over
+	if over:
+		if card_state == GUICardFace.CardState.NORMAL:
+			card_state = GUICardFace.CardState.HIGHLIGHTED
+		mouse_entered_card.emit()
+	else:
+		if card_state == GUICardFace.CardState.HIGHLIGHTED:
+			card_state = GUICardFace.CardState.NORMAL
+		mouse_exited_card.emit()
 #endregion
 
 #region events
@@ -128,26 +141,21 @@ func _handle_mouse_exited_signal() -> void:
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	Events.update_hovered_data.emit(tool_data)
-	if card_state == GUICardFace.CardState.NORMAL:
-		card_state = GUICardFace.CardState.HIGHLIGHTED
-	_handle_mouse_entered_signal.call_deferred()
+	_refresh_card_hover_state.call_deferred()
 	await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
 	if is_queued_for_deletion():
 		return
 	if is_mouse_hover_secondary_tooltip_enabled():
 		toggle_tooltip(true)
 
-
 func is_mouse_hover_secondary_tooltip_enabled() -> bool:
 	return mouse_in && PlayerSettings.setting_data.show_card_tooltip
 
 func _on_mouse_exited() -> void:
-	if card_state == GUICardFace.CardState.HIGHLIGHTED:
-		card_state = GUICardFace.CardState.NORMAL
 	super._on_mouse_exited()
 	Events.update_hovered_data.emit(null)
 	toggle_tooltip(false)
-	_handle_mouse_exited_signal.call_deferred()
+	_refresh_card_hover_state.call_deferred()
 
 #endregion
 
@@ -213,11 +221,10 @@ func _on_special_hovered(special:ToolData.Special, on:bool, _face:GUICardFace) -
 	if on:
 		_special_tooltip_id = Util.get_uuid()
 		Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.SPECIALS, [special], _special_tooltip_id, self, GUITooltip.TooltipPosition.RIGHT))
-		_mouse_in_special = true
 	else:
 		Events.request_hide_tooltip.emit(_special_tooltip_id)
 		_special_tooltip_id = ""
-		_mouse_in_special = false
+	_refresh_card_hover_state.call_deferred()
 
 #region events
 
