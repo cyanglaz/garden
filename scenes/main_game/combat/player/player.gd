@@ -92,11 +92,13 @@ func _update_movement(move_direction:PlayerStatusMomentum.MoveDirection) -> void
 			current_field_index += 1
 	player_status_container.update_player_upgrade("momentum", 1, ActionData.OperatorType.DECREASE)
 
-func _on_movement_button_pressed(move_direction:PlayerStatusMomentum.MoveDirection) -> void:
+func _on_movement_button_pressed(move_direction:PlayerStatusMomentum.MoveDirection, player_status_momentum:PlayerStatusMomentum) -> void:
+	player_status_momentum.toggle_buttons_visibility(false)
 	var request = CombatQueueRequest.new()
-	request.callback = func(_combat_main:CombatMain) -> void: _update_movement(move_direction)
+	request.callback = func(_combat_main:CombatMain) -> void: 
+		_update_movement(move_direction)
+		player_status_momentum.toggle_buttons_visibility(true)
 	request.unique_id = "movement_button_pressed"
-	request.only_when_empty = true
 	Events.request_combat_queue_push.emit(request)
 
 func _set_current_field_index(value:int) -> void:
@@ -113,4 +115,4 @@ func _on_player_upgrades_updated() -> void:
 		if player_status.data.id == "momentum":
 			var player_status_momentum:PlayerStatusMomentum = player_status
 			if !player_status_momentum.button_pressed.is_connected(_on_movement_button_pressed):
-				player_status_momentum.button_pressed.connect(_on_movement_button_pressed)
+				player_status_momentum.button_pressed.connect(_on_movement_button_pressed.bind(player_status_momentum))
