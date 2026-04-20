@@ -114,5 +114,5 @@ func _on_player_upgrades_updated() -> void:
 	for player_status:PlayerStatus in player_status_container.get_all_player_upgrades():
 		if player_status.data.id == "momentum":
 			var player_status_momentum:PlayerStatusMomentum = player_status
-			if !player_status_momentum.button_pressed.is_connected(_on_movement_button_pressed):
+			if !player_status_momentum.button_pressed.is_connected(_on_movement_button_pressed.bind(player_status_momentum)):
 				player_status_momentum.button_pressed.connect(_on_movement_button_pressed.bind(player_status_momentum))
