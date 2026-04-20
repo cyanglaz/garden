@@ -14,8 +14,6 @@ shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 shader_parameter/blend_color = Color(1, 1, 1, 1)
 shader_parameter/blend_strength = 0.0
-shader_parameter/inner_outline = false
-shader_parameter/inner_outline_color = Color(1, 1, 1, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_field"]
 resource_local_to_scene = true
@@ -24,8 +22,6 @@ shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_size = 0
 shader_parameter/blend_color = Color(1, 1, 1, 1)
 shader_parameter/blend_strength = 0.0
-shader_parameter/inner_outline = false
-shader_parameter/inner_outline_color = Color(1, 1, 1, 1)
 
 [node name="GUIGeneralAction" type="PanelContainer" unique_id=42670289]
 offset_right = 9.0
@@ -45,6 +41,7 @@ alignment = 1
 [node name="Control" type="Control" parent="SymbolContainer" unique_id=122338626]
 custom_minimum_size = Vector2(7, 7)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="CenterContainer" type="CenterContainer" parent="SymbolContainer/Control" unique_id=615002650]
 layout_mode = 1
