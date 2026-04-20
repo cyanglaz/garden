@@ -47,4 +47,4 @@ func test_apply_tool_does_not_duplicate_reversible() -> void:
 func test_apply_tool_works_with_empty_hand() -> void:
 	var cm := _make_combat_main_with_hand([])
 	await ToolScriptBreakingRules.new().apply_tool(cm, null, [])
-	pass
+	assert_eq(cm.tool_manager.tool_deck.hand.size(), 0)
