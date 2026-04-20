@@ -96,8 +96,8 @@ func _on_movement_button_pressed(move_direction:PlayerStatusMomentum.MoveDirecti
 	player_status_momentum.toggle_buttons_visibility(false)
 	var request = CombatQueueRequest.new()
 	request.callback = func(_combat_main:CombatMain) -> void: 
-		_update_movement(move_direction)
 		player_status_momentum.toggle_buttons_visibility(true)
+		_update_movement(move_direction)
 	request.unique_id = "movement_button_pressed"
 	Events.request_combat_queue_push.emit(request)
 
