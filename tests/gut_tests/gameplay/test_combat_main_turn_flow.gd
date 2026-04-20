@@ -50,8 +50,15 @@ class EndTurnButtonSpyCombatMain extends CombatMain:
 		end_turn_calls += 1
 
 
+# GUICombatMain.toggle_all_ui touches @onready nodes that aren't available when
+# the GUI is instantiated via .new() (no scene tree). Stub it out for tests.
+class FakeGUICombatMain extends GUICombatMain:
+	func toggle_all_ui(_on: bool) -> void:
+		pass
+
+
 func _attach_minimal_gui(cm: CombatMain) -> GUIToolCardContainer:
-	var gui := GUICombatMain.new()
+	var gui := FakeGUICombatMain.new()
 	autofree(gui)
 	var card_container := GUIToolCardContainer.new()
 	autofree(card_container)
@@ -110,7 +117,6 @@ func test_end_turn_button_ignored_when_not_mid_turn() -> void:
 	_disconnect_capture(capture)
 
 	assert_eq(capture.requests.size(), 0)
-
 
 func test_end_turn_button_pushes_unique_request_and_invokes_end_turn() -> void:
 	var cm := EndTurnButtonSpyCombatMain.new()

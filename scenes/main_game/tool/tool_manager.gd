@@ -6,7 +6,7 @@ signal tool_application_success(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
 signal tool_application_error(tool_data:ToolData, error_message:String)
 signal hand_updated(hand:Array)
-signal cards_removed_from_hand(tool_data:ToolData, updated_hand:Array) # Triggers after the removal animation (discard or exhaust)
+signal cards_removed_from_hand(tool_datas:Array, updated_hand:Array) # Triggers after the removal animation (discard or exhaust)
 signal max_hand_size_reached()
 signal pool_updated(pool:Array)
 signal tool_application_bailed(tool_data:ToolData)
@@ -78,16 +78,17 @@ func discard_cards(tools:Array, combat_main:CombatMain) -> void:
 	# Order is important, discard first, then animate
 	for tool_data in tools:
 		tool_data.refresh_for_turn()
-		tool_deck.discard(tools)
+
+	tool_deck.discard(tools)
 	await _gui_tool_card_container.animate_discard(tools, combat_main)
-	cards_removed_from_hand.emit([tools], tool_deck.hand)
+	cards_removed_from_hand.emit(tools, tool_deck.hand)
 
 func exhaust_cards(tools:Array, combat_main:CombatMain) -> void:
 	assert(tools.size() > 0)
 	# Order is important, exhaust first, then animate
 	tool_deck.exhaust(tools)
 	await _gui_tool_card_container.animate_exhaust(tools, combat_main)
-	cards_removed_from_hand.emit([tools], tool_deck.hand)
+	cards_removed_from_hand.emit(tools, tool_deck.hand)
 
 func clear_tool_selection() -> void:
 	selected_tool = null

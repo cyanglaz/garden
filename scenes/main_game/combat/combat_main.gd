@@ -135,6 +135,7 @@ func add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:boo
 #region private
   
 func _start_new_level() -> void:
+	gui.toggle_all_ui(false)
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.LEVEL)
 	boost = 1
 	plant_field_container.setup_with_plants(_combat.plants)
@@ -146,6 +147,7 @@ func _start_new_level() -> void:
 	_start_turn()
 
 func _start_turn() -> void:
+	assert(gui.is_ui_locked(), "UI is not locked before start turn, this should not happen as it will cause a deadlock")
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.TURN)
 	boost = maxi(boost - 1, 1)
 	day_manager.next_day()
@@ -172,6 +174,7 @@ func _queue_draw_cards() -> void:
 func _queue_turn_start_signals() -> void:
 	var request = CombatQueueRequest.new()
 	request.callback = func(_cm: CombatMain) -> void: 
+		gui.toggle_all_ui(true)
 		turn_started.emit()
 	Events.request_combat_queue_push.emit(request)
 
@@ -321,6 +324,8 @@ func _on_mouse_exited_card(tool_data:ToolData) -> void:
 func _on_end_turn_button_pressed() -> void:
 	if !is_mid_turn:
 		return
+	assert(!gui.is_ui_locked(), "UI is already locked before end turn, this should not happen as it will cause a deadlock")
+	gui.toggle_all_ui(false)
 	var request = CombatQueueRequest.new()
 	request.callback = func(_cm: CombatMain) -> void: _end_turn()
 	request.unique_id = END_TURN_UNIQUE_ID

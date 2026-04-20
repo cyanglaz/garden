@@ -16,6 +16,9 @@ func _ready() -> void:
 	left_button.pressed.connect(_on_button_pressed.bind(MoveDirection.LEFT))
 	right_button.pressed.connect(_on_button_pressed.bind(MoveDirection.RIGHT))
 
+func toggle_buttons_visibility(on:bool) -> void:
+	move_ui.visible = on
+
 func update_current_field_index(index:int, max_plants_index:int) -> void:
 	assert(max_plants_index > 0)
 	if index == 0:
