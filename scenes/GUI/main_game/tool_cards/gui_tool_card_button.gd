@@ -127,10 +127,12 @@ func _refresh_card_hover_state() -> void:
 		return
 	_card_hovered = over
 	if over:
+		Events.update_hovered_data.emit(tool_data)
 		if card_state == GUICardFace.CardState.NORMAL:
 			card_state = GUICardFace.CardState.HIGHLIGHTED
 		mouse_entered_card.emit()
 	else:
+		Events.update_hovered_data.emit(null)
 		if card_state == GUICardFace.CardState.HIGHLIGHTED:
 			card_state = GUICardFace.CardState.NORMAL
 		mouse_exited_card.emit()
@@ -140,7 +142,6 @@ func _refresh_card_hover_state() -> void:
 
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
-	Events.update_hovered_data.emit(tool_data)
 	_refresh_card_hover_state.call_deferred()
 	await Util.create_scaled_timer(Constants.SECONDARY_TOOLTIP_DELAY).timeout
 	if is_queued_for_deletion():
@@ -153,7 +154,6 @@ func is_mouse_hover_secondary_tooltip_enabled() -> bool:
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
-	Events.update_hovered_data.emit(null)
 	toggle_tooltip(false)
 	_refresh_card_hover_state.call_deferred()
 
@@ -219,6 +219,8 @@ func _on_special_interacted(special:ToolData.Special, _face:GUICardFace, combat_
 
 func _on_special_hovered(special:ToolData.Special, on:bool, _face:GUICardFace) -> void:
 	if on:
+		if !_special_tooltip_id.is_empty():
+			Events.request_hide_tooltip.emit(_special_tooltip_id)
 		_special_tooltip_id = Util.get_uuid()
 		Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.SPECIALS, [special], _special_tooltip_id, self, GUITooltip.TooltipPosition.RIGHT))
 	else:
