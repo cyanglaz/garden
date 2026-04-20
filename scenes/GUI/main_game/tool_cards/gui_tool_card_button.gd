@@ -223,7 +223,7 @@ func _on_special_hovered(special:ToolData.Special, on:bool, _face:GUICardFace) -
 			Events.request_hide_tooltip.emit(_special_tooltip_id)
 		_special_tooltip_id = Util.get_uuid()
 		Events.request_display_tooltip.emit(TooltipRequest.new(TooltipRequest.TooltipType.SPECIALS, [special], _special_tooltip_id, self, GUITooltip.TooltipPosition.RIGHT))
-	else:
+	elif !_special_tooltip_id.is_empty():
 		Events.request_hide_tooltip.emit(_special_tooltip_id)
 		_special_tooltip_id = ""
 	_refresh_card_hover_state.call_deferred()
