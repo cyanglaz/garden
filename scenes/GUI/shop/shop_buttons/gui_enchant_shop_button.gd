@@ -20,7 +20,7 @@ func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
 	gui_enchant_icon.gui_action_type_icon.has_outline = true
 	gui_enchant_icon.label.add_theme_color_override("font_outline_color", Constants.COLOR_WHITE)
-	if _enchant_tooltip_id.is_empty():
+	if !_enchant_tooltip_id.is_empty():
 		return
 	_enchant_tooltip_id = Util.get_uuid()
 	Events.request_display_tooltip.emit(

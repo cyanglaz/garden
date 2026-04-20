@@ -28,7 +28,7 @@ func _on_mouse_entered() -> void:
 	gui_action_type_icon.has_outline = true
 
 	label.add_theme_color_override("font_outline_color", Constants.COLOR_WHITE)
-	if _tooltip_id.is_empty():
+	if !_tooltip_id.is_empty():
 		return
 	_tooltip_id = Util.get_uuid()
 	Events.request_display_tooltip.emit(TooltipRequest.new(
