@@ -30,6 +30,7 @@ func queue_tool_application(combat_main:CombatMain, tool_data:ToolData, gui_tool
 			var request = CombatQueueRequest.new()
 			request.callback = func(_cm: CombatMain) -> void: 
 				combat_main.player.player_status_container.update_player_upgrade(tool_data.id, 1, ActionData.OperatorType.INCREASE)
+				await Util.create_scaled_timer(Constants.GLOBAL_UPGRADE_PAUSE_TIME).timeout
 			Events.request_combat_queue_push.emit(request)
 
 func apply_tool(combat_main:CombatMain, tool_data:ToolData, tool_card:GUIToolCardButton, gui_tool_card_container:GUIToolCardContainer) -> bool:
@@ -55,18 +56,12 @@ func _apply_tool_script(combat_main:CombatMain, tool_data:ToolData, gui_tool_car
 	if number_of_cards_to_select > 0:
 		var selecting_from_cards:Array = gui_tool_card_container.get_all_cards().filter(func(card:GUIToolCardButton): return card.tool_data != tool_data).map(func(card:GUIToolCardButton): return card.tool_data).filter(tool_data.tool_script.secondary_card_selection_filter())
 		var actual_number_of_cards_to_select = mini(number_of_cards_to_select, selecting_from_cards.size())
-		if actual_number_of_cards_to_select < number_of_cards_to_select:
-			if tool_data.get_card_selection_type_from_script() == ActionData.CardSelectionType.RESTRICTED:
-				gui_tool_card_container.animate_card_error_shake(tool_data)
-				return false
+		if tool_data.get_is_random_secondary_card_selection_from_script():
+			secondary_card_datas = Util.unweighted_roll(selecting_from_cards, actual_number_of_cards_to_select)
 		else:
-			if tool_data.get_is_random_secondary_card_selection_from_script():
-				secondary_card_datas = Util.unweighted_roll(selecting_from_cards, actual_number_of_cards_to_select)
-			else:
-				# Some actions need to select cards, for example discard, compost
-				var candidates:Array = combat_main.tool_manager.tool_deck.hand.filter(tool_data.tool_script.secondary_card_selection_filter())
-				secondary_card_datas = await gui_tool_card_container.select_secondary_cards(actual_number_of_cards_to_select, tool_data, candidates)
-	gui_tool_card_container.find_card(tool_data).play_use_animation()
+			# Some actions need to select cards, for example discard, compost
+			var candidates:Array = combat_main.tool_manager.tool_deck.hand.filter(tool_data.tool_script.secondary_card_selection_filter())
+			secondary_card_datas = await gui_tool_card_container.select_secondary_cards(actual_number_of_cards_to_select, tool_data, candidates)
 	await tool_data.tool_script.apply_tool(combat_main, tool_data, secondary_card_datas)
 	return true
 
