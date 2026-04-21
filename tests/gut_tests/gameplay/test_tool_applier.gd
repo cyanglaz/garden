@@ -136,7 +136,7 @@ func test_queue_tool_application_skill_no_script_queues_one_per_action() -> void
 		_make_action(ActionData.ActionType.WATER),
 	]
 	var capture := _capture_queue_requests()
-	applier.queue_tool_application(null, td, null, null)
+	applier.queue_tool_application(null, td, null)
 	_disconnect_capture(capture)
 	# Each action becomes its own CombatQueueRequest via ActionsApplier.queue_actions.
 	assert_eq(capture.requests.size(), 2)
@@ -145,7 +145,7 @@ func test_queue_tool_application_skill_with_script_queues_one_request() -> void:
 	var applier := ToolApplier.new()
 	var td := _make_tool("scripted_skill", _ScriptNoSelection.new())
 	var capture := _capture_queue_requests()
-	applier.queue_tool_application(null, td, null, null)
+	applier.queue_tool_application(null, td, null)
 	_disconnect_capture(capture)
 	assert_eq(capture.requests.size(), 1)
 	assert_true((capture.requests[0] as CombatQueueRequest).callback.is_valid())
@@ -154,6 +154,35 @@ func test_queue_tool_application_power_queues_one_request() -> void:
 	var applier := ToolApplier.new()
 	var td := _make_tool("some_power", null, ToolData.Type.POWER)
 	var capture := _capture_queue_requests()
-	applier.queue_tool_application(null, td, null, null)
+	applier.queue_tool_application(null, td, null)
 	_disconnect_capture(capture)
 	assert_eq(capture.requests.size(), 1)
+
+
+# ----- _apply_tool_script -----
+#
+# Guards against the regression where `apply_tool` was accidentally indented
+# inside the `if number_of_secondary_cards_to_select > 0` branch, which silently
+# no-op'd every tool_script that doesn't select any secondary cards
+# (bottled_water, collect, breaking_rules, energy_transfer).
+
+class _ScriptNoSelectionCounting extends ToolScript:
+	var apply_call_count: int = 0
+	var last_secondary_card_datas: Array = []
+
+	func number_of_secondary_cards_to_select() -> int:
+		return 0
+
+	func apply_tool(_combat_main: CombatMain, _tool_data: ToolData, secondary_card_datas: Array) -> void:
+		apply_call_count += 1
+		last_secondary_card_datas = secondary_card_datas
+
+func test_apply_tool_script_calls_apply_tool_when_zero_secondary_cards_needed() -> void:
+	var applier := ToolApplier.new()
+	var script := _ScriptNoSelectionCounting.new()
+	var td := _make_tool("no_selection_apply", script)
+	await applier._apply_tool_script(null, td, null)
+	assert_eq(script.apply_call_count, 1,
+		"apply_tool must run for tool_scripts that don't select secondary cards")
+	assert_eq(script.last_secondary_card_datas, [],
+		"secondary_card_datas should be empty when the script doesn't need any")

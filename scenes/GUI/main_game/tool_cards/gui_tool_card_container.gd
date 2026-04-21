@@ -144,6 +144,8 @@ func animate_exhaust(tool_datas:Array, combat_main:CombatMain) -> void:
 
 func animate_card_error_shake(tool_data:ToolData) -> void:
 	var card:GUIToolCardButton = find_card(tool_data)
+	if !card:
+		return
 	await card.play_error_shake_animation()
 
 #endregion

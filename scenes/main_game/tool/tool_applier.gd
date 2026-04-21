@@ -48,4 +48,4 @@ func _apply_tool_script(combat_main:CombatMain, tool_data:ToolData, gui_tool_car
 				# Some actions need to select cards, for example discard, compost
 				var candidates:Array = combat_main.tool_manager.tool_deck.hand.filter(tool_data.tool_script.secondary_card_selection_filter())
 				secondary_card_datas = await gui_tool_card_container.select_secondary_cards(actual_number_of_cards_to_select, tool_data, candidates)
-		await tool_data.tool_script.apply_tool(combat_main, tool_data, secondary_card_datas)
+	await tool_data.tool_script.apply_tool(combat_main, tool_data, secondary_card_datas)
