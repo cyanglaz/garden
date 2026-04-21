@@ -226,9 +226,13 @@ func _toggle_card_selection_mode(on:bool, trigger_card:ToolData) -> void:
 		_last_selected_main_card_index = trigger_gui_card.hand_index
 		
 	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
+	if get_all_cards().size() == 0:
+		return
+	var tween:Tween = Util.create_scaled_tween(self)
+	tween.set_parallel(true)
 	for gui_card:GUIToolCardButton in get_all_cards():
 		var tool_datas_in_card := [gui_card.tool_data]
-		gui_card.position = positions[gui_card.hand_index]
+		tween.tween_property(gui_card, "position", positions[gui_card.hand_index], REPOSITION_DURATION)
 		if card_selection_mode:
 			if gui_card == trigger_gui_card:
 				gui_card.card_state = GUICardFace.CardState.SELECTED
@@ -286,6 +290,8 @@ func _on_tool_card_pressed(index:int) -> void:
 	_hide_all_card_warnings()
 	var selected_card:GUIToolCardButton = _container.get_child(index)
 	if card_selection_mode:
+		if selected_card.hand_index == _last_selected_main_card_index:
+			return
 		if _card_selection_container.is_selected_secondary_card(selected_card):
 			_return_secondary_card_to_hand(selected_card)
 		elif _card_selection_container.is_card_selection_full():
