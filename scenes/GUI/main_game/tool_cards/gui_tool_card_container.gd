@@ -148,6 +148,12 @@ func animate_card_error_shake(tool_data:ToolData) -> void:
 		return
 	await card.play_error_shake_animation()
 
+func animate_card_use(tool_data:ToolData) -> void:
+	var card:GUIToolCardButton = find_card(tool_data)
+	if !card:
+		return
+	card.play_use_animation()
+
 #endregion
 
 func set_card_state(tool_data:ToolData, state:GUICardFace.CardState) -> void:

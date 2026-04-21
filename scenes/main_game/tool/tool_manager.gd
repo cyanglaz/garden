@@ -182,10 +182,10 @@ func _run_tool_stage_start_and_pre_hook(combat_main:CombatMain, tool_data:ToolDa
 	tool_application_started.emit(tool_data)
 	combat_main.plant_field_container.queue_tool_application_hooks()
 	combat_main.player.player_upgrades_manager.queue_pre_tool_application_hooks(combat_main, tool_data)
-	_gui_tool_card_container.find_card(tool_data).play_use_animation()
+	_gui_tool_card_container.animate_card_use(tool_data)
 
 func _queue_tool_state_apply_actions(combat_main:CombatMain, tool_data:ToolData) -> void:
-	_tool_applier.queue_tool_application(combat_main, tool_data, _gui_tool_card_container)
+	_tool_applier.queue_tool_application(combat_main, tool_data)
 
 func _run_tool_stage_finish(combat_main:CombatMain, tool_data:ToolData, stage_context:Dictionary) -> void:
 	var should_skip:bool = stage_context["skip"]
