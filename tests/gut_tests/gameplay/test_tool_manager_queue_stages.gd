@@ -1,11 +1,18 @@
 extends GutTest
 
 
+class FakeGUIToolCardButton extends GUIToolCardButton:
+	# Lightweight stand-in; overrides any method that touches @onready children
+	# so tests can exercise ToolManager without instancing the full button scene.
+	func play_use_animation() -> void:
+		pass
+
+
 class FakeGUIToolCardContainer extends GUIToolCardContainer:
 	var cards_by_tool: Dictionary = {}
 
 	func register_tool(tool_data: ToolData) -> void:
-		cards_by_tool[tool_data.id] = GUIToolCardButton.new()
+		cards_by_tool[tool_data.id] = FakeGUIToolCardButton.new()
 
 	func clear_tool(tool_data: ToolData) -> void:
 		var card: GUIToolCardButton = cards_by_tool.get(tool_data.id, null)
@@ -14,6 +21,8 @@ class FakeGUIToolCardContainer extends GUIToolCardContainer:
 		cards_by_tool.erase(tool_data.id)
 
 	func find_card(tool_data: ToolData) -> GUIToolCardButton:
+		if !tool_data:
+			return null
 		return cards_by_tool.get(tool_data.id, null)
 
 	func animate_discard(discarding_tool_datas: Array, _combat_main: CombatMain) -> void:
@@ -34,12 +43,14 @@ class FakeToolApplier extends ToolApplier:
 	func _init(tool_to_discard: ToolData) -> void:
 		_tool_to_discard = tool_to_discard
 
-	func apply_tool(combat_main: CombatMain, _tool_data: ToolData, _tool_card: GUIToolCardButton, _gui_tool_card_container: GUIToolCardContainer) -> bool:
-		if !_discarded and _tool_to_discard and combat_main.tool_manager.tool_deck.hand.has(_tool_to_discard):
-			_discarded = true
-			await combat_main.discard_cards([_tool_to_discard])
-		await Util.await_for_tiny_time()
-		return true
+	func queue_tool_application(combat_main: CombatMain, _tool_data: ToolData, _gui_tool_card: GUIToolCardButton, _gui_tool_card_container: GUIToolCardContainer) -> void:
+		var request := CombatQueueRequest.new()
+		request.callback = func(_cm: CombatMain) -> void:
+			if !_discarded and _tool_to_discard and combat_main.tool_manager.tool_deck.hand.has(_tool_to_discard):
+				_discarded = true
+				await combat_main.discard_cards([_tool_to_discard])
+			await Util.await_for_tiny_time()
+		Events.request_combat_queue_push.emit(request)
 
 
 class FakeCombatMain extends CombatMain:

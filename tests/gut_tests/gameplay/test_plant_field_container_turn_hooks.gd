@@ -22,6 +22,9 @@ class FakePlant extends Plant:
 		else:
 			events.append("end_%s" % marker)
 
+	func queue_tool_application_hooks() -> void:
+		events.append("tool_app_%s" % marker)
+
 	func handle_turn_end() -> void:
 		events.append("turn_end_%s" % marker)
 
@@ -103,3 +106,30 @@ func test_queue_end_turn_abilities_defers_delayed_end_through_combat_queue() -> 
 		hook_log,
 		["start_p2", "start_p1", "end_p1", "end_p2", "turn_end_p2", "turn_end_p1"]
 	)
+
+
+func test_queue_tool_application_hooks_calls_every_plant_in_order() -> void:
+	var field_container := PlantFieldContainer.new()
+	autofree(field_container)
+	var hook_log: Array = []
+	field_container.plants = [
+		FakePlant.new("p1", hook_log),
+		FakePlant.new("p2", hook_log),
+		FakePlant.new("p3", hook_log),
+	]
+	for plant in field_container.plants:
+		autofree(plant)
+
+	field_container.queue_tool_application_hooks()
+
+	assert_eq(hook_log, ["tool_app_p1", "tool_app_p2", "tool_app_p3"])
+
+
+func test_queue_tool_application_hooks_no_op_when_no_plants() -> void:
+	var field_container := PlantFieldContainer.new()
+	autofree(field_container)
+	# No plants in the container; should not throw and should emit no requests.
+	var capture := _capture_queue_requests()
+	field_container.queue_tool_application_hooks()
+	_disconnect_capture(capture)
+	assert_eq(capture.requests.size(), 0)
