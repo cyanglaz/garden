@@ -90,11 +90,6 @@ func select_secondary_cards(number_of_cards:int, trigger_card:ToolData, candidat
 	_clear_secondary_card_selection()
 	return result
 
-func play_card_error_shake_animation(tool_data:ToolData) -> void:
-	var card:GUIToolCardButton = find_card(tool_data)
-	card.play_error_shake_animation()
-	Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
-
 func select_main_card(tool_data:ToolData) -> bool:
 	# Select a main card from hand.
 	var selected_card:GUIToolCardButton = find_card(tool_data)

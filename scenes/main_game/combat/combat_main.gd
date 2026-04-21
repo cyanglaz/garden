@@ -382,6 +382,7 @@ func _on_tool_application_bailed(tool_data:ToolData) -> void:
 	if !tool_data:
 		return
 	gui.gui_tool_card_container.set_card_state(tool_data, GUICardFace.CardState.NORMAL)
+	gui.gui_tool_card_container.animate_card_error_shake(tool_data)
 
 func _on_max_hand_size_reached() -> void:
 	Events.request_show_warning.emit(WarningManager.WarningType.MAX_HAND_SIZE_REACHED)

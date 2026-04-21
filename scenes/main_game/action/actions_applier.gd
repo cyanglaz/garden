@@ -5,15 +5,15 @@ var card_action_applier:CardActionApplier = CardActionApplier.new()
 var plant_action_applier:PlantActionApplier = PlantActionApplier.new()
 var player_action_applier:PlayerActionApplier = PlayerActionApplier.new()
 
-func queue_actions(actions:Array, combat_main:CombatMain, tool_card:GUIToolCardButton, gui_tool_card_container:GUIToolCardContainer) -> void:
+func queue_actions(actions:Array, combat_main:CombatMain, tool_data:ToolData, gui_tool_card_container:GUIToolCardContainer) -> void:
 	var all_actions:Array = _organize_actions_to_apply(actions)
 	for action in all_actions:
 		var request = CombatQueueRequest.new()
-		request.callback = func(_cm: CombatMain) -> void: await _apply_action(action, combat_main, tool_card, all_actions, gui_tool_card_container)
+		request.callback = func(_cm: CombatMain) -> void: await _apply_action(action, combat_main, tool_data, all_actions, gui_tool_card_container)
 		Events.request_combat_queue_push.emit(request)
 
-func _apply_action(action:ActionData, combat_main:CombatMain, tool_card:GUIToolCardButton, all_actions:Array, gui_tool_card_container:GUIToolCardContainer) -> void:
-	var secondary_card_datas:Array = await _get_secondary_card_datas_from_action(action, tool_card, gui_tool_card_container, combat_main)
+func _apply_action(action:ActionData, combat_main:CombatMain, tool_data:ToolData, all_actions:Array, gui_tool_card_container:GUIToolCardContainer) -> void:
+	var secondary_card_datas:Array = await _get_secondary_card_datas_from_action(action, tool_data, gui_tool_card_container, combat_main)
 	match action.action_category:
 		ActionData.ActionCategory.CARD:
 			card_action_applier.apply_action(action, all_actions, combat_main)
@@ -22,19 +22,19 @@ func _apply_action(action:ActionData, combat_main:CombatMain, tool_card:GUIToolC
 		ActionData.ActionCategory.PLAYER:
 			await player_action_applier.apply_action(action, combat_main, secondary_card_datas)
 
-func _get_secondary_card_datas_from_action(action:ActionData, gui_card:GUIToolCardButton, gui_tool_card_container:GUIToolCardContainer, combat_main:CombatMain) -> Array:
+func _get_secondary_card_datas_from_action(action:ActionData, tool_data:ToolData, gui_tool_card_container:GUIToolCardContainer, combat_main:CombatMain) -> Array:
 	if !action.need_card_selection:
 		return []
 	var number_of_cards_to_select := action.get_calculated_value(combat_main)
 	var secondary_card_datas:Array = []
 	if action.value_type == ActionData.ValueType.RANDOM:
-		var selecting_from_cards:Array = combat_main.tool_manager.tool_deck.hand.filter(func(card:ToolData): return card != gui_card.tool_data)
+		var selecting_from_cards:Array = combat_main.tool_manager.tool_deck.hand.filter(func(card:ToolData): return card != tool_data)
 		var actual_number_of_cards_to_select = mini(number_of_cards_to_select, selecting_from_cards.size())
 		secondary_card_datas = Util.unweighted_roll(selecting_from_cards, actual_number_of_cards_to_select)
 	else:
 		# Some actions need to select cards, for example discard, compost
-		var candidates:Array = combat_main.tool_manager.tool_deck.hand.duplicate().filter(func(card:ToolData): return card != gui_card.tool_data)
-		secondary_card_datas = await gui_tool_card_container.select_secondary_cards(number_of_cards_to_select, gui_card.tool_data, candidates)
+		var candidates:Array = combat_main.tool_manager.tool_deck.hand.duplicate().filter(func(card:ToolData): return card != tool_data)
+		secondary_card_datas = await gui_tool_card_container.select_secondary_cards(number_of_cards_to_select, tool_data, candidates)
 	return secondary_card_datas
 
 func _organize_actions_to_apply(actions:Array) -> Array:

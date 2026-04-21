@@ -185,7 +185,7 @@ func _run_tool_stage_start_and_pre_hook(combat_main:CombatMain, tool_data:ToolDa
 	_gui_tool_card_container.find_card(tool_data).play_use_animation()
 
 func _queue_tool_state_apply_actions(combat_main:CombatMain, tool_data:ToolData) -> void:
-	_tool_applier.queue_tool_application(combat_main, tool_data, _gui_tool_card_container.find_card(tool_data), _gui_tool_card_container)
+	_tool_applier.queue_tool_application(combat_main, tool_data, _gui_tool_card_container)
 
 func _run_tool_stage_finish(combat_main:CombatMain, tool_data:ToolData, stage_context:Dictionary) -> void:
 	var should_skip:bool = stage_context["skip"]

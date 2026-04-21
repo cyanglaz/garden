@@ -110,7 +110,7 @@ func animated_transform(old_rarity:int) -> void:
 	has_outline = false
 
 func play_error_shake_animation() -> void:
-	await Util.play_error_shake_animation(self, "position", Vector2.ZERO)
+	await Util.play_error_shake_animation(self, "position", position)
 
 func play_use_animation() -> void:
 	has_outline = true #has_outline is reset when card is discarded.
