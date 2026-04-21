@@ -58,9 +58,9 @@ func _handle_next_stack_update_hook(combat_main:CombatMain, id:String, diff:int)
 	for container in player_upgrade_containers:
 		await container.handle_stack_update_hook(combat_main, id, diff)	
 
-func handle_player_move_hook(main_game:CombatMain) -> void:
+func queue_player_move_hooks(main_game:CombatMain) -> void:
 	for container in player_upgrade_containers:
-		await container.handle_player_move_hook(main_game)
+		container.queue_player_move_hooks(main_game)
 
 func toggle_ui_buttons(on:bool) -> void:
 	for container in player_upgrade_containers:

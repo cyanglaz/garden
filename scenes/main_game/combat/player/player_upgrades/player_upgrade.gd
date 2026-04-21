@@ -76,8 +76,11 @@ func handle_target_plant_water_update_hook(combat_main:CombatMain, plant:Plant, 
 func has_player_move_hook(main_game:CombatMain) -> bool:
 	return _has_player_move_hook(main_game)
 
-func handle_player_move_hook(main_game:CombatMain) -> void:
-	await _handle_player_move_hook(main_game)
+func queue_player_move_hooks() -> void:
+	var request = CombatQueueRequest.new()
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_player_move_hook(combat_main)
+	request.front = true
+	Events.request_combat_queue_push.emit(request)
 
 func has_end_turn_hook(combat_main:CombatMain) -> bool:
 	return _has_end_turn_hook(combat_main)

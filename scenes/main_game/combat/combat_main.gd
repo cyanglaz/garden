@@ -347,7 +347,7 @@ func _on_player_field_index_updated(from:int, to:int) -> void:
 	player.move_to_x(destination_x)
 	tool_manager.refresh_cards_ui(self)
 	if from != to:
-		await player.player_upgrades_manager.handle_player_move_hook(self)
+		player.player_upgrades_manager.queue_player_move_hooks(self)
 
 #region other events
 
