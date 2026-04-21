@@ -5,9 +5,6 @@ var card_action_applier:CardActionApplier = CardActionApplier.new()
 var plant_action_applier:PlantActionApplier = PlantActionApplier.new()
 var player_action_applier:PlayerActionApplier = PlayerActionApplier.new()
 
-var _pending_actions:Array = []
-var _action_index:int = 0
-
 func queue_actions(actions:Array, combat_main:CombatMain, tool_card:GUIToolCardButton, gui_tool_card_container:GUIToolCardContainer) -> void:
 	var all_actions:Array = _organize_actions_to_apply(actions)
 	for action in all_actions:
@@ -24,28 +21,6 @@ func _apply_action(action:ActionData, combat_main:CombatMain, tool_card:GUIToolC
 			await plant_action_applier.apply_action(action, combat_main.get_current_player_plant(), combat_main)
 		ActionData.ActionCategory.PLAYER:
 			await player_action_applier.apply_action(action, combat_main, secondary_card_datas)
-
-func apply_actions(actions:Array, combat_main:CombatMain, tool_card:GUIToolCardButton, gui_tool_card_container:GUIToolCardContainer) -> void:
-	_pending_actions = _organize_actions_to_apply(actions)
-	_action_index = 0
-	await _apply_next_action(combat_main, tool_card, _pending_actions.duplicate(), gui_tool_card_container)
-
-func _apply_next_action(combat_main:CombatMain, tool_card:GUIToolCardButton, all_actions:Array, gui_tool_card_container:GUIToolCardContainer) -> void:
-	if _action_index >= _pending_actions.size():
-		_pending_actions.clear()
-		_action_index = 0
-		return
-	var action:ActionData = _pending_actions[_action_index]
-	_action_index += 1
-	var secondary_card_datas:Array = await _get_secondary_card_datas_from_action(action, tool_card, gui_tool_card_container, combat_main)
-	match action.action_category:
-		ActionData.ActionCategory.CARD:
-			card_action_applier.apply_action(action, all_actions, combat_main)
-		ActionData.ActionCategory.FIELD:
-			await plant_action_applier.apply_action(action, combat_main.get_current_player_plant(), combat_main)
-		ActionData.ActionCategory.PLAYER:
-			await player_action_applier.apply_action(action, combat_main, secondary_card_datas)
-	await _apply_next_action(combat_main, tool_card, all_actions, gui_tool_card_container)
 
 func _get_secondary_card_datas_from_action(action:ActionData, gui_card:GUIToolCardButton, gui_tool_card_container:GUIToolCardContainer, combat_main:CombatMain) -> Array:
 	if !action.need_card_selection:

@@ -33,22 +33,6 @@ func queue_tool_application(combat_main:CombatMain, tool_data:ToolData, gui_tool
 				await Util.create_scaled_timer(Constants.GLOBAL_UPGRADE_PAUSE_TIME).timeout
 			Events.request_combat_queue_push.emit(request)
 
-func apply_tool(combat_main:CombatMain, tool_data:ToolData, tool_card:GUIToolCardButton, gui_tool_card_container:GUIToolCardContainer) -> bool:
-	match tool_data.type:
-		ToolData.Type.SKILL:
-			if tool_data.tool_script:
-				var success := await _apply_tool_script(combat_main, tool_data, gui_tool_card_container)
-				if !success:
-					return false
-			else:
-				gui_tool_card_container.find_card(tool_data).play_use_animation()
-				await _apply_actions(combat_main, tool_data, tool_card, gui_tool_card_container)
-		ToolData.Type.POWER:
-			gui_tool_card_container.find_card(tool_data).play_use_animation()
-			combat_main.player.player_status_container.update_player_upgrade(tool_data.id, 1, ActionData.OperatorType.INCREASE)
-			await Util.create_scaled_timer(Constants.GLOBAL_UPGRADE_PAUSE_TIME).timeout
-	return true
-
 func _apply_tool_script(combat_main:CombatMain, tool_data:ToolData, gui_tool_card_container:GUIToolCardContainer) -> bool:
 	var secondary_card_datas:Array = []
 	assert(tool_data.tool_script, "Tool script is required to select secondary cards")
@@ -64,6 +48,3 @@ func _apply_tool_script(combat_main:CombatMain, tool_data:ToolData, gui_tool_car
 			secondary_card_datas = await gui_tool_card_container.select_secondary_cards(actual_number_of_cards_to_select, tool_data, candidates)
 	await tool_data.tool_script.apply_tool(combat_main, tool_data, secondary_card_datas)
 	return true
-
-func _apply_actions(combat_main:CombatMain, tool_data:ToolData, tool_card:GUIToolCardButton, gui_tool_card_container:GUIToolCardContainer) -> void:
-	await _actions_applier.apply_actions(tool_data.actions, combat_main, tool_card, gui_tool_card_container)
