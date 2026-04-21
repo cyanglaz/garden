@@ -121,6 +121,11 @@ func play_use_animation() -> void:
 		z_index = 0
 	)
 
+func reset_use_animation() -> void:
+	has_outline = false
+	z_index = 0
+	position = Vector2.ZERO
+
 func _find_card_references() -> Array[String]:
 	var card_references:Array[String] = []
 	var reference_pairs:Array = DescriptionParser.find_all_reference_pairs(tool_data.get_raw_description())

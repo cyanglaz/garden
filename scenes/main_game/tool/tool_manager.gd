@@ -99,9 +99,9 @@ func queue_apply_tool(combat_main:CombatMain, applying_tool:ToolData) -> void:
 	_queued_tool_applications.append(applying_tool)
 	_queue_tool_application_stages(combat_main, applying_tool)
 
-func select_secondary_cards(number_of_cards:int, filter:Callable) -> Array:
+func select_secondary_cards(number_of_cards:int, trigger_card:ToolData, filter:Callable) -> Array:
 	var candidates:Array = tool_deck.hand.filter(filter)
-	return await _gui_tool_card_container.select_secondary_cards(number_of_cards, candidates)
+	return await _gui_tool_card_container.select_secondary_cards(number_of_cards, trigger_card, candidates)
 
 func add_tool_to_deck(tool_data:ToolData) -> void:
 	tool_deck.add_item(tool_data)

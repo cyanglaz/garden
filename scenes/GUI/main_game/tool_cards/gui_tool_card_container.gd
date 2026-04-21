@@ -20,7 +20,6 @@ var _card_size:float
 var card_use_limit_reached:bool = false: set = _set_card_use_limit_reached
 var card_selection_mode := false
 var is_mid_turn:bool = false
-var _secondary_card_selection_main_card:GUIToolCardButton = null
 var _secondary_card_selection_candidates:Array = []
 var _selected_secondary_cards:Array[GUIToolCardButton] = []
 var _tool_card_interaction_enabled:bool = true
@@ -35,7 +34,6 @@ func setup(draw_box_button:GUIDeckButton, discard_box_button:GUIDeckButton) -> v
 	
 func clear_selection() -> void:
 	_last_selected_main_card_index = -1
-	_secondary_card_selection_main_card = null
 	_clear_secondary_card_selection()
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
 	Events.request_hide_warning.emit(WarningManager.WarningType.DIALOGUE_CANNOT_USE_CARD)
@@ -81,11 +79,11 @@ func find_card(tool_data:ToolData) -> GUIToolCardButton:
 			return card
 	return null
 
-func select_secondary_cards(number_of_cards:int, candidates:Array) -> Array:
+func select_secondary_cards(number_of_cards:int, trigger_card:ToolData, candidates:Array) -> Array:
 	_secondary_card_selection_candidates = candidates
-	_toggle_card_selection_mode(true)
+	_toggle_card_selection_mode(true, trigger_card)
 	var cards_enabled:bool = _tool_card_interaction_enabled
-	_toggle_selected_cards( true)
+	_toggle_selected_cards(true)
 	var result := await _card_selection_container.start_selection(number_of_cards, _secondary_card_selection_candidates)
 	if !cards_enabled:
 		_toggle_selected_cards(false)
@@ -216,22 +214,28 @@ func _get_card_index(tool_data:ToolData) -> int:
 func _toggle_selected_cards(on:bool) -> void:
 	for tool_data in _secondary_card_selection_candidates:
 		var gui_card:GUIToolCardButton = find_card(tool_data)
-		if !gui_card:
+		if gui_card:
 			gui_card.mouse_disabled = !on
 
 func _clear_secondary_card_selection() -> void:
 	_card_selection_container.end_selection()
 	_selected_secondary_cards.clear()
-	_toggle_card_selection_mode(false)
+	_toggle_card_selection_mode(false, null)
 
-func _toggle_card_selection_mode(on:bool) -> void:
+func _toggle_card_selection_mode(on:bool, trigger_card:ToolData) -> void:
 	card_selection_mode = on
 	if !card_selection_mode:
 		_secondary_card_selection_candidates.clear()
+	var trigger_gui_card:GUIToolCardButton = find_card(trigger_card)
+	if trigger_gui_card:
+		_last_selected_main_card_index = trigger_gui_card.hand_index
+		
+	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	for gui_card:GUIToolCardButton in get_all_cards():
 		var tool_datas_in_card := [gui_card.tool_data]
+		gui_card.position = positions[gui_card.hand_index]
 		if card_selection_mode:
-			if gui_card == _secondary_card_selection_main_card:
+			if gui_card == trigger_gui_card:
 				gui_card.card_state = GUICardFace.CardState.SELECTED
 			else:
 				var eligible := tool_datas_in_card.any(func(td): return _secondary_card_selection_candidates.has(td))
@@ -242,6 +246,7 @@ func _toggle_card_selection_mode(on:bool) -> void:
 		else:
 			if gui_card.card_state != GUICardFace.CardState.WAITING && gui_card.card_state != GUICardFace.CardState.SELECTED:
 				gui_card.card_state = GUICardFace.CardState.NORMAL
+				gui_card.mouse_disabled = false
 
 func _rebind_signals() -> void:
 	for i in _container.get_children().size():
@@ -286,8 +291,6 @@ func _on_tool_card_pressed(index:int) -> void:
 	_hide_all_card_warnings()
 	var selected_card:GUIToolCardButton = _container.get_child(index)
 	if card_selection_mode:
-		if selected_card == _secondary_card_selection_main_card:
-			return
 		if _card_selection_container.is_selected_secondary_card(selected_card):
 			_return_secondary_card_to_hand(selected_card)
 		elif _card_selection_container.is_card_selection_full():
@@ -298,8 +301,6 @@ func _on_tool_card_pressed(index:int) -> void:
 		else:
 			_card_selection_container.select_secondary_card(selected_card)
 		return
-	else:
-		_secondary_card_selection_main_card = selected_card
 	main_card_selected.emit(selected_card.tool_data)
 
 func _on_tool_card_mouse_entered(index:int) -> void:

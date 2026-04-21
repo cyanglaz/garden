@@ -64,6 +64,9 @@ func animated_transform(old_rarity:int) -> void:
 func play_use_animation() -> void:
 	card_face.play_use_animation()
 
+func reset_use_animation() -> void:
+	card_face.reset_use_animation()
+
 func animate_reverse(combat_main:CombatMain) -> void:
 	tool_data.reverse(combat_main)
 
