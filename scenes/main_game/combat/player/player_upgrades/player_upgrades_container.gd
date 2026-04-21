@@ -118,7 +118,7 @@ func queue_pre_tool_application_hooks(combat_main:CombatMain, tool_data:ToolData
 	var player_upgrades:Array = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
 		return player_upgrade.has_pre_tool_application_hook(combat_main, tool_data)
 	)
-	all_player_upgrades.reverse()
+	player_upgrades.reverse()
 	for player_upgrade:PlayerUpgrade in player_upgrades:
 		player_upgrade.queue_pre_tool_application_hook(tool_data)
 
