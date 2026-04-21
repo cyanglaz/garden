@@ -8,6 +8,24 @@ var player_action_applier:PlayerActionApplier = PlayerActionApplier.new()
 var _pending_actions:Array = []
 var _action_index:int = 0
 
+func queue_actions(actions:Array, combat_main:CombatMain, tool_card:GUIToolCardButton, gui_tool_card_container:GUIToolCardContainer) -> void:
+	var all_actions:Array = _organize_actions_to_apply(actions)
+	all_actions.reverse()
+	for action in all_actions:
+		var request = CombatQueueRequest.new()
+		request.callback = func(_cm: CombatMain) -> void: await _apply_action(action, combat_main, tool_card, all_actions, gui_tool_card_container)
+		Events.request_combat_queue_push.emit(request)
+
+func _apply_action(action:ActionData, combat_main:CombatMain, tool_card:GUIToolCardButton, all_actions:Array, gui_tool_card_container:GUIToolCardContainer) -> void:
+	var secondary_card_datas:Array = await _get_secondary_card_datas_from_action(action, tool_card, gui_tool_card_container, combat_main)
+	match action.action_category:
+		ActionData.ActionCategory.CARD:
+			card_action_applier.apply_action(action, all_actions, combat_main)
+		ActionData.ActionCategory.FIELD:
+			await plant_action_applier.apply_action(action, combat_main.get_current_player_plant(), combat_main)
+		ActionData.ActionCategory.PLAYER:
+			await player_action_applier.apply_action(action, combat_main, secondary_card_datas)
+
 func apply_actions(actions:Array, combat_main:CombatMain, tool_card:GUIToolCardButton, gui_tool_card_container:GUIToolCardContainer) -> void:
 	_pending_actions = _organize_actions_to_apply(actions)
 	_action_index = 0

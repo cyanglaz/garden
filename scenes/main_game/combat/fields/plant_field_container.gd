@@ -53,9 +53,9 @@ func queue_start_turn_abilities(combat_main:CombatMain) -> void:
 	for plant:Plant in plants_in_order:
 		plant.queue_start_turn_abilities(combat_main)
 
-func trigger_tool_application_hook(combat_main:CombatMain) -> void:
+func queue_tool_application_hooks() -> void:
 	for plant:Plant in plants:
-		await plant.handle_tool_application_hook(combat_main)
+		plant.queue_tool_application_hooks()
 
 func trigger_tool_discard_hook(count:int, combat_main:CombatMain) -> void:
 	for plant:Plant in plants:

@@ -55,8 +55,8 @@ func queue_abilities(ability_type:AbilityType, combat_main:CombatMain) -> void:
 func handle_turn_end() -> void:
 	field_status_container.clear_status_on_turn_end()
 
-func handle_tool_application_hook(combat_main:CombatMain) -> void:
-	await field_status_container.handle_tool_application_hook(self, combat_main)
+func queue_tool_application_hooks() -> void:
+	field_status_container.queue_tool_application_hooks(self)
 
 func handle_tool_discard_hook(count:int, combat_main:CombatMain) -> void:
 	await field_status_container.handle_tool_discard_hook(self, count, combat_main)

@@ -165,14 +165,15 @@ func _handle_tool_application_completed(tool_data:ToolData, combat_main:CombatMa
 func _queue_tool_application_stages(combat_main:CombatMain, applying_tool:ToolData) -> void:
 	var stage_context := {
 		"skip": false,
-		"success": false,
 	}
 	var pre_hook_request = CombatQueueRequest.new()
-	pre_hook_request.callback = func(_cm: CombatMain) -> void: await _run_tool_stage_start_and_pre_hook(combat_main, applying_tool, stage_context)
+	pre_hook_request.callback = func(_cm: CombatMain) -> void: _run_tool_stage_start_and_pre_hook(combat_main, applying_tool, stage_context)
 	Events.request_combat_queue_push.emit(pre_hook_request)
-	var apply_request = CombatQueueRequest.new()
-	apply_request.callback = func(_cm: CombatMain) -> void: await _run_tool_stage_apply_actions(combat_main, applying_tool, stage_context)
-	Events.request_combat_queue_push.emit(apply_request)
+
+	#_queue_confirm_tool_application_context(combat_main, applying_tool, stage_context)
+
+	_queue_tool_state_apply_actions(combat_main, applying_tool)
+
 	var finish_request = CombatQueueRequest.new()
 	finish_request.callback = func(_cm: CombatMain) -> void: await _run_tool_stage_finish(combat_main, applying_tool, stage_context)
 	Events.request_combat_queue_push.emit(finish_request)
@@ -182,9 +183,22 @@ func _run_tool_stage_start_and_pre_hook(combat_main:CombatMain, tool_data:ToolDa
 		stage_context["skip"] = true
 		tool_application_bailed.emit(tool_data)
 		return
+	if !_tool_applier.can_tool_be_applied(tool_data, tool_deck.hand):
+		tool_application_error.emit(tool_data, tool_data.get_card_selection_custom_error_message())
+		stage_context["skip"] = true
+		tool_application_bailed.emit(tool_data)
+		return
 	selected_tool = tool_data
 	tool_application_started.emit(tool_data)
-	await combat_main.player.player_upgrades_manager.handle_pre_tool_application_hook(combat_main, tool_data)
+	combat_main.plant_field_container.queue_tool_application_hooks()
+	combat_main.player.player_upgrades_manager.queue_pre_tool_application_hooks(combat_main, tool_data)
+	_gui_tool_card_container.find_card(tool_data).play_use_animation()
+
+#func _queue_plant_field_tool_application_hooks(combat_main:CombatMain, tool_data:ToolData) -> void:
+#	combat_main.plant_field_container.queue_tool_application_hooks(tool_data)
+
+func _queue_tool_state_apply_actions(combat_main:CombatMain, tool_data:ToolData) -> void:
+	_tool_applier.queue_tool_application(combat_main, tool_data, _gui_tool_card_container.find_card(tool_data), _gui_tool_card_container)
 
 func _run_tool_stage_apply_actions(combat_main:CombatMain, tool_data:ToolData, stage_context:Dictionary) -> void:
 	if stage_context["skip"]:
@@ -197,12 +211,8 @@ func _run_tool_stage_apply_actions(combat_main:CombatMain, tool_data:ToolData, s
 
 func _run_tool_stage_finish(combat_main:CombatMain, tool_data:ToolData, stage_context:Dictionary) -> void:
 	var should_skip:bool = stage_context["skip"]
-	var success:bool = stage_context["success"]
 	_queued_tool_applications.erase(tool_data)
 	if should_skip:
-		return
-	if !success:
-		tool_application_error.emit(tool_data, tool_data.get_card_selection_custom_error_message())
 		return
 	number_of_card_used_this_turn += 1
 	tool_application_success.emit(tool_data)
