@@ -78,6 +78,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	tool_manager.pool_updated.connect(_on_pool_updated)
 	tool_manager.tool_application_bailed.connect(_on_tool_application_bailed)
 	tool_manager.tools_exhausted.connect(_on_tools_exhausted)
+	tool_manager.tools_drawn.connect(_on_tools_drawn)
 
 	gui.bind_energy(energy_tracker)
 	gui.bind_tool_deck(tool_manager.tool_deck)
@@ -115,8 +116,7 @@ func get_current_player_plant() -> Plant:
 #region cards
 func draw_cards(count:int) -> void:
 	var first_turn_draw := day_manager.day == 0 && !is_mid_turn
-	var draw_results:Array = await tool_manager.draw_cards(count, first_turn_draw, self)
-	await player.player_upgrades_manager.handle_draw_hook(self, draw_results)
+	await tool_manager.draw_cards(count, first_turn_draw, self)
 
 func discard_cards(tools:Array) -> void:
 	await tool_manager.discard_cards(tools, self)
@@ -437,6 +437,9 @@ func _on_pool_updated(pool:Array) -> void:
 
 func _on_tools_exhausted(tool_datas:Array) -> void:
 	player.player_upgrades_manager.queue_exhaust_hooks(self, tool_datas)
+
+func _on_tools_drawn(tool_datas:Array) -> void:
+	player.player_upgrades_manager.queue_draw_hooks(self, tool_datas)
 
 func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
 	# The hp is handled by the main game

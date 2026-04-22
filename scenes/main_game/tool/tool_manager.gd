@@ -5,12 +5,13 @@ signal tool_application_started(tool_data:ToolData)
 signal tool_application_success(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
 signal tool_application_error(tool_data:ToolData, error_message:String)
+signal tool_application_bailed(tool_data:ToolData)
+signal tools_drawn(tool_datas:Array)
 signal tools_exhausted(tool_datas:Array)
 signal hand_updated(hand:Array)
 signal cards_removed_from_hand(tool_datas:Array, updated_hand:Array) # Triggers after the removal animation (discard or exhaust)
 signal max_hand_size_reached()
 signal pool_updated(pool:Array)
-signal tool_application_bailed(tool_data:ToolData)
 
 var tool_deck:Deck
 var selected_tool_index:int: get = _get_selected_tool_index
@@ -61,6 +62,7 @@ func draw_cards(count:int, first_turn_draw:bool, combat_main:CombatMain) -> Arra
 		var second_draw_result:Array = tool_deck.draw(random_draw_count - draw_results.size())
 		await _gui_tool_card_container.animate_draw(second_draw_result, combat_main)
 		draw_results.append_array(second_draw_result)
+	tools_drawn.emit(draw_results)
 	return draw_results
 
 func shuffle(combat_main:CombatMain) -> void:

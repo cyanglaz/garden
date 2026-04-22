@@ -42,9 +42,9 @@ func queue_exhaust_hooks(combat_main:CombatMain, tool_datas:Array) -> void:
 	for container in player_upgrade_containers:
 		container.queue_exhaust_hooks(combat_main, tool_datas)
 
-func handle_draw_hook(combat_main:CombatMain, tool_datas:Array) -> void:
+func queue_draw_hooks(combat_main:CombatMain, tool_datas:Array) -> void:
 	for container in player_upgrade_containers:
-		await container.handle_draw_hook(combat_main, tool_datas)
+		container.queue_draw_hooks(combat_main, tool_datas)
 
 func handle_stack_update_hook(combat_main:CombatMain, id:String, diff:int) -> void:
 	for container in player_upgrade_containers:
