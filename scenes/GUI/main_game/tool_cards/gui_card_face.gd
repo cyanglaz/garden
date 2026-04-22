@@ -110,7 +110,7 @@ func animated_transform(old_rarity:int) -> void:
 	has_outline = false
 
 func play_error_shake_animation() -> void:
-	await Util.play_error_shake_animation(self, "position", Vector2.ZERO)
+	await Util.play_error_shake_animation(self, "position", position)
 
 func play_use_animation() -> void:
 	has_outline = true #has_outline is reset when card is discarded.
@@ -120,6 +120,11 @@ func play_use_animation() -> void:
 	tween.finished.connect(func() -> void:
 		z_index = 0
 	)
+
+func reset_use_animation() -> void:
+	has_outline = false
+	z_index = 0
+	position = Vector2.ZERO
 
 func _find_card_references() -> Array[String]:
 	var card_references:Array[String] = []

@@ -9,8 +9,6 @@ signal player_upgrade_stack_updated(id:String, diff:int)
 
 var _tool_application_hook_queue:Array = []
 var _current_tool_application_hook_index:int = 0
-var _pre_tool_application_hook_queue:Array = []
-var _current_pre_tool_application_hook_index:int = 0
 var _card_added_to_hand_hook_queue:Array = []
 var _current_card_added_to_hand_hook_index:int = 0
 var _pool_updated_hook_queue:Array = []
@@ -25,8 +23,6 @@ var _draw_hook_queue:Array = []
 var _current_draw_hook_index:int = 0
 var _stack_update_hook_queue:Array = []
 var _current_stack_update_hook_index:int = 0
-var _player_move_hook_queue:Array = []
-var _current_player_move_hook_index:int = 0
 var _hand_updated_hook_queue:Array = []
 var _current_hand_updated_hook_index:int = 0
 var _plant_bloom_hook_queue:Array = []
@@ -117,21 +113,14 @@ func _handle_next_tool_application_hook(combat_main:CombatMain, tool_data:ToolDa
 	_current_tool_application_hook_index += 1
 	await _handle_next_tool_application_hook(combat_main, tool_data)
 
-func handle_pre_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
+func queue_pre_tool_application_hooks(combat_main:CombatMain, tool_data:ToolData) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()
-	_pre_tool_application_hook_queue = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
+	var player_upgrades:Array = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
 		return player_upgrade.has_pre_tool_application_hook(combat_main, tool_data)
 	)
-	_current_pre_tool_application_hook_index = 0
-	await _handle_next_pre_tool_application_hook(combat_main, tool_data)
-
-func _handle_next_pre_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
-	if _current_pre_tool_application_hook_index >= _pre_tool_application_hook_queue.size():
-		return
-	var player_upgrade:PlayerUpgrade = _pre_tool_application_hook_queue[_current_pre_tool_application_hook_index]
-	await player_upgrade.handle_pre_tool_application_hook(combat_main, tool_data)
-	_current_pre_tool_application_hook_index += 1
-	await _handle_next_pre_tool_application_hook(combat_main, tool_data)
+	player_upgrades.reverse()
+	for player_upgrade:PlayerUpgrade in player_upgrades:
+		player_upgrade.queue_pre_tool_application_hook(tool_data)
 
 func handle_card_added_to_hand_hook(tool_datas:Array, combat_main:CombatMain) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()
@@ -245,21 +234,14 @@ func _handle_next_stack_update_hook(combat_main:CombatMain, id:String, diff:int)
 	_current_stack_update_hook_index += 1
 	await _handle_next_stack_update_hook(combat_main, id, diff)
 
-func handle_player_move_hook(main_game:CombatMain) -> void:
+func queue_player_move_hooks(main_game:CombatMain) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()
-	_player_move_hook_queue = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
+	var player_move_queue:Array = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
 		return player_upgrade.has_player_move_hook(main_game)
 	)
-	_current_player_move_hook_index = 0
-	await _handle_next_player_move_hook(main_game)
-
-func _handle_next_player_move_hook(main_game:CombatMain) -> void:
-	if _current_player_move_hook_index >= _player_move_hook_queue.size():
-		return
-	var player_upgrade:PlayerUpgrade = _player_move_hook_queue[_current_player_move_hook_index]
-	await player_upgrade.handle_player_move_hook(main_game)
-	_current_player_move_hook_index += 1
-	await _handle_next_player_move_hook(main_game)
+	player_move_queue.reverse()
+	for player_upgrade in player_move_queue:
+		player_upgrade.queue_player_move_hooks()
 
 func toggle_ui_buttons(on:bool) -> void:
 	for player_upgrade:PlayerUpgrade in get_all_player_upgrades():

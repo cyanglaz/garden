@@ -122,3 +122,63 @@ func test_result_is_a_duplicate_not_same_reference():
 	var result := applier._organize_actions_to_apply(actions)
 	result.append(_make_action(ActionData.ActionType.ENERGY))
 	assert_eq(actions.size(), 1)  # original unchanged
+
+# ----- queue_actions: pushes a CombatQueueRequest per organized action -----
+
+func _capture_queue_requests() -> Dictionary:
+	var capture := {"requests": []}
+	var callable := func(request: CombatQueueRequest) -> void:
+		capture.requests.append(request)
+	if Events.request_combat_queue_push.is_connected(callable):
+		Events.request_combat_queue_push.disconnect(callable)
+	Events.request_combat_queue_push.connect(callable)
+	capture["callable"] = callable
+	return capture
+
+func _disconnect_capture(capture: Dictionary) -> void:
+	var callable: Callable = capture["callable"]
+	if Events.request_combat_queue_push.is_connected(callable):
+		Events.request_combat_queue_push.disconnect(callable)
+
+func test_queue_actions_emits_one_request_per_action() -> void:
+	var applier := ActionsApplier.new()
+	var actions := [
+		_make_action(ActionData.ActionType.WATER),
+		_make_action(ActionData.ActionType.LIGHT),
+		_make_action(ActionData.ActionType.ENERGY),
+	]
+	var capture := _capture_queue_requests()
+	applier.queue_actions(actions, null, null)
+	_disconnect_capture(capture)
+	assert_eq(capture.requests.size(), 3)
+
+func test_queue_actions_expands_loops_before_emitting() -> void:
+	var applier := ActionsApplier.new()
+	# [WATER, LIGHT] × 2 = 4 resulting requests
+	var actions := [
+		_make_action(ActionData.ActionType.WATER),
+		_make_action(ActionData.ActionType.LIGHT),
+		_make_loop(2),
+	]
+	var capture := _capture_queue_requests()
+	applier.queue_actions(actions, null, null)
+	_disconnect_capture(capture)
+	assert_eq(capture.requests.size(), 4)
+
+func test_queue_actions_emits_zero_for_empty_actions() -> void:
+	var applier := ActionsApplier.new()
+	var capture := _capture_queue_requests()
+	applier.queue_actions([], null, null)
+	_disconnect_capture(capture)
+	assert_eq(capture.requests.size(), 0)
+
+func test_queue_actions_requests_have_valid_callbacks() -> void:
+	var applier := ActionsApplier.new()
+	var actions := [_make_action(ActionData.ActionType.WATER)]
+	var capture := _capture_queue_requests()
+	applier.queue_actions(actions, null, null)
+	_disconnect_capture(capture)
+	assert_eq(capture.requests.size(), 1)
+	var request: CombatQueueRequest = capture.requests[0]
+	assert_true(request.callback.is_valid(), "request should have a valid callback")
+	assert_false(request.front, "queue_actions requests should not be enqueued at the front")

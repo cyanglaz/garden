@@ -22,9 +22,9 @@ func handle_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) ->
 	for container in player_upgrade_containers:
 		await container.handle_tool_application_hook(combat_main, tool_data)
 
-func handle_pre_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
+func queue_pre_tool_application_hooks(combat_main:CombatMain, tool_data:ToolData) -> void:
 	for container in player_upgrade_containers:
-		await container.handle_pre_tool_application_hook(combat_main, tool_data)
+		container.queue_pre_tool_application_hooks(combat_main, tool_data)
 
 func handle_card_added_to_hand_hook(tool_datas:Array, combat_main:CombatMain) -> void:
 	for container in player_upgrade_containers:
@@ -58,9 +58,9 @@ func _handle_next_stack_update_hook(combat_main:CombatMain, id:String, diff:int)
 	for container in player_upgrade_containers:
 		await container.handle_stack_update_hook(combat_main, id, diff)	
 
-func handle_player_move_hook(main_game:CombatMain) -> void:
+func queue_player_move_hooks(main_game:CombatMain) -> void:
 	for container in player_upgrade_containers:
-		await container.handle_player_move_hook(main_game)
+		container.queue_player_move_hooks(main_game)
 
 func toggle_ui_buttons(on:bool) -> void:
 	for container in player_upgrade_containers:
