@@ -1,16 +1,12 @@
 extends GutTest
 
+const PLAYER_SCENE := preload("res://scenes/main_game/combat/player/player.tscn")
 
 class FakeWeatherMain extends WeatherMain:
 	var removed_field_indices: Array = []
 
 	func remove_weather_ability_at_field_index(field_index: int) -> void:
 		removed_field_indices.append(field_index)
-
-
-class FakePlayer extends Node2D:
-	var current_field_index := 0
-
 
 class FakeCombatMain extends CombatMain:
 	func _init():
@@ -19,13 +15,14 @@ class FakeCombatMain extends CombatMain:
 
 func _make_combat_main(field_index: int) -> FakeCombatMain:
 	var cm := FakeCombatMain.new()
-	var player := FakePlayer.new()
+	var player := PLAYER_SCENE.instantiate()
+	add_child_autofree(player)
+	player.max_plants_index = 3
 	player.current_field_index = field_index
 	cm.player = player
 	var weather := FakeWeatherMain.new()
 	cm.weather_main = weather
 	autofree(cm)
-	autofree(player)
 	autofree(weather)
 	return cm
 
