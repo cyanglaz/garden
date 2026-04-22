@@ -55,5 +55,5 @@
 "Exhaust","0","x=momentum, + x light, + x water","","","1","","","","","","","","","","","","","","","","","","","","","","",""
 "Free Will","0","Add reversible to one card on hand","","","1","","","","","","","","","","","","","","","","","","","","","","",""
 "Breaking Rules","1","Add reversible to all card on hand","","","1","yes","","","","","","","","","","","","","","","","","","","","","",""
-"Null Zone","2","Remove weather ability at current position.","","COMPOST","1","","","","","","","","","","","","","","","","","","","","","","",""
+"Null Zone","2","Remove weather ability at current position.","","COMPOST","1","yes","","","","","","","","","","","","","","","","","","","","","",""
 "Vector Shift","2","Move all weather abilities 1 positions to the left if available","","COMPOST","1","","","","","","","","","","","","","","","","","","","","","","",""

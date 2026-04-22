@@ -45,6 +45,14 @@ func clear_all_weather_abilities() -> void:
 	weather_abilities.clear()
 	Util.remove_all_children(weather_ability_animation_container)
 
+func remove_weather_abilities_at_field_index(field_index: int) -> void:
+	var to_remove := weather_abilities.filter(func(wa: WeatherAbility) -> bool: return wa.field_index == field_index)
+	for wa: WeatherAbility in to_remove:
+		weather_abilities.erase(wa)
+		wa.queue_free()
+	if not to_remove.is_empty():
+		weathers_abilities_updated.emit()
+
 func _add_weather_ability_to_queue(weather_ability:WeatherAbility) -> void:
 	var combat_queue_request = CombatQueueRequest.new()
 	combat_queue_request.callback = func(combat_main:CombatMain) -> void: await _apply_weather_ability(weather_ability, combat_main)
