@@ -115,7 +115,6 @@ func get_current_player_plant() -> Plant:
 func draw_cards(count:int) -> void:
 	var first_turn_draw := day_manager.day == 0 && !is_mid_turn
 	var draw_results:Array = await tool_manager.draw_cards(count, first_turn_draw, self)
-	await player.player_upgrades_manager.handle_card_added_to_hand_hook(draw_results, self)
 	await player.player_upgrades_manager.handle_draw_hook(self, draw_results)
 
 func discard_cards(tools:Array) -> void:
@@ -127,8 +126,10 @@ func exhaust_cards(tools:Array) -> void:
 	await player.player_upgrades_manager.handle_exhaust_hook(self, tools)
 
 func add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
-	await player.player_upgrades_manager.handle_card_added_to_hand_hook(tool_datas, self)
-	await tool_manager.add_tools_to_hand(tool_datas, from_global_position, pause, self)
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: tool_manager.add_tools_to_hand(tool_datas, from_global_position, pause, combat_main)
+	Events.request_combat_queue_push.emit(request)
 #endregion
 
 #region private
@@ -417,9 +418,7 @@ func _on_mouse_plant_updated(_plant:Plant) -> void:
 	pass
 
 func _on_request_add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
-	gui.toggle_all_ui(false)
-	await add_tools_to_hand(tool_datas, from_global_position, pause)
-	gui.toggle_all_ui(true)
+	add_tools_to_hand(tool_datas, from_global_position, pause)
 
 func _on_request_add_tools_to_discard_pile(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
 	gui.toggle_all_ui(false)
@@ -460,7 +459,7 @@ func _on_player_player_upgrade_stack_updated(id:String, diff:int) -> void:
 	player.player_upgrades_manager.handle_stack_update_hook(self, id, diff)
 
 func _on_pool_updated(pool:Array) -> void:
-	await player.player_upgrades_manager.handle_pool_updated_hook(self, pool)
+	player.player_upgrades_manager.queue_pool_updated_hooks(pool, self)
 
 func _on_plant_light_updated(_plant:Plant, _from_value:int, _to_value:int) -> void:
 	tool_manager.refresh_cards_ui(self)

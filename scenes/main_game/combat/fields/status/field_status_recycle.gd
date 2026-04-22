@@ -28,7 +28,6 @@ func _handle_add_water_hook(plant:Plant) -> void:
 		cards.append(tool_data_to_add)
 	_card_added = number_of_cards
 	Events.request_add_tools_to_hand.emit(cards, from_position, true)
-	await _adding_all_cards_finished
 
 func _on_card_added_to_deck_finished() -> void:
 	_card_added -= 1

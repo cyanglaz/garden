@@ -11,12 +11,6 @@ func has_activation_hook(combat_main:CombatMain) -> bool:
 func handle_activation_hook(combat_main:CombatMain) -> void:
 	await _handle_activation_hook(combat_main)
 
-func has_card_added_to_hand_hook(tool_datas:Array) -> bool:
-	return _has_card_added_to_hand_hook(tool_datas)
-
-func handle_card_added_to_hand_hook(tool_datas:Array) -> void:
-	await _handle_card_added_to_hand_hook(tool_datas)
-
 func has_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> bool:
 	return _has_tool_application_hook(combat_main, tool_data)
 
@@ -35,12 +29,6 @@ func _has_activation_hook(_combat_main:CombatMain) -> bool:
 	return false
 
 func _handle_activation_hook(_combat_main:CombatMain) -> void:
-	await Util.await_for_tiny_time()
-
-func _has_card_added_to_hand_hook(_tool_datas:Array) -> bool:
-	return false
-
-func _handle_card_added_to_hand_hook(_tool_datas:Array) -> void:
 	await Util.await_for_tiny_time()
 
 func _has_tool_application_hook(_combat_main:CombatMain, _tool_data:ToolData) -> bool:

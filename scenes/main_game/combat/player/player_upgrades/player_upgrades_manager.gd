@@ -26,13 +26,9 @@ func queue_pre_tool_application_hooks(combat_main:CombatMain, tool_data:ToolData
 	for container in player_upgrade_containers:
 		container.queue_pre_tool_application_hooks(combat_main, tool_data)
 
-func handle_card_added_to_hand_hook(tool_datas:Array, combat_main:CombatMain) -> void:
+func queue_pool_updated_hooks(pool:Array, combat_main:CombatMain) -> void:
 	for container in player_upgrade_containers:
-		await container.handle_card_added_to_hand_hook(tool_datas, combat_main)
-
-func handle_pool_updated_hook(combat_main:CombatMain, pool:Array) -> void:
-	for container in player_upgrade_containers:
-		await container.handle_pool_updated_hook(combat_main, pool)
+		container.queue_pool_updated_hooks(combat_main, pool)
 
 func handle_activation_hook(combat_main:CombatMain) -> void:
 	for container in player_upgrade_containers:

@@ -15,4 +15,3 @@ func _trigger_ability_hook(ability_type:Plant.AbilityType, _plant:Plant, _combat
 		last_tool_data = tool_data.get_duplicate()
 		tool_datas.append(last_tool_data)
 	Events.request_add_tools_to_hand.emit(tool_datas, from_position, true)
-	await last_tool_data.adding_to_deck_finished
