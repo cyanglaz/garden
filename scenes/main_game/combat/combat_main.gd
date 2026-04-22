@@ -58,7 +58,6 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	combat_queue_manager.setup(self)
 	Events.request_combat_queue_push.connect(_on_request_combat_queue_push)
 
-	plant_field_container.plant_bloom_started.connect(_on_plant_bloom_started)
 	plant_field_container.plant_bloom_completed.connect(_on_plant_bloom_completed)
 	plant_field_container.plant_action_application_completed.connect(_on_plant_action_application_completed)
 	plant_field_container.mouse_plant_updated.connect(_on_mouse_plant_updated)
@@ -157,13 +156,13 @@ func _start_turn() -> void:
 		#await gui.apply_boss_actions(GUIBoss.HookType.LEVEL_START)
 		energy_tracker.setup(max_energy, max_energy)
 	#await gui.apply_boss_actions(GUIBoss.HookType.TURN_START)
-	_queue_draw_cards()
+	_queue_start_turn_draw_cards()
 	player.queue_start_turn_hooks(self)
 	plant_field_container.queue_start_turn_abilities(self)
 	_queue_turn_start_signals()
 	#_win()
 
-func _queue_draw_cards() -> void:
+func _queue_start_turn_draw_cards() -> void:
 	var request = CombatQueueRequest.new()
 	request.callback = func(cm: CombatMain) -> void: 
 		var draw_count := hand_size + player.handle_hand_size(cm)
@@ -246,6 +245,7 @@ func _queue_discard_all_cards(exclude_handy:bool) -> void:
 func _win() -> void:
 	if win_flow_started:
 		return
+	is_mid_turn = false
 	win_flow_started = true
 	gui.permanently_lock_all_ui()
 	_fade_music(false)
@@ -405,15 +405,10 @@ func _on_cards_removed_from_hand(_tool_datas:Array, _updated_hand:Array) -> void
 func _on_plant_action_application_completed(index:int) -> void:
 	_bloom(index)
 
-func _on_plant_bloom_started() -> void:
-	gui.toggle_all_ui(false)
-
 func _on_plant_bloom_completed(_plant:Plant) -> void:
+	player.player_upgrades_manager.queue_plant_bloom_hooks(self)
 	if _met_win_condition():
 		await _win()
-	else:
-		await player.player_upgrades_manager.handle_plant_bloom_hook(self)
-	gui.toggle_all_ui(true)
 
 func _on_weathers_updated() -> void:
 	gui.update_weathers(weather_main.weather_manager)

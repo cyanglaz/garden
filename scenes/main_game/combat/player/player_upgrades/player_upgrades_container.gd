@@ -23,8 +23,6 @@ var _draw_hook_queue:Array = []
 var _current_draw_hook_index:int = 0
 var _stack_update_hook_queue:Array = []
 var _current_stack_update_hook_index:int = 0
-var _plant_bloom_hook_queue:Array = []
-var _current_plant_bloom_hook_index:int = 0
 var _combat_end_hook_queue:Array = []
 var _current_combat_end_hook_index:int = 0
 
@@ -271,21 +269,14 @@ func queue_hand_updated_hooks(combat_main:CombatMain) -> void:
 	for player_upgrade in player_upgrades:
 		player_upgrade.queue_hand_updated_hook()
 
-func handle_plant_bloom_hook(combat_main:CombatMain) -> void:
+func queue_plant_bloom_hooks(combat_main:CombatMain) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()
-	_plant_bloom_hook_queue = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
+	var player_upgrades:Array = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
 		return player_upgrade.has_plant_bloom_hook(combat_main)
 	)
-	_current_plant_bloom_hook_index = 0
-	await _handle_next_plant_bloom_hook(combat_main)
-
-func _handle_next_plant_bloom_hook(combat_main:CombatMain) -> void:
-	if _current_plant_bloom_hook_index >= _plant_bloom_hook_queue.size():
-		return
-	var player_upgrade:PlayerUpgrade = _plant_bloom_hook_queue[_current_plant_bloom_hook_index]
-	await player_upgrade.handle_plant_bloom_hook(combat_main)
-	_current_plant_bloom_hook_index += 1
-	await _handle_next_plant_bloom_hook(combat_main)
+	player_upgrades.reverse()
+	for player_upgrade in player_upgrades:
+		player_upgrade.queue_plant_bloom_hook()
 
 func handle_damage_taken_hook(combat_main:CombatMain, damage:int) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()

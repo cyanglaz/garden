@@ -78,9 +78,9 @@ func queue_hand_updated_hooks(combat_main:CombatMain) -> void:
 	for container in player_upgrade_containers:
 		container.queue_hand_updated_hooks(combat_main)
 
-func handle_plant_bloom_hook(combat_main:CombatMain) -> void:
+func queue_plant_bloom_hooks(combat_main:CombatMain) -> void:
 	for container in player_upgrade_containers:
-		await container.handle_plant_bloom_hook(combat_main)
+		container.queue_plant_bloom_hooks(combat_main)
 
 func handle_damage_taken_hook(combat_main:CombatMain, damage:int) -> void:
 	for container in player_upgrade_containers:

@@ -119,8 +119,11 @@ func queue_hand_updated_hook() -> void:
 func has_plant_bloom_hook(combat_main:CombatMain) -> bool:
 	return _has_plant_bloom_hook(combat_main)
 
-func handle_plant_bloom_hook(combat_main:CombatMain) -> void:
-	await _handle_plant_bloom_hook(combat_main)
+func queue_plant_bloom_hook() -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_plant_bloom_hook(combat_main)
+	Events.request_combat_queue_push.emit(request)
 
 func has_damage_taken_hook(combat_main:CombatMain, damage:int) -> bool:
 	return _has_damage_taken_hook(combat_main, damage)
