@@ -87,13 +87,13 @@ func test_discard_emits_cards_removed_from_hand_once() -> void:
 	var hand_snapshot: Array = ctx["hand"].duplicate()
 
 	var emit_counter := {"value": 0}
-	manager.cards_removed_from_hand.connect(
-		func(_tool_datas: Variant, _updated_hand: Array) -> void: emit_counter["value"] += 1
+	manager.tools_discarded.connect(
+		func(_tool_datas: Variant, _explicit:bool) -> void: emit_counter["value"] += 1
 	)
 
 	await manager.discard_cards(hand_snapshot, null)
 
-	assert_eq(emit_counter["value"], 1, "cards_removed_from_hand should fire exactly once per discard batch")
+	assert_eq(emit_counter["value"], 1, "tools_discarded should fire exactly once per discard batch")
 	container.free()
 
 #endregion

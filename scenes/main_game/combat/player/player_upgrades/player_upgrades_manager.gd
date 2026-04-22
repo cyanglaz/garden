@@ -34,9 +34,9 @@ func handle_activation_hook(combat_main:CombatMain) -> void:
 	for container in player_upgrade_containers:
 		await container.handle_activation_hook(combat_main)
 
-func handle_discard_hook(combat_main:CombatMain, tool_datas:Array) -> void:
+func queue_discard_hooks(combat_main:CombatMain, tool_datas:Array) -> void:
 	for container in player_upgrade_containers:
-		await container.handle_discard_hook(combat_main, tool_datas)
+		container.queue_discard_hooks(combat_main, tool_datas)
 
 func queue_exhaust_hooks(combat_main:CombatMain, tool_datas:Array) -> void:
 	for container in player_upgrade_containers:

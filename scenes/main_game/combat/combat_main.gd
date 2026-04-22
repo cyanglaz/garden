@@ -73,12 +73,12 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
 	tool_manager.tool_application_error.connect(_on_tool_application_error)
 	tool_manager.hand_updated.connect(_on_hand_updated)
-	tool_manager.cards_removed_from_hand.connect(_on_cards_removed_from_hand)
 	tool_manager.max_hand_size_reached.connect(_on_max_hand_size_reached)
 	tool_manager.pool_updated.connect(_on_pool_updated)
 	tool_manager.tool_application_bailed.connect(_on_tool_application_bailed)
 	tool_manager.tools_exhausted.connect(_on_tools_exhausted)
 	tool_manager.tools_drawn.connect(_on_tools_drawn)
+	tool_manager.tools_discarded.connect(_on_tools_discarded)
 
 	gui.bind_energy(energy_tracker)
 	gui.bind_tool_deck(tool_manager.tool_deck)
@@ -119,8 +119,7 @@ func draw_cards(count:int) -> void:
 	await tool_manager.draw_cards(count, first_turn_draw, self)
 
 func discard_cards(tools:Array) -> void:
-	await tool_manager.discard_cards(tools, self)
-	await player.player_upgrades_manager.handle_discard_hook(self, tools)
+	await tool_manager.discard_cards(tools, self, true)
 
 func exhaust_cards(tools:Array) -> void:
 	await tool_manager.exhaust_cards(tools, self)
@@ -235,7 +234,7 @@ func _queue_discard_all_cards(exclude_handy:bool) -> void:
 		var cards_to_discard:Array = tool_manager.tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return  !tool_data.specials.has(ToolData.Special.HANDY) if exclude_handy else true)
 		if cards_to_discard.size() == 0:
 			return
-		await tool_manager.discard_cards(cards_to_discard, self)
+		await tool_manager.discard_cards(cards_to_discard, self, false)
 	Events.request_combat_queue_push.emit(request)
 
 func _win() -> void:
@@ -393,8 +392,6 @@ func _on_max_hand_warning_timer_timeout() -> void:
 
 func _on_hand_updated(_hand:Array) -> void:
 	tool_manager.refresh_cards_ui(self)
-
-func _on_cards_removed_from_hand(_tool_datas:Array, _updated_hand:Array) -> void:
 	if is_mid_turn:
 		player.player_upgrades_manager.queue_hand_updated_hooks(self)
 
@@ -440,6 +437,10 @@ func _on_tools_exhausted(tool_datas:Array) -> void:
 
 func _on_tools_drawn(tool_datas:Array) -> void:
 	player.player_upgrades_manager.queue_draw_hooks(self, tool_datas)
+
+func _on_tools_discarded(tool_datas:Array, explicitly:bool) -> void:
+	if explicitly:
+		player.player_upgrades_manager.queue_discard_hooks(self, tool_datas)
 
 func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
 	# The hp is handled by the main game

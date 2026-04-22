@@ -46,8 +46,11 @@ func queue_pool_updated_hook( pool:Array) -> void:
 func has_discard_hook(combat_main:CombatMain, tool_datas:Array) -> bool:
 	return _has_discard_hook(combat_main, tool_datas)
 
-func handle_discard_hook(combat_main:CombatMain, tool_datas:Array) -> void:
-	await _handle_discard_hook(combat_main, tool_datas)
+func queue_discard_hooks(tool_datas:Array) -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_discard_hook(combat_main, tool_datas)
+	Events.request_combat_queue_push.emit(request)
 
 func has_exhaust_hook(combat_main:CombatMain, tool_datas:Array) -> bool:
 	return _has_exhaust_hook(combat_main, tool_datas)

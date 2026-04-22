@@ -6,7 +6,8 @@ signal discard_pool_updated(discard_pool:Array)
 signal exhaust_pool_updated(exhaust_pool:Array)
 signal pool_updated(pool:Array)
 signal hand_updated()
-signal items_exhausted(item:Variant)
+signal items_exhausted(items:Array)
+signal items_discarded(items:Array)
 
 var pool:Array
 var draw_pool:Array
@@ -71,6 +72,8 @@ func draw(count:int) -> Array:
 	return drawn_items
 
 func discard(items:Array) -> void:
+	if items.is_empty():
+		return
 	# Removing from largest index to smallest index to avoid index change during removal.
 	for item:Variant in items:
 		discard_pool.append(item)
@@ -82,6 +85,7 @@ func discard(items:Array) -> void:
 			assert(false, "discarding item not in hand" + str(item))
 	hand_updated.emit()
 	discard_pool_updated.emit(discard_pool)
+	items_discarded.emit(items)
 
 func move_to_draw_pile(items:Array, indexes:Array) -> void:
 	for i in range(items.size()):
