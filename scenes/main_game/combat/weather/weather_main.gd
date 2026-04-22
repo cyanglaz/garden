@@ -35,6 +35,9 @@ func generate_next_weather_abilities(combat_main:CombatMain, turn_index:int) -> 
 func queue_weather_abilities() -> void:
 	_weather_ability_container.queue_weather_abilities()
 
+func remove_weather_ability_at_field_index(field_index: int) -> void:
+	_weather_ability_container.remove_weather_abilities_at_field_index(field_index)
+
 func level_end_stop() -> void:
 	if _current_weather:
 		_current_weather.stop()
