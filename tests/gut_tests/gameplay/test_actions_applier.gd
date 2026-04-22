@@ -148,7 +148,7 @@ func test_queue_actions_emits_one_request_per_action() -> void:
 		_make_action(ActionData.ActionType.ENERGY),
 	]
 	var capture := _capture_queue_requests()
-	applier.queue_actions(actions, null, null, null)
+	applier.queue_actions(actions, null, null)
 	_disconnect_capture(capture)
 	assert_eq(capture.requests.size(), 3)
 
@@ -161,14 +161,14 @@ func test_queue_actions_expands_loops_before_emitting() -> void:
 		_make_loop(2),
 	]
 	var capture := _capture_queue_requests()
-	applier.queue_actions(actions, null, null, null)
+	applier.queue_actions(actions, null, null)
 	_disconnect_capture(capture)
 	assert_eq(capture.requests.size(), 4)
 
 func test_queue_actions_emits_zero_for_empty_actions() -> void:
 	var applier := ActionsApplier.new()
 	var capture := _capture_queue_requests()
-	applier.queue_actions([], null, null, null)
+	applier.queue_actions([], null, null)
 	_disconnect_capture(capture)
 	assert_eq(capture.requests.size(), 0)
 
@@ -176,7 +176,7 @@ func test_queue_actions_requests_have_valid_callbacks() -> void:
 	var applier := ActionsApplier.new()
 	var actions := [_make_action(ActionData.ActionType.WATER)]
 	var capture := _capture_queue_requests()
-	applier.queue_actions(actions, null, null, null)
+	applier.queue_actions(actions, null, null)
 	_disconnect_capture(capture)
 	assert_eq(capture.requests.size(), 1)
 	var request: CombatQueueRequest = capture.requests[0]

@@ -136,7 +136,7 @@ func test_queue_tool_application_skill_no_script_queues_one_per_action() -> void
 		_make_action(ActionData.ActionType.WATER),
 	]
 	var capture := _capture_queue_requests()
-	applier.queue_tool_application(null, td, null)
+	applier.queue_tool_application(null, td)
 	_disconnect_capture(capture)
 	# Each action becomes its own CombatQueueRequest via ActionsApplier.queue_actions.
 	assert_eq(capture.requests.size(), 2)
@@ -145,7 +145,7 @@ func test_queue_tool_application_skill_with_script_queues_one_request() -> void:
 	var applier := ToolApplier.new()
 	var td := _make_tool("scripted_skill", _ScriptNoSelection.new())
 	var capture := _capture_queue_requests()
-	applier.queue_tool_application(null, td, null)
+	applier.queue_tool_application(null, td)
 	_disconnect_capture(capture)
 	assert_eq(capture.requests.size(), 1)
 	assert_true((capture.requests[0] as CombatQueueRequest).callback.is_valid())
@@ -154,7 +154,7 @@ func test_queue_tool_application_power_queues_one_request() -> void:
 	var applier := ToolApplier.new()
 	var td := _make_tool("some_power", null, ToolData.Type.POWER)
 	var capture := _capture_queue_requests()
-	applier.queue_tool_application(null, td, null)
+	applier.queue_tool_application(null, td)
 	_disconnect_capture(capture)
 	assert_eq(capture.requests.size(), 1)
 
@@ -181,7 +181,7 @@ func test_apply_tool_script_calls_apply_tool_when_zero_secondary_cards_needed() 
 	var applier := ToolApplier.new()
 	var script := _ScriptNoSelectionCounting.new()
 	var td := _make_tool("no_selection_apply", script)
-	await applier._apply_tool_script(null, td, null)
+	await applier._apply_tool_script(null, td)
 	assert_eq(script.apply_call_count, 1,
 		"apply_tool must run for tool_scripts that don't select secondary cards")
 	assert_eq(script.last_secondary_card_datas, [],

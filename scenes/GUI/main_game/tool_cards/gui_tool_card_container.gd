@@ -233,9 +233,9 @@ func _toggle_card_selection_mode(on:bool, trigger_card:ToolData) -> void:
 	if trigger_gui_card:
 		_last_selected_main_card_index = trigger_gui_card.hand_index
 		
-	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	if get_all_cards().size() == 0:
 		return
+	var positions:Array[Vector2] = calculate_default_positions(_container.get_children().size())
 	var tween:Tween = Util.create_scaled_tween(self)
 	tween.set_parallel(true)
 	for gui_card:GUIToolCardButton in get_all_cards():
