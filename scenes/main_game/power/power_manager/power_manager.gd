@@ -8,8 +8,6 @@ var power_map:Dictionary[String, PowerData]
 
 var _activation_hook_queue:Array[String] = []
 var _current_activation_hook_index:int = 0
-var _card_added_to_hand_hook_queue:Array[String] = []
-var _current_card_added_to_hand_hook_index:int = 0
 var _tool_application_hook_queue:Array[String] = []
 var _current_tool_application_hook_index:int = 0
 var _weather_application_hook_queue:Array[String] = []
@@ -54,24 +52,6 @@ func _handle_next_activation_hook(combat_main:CombatMain) -> void:
 	await power_data.power_script.handle_activation_hook(combat_main)
 	_current_activation_hook_index += 1
 	await _handle_next_activation_hook(combat_main)
-
-func handle_card_added_to_hand_hook(tool_datas:Array) -> void:
-	var all_power_ids := power_map.keys()
-	_card_added_to_hand_hook_queue = all_power_ids.filter(func(power_id:String) -> bool:
-		return power_map[power_id].power_script.has_card_added_to_hand_hook(tool_datas)
-	)
-	_current_card_added_to_hand_hook_index = 0
-	await _handle_next_card_added_to_hand_hook(tool_datas)
-
-func _handle_next_card_added_to_hand_hook(tool_datas:Array) -> void:
-	if _current_card_added_to_hand_hook_index >= _card_added_to_hand_hook_queue.size():
-		return
-	var power_id:String = _card_added_to_hand_hook_queue[_current_card_added_to_hand_hook_index]
-	var power_data := power_map[power_id]
-	_send_hook_animation_signals(power_data)
-	await power_data.power_script.handle_card_added_to_hand_hook(tool_datas)
-	_current_card_added_to_hand_hook_index += 1
-	await _handle_next_card_added_to_hand_hook(tool_datas)
 
 func _send_hook_animation_signals(power_data:PowerData) -> void:
 	request_power_hook_animation.emit(power_data.id)
