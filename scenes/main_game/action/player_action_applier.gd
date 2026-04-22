@@ -43,7 +43,7 @@ func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_data
 			await Util.create_scaled_timer(Constants.GLOBAL_UPGRADE_PAUSE_TIME).timeout
 		ActionData.ActionType.ADD_CARD_DISCARD_PILE:
 			assert(calculated_value >= 0, "Add card discard pile action value must be greater than 0")
-			await _handle_add_card_discard_pile_action(action.data["card_id"], calculated_value, combat_main)
+			_handle_add_card_discard_pile_action(action.data["card_id"], calculated_value, combat_main)
 		ActionData.ActionType.STUN, ActionData.ActionType.MOMENTUM:
 			combat_main.player.player_status_container.update_player_upgrade(Util.get_action_id_with_action_type(action.type), calculated_value, action.operator_type)
 			await Util.create_scaled_timer(Constants.GLOBAL_UPGRADE_PAUSE_TIME).timeout
@@ -78,7 +78,6 @@ func _handle_add_card_discard_pile_action(card_id:String, count:int, combat_main
 		tool_data_to_add.adding_to_deck_finished.connect(_on_tool_data_adding_to_deck_finished.bind(tool_data_to_add))
 		tool_datas.append(tool_data_to_add)
 	Events.request_add_tools_to_discard_pile.emit(tool_datas, from_position, true)
-	await _all_tool_datas_added_to_discard_pile
 
 func _on_tool_data_adding_to_deck_finished(tool_data_to_add:ToolData) -> void:
 	tool_data_to_add.adding_to_deck_finished.disconnect(_on_tool_data_adding_to_deck_finished.bind(tool_data_to_add))

@@ -125,11 +125,6 @@ func exhaust_cards(tools:Array) -> void:
 	await tool_manager.exhaust_cards(tools, self)
 	await player.player_upgrades_manager.handle_exhaust_hook(self, tools)
 
-func add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
-	var request = CombatQueueRequest.new()
-	request.front = true
-	request.callback = func(combat_main:CombatMain) -> void: tool_manager.add_tools_to_hand(tool_datas, from_global_position, pause, combat_main)
-	Events.request_combat_queue_push.emit(request)
 #endregion
 
 #region private
@@ -418,12 +413,16 @@ func _on_mouse_plant_updated(_plant:Plant) -> void:
 	pass
 
 func _on_request_add_tools_to_hand(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
-	add_tools_to_hand(tool_datas, from_global_position, pause)
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: tool_manager.add_tools_to_hand(tool_datas, from_global_position, pause, combat_main)
+	Events.request_combat_queue_push.emit(request)
 
 func _on_request_add_tools_to_discard_pile(tool_datas:Array, from_global_position:Vector2, pause:bool) -> void:
-	gui.toggle_all_ui(false)
-	await tool_manager.add_tools_to_discard_pile(tool_datas, from_global_position, pause, self)
-	gui.toggle_all_ui(true)
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: tool_manager.add_tools_to_discard_pile(tool_datas, from_global_position, pause, combat_main)
+	Events.request_combat_queue_push.emit(request)
 
 func _on_request_modify_hand_cards(callable:Callable) -> void:
 	gui.toggle_all_ui(false)
