@@ -43,7 +43,7 @@ class FakeToolApplier extends ToolApplier:
 	func _init(tool_to_discard: ToolData) -> void:
 		_tool_to_discard = tool_to_discard
 
-	func queue_tool_application(combat_main: CombatMain, _tool_data: ToolData, _gui_tool_card_container: GUIToolCardContainer) -> void:
+	func queue_tool_application(combat_main: CombatMain, _tool_data: ToolData) -> void:
 		var request := CombatQueueRequest.new()
 		request.callback = func(_cm: CombatMain) -> void:
 			if !_discarded and _tool_to_discard and combat_main.tool_manager.tool_deck.hand.has(_tool_to_discard):

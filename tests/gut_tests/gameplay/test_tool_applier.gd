@@ -49,10 +49,7 @@ func _make_tool(id: String, tool_script: ToolScript = null, type: ToolData.Type 
 	td.id = id
 	td.type = type
 	if tool_script:
-		# tool_script is exposed via a getter that lazily loads
-		# res://.../tool_script_<id>.gd; write to the internal backing var so
-		# the test can inject its own script.
-		td._tool_script = tool_script
+		td.tool_script = tool_script
 	return td
 
 
