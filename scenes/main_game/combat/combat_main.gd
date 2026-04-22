@@ -77,6 +77,7 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	tool_manager.max_hand_size_reached.connect(_on_max_hand_size_reached)
 	tool_manager.pool_updated.connect(_on_pool_updated)
 	tool_manager.tool_application_bailed.connect(_on_tool_application_bailed)
+	tool_manager.tools_exhausted.connect(_on_tools_exhausted)
 
 	gui.bind_energy(energy_tracker)
 	gui.bind_tool_deck(tool_manager.tool_deck)
@@ -123,7 +124,6 @@ func discard_cards(tools:Array) -> void:
 
 func exhaust_cards(tools:Array) -> void:
 	await tool_manager.exhaust_cards(tools, self)
-	await player.player_upgrades_manager.handle_exhaust_hook(self, tools)
 
 #endregion
 
@@ -425,15 +425,18 @@ func _on_request_add_tools_to_discard_pile(tool_datas:Array, from_global_positio
 	Events.request_combat_queue_push.emit(request)
 
 func _on_request_modify_hand_cards(callable:Callable) -> void:
-	gui.toggle_all_ui(false)
-	await callable.call(tool_manager.tool_deck.hand)
-	tool_manager.refresh_cards_ui(self)
-	gui.toggle_all_ui(true)
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: 
+		await callable.call(combat_main.tool_manager.tool_deck.hand)
+		combat_main.tool_manager.refresh_cards_ui(combat_main)
+	Events.request_combat_queue_push.emit(request)
 
-func _on_request_combat_queue_push(request) -> void:
-	if level_completed:
-		return
-	combat_queue_manager.push_request(request)
+func _on_pool_updated(pool:Array) -> void:
+	player.player_upgrades_manager.queue_pool_updated_hooks(pool, self)
+
+func _on_tools_exhausted(tool_datas:Array) -> void:
+	player.player_upgrades_manager.queue_exhaust_hooks(self, tool_datas)
 
 func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
 	# The hp is handled by the main game
@@ -457,14 +460,20 @@ func _on_player_player_upgrade_activated(player_upgrade:PlayerUpgrade) -> void:
 func _on_player_player_upgrade_stack_updated(id:String, diff:int) -> void:
 	player.player_upgrades_manager.handle_stack_update_hook(self, id, diff)
 
-func _on_pool_updated(pool:Array) -> void:
-	player.player_upgrades_manager.queue_pool_updated_hooks(pool, self)
-
 func _on_plant_light_updated(_plant:Plant, _from_value:int, _to_value:int) -> void:
 	tool_manager.refresh_cards_ui(self)
 
 func _on_plant_water_updated(_plant:Plant, _from_value:int, _to_value:int) -> void:
 	tool_manager.refresh_cards_ui(self)
+
+#endregion
+
+#region combat queue events
+
+func _on_request_combat_queue_push(request) -> void:
+	if level_completed:
+		return
+	combat_queue_manager.push_request(request)
 
 #endregion
 

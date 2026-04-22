@@ -6,6 +6,7 @@ signal discard_pool_updated(discard_pool:Array)
 signal exhaust_pool_updated(exhaust_pool:Array)
 signal pool_updated(pool:Array)
 signal hand_updated()
+signal items_exhausted(item:Variant)
 
 var pool:Array
 var draw_pool:Array
@@ -117,6 +118,7 @@ func exhaust(items:Array) -> void:
 		else:
 			assert(false, "exhausting item at wrong place" + str(item))
 	exhaust_pool.append_array(items)
+	items_exhausted.emit(items)
 	exhaust_pool_updated.emit(exhaust_pool)
 
 func add_item(item:Variant) -> void:

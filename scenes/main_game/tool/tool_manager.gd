@@ -5,6 +5,7 @@ signal tool_application_started(tool_data:ToolData)
 signal tool_application_success(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
 signal tool_application_error(tool_data:ToolData, error_message:String)
+signal tools_exhausted(tool_datas:Array)
 signal hand_updated(hand:Array)
 signal cards_removed_from_hand(tool_datas:Array, updated_hand:Array) # Triggers after the removal animation (discard or exhaust)
 signal max_hand_size_reached()
@@ -29,6 +30,7 @@ func _init(initial_tools:Array, gui_tool_card_container:GUIToolCardContainer) ->
 	tool_deck = Deck.new(initial_tools)
 	tool_deck.hand_updated.connect(func() -> void: hand_updated.emit(tool_deck.hand))
 	tool_deck.pool_updated.connect(func(pool:Array) -> void: pool_updated.emit(pool))
+	tool_deck.items_exhausted.connect(func(items:Array) -> void: tools_exhausted.emit(items))
 	_weak_gui_tool_card_container = weakref(gui_tool_card_container)
 
 func refresh_cards_ui(combat_main:CombatMain) -> void:
