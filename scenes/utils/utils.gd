@@ -344,7 +344,7 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 			pass
 	return action_name
 
-static func get_id_for_tool_speical(special:ToolData.Special) -> String:
+static func get_id_for_tool_special(special:ToolData.Special) -> String:
 	var id := ""
 	match special:
 		ToolData.Special.COMPOST:

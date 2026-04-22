@@ -110,8 +110,11 @@ func handle_hand_size_hook(combat_main: CombatMain) -> int:
 func has_hand_updated_hook(combat_main:CombatMain) -> bool:
 	return _has_hand_updated_hook(combat_main)
 
-func handle_hand_updated_hook(combat_main:CombatMain) -> void:
-	await _handle_hand_updated_hook(combat_main)
+func queue_hand_updated_hook() -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_hand_updated_hook(combat_main)
+	Events.request_combat_queue_push.emit(request)
 
 func has_plant_bloom_hook(combat_main:CombatMain) -> bool:
 	return _has_plant_bloom_hook(combat_main)

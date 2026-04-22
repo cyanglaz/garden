@@ -6,7 +6,7 @@ extends VBoxContainer
 @onready var rich_text_label: RichTextLabel = %RichTextLabel
 
 func update_with_tool_special(special:ToolData.Special) -> void:
-	var resource_id := Util.get_id_for_tool_speical(special)
+	var resource_id := Util.get_id_for_tool_special(special)
 	texture_rect.texture = load(Util.get_image_path_for_resource_id(resource_id))
 	title_label.text = ActionDescriptionFormulator.get_special_name(special)
 	rich_text_label.text = ActionDescriptionFormulator.get_special_description(special)

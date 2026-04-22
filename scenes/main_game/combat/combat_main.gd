@@ -400,9 +400,7 @@ func _on_hand_updated(_hand:Array) -> void:
 
 func _on_cards_removed_from_hand(_tool_datas:Array, _updated_hand:Array) -> void:
 	if is_mid_turn:
-		gui.toggle_all_ui(false)
-		await player.player_upgrades_manager.handle_hand_updated_hook(self)
-		gui.toggle_all_ui(true)
+		player.player_upgrades_manager.queue_hand_updated_hooks(self)
 
 func _on_plant_action_application_completed(index:int) -> void:
 	_bloom(index)
