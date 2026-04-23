@@ -156,6 +156,61 @@ func test_queue_tool_application_power_queues_one_request() -> void:
 	assert_eq(capture.requests.size(), 1)
 
 
+# ----- queue_tool_application with enchant_data -----
+#
+# When a tool has enchant_data attached, the enchant's action_data should be
+# queued as an additional CombatQueueRequest after the tool's own application.
+
+func _make_enchant(action_type: ActionData.ActionType) -> EnchantData:
+	var enchant := EnchantData.new()
+	enchant.action_data = _make_action(action_type)
+	return enchant
+
+func test_queue_tool_application_skill_no_script_with_enchant_queues_extra_request() -> void:
+	var applier := ToolApplier.new()
+	var td := _make_tool("skill_enchanted", null)
+	td.actions = [
+		_make_action(ActionData.ActionType.ENERGY),
+		_make_action(ActionData.ActionType.WATER),
+	]
+	td.enchant_data = _make_enchant(ActionData.ActionType.DEW)
+	var capture := _capture_queue_requests()
+	applier.queue_tool_application(null, td)
+	_disconnect_capture(capture)
+	# 2 for the tool's own actions + 1 for the enchant action.
+	assert_eq(capture.requests.size(), 3)
+
+func test_queue_tool_application_skill_no_script_no_enchant_queues_only_actions() -> void:
+	var applier := ToolApplier.new()
+	var td := _make_tool("skill_plain_no_enchant", null)
+	td.actions = [_make_action(ActionData.ActionType.ENERGY)]
+	# Explicitly leave enchant_data unset (null) — no extra request should be queued.
+	var capture := _capture_queue_requests()
+	applier.queue_tool_application(null, td)
+	_disconnect_capture(capture)
+	assert_eq(capture.requests.size(), 1)
+
+func test_queue_tool_application_skill_with_script_and_enchant_queues_both() -> void:
+	var applier := ToolApplier.new()
+	var td := _make_tool("scripted_enchanted", _ScriptNoSelection.new())
+	td.enchant_data = _make_enchant(ActionData.ActionType.ENERGY)
+	var capture := _capture_queue_requests()
+	applier.queue_tool_application(null, td)
+	_disconnect_capture(capture)
+	# 1 for the tool_script callback + 1 for the enchant action.
+	assert_eq(capture.requests.size(), 2)
+
+func test_queue_tool_application_power_with_enchant_queues_both() -> void:
+	var applier := ToolApplier.new()
+	var td := _make_tool("power_enchanted", null, ToolData.Type.POWER)
+	td.enchant_data = _make_enchant(ActionData.ActionType.WATER)
+	var capture := _capture_queue_requests()
+	applier.queue_tool_application(null, td)
+	_disconnect_capture(capture)
+	# 1 for the power upgrade callback + 1 for the enchant action.
+	assert_eq(capture.requests.size(), 2)
+
+
 # ----- _apply_tool_script -----
 #
 # Guards against the regression where `apply_tool` was accidentally indented
