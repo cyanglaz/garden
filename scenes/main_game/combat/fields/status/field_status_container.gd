@@ -7,17 +7,6 @@ signal status_updated()
 signal request_status_hook_animation(status_id:String)
 signal request_hook_message_popup(status_data:StatusData)
 
-var _bloom_hook_queue:Array = []
-var _current_bloom_hook_index:int = 0
-var _ability_hook_queue:Array = []
-var _current_ability_hook_index:int = 0
-var _tool_discard_hook_queue:Array = []
-var _current_tool_discard_hook_index:int = 0
-var _add_water_hook_queue:Array = []
-var _current_add_water_hook_index:int = 0
-var _prevent_resource_update_value_hook_queue:Array = []
-var _current_prevent_resource_update_value_hook_index:int = 0
-
 func setup_with_plant(plant:Plant) -> void:
 	for field_status_id:String in plant.data.initial_field_status.keys():
 		var stack:int = (plant.data.initial_field_status[field_status_id] as int)
@@ -78,39 +67,6 @@ func get_active_statuses() -> Array:
 	statuses.reverse()
 	return statuses
 
-func handle_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> void:
-	_ability_hook_queue = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:
-		return field_status.has_ability_hook(ability_type, plant)
-	)
-	_current_ability_hook_index = 0
-	await _handle_next_ability_hook(ability_type, plant)
-
-func _handle_next_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> void:
-	if _current_ability_hook_index >= _ability_hook_queue.size():
-		return
-	var field_status:FieldStatus = _ability_hook_queue[_current_ability_hook_index]
-	_current_ability_hook_index += 1
-	await _send_hook_animation_signals(field_status.status_data)
-	await field_status.handle_ability_hook(ability_type, plant)
-	await _handle_next_ability_hook(ability_type, plant)
-
-func handle_bloom_hook(plant:Plant) -> void:
-	_bloom_hook_queue = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:
-		return field_status.has_bloom_hook(plant)
-	)
-	_current_bloom_hook_index = 0
-	await _handle_next_bloom_hook(plant)
-
-func _handle_next_bloom_hook(plant:Plant) -> void:
-	if _current_bloom_hook_index >= _bloom_hook_queue.size():
-		return
-	var field_status:FieldStatus = _bloom_hook_queue[_current_bloom_hook_index]
-	await _send_hook_animation_signals(field_status.status_data)
-	await field_status.handle_bloom_hook(plant)
-	_handle_status_on_trigger(field_status)
-	_current_bloom_hook_index += 1
-	await _handle_next_bloom_hook(plant)
-
 func queue_tool_application_hooks(plant:Plant) -> void:
 	var tool_application_queue:Array = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:
 		return field_status.has_tool_application_hook(plant)
@@ -119,24 +75,15 @@ func queue_tool_application_hooks(plant:Plant) -> void:
 	for field_status:FieldStatus in tool_application_queue:
 		field_status.queue_tool_application_hook(plant)
 
-func handle_tool_discard_hook(plant:Plant, count:int, combat_main:CombatMain) -> void:
-	_tool_discard_hook_queue = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:
+func queue_tool_discard_hooks(plant:Plant, count:int) -> void:
+	var tool_discard_queue:Array = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:
 		return field_status.has_tool_discard_hook(count, plant)
 	)
-	_current_tool_discard_hook_index = 0
-	await _handle_next_tool_discard_hook(plant, count, combat_main)
+	tool_discard_queue.reverse()
+	for field_status:FieldStatus in tool_discard_queue:
+		field_status.queue_tool_discard_hook(plant, count)
 
-func _handle_next_tool_discard_hook(plant:Plant, count:int, combat_main:CombatMain) -> void:
-	if _current_tool_discard_hook_index >= _tool_discard_hook_queue.size():
-		return
-	var field_status:FieldStatus = _tool_discard_hook_queue[_current_tool_discard_hook_index]
-	await _send_hook_animation_signals(field_status.status_data)
-	await field_status.handle_tool_discard_hook(plant, count, combat_main)
-	_handle_status_on_trigger(field_status)
-	_current_tool_discard_hook_index += 1
-	await _handle_next_tool_discard_hook(plant, count, combat_main)
-
-func handle_end_turn_hook(plant:Plant) -> void:
+func queue_end_turn_hooks(plant:Plant) -> void:
 	var end_turn_statuses:Array = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:
 		return field_status.has_end_turn_hook(plant)
 	)
@@ -144,43 +91,22 @@ func handle_end_turn_hook(plant:Plant) -> void:
 	for field_status:FieldStatus in end_turn_statuses:
 		field_status.handle_end_turn_hook(plant)
 
-func handle_add_water_hook(plant:Plant) -> void:
-	var all_statuses:Array = get_active_statuses()
-	all_statuses.reverse()
-	_add_water_hook_queue = all_statuses.filter(func(field_status:FieldStatus) -> bool:
+func queue_add_water_hooks(plant:Plant) -> void:
+	var add_water_statuses:Array = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:
 		return field_status.has_add_water_hook(plant)
 	)
-	_current_add_water_hook_index = 0
-	await _handle_next_add_water_hook(plant)
-
-func _handle_next_add_water_hook(plant:Plant) -> void:
-	if _current_add_water_hook_index >= _add_water_hook_queue.size():
-		return
-	var field_status:FieldStatus = _add_water_hook_queue[_current_add_water_hook_index]
-	await _send_hook_animation_signals(field_status.status_data)
-	await field_status.handle_add_water_hook(plant)
-	_handle_status_on_trigger(field_status)  
-	_current_add_water_hook_index += 1
-	await _handle_next_add_water_hook(plant)
+	add_water_statuses.reverse()
+	for field_status:FieldStatus in add_water_statuses:
+		field_status.queue_add_water_hook(plant)
 
 func handle_prevent_resource_update_value_hook(resource_id:String, plant:Plant, old_value:int, new_value:int) -> bool:
-	_prevent_resource_update_value_hook_queue = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:
+	var prevent_resource_update_value_statuses:Array = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:
 		return field_status.has_prevent_resource_update_value_hook(resource_id, plant, old_value, new_value)
 	)
-	_current_prevent_resource_update_value_hook_index = 0
-	return await _handle_next_prevent_resource_update_value_hook(resource_id, plant, old_value, new_value)
-
-func _handle_next_prevent_resource_update_value_hook(resource_id:String, plant:Plant, old_value:int, new_value:int) -> bool:
-	if _current_prevent_resource_update_value_hook_index >= _prevent_resource_update_value_hook_queue.size():
-		return false
-	var field_status:FieldStatus = _prevent_resource_update_value_hook_queue[_current_prevent_resource_update_value_hook_index]
-	await _send_hook_animation_signals(field_status.status_data)
-	var prevent_resource_update_value:bool = field_status.handle_prevent_resource_update_value_hook(resource_id, plant, old_value, new_value)
-	if prevent_resource_update_value:
-		_handle_status_on_trigger(field_status)
-		return true
-	_current_prevent_resource_update_value_hook_index += 1
-	return await _handle_next_prevent_resource_update_value_hook(resource_id, plant, old_value, new_value)
+	for field_status:FieldStatus in prevent_resource_update_value_statuses:
+		if field_status.handle_prevent_resource_update_value_hook(resource_id, plant, old_value, new_value):
+			return true
+	return false
 
 func _send_hook_animation_signals(status_data:StatusData) -> void:
 	request_status_hook_animation.emit(status_data.id)

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FieldStatusData" load_steps=2 format=3 uid="uid://1xsghbqaxw4s"]
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://1xsghbqaxw4s"]
 
 [ext_resource type="Script" uid="uid://ep5ey6gqhty1" path="res://data/models/field_status/status_data.gd" id="1_8syvd"]
 
@@ -7,8 +7,6 @@ script = ExtResource("1_8syvd")
 type = 1
 popup_message = "Water Recycled"
 stackable = true
-single_turn = true
 remove_on_trigger = true
 id = "recycle"
-
 metadata/_custom_type_script = "uid://ep5ey6gqhty1"

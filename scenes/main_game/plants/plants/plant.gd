@@ -52,20 +52,20 @@ func _ready() -> void:
 func queue_abilities(ability_type:AbilityType, combat_main:CombatMain) -> void:
 	plant_ability_container.queue_abilities(ability_type, self, combat_main)
 
-func handle_turn_end() -> void:
+func end_turn_cleanup() -> void:
 	field_status_container.clear_status_on_turn_end()
 
 func queue_tool_application_hooks() -> void:
 	field_status_container.queue_tool_application_hooks(self)
 
-func handle_tool_discard_hook(count:int, combat_main:CombatMain) -> void:
-	await field_status_container.handle_tool_discard_hook(self, count, combat_main)
+func queue_tool_discard_hooks(count:int) -> void:
+	field_status_container.queue_tool_discard_hooks(self, count)
 
 func queue_start_turn_abilities(combat_main:CombatMain) -> void:
 	queue_abilities(Plant.AbilityType.START_TURN, combat_main)
 
 func queue_end_turn_abilities(combat_main:CombatMain) -> void:
-	field_status_container.handle_end_turn_hook(self)
+	field_status_container.queue_end_turn_hooks(self)
 	queue_abilities(Plant.AbilityType.END_TURN, combat_main)
 
 func apply_weather_actions(weather_data:WeatherData, combat_main:CombatMain) -> void:
@@ -137,7 +137,6 @@ func _show_popup_action_indicator(action_data:ActionData, combat_main:CombatMain
 
 func _apply_light_action(action:ActionData, combat_main:CombatMain) -> void:
 	var true_value := _get_action_true_value(action, combat_main)
-	var old_light_value := light.value
 	var new_light_value := 0
 	match action.operator_type:
 		ActionData.OperatorType.INCREASE:
@@ -146,9 +145,6 @@ func _apply_light_action(action:ActionData, combat_main:CombatMain) -> void:
 			new_light_value = light.value - true_value
 		ActionData.OperatorType.EQUAL_TO:
 			new_light_value = true_value
-	var prevent_resource_update_value:bool = await field_status_container.handle_prevent_resource_update_value_hook("light", self, old_light_value, new_light_value)
-	if prevent_resource_update_value:
-		return
 	await _show_popup_action_indicator(action, combat_main)
 	light.value = new_light_value
 
@@ -163,14 +159,11 @@ func _apply_water_action(action:ActionData, combat_main:CombatMain) -> void:
 			new_water_value = water.value - true_value
 		ActionData.OperatorType.EQUAL_TO:
 			new_water_value = true_value
-	var prevent_resource_update_value:bool = await field_status_container.handle_prevent_resource_update_value_hook("water", self, old_water_value, new_water_value)
-	if prevent_resource_update_value:
-		return
 	var water_increasing := new_water_value - old_water_value > 0
 	await _show_popup_action_indicator(action, combat_main)
 	water.value = new_water_value
 	if water_increasing:
-		await field_status_container.handle_add_water_hook(self)
+		field_status_container.queue_add_water_hooks(self)
 
 func _apply_field_status_action(action:ActionData, combat_main:CombatMain) -> void:
 	var field_status_id := Util.get_action_id_with_action_type(action.type)

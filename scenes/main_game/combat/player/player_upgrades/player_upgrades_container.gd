@@ -7,17 +7,6 @@ signal request_player_upgrade_hook_animation(id:String)
 signal request_hook_message_popup(thing_data:ThingData)
 signal player_upgrade_stack_updated(id:String, diff:int)
 
-var _tool_application_hook_queue:Array = []
-var _current_tool_application_hook_index:int = 0
-var _activation_hook_queue:Array = []
-var _current_activation_hook_index:int = 0
-var _discard_hook_queue:Array = []
-var _current_discard_hook_index:int = 0
-var _stack_update_hook_queue:Array = []
-var _current_stack_update_hook_index:int = 0
-var _combat_end_hook_queue:Array = []
-var _current_combat_end_hook_index:int = 0
-
 func set_player_upgrade(id:String, stack:int) -> void:
 	var player_upgrade:PlayerUpgrade = _get_player_upgrade(id)
 	if !player_upgrade:

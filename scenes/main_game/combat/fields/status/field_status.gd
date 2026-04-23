@@ -17,30 +17,27 @@ func has_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> bool:
 		return false
 	return _has_ability_hook(ability_type, plant)
 
-func handle_ability_hook(ability_type:Plant.AbilityType, plant:Plant) -> void:
-	if not active:
-		return
-	await _handle_ability_hook(ability_type, plant)
-
 func has_bloom_hook(plant:Plant) -> bool:
 	if not active:
 		return false
 	return _has_bloom_hook(plant)
-
-func handle_bloom_hook(plant:Plant) -> void:
-	if not active:
-		return
-	await _handle_bloom_hook(plant)
 
 func has_add_water_hook(plant:Plant) -> bool:
 	if not active:
 		return false
 	return _has_add_water_hook(plant)
 
-func handle_add_water_hook(plant:Plant) -> void:
-	if not active:
-		return
-	await _handle_add_water_hook(plant)
+func queue_add_water_hook(plant:Plant) -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(_combat_main:CombatMain) -> void: 
+		if not active:
+			return
+		request_icon_animation.emit(status_data)
+		await Util.create_scaled_timer(Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION).timeout
+		await _handle_add_water_hook(plant)
+		triggered.emit()
+	Events.request_combat_queue_push.emit(request)
 
 func has_tool_application_hook(plant:Plant) -> bool:
 	if not active:
@@ -64,10 +61,17 @@ func has_tool_discard_hook(count:int, plant:Plant) -> bool:
 		return false
 	return _has_tool_discard_hook(count, plant)
 
-func handle_tool_discard_hook(plant:Plant, count:int, combat_main:CombatMain) -> void:
-	if not active:
-		return
-	await _handle_tool_discard_hook(plant, count, combat_main)
+func queue_tool_discard_hook(plant:Plant, count:int) -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: 
+		if not active:
+			return
+		request_icon_animation.emit(status_data)
+		await Util.create_scaled_timer(Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION).timeout
+		await _handle_tool_discard_hook(plant, count, combat_main)
+		triggered.emit()
+	Events.request_combat_queue_push.emit(request)
 
 func has_end_turn_hook(plant:Plant) -> bool:
 	if not active:
@@ -103,14 +107,8 @@ func _update_for_plant(_plant:Plant) -> void:
 func _has_ability_hook(_ability_type:Plant.AbilityType, _plant:Plant) -> bool:
 	return false
 
-func _handle_ability_hook(_ability_type:Plant.AbilityType, _plant:Plant) -> void:
-	await Util.await_for_tiny_time()
-
 func _has_bloom_hook(_plant:Plant) -> bool:
 	return false
-
-func _handle_bloom_hook(_plant:Plant) -> void:
-	await Util.await_for_tiny_time()
 
 func _has_tool_application_hook(_plant:Plant) -> bool:
 	return false
