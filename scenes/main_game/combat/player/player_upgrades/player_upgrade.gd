@@ -143,8 +143,10 @@ func handle_damage_taken_hook(damage:int) -> void:
 func has_combat_end_hook(combat_main:CombatMain) -> bool:
 	return _has_combat_end_hook(combat_main)
 
-func handle_combat_end_hook(combat_main:CombatMain) -> void:
-	await _handle_combat_end_hook(combat_main)
+func queue_combat_end_hook() -> void:
+	var request = CombatQueueRequest.new()
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_combat_end_hook(combat_main)
+	Events.request_combat_queue_push.emit(request)
 
 #region for override
 

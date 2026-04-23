@@ -88,6 +88,6 @@ func handle_hand_size_hook(combat_main: CombatMain) -> int:
 		diff += container.handle_hand_size_hook(combat_main)
 	return diff
 
-func handle_combat_end_hook(combat_main:CombatMain) -> void:
+func queue_combat_end_hooks(combat_main:CombatMain) -> void:
 	for container in player_upgrade_containers:
-		await container.handle_combat_end_hook(combat_main)
+		container.queue_combat_end_hooks(combat_main)

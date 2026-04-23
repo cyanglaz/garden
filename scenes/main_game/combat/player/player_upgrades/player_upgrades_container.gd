@@ -242,21 +242,13 @@ func handle_hand_size_hook(combat_main: CombatMain) -> int:
 			diff += player_upgrade.handle_hand_size_hook(combat_main)
 	return diff
 
-func handle_combat_end_hook(combat_main:CombatMain) -> void:
+func queue_combat_end_hooks(combat_main:CombatMain) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()
-	_combat_end_hook_queue = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
+	var player_upgrades:Array = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
 		return player_upgrade.has_combat_end_hook(combat_main)
 	)
-	_current_combat_end_hook_index = 0
-	await _handle_next_combat_end_hook(combat_main)
-
-func _handle_next_combat_end_hook(combat_main:CombatMain) -> void:
-	if _current_combat_end_hook_index >= _combat_end_hook_queue.size():
-		return
-	var player_upgrade:PlayerUpgrade = _combat_end_hook_queue[_current_combat_end_hook_index]
-	await player_upgrade.handle_combat_end_hook(combat_main)
-	_current_combat_end_hook_index += 1
-	await _handle_next_combat_end_hook(combat_main)
+	for player_upgrade in player_upgrades:
+		player_upgrade.queue_combat_end_hook()
 
 #private functions
 

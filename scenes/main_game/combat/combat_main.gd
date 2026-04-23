@@ -36,9 +36,7 @@ var _tool_application_error_timers:Dictionary = {}
 var _max_hand_warning_timer:SceneTreeTimer = null
 var _owned_trinkets:Array
 
-var win_flow_started:bool = false
 var is_mid_turn:bool = false: set = _set_is_mid_turn
-var level_completed:bool = false
 
 # From main_game:
 var max_energy := 3
@@ -155,7 +153,6 @@ func _start_turn() -> void:
 	player.queue_start_turn_hooks(self)
 	plant_field_container.queue_start_turn_abilities(self)
 	_queue_turn_start_signals()
-	#_win()
 
 func _queue_start_turn_draw_cards() -> void:
 	var request = CombatQueueRequest.new()
@@ -192,7 +189,8 @@ func _end_turn() -> void:
 
 func _queue_night_fall() -> void:
 	var night_fall_request = CombatQueueRequest.new()
-	night_fall_request.callback = func(_cm: CombatMain) -> void: await weather_main.night_fall()
+	night_fall_request.callback = func(_cm: CombatMain) -> void: 
+		await weather_main.night_fall()
 	Events.request_combat_queue_push.emit(night_fall_request)
 
 func _queue_weather_start_new_day() -> void:
@@ -210,18 +208,11 @@ func _queue_turn_end_cards() -> void:
 		return
 	tool_manager.trigger_turn_end_cards(self)
 
-func _met_win_condition() -> bool:
-	return plant_field_container.are_all_plants_bloom()
-
 func _queue_end_turn_cleanup() -> void:
 	var request = CombatQueueRequest.new()
 	request.callback = func(_cm: CombatMain) -> void: 
 		tool_manager.cleanup_for_turn()
 		combat_modifier_manager.clear_for_turn()
-	request.finish_callback = func(_cm:CombatMain) -> void: 
-		if _met_win_condition():
-			# _win() is called by _bloom()
-			return
 		_queue_weather_start_new_day()
 		_queue_start_turn()
 	Events.request_combat_queue_push.emit(request)
@@ -238,18 +229,10 @@ func _queue_discard_all_cards(exclude_handy:bool) -> void:
 	Events.request_combat_queue_push.emit(request)
 
 func _win() -> void:
-	if win_flow_started:
-		return
 	is_mid_turn = false
-	win_flow_started = true
-	gui.permanently_lock_all_ui()
+	combat_queue_manager.clear_items_by_category(Constants.WEATHER_QUEUE_CATEGORY)
 	_fade_music(false)
-	await player.player_upgrades_manager.handle_combat_end_hook(self)
-	await Util.create_scaled_timer(WIN_PAUSE_TIME).timeout
-	if _chapter == MainGame.NUMBER_OF_CHAPTERS - 1 && _combat.combat_type == CombatData.CombatType.BOSS:
-		beat_final_boss.emit()
-		level_completed = true
-		return
+	player.player_upgrades_manager.queue_combat_end_hooks(self)
 	weather_main.level_end_stop()
 	session_summary.total_days += day_manager.day
 	_queue_discard_all_cards(false)
@@ -261,7 +244,10 @@ func _queue_show_reward() -> void:
 		owned_trinket_ids.append(trinket.id)
 	var request = CombatQueueRequest.new()
 	request.callback = func(_cm: CombatMain) -> void:
-		level_completed = true
+		combat_queue_manager.stop = true
+		if _chapter == MainGame.NUMBER_OF_CHAPTERS - 1 && _combat.combat_type == CombatData.CombatType.BOSS:
+			beat_final_boss.emit()
+			return
 		gui.animate_show_reward_main(_combat, owned_trinket_ids)
 	Events.request_combat_queue_push.emit(request)
 
@@ -400,8 +386,8 @@ func _on_plant_action_application_completed(index:int) -> void:
 
 func _on_plant_bloom_completed(_plant:Plant) -> void:
 	player.player_upgrades_manager.queue_plant_bloom_hooks(self)
-	if _met_win_condition():
-		await _win()
+	if plant_field_container.are_all_plants_bloom():
+		_win()
 
 func _on_weathers_updated() -> void:
 	gui.update_weathers(weather_main.weather_manager)
@@ -475,8 +461,6 @@ func _on_plant_water_updated(_plant:Plant, _from_value:int, _to_value:int) -> vo
 #region combat queue events
 
 func _on_request_combat_queue_push(request) -> void:
-	if level_completed:
-		return
 	combat_queue_manager.push_request(request)
 
 #endregion
