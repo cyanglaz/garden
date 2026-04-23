@@ -342,7 +342,7 @@ func _on_tool_application_success(tool_data:ToolData) -> void:
 func _on_tool_application_completed(tool_data:ToolData) -> void:
 	if tool_manager.number_of_card_used_this_turn >= combat_modifier_manager.card_use_limit():
 		tool_manager.card_use_limit_reached = true
-	await player.player_upgrades_manager.handle_tool_application_hook(self, tool_data)
+	player.player_upgrades_manager.queue_tool_application_hook(self, tool_data)
 	_clear_tool_selection()
 
 func _on_tool_application_error(tool_data:ToolData, error_message:String) -> void:

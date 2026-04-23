@@ -18,9 +18,9 @@ func handle_prevent_movement_hook() -> bool:
 			return true
 	return false
 
-func handle_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
+func queue_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
 	for container in player_upgrade_containers:
-		await container.handle_tool_application_hook(combat_main, tool_data)
+		container.queue_tool_application_hook(combat_main, tool_data)
 
 func queue_pre_tool_application_hooks(combat_main:CombatMain, tool_data:ToolData) -> void:
 	for container in player_upgrade_containers:

@@ -85,21 +85,14 @@ func handle_prevent_movement_hook() -> bool:
 			return true
 	return false
 
-func handle_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
+func queue_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()
-	_tool_application_hook_queue = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
+	var player_upgrade_queue:Array = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
 		return player_upgrade.has_tool_application_hook(combat_main, tool_data)
 	)
-	_current_tool_application_hook_index = 0
-	await _handle_next_tool_application_hook(combat_main, tool_data)
-
-func _handle_next_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
-	if _current_tool_application_hook_index >= _tool_application_hook_queue.size():
-		return
-	var player_upgrade:PlayerUpgrade = _tool_application_hook_queue[_current_tool_application_hook_index]
-	await player_upgrade.handle_tool_application_hook(combat_main, tool_data)
-	_current_tool_application_hook_index += 1
-	await _handle_next_tool_application_hook(combat_main, tool_data)
+	player_upgrade_queue.reverse()
+	for player_upgrade:PlayerUpgrade in player_upgrade_queue:
+		player_upgrade.queue_tool_application_hook(tool_data)
 
 func queue_pre_tool_application_hooks(combat_main:CombatMain, tool_data:ToolData) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()

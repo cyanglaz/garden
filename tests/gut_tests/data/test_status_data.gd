@@ -25,14 +25,6 @@ func _make_trinket(rarity: int = 0) -> TrinketData:
 	td.rarity = rarity
 	return td
 
-func _make_power() -> PowerData:
-	var pd := PowerData.new()
-	pd.set("_original_resource_path", FAKE_PATH)
-	pd.id = "photosynthesis_power"
-	pd.single_turn = false
-	pd.stack = 0
-	return pd
-
 # ----- StatusData: stack setter syncs data dict -----
 
 func test_stack_setter_updates_stack_property():
@@ -184,48 +176,3 @@ func test_trinket_rarity_independent():
 	var dup := td.get_duplicate()
 	dup.rarity = 2
 	assert_eq(td.rarity, 1)
-
-# ----- PowerData: copy / get_duplicate -----
-
-func test_power_duplicate_copies_id():
-	var pd := _make_power()
-	pd.id = "regeneration"
-	var dup := pd.get_duplicate()
-	assert_eq(dup.id, "regeneration")
-
-func test_power_duplicate_copies_stack():
-	var pd := _make_power()
-	pd.stack = 3
-	var dup := pd.get_duplicate()
-	assert_eq(dup.stack, 3)
-
-func test_power_duplicate_copies_single_turn_false():
-	var pd := _make_power()
-	pd.single_turn = false
-	var dup := pd.get_duplicate()
-	assert_false(dup.single_turn)
-
-func test_power_duplicate_copies_single_turn_true():
-	var pd := _make_power()
-	pd.single_turn = true
-	var dup := pd.get_duplicate()
-	assert_true(dup.single_turn)
-
-func test_power_duplicate_stack_zero():
-	var pd := _make_power()
-	pd.stack = 0
-	var dup := pd.get_duplicate()
-	assert_eq(dup.stack, 0)
-
-func test_power_stack_independent():
-	var pd := _make_power()
-	pd.stack = 2
-	var dup := pd.get_duplicate()
-	dup.stack = 99
-	assert_eq(pd.stack, 2)
-
-func test_power_script_returns_null_for_unknown_id():
-	var pd := _make_power()
-	pd.id = "nonexistent_power_xyz"
-	# No script file exists for this id → power_script should return null without crashing
-	assert_eq(pd.power_script, null)

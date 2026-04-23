@@ -16,8 +16,11 @@ func toggle_ui_buttons(on:bool) -> void:
 func has_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> bool:
 	return _has_tool_application_hook(combat_main, tool_data)
 
-func handle_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
-	await _handle_tool_application_hook(combat_main, tool_data)
+func queue_tool_application_hook(tool_data:ToolData) -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_tool_application_hook(combat_main, tool_data)
+	Events.request_combat_queue_push.emit(request)
 
 func has_pre_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> bool:
 	return _has_pre_tool_application_hook(combat_main, tool_data)
