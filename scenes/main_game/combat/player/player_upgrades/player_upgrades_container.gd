@@ -108,7 +108,7 @@ func queue_discard_hooks(combat_main:CombatMain, tool_datas:Array) -> void:
 	)
 	player_upgrades.reverse()
 	for player_upgrade:PlayerUpgrade in player_upgrades:
-		player_upgrade.queue_discard_hooks(tool_datas)
+		player_upgrade.queue_discard_hook(tool_datas)
 
 func queue_exhaust_hooks(combat_main:CombatMain, tool_datas:Array) -> void:
 	var all_player_upgrades:Array = get_all_player_upgrades()
@@ -144,7 +144,7 @@ func queue_player_move_hooks(main_game:CombatMain) -> void:
 	)
 	player_move_queue.reverse()
 	for player_upgrade in player_move_queue:
-		player_upgrade.queue_player_move_hooks()
+		player_upgrade.queue_player_move_hook()
 
 func toggle_ui_buttons(on:bool) -> void:
 	for player_upgrade:PlayerUpgrade in get_all_player_upgrades():

@@ -3,34 +3,11 @@
 [ext_resource type="Script" uid="uid://sc1eubamsw6x" path="res://scenes/main_game/main_game.gd" id="1_yra6k"]
 [ext_resource type="Resource" uid="uid://4dslofp7rfib" path="res://data/player/player_pollinator.tres" id="2_8ywsm"]
 [ext_resource type="PackedScene" uid="uid://cyd2pmyuelacd" path="res://scenes/GUI/main_game/gui_main_game.tscn" id="3_8ywsm"]
-[ext_resource type="Script" uid="uid://d4ngj3465rhxa" path="res://data/test_data/main_game_test.gd" id="3_mijjq"]
-[ext_resource type="Resource" uid="uid://c0xnfl26q30uj" path="res://data/combats/tests/test_combat_data.tres" id="4_fetp2"]
-[ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="5_r81kp"]
-[ext_resource type="Script" uid="uid://dr261i4fd8jf0" path="res://data/models/trinkets/trinket_data.gd" id="6_fetp2"]
-[ext_resource type="Resource" uid="uid://6nelrl1or7yl" path="res://data/tools/purchasable/tool_irrigation.tres" id="6_ldk84"]
-[ext_resource type="Resource" uid="uid://c5kykt5rgjgx3" path="res://data/tools/other/tool_free_water.tres" id="6_r81kp"]
-[ext_resource type="Resource" uid="uid://chcuewyamvaie" path="res://data/tools/test_tool/tool_recycle.tres" id="7_l774p"]
-[ext_resource type="Resource" uid="uid://c3mns7h5t7dh" path="res://data/weathers/all_chapters/weather_shower.tres" id="7_ldk84"]
-[ext_resource type="Resource" uid="uid://pdqakkphtgxv" path="res://data/tools/test_tool/tool_sustainability.tres" id="9_irrf2"]
-[ext_resource type="Resource" uid="uid://dcc5n1g3m7p8b" path="res://data/trinkets/default/trinket_conservation_coil.tres" id="10_b4n6q"]
-[ext_resource type="Resource" path="res://data/trinkets/default/trinket_leaky_canteen.tres" id="10_gl27v"]
-[ext_resource type="Resource" uid="uid://swcdata001" path="res://data/trinkets/default/trinket_second_wind_chime.tres" id="11_4y18v"]
-[ext_resource type="Resource" uid="uid://hbfdata001" path="res://data/trinkets/default/trinket_hummingbird_feather.tres" id="11_gl27v"]
-[ext_resource type="Resource" path="res://data/trinkets/default/trinket_sun_catcher_pin.tres" id="12_irrf2"]
 [ext_resource type="PackedScene" uid="uid://bqo51luu7itcc" path="res://scenes/main_game/map/map_main.tscn" id="14_s87mg"]
-
-[sub_resource type="Resource" id="Resource_ldk84"]
-script = ExtResource("3_mijjq")
-test_tools = Array[ExtResource("5_r81kp")]([ExtResource("6_ldk84"), ExtResource("7_l774p"), ExtResource("6_r81kp"), ExtResource("6_r81kp"), ExtResource("9_irrf2")])
-test_weather = ExtResource("7_ldk84")
-test_combat = ExtResource("4_fetp2")
-test_trinket_datas = Array[ExtResource("6_fetp2")]([ExtResource("10_b4n6q"), ExtResource("11_gl27v"), ExtResource("10_gl27v"), ExtResource("11_4y18v"), ExtResource("12_irrf2")])
-metadata/_custom_type_script = "uid://d4ngj3465rhxa"
 
 [node name="MainGame" type="Node2D" unique_id=729241411]
 script = ExtResource("1_yra6k")
 player_data = ExtResource("2_8ywsm")
-test_data = SubResource("Resource_ldk84")
 
 [node name="MapMain" parent="." unique_id=1002418759 instance=ExtResource("14_s87mg")]
 unique_name_in_owner = true

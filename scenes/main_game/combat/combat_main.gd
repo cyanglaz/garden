@@ -8,7 +8,6 @@ signal turn_started()
 signal beat_final_boss()
 
 var hand_size := 5
-const WIN_PAUSE_TIME := 0.5
 const INSTANT_CARD_USE_DELAY := 0.3
 const TOOL_APPLICATION_ERROR_HIDE_DELAY := 3.0
 const MAX_HAND_WARNING_HIDE_DELAY := 2.0
