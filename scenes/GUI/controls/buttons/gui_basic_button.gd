@@ -2,7 +2,7 @@ class_name GUIBasicButton
 extends PanelContainer
 
 const SHORT_CUT_ICON_SIZE := 16
-const SOUND_HOVER := preload("res://resources/sounds/GUI/button_hover.wav")
+const SOUND_HOVER := preload("res://resources/sounds/GUI/button_hover_1.wav")
 const SOUND_CLICK := preload("res://resources/sounds/GUI/button_click.wav")
 const BUTTON_TOOLTIP_SCENE := preload("res://scenes/GUI/tooltips/gui_button_tooltip.tscn")
 
