@@ -33,6 +33,9 @@ func queue_tool_application(combat_main:CombatMain, tool_data:ToolData) -> void:
 				combat_main.player.player_status_container.update_player_upgrade(tool_data.id, 1, ActionData.OperatorType.INCREASE)
 				await Util.create_scaled_timer(Constants.GLOBAL_UPGRADE_PAUSE_TIME).timeout
 			Events.request_combat_queue_push.emit(request)
+	var enchant_data:EnchantData = tool_data.enchant_data
+	if enchant_data:
+		_actions_applier.queue_actions([enchant_data.action_data], combat_main, tool_data)
 
 func _apply_tool_script(combat_main:CombatMain, tool_data:ToolData) -> void:
 	var secondary_card_datas:Array = []
