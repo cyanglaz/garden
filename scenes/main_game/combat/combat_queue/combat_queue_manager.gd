@@ -4,6 +4,8 @@ extends RefCounted
 ## Serial async queue for combat steps. Add as a child of [CombatMain] and call [method setup]
 ## before [method push_items].
 
+var stop := false
+
 var _combat_main: CombatMain:
 	set = _set_combat_main,
 	get = _get_combat_main
@@ -18,6 +20,14 @@ func setup(combat_main: CombatMain) -> void:
 
 func get_queue_size() -> int:
 	return _queue.size()
+
+func find_items_by_category(category: String) -> Array:
+	return _queue.filter(func(item: CombatQueueItem) -> bool: return item.category == category)
+
+func clear_items_by_category(category: String) -> void:
+	var items := find_items_by_category(category)
+	for item in items:
+		_queue.erase(item)
 
 func is_queue_busy() -> bool:
 	return _processing
@@ -59,6 +69,8 @@ func _insert_items_with_front_fallback(front: bool, items: Array) -> void:
 		_queue.append_array(items)
 
 func push_request(request) -> void:
+	if stop:
+		return
 	if !request:
 		return
 	if !request.callback.is_valid():
@@ -75,6 +87,7 @@ func push_request(request) -> void:
 	item.unique_id = request.unique_id
 	item.only_when_empty = request.only_when_empty
 	item.group = request.group
+	item.category = request.category
 	push_items(request.front, [item])
 
 func has_request_by_unique_id(unique_id: String) -> bool:

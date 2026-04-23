@@ -55,6 +55,7 @@ func remove_weather_abilities_at_field_index(field_index: int) -> void:
 
 func _add_weather_ability_to_queue(weather_ability:WeatherAbility) -> void:
 	var combat_queue_request = CombatQueueRequest.new()
+	combat_queue_request.category = Constants.WEATHER_QUEUE_CATEGORY
 	combat_queue_request.callback = func(combat_main:CombatMain) -> void: await _apply_weather_ability(weather_ability, combat_main)
 	Events.request_combat_queue_push.emit(combat_queue_request)
 

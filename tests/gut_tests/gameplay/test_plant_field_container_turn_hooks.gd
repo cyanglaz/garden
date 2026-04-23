@@ -41,8 +41,8 @@ class FakePlant extends Plant:
 				events.append("tool_app_%s_%s" % [plant_marker, status_marker])
 			Events.request_combat_queue_push.emit(request)
 
-	func handle_turn_end() -> void:
-		events.append("turn_end_%s" % marker)
+	func end_turn_cleanup() -> void:
+		events.append("end_turn_cleanup_%s" % marker)
 
 
 func _capture_queue_requests() -> Dictionary:
@@ -91,7 +91,7 @@ func test_queue_end_turn_abilities_runs_reverse_order() -> void:
 		hook_log,
 		[
 			"start_p3", "end_p3", "start_p2", "end_p2", "start_p1", "end_p1",
-			"turn_end_p3", "turn_end_p2", "turn_end_p1"
+			"end_turn_cleanup_p3", "end_turn_cleanup_p2", "end_turn_cleanup_p1"
 		]
 	)
 
@@ -120,7 +120,7 @@ func test_queue_end_turn_abilities_defers_delayed_end_through_combat_queue() -> 
 	capture.requests[2].callback.call(null)
 	assert_eq(
 		hook_log,
-		["start_p2", "start_p1", "end_p1", "end_p2", "turn_end_p2", "turn_end_p1"]
+		["start_p2", "start_p1", "end_p1", "end_p2", "end_turn_cleanup_p2", "end_turn_cleanup_p1"]
 	)
 
 

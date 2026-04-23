@@ -44,7 +44,7 @@ func queue_end_turn_abilities(combat_main:CombatMain) -> void:
 		plant.queue_end_turn_abilities(combat_main)
 	for plant:Plant in plants_trigger_order:
 		var request = CombatQueueRequest.new()
-		request.callback = func(_cm:CombatMain) -> void: plant.handle_turn_end()
+		request.callback = func(_cm:CombatMain) -> void: plant.end_turn_cleanup()
 		Events.request_combat_queue_push.emit(request)
 
 func queue_start_turn_abilities(combat_main:CombatMain) -> void:
@@ -59,9 +59,9 @@ func queue_tool_application_hooks() -> void:
 	for plant:Plant in plants_in_order:
 		plant.queue_tool_application_hooks()
 
-func trigger_tool_discard_hook(count:int, combat_main:CombatMain) -> void:
+func queue_tool_discard_hooks(count:int) -> void:
 	for plant:Plant in plants:
-		await plant.handle_tool_discard_hook(count, combat_main)
+		plant.queue_tool_discard_hook(count)
 	
 func get_plant(index:int) -> Plant:
 	if plants.size() <= index:

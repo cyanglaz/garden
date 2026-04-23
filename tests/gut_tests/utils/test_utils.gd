@@ -338,23 +338,23 @@ func test_path_builder_strips_plus_suffix_before_dot():
 	var result := Util.get_image_path_for_resource_id("water+3")
 	assert_eq(result, "res://resources/sprites/GUI/icons/resources/icon_water.png")
 
-# ----- get_id_for_tool_speical / get_special_from_id (roundtrip) -----
+# ----- get_id_for_tool_special / get_special_from_id (roundtrip) -----
 
 func test_get_id_for_tool_special_compost():
-	assert_eq(Util.get_id_for_tool_speical(ToolData.Special.COMPOST), "compost")
+	assert_eq(Util.get_id_for_tool_special(ToolData.Special.COMPOST), "compost")
 
 func test_get_id_for_tool_special_handy():
-	assert_eq(Util.get_id_for_tool_speical(ToolData.Special.HANDY), "handy")
+	assert_eq(Util.get_id_for_tool_special(ToolData.Special.HANDY), "handy")
 
 func test_get_id_for_tool_special_nightfall():
-	assert_eq(Util.get_id_for_tool_speical(ToolData.Special.NIGHTFALL), "nightfall")
+	assert_eq(Util.get_id_for_tool_special(ToolData.Special.NIGHTFALL), "nightfall")
 
 func test_get_id_for_tool_special_reversible():
-	assert_eq(Util.get_id_for_tool_speical(ToolData.Special.REVERSIBLE), "reversible")
+	assert_eq(Util.get_id_for_tool_special(ToolData.Special.REVERSIBLE), "reversible")
 
 func test_get_special_from_id_roundtrip():
 	for special in ToolData.Special.values():
-		var id := Util.get_id_for_tool_speical(special)
+		var id := Util.get_id_for_tool_special(special)
 		var recovered := Util.get_special_from_id(id)
 		assert_eq(recovered, special, "Roundtrip failed for special %s" % special)
 

@@ -413,7 +413,7 @@ TRINKET_HUMMINGBIRD_FEATHER_DESCRIPTION,"For every {threshold} cards played, +{m
 TRINKET_FERMENTATION_FLASK_NAME,"Fermentation Flask"
 TRINKET_FERMENTATION_FLASK_DESCRIPTION,"For every {discard_count} cards discarded this turn, current plant +{light} {resource:light} and +{water} {resource:water}."
 TRINKET_MIX_SPRAYER_NAME,"Mix Sprayer"
-TRINKET_MIX_SPRAYER_DESCRIPTION,"After exhausting a card, a random card in hand costs 0 this turn."
+TRINKET_MIX_SPRAYER_DESCRIPTION,"After composting a card, a random card in hand costs 0 this turn."
 TRINKET_ESCAPE_WING_NAME,"Escape Wing"
 TRINKET_ESCAPE_WING_DESCRIPTION,"The first time you take damage each combat, +2 {resource:momentum}."
 TRINKET_SPORE_GLASS_NAME,"Spore Glass"

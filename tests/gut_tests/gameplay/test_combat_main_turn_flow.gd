@@ -167,12 +167,10 @@ func test_end_turn_sequence_enqueues_pipeline_and_cleanup_schedules_start_turn()
 	assert_true(night_fall_request.callback.is_valid())
 	assert_true(discard_all_cards_request.callback.is_valid())
 	assert_true(end_turn_cleanup_request.callback.is_valid())
-	assert_true(end_turn_cleanup_request.finish_callback.is_valid())
 
 	await night_fall_request.callback.call(cm)
 	await discard_all_cards_request.callback.call(cm)
 	await end_turn_cleanup_request.callback.call(cm)
-	await end_turn_cleanup_request.finish_callback.call(cm)
 	_disconnect_capture(capture)
 
 	assert_false(cm.is_mid_turn)

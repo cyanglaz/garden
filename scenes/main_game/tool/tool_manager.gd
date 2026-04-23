@@ -5,11 +5,13 @@ signal tool_application_started(tool_data:ToolData)
 signal tool_application_success(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
 signal tool_application_error(tool_data:ToolData, error_message:String)
+signal tool_application_bailed(tool_data:ToolData)
+signal tools_discarded(tool_datas:Array, explicitly:bool)
+signal tools_drawn(tool_datas:Array)
 signal hand_updated(hand:Array)
-signal cards_removed_from_hand(tool_datas:Array, updated_hand:Array) # Triggers after the removal animation (discard or exhaust)
+signal tools_exhausted(tool_datas:Array)
 signal max_hand_size_reached()
 signal pool_updated(pool:Array)
-signal tool_application_bailed(tool_data:ToolData)
 
 var tool_deck:Deck
 var selected_tool_index:int: get = _get_selected_tool_index
@@ -29,6 +31,7 @@ func _init(initial_tools:Array, gui_tool_card_container:GUIToolCardContainer) ->
 	tool_deck = Deck.new(initial_tools)
 	tool_deck.hand_updated.connect(func() -> void: hand_updated.emit(tool_deck.hand))
 	tool_deck.pool_updated.connect(func(pool:Array) -> void: pool_updated.emit(pool))
+	tool_deck.items_exhausted.connect(func(items:Array) -> void: tools_exhausted.emit(items))
 	_weak_gui_tool_card_container = weakref(gui_tool_card_container)
 
 func refresh_cards_ui(combat_main:CombatMain) -> void:
@@ -59,6 +62,7 @@ func draw_cards(count:int, first_turn_draw:bool, combat_main:CombatMain) -> Arra
 		var second_draw_result:Array = tool_deck.draw(random_draw_count - draw_results.size())
 		await _gui_tool_card_container.animate_draw(second_draw_result, combat_main)
 		draw_results.append_array(second_draw_result)
+	tools_drawn.emit(draw_results)
 	return draw_results
 
 func shuffle(combat_main:CombatMain) -> void:
@@ -73,22 +77,21 @@ func trigger_turn_end_cards(combat_main:CombatMain) -> void:
 	for tool_data in end_turn_cards:
 		queue_apply_tool(combat_main, tool_data)
 			
-func discard_cards(tools:Array, combat_main:CombatMain) -> void:
+func discard_cards(tools:Array, combat_main:CombatMain, explicitly:bool = true) -> void:
 	assert(tools.size() > 0)
 	# Order is important, discard first, then animate
 	for tool_data in tools:
 		tool_data.refresh_for_turn()
 
 	tool_deck.discard(tools)
+	tools_discarded.emit(tools, explicitly)
 	await _gui_tool_card_container.animate_discard(tools, combat_main)
-	cards_removed_from_hand.emit(tools, tool_deck.hand)
 
 func exhaust_cards(tools:Array, combat_main:CombatMain) -> void:
 	assert(tools.size() > 0)
 	# Order is important, exhaust first, then animate
 	tool_deck.exhaust(tools)
 	await _gui_tool_card_container.animate_exhaust(tools, combat_main)
-	cards_removed_from_hand.emit(tools, tool_deck.hand)
 
 func clear_tool_selection() -> void:
 	selected_tool = null
@@ -147,7 +150,7 @@ func _finish_card(tool_data:ToolData, combat_main:CombatMain) -> void:
 	if tool_data.specials.has(ToolData.Special.COMPOST):
 		await exhaust_cards([tool_data], combat_main)
 	else:
-		await discard_cards([tool_data], combat_main)
+		await discard_cards([tool_data], combat_main, false)
 
 func _handle_tool_application_completed(tool_data:ToolData, combat_main:CombatMain) -> void:
 	if tool_data.tool_script:

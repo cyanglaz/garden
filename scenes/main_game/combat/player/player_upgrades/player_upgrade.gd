@@ -16,8 +16,11 @@ func toggle_ui_buttons(on:bool) -> void:
 func has_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> bool:
 	return _has_tool_application_hook(combat_main, tool_data)
 
-func handle_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> void:
-	await _handle_tool_application_hook(combat_main, tool_data)
+func queue_tool_application_hook(tool_data:ToolData) -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_tool_application_hook(combat_main, tool_data)
+	Events.request_combat_queue_push.emit(request)
 
 func has_pre_tool_application_hook(combat_main:CombatMain, tool_data:ToolData) -> bool:
 	return _has_pre_tool_application_hook(combat_main, tool_data)
@@ -31,44 +34,56 @@ func queue_pre_tool_application_hook(tool_data:ToolData) -> void:
 func has_activation_hook(combat_main:CombatMain) -> bool:
 	return _has_activation_hook(combat_main)
 
-func handle_activation_hook(combat_main:CombatMain) -> void:
-	await _handle_activation_hook(combat_main)
-
-func has_card_added_to_hand_hook(tool_datas:Array) -> bool:
-	return _has_card_added_to_hand_hook(tool_datas)
-
-func handle_card_added_to_hand_hook(tool_datas:Array, combat_main:CombatMain) -> void:
-	await _handle_card_added_to_hand_hook(tool_datas, combat_main)
+func queue_activation_hook() -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_activation_hook(combat_main)
+	Events.request_combat_queue_push.emit(request)
 
 func has_pool_updated_hook(combat_main:CombatMain, pool:Array) -> bool:
 	return _has_pool_updated_hook(combat_main, pool)
 
-func handle_pool_updated_hook(combat_main:CombatMain, pool:Array) -> void:
-	await _handle_pool_updated_hook(combat_main, pool)
+func queue_pool_updated_hook(pool:Array) -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_pool_updated_hook(combat_main, pool)
+	Events.request_combat_queue_push.emit(request)
 
 func has_discard_hook(combat_main:CombatMain, tool_datas:Array) -> bool:
 	return _has_discard_hook(combat_main, tool_datas)
 
-func handle_discard_hook(combat_main:CombatMain, tool_datas:Array) -> void:
-	await _handle_discard_hook(combat_main, tool_datas)
+func queue_discard_hook(tool_datas:Array) -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_discard_hook(combat_main, tool_datas)
+	Events.request_combat_queue_push.emit(request)
 
 func has_exhaust_hook(combat_main:CombatMain, tool_datas:Array) -> bool:
 	return _has_exhaust_hook(combat_main, tool_datas)
 
-func handle_exhaust_hook(combat_main:CombatMain, tool_datas:Array) -> void:
-	await _handle_exhaust_hook(combat_main, tool_datas)
+func queue_exhaust_hook(tool_datas:Array) -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_exhaust_hook(combat_main, tool_datas)
+	Events.request_combat_queue_push.emit(request)
 
 func has_draw_hook(combat_main:CombatMain, tool_datas:Array) -> bool:
 	return _has_draw_hook(combat_main, tool_datas)
 
-func handle_draw_hook(combat_main:CombatMain, tool_datas:Array) -> void:
-	await _handle_draw_hook(combat_main, tool_datas)
+func queue_draw_hook(tool_datas:Array) -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_draw_hook(combat_main, tool_datas)
+	Events.request_combat_queue_push.emit(request)
 
 func has_stack_update_hook(combat_main:CombatMain, id:String, diff:int) -> bool:
 	return _has_stack_update_hook(combat_main, id, diff)
 
-func handle_stack_update_hook(combat_main:CombatMain, id:String, diff:int) -> void:
-	await _handle_stack_update_hook(combat_main, id, diff)
+func queue_stack_update_hook(id:String, diff:int) -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_stack_update_hook(combat_main, id, diff)
+	Events.request_combat_queue_push.emit(request)
 
 func has_target_plant_water_update_hook(combat_main:CombatMain, plant:Plant, diff:int) -> bool:
 	return _has_target_plant_water_update_hook(combat_main, plant, diff)
@@ -79,7 +94,7 @@ func handle_target_plant_water_update_hook(combat_main:CombatMain, plant:Plant, 
 func has_player_move_hook(main_game:CombatMain) -> bool:
 	return _has_player_move_hook(main_game)
 
-func queue_player_move_hooks() -> void:
+func queue_player_move_hook() -> void:
 	var request = CombatQueueRequest.new()
 	request.callback = func(combat_main:CombatMain) -> void: await _handle_player_move_hook(combat_main)
 	request.front = true
@@ -98,6 +113,7 @@ func has_start_turn_hook(combat_main:CombatMain) -> bool:
 
 func queue_start_turn_hook() -> void:
 	var request = CombatQueueRequest.new()
+	request.front = false
 	request.callback = func(combat_main:CombatMain) -> void: await _handle_start_turn_hook(combat_main)
 	Events.request_combat_queue_push.emit(request)
 
@@ -110,19 +126,25 @@ func handle_hand_size_hook(combat_main: CombatMain) -> int:
 func has_hand_updated_hook(combat_main:CombatMain) -> bool:
 	return _has_hand_updated_hook(combat_main)
 
-func handle_hand_updated_hook(combat_main:CombatMain) -> void:
-	await _handle_hand_updated_hook(combat_main)
+func queue_hand_updated_hook() -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_hand_updated_hook(combat_main)
+	Events.request_combat_queue_push.emit(request)
 
 func has_plant_bloom_hook(combat_main:CombatMain) -> bool:
 	return _has_plant_bloom_hook(combat_main)
 
-func handle_plant_bloom_hook(combat_main:CombatMain) -> void:
-	await _handle_plant_bloom_hook(combat_main)
+func queue_plant_bloom_hook() -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_plant_bloom_hook(combat_main)
+	Events.request_combat_queue_push.emit(request)
 
 func has_damage_taken_hook(combat_main:CombatMain, damage:int) -> bool:
 	return _has_damage_taken_hook(combat_main, damage)
 
-func handle_damage_taken_hook(damage:int) -> void:
+func queue_damage_taken_hook(damage:int) -> void:
 	var request = CombatQueueRequest.new()
 	request.front = true
 	request.callback = func(combat_main:CombatMain) -> void: await _handle_damage_taken_hook(combat_main, damage)
@@ -131,8 +153,11 @@ func handle_damage_taken_hook(damage:int) -> void:
 func has_combat_end_hook(combat_main:CombatMain) -> bool:
 	return _has_combat_end_hook(combat_main)
 
-func handle_combat_end_hook(combat_main:CombatMain) -> void:
-	await _handle_combat_end_hook(combat_main)
+func queue_combat_end_hook() -> void:
+	var request = CombatQueueRequest.new()
+	request.front = false
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_combat_end_hook(combat_main)
+	Events.request_combat_queue_push.emit(request)
 
 #region for override
 
@@ -158,12 +183,6 @@ func _has_activation_hook(_combat_main:CombatMain) -> bool:
 	return false
 
 func _handle_activation_hook(_combat_main:CombatMain) -> void:
-	await Util.await_for_tiny_time()
-
-func _has_card_added_to_hand_hook(_tool_datas:Array) -> bool:
-	return false
-
-func _handle_card_added_to_hand_hook(_tool_datas:Array, _combat_main:CombatMain) -> void:
 	await Util.await_for_tiny_time()
 
 func _has_pool_updated_hook(_combat_main:CombatMain, _pool:Array) -> bool:

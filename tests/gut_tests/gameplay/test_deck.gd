@@ -210,3 +210,48 @@ func test_draw_specific_no_match_returns_empty():
 	var deck := _make_deck(3)
 	var drawn := deck.draw_specific(func(_item: ToolData) -> bool: return false)
 	assert_eq(drawn.size(), 0)
+
+# ----- discard signal wiring -----
+
+func test_discard_emits_items_discarded_with_batch():
+	var deck := _make_deck(2)
+	var hand := deck.draw(2)
+	var captured: Array = []
+	deck.items_discarded.connect(func(items: Array) -> void: captured.append(items))
+	deck.discard(hand.duplicate())
+	assert_eq(captured.size(), 1)
+	assert_eq((captured[0] as Array).size(), 2)
+
+func test_discard_empty_items_does_not_emit_or_mutate():
+	var deck := _make_deck(2)
+	deck.draw(2)
+	var discard_signal_count := [0]
+	var hand_signal_count := [0]
+	deck.items_discarded.connect(func(_items: Array) -> void: discard_signal_count[0] += 1)
+	deck.hand_updated.connect(func() -> void: hand_signal_count[0] += 1)
+	deck.discard([])
+	assert_eq(discard_signal_count[0], 0)
+	assert_eq(hand_signal_count[0], 0)
+	assert_eq(deck.hand.size(), 2)
+
+# ----- exhaust signal wiring -----
+
+func test_exhaust_emits_items_exhausted_with_batch():
+	var deck := _make_deck(2)
+	var hand := deck.draw(2)
+	var captured: Array = []
+	deck.items_exhausted.connect(func(items: Array) -> void: captured.append(items))
+	deck.exhaust(hand.duplicate())
+	assert_eq(captured.size(), 1)
+	assert_eq((captured[0] as Array).size(), 2)
+
+func test_exhaust_from_discard_pool_still_emits_items_exhausted():
+	var deck := _make_deck(2)
+	var hand := deck.draw(2)
+	deck.discard(hand.duplicate())
+	var captured: Array = []
+	deck.items_exhausted.connect(func(items: Array) -> void: captured.append(items))
+	deck.exhaust(hand.duplicate())
+	assert_eq(captured.size(), 1)
+	assert_eq(deck.discard_pool.size(), 0)
+	assert_eq(deck.exhaust_pool.size(), 2)

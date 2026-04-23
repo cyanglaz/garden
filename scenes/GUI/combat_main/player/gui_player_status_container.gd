@@ -9,11 +9,27 @@ func bind_with_player_status_container(player_status_container:PlayerStatusConta
 	_on_player_upgrades_updated(player_status_container)
 
 func _on_player_upgrades_updated(player_status_container:PlayerStatusContainer) -> void:
-	Util.remove_all_children(self)
-	for player_status:PlayerStatus in player_status_container.get_all_player_upgrades():
-		var gui_player_status:GUIPlayerStatus = PLAYER_STATUS_SCENE.instantiate()
-		add_child(gui_player_status)
-		gui_player_status.update_with_player_status_data(player_status.data)
+	var existing_icons:Array = get_children()
+	var existing_map := {}
+	for icon:GUIPlayerStatus in existing_icons:
+		existing_map[icon.player_status_id] = icon
+
+	var current_upgrades := player_status_container.get_all_player_upgrades()
+	var current_ids := {}
+
+	for player_status:PlayerStatus in current_upgrades:
+		var status_id:String = player_status.data.id
+		current_ids[status_id] = true
+		if existing_map.has(status_id):
+			existing_map[status_id].update_with_player_status_data(player_status.data)
+		else:
+			var gui_player_status:GUIPlayerStatus = PLAYER_STATUS_SCENE.instantiate()
+			add_child(gui_player_status)
+			gui_player_status.update_with_player_status_data(player_status.data)
+
+	for existing_icon:GUIPlayerStatus in existing_icons:
+		if not current_ids.has(existing_icon.player_status_id):
+			existing_icon.queue_free()
 
 func _on_player_upgrade_hook_animation_requested(player_upgrade_id:String) -> void:
 	var animating_player_status:GUIPlayerStatus

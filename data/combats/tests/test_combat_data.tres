@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CombatData" format=3 uid="uid://c0xnfl26q30uj"]
+
+[ext_resource type="Script" uid="uid://c6qubfqdqqjrs" path="res://data/models/plants/plant_data.gd" id="1_pxml0"]
+[ext_resource type="Resource" uid="uid://b457eg2twkey4" path="res://data/plants/chapter0/plant_data_tulip.tres" id="2_8lb36"]
+[ext_resource type="Script" uid="uid://ektnj8rt6k0k" path="res://data/models/combats/combat_data.gd" id="4_6hyrj"]
+
+[resource]
+script = ExtResource("4_6hyrj")
+combat_type = 2
+plants = Array[ExtResource("1_pxml0")]([ExtResource("2_8lb36"), ExtResource("2_8lb36"), ExtResource("2_8lb36")])
+id = "c_test"
+metadata/_custom_type_script = "uid://ektnj8rt6k0k"

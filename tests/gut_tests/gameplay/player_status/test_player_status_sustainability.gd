@@ -36,24 +36,24 @@ func _make_status(stack_count: int) -> PlayerStatusSustainability:
 
 # ----- has_card_added_to_hand_hook -----
 
-func test_has_hand_hook_true_with_free_water() -> void:
+func test_has_pool_updated_hook_true_with_free_water() -> void:
 	var s := PlayerStatusSustainability.new()
 	add_child_autofree(s)
-	assert_true(s.has_card_added_to_hand_hook([_make_free_water_tool()]))
+	assert_true(s.has_pool_updated_hook(null, [_make_free_water_tool()]))
 
-func test_has_hand_hook_false_without_free_water() -> void:
+func test_has_pool_updated_hook_false_without_free_water() -> void:
 	var s := PlayerStatusSustainability.new()
 	add_child_autofree(s)
-	assert_false(s.has_card_added_to_hand_hook([_make_tool("watering_can")]))
+	assert_false(s.has_pool_updated_hook(null, [_make_tool("watering_can")]))
 
-func test_has_hand_hook_false_for_empty_array() -> void:
+func test_has_pool_updated_hook_false_for_empty_array() -> void:
 	var s := PlayerStatusSustainability.new()
 	add_child_autofree(s)
-	assert_false(s.has_card_added_to_hand_hook([]))
+	assert_false(s.has_pool_updated_hook(null, []))
 
 # ----- has_activation_hook -----
 
-func test_has_activation_hook_true_with_free_water_in_hand() -> void:
+func test_has_activation_hook_true_with_free_water_in_pool() -> void:
 	var s := PlayerStatusSustainability.new()
 	add_child_autofree(s)
 	var cm := FakeCombatMain.new()
@@ -61,10 +61,10 @@ func test_has_activation_hook_true_with_free_water_in_hand() -> void:
 	var fake_tm := FakeToolManager.new()
 	autofree(fake_tm)
 	cm.tool_manager = fake_tm
-	fake_tm.tool_deck.hand = [_make_free_water_tool()]
+	fake_tm.tool_deck.pool = [_make_free_water_tool()]
 	assert_true(s.has_activation_hook(cm))
 
-func test_has_activation_hook_false_with_empty_hand() -> void:
+func test_has_activation_hook_false_with_empty_pool() -> void:
 	var s := PlayerStatusSustainability.new()
 	add_child_autofree(s)
 	var cm := FakeCombatMain.new()
@@ -72,36 +72,34 @@ func test_has_activation_hook_false_with_empty_hand() -> void:
 	var fake_tm := FakeToolManager.new()
 	autofree(fake_tm)
 	cm.tool_manager = fake_tm
-	fake_tm.tool_deck.hand = []
+	fake_tm.tool_deck.pool = []
 	assert_false(s.has_activation_hook(cm))
 
-# ----- handle_card_added_to_hand_hook -----
-
-func test_handle_card_added_sets_sustainability_modifier_on_free_water() -> void:
+func test_handle_pool_updated_sets_sustainability_modifier_on_free_water() -> void:
 	var s := _make_status(3)
 	var free_water := _make_free_water_tool()
-	await s.handle_card_added_to_hand_hook([free_water], null)
+	s._handle_pool_updated_hook(null, [free_water])
 	assert_eq(free_water.data["sustainability"], 3)
 
-func test_handle_card_added_updates_free_water_water_action_modified_value() -> void:
+func test_handle_pool_updated_updates_free_water_water_action_modified_value() -> void:
 	var s := _make_status(3)
 	var free_water := _make_free_water_tool()
-	await s.handle_card_added_to_hand_hook([free_water], null)
+	s._handle_pool_updated_hook(null, [free_water])
 	assert_eq(free_water.actions[0].modified_value, 3)
 
-func test_handle_card_added_does_not_modify_non_free_water() -> void:
+func test_handle_pool_updated_does_not_modify_non_free_water() -> void:
 	var s := _make_status(3)
 	var other := _make_tool("watering_can")
 	var free_water := _make_free_water_tool()
-	await s.handle_card_added_to_hand_hook([other, free_water], null)
+	s._handle_pool_updated_hook(null, [other, free_water])
 	assert_false(other.data.has("sustainability"))
 
-func test_handle_card_added_increments_on_second_call() -> void:
+func test_handle_pool_updated_increments_on_second_call() -> void:
 	var s := _make_status(3)
 	var free_water := _make_free_water_tool()
-	await s.handle_card_added_to_hand_hook([free_water], null)
+	s._handle_pool_updated_hook(null, [free_water])
 	# Update stack and apply again — modifier should reflect new stack, not accumulate blindly
 	s.stack = 5
-	await s.handle_card_added_to_hand_hook([free_water], null)
+	s._handle_pool_updated_hook(null, [free_water])
 	assert_eq(free_water.data["sustainability"], 5)
 	assert_eq(free_water.actions[0].modified_value, 5)

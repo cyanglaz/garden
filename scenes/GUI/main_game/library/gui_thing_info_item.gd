@@ -46,7 +46,7 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	_add_reference_buttons(action_pairs)
 	var special_pairs:Array = []
 	for special:ToolData.Special in tool_data.specials:
-		special_pairs.append(["special", Util.get_id_for_tool_speical(special)])
+		special_pairs.append(["special", Util.get_id_for_tool_special(special)])
 	_add_reference_buttons(special_pairs)
 
 func update_with_action_data(action_data:ActionData) -> void:

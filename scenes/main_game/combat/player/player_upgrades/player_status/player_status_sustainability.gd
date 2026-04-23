@@ -2,19 +2,19 @@ class_name PlayerStatusSustainability
 extends PlayerStatus
 
 func _has_activation_hook(combat_main:CombatMain) -> bool:
-	return _find_free_waters(combat_main.tool_manager.tool_deck.hand).size() > 0
+	return _find_free_waters(combat_main.tool_manager.tool_deck.pool).size() > 0
 
 func _handle_activation_hook(combat_main:CombatMain) -> void:
-	_update_cards(combat_main.tool_manager.tool_deck.hand, combat_main)
+	_update_cards(combat_main.tool_manager.tool_deck.pool, combat_main)
 
-func _has_card_added_to_hand_hook(tool_datas:Array) -> bool:
-	return _find_free_waters(tool_datas).size() > 0
+func _has_pool_updated_hook(_combat_main:CombatMain, pool:Array) -> bool:
+	return _find_free_waters(pool).size() > 0
 
-func _handle_card_added_to_hand_hook(tool_datas:Array, combat_main:CombatMain) -> void:
-	_update_cards(tool_datas, combat_main)
+func _handle_pool_updated_hook(combat_main:CombatMain, pool:Array) -> void:
+	_update_cards(pool, combat_main)
 
-func _update_cards(tool_datas:Array, combat_main:CombatMain) -> void:
-	var gray_waters:Array = _find_free_waters(tool_datas)
+func _update_cards(pool:Array, combat_main:CombatMain) -> void:
+	var gray_waters:Array = _find_free_waters(pool)
 	var new_modifier:int = stack
 	for gray_water_data:ToolData in gray_waters:
 		var old_modifier:int = gray_water_data.data["sustainability"] as int if gray_water_data.data.has("sustainability") else 0

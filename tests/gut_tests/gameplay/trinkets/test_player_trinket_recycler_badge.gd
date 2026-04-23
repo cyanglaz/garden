@@ -16,6 +16,11 @@ func _make_free_water() -> ToolData:
 	td.actions = [action]
 	return td
 
+func _make_combat_main() -> CombatMain:
+	var cm := CombatMain.new()
+	autofree(cm)
+	return cm
+
 # ----- has_pool_updated_hook -----
 
 func test_has_hook_true_when_pool_contains_free_water() -> void:
@@ -61,8 +66,16 @@ func test_handle_hook_ignores_non_free_water() -> void:
 
 # ----- absent hooks -----
 
-func test_has_no_start_turn_hook() -> void:
-	assert_false(_make_trinket().has_start_turn_hook(null))
+func test_has_start_turn_hook_on_day_0() -> void:
+	var t := _make_trinket()
+	var cm := _make_combat_main()
+	assert_true(t.has_start_turn_hook(cm))
+
+func test_has_start_turn_hook_on_day_1() -> void:
+	var t := _make_trinket()
+	var cm := _make_combat_main()
+	cm.day_manager.day = 1
+	assert_false(t.has_start_turn_hook(cm))
 
 func test_has_no_end_turn_hook() -> void:
 	assert_false(_make_trinket().has_end_turn_hook(null))
@@ -72,6 +85,3 @@ func test_has_no_discard_hook() -> void:
 
 func test_has_no_tool_application_hook() -> void:
 	assert_false(_make_trinket().has_tool_application_hook(null, null))
-
-func test_has_no_card_added_to_hand_hook() -> void:
-	assert_false(_make_trinket().has_card_added_to_hand_hook([]))

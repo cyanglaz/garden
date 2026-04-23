@@ -16,4 +16,4 @@ func apply_tool(combat_main:CombatMain, _tool_data:ToolData, _secondary_card_dat
 	var cards:Array = []
 	for i in number_of_cards:
 		cards.append(tool_data.get_duplicate())
-	await combat_main.add_tools_to_hand(cards, from_position, true)
+	Events.request_add_tools_to_hand.emit(cards, from_position, true)

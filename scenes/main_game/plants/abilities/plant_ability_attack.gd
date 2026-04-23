@@ -16,4 +16,3 @@ func _trigger_ability_hook(_ability_type:Plant.AbilityType, plant:Plant, _combat
 	hp_action.operator_type = ActionData.OperatorType.DECREASE
 	tool_data_to_add.name_postfix = "(" + str(stack) + ")"
 	Events.request_add_tools_to_hand.emit([tool_data_to_add], from_position, true)
-	await tool_data_to_add.adding_to_deck_finished

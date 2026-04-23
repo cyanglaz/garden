@@ -16,8 +16,9 @@ func _ready() -> void:
 
 func update_with_special(special:ToolData.Special) -> void:
 	_special = special
-	var special_id := Util.get_id_for_tool_speical(special)
-	gui_icon.texture = load(Util.get_image_path_for_resource_id(special_id))
+	var special_id:String = Util.get_id_for_tool_special(special)
+	if gui_icon:
+		gui_icon.texture = load(Util.get_image_path_for_resource_id(special_id))
 
 func _set_button_state(val:ButtonState) -> void:
 	super._set_button_state(val)

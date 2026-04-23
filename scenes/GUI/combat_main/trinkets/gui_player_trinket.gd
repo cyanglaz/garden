@@ -63,6 +63,7 @@ func _on_state_changed(new_state: TrinketData.TrinketState) -> void:
 	if get_global_rect().has_point(get_global_mouse_position()) \
 			and new_state != TrinketData.TrinketState.ACTIVE:
 		gui_icon.has_outline = true
+
 func play_trigger_animation() -> void:
 	good_animation_audio.play()
 	var original_position:Vector2 = gui_icon.position

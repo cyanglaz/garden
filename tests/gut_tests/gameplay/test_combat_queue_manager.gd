@@ -329,3 +329,122 @@ func test_empty_push_items_does_not_mark_busy() -> void:
 	q.push_items(false, [])
 	assert_false(q.is_queue_busy())
 	assert_eq(q.get_queue_size(), 0)
+
+
+# ----- category ---------------------------------------------------------------
+
+func _make_category_item(callback: Callable, category: String) -> CombatQueueItem:
+	var item := _make_item(callback)
+	item.category = category
+	return item
+
+
+func test_push_request_propagates_category_to_queued_item() -> void:
+	var cm := _make_combat_main()
+	var q := _make_queue(cm)
+	# Block the worker so items queue up rather than drain instantly.
+	q.push_items(false, [_make_item(func(_c: CombatMain) -> void: await _blocking_slice([]))])
+	var request = _make_request(func(_c: CombatMain) -> void: pass)
+	request.category = "weather"
+	q.push_request(request)
+	var weather_items := q.find_items_by_category("weather")
+	assert_eq(weather_items.size(), 1)
+	assert_eq((weather_items[0] as CombatQueueItem).category, "weather")
+
+
+func test_find_items_by_category_filters_out_other_categories() -> void:
+	var cm := _make_combat_main()
+	var q := _make_queue(cm)
+	q.push_items(false, [_make_item(func(_c: CombatMain) -> void: await _blocking_slice([]))])
+	q.push_items(false, [
+		_make_category_item(func(_c: CombatMain) -> void: pass, "weather"),
+		_make_category_item(func(_c: CombatMain) -> void: pass, "upgrade"),
+		_make_category_item(func(_c: CombatMain) -> void: pass, "weather"),
+	])
+	var weather_items := q.find_items_by_category("weather")
+	assert_eq(weather_items.size(), 2)
+	var upgrade_items := q.find_items_by_category("upgrade")
+	assert_eq(upgrade_items.size(), 1)
+
+
+func test_find_items_by_category_returns_empty_when_no_match() -> void:
+	var cm := _make_combat_main()
+	var q := _make_queue(cm)
+	q.push_items(false, [_make_item(func(_c: CombatMain) -> void: await _blocking_slice([]))])
+	q.push_items(false, [_make_category_item(func(_c: CombatMain) -> void: pass, "weather")])
+	assert_eq(q.find_items_by_category("nope").size(), 0)
+
+
+func test_clear_items_by_category_drops_only_matching_items() -> void:
+	var cm := _make_combat_main()
+	var q := _make_queue(cm)
+	var order: Array = []
+	q.push_items(false, [_make_item(func(_c: CombatMain) -> void: await _blocking_slice(order))])
+	q.push_items(
+		false,
+		[
+			_make_category_item(
+				func(_c: CombatMain) -> void: order.append("weather_1"),
+				"weather",
+			),
+			_make_category_item(
+				func(_c: CombatMain) -> void: order.append("upgrade"),
+				"upgrade",
+			),
+			_make_category_item(
+				func(_c: CombatMain) -> void: order.append("weather_2"),
+				"weather",
+			),
+		],
+	)
+	q.clear_items_by_category("weather")
+	await _await_queue_idle(q)
+	assert_eq(order, ["block_start", "block_end", "upgrade"])
+
+
+func test_clear_items_by_category_noop_when_category_absent() -> void:
+	var cm := _make_combat_main()
+	var q := _make_queue(cm)
+	q.push_items(false, [_make_item(func(_c: CombatMain) -> void: await _blocking_slice([]))])
+	q.push_items(false, [_make_category_item(func(_c: CombatMain) -> void: pass, "weather")])
+	var size_before := q.get_queue_size()
+	q.clear_items_by_category("nonexistent")
+	assert_eq(q.get_queue_size(), size_before)
+
+
+# ----- stop flag --------------------------------------------------------------
+
+func test_stop_flag_blocks_new_push_request() -> void:
+	var cm := _make_combat_main()
+	var q := _make_queue(cm)
+	q.stop = true
+	var order: Array = []
+	q.push_request(_make_request(func(_c: CombatMain) -> void: order.append("ran")))
+	await _await_queue_idle(q)
+	assert_eq(order, [])
+
+
+func test_stop_flag_does_not_drop_already_queued_items() -> void:
+	var cm := _make_combat_main()
+	var q := _make_queue(cm)
+	var order: Array = []
+	q.push_items(false, [_make_item(func(_c: CombatMain) -> void: await _blocking_slice(order))])
+	# Turn stop on only after the item is queued and draining has started.
+	q.stop = true
+	q.push_request(_make_request(func(_c: CombatMain) -> void: order.append("ignored")))
+	await _await_queue_idle(q)
+	# The blocking item already queued before `stop` still runs; the request
+	# pushed afterwards is suppressed.
+	assert_eq(order, ["block_start", "block_end"])
+
+
+func test_stop_flag_can_be_toggled_back_off() -> void:
+	var cm := _make_combat_main()
+	var q := _make_queue(cm)
+	q.stop = true
+	var order: Array = []
+	q.push_request(_make_request(func(_c: CombatMain) -> void: order.append("first")))
+	q.stop = false
+	q.push_request(_make_request(func(_c: CombatMain) -> void: order.append("second")))
+	await _await_queue_idle(q)
+	assert_eq(order, ["second"])
