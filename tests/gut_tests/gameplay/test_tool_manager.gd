@@ -5,6 +5,15 @@ class FakeGUIToolCardContainer extends GUIToolCardContainer:
 	func animate_discard(_tool_datas: Array, _combat_main: CombatMain) -> void:
 		await Util.await_for_tiny_time()
 
+	func animate_exhaust(_tool_datas: Array, _combat_main: CombatMain) -> void:
+		await Util.await_for_tiny_time()
+
+	func animate_draw(_tool_datas: Array, _combat_main: CombatMain) -> void:
+		await Util.await_for_tiny_time()
+
+	func animate_shuffle(_discard_pile: Array, _combat_main: CombatMain) -> void:
+		await Util.await_for_tiny_time()
+
 
 func _make_tool_data(id: String) -> ToolData:
 	var tool_data := ToolData.new()
@@ -94,6 +103,86 @@ func test_discard_emits_cards_removed_from_hand_once() -> void:
 	await manager.discard_cards(hand_snapshot, null)
 
 	assert_eq(emit_counter["value"], 1, "tools_discarded should fire exactly once per discard batch")
+	container.free()
+
+
+func test_discard_defaults_to_explicit_true() -> void:
+	var ctx := _setup_manager_with_hand(["a"])
+	var manager: ToolManager = ctx["manager"]
+	var container: FakeGUIToolCardContainer = ctx["container"]
+	var hand_snapshot: Array = ctx["hand"].duplicate()
+
+	var captured := {"explicitly": null}
+	manager.tools_discarded.connect(
+		func(_tool_datas: Variant, explicit: bool) -> void: captured["explicitly"] = explicit
+	)
+
+	await manager.discard_cards(hand_snapshot, null)
+
+	assert_eq(captured["explicitly"], true, "discard_cards default `explicitly` should be true")
+	container.free()
+
+
+func test_discard_respects_explicit_false_flag() -> void:
+	var ctx := _setup_manager_with_hand(["a"])
+	var manager: ToolManager = ctx["manager"]
+	var container: FakeGUIToolCardContainer = ctx["container"]
+	var hand_snapshot: Array = ctx["hand"].duplicate()
+
+	var captured := {"explicitly": null}
+	manager.tools_discarded.connect(
+		func(_tool_datas: Variant, explicit: bool) -> void: captured["explicitly"] = explicit
+	)
+
+	await manager.discard_cards(hand_snapshot, null, false)
+
+	assert_eq(captured["explicitly"], false,
+		"discard_cards should forward explicit=false (e.g. end-of-turn cleanup)")
+	container.free()
+
+#endregion
+
+
+#region draw_cards
+
+func test_draw_cards_emits_tools_drawn_with_results() -> void:
+	var ctx := _setup_manager_with_hand([])
+	var manager: ToolManager = ctx["manager"]
+	var container: FakeGUIToolCardContainer = ctx["container"]
+	var td := _make_tool_data("extra")
+	manager.tool_deck.add_items_to_draw_pile([td], false)
+
+	var emit_counter := {"value": 0, "size": -1}
+	manager.tools_drawn.connect(func(tools: Array) -> void:
+		emit_counter["value"] += 1
+		emit_counter["size"] = tools.size())
+
+	await manager.draw_cards(1, false, null)
+
+	assert_eq(emit_counter["value"], 1, "tools_drawn should have fired once")
+	assert_eq(emit_counter["size"], 1)
+	container.free()
+
+#endregion
+
+
+#region exhaust_cards
+
+func test_exhaust_cards_emits_tools_exhausted() -> void:
+	var ctx := _setup_manager_with_hand(["a", "b"])
+	var manager: ToolManager = ctx["manager"]
+	var container: FakeGUIToolCardContainer = ctx["container"]
+	var hand_snapshot: Array = ctx["hand"].duplicate()
+
+	var emit_counter := {"value": 0, "size": -1}
+	manager.tools_exhausted.connect(func(tools: Array) -> void:
+		emit_counter["value"] += 1
+		emit_counter["size"] = tools.size())
+
+	await manager.exhaust_cards(hand_snapshot, null)
+
+	assert_eq(emit_counter["value"], 1, "tools_exhausted should fire once via Deck re-emit")
+	assert_eq(emit_counter["size"], 2)
 	container.free()
 
 #endregion

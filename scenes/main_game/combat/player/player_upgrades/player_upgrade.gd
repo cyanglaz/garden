@@ -43,7 +43,7 @@ func queue_activation_hook() -> void:
 func has_pool_updated_hook(combat_main:CombatMain, pool:Array) -> bool:
 	return _has_pool_updated_hook(combat_main, pool)
 
-func queue_pool_updated_hook( pool:Array) -> void:
+func queue_pool_updated_hook(pool:Array) -> void:
 	var request = CombatQueueRequest.new()
 	request.front = true
 	request.callback = func(combat_main:CombatMain) -> void: await _handle_pool_updated_hook(combat_main, pool)

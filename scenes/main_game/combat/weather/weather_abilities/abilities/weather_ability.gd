@@ -26,7 +26,6 @@ func hide_icon() -> void:
 	_weather_ability_icon.hide()
 
 func apply_to_player(combat_main:CombatMain) -> void:
-	print("apply_to_player")
 	var player_actions:Array = weather_ability_data.action_datas.filter(func(action:ActionData): return action.action_category == ActionData.ActionCategory.PLAYER)
 	if player_actions.is_empty():
 		await _apply_to_player_with_script(combat_main)
@@ -52,7 +51,6 @@ func _apply_next_player_action(combat_main:CombatMain) -> void:
 		_pending_actions.clear()
 		_action_index = 0
 		return
-	print("apply_next_player_action", _action_index)
 	var action:ActionData = _pending_actions[_action_index].get_duplicate()
 	action.value += level
 	_action_index += 1
