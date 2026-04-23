@@ -117,13 +117,7 @@ func queue_tool_application_hooks(plant:Plant) -> void:
 	)
 	tool_application_queue.reverse()
 	for field_status:FieldStatus in tool_application_queue:
-		var request = CombatQueueRequest.new()
-		request.front = true
-		request.callback = func(combat_main:CombatMain) -> void: 
-			await _send_hook_animation_signals(field_status.status_data)
-			await field_status.handle_tool_application_hook(plant, combat_main)
-			_handle_status_on_trigger(field_status)
-		Events.request_combat_queue_push.emit(request)
+		field_status.queue_tool_application_hook(plant)
 
 func handle_tool_discard_hook(plant:Plant, count:int, combat_main:CombatMain) -> void:
 	_tool_discard_hook_queue = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:

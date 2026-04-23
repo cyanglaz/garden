@@ -10,5 +10,4 @@ func _handle_tool_application_hook(plant:Plant, combat_main:CombatMain) -> void:
 	action.type = ActionData.ActionType.LIGHT
 	action.operator_type = ActionData.OperatorType.INCREASE
 	action.value = light_gain
-	assert(false, "TODO: Implement field status greenhouse tool application hook with combat main")
 	await plant.apply_actions([action], combat_main)

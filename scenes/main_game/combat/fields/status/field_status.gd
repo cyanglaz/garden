@@ -47,10 +47,17 @@ func has_tool_application_hook(plant:Plant) -> bool:
 		return false
 	return _has_tool_application_hook(plant)
 
-func handle_tool_application_hook(plant:Plant, combat_main:CombatMain) -> void:
-	if not active:
-		return
-	await _handle_tool_application_hook(plant, combat_main)
+func queue_tool_application_hook(plant:Plant) -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: 
+		if not active:
+			return
+		request_icon_animation.emit(status_data)
+		await Util.create_scaled_timer(Constants.FIELD_STATUS_HOOK_ANIMATION_DURATION).timeout
+		await _handle_tool_application_hook(plant, combat_main)
+		triggered.emit()
+	Events.request_combat_queue_push.emit(request)
 
 func has_tool_discard_hook(count:int, plant:Plant) -> bool:
 	if not active:
