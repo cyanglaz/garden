@@ -28,8 +28,10 @@ func animate_hide() -> void:
 	hide()
 
 func _get_panel_width() -> float:
-	var item := _grid_container.get_child(0) as Control
-	var item_width := item.get_combined_minimum_size().x
+	var item_width = 0
+	if _grid_container.get_child_count() > 0:
+		var item := _grid_container.get_child(0) as Control
+		item_width = item.get_combined_minimum_size().x
 	var h_sep := _grid_container.get_theme_constant("h_separation")
 	var margin_h := _margin_container.get_theme_constant("margin_left") \
 				+ _margin_container.get_theme_constant("margin_right")
