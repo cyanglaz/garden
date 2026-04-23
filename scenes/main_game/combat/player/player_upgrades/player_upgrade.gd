@@ -113,6 +113,7 @@ func has_start_turn_hook(combat_main:CombatMain) -> bool:
 
 func queue_start_turn_hook() -> void:
 	var request = CombatQueueRequest.new()
+	request.front = false
 	request.callback = func(combat_main:CombatMain) -> void: await _handle_start_turn_hook(combat_main)
 	Events.request_combat_queue_push.emit(request)
 
@@ -154,6 +155,7 @@ func has_combat_end_hook(combat_main:CombatMain) -> bool:
 
 func queue_combat_end_hook() -> void:
 	var request = CombatQueueRequest.new()
+	request.front = false
 	request.callback = func(combat_main:CombatMain) -> void: await _handle_combat_end_hook(combat_main)
 	Events.request_combat_queue_push.emit(request)
 

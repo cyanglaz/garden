@@ -163,7 +163,6 @@ func queue_start_turn_hooks(combat_main:CombatMain) -> void:
 	var player_upgrades:Array = all_player_upgrades.filter(func(player_upgrade:PlayerUpgrade) -> bool:
 		return player_upgrade.has_start_turn_hook(combat_main)
 	)
-	player_upgrades.reverse()
 	for player_upgrade in player_upgrades:
 		player_upgrade.queue_start_turn_hook()
 

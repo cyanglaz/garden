@@ -87,7 +87,6 @@ func queue_end_turn_hooks(plant:Plant) -> void:
 	var end_turn_statuses:Array = get_active_statuses().filter(func(field_status:FieldStatus) -> bool:
 		return field_status.has_end_turn_hook(plant)
 	)
-	end_turn_statuses.reverse()
 	for field_status:FieldStatus in end_turn_statuses:
 		field_status.handle_end_turn_hook(plant)
 

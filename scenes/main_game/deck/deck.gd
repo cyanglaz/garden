@@ -107,6 +107,8 @@ func use(item:Variant) -> void:
 	in_use_item = item
 
 func exhaust(items:Array) -> void:
+	if items.is_empty():
+		return
 	for item:Variant in items:
 		if item == in_use_item:
 			in_use_item = null

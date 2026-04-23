@@ -97,7 +97,10 @@ func has_prevent_resource_update_value_hook(resource_id:String, plant:Plant, old
 func handle_prevent_resource_update_value_hook(resource_id:String, plant:Plant, old_value:int, new_value:int) -> bool:
 	if not active:
 		return false
-	return _handle_prevent_resource_update_value_hook(resource_id, plant, old_value, new_value)
+	request_icon_animation.emit(status_data)
+	var result:bool = _handle_prevent_resource_update_value_hook(resource_id, plant, old_value, new_value)
+	triggered.emit()
+	return result
 
 #region for override
 
