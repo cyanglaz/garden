@@ -35,6 +35,7 @@ func queue_tool_application(combat_main:CombatMain, tool_data:ToolData) -> void:
 			Events.request_combat_queue_push.emit(request)
 	var enchant_data:EnchantData = tool_data.enchant_data
 	if enchant_data:
+		# Enchant applies to all tools
 		assert(enchant_data.action_data, "Enchant data must have an action data")
 		_actions_applier.queue_actions([enchant_data.action_data], combat_main, tool_data)
 
