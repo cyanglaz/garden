@@ -138,6 +138,7 @@ func _show_popup_action_indicator(action_data:ActionData, combat_main:CombatMain
 func _apply_light_action(action:ActionData, combat_main:CombatMain) -> void:
 	var true_value := _get_action_true_value(action, combat_main)
 	var new_light_value := 0
+	var old_light_value := light.value
 	match action.operator_type:
 		ActionData.OperatorType.INCREASE:
 			new_light_value = light.value + true_value
@@ -145,6 +146,8 @@ func _apply_light_action(action:ActionData, combat_main:CombatMain) -> void:
 			new_light_value = light.value - true_value
 		ActionData.OperatorType.EQUAL_TO:
 			new_light_value = true_value
+	if field_status_container.handle_prevent_resource_update_value_hook("light", self, old_light_value, new_light_value):
+		return
 	await _show_popup_action_indicator(action, combat_main)
 	light.value = new_light_value
 
@@ -160,6 +163,8 @@ func _apply_water_action(action:ActionData, combat_main:CombatMain) -> void:
 		ActionData.OperatorType.EQUAL_TO:
 			new_water_value = true_value
 	var water_increasing := new_water_value - old_water_value > 0
+	if field_status_container.handle_prevent_resource_update_value_hook("water", self, old_water_value, new_water_value):
+		return
 	await _show_popup_action_indicator(action, combat_main)
 	water.value = new_water_value
 	if water_increasing:
