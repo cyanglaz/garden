@@ -4,9 +4,6 @@ extends FieldStatus
 const CONSECUTIVE_BALL_PROGRESS_DIFF := -0.05
 const RECYCLE_BALLS_SCENE = preload("res://scenes/main_game/combat/fields/status/status_components/recycle_balls.tscn")
 
-signal _adding_all_cards_finished()
-
-var _card_added := -1
 var _recycle_balls:Array
 
 func update_for_plant(plant:Plant) -> void:
@@ -24,15 +21,8 @@ func _handle_add_water_hook(plant:Plant) -> void:
 	var cards:Array[ToolData] = []
 	for i in number_of_cards:
 		var tool_data_to_add:ToolData = tool_data.get_duplicate()
-		tool_data_to_add.adding_to_deck_finished.connect(_on_card_added_to_deck_finished)
 		cards.append(tool_data_to_add)
-	_card_added = number_of_cards
 	Events.request_add_tools_to_hand.emit(cards, from_position, true)
-
-func _on_card_added_to_deck_finished() -> void:
-	_card_added -= 1
-	if _card_added == 0:
-		_adding_all_cards_finished.emit()
 
 func _update_recycle_balls(plant:Plant) -> void:
 	var stack_diff:int = stack - _recycle_balls.size()

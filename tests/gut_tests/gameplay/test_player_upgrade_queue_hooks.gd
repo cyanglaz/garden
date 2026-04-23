@@ -165,13 +165,13 @@ func test_queue_pool_updated_hook_callback_forwards_pool() -> void:
 	assert_eq((u.last_pool[0] as ToolData).id, "foo")
 
 
-# ----- queue_discard_hooks / queue_exhaust_hook / queue_draw_hook -------------
+# ----- queue_discard_hook / queue_exhaust_hook / queue_draw_hook --------------
 
-func test_queue_discard_hooks_emits_front_request_and_forwards_tool_datas() -> void:
+func test_queue_discard_hook_emits_front_request_and_forwards_tool_datas() -> void:
 	var u := _make_upgrade()
 	var tool_data := ToolData.new()
 	var capture := _capture_queue_requests()
-	u.queue_discard_hooks([tool_data])
+	u.queue_discard_hook([tool_data])
 	_disconnect_capture(capture)
 	assert_eq(capture.requests.size(), 1)
 	assert_true((capture.requests[0] as CombatQueueRequest).front)
