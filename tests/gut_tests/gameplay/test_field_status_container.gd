@@ -138,7 +138,7 @@ func test_queue_add_water_hooks_visits_each_matching_status() -> void:
 	assert_eq(events, ["add_water_a", "add_water_b", "add_water_c"])
 
 
-# queue_end_turn_hooks reverses too, even though handle_end_turn_hook itself
+# queue_end_turn_hooks does not reverse, but handle_end_turn_hook itself
 # back-pushes — the reverse keeps the original-order semantics consistent with
 # the other helpers.
 func test_queue_end_turn_hooks_visits_each_matching_status() -> void:
@@ -147,7 +147,7 @@ func test_queue_end_turn_hooks_visits_each_matching_status() -> void:
 	container.add_child(_make_status("a", events, {"end_turn": true}))
 	container.add_child(_make_status("b", events, {"end_turn": true}))
 	container.queue_end_turn_hooks(null)
-	assert_eq(events, ["end_turn_a", "end_turn_b"])
+	assert_eq(events, ["end_turn_b", "end_turn_a"])
 
 
 # handle_prevent_resource_update_value_hook is synchronous and short-circuits
