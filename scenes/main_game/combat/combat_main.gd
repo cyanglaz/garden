@@ -432,7 +432,7 @@ func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
 	# The hp is handled by the main game
 	player.update_hp(val, operation)
 	if operation == ActionData.OperatorType.DECREASE:
-		player.player_upgrades_manager.handle_damage_taken_hook(self, abs(val))
+		player.player_upgrades_manager.queue_damage_taken_hook(self, abs(val))
 
 func _on_request_energy_update(val:int, operation:ActionData.OperatorType) -> void:
 	match operation:
@@ -445,10 +445,11 @@ func _on_request_energy_update(val:int, operation:ActionData.OperatorType) -> vo
 	player.update_energy(val, operation)
 
 func _on_player_player_upgrade_activated(player_upgrade:PlayerUpgrade) -> void:
-	player_upgrade.handle_activation_hook(self)
+	if player_upgrade.has_activation_hook(self):
+		player_upgrade.queue_activation_hook()
 
 func _on_player_player_upgrade_stack_updated(id:String, diff:int) -> void:
-	player.player_upgrades_manager.handle_stack_update_hook(self, id, diff)
+	player.player_upgrades_manager.queue_stack_update_hook(self, id, diff)
 
 func _on_plant_light_updated(_plant:Plant, _from_value:int, _to_value:int) -> void:
 	tool_manager.refresh_cards_ui(self)

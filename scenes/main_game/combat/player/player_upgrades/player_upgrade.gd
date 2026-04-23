@@ -34,8 +34,11 @@ func queue_pre_tool_application_hook(tool_data:ToolData) -> void:
 func has_activation_hook(combat_main:CombatMain) -> bool:
 	return _has_activation_hook(combat_main)
 
-func handle_activation_hook(combat_main:CombatMain) -> void:
-	await _handle_activation_hook(combat_main)
+func queue_activation_hook() -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_activation_hook(combat_main)
+	Events.request_combat_queue_push.emit(request)
 
 func has_pool_updated_hook(combat_main:CombatMain, pool:Array) -> bool:
 	return _has_pool_updated_hook(combat_main, pool)
@@ -76,8 +79,11 @@ func queue_draw_hook(tool_datas:Array) -> void:
 func has_stack_update_hook(combat_main:CombatMain, id:String, diff:int) -> bool:
 	return _has_stack_update_hook(combat_main, id, diff)
 
-func handle_stack_update_hook(combat_main:CombatMain, id:String, diff:int) -> void:
-	await _handle_stack_update_hook(combat_main, id, diff)
+func queue_stack_update_hook(id:String, diff:int) -> void:
+	var request = CombatQueueRequest.new()
+	request.front = true
+	request.callback = func(combat_main:CombatMain) -> void: await _handle_stack_update_hook(combat_main, id, diff)
+	Events.request_combat_queue_push.emit(request)
 
 func has_target_plant_water_update_hook(combat_main:CombatMain, plant:Plant, diff:int) -> bool:
 	return _has_target_plant_water_update_hook(combat_main, plant, diff)
@@ -137,7 +143,7 @@ func queue_plant_bloom_hook() -> void:
 func has_damage_taken_hook(combat_main:CombatMain, damage:int) -> bool:
 	return _has_damage_taken_hook(combat_main, damage)
 
-func handle_damage_taken_hook(damage:int) -> void:
+func queue_damage_taken_hook(damage:int) -> void:
 	var request = CombatQueueRequest.new()
 	request.front = true
 	request.callback = func(combat_main:CombatMain) -> void: await _handle_damage_taken_hook(combat_main, damage)

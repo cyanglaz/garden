@@ -30,10 +30,6 @@ func queue_pool_updated_hooks(pool:Array, combat_main:CombatMain) -> void:
 	for container in player_upgrade_containers:
 		container.queue_pool_updated_hooks(combat_main, pool)
 
-func handle_activation_hook(combat_main:CombatMain) -> void:
-	for container in player_upgrade_containers:
-		await container.handle_activation_hook(combat_main)
-
 func queue_discard_hooks(combat_main:CombatMain, tool_datas:Array) -> void:
 	for container in player_upgrade_containers:
 		container.queue_discard_hooks(combat_main, tool_datas)
@@ -46,13 +42,9 @@ func queue_draw_hooks(combat_main:CombatMain, tool_datas:Array) -> void:
 	for container in player_upgrade_containers:
 		container.queue_draw_hooks(combat_main, tool_datas)
 
-func handle_stack_update_hook(combat_main:CombatMain, id:String, diff:int) -> void:
+func queue_stack_update_hook(combat_main:CombatMain, id:String, diff:int) -> void:
 	for container in player_upgrade_containers:
-		await container.handle_stack_update_hook(combat_main, id, diff)
-
-func _handle_next_stack_update_hook(combat_main:CombatMain, id:String, diff:int) -> void:
-	for container in player_upgrade_containers:
-		await container.handle_stack_update_hook(combat_main, id, diff)	
+		container.queue_stack_update_hook(combat_main, id, diff)
 
 func queue_player_move_hooks(main_game:CombatMain) -> void:
 	for container in player_upgrade_containers:
@@ -78,9 +70,9 @@ func queue_plant_bloom_hooks(combat_main:CombatMain) -> void:
 	for container in player_upgrade_containers:
 		container.queue_plant_bloom_hooks(combat_main)
 
-func handle_damage_taken_hook(combat_main:CombatMain, damage:int) -> void:
+func queue_damage_taken_hook(combat_main:CombatMain, damage:int) -> void:
 	for container in player_upgrade_containers:
-		container.handle_damage_taken_hook(combat_main, damage)
+		container.queue_damage_taken_hook(combat_main, damage)
 
 func handle_hand_size_hook(combat_main: CombatMain) -> int:
 	var diff := 0
