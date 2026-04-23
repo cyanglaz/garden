@@ -37,7 +37,8 @@ func queue_tool_application(combat_main:CombatMain, tool_data:ToolData) -> void:
 	if enchant_data:
 		# Enchant applies to all tools
 		assert(enchant_data.action_data, "Enchant data must have an action data")
-		_actions_applier.queue_actions([enchant_data.action_data], combat_main, tool_data)
+		if enchant_data.action_data:
+			_actions_applier.queue_actions([enchant_data.action_data], combat_main, tool_data)
 
 func _apply_tool_script(combat_main:CombatMain, tool_data:ToolData) -> void:
 	var secondary_card_datas:Array = []
