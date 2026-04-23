@@ -10,18 +10,25 @@ func bind_with_player_status_container(player_status_container:PlayerStatusConta
 
 func _on_player_upgrades_updated(player_status_container:PlayerStatusContainer) -> void:
 	var existing_icons:Array = get_children()
-	for player_status:PlayerStatus in player_status_container.get_all_player_upgrades():
-		var existing_icon_index:int = Util.array_find(existing_icons, func(icon:GUIPlayerStatus) -> bool: return icon.player_status_id == player_status.data.id)
-		if existing_icon_index == -1:
+	var existing_map := {}
+	for icon:GUIPlayerStatus in existing_icons:
+		existing_map[icon.player_status_id] = icon
+
+	var current_upgrades := player_status_container.get_all_player_upgrades()
+	var current_ids := {}
+
+	for player_status:PlayerStatus in current_upgrades:
+		var status_id:String = player_status.data.id
+		current_ids[status_id] = true
+		if existing_map.has(status_id):
+			existing_map[status_id].update_with_player_status_data(player_status.data)
+		else:
 			var gui_player_status:GUIPlayerStatus = PLAYER_STATUS_SCENE.instantiate()
 			add_child(gui_player_status)
 			gui_player_status.update_with_player_status_data(player_status.data)
-		else:
-			var existing_icon:GUIPlayerStatus = existing_icons[existing_icon_index]
-			existing_icon.update_with_player_status_data(player_status.data)
-	
+
 	for existing_icon:GUIPlayerStatus in existing_icons:
-		if Util.array_find(player_status_container.get_all_player_upgrades(), func(player_status:PlayerStatus) -> bool: return player_status.data.id == existing_icon.player_status_id) == -1:
+		if not current_ids.has(existing_icon.player_status_id):
 			existing_icon.queue_free()
 
 func _on_player_upgrade_hook_animation_requested(player_upgrade_id:String) -> void:

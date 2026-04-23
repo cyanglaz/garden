@@ -54,7 +54,7 @@ func _handle_discard_card_action(_action:ActionData, combat_main:CombatMain, sec
 		await Util.await_for_tiny_time()
 		return
 	await combat_main.discard_cards(secondary_card_datas)
-	await combat_main.plant_field_container.trigger_tool_discard_hook(discard_size, combat_main)
+	combat_main.plant_field_container.queue_tool_application_hooks()
 
 func _handle_compost_action(_action:ActionData, combat_main:CombatMain, secondary_card_datas:Array) -> void:
 	var discard_size := secondary_card_datas.size()
