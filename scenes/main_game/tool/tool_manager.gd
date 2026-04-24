@@ -204,7 +204,7 @@ func _run_tool_stage_finish(combat_main:CombatMain, tool_data:ToolData, stage_co
 	number_of_card_used_this_turn += 1
 	tool_application_success.emit(tool_data)
 	await _run_card_lifecycle(tool_data, combat_main)
-	_handle_tool_application_completed(tool_data, combat_main)
+	await _handle_tool_application_completed(tool_data, combat_main)
 
 func _can_execute_queued_tool(tool_data:ToolData) -> bool:
 	if !tool_deck.hand.has(tool_data):
