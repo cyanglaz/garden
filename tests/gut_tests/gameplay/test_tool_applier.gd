@@ -49,7 +49,7 @@ func _make_tool(id: String, tool_script: ToolScript = null, type: ToolData.Type 
 	td.id = id
 	td.type = type
 	if tool_script:
-		td.tool_script = tool_script
+		td._tool_script = tool_script
 	return td
 
 
@@ -133,7 +133,7 @@ func test_queue_tool_application_skill_no_script_queues_one_per_action() -> void
 		_make_action(ActionData.ActionType.WATER),
 	]
 	var capture := _capture_queue_requests()
-	applier.queue_tool_application(null, td)
+	applier.queue_tool_application(null, td, {"skip": false})
 	_disconnect_capture(capture)
 	# Each action becomes its own CombatQueueRequest via ActionsApplier.queue_actions.
 	assert_eq(capture.requests.size(), 2)
@@ -142,7 +142,7 @@ func test_queue_tool_application_skill_with_script_queues_one_request() -> void:
 	var applier := ToolApplier.new()
 	var td := _make_tool("scripted_skill", _ScriptNoSelection.new())
 	var capture := _capture_queue_requests()
-	applier.queue_tool_application(null, td)
+	applier.queue_tool_application(null, td, {"skip": false})
 	_disconnect_capture(capture)
 	assert_eq(capture.requests.size(), 1)
 	assert_true((capture.requests[0] as CombatQueueRequest).callback.is_valid())
@@ -151,7 +151,7 @@ func test_queue_tool_application_power_queues_one_request() -> void:
 	var applier := ToolApplier.new()
 	var td := _make_tool("some_power", null, ToolData.Type.POWER)
 	var capture := _capture_queue_requests()
-	applier.queue_tool_application(null, td)
+	applier.queue_tool_application(null, td, {"skip": false})
 	_disconnect_capture(capture)
 	assert_eq(capture.requests.size(), 1)
 
@@ -175,7 +175,7 @@ func test_queue_tool_application_skill_no_script_with_enchant_queues_extra_reque
 	]
 	td.enchant_data = _make_enchant(ActionData.ActionType.DEW)
 	var capture := _capture_queue_requests()
-	applier.queue_tool_application(null, td)
+	applier.queue_tool_application(null, td, {"skip": false})
 	_disconnect_capture(capture)
 	# 2 for the tool's own actions + 1 for the enchant action.
 	assert_eq(capture.requests.size(), 3)
@@ -186,7 +186,7 @@ func test_queue_tool_application_skill_no_script_no_enchant_queues_only_actions(
 	td.actions = [_make_action(ActionData.ActionType.ENERGY)]
 	# Explicitly leave enchant_data unset (null) — no extra request should be queued.
 	var capture := _capture_queue_requests()
-	applier.queue_tool_application(null, td)
+	applier.queue_tool_application(null, td, {"skip": false})
 	_disconnect_capture(capture)
 	assert_eq(capture.requests.size(), 1)
 
@@ -195,7 +195,7 @@ func test_queue_tool_application_skill_with_script_and_enchant_queues_both() -> 
 	var td := _make_tool("scripted_enchanted", _ScriptNoSelection.new())
 	td.enchant_data = _make_enchant(ActionData.ActionType.ENERGY)
 	var capture := _capture_queue_requests()
-	applier.queue_tool_application(null, td)
+	applier.queue_tool_application(null, td, {"skip": false})
 	_disconnect_capture(capture)
 	# 1 for the tool_script callback + 1 for the enchant action.
 	assert_eq(capture.requests.size(), 2)
@@ -205,7 +205,7 @@ func test_queue_tool_application_power_with_enchant_queues_both() -> void:
 	var td := _make_tool("power_enchanted", null, ToolData.Type.POWER)
 	td.enchant_data = _make_enchant(ActionData.ActionType.WATER)
 	var capture := _capture_queue_requests()
-	applier.queue_tool_application(null, td)
+	applier.queue_tool_application(null, td, {"skip": false})
 	_disconnect_capture(capture)
 	# 1 for the power upgrade callback + 1 for the enchant action.
 	assert_eq(capture.requests.size(), 2)
@@ -238,3 +238,13 @@ func test_apply_tool_script_calls_apply_tool_when_zero_secondary_cards_needed() 
 		"apply_tool must run for tool_scripts that don't select secondary cards")
 	assert_eq(script.last_secondary_card_datas, [],
 		"secondary_card_datas should be empty when the script doesn't need any")
+
+func test_queued_tool_script_noops_when_context_skipped() -> void:
+	var applier := ToolApplier.new()
+	var script := _ScriptNoSelectionCounting.new()
+	var td := _make_tool("skipped_script", script)
+	var capture := _capture_queue_requests()
+	applier.queue_tool_application(null, td, {"skip": true})
+	_disconnect_capture(capture)
+	await (capture.requests[0] as CombatQueueRequest).callback.call(null)
+	assert_eq(script.apply_call_count, 0)

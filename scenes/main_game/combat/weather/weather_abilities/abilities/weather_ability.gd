@@ -8,9 +8,6 @@ var plant_actions_applier:PlantActionApplier = PlantActionApplier.new()
 var level:int = 0
 var field_index:int = -1: set = _set_field_index
 
-var _pending_actions:Array[ActionData] = []
-var _action_index:int = 0
-
 @onready var _weather_ability_icon: WeatherAbilityIcon = %WeatherAbilityIcon
 
 var weather_ability_data:WeatherAbilityData
@@ -30,14 +27,18 @@ func queue_player_actions(combat_main:CombatMain) -> void:
 	if player_actions.is_empty():
 		var script_request = CombatQueueRequest.new()
 		script_request.front = true
+		script_request.category = Constants.WEATHER_QUEUE_CATEGORY
 		script_request.callback = func(_cm: CombatMain) -> void: await _apply_to_player_with_script(combat_main)
 		Events.request_combat_queue_push.emit(script_request)
 		return
 	player_actions.reverse()
 	for action:ActionData in player_actions:
+		var action_copy:ActionData = action.get_duplicate()
+		action_copy.value += level
 		var request = CombatQueueRequest.new()
 		request.front = true
-		request.callback = func(_cm: CombatMain) -> void: await player_actions_applier.apply_action(action, combat_main, [])
+		request.category = Constants.WEATHER_QUEUE_CATEGORY
+		request.callback = func(_cm: CombatMain) -> void: await player_actions_applier.apply_action(action_copy, combat_main, [])
 		Events.request_combat_queue_push.emit(request)
 
 func queue_plant_actions(plant:Plant, combat_main:CombatMain) -> void:
@@ -45,15 +46,19 @@ func queue_plant_actions(plant:Plant, combat_main:CombatMain) -> void:
 	if plant_actions.is_empty():
 		var script_request = CombatQueueRequest.new()
 		script_request.front = true
+		script_request.category = Constants.WEATHER_QUEUE_CATEGORY
 		script_request.callback = func(_cm: CombatMain) -> void: await _apply_to_plant_with_script(plant, combat_main)
 		Events.request_combat_queue_push.emit(script_request)
-		return
-	plant_actions.reverse()
-	for action:ActionData in plant_actions:
-		var request = CombatQueueRequest.new()
-		request.front = true
-		request.callback = func(_cm: CombatMain) -> void: await plant_actions_applier.apply_action(action, plant, combat_main)
-		Events.request_combat_queue_push.emit(request)
+	else:
+		plant_actions.reverse()
+		for action:ActionData in plant_actions:
+			var action_copy:ActionData = action.get_duplicate()
+			action_copy.value += level
+			var request = CombatQueueRequest.new()
+			request.front = true
+			request.category = Constants.WEATHER_QUEUE_CATEGORY
+			request.callback = func(_cm: CombatMain) -> void: await plant_actions_applier.apply_action(action_copy, plant, combat_main)
+			Events.request_combat_queue_push.emit(request)
 
 #region for override
 

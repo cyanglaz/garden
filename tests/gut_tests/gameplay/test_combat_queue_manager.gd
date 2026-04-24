@@ -412,6 +412,20 @@ func test_clear_items_by_category_noop_when_category_absent() -> void:
 	assert_eq(q.get_queue_size(), size_before)
 
 
+func test_clear_items_by_category_keeps_processing_items() -> void:
+	var cm := _make_combat_main()
+	var q := _make_queue(cm)
+	var processing_item := _make_category_item(func(_c: CombatMain) -> void: pass, "weather")
+	processing_item.is_processing = true
+	var queued_item := _make_category_item(func(_c: CombatMain) -> void: pass, "weather")
+	q._queue = [processing_item, queued_item]
+
+	q.clear_items_by_category("weather")
+
+	assert_eq(q.get_queue_size(), 1)
+	assert_eq(q._queue[0], processing_item)
+
+
 # ----- stop flag --------------------------------------------------------------
 
 func test_stop_flag_blocks_new_push_request() -> void:

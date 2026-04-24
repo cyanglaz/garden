@@ -159,11 +159,16 @@ func test_end_turn_sequence_enqueues_pipeline_and_cleanup_schedules_start_turn()
 
 	var capture := _capture_queue_requests()
 	cm._end_turn()
-	assert_eq(capture.requests.size(), 3)
+	assert_eq(capture.requests.size(), 1)
 
-	var night_fall_request: CombatQueueRequest = capture.requests[0]
-	var discard_all_cards_request: CombatQueueRequest = capture.requests[1]
-	var end_turn_cleanup_request: CombatQueueRequest = capture.requests[2]
+	var post_weather_request: CombatQueueRequest = capture.requests[0]
+	assert_true(post_weather_request.callback.is_valid())
+	await post_weather_request.callback.call(cm)
+	assert_eq(capture.requests.size(), 4)
+
+	var night_fall_request: CombatQueueRequest = capture.requests[1]
+	var discard_all_cards_request: CombatQueueRequest = capture.requests[2]
+	var end_turn_cleanup_request: CombatQueueRequest = capture.requests[3]
 	assert_true(night_fall_request.callback.is_valid())
 	assert_true(discard_all_cards_request.callback.is_valid())
 	assert_true(end_turn_cleanup_request.callback.is_valid())
@@ -174,17 +179,19 @@ func test_end_turn_sequence_enqueues_pipeline_and_cleanup_schedules_start_turn()
 	_disconnect_capture(capture)
 
 	assert_false(cm.is_mid_turn)
-	assert_eq(cm.energy_tracker.value, 3)
 	assert_eq(fake_player.end_turn_calls, 1)
 	assert_eq(fake_field.end_turn_hook_calls, 1)
 	assert_eq(fake_weather.apply_calls, 1)
 	assert_eq(fake_weather.night_fall_calls, 1)
 	assert_false(cm.tool_manager.card_use_limit_reached)
-	assert_eq(capture.requests.size(), 5)
+	assert_eq(capture.requests.size(), 7)
 
-	var new_day_request: CombatQueueRequest = capture.requests[3]
-	var start_turn_request: CombatQueueRequest = capture.requests[4]
+	var new_day_request: CombatQueueRequest = capture.requests[4]
+	var restore_energy_request: CombatQueueRequest = capture.requests[5]
+	var start_turn_request: CombatQueueRequest = capture.requests[6]
 	await new_day_request.callback.call(cm)
+	await restore_energy_request.callback.call(cm)
 	await start_turn_request.callback.call(cm)
+	assert_eq(cm.energy_tracker.value, 3)
 	assert_eq(fake_weather.new_day_calls, 1)
 	assert_eq(cm.start_turn_calls, 1)

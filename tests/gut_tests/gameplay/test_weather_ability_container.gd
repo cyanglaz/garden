@@ -15,15 +15,13 @@ class FakeWeatherAbility extends WeatherAbility:
 	func hide_icon() -> void:
 		hide_icon_calls += 1
 
-	func apply_to_player(_combat_main: CombatMain) -> void:
+	func queue_player_actions(_combat_main: CombatMain) -> void:
 		apply_to_player_calls += 1
 		apply_log.append("player_%s" % marker)
-		await Util.await_for_tiny_time()
 
-	func apply_to_plant(_plant: Plant, _combat_main: CombatMain) -> void:
+	func queue_plant_actions(_plant: Plant, _combat_main: CombatMain) -> void:
 		apply_to_plant_calls += 1
 		apply_log.append("plant_%s" % marker)
-		await Util.await_for_tiny_time()
 
 
 class FakeWeatherAnimationContainer extends WeatherAbilityAnimationContainer:
