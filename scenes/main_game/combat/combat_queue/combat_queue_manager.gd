@@ -26,7 +26,8 @@ func find_items_by_category(category: String) -> Array:
 
 func clear_items_by_category(category: String) -> void:
 	var items := find_items_by_category(category)
-	for item in items:
+	var non_processing_items: Array = items.filter(func(item: CombatQueueItem) -> bool: return !item.is_processing)
+	for item in non_processing_items:
 		_queue.erase(item)
 
 func is_queue_busy() -> bool:
@@ -122,7 +123,9 @@ func _drain_queue() -> void:
 	_processing = true
 	while not _queue.is_empty():
 		var item := _queue.pop_front() as CombatQueueItem
+		item.is_processing = true
 		await _dispatch(item)
+		item.is_processing = false
 		if !item.unique_id.is_empty():
 			_queued_unique_ids.erase(item.unique_id)
 	_processing = false

@@ -36,6 +36,7 @@ var _max_hand_warning_timer:SceneTreeTimer = null
 var _owned_trinkets:Array
 
 var is_mid_turn:bool = false: set = _set_is_mid_turn
+var _level_completed := false
 
 # From main_game:
 var max_energy := 3
@@ -174,36 +175,49 @@ func _end_turn() -> void:
 	player.queue_handle_turn_end(self)
 	plant_field_container.queue_end_turn_abilities(self)
 	weather_main.queue_weather_abilities()
+	_queue_end_turn_post_weather_actions()
 
-	# Night fall
-	_queue_night_fall()
-
-	# Turn End Cards
-	_queue_turn_end_cards()
-	_queue_discard_all_cards(true)
-
-	# Clean up and start new turn if not win
-	_queue_end_turn_cleanup()
+func _queue_end_turn_post_weather_actions() -> void:
+	var request = CombatQueueRequest.new()
+	request.callback = func(_cm: CombatMain) -> void: 
+		if _level_completed:
+			return
+		_queue_night_fall()
+		_queue_turn_end_cards()
+		_queue_discard_all_cards(true)
+		_queue_end_turn_cleanup()
+	Events.request_combat_queue_push.emit(request)
 
 func _queue_night_fall() -> void:
 	var night_fall_request = CombatQueueRequest.new()
 	night_fall_request.callback = func(_cm: CombatMain) -> void: 
+		if _level_completed:
+			return
 		await weather_main.night_fall()
 	Events.request_combat_queue_push.emit(night_fall_request)
 
 func _queue_weather_start_new_day() -> void:
 	var request = CombatQueueRequest.new()
-	request.callback = func(_cm: CombatMain) -> void: await weather_main.new_day()
+	request.callback = func(_cm: CombatMain) -> void: 
+		if _level_completed:
+			return
+		await weather_main.new_day()
 	Events.request_combat_queue_push.emit(request)
 
 func _queue_restore_energy() -> void:
 	var request = CombatQueueRequest.new()
-	request.callback = func(_cm: CombatMain) -> void: energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
+	request.callback = func(_cm: CombatMain) -> void: 
+		if _level_completed:
+			return
+		energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
 	Events.request_combat_queue_push.emit(request)
 
 func _queue_start_turn() -> void:
 	var request = CombatQueueRequest.new()
-	request.callback = func(_cm: CombatMain) -> void: _start_turn()
+	request.callback = func(_cm: CombatMain) -> void: 
+		if _level_completed:
+			return
+		_start_turn()
 	Events.request_combat_queue_push.emit(request)
 
 func _queue_turn_end_cards() -> void:
@@ -234,12 +248,13 @@ func _queue_discard_all_cards(exclude_handy:bool) -> void:
 
 func _win() -> void:
 	is_mid_turn = false
+	_level_completed = true
 	combat_queue_manager.clear_items_by_category(Constants.WEATHER_QUEUE_CATEGORY)
 	_fade_music(false)
 	player.player_upgrades_manager.queue_combat_end_hooks(self)
-	weather_main.level_end_stop()
-	session_summary.total_days += day_manager.day
+	_queue_weather_level_end_stop()
 	_queue_discard_all_cards(false)
+	session_summary.total_days += day_manager.day
 	_queue_show_reward()
 
 func _queue_show_reward() -> void:
@@ -255,6 +270,11 @@ func _queue_show_reward() -> void:
 		gui.animate_show_reward_main(_combat, owned_trinket_ids)
 	Events.request_combat_queue_push.emit(request)
 
+func _queue_weather_level_end_stop() -> void:
+	var request = CombatQueueRequest.new()
+	request.callback = func(_cm: CombatMain) -> void: weather_main.level_end_stop()
+	Events.request_combat_queue_push.emit(request)
+	
 func _clear_tool_selection() -> void:
 	tool_manager.clear_tool_selection()
 	gui.clear_tool_selection()
