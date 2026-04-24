@@ -171,7 +171,6 @@ func _queue_turn_start_signals() -> void:
 func _end_turn() -> void:
 	is_mid_turn = false
 	tool_manager.card_use_limit_reached = false
-	energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
 	player.queue_handle_turn_end(self)
 	plant_field_container.queue_end_turn_abilities(self)
 	weather_main.queue_weather_abilities()
@@ -197,6 +196,11 @@ func _queue_weather_start_new_day() -> void:
 	request.callback = func(_cm: CombatMain) -> void: await weather_main.new_day()
 	Events.request_combat_queue_push.emit(request)
 
+func _queue_restore_energy() -> void:
+	var request = CombatQueueRequest.new()
+	request.callback = func(_cm: CombatMain) -> void: energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
+	Events.request_combat_queue_push.emit(request)
+
 func _queue_start_turn() -> void:
 	var request = CombatQueueRequest.new()
 	request.callback = func(_cm: CombatMain) -> void: _start_turn()
@@ -213,6 +217,7 @@ func _queue_end_turn_cleanup() -> void:
 		tool_manager.cleanup_for_turn()
 		combat_modifier_manager.clear_for_turn()
 		_queue_weather_start_new_day()
+		_queue_restore_energy()
 		_queue_start_turn()
 	Events.request_combat_queue_push.emit(request)
 	

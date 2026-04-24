@@ -18,18 +18,23 @@ func can_tool_be_applied(tool_data:ToolData, hand:Array) -> bool:
 		return false
 	return true
 
-func queue_tool_application(combat_main:CombatMain, tool_data:ToolData) -> void:
+func queue_tool_application(combat_main:CombatMain, tool_data:ToolData, context:Dictionary) -> void:
 	match tool_data.type:
 		ToolData.Type.SKILL:
 			if tool_data.tool_script:
 				var request = CombatQueueRequest.new()
-				request.callback = func(_cm: CombatMain) -> void: await _apply_tool_script(combat_main, tool_data)
+				request.callback = func(_cm: CombatMain) -> void: 
+					if context["skip"]:
+						return
+					await _apply_tool_script(combat_main, tool_data)
 				Events.request_combat_queue_push.emit(request)
 			else:
-				_actions_applier.queue_actions(tool_data.actions, combat_main, tool_data)
+				_actions_applier.queue_actions(tool_data.actions, combat_main, tool_data, context)
 		ToolData.Type.POWER:
 			var request = CombatQueueRequest.new()
 			request.callback = func(_cm: CombatMain) -> void: 
+				if context["skip"]:
+					return
 				combat_main.player.player_status_container.update_player_upgrade(tool_data.id, 1, ActionData.OperatorType.INCREASE)
 				await Util.create_scaled_timer(Constants.GLOBAL_UPGRADE_PAUSE_TIME).timeout
 			Events.request_combat_queue_push.emit(request)
@@ -38,7 +43,7 @@ func queue_tool_application(combat_main:CombatMain, tool_data:ToolData) -> void:
 		# Enchant applies to all tools
 		assert(enchant_data.action_data, "Enchant data must have an action data")
 		if enchant_data.action_data:
-			_actions_applier.queue_actions([enchant_data.action_data], combat_main, tool_data)
+			_actions_applier.queue_actions([enchant_data.action_data], combat_main, tool_data, context)
 
 func _apply_tool_script(combat_main:CombatMain, tool_data:ToolData) -> void:
 	var secondary_card_datas:Array = []

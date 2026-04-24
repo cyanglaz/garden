@@ -46,7 +46,7 @@ const INTERACTIVE_SPECIALS := [Special.REVERSIBLE]
 
 var level_data:Dictionary # Data consists wihtin a level
 var cost:int : get = _get_cost
-var tool_script:ToolScript : get = _get_tool_script, set = _set_tool_script
+var tool_script:ToolScript : get = _get_tool_script
 var turn_energy_modifier:int
 var level_energy_modifier:int
 var has_tooltip:bool: get = _get_has_tooltip
@@ -164,9 +164,6 @@ func _get_tool_script() -> ToolScript:
 		return _tool_script
 	else:
 		return null
-
-func _set_tool_script(value:ToolScript) -> void:
-	_tool_script = value
 	
 func get_raw_description() -> String:
 	if type == Type.POWER:
