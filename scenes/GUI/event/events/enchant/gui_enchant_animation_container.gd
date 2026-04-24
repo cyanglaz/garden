@@ -14,6 +14,8 @@ const FINAL_CARD_SCALE_TIME := 0.2
 func play_animation(tool_data:ToolData, enchant_data:EnchantData, tool_global_position:Vector2, enchant_global_position:Vector2, new_tool_data:ToolData) -> void:
 	gui_tool_card_button.hide()
 	show()
+	gui_card_face.show()
+	gui_enchant_icon.show()
 	gui_card_face.update_with_tool_data(tool_data, null)
 	gui_card_face.global_position = tool_global_position
 	gui_enchant_icon.update_with_enchant_data(enchant_data, null)
