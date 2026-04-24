@@ -14,7 +14,7 @@ class FakeCombatMain extends CombatMain:
 
 # ----- has_start_turn_hook -----
 
-func test_has_hook_true_when_momentum_zero() -> void:
+func test_has_hook_true_when_free_move_zero() -> void:
 	var t := PlayerTrinketSpareWing.new()
 	add_child_autofree(t)
 	var fake_sc := FakePlayerStatusContainer.new()
@@ -27,12 +27,12 @@ func test_has_hook_true_when_momentum_zero() -> void:
 	cm.player = p
 	assert_true(t.has_start_turn_hook(cm))
 
-func test_has_hook_false_when_momentum_nonzero() -> void:
+func test_has_hook_false_when_free_move_nonzero() -> void:
 	var t := PlayerTrinketSpareWing.new()
 	add_child_autofree(t)
 	var fake_sc := FakePlayerStatusContainer.new()
 	autofree(fake_sc)
-	fake_sc._stacks["momentum"] = 2
+	fake_sc._stacks["free_move"] = 2
 	var p := Player.new()
 	autofree(p)
 	p.player_status_container = fake_sc

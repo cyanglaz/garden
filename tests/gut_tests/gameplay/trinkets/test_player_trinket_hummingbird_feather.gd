@@ -8,7 +8,7 @@ func _make_trinket() -> PlayerTrinketHummingbirdFeather:
 	add_child_autofree(t)
 	var td := TrinketData.new()
 	td.data[&"threshold"] = "6"
-	td.data[&"momentum"] = "1"
+	td.data[&"free_move"] = "1"
 	t.data = td
 	return t
 

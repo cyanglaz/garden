@@ -1,4 +1,4 @@
-class_name PlayerStatusMomentum
+class_name PlayerStatusFreeMove
 extends PlayerStatus
 
 enum MoveDirection {

@@ -16,7 +16,7 @@ func _handle_damage_taken_hook(combat_main: CombatMain, _damage: int) -> void:
 	_triggered = true
 	_send_hook_animation_signals()
 	combat_main.player.player_status_container.update_player_upgrade(
-		"momentum", 2, ActionData.OperatorType.INCREASE)
+		"free_move", 2, ActionData.OperatorType.INCREASE)
 	data.state = TrinketData.TrinketState.NORMAL
 
 func _has_combat_end_hook(_combat_main: CombatMain) -> bool:

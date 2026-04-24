@@ -224,8 +224,8 @@ static func get_action_id_with_action_type(action_type:ActionData.ActionType) ->
 			id = "gain_gold"
 		ActionData.ActionType.UPDATE_HP:
 			id = "update_hp"
-		ActionData.ActionType.MOMENTUM:
-			id = "momentum"
+		ActionData.ActionType.FREE_MOVE:
+			id = "free_move"
 		ActionData.ActionType.ADD_CARD_DISCARD_PILE:
 			id = "add_card_discard_pile"
 		ActionData.ActionType.DROWNED:
@@ -274,8 +274,8 @@ static func get_action_type_from_action_id(action_id:String) -> ActionData.Actio
 			return ActionData.ActionType.UPDATE_GOLD
 		"update_hp":
 			return ActionData.ActionType.UPDATE_HP
-		"momentum":
-			return ActionData.ActionType.MOMENTUM
+		"free_move":
+			return ActionData.ActionType.FREE_MOVE
 		"add_card_discard_pile":
 			return ActionData.ActionType.ADD_CARD_DISCARD_PILE
 		"drowned":
@@ -326,8 +326,8 @@ static func get_action_name_from_action_type(action_type:ActionData.ActionType) 
 			action_name = Util.get_localized_string("ACTION_NAME_UPDATE_GOLD")
 		ActionData.ActionType.UPDATE_HP:
 			action_name = Util.get_localized_string("ACTION_NAME_UPDATE_HP")
-		ActionData.ActionType.MOMENTUM:
-			action_name = Util.get_localized_string("ACTION_NAME_MOMENTUM")
+		ActionData.ActionType.FREE_MOVE:
+			action_name = Util.get_localized_string("ACTION_NAME_FREE_MOVE")
 		ActionData.ActionType.ADD_CARD_DISCARD_PILE:
 			action_name = Util.get_localized_string("ACTION_NAME_ADD_CARD_DISCARD_PILE")
 		ActionData.ActionType.DROWNED:

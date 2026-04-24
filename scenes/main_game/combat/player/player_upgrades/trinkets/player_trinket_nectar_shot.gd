@@ -8,4 +8,4 @@ func _handle_start_turn_hook(combat_main: CombatMain) -> void:
 	assert(combat_main.day_manager.day == 0, "Nectar Shot should only trigger on turn 1")
 	_send_hook_animation_signals()
 	combat_main.player.player_status_container.update_player_upgrade(
-		"momentum", int(data.data[&"momentum"]), ActionData.OperatorType.INCREASE)
+		"free_move", int(data.data[&"free_move"]), ActionData.OperatorType.INCREASE)

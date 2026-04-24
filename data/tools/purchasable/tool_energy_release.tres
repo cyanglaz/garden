@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ToolData" format=3 uid="uid://c0grbjbkn5x6i"]
+[gd_resource type="Resource" script_class="ToolData" format=3 uid="uid://b82ou7jfwpq4j"]
 
 [ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_enrel"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_enrel"]
@@ -25,6 +25,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
 script = ExtResource("2_enrel")
+energy_cost = 0
 actions = Array[ExtResource("1_enrel")]([SubResource("Resource_enrel_light"), SubResource("Resource_enrel_water"), SubResource("Resource_enrel_energy")])
 rarity = 1
 id = "energy_release"

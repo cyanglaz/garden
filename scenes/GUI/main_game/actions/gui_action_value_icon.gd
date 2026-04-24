@@ -85,8 +85,8 @@ func update_for_x(x_value:int, x_value_type:ActionData.XValueType) -> void:
 			_value_icon.texture = load(RESOURCE_ICON_PATH + "pest.png")
 		ActionData.XValueType.PLAYER_ENERGY:
 			_value_icon.texture = load(RESOURCE_ICON_PATH + "energy.png")
-		ActionData.XValueType.PLAYER_MOMENTUM:
-			_value_icon.texture = load(RESOURCE_ICON_PATH + "momentum.png")
+		ActionData.XValueType.PLAYER_FREE_MOVE:
+			_value_icon.texture = load(RESOURCE_ICON_PATH + "free_move.png")
 		_:
 			assert(false, "Invalid x value type: %s" % x_value_type)
 

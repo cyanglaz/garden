@@ -35,7 +35,7 @@ func _ready() -> void:
 func setup(pd:PlayerData, mpi:int, trinket_datas:Array) -> void:
 	player_data = pd
 	max_plants_index = mpi
-	player_status_container.set_player_upgrade("momentum", pd.starting_movements)
+	player_status_container.set_player_upgrade("free_move", pd.starting_movements)
 	player_trinkets_container.setup_with_trinket_datas(trinket_datas)
 	player_upgrades_manager.setup([player_status_container, player_trinkets_container])
 
@@ -84,19 +84,19 @@ func update_energy(val:int, operation:ActionData.OperatorType) -> void:
 		ActionData.OperatorType.EQUAL_TO:
 			pass
 
-func _update_movement(move_direction:PlayerStatusMomentum.MoveDirection) -> void:
+func _update_movement(move_direction:PlayerStatusFreeMove.MoveDirection) -> void:
 	match move_direction:
-		PlayerStatusMomentum.MoveDirection.LEFT:
+		PlayerStatusFreeMove.MoveDirection.LEFT:
 			current_field_index -= 1
-		PlayerStatusMomentum.MoveDirection.RIGHT:
+		PlayerStatusFreeMove.MoveDirection.RIGHT:
 			current_field_index += 1
-	player_status_container.update_player_upgrade("momentum", 1, ActionData.OperatorType.DECREASE)
+	player_status_container.update_player_upgrade("free_move", 1, ActionData.OperatorType.DECREASE)
 
-func _on_movement_button_pressed(move_direction:PlayerStatusMomentum.MoveDirection, player_status_momentum:PlayerStatusMomentum) -> void:
-	player_status_momentum.toggle_buttons_visibility(false)
+func _on_movement_button_pressed(move_direction:PlayerStatusFreeMove.MoveDirection, player_status_free_move:PlayerStatusFreeMove) -> void:
+	player_status_free_move.toggle_buttons_visibility(false)
 	var request = CombatQueueRequest.new()
 	request.callback = func(_combat_main:CombatMain) -> void: 
-		player_status_momentum.toggle_buttons_visibility(true)
+		player_status_free_move.toggle_buttons_visibility(true)
 		_update_movement(move_direction)
 	request.unique_id = "movement_button_pressed"
 	Events.request_combat_queue_push.emit(request)
@@ -105,14 +105,14 @@ func _set_current_field_index(value:int) -> void:
 	assert(max_plants_index > 0)
 	var previous_index:int = current_field_index
 	current_field_index = value
-	var momentum_status:PlayerStatusMomentum = player_status_container.get_player_upgrade("momentum")
-	if momentum_status:
-		momentum_status.update_current_field_index(current_field_index, max_plants_index)
+	var free_move_status:PlayerStatusFreeMove = player_status_container.get_player_upgrade("free_move")
+	if free_move_status:
+		free_move_status.update_current_field_index(current_field_index, max_plants_index)
 	field_index_updated.emit(previous_index, current_field_index)
 
 func _on_player_upgrades_updated() -> void:
 	for player_status:PlayerStatus in player_status_container.get_all_player_upgrades():
-		if player_status.data.id == "momentum":
-			var player_status_momentum:PlayerStatusMomentum = player_status
-			if !player_status_momentum.button_pressed.is_connected(_on_movement_button_pressed.bind(player_status_momentum)):
-				player_status_momentum.button_pressed.connect(_on_movement_button_pressed.bind(player_status_momentum))
+		if player_status.data.id == "free_move":
+			var player_status_free_move:PlayerStatusFreeMove = player_status
+			if !player_status_free_move.button_pressed.is_connected(_on_movement_button_pressed.bind(player_status_free_move)):
+				player_status_free_move.button_pressed.connect(_on_movement_button_pressed.bind(player_status_free_move))

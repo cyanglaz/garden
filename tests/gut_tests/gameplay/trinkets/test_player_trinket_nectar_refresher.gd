@@ -11,7 +11,7 @@ func _make_trinket() -> PlayerTrinketNectarRefresher:
 	var t := PlayerTrinketNectarRefresher.new()
 	add_child_autofree(t)
 	var td := TrinketData.new()
-	td.data[&"momentum"] = "3"
+	td.data[&"free_move"] = "3"
 	t.data = td
 	return t
 
