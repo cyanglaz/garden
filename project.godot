@@ -32,6 +32,7 @@ config/version="0.0.1"
 run/main_scene="uid://dr6n15ja3p04f"
 config/features=PackedStringArray("4.6", "Mobile")
 boot_splash/use_filter=false
+config/icon="uid://6gutxbgtw64q"
 
 [aseprite]
 
