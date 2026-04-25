@@ -9,7 +9,7 @@ LUA="$SCRIPT_DIR/pad_canvas_1px.lua"
 
 IDS=(
     water light pest fungus recycle draw_card discard_card stun compost
-    greenhouse dew energy update_x gain_gold update_hp momentum
+    greenhouse dew energy update_x gain_gold update_hp free_move
     add_card_discard_pile drowned buried move_left move_right loop
 )
 

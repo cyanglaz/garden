@@ -165,7 +165,7 @@ func _queue_tool_application_stages(combat_main:CombatMain, applying_tool:ToolDa
 	pre_hook_request.callback = func(_cm: CombatMain) -> void: _run_tool_stage_start_and_pre_hook(combat_main, applying_tool, stage_context)
 	Events.request_combat_queue_push.emit(pre_hook_request)
 
-	_queue_tool_state_apply_actions(combat_main, applying_tool)
+	_queue_tool_state_apply_actions(combat_main, applying_tool, stage_context)
 
 	var finish_request = CombatQueueRequest.new()
 	finish_request.callback = func(_cm: CombatMain) -> void: await _run_tool_stage_finish(combat_main, applying_tool, stage_context)
@@ -176,8 +176,14 @@ func _run_tool_stage_start_and_pre_hook(combat_main:CombatMain, tool_data:ToolDa
 		stage_context["skip"] = true
 		tool_application_bailed.emit(tool_data)
 		return
+	if !_have_enough_energy(tool_data, combat_main.energy_tracker.value):
+		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_ENERGY)
+		stage_context["skip"] = true
+		tool_application_bailed.emit(tool_data)
+		return
 	if !_tool_applier.can_tool_be_applied(tool_data, tool_deck.hand):
 		tool_application_error.emit(tool_data, tool_data.get_card_selection_custom_error_message())
+		selected_tool = null
 		stage_context["skip"] = true
 		tool_application_bailed.emit(tool_data)
 		return
@@ -187,8 +193,8 @@ func _run_tool_stage_start_and_pre_hook(combat_main:CombatMain, tool_data:ToolDa
 	combat_main.player.player_upgrades_manager.queue_pre_tool_application_hooks(combat_main, tool_data)
 	_gui_tool_card_container.animate_card_use(tool_data)
 
-func _queue_tool_state_apply_actions(combat_main:CombatMain, tool_data:ToolData) -> void:
-	_tool_applier.queue_tool_application(combat_main, tool_data)
+func _queue_tool_state_apply_actions(combat_main:CombatMain, tool_data:ToolData, stage_context:Dictionary) -> void:
+	_tool_applier.queue_tool_application(combat_main, tool_data, stage_context)
 
 func _run_tool_stage_finish(combat_main:CombatMain, tool_data:ToolData, stage_context:Dictionary) -> void:
 	var should_skip:bool = stage_context["skip"]
@@ -198,7 +204,7 @@ func _run_tool_stage_finish(combat_main:CombatMain, tool_data:ToolData, stage_co
 	number_of_card_used_this_turn += 1
 	tool_application_success.emit(tool_data)
 	await _run_card_lifecycle(tool_data, combat_main)
-	_handle_tool_application_completed(tool_data, combat_main)
+	await _handle_tool_application_completed(tool_data, combat_main)
 
 func _can_execute_queued_tool(tool_data:ToolData) -> bool:
 	if !tool_deck.hand.has(tool_data):
@@ -210,6 +216,9 @@ func _can_execute_queued_tool(tool_data:ToolData) -> bool:
 	if tool_data.specials.has(ToolData.Special.NIGHTFALL) && is_mid_turn:
 		return false
 	return true
+
+func _have_enough_energy(tool_data:ToolData, current_energy:int) -> bool:
+	return current_energy >= tool_data.get_final_energy_cost()
 
 #region setters/getters
 

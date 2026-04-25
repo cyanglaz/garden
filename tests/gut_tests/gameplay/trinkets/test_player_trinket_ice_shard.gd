@@ -57,4 +57,3 @@ func test_handle_end_turn_hook_emits_hook_animation_signal() -> void:
 	cm.plant_field_container = pfc
 	await t._handle_end_turn_hook(cm)
 	assert_true(saw_anim[0])
-

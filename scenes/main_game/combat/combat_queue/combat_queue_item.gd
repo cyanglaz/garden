@@ -7,3 +7,4 @@ var finish_callback: Callable
 var only_when_empty: bool = false
 var group: String = ""
 var category: String = ""
+var is_processing: bool = false

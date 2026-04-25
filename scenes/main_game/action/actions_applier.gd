@@ -5,11 +5,14 @@ var card_action_applier:CardActionApplier = CardActionApplier.new()
 var plant_action_applier:PlantActionApplier = PlantActionApplier.new()
 var player_action_applier:PlayerActionApplier = PlayerActionApplier.new()
 
-func queue_actions(actions:Array, combat_main:CombatMain, tool_data:ToolData) -> void:
+func queue_actions(actions:Array, combat_main:CombatMain, tool_data:ToolData, context:Dictionary) -> void:
 	var all_actions:Array = _organize_actions_to_apply(actions)
 	for action in all_actions:
 		var request = CombatQueueRequest.new()
-		request.callback = func(_cm: CombatMain) -> void: await _apply_action(action, combat_main, tool_data, all_actions)
+		request.callback = func(_cm: CombatMain) -> void: 
+			if context["skip"]:
+				return
+			await _apply_action(action, combat_main, tool_data, all_actions)
 		Events.request_combat_queue_push.emit(request)
 
 func _apply_action(action:ActionData, combat_main:CombatMain, tool_data:ToolData, all_actions:Array) -> void:

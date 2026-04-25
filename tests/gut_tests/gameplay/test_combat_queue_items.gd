@@ -30,6 +30,11 @@ func test_item_stores_category() -> void:
 	assert_eq(item.category, "weather")
 
 
+func test_item_default_is_processing_is_false() -> void:
+	var item = CombatQueueItem.new()
+	assert_false(item.is_processing)
+
+
 func test_request_default_category_is_empty() -> void:
 	var request = CombatQueueRequest.new()
 	assert_eq(request.category, "")

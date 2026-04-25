@@ -8,7 +8,7 @@ func _handle_start_turn_hook(combat_main: CombatMain) -> void:
 	if data.state == TrinketData.TrinketState.ACTIVE:
 		_send_hook_animation_signals()
 		combat_main.player.player_status_container.update_player_upgrade(
-			"momentum", int(data.data[&"momentum"]), ActionData.OperatorType.INCREASE)
+			"free_move", int(data.data[&"free_move"]), ActionData.OperatorType.INCREASE)
 	data.state = TrinketData.TrinketState.ACTIVE
 	data.stack = int(data.data[&"cards_played"])
 

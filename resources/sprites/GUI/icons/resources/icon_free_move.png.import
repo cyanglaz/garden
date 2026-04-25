@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bfrh5jldkmm7g"
-path="res://.godot/imported/icon_momentum.png-751d1daa429a593e5d973e697f81d0c1.ctex"
+path="res://.godot/imported/icon_free_move.png-be090154003c5f4877597691ddbfa718.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/GUI/icons/resources/icon_momentum.png"
-dest_files=["res://.godot/imported/icon_momentum.png-751d1daa429a593e5d973e697f81d0c1.ctex"]
+source_file="res://resources/sprites/GUI/icons/resources/icon_free_move.png"
+dest_files=["res://.godot/imported/icon_free_move.png-be090154003c5f4877597691ddbfa718.ctex"]
 
 [params]
 

@@ -6,6 +6,6 @@
 script = ExtResource("1_gohme")
 id = "nectar_shot"
 data = {
-&"momentum": "2"
+&"free_move": "2"
 }
 metadata/_custom_type_script = "uid://dr261i4fd8jf0"

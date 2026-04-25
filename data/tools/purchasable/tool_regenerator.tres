@@ -12,5 +12,5 @@ id = "regenerator"
 data = {
 "value": "1"
 }
-note = "This turn, when {resource:momentum} is decreased, target plant +{value} {resource:light}."
+note = "This turn, when {resource:free_move} is decreased, target plant +{value} {resource:light}."
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

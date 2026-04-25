@@ -18,7 +18,7 @@ enum ActionType {
 	UPDATE_X,
 	UPDATE_GOLD,
 	UPDATE_HP,
-	MOMENTUM,
+	FREE_MOVE,
 	ADD_CARD_DISCARD_PILE,
 	DROWNED,
 	BURIED,
@@ -52,7 +52,7 @@ enum XValueType {
 	TARGET_LIGHT,
 	TARGET_PEST,
 	PLAYER_ENERGY,
-	PLAYER_MOMENTUM,
+	PLAYER_FREE_MOVE,
 }
 
 enum Special {
@@ -69,7 +69,7 @@ const NON_RESTRICTED_CARD_SELECTION_TYPES := [ActionType.DISCARD_CARD, ActionTyp
 const NEED_CARD_SELECTION := RESTRICTED_CARD_SELECTION_TYPES + NON_RESTRICTED_CARD_SELECTION_TYPES
 const FIELD_ACTION_TYPES := [ActionType.LIGHT, ActionType.WATER, ActionType.PEST, ActionType.FUNGUS, ActionType.RECYCLE, ActionType.GREENHOUSE, ActionType.DEW, ActionType.DROWNED, ActionType.BURIED]
 const PLAYER_ACTION_TYPES := [ActionType.ENERGY, ActionType.UPDATE_HP, ActionType.DRAW_CARD, ActionType.DISCARD_CARD, 
-								ActionType.UPDATE_GOLD, ActionType.MOMENTUM, ActionType.ADD_CARD_DISCARD_PILE, ActionType.PUSH_LEFT, 
+								ActionType.UPDATE_GOLD, ActionType.FREE_MOVE, ActionType.ADD_CARD_DISCARD_PILE, ActionType.PUSH_LEFT, 
 								ActionType.PUSH_RIGHT, ActionType.STUN, ActionType.COMPOST]
 const CARD_ACTION_TYPES := [ActionType.UPDATE_X, ActionType.LOOP]
 
@@ -145,9 +145,9 @@ func get_calculated_x_value(combat_main:CombatMain) -> int:
 				base_x_value = combat_main.energy_tracker.value
 			else:
 				base_x_value = 0
-		XValueType.PLAYER_MOMENTUM:
+		XValueType.PLAYER_FREE_MOVE:
 			if combat_main:
-				base_x_value = combat_main.player.player_status_container.get_player_upgrade_stack("momentum")
+				base_x_value = combat_main.player.player_status_container.get_player_upgrade_stack("free_move")
 			else:
 				base_x_value = 0
 	return modified_x_value + base_x_value

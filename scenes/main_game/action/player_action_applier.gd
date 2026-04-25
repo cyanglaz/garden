@@ -41,7 +41,7 @@ func apply_action(action:ActionData, combat_main:CombatMain, secondary_card_data
 		ActionData.ActionType.ADD_CARD_DISCARD_PILE:
 			assert(calculated_value >= 0, "Add card discard pile action value must be greater than 0")
 			_handle_add_card_discard_pile_action(action.data["card_id"], calculated_value, combat_main)
-		ActionData.ActionType.STUN, ActionData.ActionType.MOMENTUM:
+		ActionData.ActionType.STUN, ActionData.ActionType.FREE_MOVE:
 			combat_main.player.player_status_container.update_player_upgrade(Util.get_action_id_with_action_type(action.type), calculated_value, action.operator_type)
 			await Util.create_scaled_timer(Constants.GLOBAL_UPGRADE_PAUSE_TIME).timeout
 		_:

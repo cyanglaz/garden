@@ -6,6 +6,6 @@
 script = ExtResource("1_cyk6u")
 type = 1
 stackable = true
-id = "momentum"
+id = "free_move"
 
 metadata/_custom_type_script = "uid://ep5ey6gqhty1"

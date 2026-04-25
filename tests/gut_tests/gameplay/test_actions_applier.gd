@@ -4,6 +4,13 @@ extends GutTest
 # This is a pure algorithm that expands LOOP actions into repeated sub-arrays.
 # No scene tree or CombatMain is needed.
 
+
+class FakeActionsApplier extends ActionsApplier:
+	var applied_actions: Array[ActionData] = []
+
+	func _apply_action(action: ActionData, _combat_main: CombatMain, _tool_data: ToolData, _all_actions: Array) -> void:
+		applied_actions.append(action)
+
 func _make_action(type: ActionData.ActionType, value: int = 1) -> ActionData:
 	var ad := ActionData.new()
 	ad.type = type
@@ -148,7 +155,7 @@ func test_queue_actions_emits_one_request_per_action() -> void:
 		_make_action(ActionData.ActionType.ENERGY),
 	]
 	var capture := _capture_queue_requests()
-	applier.queue_actions(actions, null, null)
+	applier.queue_actions(actions, null, null, {"skip": false})
 	_disconnect_capture(capture)
 	assert_eq(capture.requests.size(), 3)
 
@@ -161,14 +168,14 @@ func test_queue_actions_expands_loops_before_emitting() -> void:
 		_make_loop(2),
 	]
 	var capture := _capture_queue_requests()
-	applier.queue_actions(actions, null, null)
+	applier.queue_actions(actions, null, null, {"skip": false})
 	_disconnect_capture(capture)
 	assert_eq(capture.requests.size(), 4)
 
 func test_queue_actions_emits_zero_for_empty_actions() -> void:
 	var applier := ActionsApplier.new()
 	var capture := _capture_queue_requests()
-	applier.queue_actions([], null, null)
+	applier.queue_actions([], null, null, {"skip": false})
 	_disconnect_capture(capture)
 	assert_eq(capture.requests.size(), 0)
 
@@ -176,9 +183,26 @@ func test_queue_actions_requests_have_valid_callbacks() -> void:
 	var applier := ActionsApplier.new()
 	var actions := [_make_action(ActionData.ActionType.WATER)]
 	var capture := _capture_queue_requests()
-	applier.queue_actions(actions, null, null)
+	applier.queue_actions(actions, null, null, {"skip": false})
 	_disconnect_capture(capture)
 	assert_eq(capture.requests.size(), 1)
 	var request: CombatQueueRequest = capture.requests[0]
 	assert_true(request.callback.is_valid(), "request should have a valid callback")
 	assert_false(request.front, "queue_actions requests should not be enqueued at the front")
+
+func test_queue_actions_callback_applies_when_context_not_skipped() -> void:
+	var applier := FakeActionsApplier.new()
+	var action := _make_action(ActionData.ActionType.WATER)
+	var capture := _capture_queue_requests()
+	applier.queue_actions([action], null, null, {"skip": false})
+	_disconnect_capture(capture)
+	await (capture.requests[0] as CombatQueueRequest).callback.call(null)
+	assert_eq(applier.applied_actions, [action])
+
+func test_queue_actions_callback_noops_when_context_skipped() -> void:
+	var applier := FakeActionsApplier.new()
+	var capture := _capture_queue_requests()
+	applier.queue_actions([_make_action(ActionData.ActionType.WATER)], null, null, {"skip": true})
+	_disconnect_capture(capture)
+	await (capture.requests[0] as CombatQueueRequest).callback.call(null)
+	assert_eq(applier.applied_actions.size(), 0)

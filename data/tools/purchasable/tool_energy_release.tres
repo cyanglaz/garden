@@ -25,6 +25,7 @@ metadata/_custom_type_script = "uid://buaqjgs5j8pa1"
 
 [resource]
 script = ExtResource("2_enrel")
+energy_cost = 0
 actions = Array[ExtResource("1_enrel")]([SubResource("Resource_enrel_light"), SubResource("Resource_enrel_water"), SubResource("Resource_enrel_energy")])
 rarity = 1
 id = "energy_release"

@@ -43,9 +43,11 @@ class FakeToolApplier extends ToolApplier:
 	func _init(tool_to_discard: ToolData) -> void:
 		_tool_to_discard = tool_to_discard
 
-	func queue_tool_application(combat_main: CombatMain, _tool_data: ToolData) -> void:
+	func queue_tool_application(combat_main: CombatMain, _tool_data: ToolData, context: Dictionary) -> void:
 		var request := CombatQueueRequest.new()
 		request.callback = func(_cm: CombatMain) -> void:
+			if context["skip"]:
+				return
 			if !_discarded and _tool_to_discard and combat_main.tool_manager.tool_deck.hand.has(_tool_to_discard):
 				_discarded = true
 				await combat_main.discard_cards([_tool_to_discard])
@@ -109,6 +111,7 @@ func test_first_tool_can_discard_second_queued_tool_without_crash() -> void:
 
 	var combat_main := FakeCombatMain.new()
 	combat_main.tool_manager = manager
+	combat_main.energy_tracker.setup(10, 10)
 	manager.is_mid_turn = true
 	manager._tool_applier = FakeToolApplier.new(second_tool)
 
@@ -127,5 +130,41 @@ func test_first_tool_can_discard_second_queued_tool_without_crash() -> void:
 	assert_eq(completed_ids, ["first"])
 	assert_eq(error_counter["value"], 0)
 	assert_eq(manager.tool_deck.hand.size(), 0)
+	combat_main.free()
+	gui_container.free()
+
+
+func test_queued_tool_bails_when_energy_is_insufficient_at_execution_time() -> void:
+	var tool_data := _make_tool_data("costly")
+	tool_data.energy_cost = 1
+	var gui_container := FakeGUIToolCardContainer.new()
+	var manager := ToolManager.new([tool_data], gui_container)
+	manager.tool_deck.draw_pool = manager.tool_deck.pool.duplicate()
+	var hand: Array = manager.tool_deck.draw(1)
+	var costly_tool: ToolData = hand[0]
+	gui_container.register_tool(costly_tool)
+
+	var combat_main := FakeCombatMain.new()
+	combat_main.tool_manager = manager
+	combat_main.energy_tracker.setup(0, 0)
+	manager.is_mid_turn = true
+
+	var started_ids: Array[String] = []
+	var bailed_ids: Array[String] = []
+	var completed_ids: Array[String] = []
+	manager.tool_application_started.connect(func(td: ToolData) -> void: started_ids.append(td.id))
+	manager.tool_application_bailed.connect(func(td: ToolData) -> void: bailed_ids.append(td.id))
+	manager.tool_application_completed.connect(func(td: ToolData) -> void: completed_ids.append(td.id))
+	watch_signals(Events)
+
+	manager.queue_apply_tool(combat_main, costly_tool)
+	await _await_queue_idle(combat_main.combat_queue_manager)
+
+	assert_eq(started_ids, [])
+	assert_eq(bailed_ids, ["costly"])
+	assert_eq(completed_ids, [])
+	assert_eq(manager.number_of_card_used_this_turn, 0)
+	assert_true(manager.tool_deck.hand.has(costly_tool))
+	assert_signal_emitted_with_parameters(Events, "request_show_warning", [WarningManager.WarningType.INSUFFICIENT_ENERGY])
 	combat_main.free()
 	gui_container.free()

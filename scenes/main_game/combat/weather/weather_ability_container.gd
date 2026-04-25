@@ -67,7 +67,7 @@ func _apply_weather_ability(weather_ability:WeatherAbility, combat_main:CombatMa
 	weather_ability.hide_icon()
 	if plant_index == player_index:
 		await weather_ability_animation_container.run_animation(weather_ability, player.global_position, true)
-		await weather_ability.apply_to_player(combat_main)
+		weather_ability.queue_player_actions(combat_main)
 	else:
 		await weather_ability_animation_container.run_animation(weather_ability, plant.global_position, false)
-		await weather_ability.apply_to_plant(plant, combat_main)
+		weather_ability.queue_plant_actions(plant, combat_main)

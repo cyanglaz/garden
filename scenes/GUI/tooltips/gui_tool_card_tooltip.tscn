@@ -20,19 +20,19 @@ theme_override_constants/margin_bottom = 3
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="GUIEnchantDescription" parent="ContentContainer/VBoxContainer" index="0" unique_id=833597319 instance=ExtResource("5_enchd")]
+[node name="GUIActionsDescription" parent="ContentContainer/VBoxContainer" index="0" unique_id=1635180972 instance=ExtResource("3_kpb3v")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="ContentContainer/VBoxContainer" index="1" unique_id=1513236732]
+[node name="GUIToolSpecialDescription" parent="ContentContainer/VBoxContainer" index="1" unique_id=1169019938 instance=ExtResource("4_pibga")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="ContentContainer/VBoxContainer" index="2" unique_id=1513236732]
 unique_name_in_owner = true
 self_modulate = Color(0.3647059, 0.17254902, 0.15686275, 1)
 layout_mode = 2
 
-[node name="GUIActionsDescription" parent="ContentContainer/VBoxContainer" index="2" unique_id=1635180972 instance=ExtResource("3_kpb3v")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="GUIToolSpecialDescription" parent="ContentContainer/VBoxContainer" index="3" unique_id=1169019938 instance=ExtResource("4_pibga")]
+[node name="GUIEnchantDescription" parent="ContentContainer/VBoxContainer" index="3" unique_id=833597319 instance=ExtResource("5_enchd")]
 unique_name_in_owner = true
 layout_mode = 2

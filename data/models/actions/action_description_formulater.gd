@@ -40,7 +40,7 @@ static func get_raw_action_description(action_data:ActionData, combat_main:Comba
 	match action_data.type:
 		ActionData.ActionType.LIGHT, ActionData.ActionType.WATER:
 			raw_action_description = _get_field_action_description(action_data, combat_main)
-		ActionData.ActionType.ENERGY, ActionData.ActionType.UPDATE_X, ActionData.ActionType.UPDATE_GOLD, ActionData.ActionType.UPDATE_HP, ActionData.ActionType.MOMENTUM:
+		ActionData.ActionType.ENERGY, ActionData.ActionType.UPDATE_X, ActionData.ActionType.UPDATE_GOLD, ActionData.ActionType.UPDATE_HP, ActionData.ActionType.FREE_MOVE:
 			raw_action_description = _get_resource_update_action_description(action_data, combat_main)
 		ActionData.ActionType.PEST, ActionData.ActionType.FUNGUS, ActionData.ActionType.RECYCLE, ActionData.ActionType.GREENHOUSE, ActionData.ActionType.DEW, ActionData.ActionType.DROWNED, ActionData.ActionType.BURIED:
 			raw_action_description = _get_field_status_description(action_data)
@@ -215,8 +215,8 @@ static func _get_x_value_text(action_data:ActionData, combat_main:CombatMain) ->
 			x_value_text = Util.get_localized_string("ACTION_VALUE_TARGET_PEST")
 		ActionData.XValueType.PLAYER_ENERGY:
 			x_value_text = Util.get_localized_string("ACTION_VALUE_PLAYER_ENERGY")
-		ActionData.XValueType.PLAYER_MOMENTUM:
-			x_value_text = Util.get_localized_string("ACTION_VALUE_PLAYER_MOMENTUM")
+		ActionData.XValueType.PLAYER_FREE_MOVE:
+			x_value_text = Util.get_localized_string("ACTION_VALUE_PLAYER_FREE_MOVE")
 		_:
 			assert(false, "Invalid x value type: %s" % action_data.x_value_type)
 	main_description = main_description % [x_value_text]

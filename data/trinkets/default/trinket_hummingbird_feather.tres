@@ -6,7 +6,7 @@
 script = ExtResource("1_gohme")
 id = "hummingbird_feather"
 data = {
-&"momentum": "1",
+&"free_move": "1",
 &"threshold": "6"
 }
 metadata/_custom_type_script = "uid://dr261i4fd8jf0"

@@ -13,5 +13,5 @@ id = "overclock"
 data = {
 "value": "1"
 }
-note = "This turn, when draw a card, +{value} {resource:momentum}."
+note = "This turn, when draw a card, +{value} {resource:free_move}."
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

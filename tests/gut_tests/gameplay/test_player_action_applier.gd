@@ -4,7 +4,7 @@ extends GutTest
 # and do NOT require a real CombatMain instance:
 #   ENERGY, UPDATE_HP, UPDATE_GOLD.
 #
-# PUSH_LEFT, PUSH_RIGHT, DRAW_CARD, DISCARD_CARD, STUN, MOMENTUM, and
+# PUSH_LEFT, PUSH_RIGHT, DRAW_CARD, DISCARD_CARD, STUN, FREE_MOVE, and
 # ADD_CARD_DISCARD_PILE all require CombatMain and are not covered here.
 #
 # NOTE: ENERGY and UPDATE_HP branches call Util.create_scaled_timer() internally.

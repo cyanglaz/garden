@@ -19,7 +19,7 @@ func _make_trinket() -> PlayerTrinketConservationCoil:
 	add_child_autofree(t)
 	var td := TrinketData.new()
 	td.data[&"cards_played"] = "3"
-	td.data[&"momentum"] = "1"
+	td.data[&"free_move"] = "1"
 	t.data = td
 	return t
 
@@ -56,23 +56,23 @@ func test_handle_start_turn_hook_resets_stack() -> void:
 	t._handle_start_turn_hook(cm)
 	assert_eq((t.data as TrinketData).stack, 3)
 
-func test_handle_start_turn_hook_does_not_grant_momentum_on_first_turn() -> void:
+func test_handle_start_turn_hook_does_not_grant_free_move_on_first_turn() -> void:
 	var t := _make_trinket()
 	t.data.state = TrinketData.TrinketState.NORMAL
 	var cm := _make_combat_main()
 	t._handle_start_turn_hook(cm)
 	var psc := cm.player.player_status_container as FakePlayerStatusContainer
-	assert_eq(psc.get_player_upgrade_stack("momentum"), 0)
+	assert_eq(psc.get_player_upgrade_stack("free_move"), 0)
 
-func test_handle_start_turn_hook_grants_momentum_when_active() -> void:
+func test_handle_start_turn_hook_grants_free_move_when_active() -> void:
 	var t := _make_trinket()
 	t.data.state = TrinketData.TrinketState.ACTIVE
 	var cm := _make_combat_main()
 	t._handle_start_turn_hook(cm)
 	var psc := cm.player.player_status_container as FakePlayerStatusContainer
-	assert_eq(psc.get_player_upgrade_stack("momentum"), 1)
+	assert_eq(psc.get_player_upgrade_stack("free_move"), 1)
 
-func test_handle_start_turn_hook_re_primes_active_after_granting_momentum() -> void:
+func test_handle_start_turn_hook_re_primes_active_after_granting_free_move() -> void:
 	var t := _make_trinket()
 	t.data.state = TrinketData.TrinketState.ACTIVE
 	var cm := _make_combat_main()

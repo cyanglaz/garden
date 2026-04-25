@@ -8,9 +8,6 @@ var plant_actions_applier:PlantActionApplier = PlantActionApplier.new()
 var level:int = 0
 var field_index:int = -1: set = _set_field_index
 
-var _pending_actions:Array[ActionData] = []
-var _action_index:int = 0
-
 @onready var _weather_ability_icon: WeatherAbilityIcon = %WeatherAbilityIcon
 
 var weather_ability_data:WeatherAbilityData
@@ -25,53 +22,43 @@ func setup_with_weather_ability_data(data:WeatherAbilityData) -> void:
 func hide_icon() -> void:
 	_weather_ability_icon.hide()
 
-func apply_to_player(combat_main:CombatMain) -> void:
+func queue_player_actions(combat_main:CombatMain) -> void:
 	var player_actions:Array = weather_ability_data.action_datas.filter(func(action:ActionData): return action.action_category == ActionData.ActionCategory.PLAYER)
 	if player_actions.is_empty():
-		await _apply_to_player_with_script(combat_main)
+		var script_request = CombatQueueRequest.new()
+		script_request.front = true
+		script_request.category = Constants.WEATHER_QUEUE_CATEGORY
+		script_request.callback = func(_cm: CombatMain) -> void: await _apply_to_player_with_script(combat_main)
+		Events.request_combat_queue_push.emit(script_request)
 		return
-	await _apply_actions_to_player(combat_main, player_actions)
+	player_actions.reverse()
+	for action:ActionData in player_actions:
+		var action_copy:ActionData = action.get_duplicate()
+		action_copy.value += level
+		var request = CombatQueueRequest.new()
+		request.front = true
+		request.category = Constants.WEATHER_QUEUE_CATEGORY
+		request.callback = func(_cm: CombatMain) -> void: await player_actions_applier.apply_action(action_copy, combat_main, [])
+		Events.request_combat_queue_push.emit(request)
 
-func apply_to_plant(plant:Plant, combat_main:CombatMain) -> void:
+func queue_plant_actions(plant:Plant, combat_main:CombatMain) -> void:
 	var plant_actions:Array = weather_ability_data.action_datas.filter(func(action:ActionData): return action.action_category == ActionData.ActionCategory.FIELD)
 	if plant_actions.is_empty():
-		await _apply_to_plant_with_script(plant, combat_main)
-		return
-	await _apply_actions_to_plant(plant, combat_main, plant_actions)
-
-#region private functions
-
-func _apply_actions_to_player(combat_main:CombatMain, action_datas:Array[ActionData]) -> void:
-	_pending_actions = action_datas.duplicate()
-	_action_index = 0
-	await _apply_next_player_action(combat_main)
-
-func _apply_next_player_action(combat_main:CombatMain) -> void:
-	if _action_index >= _pending_actions.size():
-		_pending_actions.clear()
-		_action_index = 0
-		return
-	var action:ActionData = _pending_actions[_action_index].get_duplicate()
-	action.value += level
-	_action_index += 1
-	await player_actions_applier.apply_action(action, combat_main, [])
-	await _apply_next_player_action(combat_main)
-
-func _apply_actions_to_plant(plant:Plant, combat_main:CombatMain, action_datas:Array[ActionData]) -> void:
-	_pending_actions = action_datas.duplicate()
-	_action_index = 0
-	await _apply_next_plant_action(plant, combat_main)
-	
-func _apply_next_plant_action(plant:Plant, combat_main:CombatMain) -> void:
-	if _action_index >= _pending_actions.size():
-		_pending_actions.clear()
-		_action_index = 0
-		return
-	var action:ActionData = _pending_actions[_action_index].get_duplicate()
-	action.value += level
-	_action_index += 1
-	await plant_actions_applier.apply_action(action, plant, combat_main)
-	await _apply_next_plant_action(plant, combat_main)
+		var script_request = CombatQueueRequest.new()
+		script_request.front = true
+		script_request.category = Constants.WEATHER_QUEUE_CATEGORY
+		script_request.callback = func(_cm: CombatMain) -> void: await _apply_to_plant_with_script(plant, combat_main)
+		Events.request_combat_queue_push.emit(script_request)
+	else:
+		plant_actions.reverse()
+		for action:ActionData in plant_actions:
+			var action_copy:ActionData = action.get_duplicate()
+			action_copy.value += level
+			var request = CombatQueueRequest.new()
+			request.front = true
+			request.category = Constants.WEATHER_QUEUE_CATEGORY
+			request.callback = func(_cm: CombatMain) -> void: await plant_actions_applier.apply_action(action_copy, plant, combat_main)
+			Events.request_combat_queue_push.emit(request)
 
 #region for override
 
