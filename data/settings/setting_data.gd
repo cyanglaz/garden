@@ -6,3 +6,4 @@ extends Resource
 @export var sfx_volume:float
 @export var game_speed:int
 @export var show_card_tooltip:bool = true
+@export var show_detail_tooltip:bool = true

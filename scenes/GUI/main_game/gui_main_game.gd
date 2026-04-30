@@ -164,7 +164,7 @@ func _on_update_hovered_data(data:Resource) -> void:
 	_hovered_data = data
 	if _hovered_data:
 		await Util.create_scaled_timer(DETAIL_TOOLTIP_DELAY).timeout
-		if _hovered_data:
+		if _hovered_data and PlayerSettings.setting_data.show_detail_tooltip:
 			Events.request_show_warning.emit(WarningManager.WarningType.DIALOGUE_THING_DETAIL)
 	else:
 		Events.request_hide_warning.emit(WarningManager.WarningType.DIALOGUE_THING_DETAIL)
