@@ -151,6 +151,19 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/GamePlay" unique_id=1849099001]
+layout_mode = 2
+
+[node name="ShowDetailTooltipLabel" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/GamePlay/HBoxContainer2" unique_id=1849099002]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HUD"
+
+[node name="ShowDetailTooltipCheckbox" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/GamePlay/HBoxContainer2" unique_id=1849099003 instance=ExtResource("8_2vaev")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+
 [node name="Buttons" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1360632984]
 custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
