@@ -1,5 +1,7 @@
 extends Node
 
+var DEMO := false
+
 const MAX_SKILLS := 10
 const MAX_DEPTHS := 5
 const MAX_HAND_SIZE := 10
