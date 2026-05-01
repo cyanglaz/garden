@@ -136,6 +136,74 @@ func test_end_turn_button_pushes_unique_request_and_invokes_end_turn() -> void:
 	assert_eq(cm.end_turn_calls, 1)
 
 
+func test_end_turn_zeroes_energy_immediately() -> void:
+	var cm := CombatMain.new()
+	autofree(cm)
+	_attach_minimal_gui(cm)
+
+	var fake_player := FakePlayer.new()
+	autofree(fake_player)
+	cm.player = fake_player
+
+	var fake_field := FakePlantFieldContainer.new()
+	autofree(fake_field)
+	cm.plant_field_container = fake_field
+
+	var fake_weather := FakeWeatherMain.new()
+	autofree(fake_weather)
+	cm.weather_main = fake_weather
+
+	cm.energy_tracker.setup(2, 3)
+
+	var capture := _capture_queue_requests()
+	cm._end_turn()
+	_disconnect_capture(capture)
+
+	assert_eq(cm.energy_tracker.value, 0)
+
+
+func test_restore_energy_restores_to_max_when_energy_exceeds_max() -> void:
+	var cm := TestCombatMain.new()
+	autofree(cm)
+	_attach_minimal_gui(cm)
+
+	var fake_player := FakePlayer.new()
+	autofree(fake_player)
+	cm.player = fake_player
+
+	var fake_field := FakePlantFieldContainer.new()
+	autofree(fake_field)
+	cm.plant_field_container = fake_field
+
+	var fake_weather := FakeWeatherMain.new()
+	autofree(fake_weather)
+	cm.weather_main = fake_weather
+
+	cm.energy_tracker.capped = false
+	cm.energy_tracker.setup(5, 3)
+	cm.is_mid_turn = true
+
+	var capture := _capture_queue_requests()
+	cm._end_turn()
+	assert_eq(cm.energy_tracker.value, 0)
+
+	var post_weather_request: CombatQueueRequest = capture.requests[0]
+	await post_weather_request.callback.call(cm)
+
+	var night_fall_request: CombatQueueRequest = capture.requests[1]
+	var discard_all_cards_request: CombatQueueRequest = capture.requests[2]
+	var end_turn_cleanup_request: CombatQueueRequest = capture.requests[3]
+	await night_fall_request.callback.call(cm)
+	await discard_all_cards_request.callback.call(cm)
+	await end_turn_cleanup_request.callback.call(cm)
+
+	var restore_energy_request: CombatQueueRequest = capture.requests[5]
+	await restore_energy_request.callback.call(cm)
+	_disconnect_capture(capture)
+
+	assert_eq(cm.energy_tracker.value, 3)
+
+
 func test_end_turn_sequence_enqueues_pipeline_and_cleanup_schedules_start_turn() -> void:
 	var cm := TestCombatMain.new()
 	autofree(cm)
