@@ -12,7 +12,9 @@ class FakeGUIToolCardContainer extends GUIToolCardContainer:
 	var cards_by_tool: Dictionary = {}
 
 	func register_tool(tool_data: ToolData) -> void:
-		cards_by_tool[tool_data.id] = FakeGUIToolCardButton.new()
+		var card := FakeGUIToolCardButton.new()
+		add_child(card)
+		cards_by_tool[tool_data.id] = card
 
 	func clear_tool(tool_data: ToolData) -> void:
 		var card: GUIToolCardButton = cards_by_tool.get(tool_data.id, null)
@@ -133,11 +135,11 @@ func test_first_tool_can_discard_second_queued_tool_without_crash() -> void:
 	combat_main.free()
 	gui_container.free()
 
-
 func test_queued_tool_bails_when_energy_is_insufficient_at_execution_time() -> void:
 	var tool_data := _make_tool_data("costly")
 	tool_data.energy_cost = 1
 	var gui_container := FakeGUIToolCardContainer.new()
+	autofree(gui_container)
 	var manager := ToolManager.new([tool_data], gui_container)
 	manager.tool_deck.draw_pool = manager.tool_deck.pool.duplicate()
 	var hand: Array = manager.tool_deck.draw(1)
@@ -145,6 +147,7 @@ func test_queued_tool_bails_when_energy_is_insufficient_at_execution_time() -> v
 	gui_container.register_tool(costly_tool)
 
 	var combat_main := FakeCombatMain.new()
+	autofree(combat_main)
 	combat_main.tool_manager = manager
 	combat_main.energy_tracker.setup(0, 0)
 	manager.is_mid_turn = true
@@ -166,5 +169,3 @@ func test_queued_tool_bails_when_energy_is_insufficient_at_execution_time() -> v
 	assert_eq(manager.number_of_card_used_this_turn, 0)
 	assert_true(manager.tool_deck.hand.has(costly_tool))
 	assert_signal_emitted_with_parameters(Events, "request_show_warning", [WarningManager.WarningType.INSUFFICIENT_ENERGY])
-	combat_main.free()
-	gui_container.free()
