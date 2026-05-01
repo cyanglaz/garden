@@ -171,6 +171,7 @@ func _queue_turn_start_signals() -> void:
 
 func _end_turn() -> void:
 	is_mid_turn = false
+	energy_tracker.value = 0
 	tool_manager.card_use_limit_reached = false
 	player.queue_handle_turn_end(self)
 	plant_field_container.queue_end_turn_abilities(self)
@@ -209,7 +210,7 @@ func _queue_restore_energy() -> void:
 	request.callback = func(_cm: CombatMain) -> void: 
 		if _level_completed:
 			return
-		energy_tracker.restore(energy_tracker.max_value - energy_tracker.value)
+		energy_tracker.restore(energy_tracker.max_value)
 	Events.request_combat_queue_push.emit(request)
 
 func _queue_start_turn() -> void:
