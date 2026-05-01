@@ -150,6 +150,11 @@ func reverse(combat_main:CombatMain) -> void:
 			action.type = ActionData.ActionType.PUSH_RIGHT
 		elif action.type == ActionData.ActionType.PUSH_RIGHT:
 			action.type = ActionData.ActionType.PUSH_LEFT
+	if enchant_data:
+		if enchant_data.action_data.type == ActionData.ActionType.PUSH_LEFT:
+			enchant_data.action_data.type = ActionData.ActionType.PUSH_RIGHT
+		elif enchant_data.action_data.type == ActionData.ActionType.PUSH_RIGHT:
+			enchant_data.action_data.type = ActionData.ActionType.PUSH_LEFT
 	refresh_ui(combat_main)
 
 func _get_cost() -> int:
