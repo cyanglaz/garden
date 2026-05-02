@@ -178,12 +178,6 @@ func _run_tool_stage_start_and_pre_hook(combat_main:CombatMain, tool_data:ToolDa
 		stage_context["skip"] = true
 		tool_application_bailed.emit(tool_data)
 		return
-	if !_tool_applier.can_tool_be_applied(tool_data, tool_deck.hand):
-		tool_application_error.emit(tool_data, tool_data.get_card_selection_custom_error_message())
-		selected_tool = null
-		stage_context["skip"] = true
-		tool_application_bailed.emit(tool_data)
-		return
 	selected_tool = tool_data
 	tool_application_started.emit(tool_data)
 	combat_main.plant_field_container.queue_tool_application_hooks()

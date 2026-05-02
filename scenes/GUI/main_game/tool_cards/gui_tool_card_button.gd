@@ -139,6 +139,11 @@ func _refresh_card_hover_state() -> void:
 		if card_state == GUICardFace.CardState.HIGHLIGHTED:
 			card_state = GUICardFace.CardState.NORMAL
 		mouse_exited_card.emit()
+
+func _handle_press_up() -> void:
+	if card_state == GUICardFace.CardState.INELIGIBLE:
+		return
+	super._handle_press_up()
 #endregion
 
 #region events

@@ -3,21 +3,6 @@ extends RefCounted
 
 var _actions_applier:ActionsApplier = ActionsApplier.new()
 
-func can_tool_be_applied(tool_data:ToolData, hand:Array) -> bool:
-	if !tool_data.tool_script:
-		return true
-	if tool_data.get_card_selection_type_from_script() != ActionData.CardSelectionType.RESTRICTED:
-		return true
-	var number_of_cards_to_select := tool_data.get_number_of_secondary_cards_to_select_from_script()
-	if number_of_cards_to_select == 0:
-		return true
-	var selecting_from_cards:Array = hand.filter(tool_data.tool_script.secondary_card_selection_filter())
-	selecting_from_cards = selecting_from_cards.filter(func(card:ToolData): return card != tool_data)
-	var actual_number_of_cards_to_select = mini(number_of_cards_to_select, selecting_from_cards.size())
-	if actual_number_of_cards_to_select < number_of_cards_to_select:
-		return false
-	return true
-
 func queue_tool_application(combat_main:CombatMain, tool_data:ToolData, context:Dictionary) -> void:
 	match tool_data.type:
 		ToolData.Type.SKILL:

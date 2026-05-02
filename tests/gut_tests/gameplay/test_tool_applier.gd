@@ -1,6 +1,6 @@
 extends GutTest
 
-# Tests for ToolApplier.can_tool_be_applied() and queue_tool_application().
+# Tests for queue_tool_application().
 # These cover the branch of tool_applier that was introduced to decide, before
 # pushing anything on the combat queue, whether a RESTRICTED tool_script has
 # enough candidate cards to run.
@@ -51,53 +51,6 @@ func _make_tool(id: String, tool_script: ToolScript = null, type: ToolData.Type 
 	if tool_script:
 		td._tool_script = tool_script
 	return td
-
-
-# ----- can_tool_be_applied -----
-
-func test_can_tool_be_applied_true_when_no_tool_script() -> void:
-	var applier := ToolApplier.new()
-	var td := _make_tool("plain")
-	assert_true(applier.can_tool_be_applied(td, []))
-
-func test_can_tool_be_applied_true_when_script_not_restricted() -> void:
-	var applier := ToolApplier.new()
-	var td := _make_tool("non_restricted", _ScriptNonRestrictedNeedsTwo.new())
-	# Empty hand but since selection is NON_RESTRICTED we return early with true.
-	assert_true(applier.can_tool_be_applied(td, []))
-
-func test_can_tool_be_applied_true_when_restricted_but_zero_cards_needed() -> void:
-	var applier := ToolApplier.new()
-	var td := _make_tool("no_selection", _ScriptNoSelection.new())
-	# NoSelection returns RESTRICTED from default get_card_selection_type(), but
-	# number_of_secondary_cards_to_select() == 0 → true.
-	assert_true(applier.can_tool_be_applied(td, []))
-
-func test_can_tool_be_applied_true_when_enough_candidates() -> void:
-	var applier := ToolApplier.new()
-	var td := _make_tool("needs_two", _ScriptRestrictedNeedsTwo.new())
-	var hand: Array = [_make_tool("a"), _make_tool("b"), _make_tool("c")]
-	assert_true(applier.can_tool_be_applied(td, hand))
-
-func test_can_tool_be_applied_false_when_not_enough_candidates() -> void:
-	var applier := ToolApplier.new()
-	var td := _make_tool("needs_two", _ScriptRestrictedNeedsTwo.new())
-	var hand: Array = [_make_tool("only_one")]
-	assert_false(applier.can_tool_be_applied(td, hand))
-
-func test_can_tool_be_applied_false_when_filter_excludes_candidates() -> void:
-	var applier := ToolApplier.new()
-	var td := _make_tool("restricted_keep", _ScriptRestrictedWithFilter.new())
-	# Filter requires ids starting with "keep_" — none match.
-	var hand: Array = [_make_tool("a"), _make_tool("b")]
-	assert_false(applier.can_tool_be_applied(td, hand))
-
-func test_can_tool_be_applied_true_when_filter_matches_candidates() -> void:
-	var applier := ToolApplier.new()
-	var td := _make_tool("restricted_keep", _ScriptRestrictedWithFilter.new())
-	var hand: Array = [_make_tool("a"), _make_tool("keep_one")]
-	assert_true(applier.can_tool_be_applied(td, hand))
-
 
 # ----- queue_tool_application -----
 
