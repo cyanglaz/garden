@@ -264,7 +264,7 @@ func _queue_show_reward() -> void:
 	var request = CombatQueueRequest.new()
 	request.callback = func(_cm: CombatMain) -> void:
 		combat_queue_manager.stop = true
-		if _chapter == MainGame.NUMBER_OF_CHAPTERS - 1 && _combat.combat_type == CombatData.CombatType.BOSS:
+		if _is_final_boss():
 			beat_final_boss.emit()
 			return
 		gui.animate_show_reward_main(_combat, owned_trinket_ids)
@@ -300,6 +300,10 @@ func _queue_apply_tool(tool_data:ToolData) -> void:
 	if !tool_card:
 		return
 	tool_manager.queue_apply_tool(self, tool_data)
+
+func _is_final_boss() -> bool:
+	var is_last_chapter := _chapter == MainGame.NUMBER_OF_CHAPTERS - 1 || Constants.DEMO
+	return is_last_chapter && _combat.combat_type == CombatData.CombatType.BOSS
 
 #endregion
 

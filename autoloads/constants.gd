@@ -1,6 +1,6 @@
 extends Node
 
-var DEMO := false
+var DEMO := true
 
 const MAX_SKILLS := 10
 const MAX_DEPTHS := 5
