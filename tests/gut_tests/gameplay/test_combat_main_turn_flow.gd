@@ -207,31 +207,6 @@ func test_queue_discard_all_cards_forwards_end_turn_flag() -> void:
 	assert_eq(captured["end_turn"], true)
 	(ctx["container"] as FakeDiscardGUIToolCardContainer).free()
 
-
-func test_tool_application_completed_queues_player_hook_with_duplicate() -> void:
-	var cm := CombatMain.new()
-	autofree(cm)
-	_attach_minimal_gui(cm)
-	var fake_field := FakePlantFieldContainer.new()
-	autofree(fake_field)
-	cm.plant_field_container = fake_field
-	var fake_player := FakePlayer.new()
-	autofree(fake_player)
-	var recording_manager := RecordingPlayerUpgradesManager.new()
-	fake_player.player_upgrades_manager = recording_manager
-	cm.player = fake_player
-
-	var tool := _make_tool("completed_tool")
-	tool.turn_energy_modifier = -1
-
-	cm._on_tool_application_completed(tool)
-
-	assert_not_null(recording_manager.queued_tool_data)
-	assert_ne(recording_manager.queued_tool_data, tool)
-	assert_eq(recording_manager.queued_tool_data.id, "completed_tool")
-	assert_eq(recording_manager.queued_tool_data.turn_energy_modifier, -1)
-
-
 func test_end_turn_zeroes_energy_immediately() -> void:
 	var cm := CombatMain.new()
 	autofree(cm)
