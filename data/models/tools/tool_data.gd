@@ -78,10 +78,17 @@ func refresh_ui(combat_main:CombatMain) -> void:
 	request_refresh.emit(combat_main)
 
 func refresh_for_turn() -> void:
-	card_face_refresh_for_turn()
+	turn_energy_modifier = 0
 
 func refresh_for_level() -> void:
-	card_face_refresh_for_level()
+	level_energy_modifier = 0
+	special_effects = special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_COMBAT_SPECIAL_EFFECTS.has(special_effect))
+	for action:ActionData in actions:
+		action.modified_x_value = 0
+		action.modified_value = 0
+	if enchant_data:
+		enchant_data.action_data.modified_value = 0
+		enchant_data.action_data.modified_x_value = 0
 
 func get_duplicate() -> ToolData:
 	var dup:ToolData = ToolData.new()
@@ -95,19 +102,6 @@ func remove_single_use_special_effects(combat_main:CombatMain) -> void:
 func add_specials(effects:Array[SpecialEffect], combat_main:CombatMain) -> void:
 	special_effects.append_array(effects)
 	refresh_ui(combat_main)
-
-func card_face_refresh_for_turn() -> void:
-	turn_energy_modifier = 0
-
-func card_face_refresh_for_level() -> void:
-	level_energy_modifier = 0
-	special_effects = special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_COMBAT_SPECIAL_EFFECTS.has(special_effect))
-	for action:ActionData in actions:
-		action.modified_x_value = 0
-		action.modified_value = 0
-	if enchant_data:
-		enchant_data.action_data.modified_value = 0
-		enchant_data.action_data.modified_x_value = 0
 	
 func card_face_remove_single_use_special_effects() -> void:
 	special_effects = special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_USE_SPECIAL_EFFECTS.has(special_effect))

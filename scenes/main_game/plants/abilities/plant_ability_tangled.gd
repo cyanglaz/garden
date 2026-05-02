@@ -12,4 +12,4 @@ func _update_hand_cards(cards:Array) -> void:
 	if cards.is_empty():
 		return
 	var random_card:ToolData = Util.unweighted_roll(cards, 1)[0]
-	random_card.turn_energy_modifier += random_card.get_final_energy_cost()
+	random_card.turn_energy_modifier += random_card.energy_cost

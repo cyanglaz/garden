@@ -11,7 +11,7 @@ func _handle_exhaust_hook(_combat_main: CombatMain, _tool_datas: Array) -> void:
 func _make_card_free(cards: Array) -> void:
 	var modifiable_cards := _get_modifiable_cards(cards)
 	var random_card: ToolData = Util.unweighted_roll(modifiable_cards, 1)[0]
-	random_card.turn_energy_modifier = -random_card.get_final_energy_cost()
+	random_card.turn_energy_modifier = -random_card.energy_cost
 
 func _get_modifiable_cards(cards: Array) -> Array:
 	return cards.filter(func(card: ToolData) -> bool: return card.get_final_energy_cost() > 0)
