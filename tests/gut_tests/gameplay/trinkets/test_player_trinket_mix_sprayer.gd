@@ -23,6 +23,20 @@ func test_has_exhaust_hook_true_when_hand_not_empty() -> void:
 	var t := _make_trinket()
 	assert_true(t.has_exhaust_hook(_make_combat_main([ToolData.new()]), []))
 
+func test_has_exhaust_hook_false_when_energy_modifier_makes_hand_card_free() -> void:
+	var t := _make_trinket()
+	var card := ToolData.new()
+	card.energy_cost = 2
+	card.turn_energy_modifier = -2
+	assert_false(t.has_exhaust_hook(_make_combat_main([card]), []))
+
+func test_has_exhaust_hook_true_when_level_modifier_keeps_final_cost_positive() -> void:
+	var t := _make_trinket()
+	var card := ToolData.new()
+	card.energy_cost = 0
+	card.level_energy_modifier = 1
+	assert_true(t.has_exhaust_hook(_make_combat_main([card]), []))
+
 func test_has_exhaust_hook_false_when_hand_empty() -> void:
 	var t := _make_trinket()
 	assert_false(t.has_exhaust_hook(_make_combat_main([]), []))

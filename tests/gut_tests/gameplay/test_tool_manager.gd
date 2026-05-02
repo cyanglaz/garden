@@ -2,7 +2,11 @@ extends GutTest
 
 
 class FakeGUIToolCardContainer extends GUIToolCardContainer:
-	func animate_discard(_tool_datas: Array, _combat_main: CombatMain) -> void:
+	var turn_modifiers_seen_during_discard: Array[int] = []
+
+	func animate_discard(tool_datas: Array, _combat_main: CombatMain) -> void:
+		for tool_data: ToolData in tool_datas:
+			turn_modifiers_seen_during_discard.append(tool_data.turn_energy_modifier)
 		await Util.await_for_tiny_time()
 
 	func animate_exhaust(_tool_datas: Array, _combat_main: CombatMain) -> void:
@@ -89,6 +93,20 @@ func test_discard_refreshes_each_tool_for_turn() -> void:
 	container.free()
 
 
+func test_discard_refreshes_tools_after_discard_animation() -> void:
+	var ctx := _setup_manager_with_hand(["a"])
+	var manager: ToolManager = ctx["manager"]
+	var container: FakeGUIToolCardContainer = ctx["container"]
+	var hand_snapshot: Array = ctx["hand"].duplicate()
+	(hand_snapshot[0] as ToolData).turn_energy_modifier = 5
+
+	await manager.discard_cards(hand_snapshot, null)
+
+	assert_eq(container.turn_modifiers_seen_during_discard, [5])
+	assert_eq((hand_snapshot[0] as ToolData).turn_energy_modifier, 0)
+	container.free()
+
+
 func test_discard_emits_cards_removed_from_hand_once() -> void:
 	var ctx := _setup_manager_with_hand(["a", "b", "c"])
 	var manager: ToolManager = ctx["manager"]
@@ -106,7 +124,7 @@ func test_discard_emits_cards_removed_from_hand_once() -> void:
 	container.free()
 
 
-func test_discard_defaults_to_end_turn_true() -> void:
+func test_discard_defaults_to_not_end_turn() -> void:
 	var ctx := _setup_manager_with_hand(["a"])
 	var manager: ToolManager = ctx["manager"]
 	var container: FakeGUIToolCardContainer = ctx["container"]
@@ -119,11 +137,11 @@ func test_discard_defaults_to_end_turn_true() -> void:
 
 	await manager.discard_cards(hand_snapshot, null)
 
-	assert_eq(captured["end_turn"], false, "discard_cards default `end_turn` should be true")
+	assert_eq(captured["end_turn"], false, "discard_cards default `end_turn` should be false")
 	container.free()
 
 
-func test_discard_respects_end_turn_false_flag() -> void:
+func test_discard_respects_end_turn_true_flag() -> void:
 	var ctx := _setup_manager_with_hand(["a"])
 	var manager: ToolManager = ctx["manager"]
 	var container: FakeGUIToolCardContainer = ctx["container"]
@@ -134,10 +152,10 @@ func test_discard_respects_end_turn_false_flag() -> void:
 		func(_tool_datas: Variant, end_turn: bool) -> void: captured["end_turn"] = end_turn
 	)
 
-	await manager.discard_cards(hand_snapshot, null, false)
+	await manager.discard_cards(hand_snapshot, null, true)
 
-	assert_eq(captured["end_turn"], false,
-		"discard_cards should forward end_turn=false (e.g. end-of-turn cleanup)")
+	assert_eq(captured["end_turn"], true,
+		"discard_cards should forward end_turn=true for end-of-turn cleanup")
 	container.free()
 
 #endregion

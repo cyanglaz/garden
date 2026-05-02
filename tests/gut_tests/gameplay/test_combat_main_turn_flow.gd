@@ -8,6 +8,13 @@ class FakePlayer extends Player:
 		end_turn_calls += 1
 
 
+class RecordingPlayerUpgradesManager extends PlayerUpgradesManager:
+	var queued_tool_data: ToolData
+
+	func queue_tool_application_hook(_combat_main: CombatMain, tool_data: ToolData) -> void:
+		queued_tool_data = tool_data
+
+
 class FakePlantFieldContainer extends PlantFieldContainer:
 	var end_turn_hook_calls := 0
 	var force_bloom := false
@@ -17,6 +24,9 @@ class FakePlantFieldContainer extends PlantFieldContainer:
 
 	func are_all_plants_bloom() -> bool:
 		return force_bloom
+
+	func clear_tool_indicators() -> void:
+		pass
 
 
 class FakeWeatherMain extends WeatherMain:
@@ -56,6 +66,14 @@ class FakeGUICombatMain extends GUICombatMain:
 	func toggle_all_ui(_on: bool) -> void:
 		pass
 
+	func clear_tool_selection() -> void:
+		pass
+
+
+class FakeDiscardGUIToolCardContainer extends GUIToolCardContainer:
+	func animate_discard(_tool_datas: Array, _combat_main: CombatMain) -> void:
+		await Util.await_for_tiny_time()
+
 
 func _attach_minimal_gui(cm: CombatMain) -> GUIToolCardContainer:
 	var gui := FakeGUICombatMain.new()
@@ -88,6 +106,20 @@ func _disconnect_capture(capture: Dictionary) -> void:
 	var callable: Callable = capture["callable"]
 	if Events.request_combat_queue_push.is_connected(callable):
 		Events.request_combat_queue_push.disconnect(callable)
+
+
+func _make_tool(id: String) -> ToolData:
+	var tool := ToolData.new()
+	tool.id = id
+	return tool
+
+
+func _make_tool_manager_with_hand(tools: Array[ToolData]) -> Dictionary:
+	var container := FakeDiscardGUIToolCardContainer.new()
+	var manager := ToolManager.new(tools, container)
+	manager.tool_deck.draw_pool = manager.tool_deck.pool.duplicate()
+	manager.tool_deck.draw(tools.size())
+	return {"manager": manager, "container": container}
 
 
 func test_set_is_mid_turn_propagates_to_gui_tool_card_container() -> void:
@@ -134,6 +166,70 @@ func test_end_turn_button_pushes_unique_request_and_invokes_end_turn() -> void:
 	assert_eq(request.unique_id, "end_turn")
 	request.callback.call(cm)
 	assert_eq(cm.end_turn_calls, 1)
+
+
+func test_discard_cards_forwards_not_end_turn_flag() -> void:
+	var cm := CombatMain.new()
+	autofree(cm)
+	var tool := _make_tool("manual_discard")
+	var ctx := _make_tool_manager_with_hand([tool])
+	cm.tool_manager = ctx["manager"]
+	var hand_snapshot := cm.tool_manager.tool_deck.hand.duplicate()
+	var captured := {"end_turn": null}
+	cm.tool_manager.tools_discarded.connect(
+		func(_tools: Array, end_turn: bool) -> void: captured["end_turn"] = end_turn
+	)
+
+	await cm.discard_cards(hand_snapshot)
+
+	assert_eq(captured["end_turn"], false)
+	(ctx["container"] as FakeDiscardGUIToolCardContainer).free()
+
+
+func test_queue_discard_all_cards_forwards_end_turn_flag() -> void:
+	var cm := CombatMain.new()
+	autofree(cm)
+	var tool := _make_tool("end_turn_discard")
+	var ctx := _make_tool_manager_with_hand([tool])
+	cm.tool_manager = ctx["manager"]
+
+	var captured := {"end_turn": null}
+	cm.tool_manager.tools_discarded.connect(
+		func(_tools: Array, end_turn: bool) -> void: captured["end_turn"] = end_turn
+	)
+
+	var capture := _capture_queue_requests()
+	cm._queue_discard_all_cards(false)
+	assert_eq(capture.requests.size(), 1)
+	await (capture.requests[0] as CombatQueueRequest).callback.call(cm)
+	_disconnect_capture(capture)
+
+	assert_eq(captured["end_turn"], true)
+	(ctx["container"] as FakeDiscardGUIToolCardContainer).free()
+
+
+func test_tool_application_completed_queues_player_hook_with_duplicate() -> void:
+	var cm := CombatMain.new()
+	autofree(cm)
+	_attach_minimal_gui(cm)
+	var fake_field := FakePlantFieldContainer.new()
+	autofree(fake_field)
+	cm.plant_field_container = fake_field
+	var fake_player := FakePlayer.new()
+	autofree(fake_player)
+	var recording_manager := RecordingPlayerUpgradesManager.new()
+	fake_player.player_upgrades_manager = recording_manager
+	cm.player = fake_player
+
+	var tool := _make_tool("completed_tool")
+	tool.turn_energy_modifier = -1
+
+	cm._on_tool_application_completed(tool)
+
+	assert_not_null(recording_manager.queued_tool_data)
+	assert_ne(recording_manager.queued_tool_data, tool)
+	assert_eq(recording_manager.queued_tool_data.id, "completed_tool")
+	assert_eq(recording_manager.queued_tool_data.turn_energy_modifier, -1)
 
 
 func test_end_turn_zeroes_energy_immediately() -> void:

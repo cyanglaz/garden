@@ -116,6 +116,21 @@ func test_refresh_for_level_resets_all_actions():
 	assert_eq(a1.modified_value, 0)
 	assert_eq(a2.modified_value, 0)
 
+func test_refresh_for_level_resets_enchant_action_modified_values():
+	var td := _make_tool()
+	td.enchant_data = _make_enchant(1, ActionData.ActionType.LIGHT, 3)
+	td.enchant_data.action_data.modified_value = 4
+	td.enchant_data.action_data.modified_x_value = 2
+	td.refresh_for_level()
+	assert_eq(td.enchant_data.action_data.modified_value, 0)
+	assert_eq(td.enchant_data.action_data.modified_x_value, 0)
+
+func test_refresh_for_level_removes_single_combat_special_effects():
+	var td := _make_tool()
+	td.special_effects = [ToolData.SpecialEffect.STASHED]
+	td.refresh_for_level()
+	assert_eq(td.special_effects, [])
+
 # ----- _get_cost (rarity-based shop cost) -----
 
 func test_cost_for_common():

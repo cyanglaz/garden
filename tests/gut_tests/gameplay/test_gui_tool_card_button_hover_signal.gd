@@ -54,3 +54,23 @@ func test_refresh_full_cycle_emits_once_each() -> void:
 	card._refresh_card_hover_state()
 	assert_signal_emit_count(card, "mouse_entered_card", 1)
 	assert_signal_emit_count(card, "mouse_exited_card", 1)
+
+
+func test_press_up_does_not_emit_pressed_when_card_is_ineligible() -> void:
+	var card = _make_card()
+	card.card_state = GUICardFace.CardState.INELIGIBLE
+	watch_signals(card)
+
+	card._handle_press_up()
+
+	assert_signal_emit_count(card, "pressed", 0)
+
+
+func test_press_up_emits_pressed_when_card_is_eligible() -> void:
+	var card = _make_card()
+	card.card_state = GUICardFace.CardState.NORMAL
+	watch_signals(card)
+
+	card._handle_press_up()
+
+	assert_signal_emit_count(card, "pressed", 1)
