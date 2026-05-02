@@ -86,7 +86,7 @@ func refresh_for_level() -> void:
 	for action:ActionData in actions:
 		action.modified_x_value = 0
 		action.modified_value = 0
-	if enchant_data:
+	if enchant_data && enchant_data.action_data:
 		enchant_data.action_data.modified_value = 0
 		enchant_data.action_data.modified_x_value = 0
 
@@ -96,15 +96,12 @@ func get_duplicate() -> ToolData:
 	return dup
 
 func remove_single_use_special_effects(combat_main:CombatMain) -> void:
-	card_face_remove_single_use_special_effects()
+	special_effects = special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_USE_SPECIAL_EFFECTS.has(special_effect))
 	refresh_ui(combat_main)
 
 func add_specials(effects:Array[SpecialEffect], combat_main:CombatMain) -> void:
 	special_effects.append_array(effects)
 	refresh_ui(combat_main)
-	
-func card_face_remove_single_use_special_effects() -> void:
-	special_effects = special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_USE_SPECIAL_EFFECTS.has(special_effect))
 
 func _get_localization_prefix() -> String:
 	return "TOOL_"
