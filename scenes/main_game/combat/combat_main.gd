@@ -449,8 +449,8 @@ func _on_tools_exhausted(tool_datas:Array) -> void:
 func _on_tools_drawn(tool_datas:Array) -> void:
 	player.player_upgrades_manager.queue_draw_hooks(self, tool_datas)
 
-func _on_tools_discarded(tool_datas:Array, explicitly:bool) -> void:
-	if explicitly:
+func _on_tools_discarded(tool_datas:Array, end_turn:bool) -> void:
+	if !end_turn:
 		player.player_upgrades_manager.queue_discard_hooks(self, tool_datas)
 
 func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:

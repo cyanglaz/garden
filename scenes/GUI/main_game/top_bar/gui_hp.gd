@@ -62,23 +62,7 @@ func _on_hp_value_update(hp:ResourcePoint) -> void:
 		var diff = hp.value - _current_value
 		if diff == 0:
 			return
-	_current_value = hp.value
-	var tint_color:Color = HP_SAFE_COLOR
-	var percentage:float = (hp.value as float) / hp.max_value
-	if percentage >= HP_MODERATE_PERCENTAGE:
-		tint_color = HP_SAFE_COLOR
-	elif percentage >= HP_DANGER_PERCENTAGE:
-		tint_color = HP_MODERATE_COLOR
-	else:
-		tint_color = HP_DANGER_COLOR
-	_label.text = str(hp.value, "/", hp.max_value)
-	for i in range(hp.max_value):
-		if i < hp.value:
-			_segment_container.get_child(i).is_empty = false
-			_segment_container.get_child(i).modulate = tint_color
-		else:
-			_segment_container.get_child(i).is_empty = true
-			_segment_container.get_child(i).modulate = Constants.COLOR_WHITE
+	_force_update_hp_ui(hp)
 
 func _play_animation(diff:int) -> void:
 	#var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()

@@ -1,12 +1,11 @@
-[gd_resource type="Resource" script_class="ToolData" load_steps=3 format=3 uid="uid://cle5bi6japsh5"]
+[gd_resource type="Resource" script_class="ToolData" format=3 uid="uid://cle5bi6japsh5"]
 
 [ext_resource type="Script" uid="uid://buaqjgs5j8pa1" path="res://data/models/actions/action_data.gd" id="1_kds7y"]
 [ext_resource type="Script" uid="uid://vq7dpxeq7spe" path="res://data/models/tools/tool_data.gd" id="2_nj3du"]
 
 [resource]
 script = ExtResource("2_nj3du")
+energy_cost = 0
 rarity = 1
-specials = Array[int]([0])
 id = "refill"
-
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"
