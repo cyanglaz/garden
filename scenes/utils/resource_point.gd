@@ -66,10 +66,9 @@ func _set_value(val:int):
 	value_update.emit()
 
 func _set_max_value(val:int):
-	var diff := val - max_value
 	max_value = val
 	max_value_update.emit()
-	value += diff
+	_set_value(value)
 
 func _value_empty():
 	empty.emit()
