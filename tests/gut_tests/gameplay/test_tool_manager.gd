@@ -97,7 +97,7 @@ func test_discard_emits_cards_removed_from_hand_once() -> void:
 
 	var emit_counter := {"value": 0}
 	manager.tools_discarded.connect(
-		func(_tool_datas: Variant, _explicit:bool) -> void: emit_counter["value"] += 1
+		func(_tool_datas: Variant, _end_turn:bool) -> void: emit_counter["value"] += 1
 	)
 
 	await manager.discard_cards(hand_snapshot, null)
@@ -106,38 +106,38 @@ func test_discard_emits_cards_removed_from_hand_once() -> void:
 	container.free()
 
 
-func test_discard_defaults_to_explicit_true() -> void:
+func test_discard_defaults_to_end_turn_true() -> void:
 	var ctx := _setup_manager_with_hand(["a"])
 	var manager: ToolManager = ctx["manager"]
 	var container: FakeGUIToolCardContainer = ctx["container"]
 	var hand_snapshot: Array = ctx["hand"].duplicate()
 
-	var captured := {"explicitly": null}
+	var captured := {"end_turn": null}
 	manager.tools_discarded.connect(
-		func(_tool_datas: Variant, explicit: bool) -> void: captured["explicitly"] = explicit
+		func(_tool_datas: Variant, end_turn: bool) -> void: captured["end_turn"] = end_turn
 	)
 
 	await manager.discard_cards(hand_snapshot, null)
 
-	assert_eq(captured["explicitly"], true, "discard_cards default `explicitly` should be true")
+	assert_eq(captured["end_turn"], false, "discard_cards default `end_turn` should be true")
 	container.free()
 
 
-func test_discard_respects_explicit_false_flag() -> void:
+func test_discard_respects_end_turn_false_flag() -> void:
 	var ctx := _setup_manager_with_hand(["a"])
 	var manager: ToolManager = ctx["manager"]
 	var container: FakeGUIToolCardContainer = ctx["container"]
 	var hand_snapshot: Array = ctx["hand"].duplicate()
 
-	var captured := {"explicitly": null}
+	var captured := {"end_turn": null}
 	manager.tools_discarded.connect(
-		func(_tool_datas: Variant, explicit: bool) -> void: captured["explicitly"] = explicit
+		func(_tool_datas: Variant, end_turn: bool) -> void: captured["end_turn"] = end_turn
 	)
 
 	await manager.discard_cards(hand_snapshot, null, false)
 
-	assert_eq(captured["explicitly"], false,
-		"discard_cards should forward explicit=false (e.g. end-of-turn cleanup)")
+	assert_eq(captured["end_turn"], false,
+		"discard_cards should forward end_turn=false (e.g. end-of-turn cleanup)")
 	container.free()
 
 #endregion
