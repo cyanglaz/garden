@@ -54,6 +54,13 @@ jobs:
             builds/linux/MayThereBeeFlowers.x86_64
           cd builds && zip -r linux.zip linux/
 
+      - name: Export Web build
+        run: |
+          mkdir -p builds/web
+          godot --headless --export-release "Web" \
+            builds/web/index.html
+          cd builds && zip -r web.zip web/
+
       - name: Install butler
         run: |
           curl -L -o butler.zip \
@@ -75,4 +82,12 @@ jobs:
         run: |
           ./butler push builds/linux.zip \
             ${{ secrets.ITCH_USERNAME }}/${{ secrets.ITCH_GAME_ID }}:demo-linux \
+            --userversion ${{ steps.version.outputs.version }}
+
+      - name: Upload Web to itch.io
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: |
+          ./butler push builds/web.zip \
+            ${{ secrets.ITCH_USERNAME }}/${{ secrets.ITCH_GAME_ID }}:demo-web \
             --userversion ${{ steps.version.outputs.version }}
