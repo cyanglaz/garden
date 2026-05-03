@@ -141,6 +141,7 @@ func _start_new_level() -> void:
 func _start_turn() -> void:
 	assert(gui.is_ui_locked(), "UI is not locked before start turn, this should not happen as it will cause a deadlock")
 	combat_modifier_manager.apply_modifiers(CombatModifier.ModifierTiming.TURN)
+	tool_manager.refresh_for_turn()
 	boost = maxi(boost - 1, 1)
 	day_manager.next_day()
 	weather_main.generate_next_weather_abilities(self, day_manager.day)

@@ -77,33 +77,19 @@ func test_discard_multiple_cards_moves_all_once_into_discard_pool() -> void:
 	container.free()
 
 
-func test_discard_refreshes_each_tool_for_turn() -> void:
+func test_refresh_tools_refreshes_each_tool() -> void:
 	var ctx := _setup_manager_with_hand(["a", "b", "c"])
 	var manager: ToolManager = ctx["manager"]
 	var container: FakeGUIToolCardContainer = ctx["container"]
-	var hand_snapshot: Array = ctx["hand"].duplicate()
-	for tool_data: ToolData in hand_snapshot:
+	var pool_snapshot: Array = ctx["hand"].duplicate()
+	for tool_data: ToolData in pool_snapshot:
 		tool_data.turn_energy_modifier = 5
+	manager.tool_deck.pool = pool_snapshot
+	await manager.refresh_for_turn()
 
-	await manager.discard_cards(hand_snapshot, null)
-
-	for tool_data: ToolData in hand_snapshot:
+	for tool_data: ToolData in pool_snapshot:
 		assert_eq(tool_data.turn_energy_modifier, 0,
 			"refresh_for_turn should have reset turn_energy_modifier for %s" % tool_data.id)
-	container.free()
-
-
-func test_discard_refreshes_tools_after_discard_animation() -> void:
-	var ctx := _setup_manager_with_hand(["a"])
-	var manager: ToolManager = ctx["manager"]
-	var container: FakeGUIToolCardContainer = ctx["container"]
-	var hand_snapshot: Array = ctx["hand"].duplicate()
-	(hand_snapshot[0] as ToolData).turn_energy_modifier = 5
-
-	await manager.discard_cards(hand_snapshot, null)
-
-	assert_eq(container.turn_modifiers_seen_during_discard, [5])
-	assert_eq((hand_snapshot[0] as ToolData).turn_energy_modifier, 0)
 	container.free()
 
 

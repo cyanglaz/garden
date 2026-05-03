@@ -3,9 +3,17 @@ extends GutTest
 
 class FakePlayer extends Player:
 	var end_turn_calls := 0
+	var start_turn_calls := 0
+	var hand_size_bonus := 0
 
 	func queue_handle_turn_end(_combat_main: CombatMain) -> void:
 		end_turn_calls += 1
+
+	func queue_start_turn_hooks(_combat_main: CombatMain) -> void:
+		start_turn_calls += 1
+
+	func handle_hand_size(_combat_main: CombatMain) -> int:
+		return hand_size_bonus
 
 
 class RecordingPlayerUpgradesManager extends PlayerUpgradesManager:
@@ -17,10 +25,14 @@ class RecordingPlayerUpgradesManager extends PlayerUpgradesManager:
 
 class FakePlantFieldContainer extends PlantFieldContainer:
 	var end_turn_hook_calls := 0
+	var start_turn_hook_calls := 0
 	var force_bloom := false
 
 	func queue_end_turn_abilities(_combat_main: CombatMain) -> void:
 		end_turn_hook_calls += 1
+
+	func queue_start_turn_abilities(_combat_main: CombatMain) -> void:
+		start_turn_hook_calls += 1
 
 	func are_all_plants_bloom() -> bool:
 		return force_bloom
@@ -33,9 +45,13 @@ class FakeWeatherMain extends WeatherMain:
 	var apply_calls := 0
 	var night_fall_calls := 0
 	var new_day_calls := 0
+	var generated_turns: Array[int] = []
 
 	func queue_weather_abilities() -> void:
 		apply_calls += 1
+
+	func generate_next_weather_abilities(_combat_main: CombatMain, turn_index: int) -> void:
+		generated_turns.append(turn_index)
 
 	func night_fall() -> void:
 		night_fall_calls += 1
@@ -63,15 +79,28 @@ class EndTurnButtonSpyCombatMain extends CombatMain:
 # GUICombatMain.toggle_all_ui touches @onready nodes that aren't available when
 # the GUI is instantiated via .new() (no scene tree). Stub it out for tests.
 class FakeGUICombatMain extends GUICombatMain:
+	var ui_locked := false
+	var toggle_all_ui_calls: Array[bool] = []
+	var boost_updates: Array[int] = []
+
 	func toggle_all_ui(_on: bool) -> void:
-		pass
+		toggle_all_ui_calls.append(_on)
+
+	func is_ui_locked() -> bool:
+		return ui_locked
 
 	func clear_tool_selection() -> void:
 		pass
 
+	func update_boost(value: int) -> void:
+		boost_updates.append(value)
+
 
 class FakeDiscardGUIToolCardContainer extends GUIToolCardContainer:
 	func animate_discard(_tool_datas: Array, _combat_main: CombatMain) -> void:
+		await Util.await_for_tiny_time()
+
+	func animate_draw(_tool_datas: Array, _combat_main: CombatMain) -> void:
 		await Util.await_for_tiny_time()
 
 
@@ -136,6 +165,91 @@ func test_set_is_mid_turn_propagates_to_gui_tool_card_container() -> void:
 	assert_false(cm.is_mid_turn)
 	assert_false(card_container.is_mid_turn)
 	assert_false(cm.tool_manager.is_mid_turn)
+
+
+func test_start_turn_refreshes_state_queues_draw_and_turn_started_signal() -> void:
+	var cm := CombatMain.new()
+	autofree(cm)
+	_attach_minimal_gui(cm)
+
+	var fake_player := FakePlayer.new()
+	autofree(fake_player)
+	fake_player.hand_size_bonus = 1
+	cm.player = fake_player
+
+	var fake_field := FakePlantFieldContainer.new()
+	autofree(fake_field)
+	cm.plant_field_container = fake_field
+
+	var fake_weather := FakeWeatherMain.new()
+	autofree(fake_weather)
+	cm.weather_main = fake_weather
+
+	var first_tool := _make_tool("first")
+	var second_tool := _make_tool("second")
+	var third_tool := _make_tool("third")
+	var container := FakeDiscardGUIToolCardContainer.new()
+	var manager := ToolManager.new([first_tool, second_tool, third_tool], container)
+	manager.tool_deck.draw_pool = manager.tool_deck.pool.duplicate()
+	var duplicated_first_tool: ToolData = manager.tool_deck.pool[0]
+	duplicated_first_tool.turn_energy_modifier = 5
+	cm.tool_manager = manager
+	cm.hand_size = 2
+	(cm.gui as FakeGUICombatMain).ui_locked = true
+	cm.boost = 3
+	cm.day_manager.day = 0
+	watch_signals(cm)
+
+	var capture := _capture_queue_requests()
+	cm._start_turn()
+	_disconnect_capture(capture)
+
+	assert_eq(cm.day_manager.day, 1)
+	assert_eq(fake_weather.generated_turns, [1])
+	assert_eq(fake_player.start_turn_calls, 1)
+	assert_eq(fake_field.start_turn_hook_calls, 1)
+	assert_eq(duplicated_first_tool.turn_energy_modifier, 0)
+	assert_eq(cm.boost, 2)
+	assert_eq(capture.requests.size(), 2)
+	assert_false(cm.is_mid_turn)
+	assert_signal_emit_count(cm, "turn_started", 0)
+
+	await (capture.requests[0] as CombatQueueRequest).callback.call(cm)
+	assert_eq(cm.tool_manager.tool_deck.hand.size(), 3)
+	assert_true(cm.is_mid_turn)
+	assert_signal_emit_count(cm, "turn_started", 0)
+
+	await (capture.requests[1] as CombatQueueRequest).callback.call(cm)
+	assert_eq((cm.gui as FakeGUICombatMain).toggle_all_ui_calls, [true])
+	assert_signal_emit_count(cm, "turn_started", 1)
+	container.free()
+
+
+func test_queue_start_turn_invokes_start_turn_when_level_is_active() -> void:
+	var cm := TestCombatMain.new()
+	autofree(cm)
+
+	var capture := _capture_queue_requests()
+	cm._queue_start_turn()
+	_disconnect_capture(capture)
+
+	assert_eq(capture.requests.size(), 1)
+	await (capture.requests[0] as CombatQueueRequest).callback.call(cm)
+	assert_eq(cm.start_turn_calls, 1)
+
+
+func test_queue_start_turn_skips_when_level_is_completed() -> void:
+	var cm := TestCombatMain.new()
+	autofree(cm)
+	cm._level_completed = true
+
+	var capture := _capture_queue_requests()
+	cm._queue_start_turn()
+	_disconnect_capture(capture)
+
+	assert_eq(capture.requests.size(), 1)
+	await (capture.requests[0] as CombatQueueRequest).callback.call(cm)
+	assert_eq(cm.start_turn_calls, 0)
 
 
 func test_end_turn_button_ignored_when_not_mid_turn() -> void:

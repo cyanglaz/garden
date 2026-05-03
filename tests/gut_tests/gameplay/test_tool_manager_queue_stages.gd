@@ -135,35 +135,6 @@ func test_first_tool_can_discard_second_queued_tool_without_crash() -> void:
 	combat_main.free()
 	gui_container.free()
 
-func test_application_completed_receives_tool_snapshot_before_finish_refresh() -> void:
-	var tool_data := _make_tool_data("discounted")
-	tool_data.turn_energy_modifier = -2
-	var gui_container := FakeGUIToolCardContainer.new()
-	autofree(gui_container)
-	var manager := ToolManager.new([tool_data], gui_container)
-	manager.tool_deck.draw_pool = manager.tool_deck.pool.duplicate()
-	var hand: Array = manager.tool_deck.draw(1)
-	var discounted_tool: ToolData = hand[0]
-	gui_container.register_tool(discounted_tool)
-
-	var combat_main := FakeCombatMain.new()
-	autofree(combat_main)
-	combat_main.tool_manager = manager
-	combat_main.energy_tracker.setup(10, 10)
-	manager.is_mid_turn = true
-	manager._tool_applier = FakeToolApplier.new(null)
-
-	var completed_tools: Array[ToolData] = []
-	manager.tool_application_completed.connect(func(td: ToolData) -> void: completed_tools.append(td))
-
-	manager.queue_apply_tool(combat_main, discounted_tool)
-	await _await_queue_idle(combat_main.combat_queue_manager)
-
-	assert_eq(completed_tools.size(), 1)
-	assert_ne(completed_tools[0], discounted_tool)
-	assert_eq(completed_tools[0].turn_energy_modifier, -2)
-	assert_eq(discounted_tool.turn_energy_modifier, 0)
-
 func test_queued_tool_bails_when_energy_is_insufficient_at_execution_time() -> void:
 	var tool_data := _make_tool_data("costly")
 	tool_data.energy_cost = 1

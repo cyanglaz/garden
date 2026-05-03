@@ -76,6 +76,11 @@ func trigger_turn_end_cards(combat_main:CombatMain) -> void:
 		return
 	for tool_data in end_turn_cards:
 		queue_apply_tool(combat_main, tool_data)
+	
+func refresh_for_turn() -> void:
+	print("refresh_for_turn")
+	for tool_data in tool_deck.pool:
+		tool_data.refresh_for_turn()
 			
 func discard_cards(tools:Array, combat_main:CombatMain, end_turn:bool = false) -> void:
 	assert(tools.size() > 0)
@@ -84,8 +89,6 @@ func discard_cards(tools:Array, combat_main:CombatMain, end_turn:bool = false) -
 	tool_deck.discard(tools)
 	tools_discarded.emit(tools, end_turn)
 	await _gui_tool_card_container.animate_discard(tools, combat_main)
-	for tool_data in tools:
-		tool_data.refresh_for_turn()
 
 func exhaust_cards(tools:Array, combat_main:CombatMain) -> void:
 	assert(tools.size() > 0)
@@ -194,10 +197,9 @@ func _run_tool_stage_finish(combat_main:CombatMain, tool_data:ToolData, stage_co
 		return
 	number_of_card_used_this_turn += 1
 	tool_application_success.emit(tool_data)
-	var tool_data_duplicate:ToolData = tool_data.get_duplicate()
 	await _finish_card(tool_data, combat_main)
 	# ToolData can be reset after _finish_card, so we need to get a duplicate to run application_complete hooks.
-	await _handle_tool_application_completed(tool_data_duplicate, combat_main)
+	await _handle_tool_application_completed(tool_data, combat_main)
 
 func _can_execute_queued_tool(tool_data:ToolData) -> bool:
 	if !tool_deck.hand.has(tool_data):
