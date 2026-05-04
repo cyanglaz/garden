@@ -1,5 +1,5 @@
-class_name GUIToolShopButton
-extends GUIShopButton
+class_name GUIToolShopPanel
+extends GUIShopPanel
 
 @onready var gui_tool_card_button: GUIToolCardButton = %GUIToolCardButton
 
@@ -24,23 +24,16 @@ func _get_hover_sound() -> AudioStream:
 func _get_click_sound() -> AudioStream:
 	return gui_tool_card_button._get_click_sound()
 
-func _set_sufficient_gold(val:bool) -> void:
-	super._set_sufficient_gold(val)
-	if val:
-		gui_tool_card_button.resource_sufficient = true
-	else:
-		gui_tool_card_button.resource_sufficient = false
+func update_for_gold(gold:int) -> void:
+	super.update_for_gold(gold)
+	gui_tool_card_button.resource_sufficient = cost <= gold
 
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
-	highlighted = true
-	gold_icon.has_outline = true
 	gui_tool_card_button.toggle_tooltip(true)
 	Events.update_hovered_data.emit(_weak_tool_data.get_ref())
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
-	highlighted = false
-	gold_icon.has_outline = false
 	gui_tool_card_button.toggle_tooltip(false)
 	Events.update_hovered_data.emit(null)
