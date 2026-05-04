@@ -15,7 +15,7 @@ const ENCHANT_SHOP_PANEL_SCENE := preload("res://scenes/GUI/shop/shop_buttons/gu
 @onready var enchant_container: HBoxContainer = %EnchantContainer
 @onready var finish_button: GUIRichTextButton = %FinishButton
 @onready var gui_enchant_main: GUIEnchantMain = %GUIEnchantMain
-@onready var _main_panel: PanelContainer = %MainPanel
+#@onready var _main_panel: PanelContainer = %MainPanel
 @onready var _title: Label = %Title
 @onready var _insufficient_gold_audio: AudioStreamPlayer2D = %InsufficientGoldAudio
 
@@ -28,7 +28,7 @@ var _pending_enchant_panel: GUIEnchantShopPanel = null
 var _pending_enchant_cost: int = 0
 
 func _ready() -> void:
-	_display_y = _main_panel.position.y
+	#_display_y = _main_panel.position.y
 	finish_button.pressed.connect(_on_finish_button_pressed)
 	_title.text = Util.get_localized_string("SHOP_TITLE")
 	gui_enchant_main.hide()
@@ -48,9 +48,9 @@ func animate_show(number_of_tools:int, gold:int, excluded_trinket_ids: Array[Str
 func animate_hide() -> void:
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
 	finish_button.hide()
-	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(_main_panel, "position:y", Constants.PENEL_HIDE_Y, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
-	await tween.finished
+	#var tween := Util.create_scaled_tween(self)
+	#tween.tween_property(_main_panel, "position:y", Constants.PENEL_HIDE_Y, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
+	#await tween.finished
 	hide()
 
 func update_for_gold(gold:int) -> void:
@@ -97,10 +97,10 @@ func _populate_enchants() -> void:
 		enchant_shop_panel.mouse_exited.connect(_on_shop_panel_mouse_exited.bind())
 
 func _play_show_animation() -> void:
-	_main_panel.position.y = Constants.PENEL_HIDE_Y
-	var tween := Util.create_scaled_tween(self)
-	tween.tween_property(_main_panel, "position:y", _display_y, Constants.SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
-	await tween.finished
+	#_main_panel.position.y = Constants.PENEL_HIDE_Y
+	#var tween := Util.create_scaled_tween(self)
+	#tween.tween_property(_main_panel, "position:y", _display_y, Constants.SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	#await tween.finished
 	finish_button.show()
 
 func _on_tool_shop_panel_shop_button_pressed(gui_shop_panel:GUIShopPanel, tool_data:ToolData) -> void:

@@ -1,7 +1,7 @@
 class_name ShopMain
 extends Node2D
 
-const NUMBER_OF_CARDS := 5
+const NUMBER_OF_CARDS := 4
 
 signal finish_button_pressed()
 signal shop_button_pressed(cost: int)

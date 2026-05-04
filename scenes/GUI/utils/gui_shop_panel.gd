@@ -4,14 +4,17 @@ extends PanelContainer
 signal shop_button_pressed()
 
 @onready var gui_shop_button: GUIShopButton = %GUIShopButton
+@onready var background: NinePatchRect = %Background
 
 var cost:int:set = _set_cost
 var highlighted := false: set = _set_highlighted
-
+var sufficient_gold := false: get = _get_sufficient_gold
 func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 	gui_shop_button.pressed.connect(_on_shop_button_pressed)
+	gui_shop_button.mouse_entered.connect(_on_mouse_entered)
+	gui_shop_button.mouse_exited.connect(_on_mouse_exited)
 
 func update_for_gold(gold:int) -> void:
 	gui_shop_button.sufficient_gold = cost <= gold
@@ -31,3 +34,7 @@ func _on_shop_button_pressed() -> void:
 
 func _set_highlighted(val:bool) -> void:
 	highlighted = val
+	background.material.set_shader_parameter("outline_size", 1 if val else 0)
+
+func _get_sufficient_gold() -> bool:
+	return gui_shop_button.sufficient_gold

@@ -2,25 +2,28 @@
 
 [ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_sso3n"]
 [ext_resource type="Script" uid="uid://bsc770vvxl30i" path="res://scenes/GUI/utils/gui_shop_panel.gd" id="2_76t1l"]
-[ext_resource type="Texture2D" uid="uid://3r1kywcc4hqb" path="res://resources/sprites/GUI/theme/tab_options_control_border.png" id="3_m6ae5"]
+[ext_resource type="Shader" uid="uid://wa6gtqeu0no" path="res://scenes/GUI/utils/gui_shop_panel.gdshader" id="3_dkl8n"]
+[ext_resource type="Texture2D" uid="uid://fpbrqhq7vabx" path="res://resources/sprites/GUI/backgrounds/shop_panel_background.png" id="4_dkl8n"]
 [ext_resource type="PackedScene" uid="uid://cjwela3c0gf3y" path="res://scenes/GUI/controls/buttons/gui_shop_button.tscn" id="4_ynf87"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_76t1l"]
+resource_local_to_scene = true
+shader = ExtResource("3_dkl8n")
+shader_parameter/outline_color = Color(0.99215686, 0.8235294, 0.92941177, 1)
+shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
 
 [node name="GUIShopPanel" unique_id=128985655 instance=ExtResource("1_sso3n")]
 offset_right = 37.0
 offset_bottom = 57.0
 script = ExtResource("2_76t1l")
-short_cut = null
-action_type = null
-hold_time = null
-button_state = null
-tool_tip_localized_string = null
-tooltip_position = null
-hover_sound = null
-click_sound = null
 
 [node name="Background" type="NinePatchRect" parent="." index="0" unique_id=802552799]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_76t1l")
 layout_mode = 2
-texture = ExtResource("3_m6ae5")
+texture = ExtResource("4_dkl8n")
 patch_margin_left = 3
 patch_margin_top = 3
 patch_margin_right = 3
