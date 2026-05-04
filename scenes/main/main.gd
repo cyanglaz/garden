@@ -48,6 +48,6 @@ func load_scene_with_loading_screen(next_scene_path: String) -> void:
 
 func change_to(scene: Node) -> void:
 	if current_scene:
-		current_scene.queue_free()
+		current_scene.queue_free.call_deferred()
+	add_child.call_deferred(scene)
 	current_scene = scene
-	add_child(scene)

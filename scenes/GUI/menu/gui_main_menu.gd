@@ -13,7 +13,7 @@ const SLIDE_STAGGER := 0.06
 @onready var _version_label: Label = %VersionLabel
 @onready var _animation_player: AnimationPlayer = %AnimationPlayer
 
-var button_naural_x := []
+var button_natural_x := []
 
 func _ready():
 	PauseManager.try_unpause()
@@ -26,7 +26,7 @@ func _ready():
 	_animation_player.play("default")
 	var buttons: Array[Control] = [_new_game_button, _options_button, _credits_button, _exit_button]
 	for button in buttons:
-		button_naural_x.append(button.position.x)
+		button_natural_x.append(button.position.x)
 		button.position.x -= 400.0
 
 func animate_buttons_slide_in() -> void:
@@ -34,7 +34,7 @@ func animate_buttons_slide_in() -> void:
 	var tween := Util.create_scaled_tween(self)
 	tween.set_parallel(true)
 	for i in buttons.size():
-		tween.tween_property(buttons[i], "position:x", button_naural_x[i], SLIDE_DURATION) \
+		tween.tween_property(buttons[i], "position:x", button_natural_x[i], SLIDE_DURATION) \
 			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) \
 			.set_delay(i * SLIDE_STAGGER)
 
