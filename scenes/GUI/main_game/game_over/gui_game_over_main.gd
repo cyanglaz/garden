@@ -1,7 +1,6 @@
 class_name GUIGameOverMain
 extends Control
 
-const MENU_SCENE_PATH = "res://scenes/menu/main_menu.tscn"
 
 const DISPLAY_ITEMS_DELAY := 0.1
 
@@ -21,4 +20,4 @@ func animate_show() -> void:
 
 func _on_continue_button_pressed() -> void:
 	hide()
-	get_tree().change_scene_to_file(MENU_SCENE_PATH)
+	Main.weak_main().get_ref().show_menu()

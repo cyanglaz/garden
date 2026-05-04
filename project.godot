@@ -29,7 +29,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 config/name="May There Bee Flowers"
 config/version="0.0.1"
-run/main_scene="uid://dr6n15ja3p04f"
+run/main_scene="uid://cia5cdx3rdgep"
 config/features=PackedStringArray("4.6", "Mobile")
 boot_splash/use_filter=false
 config/icon="uid://6gutxbgtw64q"
