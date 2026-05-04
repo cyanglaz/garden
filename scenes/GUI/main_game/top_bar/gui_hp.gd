@@ -31,17 +31,7 @@ func bind_with_hp(hp:ResourcePoint) -> void:
 func animate_hp_update(value:int) -> void:
 	await _play_animation(value)
 
-func _on_hp_max_value_update(hp:ResourcePoint) -> void:
-	Util.remove_all_children(_segment_container)
-	for i in hp.max_value:
-		var segment:GUIHPSegment = SEGMENT_SCENE.instantiate()
-		_segment_container.add_child(segment)
-
-func _on_hp_value_update(hp:ResourcePoint) -> void:
-	if _current_value >= 0:
-		var diff = hp.value - _current_value
-		if diff == 0:
-			return
+func _force_update_hp_ui(hp:ResourcePoint) -> void:
 	_current_value = hp.value
 	var tint_color:Color = HP_SAFE_COLOR
 	var percentage:float = (hp.value as float) / hp.max_value
@@ -59,6 +49,20 @@ func _on_hp_value_update(hp:ResourcePoint) -> void:
 		else:
 			_segment_container.get_child(i).is_empty = true
 			_segment_container.get_child(i).modulate = Constants.COLOR_WHITE
+
+func _on_hp_max_value_update(hp:ResourcePoint) -> void:
+	Util.remove_all_children(_segment_container)
+	for i in hp.max_value:
+		var segment:GUIHPSegment = SEGMENT_SCENE.instantiate()
+		_segment_container.add_child(segment)
+	_force_update_hp_ui(hp)
+
+func _on_hp_value_update(hp:ResourcePoint) -> void:
+	if _current_value >= 0:
+		var diff = hp.value - _current_value
+		if diff == 0:
+			return
+	_force_update_hp_ui(hp)
 
 func _play_animation(diff:int) -> void:
 	#var popup:PopupLabel = POPUP_LABEL_SCENE.instantiate()

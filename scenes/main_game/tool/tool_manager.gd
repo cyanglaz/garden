@@ -4,7 +4,6 @@ extends RefCounted
 signal tool_application_started(tool_data:ToolData)
 signal tool_application_success(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
-signal tool_application_error(tool_data:ToolData, error_message:String)
 signal tool_application_bailed(tool_data:ToolData)
 signal tools_discarded(tool_datas:Array, explicitly:bool)
 signal tools_drawn(tool_datas:Array)
@@ -76,12 +75,14 @@ func trigger_turn_end_cards(combat_main:CombatMain) -> void:
 		return
 	for tool_data in end_turn_cards:
 		queue_apply_tool(combat_main, tool_data)
+	
+func refresh_for_turn() -> void:
+	for tool_data in tool_deck.pool:
+		tool_data.refresh_for_turn()
 			
 func discard_cards(tools:Array, combat_main:CombatMain, explicitly:bool = true) -> void:
 	assert(tools.size() > 0)
 	# Order is important, discard first, then animate
-	for tool_data in tools:
-		tool_data.refresh_for_turn()
 
 	tool_deck.discard(tools)
 	tools_discarded.emit(tools, explicitly)
@@ -142,9 +143,6 @@ func update_tool_card(tool_data:ToolData, new_tool_data:ToolData) -> void:
 func get_tool(index:int) -> ToolData:
 	return tool_deck.get_item(index)
 
-func _run_card_lifecycle(tool_data:ToolData, combat_main:CombatMain) -> void:
-	await _finish_card(tool_data, combat_main)
-
 func _finish_card(tool_data:ToolData, combat_main:CombatMain) -> void:
 	tool_data.remove_single_use_special_effects(combat_main)
 	if tool_data.specials.has(ToolData.Special.COMPOST):
@@ -181,12 +179,6 @@ func _run_tool_stage_start_and_pre_hook(combat_main:CombatMain, tool_data:ToolDa
 		stage_context["skip"] = true
 		tool_application_bailed.emit(tool_data)
 		return
-	if !_tool_applier.can_tool_be_applied(tool_data, tool_deck.hand):
-		tool_application_error.emit(tool_data, tool_data.get_card_selection_custom_error_message())
-		selected_tool = null
-		stage_context["skip"] = true
-		tool_application_bailed.emit(tool_data)
-		return
 	selected_tool = tool_data
 	tool_application_started.emit(tool_data)
 	combat_main.plant_field_container.queue_tool_application_hooks()
@@ -203,7 +195,7 @@ func _run_tool_stage_finish(combat_main:CombatMain, tool_data:ToolData, stage_co
 		return
 	number_of_card_used_this_turn += 1
 	tool_application_success.emit(tool_data)
-	await _run_card_lifecycle(tool_data, combat_main)
+	await _finish_card(tool_data, combat_main)
 	await _handle_tool_application_completed(tool_data, combat_main)
 
 func _can_execute_queued_tool(tool_data:ToolData) -> bool:

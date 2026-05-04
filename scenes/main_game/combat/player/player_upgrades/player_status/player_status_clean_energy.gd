@@ -6,7 +6,7 @@ signal _all_action_application_completed()
 var _action_count := 0
 
 func _has_tool_application_hook(_combat_main:CombatMain, tool_data:ToolData) -> bool:
-	return tool_data.energy_cost == 0
+	return tool_data.get_final_energy_cost() == 0
 
 func _handle_tool_application_hook(combat_main:CombatMain, _tool_data:ToolData) -> void:
 	var action_data:ActionData = ActionData.new()

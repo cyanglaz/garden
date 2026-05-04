@@ -78,10 +78,17 @@ func refresh_ui(combat_main:CombatMain) -> void:
 	request_refresh.emit(combat_main)
 
 func refresh_for_turn() -> void:
-	card_face_refresh_for_turn()
+	turn_energy_modifier = 0
 
 func refresh_for_level() -> void:
-	card_face_refresh_for_level()
+	level_energy_modifier = 0
+	special_effects = special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_COMBAT_SPECIAL_EFFECTS.has(special_effect))
+	for action:ActionData in actions:
+		action.modified_x_value = 0
+		action.modified_value = 0
+	if enchant_data && enchant_data.action_data:
+		enchant_data.action_data.modified_value = 0
+		enchant_data.action_data.modified_x_value = 0
 
 func get_duplicate() -> ToolData:
 	var dup:ToolData = ToolData.new()
@@ -89,28 +96,12 @@ func get_duplicate() -> ToolData:
 	return dup
 
 func remove_single_use_special_effects(combat_main:CombatMain) -> void:
-	card_face_remove_single_use_special_effects()
+	special_effects = special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_USE_SPECIAL_EFFECTS.has(special_effect))
 	refresh_ui(combat_main)
 
 func add_specials(effects:Array[SpecialEffect], combat_main:CombatMain) -> void:
 	special_effects.append_array(effects)
 	refresh_ui(combat_main)
-
-func card_face_refresh_for_turn() -> void:
-	turn_energy_modifier = 0
-
-func card_face_refresh_for_level() -> void:
-	level_energy_modifier = 0
-	special_effects = special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_COMBAT_SPECIAL_EFFECTS.has(special_effect))
-	for action:ActionData in actions:
-		action.modified_x_value = 0
-		action.modified_value = 0
-	if enchant_data:
-		enchant_data.action_data.modified_value = 0
-		enchant_data.action_data.modified_x_value = 0
-	
-func card_face_remove_single_use_special_effects() -> void:
-	special_effects = special_effects.filter(func(special_effect:SpecialEffect): return !SINGLE_USE_SPECIAL_EFFECTS.has(special_effect))
 
 func _get_localization_prefix() -> String:
 	return "TOOL_"
@@ -133,16 +124,6 @@ func get_is_random_secondary_card_selection_from_script() -> bool:
 		return tool_script.get_is_random_secondary_card_selection()
 	return false
 
-func get_card_selection_type_from_script() -> ActionData.CardSelectionType:
-	if tool_script:
-		return tool_script.get_card_selection_type()
-	return ActionData.CardSelectionType.NON_RESTRICTED
-
-func get_card_selection_custom_error_message() -> String:
-	if tool_script:
-		return tool_script.get_card_selection_custom_error_message()
-	return ""
-
 func reverse(combat_main:CombatMain) -> void:
 	assert(specials.has(Special.REVERSIBLE), "Card is not reversible")
 	for action:ActionData in actions:
@@ -150,6 +131,11 @@ func reverse(combat_main:CombatMain) -> void:
 			action.type = ActionData.ActionType.PUSH_RIGHT
 		elif action.type == ActionData.ActionType.PUSH_RIGHT:
 			action.type = ActionData.ActionType.PUSH_LEFT
+	if enchant_data && enchant_data.action_data:
+		if enchant_data.action_data.type == ActionData.ActionType.PUSH_LEFT:
+			enchant_data.action_data.type = ActionData.ActionType.PUSH_RIGHT
+		elif enchant_data.action_data.type == ActionData.ActionType.PUSH_RIGHT:
+			enchant_data.action_data.type = ActionData.ActionType.PUSH_LEFT
 	refresh_ui(combat_main)
 
 func _get_cost() -> int:

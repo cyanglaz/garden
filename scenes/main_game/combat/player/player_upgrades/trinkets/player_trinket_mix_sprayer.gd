@@ -14,4 +14,4 @@ func _make_card_free(cards: Array) -> void:
 	random_card.turn_energy_modifier = -random_card.energy_cost
 
 func _get_modifiable_cards(cards: Array) -> Array:
-	return cards.filter(func(card: ToolData) -> bool: return card.energy_cost > 0)
+	return cards.filter(func(card: ToolData) -> bool: return card.get_final_energy_cost() > 0)

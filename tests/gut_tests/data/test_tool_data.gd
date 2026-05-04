@@ -116,6 +116,21 @@ func test_refresh_for_level_resets_all_actions():
 	assert_eq(a1.modified_value, 0)
 	assert_eq(a2.modified_value, 0)
 
+func test_refresh_for_level_resets_enchant_action_modified_values():
+	var td := _make_tool()
+	td.enchant_data = _make_enchant(1, ActionData.ActionType.LIGHT, 3)
+	td.enchant_data.action_data.modified_value = 4
+	td.enchant_data.action_data.modified_x_value = 2
+	td.refresh_for_level()
+	assert_eq(td.enchant_data.action_data.modified_value, 0)
+	assert_eq(td.enchant_data.action_data.modified_x_value, 0)
+
+func test_refresh_for_level_removes_single_combat_special_effects():
+	var td := _make_tool()
+	td.special_effects = [ToolData.SpecialEffect.STASHED]
+	td.refresh_for_level()
+	assert_eq(td.special_effects, [])
+
 # ----- _get_cost (rarity-based shop cost) -----
 
 func test_cost_for_common():
@@ -169,6 +184,41 @@ func test_reverse_does_not_affect_non_push_actions():
 	td.actions = [push_action, water_action]
 	td.reverse(null)
 	assert_eq(water_action.type, ActionData.ActionType.WATER)
+
+func test_reverse_also_reverses_enchant_data_left_to_right():
+	var td := _make_tool()
+	td.specials = [ToolData.Special.REVERSIBLE]
+	td.enchant_data = _make_enchant(1, ActionData.ActionType.PUSH_LEFT)
+	td.reverse(null)
+	assert_eq(td.enchant_data.action_data.type, ActionData.ActionType.PUSH_RIGHT)
+
+func test_reverse_also_reverses_enchant_data_right_to_left():
+	var td := _make_tool()
+	td.specials = [ToolData.Special.REVERSIBLE]
+	td.enchant_data = _make_enchant(1, ActionData.ActionType.PUSH_RIGHT)
+	td.reverse(null)
+	assert_eq(td.enchant_data.action_data.type, ActionData.ActionType.PUSH_LEFT)
+
+func test_reverse_does_not_affect_enchant_data_if_not_present():
+	var td := _make_tool()
+	td.specials = [ToolData.Special.REVERSIBLE]
+	td.reverse(null)
+	assert_null(td.enchant_data)
+
+func test_reverse_does_not_affect_enchant_data_if_not_reversible():
+	var td := _make_tool()
+	td.specials = [ToolData.Special.REVERSIBLE]
+	td.enchant_data = _make_enchant(1, ActionData.ActionType.WATER)
+	td.reverse(null)
+	assert_eq(td.enchant_data.action_data.type, ActionData.ActionType.WATER)
+
+func test_reverse_double_reverse_restores_original_enchant_data():
+	var td := _make_tool()
+	td.specials = [ToolData.Special.REVERSIBLE]
+	td.enchant_data = _make_enchant(1, ActionData.ActionType.PUSH_LEFT)
+	td.reverse(null)
+	td.reverse(null)
+	assert_eq(td.enchant_data.action_data.type, ActionData.ActionType.PUSH_LEFT)
 
 # ----- _get_has_tooltip -----
 

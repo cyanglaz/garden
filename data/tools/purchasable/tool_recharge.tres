@@ -6,6 +6,6 @@
 [resource]
 script = ExtResource("2_01e7c")
 energy_cost = 0
-specials = Array[int]([0])
+rarity = 1
 id = "recharge"
 metadata/_custom_type_script = "uid://vq7dpxeq7spe"

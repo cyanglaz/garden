@@ -59,14 +59,8 @@ enum Special {
 	ALL_FIELDS,
 }
 
-enum CardSelectionType {
-	RESTRICTED,
-	NON_RESTRICTED,
-}
 
-const RESTRICTED_CARD_SELECTION_TYPES := [] # The action cannot be performed if not enough cards to select from.
-const NON_RESTRICTED_CARD_SELECTION_TYPES := [ActionType.DISCARD_CARD, ActionType.COMPOST] # The action can be partially performed if not enough cards to select from.
-const NEED_CARD_SELECTION := RESTRICTED_CARD_SELECTION_TYPES + NON_RESTRICTED_CARD_SELECTION_TYPES
+const NEED_CARD_SELECTION := [ActionType.DISCARD_CARD, ActionType.COMPOST]
 const FIELD_ACTION_TYPES := [ActionType.LIGHT, ActionType.WATER, ActionType.PEST, ActionType.FUNGUS, ActionType.RECYCLE, ActionType.GREENHOUSE, ActionType.DEW, ActionType.DROWNED, ActionType.BURIED]
 const PLAYER_ACTION_TYPES := [ActionType.ENERGY, ActionType.UPDATE_HP, ActionType.DRAW_CARD, ActionType.DISCARD_CARD, 
 								ActionType.UPDATE_GOLD, ActionType.FREE_MOVE, ActionType.ADD_CARD_DISCARD_PILE, ActionType.PUSH_LEFT, 
@@ -82,7 +76,6 @@ const CARD_ACTION_TYPES := [ActionType.UPDATE_X, ActionType.LOOP]
 @export var x_value_type:XValueType = XValueType.NUMBER
 
 var action_category:ActionCategory: get = _get_action_category
-var card_selection_type:CardSelectionType: get = _get_card_selection_type
 var need_card_selection:bool: get = _get_need_card_selection
 var modified_value:int
 var modified_x_value:int
@@ -173,13 +166,6 @@ func _get_value() -> int:
 
 func _get_x_value() -> int:
 	return _original_x_value
-
-func _get_card_selection_type() -> CardSelectionType:
-	if RESTRICTED_CARD_SELECTION_TYPES.has(type):
-		return CardSelectionType.RESTRICTED
-	elif NON_RESTRICTED_CARD_SELECTION_TYPES.has(type):
-		return CardSelectionType.NON_RESTRICTED
-	return CardSelectionType.NON_RESTRICTED
 
 func _get_need_card_selection() -> bool:
 	return NEED_CARD_SELECTION.has(type)
