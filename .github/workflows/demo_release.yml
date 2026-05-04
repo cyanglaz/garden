@@ -43,21 +43,21 @@ jobs:
       - name: Export Windows build
         run: |
           mkdir -p builds/windows
-          godot --headless --export-release "Demo Windows" \
+          godot --headless --export-release "Itch Demo Windows" \
             builds/windows/MayThereBeeFlowers.exe
           cd builds && zip -r windows.zip windows/
 
       - name: Export Linux build
         run: |
           mkdir -p builds/linux
-          godot --headless --export-release "Demo Linux" \
+          godot --headless --export-release "Itch Demo Linux" \
             builds/linux/MayThereBeeFlowers.x86_64
           cd builds && zip -r linux.zip linux/
 
       - name: Export Web build
         run: |
           mkdir -p builds/web
-          godot --headless --export-release "Demo Web" \
+          godot --headless --export-release "Itch Demo Web" \
             builds/web/index.html
           cd builds && zip -r web.zip web/
 
