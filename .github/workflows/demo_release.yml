@@ -60,17 +60,17 @@ jobs:
       - name: Install butler
         run: |
           curl -L -o butler.zip \
-            https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+            https://broth.itch.zone/butler/linux-amd64/LATEST/archive.zip
           unzip butler.zip
           chmod +x butler
 
       - name: Upload Windows to itch.io
-        env:
-          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
         run: |
           ./butler push builds/windows.zip \
             ${{ secrets.ITCH_USERNAME }}/${{ secrets.ITCH_GAME_ID }}:demo-windows \
             --userversion ${{ steps.version.outputs.version }}
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
 
       - name: Force-update tag
         if: github.event_name == 'push' && github.ref == 'refs/heads/demo'
@@ -81,17 +81,17 @@ jobs:
           git push -f origin ${{ steps.version.outputs.tag }}
 
       - name: Upload Linux to itch.io
-        env:
-          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
         run: |
           ./butler push builds/linux.zip \
             ${{ secrets.ITCH_USERNAME }}/${{ secrets.ITCH_GAME_ID }}:demo-linux \
             --userversion ${{ steps.version.outputs.version }}
-
-      - name: Upload Web to itch.io
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+
+      - name: Upload Web to itch.io
         run: |
           ./butler push builds/web.zip \
             ${{ secrets.ITCH_USERNAME }}/${{ secrets.ITCH_GAME_ID }}:demo-web \
             --userversion ${{ steps.version.outputs.version }}
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
