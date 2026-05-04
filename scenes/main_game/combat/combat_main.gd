@@ -117,7 +117,7 @@ func draw_cards(count:int) -> void:
 	await tool_manager.draw_cards(count, first_turn_draw, self)
 
 func discard_cards(tools:Array) -> void:
-	await tool_manager.discard_cards(tools, self, false)
+	await tool_manager.discard_cards(tools, self, true)
 
 func exhaust_cards(tools:Array) -> void:
 	await tool_manager.exhaust_cards(tools, self)
@@ -245,7 +245,7 @@ func _queue_discard_all_cards(exclude_handy:bool) -> void:
 		var cards_to_discard:Array = tool_manager.tool_deck.hand.duplicate().filter(func(tool_data:ToolData): return  !tool_data.specials.has(ToolData.Special.HANDY) if exclude_handy else true)
 		if cards_to_discard.size() == 0:
 			return
-		await tool_manager.discard_cards(cards_to_discard, self, true)
+		await tool_manager.discard_cards(cards_to_discard, self, false)
 	Events.request_combat_queue_push.emit(request)
 
 func _win() -> void:
@@ -450,8 +450,8 @@ func _on_tools_exhausted(tool_datas:Array) -> void:
 func _on_tools_drawn(tool_datas:Array) -> void:
 	player.player_upgrades_manager.queue_draw_hooks(self, tool_datas)
 
-func _on_tools_discarded(tool_datas:Array, end_turn:bool) -> void:
-	if !end_turn:
+func _on_tools_discarded(tool_datas:Array, explicitly:bool) -> void:
+	if explicitly:
 		player.player_upgrades_manager.queue_discard_hooks(self, tool_datas)
 
 func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:

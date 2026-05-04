@@ -282,34 +282,34 @@ func test_end_turn_button_pushes_unique_request_and_invokes_end_turn() -> void:
 	assert_eq(cm.end_turn_calls, 1)
 
 
-func test_discard_cards_forwards_not_end_turn_flag() -> void:
+func test_discard_cards_forwards_explicitly_true() -> void:
 	var cm := CombatMain.new()
 	autofree(cm)
 	var tool := _make_tool("manual_discard")
 	var ctx := _make_tool_manager_with_hand([tool])
 	cm.tool_manager = ctx["manager"]
 	var hand_snapshot := cm.tool_manager.tool_deck.hand.duplicate()
-	var captured := {"end_turn": null}
+	var captured := {"explicitly": null}
 	cm.tool_manager.tools_discarded.connect(
-		func(_tools: Array, end_turn: bool) -> void: captured["end_turn"] = end_turn
+		func(_tools: Array, explicitly: bool) -> void: captured["explicitly"] = explicitly
 	)
 
 	await cm.discard_cards(hand_snapshot)
 
-	assert_eq(captured["end_turn"], false)
+	assert_eq(captured["explicitly"], true)
 	(ctx["container"] as FakeDiscardGUIToolCardContainer).free()
 
 
-func test_queue_discard_all_cards_forwards_end_turn_flag() -> void:
+func test_queue_discard_all_cards_forwards_explicitly_false() -> void:
 	var cm := CombatMain.new()
 	autofree(cm)
 	var tool := _make_tool("end_turn_discard")
 	var ctx := _make_tool_manager_with_hand([tool])
 	cm.tool_manager = ctx["manager"]
 
-	var captured := {"end_turn": null}
+	var captured := {"explicitly": null}
 	cm.tool_manager.tools_discarded.connect(
-		func(_tools: Array, end_turn: bool) -> void: captured["end_turn"] = end_turn
+		func(_tools: Array, explicitly: bool) -> void: captured["explicitly"] = explicitly
 	)
 
 	var capture := _capture_queue_requests()
@@ -318,8 +318,9 @@ func test_queue_discard_all_cards_forwards_end_turn_flag() -> void:
 	await (capture.requests[0] as CombatQueueRequest).callback.call(cm)
 	_disconnect_capture(capture)
 
-	assert_eq(captured["end_turn"], true)
+	assert_eq(captured["explicitly"], false)
 	(ctx["container"] as FakeDiscardGUIToolCardContainer).free()
+
 
 func test_end_turn_zeroes_energy_immediately() -> void:
 	var cm := CombatMain.new()

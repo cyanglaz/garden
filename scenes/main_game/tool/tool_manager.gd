@@ -6,7 +6,7 @@ signal tool_application_success(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
 signal tool_application_error(tool_data:ToolData, error_message:String)
 signal tool_application_bailed(tool_data:ToolData)
-signal tools_discarded(tool_datas:Array, end_turn:bool)
+signal tools_discarded(tool_datas:Array, explicitly:bool)
 signal tools_drawn(tool_datas:Array)
 signal hand_updated(hand:Array)
 signal tools_exhausted(tool_datas:Array)
@@ -78,16 +78,15 @@ func trigger_turn_end_cards(combat_main:CombatMain) -> void:
 		queue_apply_tool(combat_main, tool_data)
 	
 func refresh_for_turn() -> void:
-	print("refresh_for_turn")
 	for tool_data in tool_deck.pool:
 		tool_data.refresh_for_turn()
 			
-func discard_cards(tools:Array, combat_main:CombatMain, end_turn:bool = false) -> void:
+func discard_cards(tools:Array, combat_main:CombatMain, explicitly:bool = true) -> void:
 	assert(tools.size() > 0)
 	# Order is important, discard first, then animate
 
 	tool_deck.discard(tools)
-	tools_discarded.emit(tools, end_turn)
+	tools_discarded.emit(tools, explicitly)
 	await _gui_tool_card_container.animate_discard(tools, combat_main)
 
 func exhaust_cards(tools:Array, combat_main:CombatMain) -> void:
