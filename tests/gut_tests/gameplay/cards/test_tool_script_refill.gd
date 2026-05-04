@@ -9,7 +9,13 @@ class FakeToolManager extends ToolManager:
 		tool_deck.hand = hand
 
 	func update_tool_card(tool_data: ToolData, new_tool_data: ToolData) -> void:
-		update_calls.append([tool_data, new_tool_data.get_duplicate()])
+		update_calls.append({
+			"old_id": tool_data.id,
+			"tool_data": tool_data,
+			"new_tool_data": new_tool_data.get_duplicate(),
+		})
+		if tool_data != new_tool_data:
+			tool_data.copy(new_tool_data)
 
 
 class FakeCombatMain extends CombatMain:
@@ -57,10 +63,12 @@ func test_refill_updates_tool_card_for_each_empty_bottle() -> void:
 	await ToolScriptRefill.new().apply_tool(cm, null, [])
 
 	assert_eq(fake_manager.update_calls.size(), 2)
-	assert_eq((fake_manager.update_calls[0][0] as ToolData).id, "bottled_water")
-	assert_eq((fake_manager.update_calls[1][0] as ToolData).id, "bottled_water")
-	assert_eq((fake_manager.update_calls[0][1] as ToolData).id, "bottled_water")
-	assert_eq((fake_manager.update_calls[1][1] as ToolData).id, "bottled_water")
+	assert_eq(fake_manager.update_calls[0]["old_id"], "empty_bottle")
+	assert_eq(fake_manager.update_calls[1]["old_id"], "empty_bottle")
+	assert_eq((fake_manager.update_calls[0]["tool_data"] as ToolData).id, "bottled_water")
+	assert_eq((fake_manager.update_calls[1]["tool_data"] as ToolData).id, "bottled_water")
+	assert_eq((fake_manager.update_calls[0]["new_tool_data"] as ToolData).id, "bottled_water")
+	assert_eq((fake_manager.update_calls[1]["new_tool_data"] as ToolData).id, "bottled_water")
 
 
 func test_refill_ignores_non_empty_bottle_cards() -> void:
