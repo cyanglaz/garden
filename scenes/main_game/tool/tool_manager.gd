@@ -4,7 +4,6 @@ extends RefCounted
 signal tool_application_started(tool_data:ToolData)
 signal tool_application_success(tool_data:ToolData)
 signal tool_application_completed(tool_data:ToolData)
-signal tool_application_error(tool_data:ToolData, error_message:String)
 signal tool_application_bailed(tool_data:ToolData)
 signal tools_discarded(tool_datas:Array, explicitly:bool)
 signal tools_drawn(tool_datas:Array)

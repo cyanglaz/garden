@@ -11,6 +11,3 @@ func apply_tool(combat_main: CombatMain, _tool_data: ToolData, secondary_card_da
 
 func number_of_secondary_cards_to_select() -> int:
 	return 1
-
-func get_card_selection_type() -> ActionData.CardSelectionType:
-	return ActionData.CardSelectionType.NON_RESTRICTED

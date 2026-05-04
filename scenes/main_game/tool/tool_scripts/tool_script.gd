@@ -15,13 +15,5 @@ func secondary_card_selection_filter() -> Callable:
 func handle_post_application_hook(_tool_data:ToolData, _combat_main:CombatMain) -> void:
 	await Util.await_for_tiny_time()
 
-func get_card_selection_type() -> ActionData.CardSelectionType:
-	if number_of_secondary_cards_to_select() > 0:
-		assert(false, "get_card_selection_type must be overridden if number_of_secondary_cards_to_select() > 0")
-	return ActionData.CardSelectionType.RESTRICTED
-
 func get_is_random_secondary_card_selection() -> bool:
 	return false
-
-func get_card_selection_custom_error_message() -> String:
-	return ""

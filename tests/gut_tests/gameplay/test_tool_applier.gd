@@ -1,47 +1,11 @@
 extends GutTest
 
 # Tests for queue_tool_application().
-# These cover the branch of tool_applier that was introduced to decide, before
-# pushing anything on the combat queue, whether a RESTRICTED tool_script has
-# enough candidate cards to run.
 
 
 class _ScriptNoSelection extends ToolScript:
 	func number_of_secondary_cards_to_select() -> int:
 		return 0
-
-
-class _ScriptRestrictedNeedsTwo extends ToolScript:
-	func number_of_secondary_cards_to_select() -> int:
-		return 2
-
-	func get_card_selection_type() -> ActionData.CardSelectionType:
-		return ActionData.CardSelectionType.RESTRICTED
-
-	func secondary_card_selection_filter() -> Callable:
-		return func(_tool_data: ToolData) -> bool:
-			return true
-
-
-class _ScriptNonRestrictedNeedsTwo extends ToolScript:
-	func number_of_secondary_cards_to_select() -> int:
-		return 2
-
-	func get_card_selection_type() -> ActionData.CardSelectionType:
-		return ActionData.CardSelectionType.NON_RESTRICTED
-
-
-class _ScriptRestrictedWithFilter extends ToolScript:
-	func number_of_secondary_cards_to_select() -> int:
-		return 1
-
-	func get_card_selection_type() -> ActionData.CardSelectionType:
-		return ActionData.CardSelectionType.RESTRICTED
-
-	func secondary_card_selection_filter() -> Callable:
-		# Only tool ids that start with "keep_" pass
-		return func(td: ToolData) -> bool:
-			return td.id.begins_with("keep_")
 
 
 func _make_tool(id: String, tool_script: ToolScript = null, type: ToolData.Type = ToolData.Type.SKILL) -> ToolData:

@@ -124,16 +124,6 @@ func get_is_random_secondary_card_selection_from_script() -> bool:
 		return tool_script.get_is_random_secondary_card_selection()
 	return false
 
-func get_card_selection_type_from_script() -> ActionData.CardSelectionType:
-	if tool_script:
-		return tool_script.get_card_selection_type()
-	return ActionData.CardSelectionType.NON_RESTRICTED
-
-func get_card_selection_custom_error_message() -> String:
-	if tool_script:
-		return tool_script.get_card_selection_custom_error_message()
-	return ""
-
 func reverse(combat_main:CombatMain) -> void:
 	assert(specials.has(Special.REVERSIBLE), "Card is not reversible")
 	for action:ActionData in actions:

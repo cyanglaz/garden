@@ -34,10 +34,6 @@ func test_number_of_secondary_cards_to_select_is_one() -> void:
 	assert_eq(ToolScriptStash.new().number_of_secondary_cards_to_select(), 1)
 
 
-func test_get_card_selection_type_is_non_restricted_for_stash() -> void:
-	assert_eq(ToolScriptStash.new().get_card_selection_type(), ActionData.CardSelectionType.NON_RESTRICTED)
-
-
 func test_apply_tool_sets_special_effect() -> void:
 	var selected := _make_tool_data(2)
 	var cm := _make_combat_main()
