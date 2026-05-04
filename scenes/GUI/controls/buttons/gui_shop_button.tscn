@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://cjwela3c0gf3y"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_bgik7"]
+[ext_resource type="Script" uid="uid://di0evb2xl8mnp" path="res://scenes/GUI/controls/buttons/gui_shop_button.gd" id="2_bgik7"]
+[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="3_a2d0s"]
+[ext_resource type="Texture2D" uid="uid://wfuqj4vlgm0k" path="res://resources/sprites/GUI/backgrounds/shop_gold_button_background.png" id="3_enfmh"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="4_enfmh"]
+[ext_resource type="Texture2D" uid="uid://d1hlhkeceq461" path="res://resources/sprites/GUI/icons/resources/icon_gold.png" id="5_07hi3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_enfmh"]
+resource_local_to_scene = true
+shader = ExtResource("4_enfmh")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
+
+[node name="GUIShopButton" unique_id=461111976 instance=ExtResource("1_bgik7")]
+offset_right = 29.0
+offset_bottom = 15.0
+mouse_default_cursor_shape = 2
+script = ExtResource("2_bgik7")
+
+[node name="Background" type="NinePatchRect" parent="." index="0" unique_id=883638260]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("3_enfmh")
+region_rect = Rect2(0, 0, 16, 16)
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="." index="1" unique_id=1211328361]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" index="0" unique_id=1811650131]
+layout_mode = 2
+
+[node name="GoldIcon" parent="MarginContainer/HBoxContainer" index="0" unique_id=1577278051 instance=ExtResource("3_a2d0s")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_enfmh")
+layout_mode = 2
+texture = ExtResource("5_07hi3")
+stretch_mode = 3
+
+[node name="CostLabel" type="Label" parent="MarginContainer/HBoxContainer" index="1" unique_id=449869152]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_type_variation = &"LabelCost"
+text = "34"
+horizontal_alignment = 1
+vertical_alignment = 1
