@@ -11,6 +11,7 @@ const SLIDE_STAGGER := 0.06
 @onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_credits_panel: GUICreditsPanel = %GUICreditsPanel
 @onready var _version_label: Label = %VersionLabel
+@onready var _animation_player: AnimationPlayer = %AnimationPlayer
 
 func _ready():
 	PauseManager.try_unpause()
@@ -21,6 +22,7 @@ func _ready():
 	_new_game_button.grab_focus()
 	_version_label.text = str("v.",ProjectSettings.get_setting("application/config/version"))
 	_animate_buttons_slide_in()
+	_animation_player.play("default")
 
 func _animate_buttons_slide_in() -> void:
 	var buttons: Array[Control] = [_new_game_button, _options_button, _credits_button, _exit_button]
