@@ -31,7 +31,6 @@ var combat_modifier_manager:CombatModifierManager = CombatModifierManager.new()
 var combat_queue_manager: CombatQueueManager = CombatQueueManager.new()
 var boost := 1: set = _set_boost
 var _combat:CombatData
-var _tool_application_error_timers:Dictionary = {}
 var _max_hand_warning_timer:SceneTreeTimer = null
 var _owned_trinkets:Array
 
@@ -69,7 +68,6 @@ func start(card_pool:Array[ToolData], energy_cap:int, combat:CombatData, chapter
 	tool_manager.tool_application_started.connect(_on_tool_application_started)
 	tool_manager.tool_application_success.connect(_on_tool_application_success)
 	tool_manager.tool_application_completed.connect(_on_tool_application_completed)
-	tool_manager.tool_application_error.connect(_on_tool_application_error)
 	tool_manager.hand_updated.connect(_on_hand_updated)
 	tool_manager.max_hand_size_reached.connect(_on_max_hand_size_reached)
 	tool_manager.pool_updated.connect(_on_pool_updated)
@@ -307,13 +305,6 @@ func _queue_apply_tool(tool_data:ToolData) -> void:
 
 #region gui
 
-func _hide_custom_error(identifier:String) -> void:
-	if _tool_application_error_timers.has(identifier):
-		var timer:SceneTreeTimer = _tool_application_error_timers[identifier]
-		timer.timeout.disconnect(_on_tool_application_error_timer_timeout)
-		_tool_application_error_timers.erase(identifier)
-	Events.request_hide_custom_error.emit(identifier)
-
 #endregion
 
 #region UI EVENTS
@@ -325,8 +316,8 @@ func _on_main_card_selected(tool_data:ToolData) -> void:
 		return
 	_queue_apply_tool(tool_data)
 
-func _on_mouse_exited_card(tool_data:ToolData) -> void:
-	_hide_custom_error(tool_data.id)
+func _on_mouse_exited_card(_tool_data:ToolData) -> void:
+	pass
 
 func _on_end_turn_button_pressed() -> void:
 	if !is_mid_turn:
@@ -370,20 +361,6 @@ func _on_tool_application_completed(tool_data:ToolData) -> void:
 		tool_manager.card_use_limit_reached = true
 	player.player_upgrades_manager.queue_tool_application_hook(self, tool_data)
 	_clear_tool_selection()
-
-func _on_tool_application_error(tool_data:ToolData, error_message:String) -> void:
-	_clear_tool_selection()
-	gui.reset_tool_positions()
-	Events.request_show_custom_error.emit(error_message, tool_data.id)
-	if _tool_application_error_timers.has(tool_data.id):
-		var existing_timer:SceneTreeTimer = _tool_application_error_timers[tool_data.id]
-		existing_timer.timeout.disconnect(_on_tool_application_error_timer_timeout)
-	var timer:SceneTreeTimer = Util.create_scaled_timer(TOOL_APPLICATION_ERROR_HIDE_DELAY)
-	_tool_application_error_timers[tool_data.id] = timer
-	timer.timeout.connect(_on_tool_application_error_timer_timeout.bind(tool_data.id))
-
-func _on_tool_application_error_timer_timeout(id:String) -> void:
-	_hide_custom_error(id)
 
 func _on_tool_application_bailed(tool_data:ToolData) -> void:
 	if !tool_data:

@@ -119,10 +119,8 @@ func test_first_tool_can_discard_second_queued_tool_without_crash() -> void:
 
 	var started_ids: Array[String] = []
 	var completed_ids: Array[String] = []
-	var error_counter := {"value": 0}
 	manager.tool_application_started.connect(func(tool_data: ToolData) -> void: started_ids.append(tool_data.id))
 	manager.tool_application_completed.connect(func(tool_data: ToolData) -> void: completed_ids.append(tool_data.id))
-	manager.tool_application_error.connect(func(_tool_data: ToolData, _error_message: String) -> void: error_counter["value"] += 1)
 
 	manager.queue_apply_tool(combat_main, first_tool)
 	manager.queue_apply_tool(combat_main, second_tool)
@@ -130,7 +128,6 @@ func test_first_tool_can_discard_second_queued_tool_without_crash() -> void:
 
 	assert_eq(started_ids, ["first"])
 	assert_eq(completed_ids, ["first"])
-	assert_eq(error_counter["value"], 0)
 	assert_eq(manager.tool_deck.hand.size(), 0)
 	combat_main.free()
 	gui_container.free()
