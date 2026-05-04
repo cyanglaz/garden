@@ -23,13 +23,6 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "tag=demo-$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Force-update tag
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag -f ${{ steps.version.outputs.tag }}
-          git push -f origin ${{ steps.version.outputs.tag }}
-
       - name: Setup Godot
         uses: chickensoft-games/setup-godot@v2
         with:
@@ -78,6 +71,14 @@ jobs:
           ./butler push builds/windows.zip \
             ${{ secrets.ITCH_USERNAME }}/${{ secrets.ITCH_GAME_ID }}:demo-windows \
             --userversion ${{ steps.version.outputs.version }}
+
+      - name: Force-update tag
+        if: github.event_name == 'push' && github.ref == 'refs/heads/demo'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -f ${{ steps.version.outputs.tag }}
+          git push -f origin ${{ steps.version.outputs.tag }}
 
       - name: Upload Linux to itch.io
         env:
