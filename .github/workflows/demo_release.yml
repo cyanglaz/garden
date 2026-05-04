@@ -1,0 +1,94 @@
+name: Demo Release
+
+on:
+  push:
+    branches: [demo]
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version
+        id: version
+        run: |
+          VERSION=$(grep 'config/version=' project.godot | sed 's/config\/version="\(.*\)"/\1/')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=demo-$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Force-update tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -f ${{ steps.version.outputs.tag }}
+          git push -f origin ${{ steps.version.outputs.tag }}
+
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.6.0
+          use-dotnet: false
+          include-templates: true
+
+      - name: Enable DEMO mode
+        run: sed -i 's/var DEMO := false/var DEMO := true/' autoloads/constants.gd
+
+      - name: Import project assets
+        run: godot --headless --import || true
+
+      - name: Export Windows build
+        run: |
+          mkdir -p builds/windows
+          godot --headless --export-release "Itch Demo Windows" \
+            builds/windows/MayThereBeeFlowers.exe
+          cd builds && zip -r windows.zip windows/
+
+      - name: Export Linux build
+        run: |
+          mkdir -p builds/linux
+          godot --headless --export-release "Itch Demo Linux" \
+            builds/linux/MayThereBeeFlowers.x86_64
+          cd builds && zip -r linux.zip linux/
+
+      - name: Export Web build
+        run: |
+          mkdir -p builds/web
+          godot --headless --export-release "Itch Demo Web" \
+            builds/web/index.html
+          cd builds && zip -r web.zip web/
+
+      - name: Install butler
+        run: |
+          curl -L -o butler.zip \
+            https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+          unzip butler.zip
+          chmod +x butler
+
+      - name: Upload Windows to itch.io
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: |
+          ./butler push builds/windows.zip \
+            ${{ secrets.ITCH_USERNAME }}/${{ secrets.ITCH_GAME_ID }}:demo-windows \
+            --userversion ${{ steps.version.outputs.version }}
+
+      - name: Upload Linux to itch.io
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: |
+          ./butler push builds/linux.zip \
+            ${{ secrets.ITCH_USERNAME }}/${{ secrets.ITCH_GAME_ID }}:demo-linux \
+            --userversion ${{ steps.version.outputs.version }}
+
+      - name: Upload Web to itch.io
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: |
+          ./butler push builds/web.zip \
+            ${{ secrets.ITCH_USERNAME }}/${{ secrets.ITCH_GAME_ID }}:demo-web \
+            --userversion ${{ steps.version.outputs.version }}
