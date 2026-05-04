@@ -29,7 +29,7 @@ func _process(_delta: float) -> void:
 	if _progress_number >= 1:
 		assert(load_status == ResourceLoader.ThreadLoadStatus.THREAD_LOAD_LOADED)
 		_next_scene = ResourceLoader.load_threaded_get(next_scene_path)
-		get_tree().change_scene_to_packed(_next_scene)
+		Main.get_instance().change_to(_next_scene.instantiate())
 		queue_free()
 		return
 	_progress_number = _progress[0]
