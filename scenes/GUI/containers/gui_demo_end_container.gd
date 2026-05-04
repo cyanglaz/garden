@@ -12,4 +12,4 @@ func _ready() -> void:
 	ok_button.pressed.connect(_on_ok_button_pressed)
 
 func _on_ok_button_pressed() -> void:
-	Main.weak_main().get_ref().show_menu()
+	Main.get_instance().show_menu()

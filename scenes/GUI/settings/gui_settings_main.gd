@@ -82,7 +82,7 @@ func _on_back_button_up() -> void:
 	animate_hide()
 
 func _on_exit_button_up() -> void:
-	Main.weak_main().get_ref().show_menu()
+	Main.get_instance().show_menu()
 	
 func _on_gui_tabbar_tab_selected(index:int) -> void:
 	match index:

@@ -8,8 +8,10 @@ const GAME_SESSION := preload("res://scenes/main_game/main_game.tscn")
 var current_scene: Node
 static var _weak_main: WeakRef
 
-static func weak_main() -> WeakRef:
-	return _weak_main
+static func get_instance() -> Main:
+	if _weak_main:
+		return _weak_main.get_ref() as Main
+	return null
 
 func _ready() -> void:
 	_weak_main = weakref(self)
@@ -45,7 +47,7 @@ func load_scene_with_loading_screen(next_scene_path: String) -> void:
 	change_to(loading_scene)
 
 func change_to(scene: Node) -> void:
-	add_child(scene)
 	if current_scene:
 		current_scene.queue_free()
 	current_scene = scene
+	add_child(scene)

@@ -20,4 +20,4 @@ func animate_show() -> void:
 
 func _on_continue_button_pressed() -> void:
 	hide()
-	Main.weak_main().get_ref().show_menu()
+	Main.get_instance().show_menu()

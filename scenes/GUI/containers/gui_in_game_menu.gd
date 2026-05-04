@@ -21,7 +21,7 @@ func _on_options_button_evoked() -> void:
 
 func _on_main_menu_button_evoked() -> void:
 	PauseManager.try_unpause()
-	Main.weak_main().get_ref().show_menu()
+	Main.get_instance().show_menu()
 
 func _on_settings_menu_dismissed() -> void:
 	animate_show()
