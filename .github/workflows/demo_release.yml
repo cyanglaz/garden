@@ -67,7 +67,7 @@ jobs:
       - name: Upload Windows to itch.io
         run: |
           ./butler push builds/windows.zip \
-            ${{ secrets.ITCH_USERNAME }}/${{ secrets.ITCH_GAME_ID }}:demo-windows \
+            cyanglaz/may-there-bee-flowers-demo:demo-windows \
             --userversion ${{ steps.version.outputs.version }}
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
@@ -83,7 +83,7 @@ jobs:
       - name: Upload Linux to itch.io
         run: |
           ./butler push builds/linux.zip \
-            ${{ secrets.ITCH_USERNAME }}/${{ secrets.ITCH_GAME_ID }}:demo-linux \
+            cyanglaz/may-there-bee-flowers-demo:demo-linux \
             --userversion ${{ steps.version.outputs.version }}
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
@@ -91,7 +91,7 @@ jobs:
       - name: Upload Web to itch.io
         run: |
           ./butler push builds/web.zip \
-            ${{ secrets.ITCH_USERNAME }}/${{ secrets.ITCH_GAME_ID }}:demo-web \
+            cyanglaz/may-there-bee-flowers-demo:demo-web \
             --userversion ${{ steps.version.outputs.version }}
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
