@@ -1,10 +1,15 @@
 [gd_scene format=3 uid="uid://qy2x3blewn0"]
 
 [ext_resource type="Script" uid="uid://bl2vlh6r0it3d" path="res://scenes/GUI/menu/gui_main_menu.gd" id="1_jl0j8"]
+[ext_resource type="Texture2D" uid="uid://clims8f17mu6b" path="res://resources/sprites/menu/title.png" id="2_hwttl"]
 [ext_resource type="PackedScene" uid="uid://ddpwfwgic4w2y" path="res://scenes/GUI/controls/buttons/gui_menu_button.tscn" id="2_k1oyj"]
 [ext_resource type="PackedScene" uid="uid://dj2gfcavp3n61" path="res://scenes/utils/enter_tree/enter_tree_audio_player.tscn" id="3_uuxxv"]
 [ext_resource type="PackedScene" uid="uid://baexu10jax5e2" path="res://scenes/GUI/containers/gui_credits_panel.tscn" id="5_6thnj"]
 [ext_resource type="PackedScene" uid="uid://3068uq3kyx0r" path="res://scenes/GUI/settings/gui_settings_main.tscn" id="5_dbfmj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cwxkh"]
+atlas = ExtResource("2_hwttl")
+region = Rect2(0, 0, 169, 20)
 
 [node name="GUIMainMenu" type="CanvasLayer" unique_id=805526996]
 script = ExtResource("1_jl0j8")
@@ -28,24 +33,28 @@ theme_override_constants/margin_top = 18
 theme_override_constants/margin_right = 18
 theme_override_constants/margin_bottom = 18
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=1561452007]
+[node name="Container" type="Control" parent="PanelContainer/MarginContainer" unique_id=882982929]
 layout_mode = 2
+mouse_filter = 2
 
-[node name="TitleLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1332478368]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-theme_type_variation = &"HeaderHuge"
-theme_override_colors/font_color = Color(1, 0.63529414, 0.078431375, 1)
-text = "May there bee flowers"
-vertical_alignment = 1
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/MarginContainer/Container" unique_id=536019564]
+layout_mode = 1
+offset_top = 24.0
+offset_right = 169.0
+offset_bottom = 44.00001
+size_flags_horizontal = 0
+texture = SubResource("AtlasTexture_cwxkh")
+stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=499697690]
-layout_mode = 2
+[node name="Buttons" type="VBoxContainer" parent="PanelContainer/MarginContainer/Container" unique_id=499697690]
+layout_mode = 1
+offset_top = 90.0
+offset_right = 224.0
+offset_bottom = 150.0
 size_flags_vertical = 3
 theme_override_constants/separation = 4
 
-[node name="NewGameButton" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=989949070 instance=ExtResource("2_k1oyj")]
+[node name="NewGameButton" parent="PanelContainer/MarginContainer/Container/Buttons" unique_id=989949070 instance=ExtResource("2_k1oyj")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
@@ -53,7 +62,7 @@ size_flags_horizontal = 0
 mouse_default_cursor_shape = 2
 localization_text_key = "NEW_GAME"
 
-[node name="OptionsButton" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=318667105 instance=ExtResource("2_k1oyj")]
+[node name="OptionsButton" parent="PanelContainer/MarginContainer/Container/Buttons" unique_id=318667105 instance=ExtResource("2_k1oyj")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
@@ -61,7 +70,7 @@ size_flags_horizontal = 0
 mouse_default_cursor_shape = 2
 localization_text_key = "OPTIONS"
 
-[node name="CreditsButton" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=502671950 instance=ExtResource("2_k1oyj")]
+[node name="CreditsButton" parent="PanelContainer/MarginContainer/Container/Buttons" unique_id=502671950 instance=ExtResource("2_k1oyj")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
@@ -69,7 +78,7 @@ size_flags_horizontal = 0
 mouse_default_cursor_shape = 2
 localization_text_key = "CREDITS"
 
-[node name="ExitButton" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=1502969180 instance=ExtResource("2_k1oyj")]
+[node name="ExitButton" parent="PanelContainer/MarginContainer/Container/Buttons" unique_id=1502969180 instance=ExtResource("2_k1oyj")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
