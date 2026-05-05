@@ -12,12 +12,6 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	gui_tool_card_button.button_state = GUIBasicButton.ButtonState.DISABLED
 	cost = tool_data.cost
 
-func _get_hover_sound() -> AudioStream:
-	return gui_tool_card_button._get_hover_sound()
-
-func _get_click_sound() -> AudioStream:
-	return gui_tool_card_button._get_click_sound()
-
 func update_for_gold(gold:int) -> void:
 	super.update_for_gold(gold)
 	gui_tool_card_button.resource_sufficient = cost <= gold

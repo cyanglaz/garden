@@ -28,6 +28,7 @@ func _validate_for_sold_out() -> void:
 				child.hide()
 		if button_state != GUIBasicButton.ButtonState.DISABLED:
 			button_state = GUIBasicButton.ButtonState.DISABLED
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 func _set_cost(val:int) -> void:
 	cost = val
