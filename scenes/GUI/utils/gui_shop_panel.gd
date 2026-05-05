@@ -1,40 +1,44 @@
 class_name GUIShopPanel
-extends PanelContainer
+extends GUIBasicButton
 
-signal shop_button_pressed()
+const TEXTURE_SIZE := 16
 
-@onready var gui_shop_button: GUIShopButton = %GUIShopButton
+@onready var gui_shop_cost_panel: GUIShopCostPanel = %GUIShopCostPanel
 @onready var background: NinePatchRect = %Background
 
 var cost:int:set = _set_cost
-var highlighted := false: set = _set_highlighted
-var sufficient_gold := false: get = _get_sufficient_gold
+var sufficient_gold := false: set = _set_sufficient_gold
+
 func _ready() -> void:
-	mouse_entered.connect(_on_mouse_entered)
-	mouse_exited.connect(_on_mouse_exited)
-	gui_shop_button.pressed.connect(_on_shop_button_pressed)
-	gui_shop_button.mouse_entered.connect(_on_mouse_entered)
-	gui_shop_button.mouse_exited.connect(_on_mouse_exited)
+	super._ready()
 
 func update_for_gold(gold:int) -> void:
-	gui_shop_button.sufficient_gold = cost <= gold
+	sufficient_gold = cost <= gold
 
 func _set_cost(val:int) -> void:
 	cost = val
-	gui_shop_button.update_with_cost(cost)
+	gui_shop_cost_panel.update_with_cost(cost)
 
-func _on_mouse_entered() -> void:
-	highlighted = true
+func _set_sufficient_gold(val:bool) -> void:
+	sufficient_gold = val
+	gui_shop_cost_panel.sufficient_gold = val
+	if val:
+		button_state = ButtonState.NORMAL
+	else:
+		button_state = ButtonState.DISABLED
 
-func _on_mouse_exited() -> void:
-	highlighted = false
-
-func _on_shop_button_pressed() -> void:
-	shop_button_pressed.emit()
-
-func _set_highlighted(val:bool) -> void:
-	highlighted = val
-	background.material.set_shader_parameter("outline_size", 1 if val else 0)
-
-func _get_sufficient_gold() -> bool:
-	return gui_shop_button.sufficient_gold
+func _set_button_state(val:ButtonState) -> void:
+	super._set_button_state(val)
+	if !background:
+		return
+	match button_state:
+		ButtonState.NORMAL:
+			background.region_rect.position = Vector2.ZERO
+		ButtonState.PRESSED:
+			background.region_rect.position = Vector2(TEXTURE_SIZE, 0)
+		ButtonState.HOVERED:
+			background.region_rect.position = Vector2(TEXTURE_SIZE*2, 0)
+		ButtonState.DISABLED:
+			background.region_rect.position = Vector2(0, TEXTURE_SIZE)
+		ButtonState.SELECTED:
+			background.region_rect.position = Vector2(TEXTURE_SIZE, TEXTURE_SIZE)			

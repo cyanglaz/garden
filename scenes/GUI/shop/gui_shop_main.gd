@@ -73,7 +73,7 @@ func _populate_tools(number_of_tools) -> void:
 		var tool_shop_panel:GUIToolShopPanel = TOOL_SHOP_PANEL_SCENE.instantiate()
 		tool_container.add_child(tool_shop_panel)
 		tool_shop_panel.update_with_tool_data(tool_data)
-		tool_shop_panel.shop_button_pressed.connect(_on_tool_shop_panel_shop_button_pressed.bind(tool_shop_panel, tool_data))
+		tool_shop_panel.pressed.connect(_on_tool_shop_button_pressed.bind(tool_shop_panel, tool_data))
 		tool_shop_panel.mouse_exited.connect(_on_shop_panel_mouse_exited.bind())
 
 func _populate_trinkets(excluded_trinket_ids: Array[String] = []) -> void:
@@ -83,7 +83,7 @@ func _populate_trinkets(excluded_trinket_ids: Array[String] = []) -> void:
 		var trinket_shop_panel: GUITrinketShopPanel = TRINKET_SHOP_PANEL_SCENE.instantiate()
 		trinket_container.add_child(trinket_shop_panel)
 		trinket_shop_panel.update_with_trinket_data(trinket_data)
-		trinket_shop_panel.shop_button_pressed.connect(_on_trinket_shop_panel_shop_button_pressed.bind(trinket_shop_panel, trinket_data))
+		trinket_shop_panel.pressed.connect(_on_trinket_shop_button_pressed.bind(trinket_shop_panel, trinket_data))
 		trinket_shop_panel.mouse_exited.connect(_on_shop_panel_mouse_exited.bind())
 
 func _populate_enchants() -> void:
@@ -93,7 +93,7 @@ func _populate_enchants() -> void:
 		var enchant_shop_panel: GUIEnchantShopPanel = ENCHANT_SHOP_PANEL_SCENE.instantiate()
 		enchant_container.add_child(enchant_shop_panel)
 		enchant_shop_panel.update_with_enchant_data(enchant_data)
-		enchant_shop_panel.shop_button_pressed.connect(_on_enchant_shop_panel_shop_button_pressed.bind(enchant_shop_panel, enchant_data))
+		enchant_shop_panel.pressed.connect(_on_enchant_shop_button_pressed.bind(enchant_shop_panel, enchant_data))
 		enchant_shop_panel.mouse_exited.connect(_on_shop_panel_mouse_exited.bind())
 
 func _play_show_animation() -> void:
@@ -103,7 +103,7 @@ func _play_show_animation() -> void:
 	#await tween.finished
 	finish_button.show()
 
-func _on_tool_shop_panel_shop_button_pressed(gui_shop_panel:GUIShopPanel, tool_data:ToolData) -> void:
+func _on_tool_shop_button_pressed(gui_shop_panel:GUIShopPanel, tool_data:ToolData) -> void:
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
 	if gui_shop_panel.sufficient_gold:
 		Events.request_add_card_to_deck.emit(tool_data, gui_shop_panel.global_position)
@@ -114,7 +114,7 @@ func _on_tool_shop_panel_shop_button_pressed(gui_shop_panel:GUIShopPanel, tool_d
 		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
 		_insufficient_gold_audio.play()
 
-func _on_trinket_shop_panel_shop_button_pressed(gui_shop_panel: GUIShopPanel, trinket_data: TrinketData) -> void:
+func _on_trinket_shop_button_pressed(gui_shop_panel: GUIShopPanel, trinket_data: TrinketData) -> void:
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
 	if gui_shop_panel.sufficient_gold:
 		Events.request_add_trinket_to_collection.emit(trinket_data, gui_shop_panel.global_position, 1.0)
@@ -125,7 +125,7 @@ func _on_trinket_shop_panel_shop_button_pressed(gui_shop_panel: GUIShopPanel, tr
 		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
 		_insufficient_gold_audio.play()
 
-func _on_enchant_shop_panel_shop_button_pressed(gui_shop_panel: GUIEnchantShopPanel, enchant_data: EnchantData) -> void:
+func _on_enchant_shop_button_pressed(gui_shop_panel: GUIEnchantShopPanel, enchant_data: EnchantData) -> void:
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
 	if !gui_shop_panel.sufficient_gold:
 		Util.play_error_shake_animation(gui_shop_panel, "position", gui_shop_panel.position)
