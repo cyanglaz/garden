@@ -17,6 +17,7 @@ const ENCHANT_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/shop/shop_buttons/g
 @onready var gui_enchant_main: GUIEnchantMain = %GUIEnchantMain
 #@onready var _main_panel: PanelContainer = %MainPanel
 @onready var _insufficient_gold_audio: AudioStreamPlayer2D = %InsufficientGoldAudio
+@onready var _gui_remove_card_shop_button: GUIRemoveCardShopButton = %GUIRemoveCardShopButton
 
 # Shared reference to MainGame.card_pool (GDScript Arrays are reference-shared,
 # so appends/removals from MainGame propagate here automatically).
@@ -36,11 +37,12 @@ func _ready() -> void:
 func bind_card_pool(card_pool: Array[ToolData]) -> void:
 	_card_pool_ref = card_pool
 
-func animate_show(number_of_tools:int, gold:int, excluded_trinket_ids: Array[String] = []) -> void:
+func animate_show(number_of_tools:int, gold:int, card_remove_cost:int, excluded_trinket_ids: Array[String] = []) -> void:
 	show()
 	_populate_shop(number_of_tools, excluded_trinket_ids)
 	update_for_gold(gold)
 	_play_show_animation()
+	_gui_remove_card_shop_button.update_with_cost(card_remove_cost)
 
 func animate_hide() -> void:
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)

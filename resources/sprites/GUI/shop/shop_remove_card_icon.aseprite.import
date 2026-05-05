@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://qj6tgfby27e"
+path="res://.godot/imported/shop_remove_card_icon.aseprite-ffe0f2bfa736b74a7d544b5bf9db7523.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/shop/shop_remove_card_icon.aseprite"
+dest_files=["res://.godot/imported/shop_remove_card_icon.aseprite-ffe0f2bfa736b74a7d544b5bf9db7523.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

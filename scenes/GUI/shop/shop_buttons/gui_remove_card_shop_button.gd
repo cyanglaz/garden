@@ -1,0 +1,2 @@
+class_name GUIRemoveCardShopButton
+extends GUIShopButton

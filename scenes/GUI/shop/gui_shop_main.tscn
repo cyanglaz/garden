@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://04xuhdaa8y11" path="res://resources/sounds/SFX/other/loot/item_no_collection_error.wav" id="5_shop"]
 [ext_resource type="PackedScene" uid="uid://b3lbertwi6gfq" path="res://scenes/GUI/event/events/enchant/gui_enchant_main.tscn" id="6_enchantmain"]
 [ext_resource type="PackedScene" uid="uid://bb1prhbeyi3wr" path="res://scenes/GUI/shop/shop_buttons/gui_enchant_shop_button.tscn" id="6_op6cw"]
+[ext_resource type="PackedScene" uid="uid://b7unfqrn64w16" path="res://scenes/GUI/shop/shop_buttons/gui_remove_card_shop_button.tscn" id="7_ulntc"]
 
 [node name="GUIShopMain" type="CanvasLayer" unique_id=1246838602]
 script = ExtResource("1_157dq")
@@ -52,11 +53,14 @@ theme_override_constants/separation = 4
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer" unique_id=558282470]
+[node name="TopRow" type="HBoxContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer" unique_id=428408647]
+layout_mode = 2
+
+[node name="CardsPanel" type="PanelContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/TopRow" unique_id=558282470]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="NinePatchRect" type="NinePatchRect" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/PanelContainer" unique_id=1102486168]
+[node name="NinePatchRect" type="NinePatchRect" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/TopRow/CardsPanel" unique_id=1102486168]
 layout_mode = 2
 texture = ExtResource("5_l5j2l")
 patch_margin_left = 3
@@ -64,25 +68,45 @@ patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/PanelContainer" unique_id=154925386]
+[node name="MarginContainer" type="MarginContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/TopRow/CardsPanel" unique_id=154925386]
 layout_mode = 2
 
-[node name="ToolContainer" type="HBoxContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/PanelContainer/MarginContainer" unique_id=1238689262]
+[node name="ToolContainer" type="HBoxContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/TopRow/CardsPanel/MarginContainer" unique_id=1238689262]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
 
-[node name="GUIToolShopButton" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/PanelContainer/MarginContainer/ToolContainer" unique_id=1475586621 instance=ExtResource("4_l5j2l")]
+[node name="GUIToolShopButton" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/TopRow/CardsPanel/MarginContainer/ToolContainer" unique_id=1475586621 instance=ExtResource("4_l5j2l")]
 layout_mode = 2
 
-[node name="GUIToolShopButton2" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/PanelContainer/MarginContainer/ToolContainer" unique_id=392040077 instance=ExtResource("4_l5j2l")]
+[node name="GUIToolShopButton2" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/TopRow/CardsPanel/MarginContainer/ToolContainer" unique_id=392040077 instance=ExtResource("4_l5j2l")]
 layout_mode = 2
 
-[node name="GUIToolShopButton3" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/PanelContainer/MarginContainer/ToolContainer" unique_id=2065509871 instance=ExtResource("4_l5j2l")]
+[node name="GUIToolShopButton3" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/TopRow/CardsPanel/MarginContainer/ToolContainer" unique_id=2065509871 instance=ExtResource("4_l5j2l")]
 layout_mode = 2
 
-[node name="GUIToolShopButton4" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/PanelContainer/MarginContainer/ToolContainer" unique_id=744375211 instance=ExtResource("4_l5j2l")]
+[node name="GUIToolShopButton4" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/TopRow/CardsPanel/MarginContainer/ToolContainer" unique_id=744375211 instance=ExtResource("4_l5j2l")]
+layout_mode = 2
+
+[node name="CardRemovalPanel" type="PanelContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/TopRow" unique_id=59950932]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/TopRow/CardRemovalPanel" unique_id=1854000283]
+layout_mode = 2
+texture = ExtResource("5_l5j2l")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/TopRow/CardRemovalPanel" unique_id=614199387]
+layout_mode = 2
+
+[node name="GUIRemoveCardShopButton" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/TopRow/CardRemovalPanel/MarginContainer" unique_id=613100001 instance=ExtResource("7_ulntc")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="BottomRow" type="HBoxContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer" unique_id=148392841]
@@ -115,7 +139,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
 
-[node name="GUITrinketShopButton" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/TrinketPanel/MarginContainer/TrinketContainer" unique_id=613100001 instance=ExtResource("5_2u305")]
+[node name="GUITrinketShopButton" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/TrinketPanel/MarginContainer/TrinketContainer" unique_id=1590413692 instance=ExtResource("5_2u305")]
 layout_mode = 2
 
 [node name="GUITrinketShopButton2" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/TrinketPanel/MarginContainer/TrinketContainer" unique_id=1840798811 instance=ExtResource("5_2u305")]

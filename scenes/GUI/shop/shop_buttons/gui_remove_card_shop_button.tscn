@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://b7unfqrn64w16"]
+
+[ext_resource type="PackedScene" uid="uid://dk4j4emv0kio0" path="res://scenes/GUI/utils/gui_shop_button.tscn" id="1_c1pnp"]
+[ext_resource type="Script" uid="uid://djhmuim2mk12y" path="res://scenes/GUI/shop/shop_buttons/gui_remove_card_shop_button.gd" id="2_ehq06"]
+[ext_resource type="Texture2D" uid="uid://bu5l8prbivkci" path="res://resources/sprites/GUI/shop/shop_remove_card_icon.png" id="3_c1pnp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c1pnp"]
+resource_local_to_scene = true
+
+[node name="GUIRemoveCardShopButton" unique_id=613100001 instance=ExtResource("1_c1pnp")]
+offset_right = 40.0
+offset_bottom = 63.0
+script = ExtResource("2_ehq06")
+
+[node name="Background" parent="." index="0" unique_id=802552799]
+material = SubResource("ShaderMaterial_c1pnp")
+
+[node name="RemoveCardIcon" type="TextureRect" parent="MarginContainer/VBoxContainer/MarginContainer" parent_id_path=PackedInt32Array(417403030) index="0" unique_id=911227665]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("3_c1pnp")
+stretch_mode = 3
