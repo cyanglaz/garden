@@ -17,7 +17,7 @@ func start(gold:int, card_pool: Array[ToolData], owned_trinkets: Array[TrinketDa
 	for t: TrinketData in owned_trinkets:
 		excluded_ids.append(t.id)
 	gui_shop_main.bind_card_pool(card_pool)
-	await gui_shop_main.animate_show(NUMBER_OF_CARDS, gold, excluded_ids)
+	gui_shop_main.animate_show(NUMBER_OF_CARDS, gold, excluded_ids)
 
 func update_for_gold(gold:int) -> void:
 	gui_shop_main.update_for_gold(gold)

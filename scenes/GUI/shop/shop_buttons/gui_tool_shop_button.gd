@@ -1,5 +1,5 @@
-class_name GUIToolShopPanel
-extends GUIShopPanel
+class_name GUIToolShopButton
+extends GUIShopButton
 
 @onready var gui_tool_card_button: GUIToolCardButton = %GUIToolCardButton
 

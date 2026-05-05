@@ -1,23 +1,60 @@
-[gd_scene format=3 uid="uid://p8kvu5nk5q8"]
+[gd_scene format=3 uid="uid://dk4j4emv0kio0"]
 
 [ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_sso3n"]
-[ext_resource type="Script" uid="uid://bsc770vvxl30i" path="res://scenes/GUI/utils/gui_shop_panel.gd" id="2_76t1l"]
-[ext_resource type="Shader" uid="uid://wa6gtqeu0no" path="res://scenes/GUI/utils/gui_shop_panel.gdshader" id="3_dkl8n"]
+[ext_resource type="Script" uid="uid://dgpkab0fek7fp" path="res://scenes/GUI/utils/gui_shop_button.gd" id="2_kb1gh"]
 [ext_resource type="Texture2D" uid="uid://fpbrqhq7vabx" path="res://resources/sprites/GUI/backgrounds/shop_panel_background.png" id="4_dkl8n"]
 [ext_resource type="PackedScene" uid="uid://cjwela3c0gf3y" path="res://scenes/GUI/shop/gui_shop_cost_panel.tscn" id="4_ynf87"]
 
+[sub_resource type="Shader" id="Shader_k6o8u"]
+code = "shader_type canvas_item;
+
+uniform vec4 outline_color:source_color;
+uniform int outline_size = 0;
+uniform vec4 blend_color:source_color = vec4(1, 1, 1, 1);
+uniform float blend_strength = 0.0;
+
+varying vec4 modulate;
+
+void vertex() {
+	modulate = COLOR;
+}
+
+void fragment() {
+
+	vec4 base_color = COLOR;
+
+	float size_x = 1.0/float(textureSize(TEXTURE, 0).x);
+	float size_y = 1.0/float(textureSize(TEXTURE, 0).y);
+	vec4 sprite_color = texture(TEXTURE, UV);
+	float alpha  = -4.0 * sprite_color.a;
+	alpha += textureLod(TEXTURE, UV + vec2(size_x * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(-size_x * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, -size_y * float(outline_size)), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, size_y * float(outline_size)), 0).a;
+	sprite_color = mix(sprite_color, outline_color, clamp(alpha, 0.0, 1.0));
+	sprite_color = vec4(sprite_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
+	base_color = sprite_color;
+	
+	if (base_color.a > 0.0) {
+    	COLOR = mix(base_color, blend_color, blend_strength) * modulate;
+	} else {
+		COLOR = base_color * modulate;
+	}
+}
+"
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_76t1l"]
 resource_local_to_scene = true
-shader = ExtResource("3_dkl8n")
+shader = SubResource("Shader_k6o8u")
 shader_parameter/outline_color = Color(0.99215686, 0.8235294, 0.92941177, 1)
 shader_parameter/outline_size = 0
 shader_parameter/blend_color = Color(1, 1, 1, 1)
 shader_parameter/blend_strength = 0.0
 
-[node name="GUIShopPanel" unique_id=128985655 instance=ExtResource("1_sso3n")]
+[node name="GUIShopButton" unique_id=128985655 instance=ExtResource("1_sso3n")]
 offset_right = 37.0
 offset_bottom = 57.0
-script = ExtResource("2_76t1l")
+script = ExtResource("2_kb1gh")
 
 [node name="Background" type="NinePatchRect" parent="." index="0" unique_id=802552799]
 unique_name_in_owner = true
@@ -25,10 +62,10 @@ material = SubResource("ShaderMaterial_76t1l")
 layout_mode = 2
 texture = ExtResource("4_dkl8n")
 region_rect = Rect2(0, 0, 16, 16)
-patch_margin_left = 3
-patch_margin_top = 3
-patch_margin_right = 3
-patch_margin_bottom = 4
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 6
 
 [node name="MarginContainer" type="MarginContainer" parent="." index="1" unique_id=1156395496]
 layout_mode = 2

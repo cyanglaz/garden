@@ -1,5 +1,5 @@
-class_name GUITrinketShopPanel
-extends GUIShopPanel
+class_name GUITrinketShopButton
+extends GUIShopButton
 
 @onready var gui_player_trinket: GUIPlayerTrinket = %GUIPlayerTrinket
 

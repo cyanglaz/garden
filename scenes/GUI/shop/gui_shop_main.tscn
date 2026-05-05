@@ -4,19 +4,20 @@
 [ext_resource type="PackedScene" uid="uid://b5rxndhlrby0t" path="res://scenes/GUI/utils/scene_margin_container.tscn" id="2_pcc0i"]
 [ext_resource type="PackedScene" uid="uid://bgeepmq2eiey4" path="res://scenes/GUI/controls/buttons/gui_rich_text_button.tscn" id="3_4afxj"]
 [ext_resource type="Texture2D" uid="uid://dgthofktijpa2" path="res://resources/sprites/GUI/backgrounds/shop_main_panel_background.png" id="4_2u305"]
-[ext_resource type="PackedScene" uid="uid://bfss3skg6s0vg" path="res://scenes/GUI/shop/shop_buttons/gui_tool_shop_panel.tscn" id="4_l5j2l"]
+[ext_resource type="PackedScene" uid="uid://dtd2381ighdr2" path="res://scenes/GUI/shop/shop_buttons/gui_tool_shop_button.tscn" id="4_l5j2l"]
 [ext_resource type="PackedScene" uid="uid://beuy7po6dtwkn" path="res://scenes/GUI/utils/gui_overlay_background.tscn" id="4_ul7c2"]
-[ext_resource type="PackedScene" uid="uid://dqw7bnm4x3vyc" path="res://scenes/GUI/shop/shop_buttons/gui_trinket_shop_panel.tscn" id="5_2u305"]
+[ext_resource type="PackedScene" uid="uid://bmtgmavb2kndi" path="res://scenes/GUI/shop/shop_buttons/gui_trinket_shop_button.tscn" id="5_2u305"]
+[ext_resource type="Texture2D" uid="uid://dghoejlvls1y8" path="res://resources/sprites/GUI/backgrounds/shop_section_background.png" id="5_l5j2l"]
 [ext_resource type="Texture2D" uid="uid://bp2r5i7ilk66u" path="res://resources/sprites/GUI/backgrounds/shop_main_title_background.png" id="5_op6cw"]
 [ext_resource type="AudioStream" uid="uid://04xuhdaa8y11" path="res://resources/sounds/SFX/other/loot/item_no_collection_error.wav" id="5_shop"]
 [ext_resource type="PackedScene" uid="uid://b3lbertwi6gfq" path="res://scenes/GUI/event/events/enchant/gui_enchant_main.tscn" id="6_enchantmain"]
-[ext_resource type="PackedScene" uid="uid://d1b81n3n0r5uq" path="res://scenes/GUI/shop/shop_buttons/gui_enchant_shop_panel.tscn" id="6_op6cw"]
+[ext_resource type="PackedScene" uid="uid://bb1prhbeyi3wr" path="res://scenes/GUI/shop/shop_buttons/gui_enchant_shop_button.tscn" id="6_op6cw"]
 
 [node name="GUIShopMain" type="CanvasLayer" unique_id=1246838602]
 script = ExtResource("1_157dq")
 
 [node name="GUIOverlayBackground" parent="." unique_id=147683246 instance=ExtResource("4_ul7c2")]
-color = Color(0.25882354, 0.29803923, 0.43137255, 1)
+color = Color(0.047058824, 0.18039216, 0.26666668, 1)
 
 [node name="MainMarginContainer" parent="." unique_id=2136241162 instance=ExtResource("2_pcc0i")]
 
@@ -39,7 +40,7 @@ patch_margin_bottom = 16
 [node name="MarginContainer" type="MarginContainer" parent="MainMarginContainer/PanelMargin" unique_id=931057039]
 layout_mode = 2
 theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 14
+theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
@@ -49,27 +50,39 @@ theme_override_constants/separation = 4
 
 [node name="ItemsContainer" type="VBoxContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer" unique_id=1471839794]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 4
 
-[node name="ToolContainer" type="HBoxContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer" unique_id=1238689262]
+[node name="PanelContainer" type="PanelContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer" unique_id=558282470]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/PanelContainer" unique_id=1102486168]
+layout_mode = 2
+texture = ExtResource("5_l5j2l")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/PanelContainer" unique_id=154925386]
+layout_mode = 2
+
+[node name="ToolContainer" type="HBoxContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/PanelContainer/MarginContainer" unique_id=1238689262]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 0
 size_flags_vertical = 3
 
-[node name="GUIToolShopPanel" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/ToolContainer" unique_id=1475586621 instance=ExtResource("4_l5j2l")]
+[node name="GUIToolShopButton" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/PanelContainer/MarginContainer/ToolContainer" unique_id=1475586621 instance=ExtResource("4_l5j2l")]
 layout_mode = 2
 
-[node name="GUIToolShopPanel2" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/ToolContainer" unique_id=139039535 instance=ExtResource("4_l5j2l")]
+[node name="GUIToolShopButton2" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/PanelContainer/MarginContainer/ToolContainer" unique_id=392040077 instance=ExtResource("4_l5j2l")]
 layout_mode = 2
 
-[node name="GUIToolShopPanel3" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/ToolContainer" unique_id=1994749743 instance=ExtResource("4_l5j2l")]
+[node name="GUIToolShopButton3" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/PanelContainer/MarginContainer/ToolContainer" unique_id=2065509871 instance=ExtResource("4_l5j2l")]
 layout_mode = 2
 
-[node name="GUIToolShopPanel4" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/ToolContainer" unique_id=1794964129 instance=ExtResource("4_l5j2l")]
-layout_mode = 2
-
-[node name="GUIToolShopPanel5" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/ToolContainer" unique_id=1093965192 instance=ExtResource("4_l5j2l")]
+[node name="GUIToolShopButton4" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/PanelContainer/MarginContainer/ToolContainer" unique_id=744375211 instance=ExtResource("4_l5j2l")]
 layout_mode = 2
 
 [node name="BottomRow" type="HBoxContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer" unique_id=148392841]
@@ -82,36 +95,62 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 12
 
-[node name="TrinketContainer" type="HBoxContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer" unique_id=892341057]
+[node name="TrinketPanel" type="PanelContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer" unique_id=1174730077]
+layout_mode = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/TrinketPanel" unique_id=2104904535]
+layout_mode = 2
+texture = ExtResource("5_l5j2l")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/TrinketPanel" unique_id=1875258464]
+layout_mode = 2
+
+[node name="TrinketContainer" type="HBoxContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/TrinketPanel/MarginContainer" unique_id=892341057]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
-theme_override_constants/separation = 2
 
-[node name="GUITrinketShopPanel" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/TrinketContainer" unique_id=613100001 instance=ExtResource("5_2u305")]
+[node name="GUITrinketShopButton" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/TrinketPanel/MarginContainer/TrinketContainer" unique_id=613100001 instance=ExtResource("5_2u305")]
 layout_mode = 2
 
-[node name="GUITrinketShopPanel2" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/TrinketContainer" unique_id=1778258917 instance=ExtResource("5_2u305")]
+[node name="GUITrinketShopButton2" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/TrinketPanel/MarginContainer/TrinketContainer" unique_id=1840798811 instance=ExtResource("5_2u305")]
 layout_mode = 2
 
-[node name="GUITrinketShopPanel3" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/TrinketContainer" unique_id=176959800 instance=ExtResource("5_2u305")]
+[node name="GUITrinketShopButton3" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/TrinketPanel/MarginContainer/TrinketContainer" unique_id=432173281 instance=ExtResource("5_2u305")]
 layout_mode = 2
 
-[node name="EnchantContainer" type="HBoxContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer" unique_id=1703949201]
+[node name="EnchantPanel" type="PanelContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer" unique_id=70124409]
+layout_mode = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/EnchantPanel" unique_id=1940039036]
+layout_mode = 2
+texture = ExtResource("5_l5j2l")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/EnchantPanel" unique_id=1009022028]
+layout_mode = 2
+
+[node name="EnchantContainer" type="HBoxContainer" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/EnchantPanel/MarginContainer" unique_id=1703949201]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 2
 
-[node name="GUIEnchantShopPanel" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/EnchantContainer" unique_id=1054917088 instance=ExtResource("6_op6cw")]
+[node name="GUIEnchantShopButton" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/EnchantPanel/MarginContainer/EnchantContainer" unique_id=1054917088 instance=ExtResource("6_op6cw")]
 layout_mode = 2
 
-[node name="GUIEnchantShopPanel2" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/EnchantContainer" unique_id=1723635758 instance=ExtResource("6_op6cw")]
+[node name="GUIEnchantShopButton2" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/EnchantPanel/MarginContainer/EnchantContainer" unique_id=1441053558 instance=ExtResource("6_op6cw")]
 layout_mode = 2
 
-[node name="GUIEnchantShopPanel3" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/EnchantContainer" unique_id=1981107273 instance=ExtResource("6_op6cw")]
+[node name="GUIEnchantShopButton3" parent="MainMarginContainer/PanelMargin/MarginContainer/VBoxContainer/ItemsContainer/BottomRow/LeftVBoxContainer/EnchantPanel/MarginContainer/EnchantContainer" unique_id=191903322 instance=ExtResource("6_op6cw")]
 layout_mode = 2
 
 [node name="FinishButton" parent="MainMarginContainer/PanelMargin/MarginContainer" unique_id=1744194448 instance=ExtResource("3_4afxj")]
@@ -129,35 +168,20 @@ offset_right = 320.0
 offset_bottom = 180.0
 mouse_filter = 2
 
-[node name="TitleBackground" type="NinePatchRect" parent="FreeContainer" unique_id=1116799674]
+[node name="TitleBackground" type="TextureRect" parent="FreeContainer" unique_id=1315149635]
 custom_minimum_size = Vector2(96, 13)
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -48.0
-offset_top = 2.0
+offset_top = 1.0
 offset_right = 48.0
-offset_bottom = 15.0
+offset_bottom = 17.0
 grow_horizontal = 2
+pivot_offset = Vector2(33, 5)
 texture = ExtResource("5_op6cw")
-patch_margin_left = 10
-patch_margin_right = 10
-
-[node name="Title" type="Label" parent="FreeContainer/TitleBackground" unique_id=1209907765]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = 2.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_type_variation = &"HUD"
-text = "Shop"
-horizontal_alignment = 1
-vertical_alignment = 1
+stretch_mode = 6
 
 [node name="InsufficientGoldAudio" type="AudioStreamPlayer2D" parent="." unique_id=1250399664]
 unique_name_in_owner = true

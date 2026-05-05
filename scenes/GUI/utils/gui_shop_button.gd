@@ -1,4 +1,4 @@
-class_name GUIShopPanel
+class_name GUIShopButton
 extends GUIBasicButton
 
 const TEXTURE_SIZE := 16

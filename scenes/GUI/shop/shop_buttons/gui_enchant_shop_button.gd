@@ -1,5 +1,5 @@
-class_name GUIEnchantShopPanel
-extends GUIShopPanel
+class_name GUIEnchantShopButton
+extends GUIShopButton
 
 @onready var gui_enchant_icon: GUIEnchantIcon = %GUIEnchantIcon
 
