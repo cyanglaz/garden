@@ -4,6 +4,7 @@ extends CanvasLayer
 const ADD_CARD_TO_PILE_ANIMATION_TIME := 0.3
 
 signal shop_button_pressed(cost: int)
+signal card_removal_service_used(cost: int)
 signal finish_button_pressed()
 
 const TOOL_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/shop/shop_buttons/gui_tool_shop_button.tscn")
@@ -15,6 +16,7 @@ const ENCHANT_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/shop/shop_buttons/g
 @onready var enchant_container: HBoxContainer = %EnchantContainer
 @onready var finish_button: GUIRichTextButton = %FinishButton
 @onready var gui_enchant_main: GUIEnchantMain = %GUIEnchantMain
+@onready var gui_remove_card_main: GUIRemoveCardMain = %GUIRemoveCardMain
 #@onready var _main_panel: PanelContainer = %MainPanel
 @onready var _insufficient_gold_audio: AudioStreamPlayer2D = %InsufficientGoldAudio
 @onready var _gui_remove_card_shop_button: GUIRemoveCardShopButton = %GUIRemoveCardShopButton
@@ -30,9 +32,13 @@ func _ready() -> void:
 	#_display_y = _main_panel.position.y
 	finish_button.pressed.connect(_on_finish_button_pressed)
 	gui_enchant_main.hide()
+	gui_remove_card_main.hide()
 	gui_enchant_main.enchant_finished.connect(_on_enchant_finished)
 	gui_enchant_main.enchant_card_pressed.connect(_on_enchant_card_pressed)
 	gui_enchant_main.enchant_cancelled.connect(_on_enchant_cancelled)
+	gui_remove_card_main.remove_card_finished.connect(_on_remove_card_finished)
+	_gui_remove_card_shop_button.pressed.connect(_on_remove_card_shop_button_pressed)
+	_gui_remove_card_shop_button.mouse_exited.connect(_on_shop_button_mouse_exited.bind())
 
 func bind_card_pool(card_pool: Array[ToolData]) -> void:
 	_card_pool_ref = card_pool
@@ -40,12 +46,13 @@ func bind_card_pool(card_pool: Array[ToolData]) -> void:
 func animate_show(number_of_tools:int, gold:int, card_remove_cost:int, excluded_trinket_ids: Array[String] = []) -> void:
 	show()
 	_populate_shop(number_of_tools, excluded_trinket_ids)
+	_gui_remove_card_shop_button.cost = card_remove_cost
 	update_for_gold(gold)
 	_play_show_animation()
-	_gui_remove_card_shop_button.update_with_cost(card_remove_cost)
 
 func animate_hide() -> void:
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
+	gui_remove_card_main.hide()
 	finish_button.hide()
 	#var tween := Util.create_scaled_tween(self)
 	#tween.tween_property(_main_panel, "position:y", Constants.PENEL_HIDE_Y, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
@@ -59,6 +66,7 @@ func update_for_gold(gold:int) -> void:
 		gui_shop_button.update_for_gold(gold)
 	for gui_shop_button: GUIShopButton in enchant_container.get_children():
 		gui_shop_button.update_for_gold(gold)
+	_gui_remove_card_shop_button.update_for_gold(gold)
 
 func _populate_shop(number_of_tools:int, excluded_trinket_ids: Array[String] = []) -> void:
 	_populate_tools(number_of_tools)
@@ -150,6 +158,20 @@ func _on_enchant_card_pressed(tool_data: ToolData, enchant_card_global_position:
 func _on_enchant_cancelled() -> void:
 	_pending_enchant_button = null
 	_pending_enchant_cost = 0
+
+func _on_remove_card_shop_button_pressed() -> void:
+	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
+	if !_gui_remove_card_shop_button.sufficient_gold:
+		Util.play_error_shake_animation(_gui_remove_card_shop_button, "position", _gui_remove_card_shop_button.position)
+		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
+		_insufficient_gold_audio.play()
+		return
+	gui_remove_card_main.show_with_pool(_card_pool_ref, Util.get_localized_string("REMOVE_CARD_MAIN_TITLE_TEXT"))
+
+func _on_remove_card_finished() -> void:
+	gui_remove_card_main.hide()
+	card_removal_service_used.emit(_gui_remove_card_shop_button.cost)
+	_gui_remove_card_shop_button.sold_out = true
 
 func _on_finish_button_pressed() -> void:
 	animate_hide()

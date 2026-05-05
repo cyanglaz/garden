@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://b3lbertwi6gfq" path="res://scenes/GUI/event/events/enchant/gui_enchant_main.tscn" id="6_enchantmain"]
 [ext_resource type="PackedScene" uid="uid://bb1prhbeyi3wr" path="res://scenes/GUI/shop/shop_buttons/gui_enchant_shop_button.tscn" id="6_op6cw"]
 [ext_resource type="PackedScene" uid="uid://b7unfqrn64w16" path="res://scenes/GUI/shop/shop_buttons/gui_remove_card_shop_button.tscn" id="7_ulntc"]
+[ext_resource type="PackedScene" uid="uid://ty8iumahplcv" path="res://scenes/GUI/event/events/remove_card/gui_remove_card_main.tscn" id="8_v6wbl"]
 
 [node name="GUIShopMain" type="CanvasLayer" unique_id=1246838602]
 script = ExtResource("1_157dq")
@@ -213,5 +214,9 @@ stream = ExtResource("5_shop")
 bus = &"SFX"
 
 [node name="GUIEnchantMain" parent="." unique_id=1029493811 instance=ExtResource("6_enchantmain")]
+unique_name_in_owner = true
+visible = false
+
+[node name="GUIRemoveCardMain" parent="." unique_id=1360855301 instance=ExtResource("8_v6wbl")]
 unique_name_in_owner = true
 visible = false
