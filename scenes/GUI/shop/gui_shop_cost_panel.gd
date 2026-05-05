@@ -1,7 +1,7 @@
 class_name GUIShopCostPanel
 extends PanelContainer
 
-const SUFFICIENT_GOLD_COLOR := Constants.COLOR_WHITE
+const SUFFICIENT_GOLD_COLOR := Constants.COLOR_ORANGE2
 const INSUFFICIENT_GOLD_COLOR := Constants.COLOR_GRAY3
 
 @onready var cost_label: Label = %CostLabel

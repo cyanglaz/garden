@@ -105,7 +105,7 @@ func _on_tool_shop_button_pressed(gui_shop_button:GUIShopButton, tool_data:ToolD
 	if gui_shop_button.sufficient_gold:
 		Events.request_add_card_to_deck.emit(tool_data, gui_shop_button.global_position)
 		shop_button_pressed.emit(tool_data.cost)
-		gui_shop_button.queue_free()
+		gui_shop_button.sold_out = true
 	else:
 		Util.play_error_shake_animation(gui_shop_button, "position", gui_shop_button.position)
 		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
@@ -116,7 +116,7 @@ func _on_trinket_shop_button_pressed(gui_shop_button: GUIShopButton, trinket_dat
 	if gui_shop_button.sufficient_gold:
 		Events.request_add_trinket_to_collection.emit(trinket_data, gui_shop_button.global_position, 1.0)
 		shop_button_pressed.emit(trinket_data.cost)
-		gui_shop_button.queue_free()
+		gui_shop_button.sold_out = true
 	else:
 		Util.play_error_shake_animation(gui_shop_button, "position", gui_shop_button.position)
 		Events.request_show_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
@@ -141,7 +141,7 @@ func _on_enchant_card_pressed(tool_data: ToolData, enchant_card_global_position:
 	Events.request_add_card_to_deck.emit(tool_data, enchant_card_global_position)
 	shop_button_pressed.emit(_pending_enchant_cost)
 	if _pending_enchant_button:
-		_pending_enchant_button.queue_free()
+		_pending_enchant_button.sold_out = true
 	_pending_enchant_button = null
 	_pending_enchant_cost = 0
 
