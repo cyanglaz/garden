@@ -9,6 +9,7 @@ func update_with_tool_data(tool_data:ToolData) -> void:
 	_weak_tool_data = weakref(tool_data)
 	gui_tool_card_button.update_with_tool_data(tool_data, null)
 	gui_tool_card_button.mouse_disabled = true
+	gui_tool_card_button.button_state = GUIBasicButton.ButtonState.DISABLED
 	cost = tool_data.cost
 
 func _get_hover_sound() -> AudioStream:
