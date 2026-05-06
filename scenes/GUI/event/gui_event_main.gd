@@ -77,7 +77,13 @@ func _on_option_button_mouse_entered(option_data: EventOptionData, option_button
 	if option_data.data.has("card"):
 		var card_id:String = option_data.data["card"]
 		var card_data:ToolData = MainDatabase.tool_database.get_data_by_id(card_id)
-		Events.update_hovered_data.emit(card_data)
+		Events.request_display_tooltip.emit(TooltipRequest.new(
+			TooltipRequest.TooltipType.REFERENCE_CARD,
+			card_data,
+			"event_option_card_tooltip",
+			option_button,
+			GUITooltip.TooltipPosition.TOP_RIGHT
+		))
 	if option_data.data.has("trinket"):
 		var trinket_id: String = option_data.data["trinket"]
 		var trinket_data: TrinketData = MainDatabase.trinket_database.get_data_by_id(trinket_id)
@@ -103,6 +109,7 @@ func _on_option_button_mouse_exited(_option_data: EventOptionData) -> void:
 	Events.update_hovered_data.emit(null)
 	Events.request_hide_tooltip.emit("event_option_trinket_tooltip")
 	Events.request_hide_tooltip.emit("event_option_enchant_tooltip")
+	Events.request_hide_tooltip.emit("event_option_card_tooltip")
 
 func _on_request_add_sub_scene(sub_scene: Node) -> void:
 	sub_scene_container.add_child(sub_scene)

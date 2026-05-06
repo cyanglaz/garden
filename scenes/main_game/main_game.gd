@@ -227,6 +227,7 @@ func _on_event_finished(meta:Variant) -> void:
 #region global events
 
 func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
+	var old_value = hp.value
 	match operation:
 		ActionData.OperatorType.INCREASE:
 			hp.value += val
@@ -234,18 +235,25 @@ func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
 			hp.value -= val
 		ActionData.OperatorType.EQUAL_TO:
 			hp.value = val
-	await gui_main_game.animate_hp_update(val)
+	var diff = hp.value - old_value
+	await gui_main_game.animate_hp_update(diff)
 	if hp.value == 0:
 		_game_over()
 
 func _on_request_max_hp_update(val:int, operation:ActionData.OperatorType) -> void:
+	var old_value = hp.value
 	match operation:
 		ActionData.OperatorType.INCREASE:
 			hp.max_value += val
+			hp.value += val
 		ActionData.OperatorType.DECREASE:
 			hp.max_value -= val
+			hp.value -= val
 		ActionData.OperatorType.EQUAL_TO:
 			hp.max_value = val
+			hp.value = val
+	var diff = hp.value - old_value
+	await gui_main_game.animate_hp_update(diff)
 
 func _on_request_update_gold(val:int, animated:bool) -> void:
 	var diff := val
