@@ -17,7 +17,6 @@ const ENCHANT_SHOP_BUTTON_SCENE := preload("res://scenes/GUI/shop/shop_buttons/g
 @onready var finish_button: GUIRichTextButton = %FinishButton
 @onready var gui_enchant_main: GUIEnchantMain = %GUIEnchantMain
 @onready var gui_remove_card_main: GUIRemoveCardMain = %GUIRemoveCardMain
-#@onready var _main_panel: PanelContainer = %MainPanel
 @onready var _insufficient_gold_audio: AudioStreamPlayer2D = %InsufficientGoldAudio
 @onready var _gui_remove_card_shop_button: GUIRemoveCardShopButton = %GUIRemoveCardShopButton
 
@@ -29,7 +28,6 @@ var _pending_enchant_button: GUIEnchantShopButton = null
 var _pending_enchant_cost: int = 0
 
 func _ready() -> void:
-	#_display_y = _main_panel.position.y
 	finish_button.pressed.connect(_on_finish_button_pressed)
 	gui_enchant_main.hide()
 	gui_remove_card_main.hide()
@@ -54,9 +52,6 @@ func animate_hide() -> void:
 	Events.request_hide_warning.emit(WarningManager.WarningType.INSUFFICIENT_GOLD)
 	gui_remove_card_main.hide()
 	finish_button.hide()
-	#var tween := Util.create_scaled_tween(self)
-	#tween.tween_property(_main_panel, "position:y", Constants.PENEL_HIDE_Y, Constants.HIDE_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
-	#await tween.finished
 	hide()
 
 func update_for_gold(gold:int) -> void:
@@ -104,10 +99,6 @@ func _populate_enchants() -> void:
 		enchant_shop_button.mouse_exited.connect(_on_shop_button_mouse_exited.bind())
 
 func _play_show_animation() -> void:
-	#_main_panel.position.y = Constants.PENEL_HIDE_Y
-	#var tween := Util.create_scaled_tween(self)
-	#tween.tween_property(_main_panel, "position:y", _display_y, Constants.SHOW_ANIMATION_DURATION).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
-	#await tween.finished
 	finish_button.show()
 
 func _on_tool_shop_button_pressed(gui_shop_button:GUIShopButton, tool_data:ToolData) -> void:
