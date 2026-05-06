@@ -1,7 +1,6 @@
 class_name GUISettingsMain
 extends Control
 
-const MENU_SCENE_PATH = "res://scenes/menu/main_menu.tscn"
 
 # GamePlay settings
 @onready var _gui_labeld_slider: GUILabeledSlider = %GUILabeldSlider
@@ -83,7 +82,7 @@ func _on_back_button_up() -> void:
 	animate_hide()
 
 func _on_exit_button_up() -> void:
-	get_tree().change_scene_to_file(MENU_SCENE_PATH)
+	Main.get_instance().show_menu()
 	
 func _on_gui_tabbar_tab_selected(index:int) -> void:
 	match index:

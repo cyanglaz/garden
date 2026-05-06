@@ -5,8 +5,8 @@ const SOLAR_BEAM_ABILITY := preload("res://data/weather_abilities/weather_abilit
 const SUN_SCORCH_ABILITY := preload("res://data/weather_abilities/weather_ability_sun_scorch.tres")
 
 # Ability summon logic
-const SPECIAL_TURN_THRESHOLD := 2
-const MAX_SUN_SCORCH_LEVEL := 4
+const SPECIAL_TURN_THRESHOLD := 3
+const MAX_SUN_SCORCH_LEVEL := 3
 
 var _sun_scorch_ability_level:int = 0
 
@@ -17,8 +17,8 @@ func _generate_abilities(combat_main:CombatMain, turn_index:int) -> Array[Weathe
 	var fields_have_abilities:Array
 	var ability_datas:Array[WeatherAbilityData]
 
-	var is_special_turn:bool = turn_index % SPECIAL_TURN_THRESHOLD == SPECIAL_TURN_THRESHOLD - 1
-	if is_special_turn:
+	var is_aoe:bool = turn_index % SPECIAL_TURN_THRESHOLD == SPECIAL_TURN_THRESHOLD - 1
+	if is_aoe:
 		# For special turns, we always have all sun scorch abilities
 		for i in combat_main.plant_field_container.plants.size():
 			ability_datas.append(SUN_SCORCH_ABILITY.get_duplicate())
@@ -32,10 +32,10 @@ func _generate_abilities(combat_main:CombatMain, turn_index:int) -> Array[Weathe
 
 	var abilities:Array[WeatherAbility] = _instantiate_abilities(ability_datas)
 	for ability:WeatherAbility in abilities:
-		if ability.weather_ability_data.id == SUN_SCORCH_ABILITY.id && combat_type == CombatData.CombatType.ELITE:
+		if ability.weather_ability_data.id == SUN_SCORCH_ABILITY.id && combat_type == CombatData.CombatType.ELITE && !is_aoe:
 			ability.level = _sun_scorch_ability_level
 		ability.field_index = fields_have_abilities.pop_back()
-	if is_special_turn && _sun_scorch_ability_level < MAX_SUN_SCORCH_LEVEL:
+	if is_aoe && _sun_scorch_ability_level < MAX_SUN_SCORCH_LEVEL:
 		_sun_scorch_ability_level += 1
 	
 	return abilities

@@ -1,39 +1,65 @@
 class_name GUIShopButton
 extends GUIBasicButton
 
-const SUFFICIENT_GOLD_COLOR := Constants.COLOR_WHITE
-const INSUFFICIENT_GOLD_COLOR := Constants.COLOR_GRAY3
+const TEXTURE_SIZE := 16
 
-@onready var cost_label: Label = %CostLabel
-@onready var gold_icon: GUIIcon = %GoldIcon
+@onready var gui_shop_cost_panel: GUIShopCostPanel = %GUIShopCostPanel
+@onready var background: NinePatchRect = %Background
+@onready var sold_texture: TextureRect = %SoldTexture
+@onready var margin_container: MarginContainer = %MarginContainer
 
 var cost:int:set = _set_cost
 var sufficient_gold := false: set = _set_sufficient_gold
-var highlighted := false: set = _set_highlighted
+var sold_out := false : set = _set_sold_out
+
+func _ready() -> void:
+	super._ready()
+	sold_texture.visible = false
+	set_deferred("custom_minimum_size", size) # Shop button size should not changing after hiding content
 
 func update_for_gold(gold:int) -> void:
 	sufficient_gold = cost <= gold
 
+func _validate_for_sold_out() -> void:
+	if sold_out:
+		sold_texture.visible = sold_out
+		for child in margin_container.get_children():
+			if child != sold_texture:
+				child.hide()
+		if button_state != GUIBasicButton.ButtonState.DISABLED:
+			button_state = GUIBasicButton.ButtonState.DISABLED
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+
 func _set_cost(val:int) -> void:
 	cost = val
-	cost_label.text = str(cost)
-
-func _on_mouse_entered() -> void:
-	super._on_mouse_entered()
-	highlighted = true
-	gold_icon.has_outline = true
-
-func _on_mouse_exited() -> void:
-	super._on_mouse_exited()
-	highlighted = false
-	gold_icon.has_outline = false
+	gui_shop_cost_panel.update_with_cost(cost)
+	_validate_for_sold_out()
 
 func _set_sufficient_gold(val:bool) -> void:
 	sufficient_gold = val
+	gui_shop_cost_panel.sufficient_gold = val
 	if val:
-		cost_label.add_theme_color_override("font_color", SUFFICIENT_GOLD_COLOR)
+		button_state = ButtonState.NORMAL
 	else:
-		cost_label.add_theme_color_override("font_color", INSUFFICIENT_GOLD_COLOR)
+		button_state = ButtonState.DISABLED
+	_validate_for_sold_out()
 
-func _set_highlighted(val:bool) -> void:
-	highlighted = val
+func _set_button_state(val:ButtonState) -> void:
+	super._set_button_state(val)
+	if !background:
+		return
+	match button_state:
+		ButtonState.NORMAL:
+			background.region_rect.position = Vector2.ZERO
+		ButtonState.PRESSED:
+			background.region_rect.position = Vector2(TEXTURE_SIZE, 0)
+		ButtonState.HOVERED:
+			background.region_rect.position = Vector2(TEXTURE_SIZE*2, 0)
+		ButtonState.DISABLED:
+			background.region_rect.position = Vector2(0, TEXTURE_SIZE)
+		ButtonState.SELECTED:
+			background.region_rect.position = Vector2(TEXTURE_SIZE, TEXTURE_SIZE)	
+
+func _set_sold_out(val:bool) -> void:
+	sold_out = val
+	_validate_for_sold_out()

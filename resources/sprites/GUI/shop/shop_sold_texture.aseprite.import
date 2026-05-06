@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cof0anhmpjy6j"
+path="res://.godot/imported/shop_sold_texture.aseprite-4e3b1844d961cdab7253d53856922639.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/shop/shop_sold_texture.aseprite"
+dest_files=["res://.godot/imported/shop_sold_texture.aseprite-4e3b1844d961cdab7253d53856922639.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

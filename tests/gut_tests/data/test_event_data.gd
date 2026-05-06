@@ -91,6 +91,12 @@ func test_option_duplicate_copies_negative_description():
 	var dup := eod.get_duplicate()
 	assert_eq(dup.negative_description, "You lose 5 HP.")
 
+func test_option_duplicate_copies_script_id():
+	var eod := _make_event_option()
+	eod.script_id = "event_option_help"
+	var dup := eod.get_duplicate()
+	assert_eq(dup.script_id, "event_option_help")
+
 
 func test_option_duplicate_empty_descriptions():
 	var eod := _make_event_option()

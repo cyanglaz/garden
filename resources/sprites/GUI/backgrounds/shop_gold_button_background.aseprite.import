@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://dk52vrke7wxm1"
+path="res://.godot/imported/shop_gold_button_background.aseprite-fe8958e8895ca2a76a8b9b4c33a1e845.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/backgrounds/shop_gold_button_background.aseprite"
+dest_files=["res://.godot/imported/shop_gold_button_background.aseprite-fe8958e8895ca2a76a8b9b4c33a1e845.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

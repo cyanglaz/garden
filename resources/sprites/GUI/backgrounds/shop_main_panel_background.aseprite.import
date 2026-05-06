@@ -1,0 +1,16 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="AtlasTexture"
+uid="uid://cv4740qspjqs8"
+path="res://.godot/imported/shop_main_panel_background.aseprite-2f522b428ca66e1443ce49e847b6d5f6.res"
+
+[deps]
+
+source_file="res://resources/sprites/GUI/backgrounds/shop_main_panel_background.aseprite"
+dest_files=["res://.godot/imported/shop_main_panel_background.aseprite-2f522b428ca66e1443ce49e847b6d5f6.res"]
+
+[params]
+
+exclude_layers_pattern=""
+only_visible_layers=false

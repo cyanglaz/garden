@@ -1,13 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://bfss3skg6s0vg"]
+[gd_scene format=3 uid="uid://dtd2381ighdr2"]
 
-[ext_resource type="PackedScene" uid="uid://b1s3tro034n0x" path="res://scenes/GUI/utils/gui_shop_button.tscn" id="1_fpw8m"]
-[ext_resource type="Script" uid="uid://bfwk4mtrxp5vq" path="res://scenes/GUI/shop/shop_buttons/gui_tool_shop_button.gd" id="2_fpw8m"]
+[ext_resource type="PackedScene" uid="uid://dk4j4emv0kio0" path="res://scenes/GUI/utils/gui_shop_button.tscn" id="1_fpw8m"]
+[ext_resource type="Script" uid="uid://bbx7jipjirxyp" path="res://scenes/GUI/shop/shop_buttons/gui_tool_shop_button.gd" id="2_a6e52"]
 [ext_resource type="PackedScene" uid="uid://bacvied61ghpe" path="res://scenes/GUI/main_game/tool_cards/gui_tool_card_button.tscn" id="3_fpw8m"]
 
-[node name="GUIToolShopButton" instance=ExtResource("1_fpw8m")]
-script = ExtResource("2_fpw8m")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_chpyk"]
+resource_local_to_scene = true
 
-[node name="GUIToolCardButton" parent="VBoxContainer/MarginContainer" index="0" instance=ExtResource("3_fpw8m")]
+[node name="GUIToolShopButton" unique_id=1475586621 instance=ExtResource("1_fpw8m")]
+script = ExtResource("2_a6e52")
+
+[node name="Background" parent="." index="0" unique_id=802552799]
+material = SubResource("ShaderMaterial_chpyk")
+
+[node name="GUIToolCardButton" parent="MarginContainer/VBoxContainer/MarginContainer" parent_id_path=PackedInt32Array(417403030) index="0" unique_id=1633083172 instance=ExtResource("3_fpw8m")]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1

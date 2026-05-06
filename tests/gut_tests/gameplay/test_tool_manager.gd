@@ -85,7 +85,7 @@ func test_refresh_tools_refreshes_each_tool() -> void:
 	for tool_data: ToolData in pool_snapshot:
 		tool_data.turn_energy_modifier = 5
 	manager.tool_deck.pool = pool_snapshot
-	await manager.refresh_for_turn()
+	manager.refresh_for_turn()
 
 	for tool_data: ToolData in pool_snapshot:
 		assert_eq(tool_data.turn_energy_modifier, 0,

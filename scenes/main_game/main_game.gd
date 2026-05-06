@@ -31,6 +31,7 @@ var card_pool:Array[ToolData]
 var trinket_manager:TrinketManager = TrinketManager.new()
 var hp:ResourcePoint = ResourcePoint.new()
 var gold:int = 0
+var card_remove_cost := 20
 var _warning_manager:WarningManager = WarningManager.new(self)
 var _benched_events:Array = []
 
@@ -126,10 +127,11 @@ func _start_combat_main_scene(combat:CombatData) -> void:
 func _start_shop() -> void:
 	var shop_main = SHOP_MAIN_SCENE.instantiate()
 	shop_main.shop_button_pressed.connect(_on_shop_button_pressed)
+	shop_main.card_removal_service_used.connect(_on_card_removal_service_used)
 	shop_main.finish_button_pressed.connect(_on_shop_finish_button_pressed)
 	node_container.add_child(shop_main)
 	start_scene_transition()
-	shop_main.start(gold, card_pool, trinket_manager.trinket_pool)
+	shop_main.start(gold, card_remove_cost, card_pool, trinket_manager.trinket_pool)
 
 func _start_town() -> void:
 	var town_main = TOWN_MAIN_SCENE.instantiate()
@@ -184,6 +186,12 @@ func _on_shop_button_pressed(cost: int) -> void:
 		Events.request_update_gold.emit(-cost, true)
 		(_current_scene as ShopMain).update_for_gold(gold)
 
+func _on_card_removal_service_used(cost: int) -> void:
+	if cost > 0:
+		Events.request_update_gold.emit(-cost, true)
+		card_remove_cost += 10
+		(_current_scene as ShopMain).update_for_gold(gold)
+
 func _on_shop_finish_button_pressed() -> void:
 	_complete_current_node()
 
@@ -219,6 +227,7 @@ func _on_event_finished(meta:Variant) -> void:
 #region global events
 
 func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
+	var old_value = hp.value
 	match operation:
 		ActionData.OperatorType.INCREASE:
 			hp.value += val
@@ -226,18 +235,27 @@ func _on_request_hp_update(val:int, operation:ActionData.OperatorType) -> void:
 			hp.value -= val
 		ActionData.OperatorType.EQUAL_TO:
 			hp.value = val
-	await gui_main_game.animate_hp_update(val)
-	if hp.value == 0:
+	var diff = hp.value - old_value
+	await gui_main_game.animate_hp_update(diff)
+	if hp.value <= 0:
 		_game_over()
 
 func _on_request_max_hp_update(val:int, operation:ActionData.OperatorType) -> void:
+	var old_value = hp.value
 	match operation:
 		ActionData.OperatorType.INCREASE:
 			hp.max_value += val
+			hp.value += val
 		ActionData.OperatorType.DECREASE:
 			hp.max_value -= val
+			hp.value -= val
 		ActionData.OperatorType.EQUAL_TO:
 			hp.max_value = val
+			hp.value = val
+	var diff = hp.value - old_value
+	await gui_main_game.animate_hp_update(diff)
+	if hp.value <= 0:
+		_game_over()
 
 func _on_request_update_gold(val:int, animated:bool) -> void:
 	var diff := val

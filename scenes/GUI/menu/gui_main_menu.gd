@@ -1,8 +1,8 @@
 class_name GUIMainMenu
 extends CanvasLayer
 
-const LEVEL_SCENE_PATH = "res://scenes/game_session/game_level.tscn"
-const SCENE_PATH = "res://scenes/main_game/main_game.tscn"
+const SLIDE_DURATION := 0.3
+const SLIDE_STAGGER := 0.06
 
 @onready var _new_game_button: GUIMenuButton = %NewGameButton
 @onready var _options_button: GUIMenuButton = %OptionsButton
@@ -11,7 +11,9 @@ const SCENE_PATH = "res://scenes/main_game/main_game.tscn"
 @onready var _gui_settings_main: GUISettingsMain = %GUISettingsMain
 @onready var _gui_credits_panel: GUICreditsPanel = %GUICreditsPanel
 @onready var _version_label: Label = %VersionLabel
-@onready var _title_label: Label = %TitleLabel
+@onready var _animation_player: AnimationPlayer = %AnimationPlayer
+
+var button_natural_x := []
 
 func _ready():
 	PauseManager.try_unpause()
@@ -21,11 +23,23 @@ func _ready():
 	_credits_button.pressed.connect(_on_credits_button_pressed)
 	_new_game_button.grab_focus()
 	_version_label.text = str("v.",ProjectSettings.get_setting("application/config/version"))
-	_title_label.text = Util.get_localized_string("GAME_TITLE")
-	
+	_animation_player.play("default")
+	var buttons: Array[Control] = [_new_game_button, _options_button, _credits_button, _exit_button]
+	for button in buttons:
+		button_natural_x.append(button.position.x)
+		button.position.x -= 400.0
+
+func animate_buttons_slide_in() -> void:
+	var buttons: Array[Control] = [_new_game_button, _options_button, _credits_button, _exit_button]
+	var tween := Util.create_scaled_tween(self)
+	tween.set_parallel(true)
+	for i in buttons.size():
+		tween.tween_property(buttons[i], "position:x", button_natural_x[i], SLIDE_DURATION) \
+			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) \
+			.set_delay(i * SLIDE_STAGGER)
+
 func _on_new_game_button_pressed() -> void:
-	get_tree().change_scene_to_file(SCENE_PATH)
-	#Main.weak_main().get_ref().show_game_session()
+	Main.get_instance().show_game_session()
 
 func _on_options_button_pressed() -> void:
 	_gui_settings_main.animate_show()
@@ -35,6 +49,3 @@ func _on_credits_button_pressed() -> void:
 
 func _on_exit_button_pressed() -> void:
 	get_tree().quit()
-	
-func _on_setting_menu_closed():
-	_options_button.grab_focus()

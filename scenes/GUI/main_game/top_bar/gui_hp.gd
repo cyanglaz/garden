@@ -16,6 +16,7 @@ const TEXTURE_SHAKE_DISTANCE := 1
 
 @onready var _texture_rect: TextureRect = %TextureRect
 @onready var _up_sound: AudioStreamPlayer2D = %UpSound
+@onready var _drop_sound: AudioStreamPlayer2D = %DropSound
 @onready var _animation_player: AnimationPlayer = %AnimationPlayer
 @onready var _segment_container: HBoxContainer = %SegmentContainer
 @onready var _label: Label = %Label
@@ -85,6 +86,7 @@ func _play_hp_drop_animation() -> void:
 	if _animation_player.is_playing():
 		_animation_player.stop()
 	_animation_player.play("hp_drop")
+	_drop_sound.play()
 	await _animation_player.animation_finished
 
 func _play_hp_increase_animation() -> void:

@@ -1,34 +1,22 @@
-[gd_scene format=3 uid="uid://dqw7bnm4x3vyc"]
+[gd_scene format=3 uid="uid://bmtgmavb2kndi"]
 
-[ext_resource type="PackedScene" uid="uid://b1s3tro034n0x" path="res://scenes/GUI/utils/gui_shop_button.tscn" id="1_t8k3p"]
-[ext_resource type="Script" uid="uid://cbv6do33ew5a3" path="res://scenes/GUI/shop/shop_buttons/gui_trinket_shop_button.gd" id="2_t8k3p"]
-[ext_resource type="AudioStream" uid="uid://573dtym8ldy3" path="res://resources/sounds/GUI/button_hover.wav" id="3_ito44"]
+[ext_resource type="PackedScene" uid="uid://dk4j4emv0kio0" path="res://scenes/GUI/utils/gui_shop_button.tscn" id="1_t8k3p"]
+[ext_resource type="Script" uid="uid://v4wpka7etgbt" path="res://scenes/GUI/shop/shop_buttons/gui_trinket_shop_button.gd" id="2_f8u8v"]
 [ext_resource type="PackedScene" uid="uid://buj5nfbiivgnq" path="res://scenes/GUI/combat_main/trinkets/gui_player_trinket.tscn" id="3_t8k3p"]
-[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="4_f8u8v"]
-[ext_resource type="AudioStream" uid="uid://oxhbysv1esve" path="res://resources/sounds/GUI/button_click.wav" id="4_jldc8"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kthnp"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dkvf2"]
 resource_local_to_scene = true
-shader = ExtResource("4_f8u8v")
-shader_parameter/outline_color = Color(1, 1, 1, 1)
-shader_parameter/outline_size = 0
-shader_parameter/blend_color = Color(1, 1, 1, 1)
-shader_parameter/blend_strength = 0.0
 
 [node name="GUITrinketShopButton" unique_id=613100001 instance=ExtResource("1_t8k3p")]
-script = ExtResource("2_t8k3p")
-short_cut = ""
-action_type = 0
-hold_time = 0.0
-button_state = 0
-tooltip_position = 2
-hover_sound = ExtResource("3_ito44")
-click_sound = ExtResource("4_jldc8")
+offset_right = 33.0
+script = ExtResource("2_f8u8v")
 
-[node name="GUIPlayerTrinket" parent="VBoxContainer/MarginContainer" index="0" unique_id=466987953 instance=ExtResource("3_t8k3p")]
+[node name="Background" parent="." index="0" unique_id=802552799]
+material = SubResource("ShaderMaterial_dkvf2")
+
+[node name="GUIPlayerTrinket" parent="MarginContainer/VBoxContainer/MarginContainer" parent_id_path=PackedInt32Array(417403030) index="0" unique_id=466987953 instance=ExtResource("3_t8k3p")]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 mouse_filter = 1
-
-[node name="GoldIcon" parent="VBoxContainer/HBoxContainer" index="0"]
-material = SubResource("ShaderMaterial_kthnp")
