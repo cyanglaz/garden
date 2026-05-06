@@ -12,6 +12,10 @@ func _run(_option_data:EventOptionData, main_game:MainGame) -> Variant:
 	_remove_card_main.show_with_pool(pool, Util.get_localized_string("REMOVE_CARD_MAIN_TITLE_TEXT"))
 	await _remove_card_main.remove_card_finished
 	_remove_card_main.queue_free()
+	if option_data.data.has("gold"):
+		Events.request_update_gold.emit(-(option_data.data["gold"] as int), true)
+	if option_data.data.has("hp"):
+		Events.request_hp_update.emit((option_data.data["hp"] as int), ActionData.OperatorType.DECREASE)
 	return null
 
 func _should_enable(option_data:EventOptionData, main_game:MainGame) -> bool:
