@@ -5,7 +5,7 @@ const REMOVE_CARD_MAIN_SCENE: PackedScene = preload("res://scenes/GUI/event/even
 
 var _remove_card_main: GUIRemoveCardMain = null
 
-func _run(_option_data:EventOptionData, main_game:MainGame) -> Variant:
+func _run(option_data:EventOptionData, main_game:MainGame) -> Variant:
 	_remove_card_main = REMOVE_CARD_MAIN_SCENE.instantiate()
 	request_add_sub_scene.emit(_remove_card_main)
 	var pool:Array = main_game.card_pool
