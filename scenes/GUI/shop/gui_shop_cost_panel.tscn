@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://cjwela3c0gf3y"]
+
+[ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_iu71r"]
+[ext_resource type="Script" uid="uid://di0evb2xl8mnp" path="res://scenes/GUI/shop/gui_shop_cost_panel.gd" id="2_mkuug"]
+[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="4_apyyw"]
+[ext_resource type="Shader" uid="uid://6xkdsexe0twy" path="res://scenes/GUI/utils/gui_icon.gdshader" id="5_appsn"]
+[ext_resource type="Texture2D" uid="uid://cg5vs86l4knqs" path="res://resources/sprites/GUI/icons/resources/icon_gain_gold.png" id="6_kvouh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jnwkp"]
+resource_local_to_scene = true
+shader = ExtResource("5_appsn")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
+
+[node name="GUIShopCostPanel" unique_id=461111976 instance=ExtResource("1_iu71r")]
+offset_right = 27.0
+offset_bottom = 11.0
+mouse_filter = 2
+script = ExtResource("2_mkuug")
+
+[node name="MarginContainer" type="MarginContainer" parent="." index="0" unique_id=1211328361]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" index="0" unique_id=1811650131]
+layout_mode = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="GoldIcon" parent="MarginContainer/HBoxContainer" index="0" unique_id=1577278051 instance=ExtResource("4_apyyw")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_jnwkp")
+layout_mode = 2
+size_flags_horizontal = 8
+texture = ExtResource("6_kvouh")
+stretch_mode = 3
+
+[node name="CostLabel" type="Label" parent="MarginContainer/HBoxContainer" index="1" unique_id=449869152]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+theme_type_variation = &"LabelCost"
+text = "34"
+horizontal_alignment = 1
+vertical_alignment = 1

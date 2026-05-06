@@ -13,7 +13,6 @@ func update_with_trinket_data(trinket_data: TrinketData) -> void:
 
 func _on_mouse_entered() -> void:
 	super._on_mouse_entered()
-	gui_player_trinket.gui_icon.has_outline = true
 	Events.request_display_tooltip.emit(
 		TooltipRequest.new(TooltipRequest.TooltipType.THING_DATA, _weak_trinket_data.get_ref(), "", self, GUITooltip.TooltipPosition.TOP_RIGHT)
 	)
@@ -21,6 +20,5 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	super._on_mouse_exited()
-	gui_player_trinket.gui_icon.has_outline = false
 	Events.request_hide_tooltip.emit("")
 	Events.update_hovered_data.emit(null)

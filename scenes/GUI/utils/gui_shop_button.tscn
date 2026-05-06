@@ -1,47 +1,98 @@
-[gd_scene load_steps=5 format=3 uid="uid://b1s3tro034n0x"]
+[gd_scene format=3 uid="uid://dk4j4emv0kio0"]
 
 [ext_resource type="PackedScene" uid="uid://cdrs02iul2uh2" path="res://scenes/GUI/controls/buttons/gui_basic_button.tscn" id="1_sso3n"]
-[ext_resource type="Script" uid="uid://bsc770vvxl30i" path="res://scenes/GUI/utils/gui_shop_button.gd" id="2_lf77y"]
-[ext_resource type="PackedScene" uid="uid://txrslj0jtryt" path="res://scenes/GUI/utils/gui_icon.tscn" id="3_kb1gh"]
-[ext_resource type="Texture2D" uid="uid://d1hlhkeceq461" path="res://resources/sprites/GUI/icons/resources/icon_gold.png" id="5_k6o8u"]
+[ext_resource type="Script" uid="uid://dgpkab0fek7fp" path="res://scenes/GUI/utils/gui_shop_button.gd" id="2_kb1gh"]
+[ext_resource type="Texture2D" uid="uid://fpbrqhq7vabx" path="res://resources/sprites/GUI/backgrounds/shop_panel_background.png" id="4_dkl8n"]
+[ext_resource type="Texture2D" uid="uid://bk8tjrxj7i03i" path="res://resources/sprites/GUI/shop/shop_sold_texture.png" id="4_k6o8u"]
+[ext_resource type="PackedScene" uid="uid://cjwela3c0gf3y" path="res://scenes/GUI/shop/gui_shop_cost_panel.tscn" id="4_ynf87"]
 
-[node name="GUIShopButton" instance=ExtResource("1_sso3n")]
-offset_right = 16.0
-offset_bottom = 12.0
-script = ExtResource("2_lf77y")
-short_cut = null
-action_type = null
-hold_time = null
-button_state = null
-tooltip_description = null
-tooltip_position = null
-hover_sound = null
-click_sound = null
+[sub_resource type="Shader" id="Shader_k6o8u"]
+code = "shader_type canvas_item;
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." index="0"]
+uniform vec4 outline_color:source_color;
+uniform int outline_size = 0;
+uniform vec4 blend_color:source_color = vec4(1, 1, 1, 1);
+uniform float blend_strength = 0.0;
+
+varying vec4 modulate;
+
+void vertex() {
+	modulate = COLOR;
+}
+
+void fragment() {
+
+	vec4 base_color = COLOR;
+
+	float size_x = 1.0/float(textureSize(TEXTURE, 0).x);
+	float size_y = 1.0/float(textureSize(TEXTURE, 0).y);
+	vec4 sprite_color = texture(TEXTURE, UV);
+	float alpha  = -4.0 * sprite_color.a;
+	alpha += textureLod(TEXTURE, UV + vec2(size_x * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(-size_x * float(outline_size), 0), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, -size_y * float(outline_size)), 0).a;
+	alpha += textureLod(TEXTURE, UV + vec2(0, size_y * float(outline_size)), 0).a;
+	sprite_color = mix(sprite_color, outline_color, clamp(alpha, 0.0, 1.0));
+	sprite_color = vec4(sprite_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
+	base_color = sprite_color;
+	
+	if (base_color.a > 0.0) {
+    	COLOR = mix(base_color, blend_color, blend_strength) * modulate;
+	} else {
+		COLOR = base_color * modulate;
+	}
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_76t1l"]
+resource_local_to_scene = true
+shader = SubResource("Shader_k6o8u")
+shader_parameter/outline_color = Color(0.99215686, 0.8235294, 0.92941177, 1)
+shader_parameter/outline_size = 0
+shader_parameter/blend_color = Color(1, 1, 1, 1)
+shader_parameter/blend_strength = 0.0
+
+[node name="GUIShopButton" unique_id=128985655 instance=ExtResource("1_sso3n")]
+offset_right = 37.0
+offset_bottom = 37.0
+script = ExtResource("2_kb1gh")
+
+[node name="Background" type="NinePatchRect" parent="." index="0" unique_id=802552799]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_76t1l")
+layout_mode = 2
+texture = ExtResource("4_dkl8n")
+region_rect = Rect2(0, 0, 16, 16)
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 6
+
+[node name="MarginContainer" type="MarginContainer" parent="." index="1" unique_id=1156395496]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" index="0" unique_id=2090587175]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer" index="0"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer" index="0" unique_id=417403030]
+unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" index="1"]
-layout_mode = 2
-theme_override_constants/separation = 2
-alignment = 1
-
-[node name="GoldIcon" parent="VBoxContainer/HBoxContainer" index="0" instance=ExtResource("3_kb1gh")]
+[node name="SoldTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/MarginContainer" index="0" unique_id=1257314921]
 unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("5_k6o8u")
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_k6o8u")
+stretch_mode = 3
 
-[node name="CostLabel" type="Label" parent="VBoxContainer/HBoxContainer" index="1"]
+[node name="GUIShopCostPanel" parent="MarginContainer/VBoxContainer" index="1" unique_id=461111976 instance=ExtResource("4_ynf87")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 1
-theme_type_variation = &"HUD_small"
-vertical_alignment = 2
+size_flags_vertical = 8

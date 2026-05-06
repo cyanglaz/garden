@@ -9,6 +9,7 @@ func _ready() -> void:
 	gui_tool_cards_viewer.card_selected.connect(_on_card_selected)
 	
 func show_with_pool(pool:Array, title:String) -> void:
+	show()
 	gui_tool_cards_viewer.animated_show_with_pool(pool, title, null)
 
 func _on_card_selected(gui_tool_card_button:GUIToolCardButton) -> void:
