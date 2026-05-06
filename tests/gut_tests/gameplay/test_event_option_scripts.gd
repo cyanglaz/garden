@@ -3,6 +3,7 @@ extends GutTest
 const EVENT_DIR := "res://data/events/events"
 const OPTION_DIR := "res://data/events/event_options"
 const OPTION_SCRIPT_PREFIX := "res://scenes/main_game/event/event_option_scripts/event_option_script_"
+const EVENT_SCRIPT_PREFIX := "res://scenes/main_game/event/event_scripts/event_script_"
 
 func _make_main_game(gold_value: int = 99, hp_value: int = 99) -> MainGame:
 	var main_game := MainGame.new()
@@ -34,6 +35,14 @@ func _load_event_option_script(option_data: EventOptionData) -> EventOptionScrip
 	var script := script_resource.new() as EventOptionScript
 	assert_not_null(script, "%s should create an EventOptionScript" % path)
 	return script
+
+func _prepare_event(event_data: EventData, main_game: MainGame) -> void:
+	var path := EVENT_SCRIPT_PREFIX + event_data.id + ".gd"
+	if !FileAccess.file_exists(path):
+		return
+	var script := load(path).new() as EventScript
+	assert_not_null(script, "%s should create an EventScript" % path)
+	script.prepare(event_data, main_game)
 
 func _load_events() -> Array[EventData]:
 	var events: Array[EventData] = []
@@ -91,11 +100,12 @@ func test_all_existing_event_option_tres_are_referenced_by_events():
 func test_all_existing_event_option_tres_resolve_scripts_and_required_data():
 	var main_game := _make_main_game()
 	for context: Dictionary in _load_event_option_contexts():
-		var event_data: EventData = context["event"]
-		var option_data: EventOptionData = context["option"]
+		var event_data: EventData = (context["event"] as EventData).get_duplicate()
+		var option_data: EventOptionData = (context["option"] as EventOptionData).get_duplicate()
 		assert_false(option_data.id.is_empty())
 		assert_false(option_data.script_id.is_empty(), "%s should declare script_id" % option_data.id)
 
+		_prepare_event(event_data, main_game)
 		var script := _load_event_option_script(option_data)
 		script.prepare(event_data, main_game, option_data)
 		assert_true(script.should_enable(option_data, main_game), "%s should be enabled with enough resources" % option_data.id)
@@ -126,7 +136,7 @@ func test_all_existing_event_option_tres_resolve_scripts_and_required_data():
 
 func test_obtain_card_prepare_copies_event_card_and_run_returns_card():
 	var event_data := _make_event("wasp_merchant")
-	event_data.data["card"] = "runoff"
+	event_data.data["card"] = "collect"
 	var option_data := _make_option("obtain_card", {"gold": "8"})
 	var main_game := _make_main_game()
 	var script := EventOptionScriptObtainCard.new()
@@ -135,19 +145,19 @@ func test_obtain_card_prepare_copies_event_card_and_run_returns_card():
 	watch_signals(Events)
 	var result: ToolData = await script.run(option_data, main_game)
 
-	assert_eq(option_data.data["card"], "runoff")
-	assert_eq(result, MainDatabase.tool_database.get_data_by_id("runoff"))
+	assert_eq(option_data.data["card"], "collect")
+	assert_eq(result, MainDatabase.tool_database.get_data_by_id("collect"))
 	assert_signal_emitted_with_parameters(Events, "request_update_gold", [-8, true])
 
 func test_obtain_card_with_hp_cost_emits_hp_decrease():
-	var option_data := _make_option("obtain_card", {"card": "runoff", "hp": "1"})
+	var option_data := _make_option("obtain_card", {"card": "collect", "hp": "1"})
 	var main_game := _make_main_game()
 	var script := EventOptionScriptObtainCard.new()
 
 	watch_signals(Events)
 	var result: ToolData = await script.run(option_data, main_game)
 
-	assert_eq(result, MainDatabase.tool_database.get_data_by_id("runoff"))
+	assert_eq(result, MainDatabase.tool_database.get_data_by_id("collect"))
 	assert_signal_emitted_with_parameters(Events, "request_hp_update", [1, ActionData.OperatorType.DECREASE])
 
 func test_hp_script_emits_hp_increase_and_gold_cost():
@@ -231,14 +241,14 @@ func test_max_hp_gold_cost_is_disabled_when_gold_is_too_low():
 	assert_false(script.should_enable(option_data, _make_main_game(9)))
 
 func test_obtain_card_gold_cost_is_disabled_when_gold_is_too_low():
-	var option_data := _make_option("obtain_card", {"card": "runoff", "gold": "8"})
+	var option_data := _make_option("obtain_card", {"card": "collect", "gold": "8"})
 	var script := EventOptionScriptObtainCard.new()
 
 	assert_true(script.should_enable(option_data, _make_main_game(8)))
 	assert_false(script.should_enable(option_data, _make_main_game(7)))
 
 func test_obtain_card_hp_cost_is_disabled_when_hp_is_too_low():
-	var option_data := _make_option("obtain_card", {"card": "runoff", "hp": "2"})
+	var option_data := _make_option("obtain_card", {"card": "collect", "hp": "2"})
 	var script := EventOptionScriptObtainCard.new()
 
 	assert_true(script.should_enable(option_data, _make_main_game(99, 2)))

@@ -10,6 +10,7 @@ func copy(other:ThingData) -> void:
 	var other_event_option: EventOptionData = other as EventOptionData
 	positive_description = other_event_option.positive_description
 	negative_description = other_event_option.negative_description
+	script_id = other_event_option.script_id
 	
 func get_duplicate() -> EventOptionData:
 	var dup:EventOptionData = EventOptionData.new()
